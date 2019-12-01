@@ -32,9 +32,10 @@ public:
 		RebarBasic(),E_s(200000),diameter(0),safety_factor(0){};
 	Rebar(String grade, double R_s, double diameter, double safety_factor):
 		RebarBasic(grade, R_s),E_s(200000), diameter(diameter), safety_factor(safety_factor){};
-	inline double get_E_s() const {return E_s;};
-	inline double get_diameter() const {return diameter;};
-	inline double get_safety_factor() const {return safety_factor;};
+	inline double get_E_s() const {return E_s;}
+	inline double get_diameter() const {return diameter;}
+	inline double get_safety_factor() const {return safety_factor;}
+	inline double get_A_s(){return 3.14159*diameter*diameter/4;}
 
 };
 

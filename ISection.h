@@ -36,6 +36,7 @@ public:
 	inline double get_Z_f2_st() const {return Z_f2_st_;}
 	inline double get_Z_f1_st() const {return Z_f1_st_;}
 	inline double get_Wf2_st() const {return Wf2_st_;}
-    inline double get_Wf1_st() const {return Wf1_st_;}
+	inline double get_Wf1_st() const {return Wf1_st_;}
+	inline  double get_A_f2_st() const{return b_uf_*t_uf_;}
 };
 #endif

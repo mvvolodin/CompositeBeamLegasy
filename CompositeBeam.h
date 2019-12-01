@@ -42,7 +42,7 @@ private:
 	StressesNamedList stresses_LC_;
 	Stresses stresses_I_;
 	Stresses stresses_II_;
-    Stresses total_;
+	Stresses stresses_total_;
 
 	std::vector<double> test_M_;
     std::vector<double> test_Q_;

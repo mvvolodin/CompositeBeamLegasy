@@ -37,6 +37,8 @@ public:
 	Stresses(InternalForces iternal_forces, CompositeSection composite_section, WorkingConditionsFactors 	working_conditions_factor);
 	inline SigmaB_List get_sigma_b()const {return sigma_b_;}
 	inline SigmaS_List get_sigma_s()const {return sigma_s_;}
+	inline void add_sigma_b(double sigma_b){sigma_b_.push_back(sigma_b);}
+	inline void add_sigma_s(double sigma_s){sigma_s_.push_back(sigma_s);}
 	inline StressStateList get_state_sigma_b()const {return state_sigma_b_;}
 	inline StressStateList get_state_sigma_s()const {return state_sigma_s_;}
 };

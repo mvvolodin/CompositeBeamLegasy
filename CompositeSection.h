@@ -61,6 +61,7 @@ private:
 public:
 	inline ISection get_steel_part()const {return steel_part;}
 	inline TConcretePart* get_concrete_part()const {return concrete_part;}
+	inline Steel get_steel_grade(){return i_sect_steel;}
 	inline double get_alfa_b() const {return Alfa_b_;}
 	inline double get_alfa_s() const {return Alfa_s_;}
 	inline double get_A_red() const {return A_red_;}
@@ -69,7 +70,6 @@ public:
 	inline double get_W_f1_red() const {return W_f1_red_;}
     inline double get_W_b_red() const {return W_b_red_;}
 	inline double get_Z_b_st() const {return Z_b_st_;}
-
 
 } ;
 //---------------------------------------------------------------------------

@@ -8,7 +8,7 @@
 #pragma package(smart_init)
 TCompositeBeam::TCompositeBeam()
 {
-  //
+
 }
 //---------------------------------------------------------------------------
 //Êîíñòğóêòîğ êîìïîçèòíîé áàëêè
@@ -126,7 +126,10 @@ void TCompositeBeam::calc_stresses()
 	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::DL_II,Stresses(internal_forces_LC_[LoadCaseNames::DL_II],composite_section_, working_conditions_factors_)));
 	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::LL,Stresses(internal_forces_LC_[LoadCaseNames::LL],composite_section_, working_conditions_factors_)));
 
-
+	stresses_I_= Stresses(internal_forces_I_,composite_section_, working_conditions_factors_);
+	stresses_II_= Stresses(internal_forces_II_,composite_section_, working_conditions_factors_);
+	stresses_total_= Stresses(internal_forces_II_,composite_section_, working_conditions_factors_);
+	
 }
 //---------------------------------------------------------------------------
 //Ñîçàä¸ì ëèñò ñ êîîğäèíàòàìè ğàñ÷¸òíûõ ñå÷åíèé
@@ -291,10 +294,115 @@ void TCompositeBeam::print_stresses_to_log()
 	PRINT(logfile,"-------------ÍÀÏĞßÆÅÍÈß LC SW---------------------------------") ;
 	PRINT(logfile,"-------------------------------------------------------------") ;
 
-	for (int i=0; i < stresses_LC_[LoadCaseNames::SW].get_sigma_b().size(); ++i){
-		DUMP(logfile,"SigmaB",stresses_LC_[LoadCaseNames::SW].get_sigma_b()[i]);
-		DUMP(logfile,"SigmaB",stresses_LC_[LoadCaseNames::SW].get_sigma_s()[i]);
-	   }
+	for (int i=0; i < stresses_LC_[LoadCaseNames::SW].get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaB", stresses_LC_[LoadCaseNames::SW].get_sigma_b()[i],
+										"State",  stresses_LC_[LoadCaseNames::SW].get_state_sigma_b()[i]);
+	}
+	PRINT(logfile,"");
+	for (int i=0; i < stresses_LC_[LoadCaseNames::SW].get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaS", stresses_LC_[LoadCaseNames::SW].get_sigma_s()[i],
+										"State",  stresses_LC_[LoadCaseNames::SW].get_state_sigma_s()[i]);
+	}
+	PRINT(logfile,"-------------------------------------------------------------");
+	PRINT(logfile,"-------------ÍÀÏĞßÆÅÍÈß LC DL_I---------------------------------") ;
+	PRINT(logfile,"-------------------------------------------------------------")
+	for (int i=0; i < stresses_LC_[LoadCaseNames::SW].get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaB", stresses_LC_[LoadCaseNames::DL_I].get_sigma_b()[i],
+										"State",  stresses_LC_[LoadCaseNames::DL_I].get_state_sigma_b()[i]);
+	}
+	PRINT(logfile,"");
+	for (int i=0; i < stresses_LC_[LoadCaseNames::SW].get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaS", stresses_LC_[LoadCaseNames::DL_I].get_sigma_s()[i],
+										"State",  stresses_LC_[LoadCaseNames::DL_I].get_state_sigma_s()[i]);
+	}
+	PRINT(logfile,"-------------------------------------------------------------");
+	PRINT(logfile,"-------------ÍÀÏĞßÆÅÍÈß LC DL_II---------------------------------") ;
+	PRINT(logfile,"-------------------------------------------------------------")
+	for (int i=0; i < stresses_LC_[LoadCaseNames::SW].get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaB", stresses_LC_[LoadCaseNames::DL_II].get_sigma_b()[i],
+										"State",  stresses_LC_[LoadCaseNames::DL_II].get_state_sigma_b()[i]);
+	}
+	PRINT(logfile,"");
+	for (int i=0; i < stresses_LC_[LoadCaseNames::SW].get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaS", stresses_LC_[LoadCaseNames::DL_II].get_sigma_s()[i],
+										"State",  stresses_LC_[LoadCaseNames::DL_II].get_state_sigma_s()[i]);
+	}
+	PRINT(logfile,"-------------------------------------------------------------");
+	PRINT(logfile,"-------------ÍÀÏĞßÆÅÍÈß LC LL---------------------------------") ;
+	PRINT(logfile,"-------------------------------------------------------------")
+	for (int i=0; i < stresses_LC_[LoadCaseNames::SW].get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaB", stresses_LC_[LoadCaseNames::LL].get_sigma_b()[i],
+										"State",  stresses_LC_[LoadCaseNames::LL].get_state_sigma_b()[i]);
+	}
+	PRINT(logfile,"");
+	for (int i=0; i < stresses_LC_[LoadCaseNames::SW].get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaS", stresses_LC_[LoadCaseNames::LL].get_sigma_s()[i],
+										"State",  stresses_LC_[LoadCaseNames::LL].get_state_sigma_s()[i]);
+	}
+	PRINT(logfile,"-------------------------------------------------------------");
+	PRINT(logfile,"-------------ÍÀÏĞßÆÅÍÈß I ÑÒÀÄÈÈ ĞÀÁÎÒÛ------------------------") ;
+	PRINT(logfile,"-------------------------------------------------------------")
+	for (int i=0; i < stresses_I_.get_sigma_b().size(); ++i)
+	{
+		double  a= stresses_I_.get_sigma_b()[2];
+	  //	DUMP_PAIR_FLOAT_STRING(logfile, "SigmaB", stresses_I_.get_sigma_b()[i],
+					//					"State",  stresses_I_.get_state_sigma_b()[i]);
+	}
+	PRINT(logfile,"");
+	for (int i=0; i < stresses_I_.get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaS", stresses_I_.get_sigma_s()[i],
+										"State",  stresses_I_.get_state_sigma_s()[i]);
+	}
+	PRINT(logfile,"-------------------------------------------------------------");
+	PRINT(logfile,"-------------ÍÀÏĞßÆÅÍÈß II ÑÒÀÄÈÈ ĞÀÁÎÒÛ------------------------") ;
+	PRINT(logfile,"-------------------------------------------------------------")
+	for (int i=0; i < stresses_II_.get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaB", stresses_II_.get_sigma_b()[i],
+										"State",  stresses_II_.get_state_sigma_b()[i]);
+	}
+	PRINT(logfile,"");
+	for (int i=0; i < stresses_II_.get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaS", stresses_II_.get_sigma_s()[i],
+										"State",  stresses_II_.get_state_sigma_s()[i]);
+	}
+	PRINT(logfile,"-------------------------------------------------------------");
+	PRINT(logfile,"-------------ÍÀÏĞßÆÅÍÈß ÑÓÌÌÀĞÍÛÅ------------------------") ;
+	PRINT(logfile,"-------------------------------------------------------------")
+	for (int i=0; i < stresses_total_.get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaB", stresses_total_.get_sigma_b()[i],
+										"State",  stresses_total_.get_state_sigma_b()[i]);
+	}
+	PRINT(logfile,"");
+	for (int i=0; i < stresses_total_.get_sigma_b().size(); ++i)
+	{
+
+		DUMP_PAIR_FLOAT_STRING(logfile, "SigmaS", stresses_total_.get_sigma_s()[i],
+										"State",  stresses_total_.get_state_sigma_s()[i]);
+	}
 
 }
 
