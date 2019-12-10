@@ -23,7 +23,7 @@ private:
 	typedef std::vector<double> CS_Coordinates;
 private:
 //Базовые поля
-	int beam_division_;
+	//int beam_division_;
 	TGeometry geometry_;
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;
@@ -66,11 +66,19 @@ public:
 				   TLoads 					loads,
 				   CompositeSection         composite_section,
 				   TStud 					stud,
-				   WorkingConditionsFactors working_conditions_factors,
-				   int 						beam_division);
+				   WorkingConditionsFactors working_conditions_factors);
+				   //int 						beam_division);
 
 
 
-inline CompositeSection get_composite_section()const{return composite_section_;}//Уродливая запись!!!
- };                                                                                //Но возвращается ссылка на объект
+inline CompositeSection get_composite_section()const{return composite_section_;}//Уродливая запись!!!//Но возвращается ссылка на объект
+inline InternalForcesNamededList get_internal_forces_LC()const{return internal_forces_LC_;}
+inline InternalForces get_internal_forces_I()const{return internal_forces_I_;}
+inline InternalForces get_internal_forces_II()const{return internal_forces_II_;}
+inline InternalForces get_internal_forces_total()const{return internal_forces_total_;}
+inline CS_Coordinates get_CS_coordinates()const {return cs_coordinates_;}
+inline TGeometry get_geometry()const {return geometry_;}
+
+ };
+
 #endif

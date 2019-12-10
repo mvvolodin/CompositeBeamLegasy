@@ -9,6 +9,15 @@
 #define sideDOWN   1
 #define sideLEFT  -1
 #define sideRIGHT  1
+  /*  функция ABS  */
+#define ABS(x) (((x)<0) ? -(x):(x))
+#define _ABS(x) (((x)<0) ? -(x):(x))
+  /*  функция MIN  */
+#define MIN(x,y)  (((x)<(y)) ? (x):(y))
+  /*  функция MAX  */
+#define MAX(x,y)  (((x)>(y)) ? (x):(y))
+#define SIGN(x)  (((x)==0) ? 0 : ((x)>0) ? 1:-1)
+
 
 
 TColor get_pBrush_Color(TImage *Image1);
@@ -32,6 +41,7 @@ void pCanvas_MoveTo(TImage *Image1, int ix, int iy);
 void pCanvas_LineTo(TImage *Image1, int ix, int iy);
 void pCanvas_TextOut(TImage *Image1, int nx, int ny, AnsiString str);
 void pCanvas_Ellipse(TImage *Image1, int ix_1, int iy_1, int ix_2, int iy_2);
+void pCanvas_Chord(TImage *Image1, int ix_1, int iy_1, int ix_2, int iy_2, int x_1, int y_1, int x_2, int y_2);
 void pCanvas_Ellipse_rW(TImage *Image1, int ix_1, int iy_1, int ix_2, int iy_2, int W);
 void pCanvas_Rectangle(TImage *Image1, int x1, int y1, int x2, int y2);
 void pCanvas_Dim(TImage *Image1, TPoint Point0, TPoint Point1, int orient, int side, double size, int n_ff);

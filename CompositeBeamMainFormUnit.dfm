@@ -36,12 +36,16 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 0
     object TbShtStaticScheme: TTabSheet
       AlignWithMargins = True
       Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GrpBxLoadsSafetyFactors: TGroupBox
         Left = 594
         Top = 3
@@ -278,45 +282,42 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Align = alBottom
           ExplicitWidth = 837
         end
-        object lblDiagramType: TLabel
-          Left = 322
-          Top = 28
-          Width = 34
-          Height = 13
-          Caption = #1069#1087#1102#1088#1072
-        end
         object lblLoadCase: TLabel
-          Left = 5
-          Top = 28
+          Left = 13
+          Top = 20
           Width = 62
           Height = 13
           Caption = #1053#1072#1075#1088#1091#1078#1077#1085#1080#1077
         end
-        object ComboBox3: TComboBox
-          Left = 362
-          Top = 24
-          Width = 145
-          Height = 21
-          ItemIndex = 0
+        object cmb_bx_LC: TComboBox
+          Left = 81
+          Top = 23
+          Width = 181
+          Height = 22
+          Style = csOwnerDrawFixed
           TabOrder = 0
-          Text = #1048#1079#1075#1080#1073#1072#1102#1097#1080#1081' '#1084#1086#1084#1077#1085#1090
+        end
+        object btn_draw_diagram: TButton
+          Left = 722
+          Top = 20
+          Width = 120
+          Height = 25
+          Caption = #1053#1072#1088#1080#1089#1086#1074#1072#1090#1100' '#1101#1087#1102#1088#1091
+          TabOrder = 1
+          OnClick = btn_draw_diagramClick
+        end
+        object rd_grp_internal_forces_type: TRadioGroup
+          Left = 309
+          Top = 8
+          Width = 299
+          Height = 37
+          Caption = #1057#1080#1083#1086#1074#1086#1081' '#1092#1072#1082#1090#1086#1088
+          Columns = 2
+          ItemIndex = 0
           Items.Strings = (
             #1048#1079#1075#1080#1073#1072#1102#1097#1080#1081' '#1084#1086#1084#1077#1085#1090
             #1055#1086#1087#1077#1088#1077#1095#1085#1072#1103' '#1089#1080#1083#1072)
-        end
-        object ComboBox1: TComboBox
-          Left = 82
-          Top = 24
-          Width = 181
-          Height = 21
-          TabOrder = 1
-          Text = #1055#1086#1089#1090#1086#1103#1085#1085#1072#1103' '#1085#1072#1075#1088#1091#1079#1082#1072' I '#1089#1090#1072#1076#1080#1103
-          Items.Strings = (
-            #1055#1086#1089#1090#1086#1103#1085#1085#1072#1103' '#1085#1072#1075#1088#1091#1079#1082#1072' I '#1089#1090#1072#1076#1080#1103
-            #1055#1086#1089#1090#1086#1103#1085#1085#1072#1103' '#1085#1072#1075#1088#1091#1079#1082#1072' 2 '#1089#1090#1072#1076#1080#1103
-            #1042#1088#1077#1084#1077#1085#1085#1072#1103' '#1085#1072#1075#1088#1091#1079#1082#1072
-            #1054#1075#1080#1073#1072#1102#1097#1072#1103
-            #1069#1087#1102#1088#1072' '#1086#1090' '#1088#1077#1072#1082#1094#1080#1081' '#1084#1086#1085#1090#1072#1078#1085#1099#1093' '#1086#1087#1086#1088)
+          TabOrder = 2
         end
       end
       object GrpBxErection: TGroupBox

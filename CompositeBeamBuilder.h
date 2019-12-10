@@ -34,11 +34,7 @@ public:
 	//if (rc>0) return 0;
 	rc=String_double_plus(trib_width_right_cptn, trib_width_right_txt, &trib_width_right);
 	//if (rc>0) return 0;//какое значение возвращает return без следующего за ним значения
-	return TGeometry(end_beam, span, trib_width_left, trib_width_right,2);
-
-
-	  //	TGeometry(bool end_beam, double span, double trib_width_left, double trib_width_right,
-		//	  int propping_number);
+	return TGeometry();//TGeometry(end_beam, span, trib_width_left, trib_width_right,2);
 	}
 	TLoads BuildLoads(String dead_load_first_stage_cpt, String dead_load_first_stage_txt,
 					 String dead_load_second_stage_cpt, String dead_load_second_stage_txt,

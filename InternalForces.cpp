@@ -8,22 +8,35 @@
 InternalForces::InternalForces()
 {
 }
-InternalForces::InternalForces(double p, CS_Coordinates cs_coordinates, int propping_number)
+InternalForces::InternalForces(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
    //	cs_number_=cs_coordinates.size();
-	switch (0)
+	switch (temporary_supports_number) //как-то некрасиво!!!!!
 	{
 		case 0:
-			M_calc_simple_beam(p, cs_coordinates, propping_number);
-			Q_calc_simple_beam(p, cs_coordinates, propping_number);
+			R_calc_simple_beam(p, cs_coordinates.back());
+			M_calc_simple_beam(p, cs_coordinates, temporary_supports_number);
+			Q_calc_simple_beam(p, cs_coordinates, temporary_supports_number);
 			break;
 		case 1:
-			M_calc_two_span_beam(p, cs_coordinates, propping_number);
-			Q_calc_two_span_beam(p, cs_coordinates, propping_number);
+			R_calc_two_span_beam(p, cs_coordinates.back());
+			M_calc_two_span_beam(p, cs_coordinates, temporary_supports_number);
+			Q_calc_two_span_beam(p, cs_coordinates, temporary_supports_number);
 			break ;
 	}
 }
-void InternalForces::M_calc_simple_beam(double p, CS_Coordinates cs_coordinates, int propping_number)
+void InternalForces::R_calc_simple_beam(double p, double l)
+{
+	R_.push_back(p*(l/2));
+	R_.push_back(p*(l/2));
+}
+void InternalForces::R_calc_two_span_beam(double p, double l)
+{
+	R_.push_back(0.375*p*(l/2));
+	R_.push_back(1.25*p*(l/2));
+	R_.push_back(0.375*p*(l/2));
+}
+void InternalForces::M_calc_simple_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
 	double temp_M=0.0;
 	double l=cs_coordinates.back();
@@ -37,7 +50,7 @@ void InternalForces::M_calc_simple_beam(double p, CS_Coordinates cs_coordinates,
 		M_.push_back(temp_M);
 	}
 }
-void InternalForces::Q_calc_simple_beam(double p, CS_Coordinates cs_coordinates, int propping_number)
+void InternalForces::Q_calc_simple_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
 	double temp_Q=0.0;
 	double l=cs_coordinates.back();
@@ -51,14 +64,14 @@ void InternalForces::Q_calc_simple_beam(double p, CS_Coordinates cs_coordinates,
 		Q_.push_back(temp_Q);
 	}
 }
-void InternalForces::M_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int propping_number)//балки равнопролётные
+void InternalForces::M_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)//балки равнопролётные
 {
 	// Расчёт реакций Уманский I том глава 8.1.7
 	double temp_M=0.0;
 	double l=cs_coordinates.back();
 
-	double A=0.375*p*l;
-	double B=1.25*p*l;
+	double A=0.375*p*l/2.0;
+	double B=1.25*p*l/2.0;
 
 	for (int n = 0; n< cs_coordinates.size(); ++n)
 	{
@@ -76,14 +89,14 @@ void InternalForces::M_calc_two_span_beam(double p, CS_Coordinates cs_coordinate
 		M_.push_back(temp_M);
 	}
 }
-void InternalForces::Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int propping_number)//балки равнопролётные
+void InternalForces::Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)//балки равнопролётные
 {
 	// Расчёт реакций Уманский I том глава 8.1.7
 	double temp_Q=0.0;
 	double l=cs_coordinates.back();
 
-	double A=0.375*p*l;
-	double B=1.25*p*l;
+	double A=0.375*p*l/2.0;
+	double B=1.25*p*l/2.0;
 
 	for (int n = 0; n <= cs_coordinates.size(); ++n)
 	{ //определение поперечных сил

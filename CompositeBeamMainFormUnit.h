@@ -34,6 +34,8 @@
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
 
+ #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
+
 class TCompositeBeamMainForm : public TForm
 {
 // поля созданные IDE
@@ -150,11 +152,9 @@ __published:	// IDE-managed Components
 	TEdit *EdtSafetyFactorSteel;
 	TGroupBox *GroupBox6;
 	TImage *Image1;
-	TComboBox *ComboBox1;
+	TComboBox *cmb_bx_LC;
 	TLabel *Label1;
 	TLabel *lblLoadCase;
-	TComboBox *ComboBox3;
-	TLabel *lblDiagramType;
 	TGroupBox *grp_bx_working_conditions_factors;
 	TEdit *edt_gamma_bi;
 	TEdit *edt_gamma_si;
@@ -162,6 +162,8 @@ __published:	// IDE-managed Components
 	TLabel *lbl_gamma_c;
 	TLabel *lbl_gamma_bi;
 	TLabel *lbl_gamma_si;
+	TButton *btn_draw_diagram;
+	TRadioGroup *rd_grp_internal_forces_type;
 
 	void __fastcall chck_bx_end_beamClick(TObject *Sender);
 	void __fastcall BtnCalculateClick(TObject *Sender);
@@ -178,6 +180,7 @@ __published:	// IDE-managed Components
 	void __fastcall BtBtnShearStudsChoiceClick(TObject *Sender);
 	void __fastcall NOutReportClick(TObject *Sender);
 	void __fastcall NExitClick(TObject *Sender);
+	void __fastcall btn_draw_diagramClick(TObject *Sender);
 
 
 private:	//Собственные поля
@@ -212,8 +215,9 @@ private:  // Пользовательсткие private функции
 
 	void generate_report();
 
-	void GridConstructor(); // Конструирование Grid контрола для вывода результатоа
+	void grid_constructor_ratios(); // Конструирование Grid контрола для вывода результатоа
 	void grid_constr_comp_sect_geometr(); //Конструирование Grid для вывода геометрических характ. комп. сечения
+	void fill_cmb_bx_LC();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
 
 	void fill_grid_with_results();
 };

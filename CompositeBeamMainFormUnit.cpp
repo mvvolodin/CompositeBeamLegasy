@@ -23,8 +23,9 @@ extern STEEL_PARAM steel_param; //в модуле поставщике почему-то не используется 
  _fastcall TCompositeBeamMainForm::TCompositeBeamMainForm(TComponent* Owner)
 	: TForm(Owner)
 {
-	GridConstructor();
+	grid_constructor_ratios();
 	grid_constr_comp_sect_geometr();
+	fill_cmb_bx_LC();
 }
 //----------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
@@ -44,17 +45,20 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::init_geomet()
 {
+	double beam_division=0.0;//поменять тип на double и написать функцию проверки значения поля на тип int
 	double span=0.0;
 	double trib_width_left=0.0;
 	double trib_width_right=0.0;
 	int rc=0; //rc- return code -код ошибки
+	rc=(int)String_double_plus(lbl_beam_division->Caption, edt_beam_division->Text, &beam_division);
+	if (rc>0) return;
 	rc=String_double_plus(lbl_span->Caption, edt_span->Text, &span);
 	if (rc>0) return;
 	rc=String_double_plus(lbl_trib_width_left->Caption, edt_width_left->Text, &trib_width_left);
 	if (rc>0) return;
 	rc=String_double_plus(lbl_trib_width_right->Caption, edt_width_right->Text, &trib_width_right);
 	if (rc>0) return;//какое значение возвращает return без следующего за ним значения
-	geometry_=TGeometry(chck_bx_end_beam->Checked, span, trib_width_left, trib_width_right,
+	geometry_=TGeometry(static_cast<int>(beam_division), chck_bx_end_beam->Checked, span, trib_width_left, trib_width_right,
 		StrToFloat(cmb_bx_number_propping_supports->Text));
 }
 //---------------------------------------------------------------------------
@@ -167,17 +171,12 @@ void TCompositeBeamMainForm::init_composite_section()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::init_composite_beam()
 {
-double beam_division=0.0;//поменять тип на double и написать функцию проверки значения поля на тип int
-int rc=0;
-rc=(int)String_double_plus(lbl_beam_division->Caption, edt_beam_division->Text, &beam_division);
-if (rc>0) return;
-
 composite_beam_=TCompositeBeam(geometry_,
 							 loads_,
 							 composite_section_,
 							 stud_,
-							 working_conditions_factors_,
-							 (int)beam_division);
+							 working_conditions_factors_);
+							// (int)beam_division);
 }
 //---------------------------------------------------------------------------
 //	Функция запускающая расчёт композитной балки
@@ -280,7 +279,7 @@ void TCompositeBeamMainForm::fill_grid_with_results()
 //---------------------------------------------------------------------------
 //	Функция заполняющая Grid выводящий результаты расчёта композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm:: GridConstructor()
+void TCompositeBeamMainForm:: grid_constructor_ratios()
 {
 strngGrdResults->Cells [0][0]="Проверка";
 strngGrdResults->Cells [0][1]="Расчёт по прочности на действие изгибающих моментов, раздел 6.2.1";
@@ -301,6 +300,18 @@ void _fastcall TCompositeBeamMainForm::chck_bx_end_beamClick(TObject *Sender)
 		lbl_trib_width_left->Caption="Расстояние между балками слева [мм]:";
 		lbl_trib_width_right->Caption="Расстояние между балками справа [мм]:";
     }
+}
+//---------------------------------------------------------------------------
+//	Функция заполняющая ComboBox случаями загружений
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::fill_cmb_bx_LC()
+{
+	   //Метод AddItem, связывающий TStrings с объектами требуется в качестве параметра объект TObject
+	cmb_bx_LC->Items->Insert((int)LoadCaseNames::SW, "Собственный Вес");
+	cmb_bx_LC->Items->Insert((int)LoadCaseNames::DL_I , "Постоянная Нагрузка I стадия");
+	cmb_bx_LC->Items->Insert((int)LoadCaseNames::DL_II, "Постоянная Нагрузка II стадия");
+	cmb_bx_LC->Items->Insert((int)LoadCaseNames::LL, "Временная Нагрузка");
+	cmb_bx_LC->ItemIndex = (int)LoadCaseNames::SW;
 }
 
 
@@ -377,8 +388,124 @@ void generate_report()
 
 }
 
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::btn_draw_diagramClick(TObject *Sender)
+{
+	switch(cmb_bx_LC->ItemIndex)
+	{
+		case 0:
+		{
+		TImage *Image1=ImgStaticScheme;
+		//получаем вектор изгибающих моментов из объекта композитная балка и получим размер вектора
+		int n_point=composite_beam_.get_internal_forces_LC()[LoadCaseNames::SW].get_M().size();
+		//получаем вектор изгибающих моментов из объекта композитная балка и преобразуем вектор в массив
+		std::vector<double> M=composite_beam_.get_internal_forces_LC()[LoadCaseNames::SW].get_M();
+		std::vector<double> Q=composite_beam_.get_internal_forces_LC()[LoadCaseNames::SW].get_Q();
+		//получаем вектор изгибающих моментов из объекта композитная балка и преобразуем вектор в массив
+	 //	double *Q=&(composite_beam_.get_internal_forces_LC()[LoadCaseNames::SW].get_Q())[0];
+		//получаем вектор координат точек эпюры и преобразуем вектор в массив
+		double *coor_epur=&composite_beam_.get_CS_coordinates()[0];
+		//определим суммарное количество опор (временных и постоянных)
+		int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
+					composite_beam_.get_geometry().get_temporary_supports_number();
+		double* LoadB=nullptr; //NULL or nullptr
+		double*	coor_supp=&composite_beam_.get_geometry().get_all_supports_coordinates()[0];
+		bool flag_sign=true;
+		if (rd_grp_internal_forces_type->ItemIndex==0)
+		{
+		DrawEpur(Image1, n_point, coor_epur, &M[0], LoadB, n_supp, coor_supp, flag_sign);
+		}
+		else
+		{
+		DrawEpur(Image1, n_point, coor_epur, &Q[0], LoadB, n_supp, coor_supp, flag_sign);
+		}
+		break;
+		}
+		case 1:
+	{
+    	TImage *Image1=ImgStaticScheme;
+	//получаем вектор изгибающих моментов из объекта композитная балка
+	std::vector<double> temp_M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
+	//получим размер вектора
+	 int n_point=temp_M.size();
+	//преобразуем вектор в массив
+	 double *LoadA=&temp_M[0];
+	 //получаем вектор координат точек эпюры
+	 std::vector<double> temp_CS_coordinates=composite_beam_.get_CS_coordinates();
+	 //преобразуем вектор в массив
+	 double *coor_epur=&temp_CS_coordinates[0];
+
+	 int n_supp=3;
+	 double LoadB[6]={0};
+	 double coor_supp[]={0,9000,18000};
+	bool flag_sign=true;
+
+  DrawEpur(Image1, n_point, coor_epur, LoadA, LoadB, n_supp, coor_supp, flag_sign);
+	 break;
+	}
+		case 2:
+	 {
+	//получаем вектор изгибающих моментов из объекта композитная балка
+	std::vector<double> temp_M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
+	//получим размер вектора
+	 int n_point=temp_M.size();
+	//преобразуем вектор в массив
+	 double *LoadA=&temp_M[0];
+	 //получаем вектор координат точек эпюры
+	 std::vector<double> temp_CS_coordinates=composite_beam_.get_CS_coordinates();
+	 //преобразуем вектор в массив
+	 double *coor_epur=&temp_CS_coordinates[0];
+
+	 int n_supp=2;
+	 double LoadB[6]={0};
+	 double coor_supp[]={0,18000};
+
+	TImage *Image1=ImgStaticScheme;
 
 
+	bool flag_sign=true;
 
+  DrawEpur(Image1, n_point, coor_epur, LoadA, LoadB, n_supp, coor_supp, flag_sign);
+   break;
+	}
+		case 3:
+	{
+	//получаем вектор изгибающих моментов из объекта композитная балка
+	std::vector<double> temp_M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
+	//получим размер вектора
+	 int n_point=temp_M.size();
+	//преобразуем вектор в массив
+	 double *LoadA=&temp_M[0];
+	 //получаем вектор координат точек эпюры
+	 std::vector<double> temp_CS_coordinates=composite_beam_.get_CS_coordinates();
+	 //преобразуем вектор в массив
+	 double *coor_epur=&temp_CS_coordinates[0];
+
+	 int n_supp=2;
+	 double LoadB[6]={0};
+	 double coor_supp[]={0,18000};
+
+	TImage *Image1=ImgStaticScheme;
+
+
+	bool flag_sign=true;
+
+  DrawEpur(Image1, n_point, coor_epur, LoadA, LoadB, n_supp, coor_supp, flag_sign);
+	 break;
+	}
+// Image1 - Контейнер изображения
+// n_point - число точек эпюры
+// coord_epur - вектор координат эпюры
+// LoadA - вектор значений нагрузки
+// LoadB - вектор скачков на эпюре
+// n_supp - число опор
+// coord_supp - вектор координат опор
+// flag_sign - флаг вывода значений эпюры
+
+ //*LoadB реакция опор //количество {100,0,0,0,0,0,0,25,0,0,0,0,0,25,0,0,0,100}
+	 //{100,500,3000,4000}
+   }
+}
 //---------------------------------------------------------------------------
 

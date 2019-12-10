@@ -19,10 +19,12 @@
  public:
 	typedef std::vector<double> M_List;
 	typedef std::vector<double> Q_List;
+	typedef std::vector<double> R_List;
  private:
 	// int cs_number_;
 	 M_List M_; //изгибающие моменты
 	 Q_List Q_;//поперечные силы
+	 R_List R_;//реакции внутренних опор
 
  public:
   //	inline int get_cs_number()const {return cs_number_;}
@@ -30,14 +32,17 @@
 	inline void add_Q(double Q){Q_.push_back(Q);}
 	inline M_List get_M()const {return M_;}
 	inline Q_List get_Q() const {return Q_;}
+	inline R_List get_R() const {return R_;}
  public:
     InternalForces();
-	InternalForces(double p, CS_Coordinates cs_coordinates, int propping_number);
+	InternalForces(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);
  private:
-	void M_calc_simple_beam(double p, CS_Coordinates cs_coordinates, int propping_number);
-	void M_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int propping_number); //балки равнопролётные
-	void Q_calc_simple_beam(double p, CS_Coordinates cs_coordinates, int propping_number);
-	void Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int propping_number);
+ 	void R_calc_simple_beam(double p, double l);
+	void R_calc_two_span_beam(double p, double l);
+	void M_calc_simple_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);
+	void M_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number); //балки равнопролётные
+	void Q_calc_simple_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);
+	void Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);
  };
 
  typedef std::map<LoadCaseNames, InternalForces> InternalForcesNamededList;

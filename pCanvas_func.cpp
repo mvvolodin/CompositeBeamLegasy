@@ -3,8 +3,6 @@
 #pragma hdrstop
 
 #include "pCanvas_func.h"
-//#include "Data_Profil.h"
-#include "ListConst.h"
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
@@ -13,22 +11,22 @@ void drawLineWu(float x1, float y1, float x2, float y2, TCanvas *Canvas, TColor 
 
 TColor ChangeBright(TColor color_a, TColor color_b, float bright);
 
-extern bool flag_image;
-TMetafileCanvas *pCanvas;
+static bool flag_image = true; //Если false, то отрисовка идёт в мета файле .Картинку можно потом вставить, к примеру, в Word
+static TMetafileCanvas *pCanvas;
 //---------------------------------------------------------------------
 TColor get_pBrush_Color(TImage *Image1) {
-      if (flag_image) {
-         return (Image1->Canvas->Brush->Color);
-      }
-      else {
-         //return(InversColor(pCanvas->Brush->Color));
-         return(pCanvas->Brush->Color);
-      }
+	  if (flag_image) {
+		 return (Image1->Canvas->Brush->Color);
+	  }
+	  else {
+		 //return(InversColor(pCanvas->Brush->Color));
+		 return(pCanvas->Brush->Color);
+	  }
 }
 //---------------------------------------------------------------------
 TColor get_pPen_Color(TImage *Image1) {
-      if (flag_image) {
-         return (Image1->Canvas->Pen->Color);
+	  if (flag_image) {
+		 return (Image1->Canvas->Pen->Color);
       }
       else {
          //return(InversColor(pCanvas->Pen->Color));
@@ -273,6 +271,15 @@ void pCanvas_Ellipse(TImage *Image1, int ix_1, int iy_1, int ix_2, int iy_2) {
     else {
       pCanvas->Ellipse(ix_1, iy_1, ix_2, iy_2);
     }
+}
+//--------------------------------------------------------------------
+void pCanvas_Chord(TImage *Image1, int ix_1, int iy_1, int ix_2, int iy_2, int x_1, int y_1, int x_2, int y_2) {
+	if (flag_image) {
+	  Image1->Canvas->Chord(ix_1, iy_1, ix_2, iy_2, x_1, y_1, x_2, y_2);
+	}
+	else {
+	  pCanvas->Chord(ix_1, iy_1, ix_2, iy_2, x_1, y_1, x_2, y_2);
+	}
 }
 //---------------------------------------------------------------------------
 //  Рисование размеров с выносом, уровнем вложенности, регулировкой привязки числа

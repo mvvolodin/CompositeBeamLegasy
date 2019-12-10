@@ -17,14 +17,14 @@ TCompositeBeam::TCompositeBeam()
 								TLoads     				 loads,
 								CompositeSection         composite_section,
 								TStud 					 stud,
-								WorkingConditionsFactors working_conditions_factors,
-								int 					 beam_division)
- 	:geometry_(geometry),
+								WorkingConditionsFactors working_conditions_factors)
+							   //	int 					 beam_division)
+	:geometry_(geometry),
 	composite_section_(composite_section),
 	stud_(stud),
 	loads_(loads),
-	working_conditions_factors_(working_conditions_factors),
-	beam_division_(beam_division)
+	working_conditions_factors_(working_conditions_factors)
+   //	beam_division_(beam_division)
  {
 	CS_coordinates_calc();
 	calc_inter_forces();
@@ -58,14 +58,14 @@ void TCompositeBeam::calc_inter_forces()
 	//координаты сечений с расчётом внутренних сил
 
    //	InternalForces::CS_coordinates cs_coordinates=geometry_.get_CS_coordinates();
-	int propping_number=geometry_.get_propping_number();
+	int temporary_supports_number=geometry_.get_temporary_supports_number();
 
 	//формирование именованного списка с внктрениими усилиями от случаев загружения
 
 	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::SW,InternalForces(SW_l,cs_coordinates_,0)));
 	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_I,InternalForces(DL_I_l,cs_coordinates_,0)));
-	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_II,InternalForces(DL_II_l,cs_coordinates_,propping_number)));
-	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::LL,InternalForces(LL_l,cs_coordinates_,propping_number)));
+	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_II,InternalForces(DL_II_l,cs_coordinates_,temporary_supports_number)));
+	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::LL,InternalForces(LL_l,cs_coordinates_,temporary_supports_number)));
 
 	//формирование списка с внутренними усилиями
 
@@ -74,7 +74,7 @@ void TCompositeBeam::calc_inter_forces()
 	double gamma_f_DL_II=loads_.get_gamma_f_DL_II();
 	double gamma_f_LL=loads_.get_gamma_f_LL();
 
-	for (int i = 0; i < (beam_division_+1); i++)
+	for (int i = 0; i < (geometry_.get_beam_division()+1); i++)
 	{
 		double temp_M=0.0;
 		double temp_Q=0.0;
@@ -88,7 +88,7 @@ void TCompositeBeam::calc_inter_forces()
 		internal_forces_I_.add_Q(temp_Q);
 	}
 
-	for (int i = 0; i < (beam_division_+1); i++)
+	for (int i = 0; i < (geometry_.get_beam_division()+1); i++)
 	{
 		double temp_M=0.0;
 		double temp_Q=0.0;
@@ -103,7 +103,7 @@ void TCompositeBeam::calc_inter_forces()
 
 	}
 
-	for (int i = 0; i < (beam_division_+1); i++)
+	for (int i = 0; i < (geometry_.get_beam_division()+1); i++)
 	{
 		double temp_M=0.0;
 		double temp_Q=0.0;
@@ -136,7 +136,7 @@ void TCompositeBeam::calc_stresses()
 //---------------------------------------------------------------------------
 void TCompositeBeam::CS_coordinates_calc()
 	{   double span=geometry_.get_span();
-		double propping_number_=geometry_.get_propping_number();
+		double temporary_supports_number_=geometry_.get_temporary_supports_number();
 
 		double temp_CS_coordinate=0.0;
 
@@ -144,22 +144,22 @@ void TCompositeBeam::CS_coordinates_calc()
 
 		cs_coordinates_.push_back(span/2.0);
 
-		for (int n = 0; n <= beam_division_; ++n)
+		for (int n = 0; n <= geometry_.get_beam_division(); ++n)
 		{
-			temp_CS_coordinate=span/beam_division_*n;
+			temp_CS_coordinate=span/geometry_.get_beam_division()*n;
 			cs_coordinates_.push_back(temp_CS_coordinate);
 		}
 		//добавляем в лист координат расчётных сечений координаты сечений в над промежуточными опорами
-		for (int n = 1; n < (propping_number_+1); ++n)
+		for (int n = 1; n < (temporary_supports_number_+1); ++n)
 		{
-			temp_CS_coordinate=span/(propping_number_+1)*n;
+			temp_CS_coordinate=span/(temporary_supports_number_+1)*n;
 			cs_coordinates_.push_back(temp_CS_coordinate);
 		}
 
 		//добавляем в в лист координат расчётных сечений кординаты сечений в серединах пролётов
-		for (int n = 1; n < (propping_number_+1); ++n)
+		for (int n = 1; n < (temporary_supports_number_+1); ++n)
 		{
-			temp_CS_coordinate=span/(2.0*(propping_number_+1))*n;
+			temp_CS_coordinate=span/(2.0*(temporary_supports_number_+1))*n;
 			cs_coordinates_.push_back(temp_CS_coordinate);
 		}
 

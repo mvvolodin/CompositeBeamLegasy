@@ -64,6 +64,8 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>CompositeBeamApp</SanitizedProjectName>
+        <IncludePath>D:\ a. Программирование\Отрисовка эпюр\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>D:\ a. Программирование\Отрисовка эпюр\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;svn;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -172,6 +174,11 @@
         <None Include="Data_Profil.h">
             <BuildOrder>23</BuildOrder>
         </None>
+        <CppCompile Include="DrawEpurMain.cpp">
+            <VirtualFolder>{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}</VirtualFolder>
+            <DependentOn>DrawEpurMain.h</DependentOn>
+            <BuildOrder>44</BuildOrder>
+        </CppCompile>
         <CppCompile Include="GArrow.cpp">
             <VirtualFolder>{5FF06B42-F393-44F4-B2A7-3B7240E7B578}</VirtualFolder>
             <DependentOn>GArrow.h</DependentOn>
@@ -213,9 +220,9 @@
             <BuildOrder>43</BuildOrder>
         </CppCompile>
         <CppCompile Include="pCanvas_func.cpp">
-            <VirtualFolder>{5FF06B42-F393-44F4-B2A7-3B7240E7B578}</VirtualFolder>
+            <VirtualFolder>{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}</VirtualFolder>
             <DependentOn>pCanvas_func.h</DependentOn>
-            <BuildOrder>28</BuildOrder>
+            <BuildOrder>45</BuildOrder>
         </CppCompile>
         <CppCompile Include="Point_dvutavr.cpp">
             <BuildOrder>32</BuildOrder>
@@ -357,6 +364,7 @@
                     <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
                     <VFOLDER ID="{C6F2178C-7378-48FB-AD9E-9A60F5F99E54}" name="Initial Data"/>
                     <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
+                    <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
                 </VFOLDERS>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
