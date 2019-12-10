@@ -63,7 +63,7 @@ void TCompositeBeam::calc_inter_forces()
 	//формирование именованного списка с внктрениими усилиями от случаев загружения
 
 	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::SW,InternalForces(SW_l,cs_coordinates_,0)));
-	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_I,InternalForces(DL_I_l,cs_coordinates_,0)));
+	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_I,InternalForces(DL_I_l,cs_coordinates_,temporary_supports_number)));
 	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_II,InternalForces(DL_II_l,cs_coordinates_,temporary_supports_number)));
 	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::LL,InternalForces(LL_l,cs_coordinates_,temporary_supports_number)));
 

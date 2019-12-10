@@ -19,12 +19,15 @@
  public:
 	typedef std::vector<double> M_List;
 	typedef std::vector<double> Q_List;
+	typedef std::vector<double> Q_JumpList;
 	typedef std::vector<double> R_List;
  private:
 	// int cs_number_;
 	 M_List M_; //изгибающие моменты
 	 Q_List Q_;//поперечные силы
+	 Q_JumpList Q_jump_;//реакции внешних опор
 	 R_List R_;//реакции внутренних опор
+
 
  public:
   //	inline int get_cs_number()const {return cs_number_;}
@@ -32,7 +35,9 @@
 	inline void add_Q(double Q){Q_.push_back(Q);}
 	inline M_List get_M()const {return M_;}
 	inline Q_List get_Q() const {return Q_;}
-	inline R_List get_R() const {return R_;}
+	inline Q_JumpList get_Q_jump() const {return Q_jump_;}
+	inline R_List get_R_internal() const {return R_;}
+
  public:
     InternalForces();
 	InternalForces(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);

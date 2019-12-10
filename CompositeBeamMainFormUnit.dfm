@@ -36,16 +36,12 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 0
     object TbShtStaticScheme: TTabSheet
       AlignWithMargins = True
       Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GrpBxLoadsSafetyFactors: TGroupBox
         Left = 594
         Top = 3
@@ -10594,10 +10590,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbResults: TTabSheet
       Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1099' '#1088#1072#1089#1095#1105#1090#1072
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object strngGrdResults: TStringGrid
         Left = 0
         Top = 0
@@ -10620,10 +10612,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TabSheet3: TTabSheet
       Caption = #1044#1083#1103' '#1090#1077#1089#1090#1086#1074
       ImageIndex = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object grpbxWelded: TGroupBox
         Left = 23
         Top = 28

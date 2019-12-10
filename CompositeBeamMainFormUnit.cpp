@@ -396,115 +396,112 @@ void __fastcall TCompositeBeamMainForm::btn_draw_diagramClick(TObject *Sender)
 	{
 		case 0:
 		{
-		TImage *Image1=ImgStaticScheme;
-		//получаем вектор изгибающих моментов из объекта композитная балка и получим размер вектора
-		int n_point=composite_beam_.get_internal_forces_LC()[LoadCaseNames::SW].get_M().size();
-		//получаем вектор изгибающих моментов из объекта композитная балка и преобразуем вектор в массив
-		std::vector<double> M=composite_beam_.get_internal_forces_LC()[LoadCaseNames::SW].get_M();
-		std::vector<double> Q=composite_beam_.get_internal_forces_LC()[LoadCaseNames::SW].get_Q();
-		//получаем вектор изгибающих моментов из объекта композитная балка и преобразуем вектор в массив
-	 //	double *Q=&(composite_beam_.get_internal_forces_LC()[LoadCaseNames::SW].get_Q())[0];
-		//получаем вектор координат точек эпюры и преобразуем вектор в массив
-		double *coor_epur=&composite_beam_.get_CS_coordinates()[0];
-		//определим суммарное количество опор (временных и постоянных)
-		int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
-					composite_beam_.get_geometry().get_temporary_supports_number();
-		double* LoadB=nullptr; //NULL or nullptr
-		double*	coor_supp=&composite_beam_.get_geometry().get_all_supports_coordinates()[0];
-		bool flag_sign=true;
-		if (rd_grp_internal_forces_type->ItemIndex==0)
-		{
-		DrawEpur(Image1, n_point, coor_epur, &M[0], LoadB, n_supp, coor_supp, flag_sign);
-		}
-		else
-		{
-		DrawEpur(Image1, n_point, coor_epur, &Q[0], LoadB, n_supp, coor_supp, flag_sign);
-		}
+			TImage *Image1=ImgStaticScheme;
+			//получаем вектор координат точек эпюры из объекта композитная балка
+			std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
+			//получаем вектор координат опор из объекта композитная балка
+			std::vector<double>	coor_supp=composite_beam_.get_geometry().get_all_supports_coordinates();
+			//определим суммарное количество опор (временных и постоянных)
+			int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
+					   composite_beam_.get_geometry().get_temporary_supports_number();
+			//флаг отрисовки значений на эпюре
+			bool flag_sign=true;
+			if (rd_grp_internal_forces_type->ItemIndex==0)
+			{
+				//получаем вектор изгибающих моментов из объекта композитная балка
+				std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
+				DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
+			}
+			else
+			{
+				//получаем поперечные силы из объекта композитная балка
+				std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q();
+				std::vector<double> R_internal=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
+				DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R_internal[0], n_supp, &coor_supp[0], flag_sign);
+			}
 		break;
 		}
 		case 1:
-	{
-    	TImage *Image1=ImgStaticScheme;
-	//получаем вектор изгибающих моментов из объекта композитная балка
-	std::vector<double> temp_M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
-	//получим размер вектора
-	 int n_point=temp_M.size();
-	//преобразуем вектор в массив
-	 double *LoadA=&temp_M[0];
-	 //получаем вектор координат точек эпюры
-	 std::vector<double> temp_CS_coordinates=composite_beam_.get_CS_coordinates();
-	 //преобразуем вектор в массив
-	 double *coor_epur=&temp_CS_coordinates[0];
-
-	 int n_supp=3;
-	 double LoadB[6]={0};
-	 double coor_supp[]={0,9000,18000};
-	bool flag_sign=true;
-
-  DrawEpur(Image1, n_point, coor_epur, LoadA, LoadB, n_supp, coor_supp, flag_sign);
-	 break;
-	}
+		{
+			TImage *Image1=ImgStaticScheme;
+			//получаем вектор координат точек эпюры из объекта композитная балка
+			std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
+			//получаем вектор координат опор из объекта композитная балка
+			std::vector<double>	coor_supp=composite_beam_.get_geometry().get_all_supports_coordinates();
+			//определим суммарное количество опор (временных и постоянных)
+			int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
+					   composite_beam_.get_geometry().get_temporary_supports_number();
+			//флаг отрисовки значений на эпюре
+			bool flag_sign=true;
+			if (rd_grp_internal_forces_type->ItemIndex==0)
+			{
+				//получаем вектор изгибающих моментов из объекта композитная балка
+				std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
+				DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
+			}
+			else
+			{
+				//получаем поперечные силы из объекта композитная балка
+				std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q();
+				std::vector<double> R_internal=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
+				DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R_internal[0], n_supp, &coor_supp[0], flag_sign);
+			}
+		break;
+		}
 		case 2:
-	 {
-	//получаем вектор изгибающих моментов из объекта композитная балка
-	std::vector<double> temp_M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
-	//получим размер вектора
-	 int n_point=temp_M.size();
-	//преобразуем вектор в массив
-	 double *LoadA=&temp_M[0];
-	 //получаем вектор координат точек эпюры
-	 std::vector<double> temp_CS_coordinates=composite_beam_.get_CS_coordinates();
-	 //преобразуем вектор в массив
-	 double *coor_epur=&temp_CS_coordinates[0];
-
-	 int n_supp=2;
-	 double LoadB[6]={0};
-	 double coor_supp[]={0,18000};
-
-	TImage *Image1=ImgStaticScheme;
-
-
-	bool flag_sign=true;
-
-  DrawEpur(Image1, n_point, coor_epur, LoadA, LoadB, n_supp, coor_supp, flag_sign);
-   break;
-	}
+		{
+			TImage *Image1=ImgStaticScheme;
+			//получаем вектор координат точек эпюры из объекта композитная балка
+			std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
+			//получаем вектор координат опор из объекта композитная балка
+			std::vector<double>	coor_supp=composite_beam_.get_geometry().get_all_supports_coordinates();
+			//определим суммарное количество опор (временных и постоянных)
+			int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
+					   composite_beam_.get_geometry().get_temporary_supports_number();
+			//флаг отрисовки значений на эпюре
+			bool flag_sign=true;
+			if (rd_grp_internal_forces_type->ItemIndex==0)
+			{
+				//получаем вектор изгибающих моментов из объекта композитная балка
+				std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
+				DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
+			}
+			else
+			{
+				//получаем поперечные силы из объекта композитная балка
+				std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q();
+				std::vector<double> R_internal=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
+				DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R_internal[0], n_supp, &coor_supp[0], flag_sign);
+			}
+		break;
+		}
 		case 3:
-	{
-	//получаем вектор изгибающих моментов из объекта композитная балка
-	std::vector<double> temp_M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
-	//получим размер вектора
-	 int n_point=temp_M.size();
-	//преобразуем вектор в массив
-	 double *LoadA=&temp_M[0];
-	 //получаем вектор координат точек эпюры
-	 std::vector<double> temp_CS_coordinates=composite_beam_.get_CS_coordinates();
-	 //преобразуем вектор в массив
-	 double *coor_epur=&temp_CS_coordinates[0];
-
-	 int n_supp=2;
-	 double LoadB[6]={0};
-	 double coor_supp[]={0,18000};
-
-	TImage *Image1=ImgStaticScheme;
-
-
-	bool flag_sign=true;
-
-  DrawEpur(Image1, n_point, coor_epur, LoadA, LoadB, n_supp, coor_supp, flag_sign);
-	 break;
-	}
-// Image1 - Контейнер изображения
-// n_point - число точек эпюры
-// coord_epur - вектор координат эпюры
-// LoadA - вектор значений нагрузки
-// LoadB - вектор скачков на эпюре
-// n_supp - число опор
-// coord_supp - вектор координат опор
-// flag_sign - флаг вывода значений эпюры
-
- //*LoadB реакция опор //количество {100,0,0,0,0,0,0,25,0,0,0,0,0,25,0,0,0,100}
-	 //{100,500,3000,4000}
+		{
+			TImage *Image1=ImgStaticScheme;
+			//получаем вектор координат точек эпюры из объекта композитная балка
+			std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
+			//получаем вектор координат опор из объекта композитная балка
+			std::vector<double>	coor_supp=composite_beam_.get_geometry().get_all_supports_coordinates();
+			//определим суммарное количество опор (временных и постоянных)
+			int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
+					   composite_beam_.get_geometry().get_temporary_supports_number();
+			//флаг отрисовки значений на эпюре
+			bool flag_sign=true;
+			if (rd_grp_internal_forces_type->ItemIndex==0)
+			{
+				//получаем вектор изгибающих моментов из объекта композитная балка
+				std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
+				DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
+			}
+			else
+			{
+				//получаем поперечные силы из объекта композитная балка
+				std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q();
+				std::vector<double> R_internal=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
+				DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R_internal[0], n_supp, &coor_supp[0], flag_sign);
+			}
+		break;
+		}
    }
 }
 //---------------------------------------------------------------------------
