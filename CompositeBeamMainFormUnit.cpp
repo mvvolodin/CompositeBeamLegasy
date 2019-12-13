@@ -416,8 +416,8 @@ void __fastcall TCompositeBeamMainForm::btn_draw_diagramClick(TObject *Sender)
 			{
 				//получаем поперечные силы из объекта композитная балка
 				std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q();
-				std::vector<double> R_internal=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
-				DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R_internal[0], n_supp, &coor_supp[0], flag_sign);
+				std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
+				DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &Q_jump[0], n_supp, &coor_supp[0], flag_sign);
 			}
 		break;
 		}
@@ -443,8 +443,8 @@ void __fastcall TCompositeBeamMainForm::btn_draw_diagramClick(TObject *Sender)
 			{
 				//получаем поперечные силы из объекта композитная балка
 				std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q();
-				std::vector<double> R_internal=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
-				DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R_internal[0], n_supp, &coor_supp[0], flag_sign);
+				std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
+				DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &Q_jump[0], n_supp, &coor_supp[0], flag_sign);
 			}
 		break;
 		}

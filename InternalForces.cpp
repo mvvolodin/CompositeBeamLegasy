@@ -99,8 +99,8 @@ void InternalForces::Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinate
 	double A=0.375*p*l/2.0;
 	double B=1.25*p*l/2.0;
 
-	for (int n = 0; n <= cs_coordinates.size(); ++n)
-	{ //определение поперечных сил
+	for (int n = 0; n < cs_coordinates.size(); ++n)
+	{
 		double temp_l=cs_coordinates[n];
 
 		if (cs_coordinates[n]<=l/2)
@@ -109,10 +109,14 @@ void InternalForces::Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinate
 			}
 		else
 			{
-				temp_Q=A-p*temp_l;
+				temp_Q=A+B-p*temp_l;
 			}
 		Q_.push_back(temp_Q);
 	}
-	Q_jump_=Q_JumpList(3,0);
-	Q_jump_[1]=B;
+	Q_jump_=Q_JumpList(Q_.size(),0);
+	std::vector<double>::iterator itr = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), 9000);
+
+	Q_jump_[std::distance(cs_coordinates.begin(),itr)]=B;
 }
+
+
