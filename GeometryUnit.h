@@ -15,6 +15,8 @@ private:
 	double trib_width_right_;
 	int temporary_supports_number_; //количество опопр на стадии бетонировани€. —ледует применить enum.
 	static const int permanent_supports_number_=2;//при удаление ключевого слова static и применение member initializer list получаю ошибку "copy assignment operator is implicitly delete"
+	//const int permanent_supports_number_=2;  //
+
 	int beam_division_;//разбиение балки
 	CoordinatesList permanent_supports_coordinates_;
 	CoordinatesList temporary_supports_coordinates_;
