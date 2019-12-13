@@ -10820,7 +10820,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
-    Text = '5'
+    Text = '10'
   end
   object BtnCalculate: TButton
     Left = 613
