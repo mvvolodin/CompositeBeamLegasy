@@ -29,7 +29,8 @@ int DrawEpur(TImage *Image1, int n_point, double *coor_epur, double *LoadA, doub
   TPoint vert[10];
   double zero_px, zero_py;
   double load_cur; // текущее значение нагрузки
-  #define  INTR  50
+  double load_gap; // значение скачка в нагрузке
+  #define  INTR  120
 
 // Определить масштаб для рисования балки
   Width = Image1->Width;
@@ -40,17 +41,18 @@ int DrawEpur(TImage *Image1, int n_point, double *coor_epur, double *LoadA, doub
 	return 1;
 
   H_beam = L_beam/50;
-  scale = (Width - 50)/L_beam;
+  scale = (Width - INTR)/L_beam;
 
   //---------------------------------------------------
   Value = 0;
   for (i=0; i < n_point; i++) {
-	   Value = MAX(Value, (ABS(LoadA[i])));
+	  Value = MAX(Value, (ABS(LoadA[i])));
 	  // Value = MAX(Value, (ABS(LoadB[i])));
-	   Value = MAX(Value, (ABS((LoadB==nullptr)? 0.0:LoadB[i])));//MV 08.12.19
+	  if (LoadB!=nullptr)
+		 Value = MAX(Value, (ABS(LoadB[i])));
   }
   if (Value!=0)
-	 scale_force = (Height - INTR)/(2*Value);
+	 scale_force = (Height - 50)/(2*Value);
   else
 	 scale_force = 0;
   //---------------------------------------------------
@@ -87,23 +89,56 @@ int DrawEpur(TImage *Image1, int n_point, double *coor_epur, double *LoadA, doub
   pBrush_Color(Image1, clWhite);
   pBrush_Style(Image1, bsSolid);
 
+  double load_max = 1e-9;
+  double load_min = 1e9;
+  int i_max, i_min;
+
   load_cur = LoadA[0];
   for (i=0; i<n_point-1; i++) {
+	if (load_max < LoadA[i]) {
+	  i_max = i;
+	  load_max = LoadA[i];
+	}
+	if (load_min > LoadA[i]) {
+	  i_min = i;
+	  load_min = LoadA[i];
+	}
 	points[0] = Point(zero_px + coor_epur[i]*scale, zero_py - load_cur*scale_force);
 	points[1] = Point(zero_px + coor_epur[i+1]*scale, zero_py - LoadA[i+1]*scale_force);
 	pPen_Width(Image1, 2);
 	pCanvas_Polyline(Image1, points, 1);
   //	load_cur = LoadA[i+1] + LoadB[i+1];
-	load_cur = LoadA[i+1] +((LoadB==nullptr)? 0.0:LoadB[i]);//MV 08.12.19
+	if (LoadB!=nullptr)
+	  load_gap = LoadB[i+1];
+	else
+	  load_gap = 0;
+	load_cur = LoadA[i+1] + load_gap;
    //	if (LoadB[i+1]!=0)
-	  if(((LoadB==nullptr)? 0.0:LoadB[i+1])!=0) //MV 08.12.19
-   {
+	if(load_gap!=0)
+	{
+	  if (load_max < load_cur) {
+		i_max = i+1;
+		load_max = load_cur;
+	  }
+	  if (load_min > load_cur) {
+		i_min = i+1;
+		load_min = load_cur;
+	  }
 	  points[0] = Point(zero_px + coor_epur[i+1]*scale, zero_py - LoadA[i+1]*scale_force);
 	  points[1] = Point(zero_px + coor_epur[i+1]*scale, zero_py - load_cur*scale_force);
 	  pPen_Width(Image1, 1);
 	  pCanvas_Polyline(Image1, points, 1);
 	}
   }
+  if (load_max < LoadA[i]) {
+	  i_max = i;
+	  load_max = LoadA[i];
+  }
+  if (load_min > LoadA[i]) {
+	  i_min = i;
+	  load_min = LoadA[i];
+  }
+
   //------------------------------------------------------------------------------------------------------
   // Крайние точки эпюр
   pPen_Width(Image1, 1);
@@ -116,12 +151,35 @@ int DrawEpur(TImage *Image1, int n_point, double *coor_epur, double *LoadA, doub
 
   // Вывести значение нагрузок
   if (flag_sign) {
-	for (i=0; i<n_point; i++) {
-	  if (LoadA[i]!=0) {
-		points[1] = Point(zero_px + coor_epur[i]*scale, zero_py - LoadA[i]*scale_force);
-		pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStr(LoadA[i]));
-	  }
+
+	if (load_max!=1e-9 && load_max!=0) {
+		points[1] = Point(zero_px + coor_epur[i_max]*scale, zero_py - LoadA[i_max]*scale_force);
+		pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStr(LoadA[i_max]));
+		pCanvas_Ellipse(Image1, points[1].x - 3, points[1].y - 3, points[1].x + 3, points[1].y + 3);
+
+		if (LoadB!=nullptr) {
+		  points[1] = Point(zero_px + coor_epur[i_max]*scale, zero_py -
+					  (LoadA[i_max] + LoadB[i_max])*scale_force);
+		  pCanvas_Ellipse(Image1, points[1].x - 3, points[1].y - 3, points[1].x + 3, points[1].y + 3);
+		  pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStr(LoadA[i_max] + LoadB[i_max]));
+		}
+
 	}
+  }
+  if (load_min!=1e9 && load_min!=0) {
+		points[1] = Point(zero_px + coor_epur[i_min]*scale, zero_py - LoadA[i_min]*scale_force);
+		pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStr(LoadA[i_min]));
+		pCanvas_Ellipse(Image1, points[1].x - 3, points[1].y - 3, points[1].x + 3, points[1].y + 3);
+
+		if (LoadB!=nullptr) {
+		  points[1] = Point(zero_px + coor_epur[i_min]*scale, zero_py -
+					  (LoadA[i_min] + LoadB[i_min])*scale_force);
+		  pCanvas_Ellipse(Image1, points[1].x - 3, points[1].y - 3, points[1].x + 3, points[1].y + 3);
+		  pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStr(LoadA[i_min] + LoadB[i_min]));
+		}
+
+
+
   }
   //-------------------------------------------------------------------------------
   // Рисование опор
