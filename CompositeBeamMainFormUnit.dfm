@@ -39,7 +39,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Caption = 'ToolBar1'
     Images = ImageList1
     TabOrder = 0
-    ExplicitTop = -6
     object ToolButton1: TToolButton
       Left = 0
       Top = 0
@@ -114,7 +113,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   end
   object BtnReport: TButton
     Left = 693
-    Top = 561
+    Top = 559
     Width = 75
     Height = 25
     Caption = #1054#1090#1095#1105#1090
@@ -142,10 +141,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtStaticScheme: TTabSheet
       AlignWithMargins = True
       Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GrpBxLoadsSafetyFactors: TGroupBox
         Left = 594
         Top = 3
@@ -569,10 +564,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtSectionMaterials: TTabSheet
       Caption = #1057#1077#1095#1077#1085#1080#1077' '#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1099
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GrpBxSteelSection: TGroupBox
         Left = -4
         Top = 283

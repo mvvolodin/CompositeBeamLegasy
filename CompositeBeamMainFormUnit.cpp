@@ -13,6 +13,8 @@
 
 #include "Report.h" //Подключаем генератор отчётов
 
+#include "ReportCopmpositeBeam.h"  // Вывод отчета в Word
+
 TCompositeBeamMainForm *CompositeBeamMainForm;
 
 extern COMMON_SECT *common_sect;
@@ -201,9 +203,14 @@ void __fastcall TCompositeBeamMainForm::BtnCalculateClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::BtnReportClick(TObject *Sender)
 {
+	/*
 	extern FILE* logfile;
 	fclose(logfile);  //Закрыл поток
 	system("notepad.exe Debug.txt");  // Открытие текстового файла с результатами
+	*/
+	//----------------------------------------------------
+	// Вывод отчета в формате Word
+	ReportCompositeBeam();
 }
 //---------------------------------------------------------------------------
 //	Активация контролов для внесения данных о бетонном сечении в зависимости

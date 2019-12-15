@@ -249,6 +249,10 @@
             <DependentOn>Report.h</DependentOn>
             <BuildOrder>44</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ReportCopmpositeBeam.cpp">
+            <DependentOn>ReportCopmpositeBeam.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Round_func.cpp">
             <BuildOrder>33</BuildOrder>
         </CppCompile>
@@ -318,6 +322,10 @@
         <None Include="TypeData.h">
             <BuildOrder>34</BuildOrder>
         </None>
+        <CppCompile Include="Word_Automation.cpp">
+            <DependentOn>Word_Automation.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
         <CppCompile Include="WorkingConditionsFactors.cpp">
             <DependentOn>WorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>

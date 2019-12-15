@@ -8,12 +8,13 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "ListConst.h"
 #include "Word_Automation.h"
 
 #define  wdAutoFitFixed     0
 #define  wdAutoFitContent   1
 #define  wdAutoFitWindow    2
+
+#define EMBRAC
 
 
 
@@ -37,7 +38,7 @@ void TWord_Automation::GetActiveWord()
           // -- сформировать новый объект
           try {
               my_word = Variant::CreateObject("word.application");
-          }
+		  }
 		  catch (...) {
 			// -- не удается создать новый объект Word
 			#ifdef EMBRAC
@@ -67,7 +68,7 @@ int TWord_Automation::CreateDocument(AnsiString Pattern)
     else {  // документ на основе шаблона
        filename = ExtractFileDir(Application->ExeName)+"\\" + Pattern;
        if ((file_doc = fopen(filename.c_str(),"r")) == NULL) {
-         fclose(file_doc);
+		 fclose(file_doc);
 		#ifdef EMBRAC
 		   rc = Application->MessageBox((L"Шаблон с именем "+filename+L" не найден").c_str(), L"Ошибка при создании документа",
 								MB_OK | MB_ICONERROR);
@@ -127,7 +128,7 @@ void TWord_Automation::PasteCurTable(TRichEdit *RichEditOut)
                my_table=my_tables.OleFunction("Item", 1);
                my_table.OleFunction("AutoFitBehavior", wdAutoFitContent);
              //  my_table.OleFunction("AutoFitBehavior", wdAutoFitWindow);
-               flag_table=false;
+			   flag_table=false;
            }
            else {
            // начало таблицы
@@ -187,7 +188,7 @@ void TWord_Automation::PasteEnd(TRichEdit *RichEditOut)
 void TWord_Automation::Paste(TRichEdit *RichEditOut, AnsiString Pattern)
 {
 
-    RichEditOut->SelectAll();
+	RichEditOut->SelectAll();
     RichEditOut->CutToClipboard();
 
     my_range = this_doc.OleFunction("Range");

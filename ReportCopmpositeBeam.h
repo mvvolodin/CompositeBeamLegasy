@@ -3,7 +3,7 @@
 #ifndef ReportCopmpositeBeamH
 #define ReportCopmpositeBeamH
 
-int  Report_Checking();
+int  ReportCompositeBeam();
 //---------------------------------------------------------------------------
 
 #endif
