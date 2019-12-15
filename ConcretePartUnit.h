@@ -10,6 +10,7 @@
 class TConcretePart {
 
 private:
+	String slab_type_;
 	Concrete concrete_;
 	Rebar rebar_;
 
@@ -39,6 +40,7 @@ public:
 	TConcretePart(Concrete concrete, Rebar rebar, double t_sl);
 	TConcretePart(Concrete concrete, Rebar rebar);
 
+	inline String get_slab_type() const {return slab_type_;}
 	inline double get_R_b() const {return concrete_.get_R_b();}
 	inline double get_R_bt() const {return concrete_.get_R_bt();}
 	inline double get_E_b() const {return concrete_.get_E_b();}
