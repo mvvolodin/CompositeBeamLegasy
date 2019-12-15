@@ -63,7 +63,7 @@ void InternalForces::Q_calc_simple_beam(double p, CS_Coordinates cs_coordinates,
 		temp_Q=A-p*temp_l;
 		Q_.push_back(temp_Q);
 	}
-	Q_jump_=Q_JumpList(3,0);
+	Q_jump_=Q_JumpList(Q_.size(),0);
 }
 void InternalForces::M_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)//балки равнопролётные
 {
