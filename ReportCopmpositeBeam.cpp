@@ -28,7 +28,7 @@ int ReportCompositeBeam() {
   // Создание объекта Word
   Word_Automation.GetActiveWord();
   // Создание документа
-  rc = Word_Automation.CreateDocument("ReportCompositeBeam.dot");
+  rc = Word_Automation.CreateDocument("ReportCompositeBeam.docx");
   if (rc>0)
 	 return rc;
 
