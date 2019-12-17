@@ -145,6 +145,8 @@ __published:	// IDE-managed Components
 	TStringGrid *strng_grd_compos_sect_geom_character;
 	TTabSheet *TbResults;
 	TStringGrid *strngGrdResults;
+	TLabel *Label3;
+	TEdit *Edit3;
 
 	void __fastcall chck_bx_end_beamClick(TObject *Sender);
 	void __fastcall BtnCalculateClick(TObject *Sender);

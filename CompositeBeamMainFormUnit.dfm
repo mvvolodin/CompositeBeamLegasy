@@ -145,7 +145,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Left = 594
         Top = 3
         Width = 251
-        Height = 145
+        Height = 221
         Caption = '  '#1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090#1099' '#1085#1072#1076#1105#1078#1085#1086#1089#1090#1080' '#1087#1086' '#1085#1072#1075#1088#1091#1079#1082#1072#1084'  '
         TabOrder = 0
         object lbl_gamma_f_DL_I: TLabel
@@ -195,6 +195,13 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 13
           Caption = #1042#1088#1077#1084#1077#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072
         end
+        object Label3: TLabel
+          Left = 4
+          Top = 154
+          Width = 174
+          Height = 13
+          Caption = ' '#1057#1086#1073#1089#1090#1074#1077#1085#1085#1099#1081' '#1074#1077#1089' '#1089#1090#1072#1083#1100#1085#1086#1081' '#1073#1072#1083#1082#1080
+        end
         object edt_gamma_f_DL_I: TEdit
           Left = 188
           Top = 40
@@ -218,6 +225,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 21
           TabOrder = 2
           Text = '1.35'
+        end
+        object Edit3: TEdit
+          Left = 184
+          Top = 151
+          Width = 49
+          Height = 21
+          TabOrder = 3
+          Text = 'Edit3'
         end
       end
       object GrpBxLoadCases: TGroupBox
@@ -416,25 +431,25 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
       end
       object GrpBxErection: TGroupBox
-        Left = 596
+        Left = 851
         Top = 154
-        Width = 249
+        Width = 194
         Height = 70
         Caption = '  '#1052#1086#1085#1090#1072#1078'  '
         TabOrder = 4
         object lbl_number_propping_supports: TLabel
-          Left = 19
+          Left = 3
           Top = 26
           Width = 140
           Height = 13
-          Caption = #1054#1087#1086#1088#1099' '#1087#1088#1080' '#1073#1077#1090#1086#1085#1080#1088#1086#1074#1072#1085#1080#1077':'
+          Caption = #1054#1087#1086#1088#1099' '#1087#1088#1080' '#1073#1077#1090#1086#1085#1080#1088#1086#1074#1072#1085#1080#1080':'
           ParentShowHint = False
           ShowHint = False
         end
         object cmb_bx_number_propping_supports: TComboBox
-          Left = 173
-          Top = 18
-          Width = 52
+          Left = 149
+          Top = 26
+          Width = 36
           Height = 21
           Hint = #1047#1072#1076#1072#1081#1090#1077' '#1082#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1086#1087#1086#1088' '#1087#1088#1080' '#1073#1077#1090#1086#1085#1080#1088#1086#1074#1072#1085#1080#1077
           ParentShowHint = False
@@ -489,9 +504,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       end
       object GrpBxAnalysisTheory: TGroupBox
         Left = 3
-        Top = 149
+        Top = 154
         Width = 303
-        Height = 75
+        Height = 70
         Caption = '  '#1058#1077#1086#1088#1080#1103' '#1088#1072#1089#1095#1105#1090#1072'  '
         TabOrder = 6
         object CmbBxAnalysisTheoryChoice: TComboBox

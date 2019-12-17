@@ -425,3 +425,4 @@ void __fastcall TCompositeBeamMainForm::btn_draw_diagramClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
