@@ -78,6 +78,7 @@ inline InternalForces get_internal_forces_II()const{return internal_forces_II_;}
 inline InternalForces get_internal_forces_total()const{return internal_forces_total_;}
 inline CS_Coordinates get_CS_coordinates()const {return cs_coordinates_;}
 inline TGeometry get_geometry()const {return geometry_;}
+inline TLoads get_loads()const {return loads_;}
 
  };
 

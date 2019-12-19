@@ -13,7 +13,7 @@
 
 #include "Report.h" //Подключаем генератор отчётов
 
-#include "ReportCopmpositeBeam.h"  // Вывод отчета в Word
+#include "Word_Automation.h"  // Вывод отчета в Word
 
 TCompositeBeamMainForm *CompositeBeamMainForm;
 
@@ -203,14 +203,9 @@ void __fastcall TCompositeBeamMainForm::BtnCalculateClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::BtnReportClick(TObject *Sender)
 {
-	/*
-	extern FILE* logfile;
-	fclose(logfile);  //Закрыл поток
-	system("notepad.exe Debug.txt");  // Открытие текстового файла с результатами
-	*/
-	//----------------------------------------------------
-	// Вывод отчета в формате Word
-	ReportCompositeBeam();
+	Screen->Cursor = crHourGlass;//На время создания отчёта присвоем курсору вид часов
+	generate_report();
+	Screen->Cursor = crDefault;//Возвращаем курсору вид по умолчанию
 }
 //---------------------------------------------------------------------------
 //	Активация контролов для внесения данных о бетонном сечении в зависимости
@@ -385,9 +380,24 @@ void __fastcall TCompositeBeamMainForm::NExitClick(TObject *Sender)
 //---------------------------------------------------------------------------
 //Создание отчёта
 //---------------------------------------------------------------------------
-void generate_report()
+void TCompositeBeamMainForm::generate_report()
 {
-	Report report("Debug.txt", true);
+	report_=TWord_Automation("ReportCompositeBeam.docx");
+//[1.1] Топология
+	report_.PasteTextPattern("Нет", "%end_beam%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_span()), "%span%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_trib_width_left(LengthUnits::m)), "%trib_width_left% ");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_trib_width_right()), "%trib_width_right% ");
+
+//[1.2] Загружения
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_dead_load_first_stage()), "%DL_I%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_dead_load_second_stage()), "%DL_II%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_live_load()), "%LL%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_DL_I()), "%gamma_f_DL_I%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_DL_II()), "%gamma_f_DL_II%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_LL()), "%gamma_f_LL%");
+//[1.1] Стальное сечение
+//[1.1.1] Номинальные размеры двутавра
 
 
 

@@ -5,6 +5,11 @@
 //---------------------------------------------------------------------------
 #include <vector>
 
+enum class LengthUnits{
+	mm=1,
+	cm=100,
+	m=1000,
+};
 
 class TGeometry{
 private:
@@ -33,7 +38,8 @@ public:
 			  int temporary_supports_number);
 
 	inline bool is_end_beam()const {return end_beam_;}
-	inline double get_span()const {return span_;}
+	inline double get_span()const {return span_;} //почему для объекта enum class не выполняется неявное приведение к int
+	inline double get_trib_width_left(LengthUnits output_units) const {return trib_width_left_/static_cast<int>(output_units);}
 	inline double get_trib_width_left() const {return trib_width_left_;}
 	inline double get_trib_width_right()const {return trib_width_right_;}
 	inline int get_beam_division()const{return beam_division_;}

@@ -249,10 +249,6 @@
             <DependentOn>Report.h</DependentOn>
             <BuildOrder>44</BuildOrder>
         </CppCompile>
-        <CppCompile Include="ReportCopmpositeBeam.cpp">
-            <DependentOn>ReportCopmpositeBeam.h</DependentOn>
-            <BuildOrder>47</BuildOrder>
-        </CppCompile>
         <CppCompile Include="Round_func.cpp">
             <BuildOrder>33</BuildOrder>
         </CppCompile>

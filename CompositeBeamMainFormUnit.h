@@ -35,6 +35,7 @@
 #include "RebarDefinitionFormUnit.h"
 
  #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
+ #include "Word_Automation.h"//Подключаем файл классом объекта отчёт
 
 class TCompositeBeamMainForm : public TForm
 {
@@ -177,7 +178,8 @@ private:	//Собственные поля
 	TConcretePart* concrete_part_;//объект абстрактного класса, поэтому указатель!
 	CompositeSection composite_section_; //Геометрические характеристики композитного сечения
 	TCompositeBeam composite_beam_; //Основной объект в программе, формируемый на основании объектов заданных выше
-//---------------------------------------------------------------------------
+    TWord_Automation report_; //как избежать конструктор по умолчанию. Зачем дважды выполнять создание объекта!!!!!
+	//---------------------------------------------------------------------------
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);

@@ -21,16 +21,25 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-TWord_Automation Word_Automation;
-void  StringRemoveSpace(char* string, char c_del, int *count);
+TWord_Automation::TWord_Automation()
+{
 
+}
 
 //---------------------------------------------------------------------------
+
+TWord_Automation::TWord_Automation(AnsiString Pattern)
+{
+	GetActiveWord();
+	CreateDocument(Pattern);
+	this_doc.OleProcedure("Select"); // Выделить весь документ
+	my_selection = my_word.OlePropertyGet("Selection");  // получить ссылку на объект выделения
+}
 // открыть объект Word
 void TWord_Automation::GetActiveWord()
 {
 
-     try {
+	 try {
           my_word = Variant::GetActiveObject("word.application");
      }
      catch (...) {
@@ -126,13 +135,13 @@ void TWord_Automation::PasteCurTable(TRichEdit *RichEditOut)
 
                my_tables=my_range.OlePropertyGet("Tables");
                my_table=my_tables.OleFunction("Item", 1);
-               my_table.OleFunction("AutoFitBehavior", wdAutoFitContent);
+			   my_table.OleFunction("AutoFitBehavior", wdAutoFitContent);
              //  my_table.OleFunction("AutoFitBehavior", wdAutoFitWindow);
 			   flag_table=false;
            }
            else {
            // начало таблицы
-               my_range.OleProcedure("Collapse",(Variant)0);
+			   my_range.OleProcedure("Collapse",(Variant)0);
                flag_table=true;
 		   }
         }
@@ -259,7 +268,7 @@ void TWord_Automation::PasteTable(TRichEdit *RichEditOut, AnsiString Pattern)
 }
 //------------------------------------------------------------
 //  Убрать пробелы слева в каждом поле таблицы
-void  StringRemoveSpace(char* string, char c_del, int *count) {
+void  TWord_Automation::StringRemoveSpace(char* string, char c_del, int *count) {
    bool flag_move;
    int i, j, k;
 
@@ -303,7 +312,7 @@ void TWord_Automation::PasteImagePicturePattern(TImage *Image, AnsiString Patter
   // Рисуем на канве загружаемое изображение
   pCanvas->Draw(0, 0, gBitmap);
   delete  pCanvas;   // Должен быть уничтожен перед вставкой GrapMeta
-  Word_Automation.PastePictures(GrapMeta, Pattern);
+  PastePictures(GrapMeta, Pattern);
   delete  gBitmap;
   delete GrapMeta;
 

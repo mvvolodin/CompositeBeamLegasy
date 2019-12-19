@@ -14,7 +14,6 @@ TGeometry::TGeometry()
 }
 TGeometry::TGeometry(int beam_division, bool end_beam, double span, double trib_width_left, double trib_width_right,
 	int temporary_supports_number)
-   //	:permanent_supports_number_(2),
 	 :beam_division_(beam_division),
 	 end_beam_(end_beam),
 	 span_(span),
