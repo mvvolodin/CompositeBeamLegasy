@@ -169,16 +169,17 @@ __published:	// IDE-managed Components
 
 private:	//Собственные поля
 
-	TGeometry geometry_;//поле содержащее топологию
-	TLoads loads_;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
-	TStud stud_; //поле соержащее упоры Нельсона
-	TISectionInitialData i_section_initial_data_;
-	TSteelInitialData steel_i_section_initial_data_;
-	WorkingConditionsFactors working_conditions_factors_;
-	TConcretePart* concrete_part_;//объект абстрактного класса, поэтому указатель!
-	CompositeSection composite_section_; //Геометрические характеристики композитного сечения
+		TGeometry geometry_;//поле содержащее топологию
+		TLoads loads_;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
+		TStud stud_; //поле соержащее упоры Нельсона
+		TISectionInitialData i_section_initial_data_;
+		TSteelInitialData steel_i_section_initial_data_;
+		WorkingConditionsFactors working_conditions_factors_;
+		TConcretePart* concrete_part_;//объект абстрактного класса, поэтому указатель!
+		CompositeSection composite_section_; //Геометрические характеристики композитного сечения
+
 	TCompositeBeam composite_beam_; //Основной объект в программе, формируемый на основании объектов заданных выше
-    TWord_Automation report_; //как избежать конструктор по умолчанию. Зачем дважды выполнять создание объекта!!!!!
+
 	//---------------------------------------------------------------------------
 
 public:		// User declarations

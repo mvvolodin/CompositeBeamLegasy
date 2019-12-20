@@ -25,6 +25,7 @@ extern STEEL_PARAM steel_param; //в модуле поставщике почему-то не используется 
  _fastcall TCompositeBeamMainForm::TCompositeBeamMainForm(TComponent* Owner)
 	: TForm(Owner)
 {
+//:composite_section_(nullptr)
 	grid_constructor_ratios();
 	grid_constr_comp_sect_geometr();
 	fill_cmb_bx_LC();
@@ -185,6 +186,10 @@ composite_beam_=TCompositeBeam(geometry_,
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::BtnCalculateClick(TObject *Sender)
 {
+   //проверка объекта и в случае его наличия будет вызван деструктор
+   //проверка в nullptr  в concrete_section_
+   //установить все объекты в ноль
+
 	init_geomet();//Инициализация топологии
 	init_loads(); //Инициализация нагрузок
 	init_i_section();//Инициализация объекта геометрия двутавра
@@ -192,7 +197,7 @@ void __fastcall TCompositeBeamMainForm::BtnCalculateClick(TObject *Sender)
 	init_concrete_part(); //Инициализация бетонной части
 	init_stud();//Инициализация композитного сечения
 	init_composite_section();
-    init_working_conditions_factors();//Инициализация коэффиециентов условий работы
+	init_working_conditions_factors();//Инициализация коэффиециентов условий работы
 	init_composite_beam();//Инициализация композитной балки
 	BtnReport->Enabled=True;
     fill_grid_with_results();
@@ -382,7 +387,7 @@ void __fastcall TCompositeBeamMainForm::NExitClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::generate_report()
 {
-	report_=TWord_Automation("ReportCompositeBeam.docx");
+	 TWord_Automation report_=TWord_Automation("ReportCompositeBeam.docx");
 //[1.1] Топология
 	report_.PasteTextPattern("Нет", "%end_beam%");
 	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_span()), "%span%");

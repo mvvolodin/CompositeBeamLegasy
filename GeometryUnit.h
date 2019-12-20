@@ -11,6 +11,8 @@ enum class LengthUnits{
 	m=1000,
 };
 
+//"friend double operator double(const LengthUnits &that) implicit" посмотреть возможность перегрузить оператор double
+
 class TGeometry{
 private:
 	typedef std::vector<double> CoordinatesList;
@@ -39,8 +41,8 @@ public:
 
 	inline bool is_end_beam()const {return end_beam_;}
 	inline double get_span()const {return span_;} //почему для объекта enum class не выполняется неявное приведение к int
-	inline double get_trib_width_left(LengthUnits output_units) const {return trib_width_left_/static_cast<int>(output_units);}
-	inline double get_trib_width_left() const {return trib_width_left_;}
+	inline double get_trib_width_left(LengthUnits output_units=LengthUnits::mm) const {return trib_width_left_/static_cast<int>(output_units);}
+   //	inline double get_trib_width_left() const {return trib_width_left_;}
 	inline double get_trib_width_right()const {return trib_width_right_;}
 	inline int get_beam_division()const{return beam_division_;}
 	inline int get_permanent_supports_number()const{return permanent_supports_number_;}

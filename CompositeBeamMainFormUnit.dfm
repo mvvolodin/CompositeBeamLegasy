@@ -104,7 +104,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   end
   object BtnCalculate: TButton
     Left = 613
-    Top = 561
+    Top = 559
     Width = 75
     Height = 25
     Caption = #1056#1072#1089#1095#1105#1090

@@ -21,10 +21,12 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-TWord_Automation::TWord_Automation()
-{
+/*
+    TWord_Automation::TWord_Automation()
+    {
 
-}
+    }
+*/
 
 //---------------------------------------------------------------------------
 
@@ -40,9 +42,9 @@ void TWord_Automation::GetActiveWord()
 {
 
 	 try {
-          my_word = Variant::GetActiveObject("word.application");
-     }
-     catch (...) {
+		  my_word = Variant::GetActiveObject("word.application");
+	 }
+	 catch (...) {
           // -- не удается отыскать активный объект Word
           // -- сформировать новый объект
           try {
