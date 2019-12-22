@@ -22,14 +22,14 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 
-TSteelSectionDefinitionFrame *SteelSectionDefinitionFrame;
+//TSteelSectionDefinitionFrame *SteelSectionDefinitionFrame;
 //extern int index_choice[MAX_ADD_SECT];
 //extern COM_RAMA Common_rama;
 
 
 extern bool flag_sect_change; // флаг изменения параметров сечения
 extern int  Type_sect;   // Тип сечения - Двутавр или труба
-extern COMMON_SECT *common_sect;
+//extern COMMON_SECT *common_sect;
 extern bool flag_image;
 
 #ifdef EMBRAC
@@ -84,19 +84,19 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
         Edit1->Text="0";
         Edit2->Text="0";
         Edit3->Text="0";
-        Edit4->Text="0";
+		Edit4->Text="0";
         Edit5->Text="0";
         Edit6->Text="0";
 
         TabSheet_StandTube->TabVisible = false;
-        TabSheet_CYL->TabVisible = false;
+		TabSheet_CYL->TabVisible = false;
 
-        switch (Type_sect) {
+		switch (Type_sect) {
         case DVUTAVR:
-        flag_concl = common_sect->dvutavr.flag_concl;
-        if (common_sect->dvutavr.flag_concl) {
-          if (common_sect->dvutavr.n_group < 0) {
-            Label7->Visible=false;
+        flag_concl = common_sect_.dvutavr.flag_concl;
+		if (common_sect_.dvutavr.flag_concl) {
+		  if (common_sect_.dvutavr.n_group < 0) {
+			Label7->Visible=false;
 
             Edit1->Visible=true;
             Edit2->Visible=true;
@@ -116,23 +116,23 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
             Change_type_sect(-1, Sender);
           }
           else {
-            //RadioGroup_typeClick(Sender);
-         // Установить тип стандартного сечения
-            if (common_sect->dvutavr.n_group < typeSTO_B) {
+			//RadioGroup_typeClick(Sender);
+		 // Установить тип стандартного сечения
+			if (common_sect_.dvutavr.n_group < typeSTO_B) {
               PageControl1->ActivePage = TabSheet_GOST;
-              RadioGroup_GOST->ItemIndex = common_sect->dvutavr.n_group;
+              RadioGroup_GOST->ItemIndex = common_sect_.dvutavr.n_group;
             }
-            if (common_sect->dvutavr.n_group >=typeSTO_B && common_sect->dvutavr.n_group <=typeSTO_K) {
+            if (common_sect_.dvutavr.n_group >=typeSTO_B && common_sect_.dvutavr.n_group <=typeSTO_K) {
               PageControl1->ActivePage = TabSheet_STO;
-              RadioGroup_STO->ItemIndex = common_sect->dvutavr.n_group - typeSTO_B;
+              RadioGroup_STO->ItemIndex = common_sect_.dvutavr.n_group - typeSTO_B;
             }
-            if (common_sect->dvutavr.n_group >=typeGOST_G57837_B && common_sect->dvutavr.n_group <=typeGOST_G57837_S) {
+            if (common_sect_.dvutavr.n_group >=typeGOST_G57837_B && common_sect_.dvutavr.n_group <=typeGOST_G57837_S) {
               PageControl1->ActivePage = TabSheet_GOST57837;
-              RadioGroupGOST57837->ItemIndex = common_sect->dvutavr.n_group - typeGOST_G57837_B;
+              RadioGroupGOST57837->ItemIndex = common_sect_.dvutavr.n_group - typeGOST_G57837_B;
             }
-            StandartProfil.SetProfil(common_sect->dvutavr.n_group);
-            Change_type_sect(common_sect->dvutavr.n_group, Sender);
-            //RadioGroup_GOST->ItemIndex = common_sect->dvutavr.n_group;
+			StandartProfil.SetProfil(common_sect_.dvutavr.n_group);
+            Change_type_sect(common_sect_.dvutavr.n_group, Sender);
+            //RadioGroup_GOST->ItemIndex = common_sect_.dvutavr.n_group;
          // Получить вектор имен профилей и длину вектора
             NameProfil = StandartProfil.GetVectorNameProfil(&n_profil);
 
@@ -140,12 +140,12 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
             for (i=0; i<n_profil; i++) {
               ComboBox_profil->Items->Add(NameProfil[i]);
             }
-            ComboBox_profil->ItemIndex = common_sect->dvutavr.n_profil;
+            ComboBox_profil->ItemIndex = common_sect_.dvutavr.n_profil;
             ComboBox_profilChange(Sender);
           }
         }
         else {
-          if (common_sect->dvutavr.n_group < 0) {
+          if (common_sect_.dvutavr.n_group < 0) {
             TabSheet_Weld->TabVisible = true;
             TabSheet_Standart->TabVisible = false;
           }
@@ -157,10 +157,10 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
         break;
 		        /*
             case SQUARE_TUBE:
-            		flag_concl = common_sect->square.flag_concl;
+            		flag_concl = common_sect_.square.flag_concl;
             		TabSheet_Standart->TabVisible = false;
-            		if (common_sect->square.flag_concl) {
-            		  if (common_sect->square.n_group < 0) {
+            		if (common_sect_.square.flag_concl) {
+            		  if (common_sect_.square.n_group < 0) {
                         Label7->Visible=false;
 
                         Edit1->Visible=true;
@@ -181,8 +181,8 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
             			Label6->Visible=false;
 
                         Change_type_sect(-1, Sender);
-            			Edit3->Text=FloatToStr(common_sect->square.side);
-            			Edit1->Text=FloatToStr(common_sect->square.thickness);
+            			Edit3->Text=FloatToStr(common_sect_.square.side);
+            			Edit1->Text=FloatToStr(common_sect_.square.thickness);
             		  }
             		  else {
             		 // Установить тип стандартного сечения
@@ -200,14 +200,14 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
                         for (i=0; i<n_profil; i++) {
             			  ComboBox_h_b_square->Items->Add(NameProfil[i]);
                         }
-                        ComboBox_h_b_square->ItemIndex = common_sect->square.n_group;
+                        ComboBox_h_b_square->ItemIndex = common_sect_.square.n_group;
             			ComboBox_h_b_squareChange(Sender);
-                        ComboBox_t_square->ItemIndex = common_sect->square.n_profil;
-                        //RadioGroup_orient->ItemIndex = common_sect->square.index_orient;
+                        ComboBox_t_square->ItemIndex = common_sect_.square.n_profil;
+                        //RadioGroup_orient->ItemIndex = common_sect_.square.index_orient;
             		  }
                     }
                      else {
-            		  if (common_sect->square.n_group < 0) {
+            		  if (common_sect_.square.n_group < 0) {
             			TabSheet_Weld->TabVisible = true;
             			TabSheet_StandTube->TabVisible = false;
             		  }
@@ -220,10 +220,10 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
             		}
 				   break;
         */	case RECT_TUBE:
-		flag_concl = common_sect->rect.flag_concl;
+		flag_concl = common_sect_.rect.flag_concl;
 		TabSheet_Standart->TabVisible = false;
-		if (common_sect->rect.flag_concl) {
-		  if (common_sect->rect.n_group < 0) {
+		if (common_sect_.rect.flag_concl) {
+		  if (common_sect_.rect.n_group < 0) {
 			Label7->Visible=false;
 
             Edit1->Visible=true;
@@ -246,10 +246,10 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
             Label6->Visible=false;
 
             Change_type_sect(-1, Sender);
-            Edit3->Text=FloatToStr(common_sect->rect.b);
-            Edit4->Text=FloatToStr(common_sect->rect.h);
-            Edit2->Text=FloatToStr(common_sect->rect.b1);
-            Edit1->Text=FloatToStr(common_sect->rect.h1);
+            Edit3->Text=FloatToStr(common_sect_.rect.b);
+            Edit4->Text=FloatToStr(common_sect_.rect.h);
+            Edit2->Text=FloatToStr(common_sect_.rect.b1);
+            Edit1->Text=FloatToStr(common_sect_.rect.h1);
           }
           else {
          // Установить тип стандартного сечения
@@ -268,14 +268,14 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
             for (i=0; i<n_profil; i++) {
               ComboBox_h_b_rect->Items->Add(NameProfil[i]);
             }
-            ComboBox_h_b_rect->ItemIndex = common_sect->rect.n_group;
-            ComboBox_t_rect->ItemIndex = common_sect->rect.n_profil;
-            RadioGroup_orient->ItemIndex = common_sect->rect.index_orient;
+            ComboBox_h_b_rect->ItemIndex = common_sect_.rect.n_group;
+            ComboBox_t_rect->ItemIndex = common_sect_.rect.n_profil;
+            RadioGroup_orient->ItemIndex = common_sect_.rect.index_orient;
             ComboBox_h_b_rectChange(Sender);
           }
         }
         else {
-          if (common_sect->rect.n_group < 0) {
+          if (common_sect_.rect.n_group < 0) {
             TabSheet_Weld->TabVisible = true;
             TabSheet_StandTube->TabVisible = false;
           }
@@ -290,9 +290,9 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
         break;
         case CIRCULAR_TUBE:
         TabSheet_CYL->TabVisible = false;
-        flag_concl = common_sect->circ.flag_concl;
-        if (common_sect->circ.flag_concl) {
-          if (common_sect->circ.n_group < 0) {
+        flag_concl = common_sect_.circ.flag_concl;
+        if (common_sect_.circ.flag_concl) {
+          if (common_sect_.circ.n_group < 0) {
             Label7->Visible=false;
 
             Edit1->Visible=true;
@@ -313,8 +313,8 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
             Label6->Visible=false;
 
             Change_type_sect(-1, Sender);
-            Edit3->Text=FloatToStr(common_sect->circ.diameter);
-            Edit1->Text=FloatToStr(common_sect->circ.thickness);
+            Edit3->Text=FloatToStr(common_sect_.circ.diameter);
+            Edit1->Text=FloatToStr(common_sect_.circ.thickness);
           }
           else {
          // Установить тип стандартного сечения
@@ -331,8 +331,8 @@ void __fastcall TSteelSectionDefinitionFrame::Write_sect(TObject *Sender) {
             for (i=0; i<n_profil; i++) {
               ComboBox_Cyl_D->Items->Add(NameProfil[i]);
             }
-            ComboBox_Cyl_D->ItemIndex = common_sect->circ.n_group;
-            ComboBox_Cyl_t->ItemIndex = common_sect->circ.n_profil;
+            ComboBox_Cyl_D->ItemIndex = common_sect_.circ.n_group;
+            ComboBox_Cyl_t->ItemIndex = common_sect_.circ.n_profil;
             ComboBox_Cyl_DChange(Sender);
           }
         }
@@ -376,142 +376,142 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
 	//*type_sect_currently = Type_sect;
 	switch (Type_sect) {
 	case DVUTAVR:
-	  common_sect->dvutavr.flag_concl=false;//расшифровка имени flag_concl???
-	  if (common_sect->dvutavr.n_group < 0) {
-		rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect->dvutavr.b1));
+	  common_sect_.dvutavr.flag_concl=false;//расшифровка имени flag_concl???
+	  if (common_sect_.dvutavr.n_group < 0) {
+		rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.dvutavr.b1));
 		if (rc>0) return rc;
-        rc=String_double_plus(Label4->Caption,Edit4->Text, &(common_sect->dvutavr.h1));
+        rc=String_double_plus(Label4->Caption,Edit4->Text, &(common_sect_.dvutavr.h1));
         if (rc>0) return rc;
-        rc=String_double_plus(Label2->Caption,Edit2->Text, &(common_sect->dvutavr.h));
+        rc=String_double_plus(Label2->Caption,Edit2->Text, &(common_sect_.dvutavr.h));
         if (rc>0) return rc;
-        rc=String_double_plus(Label1->Caption,Edit1->Text, &(common_sect->dvutavr.b));
+        rc=String_double_plus(Label1->Caption,Edit1->Text, &(common_sect_.dvutavr.b));
         if (rc>0) return rc;
         //if (!flag_simm_sect) {  // несимметричное сечение
-          rc=String_double_plus(Label5->Caption,Edit5->Text, &(common_sect->dvutavr.b2));
+          rc=String_double_plus(Label5->Caption,Edit5->Text, &(common_sect_.dvutavr.b2));
           if (rc>0) return rc;
-          rc=String_double_plus(Label6->Caption,Edit6->Text, &(common_sect->dvutavr.h2));
+          rc=String_double_plus(Label6->Caption,Edit6->Text, &(common_sect_.dvutavr.h2));
           if (rc>0) return rc;
-          common_sect->dvutavr.flag_concl=true;
+          common_sect_.dvutavr.flag_concl=true;
         //}
         //else {
-        //  common_sect->dvutavr.b2=common_sect->dvutavr.b1;
-        //  common_sect->dvutavr.h2=common_sect->dvutavr.h1;
-        //  common_sect->dvutavr.flag_concl=true;
+        //  common_sect_.dvutavr.b2=common_sect_.dvutavr.b1;
+        //  common_sect_.dvutavr.h2=common_sect_.dvutavr.h1;
+        //  common_sect_.dvutavr.flag_concl=true;
         //}
-        common_sect->dvutavr.n_group = -1;
-        common_sect->dvutavr.n_profil = -1;
-        common_sect->dvutavr.index_orient = 0;
+        common_sect_.dvutavr.n_group = -1;
+        common_sect_.dvutavr.n_profil = -1;
+        common_sect_.dvutavr.index_orient = 0;
       }
       else {      // стандартное сечение
 		if (PageControl1->ActivePage == TabSheet_GOST57837)
-		  common_sect->dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
+		  common_sect_.dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
 		if (PageControl1->ActivePage == TabSheet_GOST)
-		  common_sect->dvutavr.n_group = RadioGroup_GOST->ItemIndex;
+		  common_sect_.dvutavr.n_group = RadioGroup_GOST->ItemIndex;
 		if (PageControl1->ActivePage == TabSheet_STO)
-		  common_sect->dvutavr.n_group = RadioGroup_STO->ItemIndex + typeSTO_B;
-        common_sect->dvutavr.n_profil = ComboBox_profil->ItemIndex;
+		  common_sect_.dvutavr.n_group = RadioGroup_STO->ItemIndex + typeSTO_B;
+        common_sect_.dvutavr.n_profil = ComboBox_profil->ItemIndex;
       // Установить тип стандартного сечения
-        StandartProfil.SetProfil(common_sect->dvutavr.n_group);
-        ParamProfil = StandartProfil.GetVectorParamProfil(common_sect->dvutavr.n_profil);
-        common_sect->dvutavr.b = ParamProfil[2];
-        common_sect->dvutavr.h = ParamProfil[0] - 2*ParamProfil[3];
-        common_sect->dvutavr.b1 = ParamProfil[1];
-        common_sect->dvutavr.b2 = ParamProfil[1];
-        common_sect->dvutavr.h1 = ParamProfil[3];
-        common_sect->dvutavr.h2 = ParamProfil[3];
-        common_sect->dvutavr.flag_concl=true;
-        common_sect->dvutavr.index_orient = 0;
+        StandartProfil.SetProfil(common_sect_.dvutavr.n_group);
+        ParamProfil = StandartProfil.GetVectorParamProfil(common_sect_.dvutavr.n_profil);
+        common_sect_.dvutavr.b = ParamProfil[2];
+        common_sect_.dvutavr.h = ParamProfil[0] - 2*ParamProfil[3];
+        common_sect_.dvutavr.b1 = ParamProfil[1];
+        common_sect_.dvutavr.b2 = ParamProfil[1];
+        common_sect_.dvutavr.h1 = ParamProfil[3];
+        common_sect_.dvutavr.h2 = ParamProfil[3];
+        common_sect_.dvutavr.flag_concl=true;
+        common_sect_.dvutavr.index_orient = 0;
       }
     break;
     case SQUARE_TUBE:
-      common_sect->square.flag_concl=false;
-      if (common_sect->rect.n_group < 0) {
-        rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect->square.side));
+      common_sect_.square.flag_concl=false;
+      if (common_sect_.rect.n_group < 0) {
+        rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.square.side));
         if (rc>0) return rc;
-        rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect->square.side/2, &(common_sect->square.thickness));
+        rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect_.square.side/2, &(common_sect_.square.thickness));
         if (rc>0) return rc;
-        common_sect->square.flag_concl=true;
-        common_sect->square.b1 = common_sect->square.h1 = common_sect->square.b2 =common_sect->square.h2 = 0;
-        common_sect->square.n_group = -1;
-        common_sect->square.n_profil = -1;
+        common_sect_.square.flag_concl=true;
+        common_sect_.square.b1 = common_sect_.square.h1 = common_sect_.square.b2 =common_sect_.square.h2 = 0;
+        common_sect_.square.n_group = -1;
+        common_sect_.square.n_profil = -1;
       }
       else {
-        common_sect->square.n_group = ComboBox_h_b_square->ItemIndex;
-        common_sect->square.n_profil = ComboBox_t_square->ItemIndex;
-		common_sect->square.index_orient = 0;
+        common_sect_.square.n_group = ComboBox_h_b_square->ItemIndex;
+        common_sect_.square.n_profil = ComboBox_t_square->ItemIndex;
+		common_sect_.square.index_orient = 0;
       // Установить тип стандартного сечения трубы
         StandartProfil.SetProfil_Tube(typeSQUARE);
       // Получить вектор параметров стандартного сечения трубы
-        ParamProfil = StandartProfil.GetVectorParamProfil_Tube(common_sect->square.n_group, common_sect->square.n_profil);
-        common_sect->square.side = ParamProfil[0];
-        common_sect->square.thickness = ParamProfil[2];
-        common_sect->square.b1 = common_sect->square.h1 = common_sect->square.b2 =common_sect->square.h2 = 0;
-        common_sect->square.flag_concl=true;
+        ParamProfil = StandartProfil.GetVectorParamProfil_Tube(common_sect_.square.n_group, common_sect_.square.n_profil);
+        common_sect_.square.side = ParamProfil[0];
+        common_sect_.square.thickness = ParamProfil[2];
+        common_sect_.square.b1 = common_sect_.square.h1 = common_sect_.square.b2 =common_sect_.square.h2 = 0;
+        common_sect_.square.flag_concl=true;
       }
     break;
     case RECT_TUBE:
-      common_sect->rect.flag_concl=false;
-      if (common_sect->rect.n_group < 0) {
-        rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect->rect.b));
+      common_sect_.rect.flag_concl=false;
+      if (common_sect_.rect.n_group < 0) {
+        rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.rect.b));
         if (rc>0) return rc;
-        rc=String_double_plus(Label4->Caption,Edit4->Text, &(common_sect->rect.h));
+        rc=String_double_plus(Label4->Caption,Edit4->Text, &(common_sect_.rect.h));
         if (rc>0) return rc;
-        rc=String_double_plus_low(Label2->Caption,Edit2->Text, common_sect->rect.b/2 ,&(common_sect->rect.b1));
+        rc=String_double_plus_low(Label2->Caption,Edit2->Text, common_sect_.rect.b/2 ,&(common_sect_.rect.b1));
         if (rc>0) return rc;
-        rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect->rect.h/2 ,&(common_sect->rect.h1));
+        rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect_.rect.h/2 ,&(common_sect_.rect.h1));
         if (rc>0) return rc;
-        common_sect->rect.flag_concl=true;
-        common_sect->rect.b2 =common_sect->rect.h2 = 0;
-        common_sect->rect.n_group = -1;
-        common_sect->rect.n_profil = -1;
+        common_sect_.rect.flag_concl=true;
+        common_sect_.rect.b2 =common_sect_.rect.h2 = 0;
+        common_sect_.rect.n_group = -1;
+        common_sect_.rect.n_profil = -1;
       }
       else {
-        common_sect->rect.n_group = ComboBox_h_b_rect->ItemIndex;
-        common_sect->rect.n_profil = ComboBox_t_rect->ItemIndex;
-		common_sect->rect.index_orient = RadioGroup_orient->ItemIndex;
+        common_sect_.rect.n_group = ComboBox_h_b_rect->ItemIndex;
+        common_sect_.rect.n_profil = ComboBox_t_rect->ItemIndex;
+		common_sect_.rect.index_orient = RadioGroup_orient->ItemIndex;
       // Установить тип стандартного сечения трубы
         StandartProfil.SetProfil_Tube(typeRECT);
       // Получить вектор параметров стандартного сечения трубы
-        ParamProfil = StandartProfil.GetVectorParamProfil_Tube(common_sect->rect.n_group, common_sect->rect.n_profil);
-        if (common_sect->rect.index_orient==0) { // по длинной стороне
-          common_sect->rect.h = ParamProfil[0];
-          common_sect->rect.b = ParamProfil[1];
+        ParamProfil = StandartProfil.GetVectorParamProfil_Tube(common_sect_.rect.n_group, common_sect_.rect.n_profil);
+        if (common_sect_.rect.index_orient==0) { // по длинной стороне
+          common_sect_.rect.h = ParamProfil[0];
+          common_sect_.rect.b = ParamProfil[1];
         }
         else {
-          common_sect->rect.h = ParamProfil[1];
-          common_sect->rect.b = ParamProfil[0];
+          common_sect_.rect.h = ParamProfil[1];
+          common_sect_.rect.b = ParamProfil[0];
         }
-        common_sect->rect.h1 = ParamProfil[2];
-        common_sect->rect.b1 = ParamProfil[2];
-        common_sect->dvutavr.b2 = 0;
-        common_sect->dvutavr.h2 = 0;
-        common_sect->dvutavr.flag_concl=true;
+        common_sect_.rect.h1 = ParamProfil[2];
+        common_sect_.rect.b1 = ParamProfil[2];
+        common_sect_.dvutavr.b2 = 0;
+        common_sect_.dvutavr.h2 = 0;
+        common_sect_.dvutavr.flag_concl=true;
       }
     break;
     case CIRCULAR_TUBE:
-      common_sect->circ.flag_concl=false;
-      if (common_sect->rect.n_group < 0) {
-        rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect->circ.diameter));
+      common_sect_.circ.flag_concl=false;
+      if (common_sect_.rect.n_group < 0) {
+        rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.circ.diameter));
         if (rc>0) return rc;
-        rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect->circ.diameter/2, &(common_sect->circ.thickness));
+        rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect_.circ.diameter/2, &(common_sect_.circ.thickness));
         if (rc>0) return rc;
-        common_sect->circ.flag_concl=true;
-        common_sect->square.b1 = common_sect->square.h1 = common_sect->square.b2 =common_sect->square.h2 = 0;
-        common_sect->circ.n_group = -1;
-		common_sect->circ.n_profil = -1;
+        common_sect_.circ.flag_concl=true;
+        common_sect_.square.b1 = common_sect_.square.h1 = common_sect_.square.b2 =common_sect_.square.h2 = 0;
+        common_sect_.circ.n_group = -1;
+		common_sect_.circ.n_profil = -1;
       }
       else {  // Прокатное сечение
-        common_sect->circ.n_group = ComboBox_Cyl_D->ItemIndex;
-        common_sect->circ.n_profil = ComboBox_Cyl_t->ItemIndex;
-        common_sect->circ.index_orient = 0;
+        common_sect_.circ.n_group = ComboBox_Cyl_D->ItemIndex;
+        common_sect_.circ.n_profil = ComboBox_Cyl_t->ItemIndex;
+        common_sect_.circ.index_orient = 0;
       // Установить тип стандартного сечения трубы
         StandartProfil.SetProfil_Tube(typeCIRC);
       // Получить вектор параметров стандартного сечения трубы
-        ParamProfil = StandartProfil.GetVectorParamProfil_Tube(common_sect->circ.n_group, common_sect->circ.n_profil);
-        common_sect->circ.diameter = ParamProfil[0];
-        common_sect->circ.thickness = ParamProfil[1];
-        common_sect->circ.b1 = common_sect->circ.h1 = common_sect->circ.b2 =common_sect->circ.h2 = 0;
-		common_sect->circ.flag_concl=true;
+        ParamProfil = StandartProfil.GetVectorParamProfil_Tube(common_sect_.circ.n_group, common_sect_.circ.n_profil);
+        common_sect_.circ.diameter = ParamProfil[0];
+        common_sect_.circ.thickness = ParamProfil[1];
+        common_sect_.circ.b1 = common_sect_.circ.h1 = common_sect_.circ.b2 =common_sect_.circ.h2 = 0;
+		common_sect_.circ.flag_concl=true;
       }
     break;
     default:
@@ -532,27 +532,27 @@ void __fastcall TSteelSectionDefinitionFrame::DrawSect()
 
   switch (Type_sect) {
 	case DVUTAVR:
-	   draw_dvutavr(Image1, &(common_sect->dvutavr));
+	   draw_dvutavr(Image1, &(common_sect_.dvutavr));
     break;
     case SQUARE_TUBE:
-       if (common_sect->square.n_group < 0)
-          draw_square_tube(Image1, &(common_sect->square));
+       if (common_sect_.square.n_group < 0)
+          draw_square_tube(Image1, &(common_sect_.square));
        else {
-          draw_square_tube(Image_square, &(common_sect->square));
+          draw_square_tube(Image_square, &(common_sect_.square));
        }
     break;
     case RECT_TUBE:
-       if (common_sect->rect.n_group < 0)
-          draw_rect_tube(Image1, &(common_sect->rect));
+       if (common_sect_.rect.n_group < 0)
+          draw_rect_tube(Image1, &(common_sect_.rect));
        else {
-          draw_rect_tube(Image_rect, &(common_sect->rect));
+          draw_rect_tube(Image_rect, &(common_sect_.rect));
        }
     break;
     case CIRCULAR_TUBE:
-       if (common_sect->circ.n_group < 0)
-          draw_circular_tube(Image1, &(common_sect->circ));
+       if (common_sect_.circ.n_group < 0)
+          draw_circular_tube(Image1, &(common_sect_.circ));
        else
-          draw_circular_tube(Image_Cyl, &(common_sect->circ));
+          draw_circular_tube(Image_Cyl, &(common_sect_.circ));
     break;
     default:
     ;
@@ -618,7 +618,7 @@ void __fastcall TSteelSectionDefinitionFrame::draw_dvutavr(TImage * Image1, SECT
     TPoint Point0_r;
     TPoint Point1_r;
 
-    flag_image = true;
+	flag_image = true;
     Image_stand->Canvas->Brush->Style=bsClear;
 	// Ширина полки
     Point0_r = vertices[0];
@@ -1054,7 +1054,7 @@ void  __fastcall TSteelSectionDefinitionFrame::Check_Type(TObject *Sender) {
 
 	  switch (ComboBox_TypeSect->ItemIndex) {
 		case DVUTAVR:// условие смещено к ошибки, неверно лишнее действие в большинстве случаев
-		  if (common_sect->dvutavr.n_group<0) {//где присваивается n.group меньше 1
+		  if (common_sect_.dvutavr.n_group<0) {//где присваивается n.group меньше 1
 			TabSheet_Weld->TabVisible = true;// если ошибка отображается вкладка саврное сечение
           }
           else {
@@ -1064,7 +1064,7 @@ void  __fastcall TSteelSectionDefinitionFrame::Check_Type(TObject *Sender) {
           Button_Copy->Visible = TabSheet_Weld->TabVisible;
         break;
         case SQUARE_TUBE:
-          if (common_sect->square.n_group < 0) {
+          if (common_sect_.square.n_group < 0) {
 			TabSheet_Weld->TabVisible = true;
           }
           else {
@@ -1073,7 +1073,7 @@ void  __fastcall TSteelSectionDefinitionFrame::Check_Type(TObject *Sender) {
           }
        break;
         case RECT_TUBE:
-          if (common_sect->rect.n_group < 0) {
+          if (common_sect_.rect.n_group < 0) {
 			TabSheet_Weld->TabVisible = true;
           }
           else {
@@ -1082,7 +1082,7 @@ void  __fastcall TSteelSectionDefinitionFrame::Check_Type(TObject *Sender) {
           }
         break;
         case CIRCULAR_TUBE:
-          if (common_sect->circ.n_group < 0) {
+          if (common_sect_.circ.n_group < 0) {
             TabSheet_Weld->TabVisible = true;
           }
           else {
@@ -1195,15 +1195,15 @@ void __fastcall TSteelSectionDefinitionFrame::Button_ApplyClick(TObject *Sender)
    if (Type_sect==DVUTAVR) {
 	  // Установить тип стандартного сечения
 	  if (PageControl1->ActivePage == TabSheet_GOST57837)
-		  common_sect->dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
+		  common_sect_.dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
 	  if (PageControl1->ActivePage == TabSheet_GOST)
-		  common_sect->dvutavr.n_group = RadioGroup_GOST->ItemIndex;
+		  common_sect_.dvutavr.n_group = RadioGroup_GOST->ItemIndex;
 	  if (PageControl1->ActivePage == TabSheet_STO)
-		  common_sect->dvutavr.n_group = RadioGroup_STO->ItemIndex + typeSTO_B;
+		  common_sect_.dvutavr.n_group = RadioGroup_STO->ItemIndex + typeSTO_B;
 	  // Установить тип стандартного сечения
-	  StandartProfil.SetProfil(common_sect->dvutavr.n_group);
+	  StandartProfil.SetProfil(common_sect_.dvutavr.n_group);
 	  // Заполнить структуру профиля двутавра
-	  rc = StandartProfil.SetParamProfil(&(common_sect->dvutavr), ComboBox_profil->ItemIndex);
+	  rc = StandartProfil.SetParamProfil(&(common_sect_.dvutavr), ComboBox_profil->ItemIndex);
 	  if (rc >0) return;
    }
    return;
@@ -1211,32 +1211,32 @@ void __fastcall TSteelSectionDefinitionFrame::Button_ApplyClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionDefinitionFrame::ComboBox_TypeSectChange(TObject *Sender)
 {
-    if (Type_sect != ComboBox_TypeSect->ItemIndex && common_sect->dvutavr.n_group >=0 ) {
+	if (Type_sect != ComboBox_TypeSect->ItemIndex && common_sect_.dvutavr.n_group >=0 ) {
 	  // Преобразовать группу сечений из одного типа в другой
 
 		  /*
 		  switch (ComboBox_TypeSect->ItemIndex) {
 			   case 1: */
-                  common_sect->dvutavr.n_group = 0;
-                  common_sect->dvutavr.n_profil = 5;
+                  common_sect_.dvutavr.n_group = 0;
+				  common_sect_.dvutavr.n_profil = 5;
 			/*    break;
                 case 2:
-         		 common_sect->square.n_group = 10;
-                  common_sect->square.n_profil = 5;
+         		 common_sect_.square.n_group = 10;
+                  common_sect_.square.n_profil = 5;
                 break;
          	   case 3:
-         		 common_sect->rect.n_group = 10;
-         		 common_sect->rect.n_profil = 5;
+         		 common_sect_.rect.n_group = 10;
+         		 common_sect_.rect.n_profil = 5;
                 break;
                 case 4:
-                  common_sect->circ.n_group = 10;
-         		 common_sect->circ.n_profil = 5;
+                  common_sect_.circ.n_group = 10;
+         		 common_sect_.circ.n_profil = 5;
                 break;
 			   }
      */   }
     Type_sect = ComboBox_TypeSect->ItemIndex;
     Check_Original();
-    Check_Type(Sender);
+	Check_Type(Sender);
 
 }
 //---------------------------------------------------------------------------
@@ -1324,7 +1324,7 @@ void __fastcall TSteelSectionDefinitionFrame::RadioGroup_GOSTClick(TObject *Send
    for (i=0; i<n_profil; i++) {
 	  ComboBox_profil->Items->Add(NameProfil[i]);
    }
-   ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect->dvutavr), 0);
+   ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect_.dvutavr), 0);
    ComboBox_profilChange(Sender);
 
 }
@@ -1398,12 +1398,12 @@ void __fastcall TSteelSectionDefinitionFrame::Weld_Change(TObject *Sender)
             Label2->Caption="Высота стенки (h)";
             Label5->Caption="Ширина нижней полки (b2)";
             Label6->Caption="Толщина нижней полки (h2)";
-            Edit3->Text=FloatToStrF(common_sect->dvutavr.b1,ffFixed,15,1);
-            Edit4->Text=FloatToStrF(common_sect->dvutavr.h1,ffFixed,15,0);
-            Edit1->Text=FloatToStrF(common_sect->dvutavr.b,ffFixed,15,0);
-            Edit2->Text=FloatToStrF(common_sect->dvutavr.h,ffFixed,15,0);
-            Edit5->Text=FloatToStrF(common_sect->dvutavr.b2,ffFixed,15,0);
-            Edit6->Text=FloatToStrF(common_sect->dvutavr.h2,ffFixed,15,0);
+            Edit3->Text=FloatToStrF(common_sect_.dvutavr.b1,ffFixed,15,1);
+            Edit4->Text=FloatToStrF(common_sect_.dvutavr.h1,ffFixed,15,0);
+            Edit1->Text=FloatToStrF(common_sect_.dvutavr.b,ffFixed,15,0);
+            Edit2->Text=FloatToStrF(common_sect_.dvutavr.h,ffFixed,15,0);
+            Edit5->Text=FloatToStrF(common_sect_.dvutavr.b2,ffFixed,15,0);
+            Edit6->Text=FloatToStrF(common_sect_.dvutavr.h2,ffFixed,15,0);
 }
 //---------------------------------------------------------------------------
 
@@ -1460,7 +1460,7 @@ void __fastcall TSteelSectionDefinitionFrame::RadioGroup_STOClick(TObject *Sende
    for (i=0; i<n_profil; i++) {
       ComboBox_profil->Items->Add(NameProfil[i]);
    }
-   ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect->dvutavr), 0);
+   ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect_.dvutavr), 0);
    ComboBox_profilChange(Sender);
         
 }
@@ -1477,16 +1477,16 @@ void __fastcall TSteelSectionDefinitionFrame::PageControl2Change(TObject *Sender
 void __fastcall TSteelSectionDefinitionFrame::RadioGroup_orientClick(TObject *Sender)
 {
    double h0, b0;
-   b0 = common_sect->rect.b;
-   h0 = common_sect->rect.h;
+   b0 = common_sect_.rect.b;
+   h0 = common_sect_.rect.h;
 
    if (RadioGroup_orient->ItemIndex==0) {
-     common_sect->rect.b = MIN(b0, h0);
-     common_sect->rect.h = MAX(b0, h0);
+     common_sect_.rect.b = MIN(b0, h0);
+     common_sect_.rect.h = MAX(b0, h0);
    }
    else {
-     common_sect->rect.b = MAX(b0, h0);
-     common_sect->rect.h = MIN(b0, h0);
+     common_sect_.rect.b = MAX(b0, h0);
+     common_sect_.rect.h = MIN(b0, h0);
    }
 
    DrawSect();
@@ -1521,7 +1521,7 @@ void __fastcall TSteelSectionDefinitionFrame::ComboBox_h_b_rectChange(
 
        int index = MAX(0, ComboBox_h_b_rect->ItemIndex);
 
-       ParamProfil = StandartProfil.GetVectorParamProfil_Tube(index, common_sect->square.n_profil);
+       ParamProfil = StandartProfil.GetVectorParamProfil_Tube(index, common_sect_.square.n_profil);
        thick = StandartProfil.GetVectorParamThickness_Tube(index, &num_thick);
 
        if (thick == NULL || ParamProfil == NULL) {
@@ -1544,7 +1544,7 @@ void __fastcall TSteelSectionDefinitionFrame::ComboBox_h_b_rectChange(
        for (i=0; i<num_thick; i++) {
          ComboBox_t_rect->Items->Add(FloatToStr(thick[i]));
        }
-       ComboBox_t_rect->ItemIndex = common_sect->square.n_profil;
+       ComboBox_t_rect->ItemIndex = common_sect_.square.n_profil;
        RadioGroup_orientClick(Sender);
 
 }
@@ -1579,7 +1579,7 @@ void __fastcall TSteelSectionDefinitionFrame::ComboBox_h_b_squareChange(
 
        int index = MAX(0, ComboBox_h_b_square->ItemIndex);
 
-       ParamProfil = StandartProfil.GetVectorParamProfil_Tube(index, common_sect->square.n_profil);
+       ParamProfil = StandartProfil.GetVectorParamProfil_Tube(index, common_sect_.square.n_profil);
        thick = StandartProfil.GetVectorParamThickness_Tube(index, &num_thick);
 	   if (thick == NULL || ParamProfil == NULL) {
 		 #ifdef EMBRAC
@@ -1601,7 +1601,7 @@ void __fastcall TSteelSectionDefinitionFrame::ComboBox_h_b_squareChange(
        for (i=0; i<num_thick; i++) {
          ComboBox_t_square->Items->Add(FloatToStr(thick[i]));
        }
-       ComboBox_t_square->ItemIndex = common_sect->square.n_profil;
+       ComboBox_t_square->ItemIndex = common_sect_.square.n_profil;
 
        DrawSect();
 
@@ -1731,7 +1731,7 @@ void __fastcall TSteelSectionDefinitionFrame::RadioGroupGOST57837Click(
    for (i=0; i<n_profil; i++) {
       ComboBox_profil->Items->Add(NameProfil[i]);
    }
-   ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect->dvutavr), 0);
+   ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect_.dvutavr), 0);
    ComboBox_profilChange(Sender);
    PageControl1->ActivePage = TabSheet_GOST57837;
 }
@@ -1747,7 +1747,7 @@ void __fastcall TSteelSectionDefinitionFrame::ComboBox_Cyl_DChange(
 
        int index = MAX(0, ComboBox_Cyl_D->ItemIndex);
 
-       ParamProfil = StandartProfil.GetVectorParamProfil_Tube(index, common_sect->square.n_profil);
+       ParamProfil = StandartProfil.GetVectorParamProfil_Tube(index, common_sect_.square.n_profil);
        thick = StandartProfil.GetVectorParamThickness_Tube(index, &num_thick);
 
        if (thick == NULL || ParamProfil == NULL) {
@@ -1768,9 +1768,9 @@ void __fastcall TSteelSectionDefinitionFrame::ComboBox_Cyl_DChange(
        for (i=0; i<num_thick; i++) {
          ComboBox_Cyl_t->Items->Add(FloatToStr(thick[i]));
        }
-       ComboBox_Cyl_t->ItemIndex = common_sect->square.n_profil;
+       ComboBox_Cyl_t->ItemIndex = common_sect_.square.n_profil;
 
-       DrawSect();
+	   DrawSect();
 }
 //---------------------------------------------------------------------------
 
@@ -1788,7 +1788,7 @@ void __fastcall TSteelSectionDefinitionFrame::ComboBox_Cyl_tChange(
        StringGrid_Cyl->Cells[1][3]=FloatToStr(ParamProfil[parIYY_CIRC_TUBE]/10000);
        StringGrid_Cyl->Cells[1][4]=FloatToStr(ParamProfil[parWY_CIRC_TUBE]/1000);
 
-       common_sect->square.n_profil = ComboBox_Cyl_t->ItemIndex;
+	   common_sect_.square.n_profil = ComboBox_Cyl_t->ItemIndex;
 
 
         

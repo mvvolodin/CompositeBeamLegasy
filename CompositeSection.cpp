@@ -24,20 +24,20 @@ CompositeSection::CompositeSection(TGeometry geometry,
 									  TConcretePart* concrete_part)
 	:concrete_part(concrete_part)
 {
-	Alfa_s_=0.0;// акие плюсы применени€ подобных литералов "0."
-	Alfa_b_=0.0; //—ледует рассмотреть инициализацию через member initializer list
-	H_stb_=0.0;
-	A_red_=0.0;
-	Z_b_st_=0.0;
-	S_stb_=0.0;
-	Z_st_red_=0.0;
-	I_red_=0.0;
-	Z_red_f2_=0.0;
-	Z_red_f1_=0.0;
-	Z_b_red_=0.0;
-	W_f2_red_=0.0;
-	W_f1_red_=0.0;
-	W_b_red_=0.0;
+	Alfa_s_=.0;// акие плюсы применени€ подобных литералов "0." или ".0"
+	Alfa_b_=.0; //—ледует рассмотреть инициализацию через member initializer list
+	H_stb_=.0;
+	A_red_=.0;
+	Z_b_st_=.0;
+	S_stb_=.0;
+	Z_st_red_=.0;
+	I_red_=.0;
+	Z_red_f2_=.0;
+	Z_red_f1_=.0;
+	Z_b_red_=.0;
+	W_f2_red_=.0;
+	W_f1_red_=.0;
+	W_b_red_=.0;
 
 	steel_part=ISection(i_sect_initial_data);
 	i_sect_steel=Steel(steel_i_section_initial_data);

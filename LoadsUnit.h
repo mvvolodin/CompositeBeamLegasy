@@ -3,7 +3,9 @@
 #ifndef LoadsUnitH
 #define LoadsUnitH
 //---------------------------------------------------------------------------
-//#include "LoadsInitialDataUnit.h"
+#include <cmath>
+#include "Units.h"
+
 enum ProppingSupports{
 	NONE,
 	ONE,
@@ -25,9 +27,9 @@ private:
 
 public:
 	inline double get_self_weight() const {return 1000*SW_;}
-	inline double get_dead_load_first_stage() const {return 1000*DL_I_;}
-	inline double get_dead_load_second_stage() const {return 1000*DL_II_;}
-	inline double get_live_load() const{return 1000*LL_;};
+	inline double get_dead_load_first_stage(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const {return DL_I_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
+	inline double get_dead_load_second_stage(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const {return DL_II_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
+	inline double get_live_load(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const{return LL_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);};
 	inline double get_gamma_f_SW() const {return gamma_f_SW_;};
 	inline double get_gamma_f_DL_I() const {return gamma_f_DL_I_;};
 	inline double get_gamma_f_DL_II(){return gamma_f_DL_II_;};

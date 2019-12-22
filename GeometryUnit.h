@@ -4,26 +4,18 @@
 #define GeometryUnitH
 //---------------------------------------------------------------------------
 #include <vector>
-
-enum class LengthUnits{
-	mm=1,
-	cm=100,
-	m=1000,
-};
-
-//"friend double operator double(const LengthUnits &that) implicit" посмотреть возможность перегрузить оператор double
+#include "Units.h"
 
 class TGeometry{
 private:
 	typedef std::vector<double> CoordinatesList;
+
 	bool end_beam_;
 	double span_;
 	double trib_width_left_;
 	double trib_width_right_;
 	int temporary_supports_number_; //количество опопр на стадии бетонирования. Следует применить enum.
 	static const int permanent_supports_number_=2;//при удаление ключевого слова static и применение member initializer list получаю ошибку "copy assignment operator is implicitly delete"
-	//const int permanent_supports_number_=2;  //
-
 	int beam_division_;//разбиение балки
 	CoordinatesList permanent_supports_coordinates_;
 	CoordinatesList temporary_supports_coordinates_;
@@ -40,10 +32,9 @@ public:
 			  int temporary_supports_number);
 
 	inline bool is_end_beam()const {return end_beam_;}
-	inline double get_span()const {return span_;} //почему для объекта enum class не выполняется неявное приведение к int
-	inline double get_trib_width_left(LengthUnits output_units=LengthUnits::mm) const {return trib_width_left_/static_cast<int>(output_units);}
-   //	inline double get_trib_width_left() const {return trib_width_left_;}
-	inline double get_trib_width_right()const {return trib_width_right_;}
+	inline double get_span(LengthUnit length_units=LengthUnit::mm)const {return span_/static_cast<int>(length_units);}
+	inline double get_trib_width_left(LengthUnit length_units=LengthUnit::mm) const {return trib_width_left_/static_cast<int>(length_units);}
+	inline double get_trib_width_right(LengthUnit length_units=LengthUnit::mm)const {return trib_width_right_/static_cast<int>(length_units);}
 	inline int get_beam_division()const{return beam_division_;}
 	inline int get_permanent_supports_number()const{return permanent_supports_number_;}
 	inline int get_temporary_supports_number()const{return temporary_supports_number_;}

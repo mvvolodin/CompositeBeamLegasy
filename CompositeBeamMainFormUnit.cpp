@@ -17,9 +17,9 @@
 
 TCompositeBeamMainForm *CompositeBeamMainForm;
 
-extern COMMON_SECT *common_sect;
-extern MATER_PARAM mater_param; //в модуле поставщике почему-то не используется указатель
-extern STEEL_PARAM steel_param; //в модуле поставщике почему-то не используется указатель
+//extern COMMON_SECT *common_sect;
+//extern MATER_PARAM mater_param; //в модуле поставщике почему-то не используется указатель
+//extern STEEL_PARAM steel_param; //в модуле поставщике почему-то не используется указатель
 
 //----------------------------------------------------------------------
  _fastcall TCompositeBeamMainForm::TCompositeBeamMainForm(TComponent* Owner)
@@ -46,140 +46,136 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 //Инициализация топологии
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_geomet()
+TGeometry TCompositeBeamMainForm::init_geomet()
 {
-	double beam_division=0.0;//поменять тип на double и написать функцию проверки значения поля на тип int
-	double span=0.0;
-	double trib_width_left=0.0;
-	double trib_width_right=0.0;
-	int rc=0; //rc- return code -код ошибки
-	rc=(int)String_double_plus(lbl_beam_division->Caption, edt_beam_division->Text, &beam_division);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_span->Caption, edt_span->Text, &span);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_trib_width_left->Caption, edt_width_left->Text, &trib_width_left);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_trib_width_right->Caption, edt_width_right->Text, &trib_width_right);
-	if (rc>0) return;//какое значение возвращает return без следующего за ним значения
-	geometry_=TGeometry(static_cast<int>(beam_division), chck_bx_end_beam->Checked, span, trib_width_left, trib_width_right,
-		StrToFloat(cmb_bx_number_propping_supports->Text));
+	double beam_division=.0;//поменять тип на double и написать функцию проверки значения поля на тип int
+	double span=.0;
+	double trib_width_left=.0;
+	double trib_width_right=.0;
+
+	String_double_plus(lbl_beam_division->Caption, edt_beam_division->Text, &beam_division);
+	String_double_plus(lbl_span->Caption, edt_span->Text, &span);
+	String_double_plus(lbl_trib_width_left->Caption, edt_width_left->Text, &trib_width_left);
+	String_double_plus(lbl_trib_width_right->Caption, edt_width_right->Text, &trib_width_right);
+
+	return TGeometry(static_cast<int>(beam_division),
+					 chck_bx_end_beam->Checked,
+					 span, trib_width_left,
+					 trib_width_right,
+					 StrToFloat(cmb_bx_number_propping_supports->Text));
 }
 //---------------------------------------------------------------------------
 //Инициализация нагрузок и коэффициентов надёжности по нагрузкам
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_loads()
+TLoads TCompositeBeamMainForm::init_loads()
 {
 	int rc=0; //rc- return code -код ошибки
 	double SW=1.0;//необходимо получать по типу профиля
-	double DL_I=0.0;
-	double DL_II=0.0;
-	double LL=0.0;
+	double DL_I=.0;
+	double DL_II=.0;
+	double LL=.0;
 	double gamma_f_SW=1.0;//необходимо предусмотреть поле для ввода
-	double gamma_f_DL_I=0.0;
-	double gamma_f_DL_II=0.0;
-	double gamma_f_LL=0.0;
+	double gamma_f_DL_I=.0;
+	double gamma_f_DL_II=.0;
+	double gamma_f_LL=.0;
 
-	rc=String_double_plus(lbl_dead_load_first_stage->Caption, edt_dead_load_first_stage->Text, &DL_I);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_dead_load_second_stage->Caption, edt_dead_load_second_stage->Text, &DL_II);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_live_load->Caption, edt_live_load->Text, &LL);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_gamma_f_DL_I->Caption, edt_gamma_f_DL_I->Text, &gamma_f_DL_I);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_gamma_f_DL_II->Caption, edt_gamma_f_DL_II->Text, &gamma_f_DL_II);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_gamma_f_LL->Caption, edt_gamma_f_LL->Text, &gamma_f_LL);
-	if (rc>0) return;
+	String_double_plus(lbl_dead_load_first_stage->Caption, edt_dead_load_first_stage->Text, &DL_I);
+	String_double_plus(lbl_dead_load_second_stage->Caption, edt_dead_load_second_stage->Text, &DL_II);
+	String_double_plus(lbl_live_load->Caption, edt_live_load->Text, &LL);
+	String_double_plus(lbl_gamma_f_DL_I->Caption, edt_gamma_f_DL_I->Text, &gamma_f_DL_I);
+	String_double_plus(lbl_gamma_f_DL_II->Caption, edt_gamma_f_DL_II->Text, &gamma_f_DL_II);
+	String_double_plus(lbl_gamma_f_LL->Caption, edt_gamma_f_LL->Text, &gamma_f_LL);
 
-	loads_ = TLoads (SW, DL_I, DL_II, LL, gamma_f_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
+	return TLoads (SW, DL_I, DL_II, LL, gamma_f_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
 }
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_i_section()
+TISectionInitialData TCompositeBeamMainForm::init_i_section()
 {
-	  i_section_initial_data_= TISectionInitialData (&(common_sect->dvutavr));
+	  //return  TISectionInitialData (&(common_sect->dvutavr));  SteelSectionDefinitionFrame->common_sect_;
+	  return TISectionInitialData (&(SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr));
 }
 //---------------------------------------------------------------------------
 //	Инициализация материала двутавра
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_steel_i_section()
+TSteelInitialData TCompositeBeamMainForm::init_steel_i_section()
 {
-   steel_i_section_initial_data_= TSteelInitialData(SteelDefinitionForm->MaterProp.Ry,
-													  SteelDefinitionForm->MaterProp.Ru,
-													  SteelDefinitionForm->MaterProp.E,
-													  SteelDefinitionForm->MaterProp.G,
-													  SteelDefinitionForm->MaterProp.nu,
-													  SteelDefinitionForm->MaterProp.gamma_m);
+	return TSteelInitialData(SteelDefinitionForm->MaterProp.Ry,
+							 SteelDefinitionForm->MaterProp.Ru,
+							 SteelDefinitionForm->MaterProp.E,
+							 SteelDefinitionForm->MaterProp.G,
+							 SteelDefinitionForm->MaterProp.nu,
+							 SteelDefinitionForm->MaterProp.gamma_m);
 }
 //---------------------------------------------------------------------------
 //Инициализация железобетонной части сечения
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_concrete_part()
+TConcretePart* TCompositeBeamMainForm::init_concrete_part()
 {
 	if (rdgrp_slab_type->ItemIndex==0)
 	{
 		int rc=0; //rc- return code -код ошибки
-		double t_sl=0.0;
+		double t_sl=.0;
 		rc=String_double_plus(lbl_flat_slab_thickness->Caption, edt_flat_slab_thickness->Text, &t_sl);
-		concrete_part_=new TFlatSlab(ConcreteDefinitionForm->get_concrete(),
-									RebarDefinitionForm->get_rebar(),
-									t_sl);
+		return new TFlatSlab(ConcreteDefinitionForm->get_concrete(),
+							 RebarDefinitionForm->get_rebar(),
+							 t_sl);
 	}
 	else
 	{
-	   concrete_part_=new TCorrugatedSlab(ConcreteDefinitionForm->get_concrete(),
-	   									 RebarDefinitionForm->get_rebar());
+	   return new TCorrugatedSlab(ConcreteDefinitionForm->get_concrete(),
+								  RebarDefinitionForm->get_rebar());
 	}
 }
 //---------------------------------------------------------------------------
 //	Инициализация упоров
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_stud()
+TStud TCompositeBeamMainForm::init_stud()
 {
-	 stud_=StudDefinitionForm->get_stud();
+	 return StudDefinitionForm->get_stud();
 }
 //---------------------------------------------------------------------------
 //	Инициализация коэффициентов условий работы
 //---------------------------------------------------------------------------
- void TCompositeBeamMainForm::init_working_conditions_factors()
+ WorkingConditionsFactors TCompositeBeamMainForm::init_working_conditions_factors()
  {
-	double gamma_bi=0.0;
-	double gamma_si=0.0;
-	double gamma_c=0.0;
-    int rc=0; //rc- return code -код ошибки
-		rc=String_double_plus(lbl_gamma_bi->Caption, edt_gamma_bi->Text, &gamma_bi);
-	if (rc>0) return;
-		rc=String_double_plus(lbl_gamma_si->Caption, edt_gamma_si->Text, &gamma_si);
-	if (rc>0) return;
-		rc=String_double_plus(lbl_gamma_c->Caption, edt_gamma_c->Text, &gamma_c);
-	if (rc>0) return;
-	working_conditions_factors_=WorkingConditionsFactors(gamma_bi,gamma_si,gamma_c);
+	double gamma_bi=.0;
+	double gamma_si=.0;
+	double gamma_c=.0;
+
+	String_double_plus(lbl_gamma_bi->Caption, edt_gamma_bi->Text, &gamma_bi);
+	String_double_plus(lbl_gamma_si->Caption, edt_gamma_si->Text, &gamma_si);
+	String_double_plus(lbl_gamma_c->Caption, edt_gamma_c->Text, &gamma_c);
+
+	return WorkingConditionsFactors(gamma_bi,gamma_si,gamma_c);
  }
 // ---------------------------------------------------------------------------
 // Инициализация композитного сечения
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_composite_section()
+ CompositeSection TCompositeBeamMainForm::init_composite_section(
+											TGeometry geometry,
+											TSteelInitialData steel_i_section_initial_data,
+											TISectionInitialData i_section_initial_data,
+											TConcretePart* concrete_part)
 {
-	composite_section_=CompositeSection(geometry_,
-									   steel_i_section_initial_data_,
-									   i_section_initial_data_,
-									   concrete_part_);
+	return CompositeSection(geometry,
+							steel_i_section_initial_data,
+							i_section_initial_data,
+							concrete_part);
 }
-
-
 // ---------------------------------------------------------------------------
 // Инициализация композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_composite_beam()
+void TCompositeBeamMainForm::init_composite_beam(
+														TGeometry geometry,
+														TLoads loads,
+														CompositeSection composite_section,
+														TStud stud,
+														WorkingConditionsFactors working_conditions_factors)
 {
-composite_beam_=TCompositeBeam(geometry_,
-							 loads_,
-							 composite_section_,
-							 stud_,
-							 working_conditions_factors_);
-							// (int)beam_division);
+ composite_beam_=TCompositeBeam(geometry,loads,composite_section,stud,
+					  working_conditions_factors);
 }
 //---------------------------------------------------------------------------
 //	Функция запускающая расчёт композитной балки
@@ -190,22 +186,23 @@ void __fastcall TCompositeBeamMainForm::BtnCalculateClick(TObject *Sender)
    //проверка в nullptr  в concrete_section_
    //установить все объекты в ноль
 
-	init_geomet();//Инициализация топологии
-	init_loads(); //Инициализация нагрузок
-	init_i_section();//Инициализация объекта геометрия двутавра
-	init_steel_i_section();//Инициализация стали двутавра
-	init_concrete_part(); //Инициализация бетонной части
-	init_stud();//Инициализация композитного сечения
-	init_composite_section();
-	init_working_conditions_factors();//Инициализация коэффиециентов условий работы
-	init_composite_beam();//Инициализация композитной балки
+   TGeometry geometry=init_geomet();//поле содержащее топологию
+   TLoads loads=init_loads();;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
+   TStud stud=init_stud(); //поле соержащее упоры Нельсона
+   TISectionInitialData i_section_initial_data=init_i_section();
+   TSteelInitialData steel_i_section_initial_data=init_steel_i_section();
+   WorkingConditionsFactors working_conditions_factors=init_working_conditions_factors();
+   TConcretePart* concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!
+   CompositeSection composite_section=init_composite_section(geometry,steel_i_section_initial_data,i_section_initial_data,
+																	concrete_part);
+   init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
+
 	BtnReport->Enabled=True;
-    fill_grid_with_results();
+	fill_grid_with_results();
 }
 //---------------------------------------------------------------------------
-//Открытие Блокнота с информацией о расчёте
+//Сформировать и открыть отчёт
 //---------------------------------------------------------------------------
-
 void __fastcall TCompositeBeamMainForm::BtnReportClick(TObject *Sender)
 {
 	Screen->Cursor = crHourGlass;//На время создания отчёта присвоем курсору вид часов
@@ -390,24 +387,27 @@ void TCompositeBeamMainForm::generate_report()
 	 TWord_Automation report_=TWord_Automation("ReportCompositeBeam.docx");
 //[1.1] Топология
 	report_.PasteTextPattern("Нет", "%end_beam%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_span()), "%span%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_trib_width_left(LengthUnits::m)), "%trib_width_left% ");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_trib_width_right()), "%trib_width_right% ");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_span(LengthUnit::m)), "%span%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_trib_width_left(LengthUnit::m)), "%trib_width_left% ");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_trib_width_right(LengthUnit::m)), "%trib_width_right% ");
 
 //[1.2] Загружения
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_dead_load_first_stage()), "%DL_I%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_dead_load_second_stage()), "%DL_II%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_live_load()), "%LL%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m)), "%DL_I%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m)), "%DL_II%");
+	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_live_load(LoadUnit::kN, LengthUnit::m)), "%LL%");
 	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_DL_I()), "%gamma_f_DL_I%");
 	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_DL_II()), "%gamma_f_DL_II%");
 	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_LL()), "%gamma_f_LL%");
 //[1.1] Стальное сечение
 //[1.1.1] Номинальные размеры двутавра
-
-
-
-
-
+	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_h_st(LengthUnit::cm),"%profile_number%");
+	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_h_st(LengthUnit::cm),"%h%");
+	  report_.PasteTextPattern(0,"%h%");
+	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_b_uf(LengthUnit::cm),"%b%");
+	  report_.PasteTextPattern(0,"%b_w%");
+	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_t_uf(LengthUnit::cm),"%t%");
+	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_t_w(LengthUnit::cm),"%s%");
+	  report_.PasteTextPattern(0,"%r%");
 }
 
 //---------------------------------------------------------------------------

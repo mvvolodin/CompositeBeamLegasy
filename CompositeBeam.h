@@ -67,9 +67,6 @@ public:
 				   CompositeSection         composite_section,
 				   TStud 					stud,
 				   WorkingConditionsFactors working_conditions_factors);
-				   //int 						beam_division);
-
-
 
 inline CompositeSection get_composite_section()const{return composite_section_;}//Уродливая запись!!!//Но возвращается ссылка на объект
 inline InternalForcesNamededList get_internal_forces_LC()const{return internal_forces_LC_;}

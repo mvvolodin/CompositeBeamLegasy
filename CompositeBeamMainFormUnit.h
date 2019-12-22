@@ -39,7 +39,6 @@
 
 class TCompositeBeamMainForm : public TForm
 {
-// поля созданные IDE
 
 __published:	// IDE-managed Components
 	TMainMenu *MainMenu1;
@@ -166,45 +165,33 @@ __published:	// IDE-managed Components
 	void __fastcall NExitClick(TObject *Sender);
 	void __fastcall btn_draw_diagramClick(TObject *Sender);
 
-
-private:	//Собственные поля
-
-		TGeometry geometry_;//поле содержащее топологию
-		TLoads loads_;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
-		TStud stud_; //поле соержащее упоры Нельсона
-		TISectionInitialData i_section_initial_data_;
-		TSteelInitialData steel_i_section_initial_data_;
-		WorkingConditionsFactors working_conditions_factors_;
-		TConcretePart* concrete_part_;//объект абстрактного класса, поэтому указатель!
-		CompositeSection composite_section_; //Геометрические характеристики композитного сечения
-
-	TCompositeBeam composite_beam_; //Основной объект в программе, формируемый на основании объектов заданных выше
-
-	//---------------------------------------------------------------------------
-
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);
-//---------------------------------------------------------------------------
-//Пользовательские privat функции
-//---------------------------------------------------------------------------
-private:  // Пользовательсткие private функции
 
-	void init_geomet();//Инициализация топологии
-	void init_loads(); //Инициализация нагрузок
-	void init_i_section();//Инициализация объекта геометрия двутавра
-	void init_steel_i_section(); //Инициализация стали двутавра
-	void init_concrete_part();//Инициализация бетонной части композитного сечения
-	void init_composite_section();//Инициализация композитного сечения
-	void init_composite_beam();//Инициализация композитной балки
-	void init_stud();//Инициализация упоров
-	void init_working_conditions_factors();//Инициализация коэффициентов условий работы
+private:
 
+	TCompositeBeam composite_beam_; //Основной объект в программе  // Пользовательсткие private функции
+
+	TGeometry init_geomet();//Инициализация топологии
+	TLoads init_loads(); //Инициализация нагрузок
+	TISectionInitialData init_i_section();//Инициализация объекта геометрия двутавра
+	TSteelInitialData init_steel_i_section(); //Инициализация стали двутавра
+	TConcretePart* init_concrete_part();//Инициализация бетонной части композитного сечения
+	TStud init_stud();//Инициализация упоров
+	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
+	CompositeSection init_composite_section(TGeometry geometry,
+											TSteelInitialData steel_i_section_initial_data,
+											TISectionInitialData i_section_initial_data,
+											TConcretePart* concrete_part);//Инициализация композитного сечения
+	void init_composite_beam(TGeometry geometry,
+									   TLoads loads,
+									   CompositeSection composite_section,
+									   TStud stud,
+									   WorkingConditionsFactors working_conditions_factors);
 	void generate_report();
-
 	void grid_constructor_ratios(); // Конструирование Grid контрола для вывода результатоа
 	void grid_constr_comp_sect_geometr(); //Конструирование Grid для вывода геометрических характ. комп. сечения
 	void fill_cmb_bx_LC();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
-
 	void fill_grid_with_results();
 };
 //---------------------------------------------------------------------------

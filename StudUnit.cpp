@@ -12,10 +12,10 @@
 
 TStud::TStud()
 	:name_(""),
-	 l_(0.0),
-	 d_an_(0.0),
-	 gamma_c_(0.0),
-	 R_y_(0.0){}
+	 l_(.0),
+	 d_an_(.0),
+	 gamma_c_(.0),
+	 R_y_(.0){}
 
 TStud::TStud(String name, double l, double d_an, double gamma_c, double R_y)
 	:name_(name),

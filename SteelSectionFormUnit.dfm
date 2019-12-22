@@ -64,12 +64,6 @@ object SteelSectionForm: TSteelSectionForm
         end
         inherited TabSheet_Weld: TTabSheet [1]
         end
-        inherited TabSheet_StandTube: TTabSheet
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
-        end
       end
     end
   end

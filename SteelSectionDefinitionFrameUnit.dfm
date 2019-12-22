@@ -193,6 +193,10 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       object TabSheet_Standart: TTabSheet
         Caption = #1055#1088#1086#1082#1072#1090#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Label10: TLabel
           Left = 328
           Top = 2
@@ -1453,6 +1457,10 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
           object TabSheet_GOST57837: TTabSheet
             Caption = #1043#1054#1057#1058' '#1056' 57837'
             ImageIndex = 2
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object Image_stand: TImage
               Left = 170
               Top = 4
@@ -1495,10 +1503,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
           TabOrder = 0
           object TabSheet_Square: TTabSheet
             Caption = '  '#1050#1074#1072#1076#1088#1072#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077'  '
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object Label_b_h_square: TLabel
               Left = 0
               Top = 24
@@ -1541,10 +1545,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
           object TabSheet_Rect: TTabSheet
             Caption = '  '#1055#1088#1103#1084#1086#1091#1075#1086#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077' '
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object Label_h_b_rect: TLabel
               Left = 0
               Top = 16
@@ -1617,10 +1617,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       object TabSheet_CYL: TTabSheet
         Caption = #1058#1088#1091#1073#1099' '#1043#1054#1057#1058' '#1056' 58064-2018'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Label9: TLabel
           Left = 4
           Top = 20

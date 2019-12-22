@@ -136,7 +136,7 @@ __published:	// IDE-managed Components
         void __fastcall ComboBox_t_squareChange(TObject *Sender);
         void __fastcall CheckBox_type_sectClick(TObject *Sender);
         void __fastcall RectTube_Change(TObject *Sender);
-        void __fastcall SquareTube_Change(TObject *Sender);
+		void __fastcall SquareTube_Change(TObject *Sender);
         // Заполнить список профилей
         void __fastcall FillComboBox1(TObject *Sender);
         void __fastcall RadioGroupGOST57837Click(TObject *Sender);
@@ -151,10 +151,10 @@ private:    // User declarations
 
 public:		// User declarations
         __fastcall TSteelSectionDefinitionFrame(TComponent* Owner);
-       TArrow CoorAx;
-
+	   TArrow CoorAx;
+	   COMMON_SECT common_sect_;
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TSteelSectionDefinitionFrame *SteelSectionDefinitionFrame;
+//extern PACKAGE TSteelSectionDefinitionFrame *SteelSectionDefinitionFrame;
 //---------------------------------------------------------------------------
 #endif

@@ -9,7 +9,7 @@
 	ISection::ISection(){};
 
 	ISection::ISection(TISectionInitialData i_section_initial_data)
-		:h_st_(0.0),Z_f1_st_(0.0),Z_f2_st_(0.0)
+		:h_st_(.0),Z_f1_st_(.0),Z_f2_st_(.0)
 	{
 	 b_uf_= i_section_initial_data.b_uf_;
 	 t_uf_= i_section_initial_data.t_uf_;

@@ -14,8 +14,8 @@ FILE* logfile=fopen("Debug.txt","w");
 USEFORM("SteelDefinitionFormUnit.cpp", SteelDefinitionForm);
 USEFORM("RebarDefinitionFormUnit.cpp", RebarDefinitionForm);
 USEFORM("StudDefinitionFormUnit.cpp", StudDefinitionForm);
-USEFORM("SteelSectionFormUnit.cpp", SteelSectionForm);
 USEFORM("SteelSectionDefinitionFrameUnit.cpp", SteelSectionDefinitionFrame); /* TFrame: File Type */
+USEFORM("SteelSectionFormUnit.cpp", SteelSectionForm);
 USEFORM("CompositeBeamMainFormUnit.cpp", CompositeBeamMainForm);
 USEFORM("ConcreteDefinitionFormUnit.cpp", ConcreteDefinitionForm);
 //---------------------------------------------------------------------------

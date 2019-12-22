@@ -7,11 +7,14 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
+TGeometry::TGeometry():
+	end_beam_(false),
+	span_(.0),
+	trib_width_left_(.0),
+	trib_width_right_(.0),
+	temporary_supports_number_(.0),
+	beam_division_(.0){}
 
-TGeometry::TGeometry()
-	//:permanent_supports_number_(2)//шарнирно опёртая балка, количество постоянных опор постоянно и равно 2
-{
-}
 TGeometry::TGeometry(int beam_division, bool end_beam, double span, double trib_width_left, double trib_width_right,
 	int temporary_supports_number)
 	 :beam_division_(beam_division),

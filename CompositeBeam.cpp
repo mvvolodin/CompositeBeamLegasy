@@ -6,10 +6,12 @@
 #include "Logger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-TCompositeBeam::TCompositeBeam()
-{
-
-}
+TCompositeBeam::TCompositeBeam():
+					geometry_(TGeometry()),
+					loads_(TLoads()),
+					working_conditions_factors_(WorkingConditionsFactors()),
+					composite_section_(CompositeSection()),
+					stud_(TStud()){}
 //---------------------------------------------------------------------------
 //Конструктор композитной балки
 //---------------------------------------------------------------------------
@@ -18,13 +20,11 @@ TCompositeBeam::TCompositeBeam()
 								CompositeSection         composite_section,
 								TStud 					 stud,
 								WorkingConditionsFactors working_conditions_factors)
-							   //	int 					 beam_division)
 	:geometry_(geometry),
 	composite_section_(composite_section),
 	stud_(stud),
 	loads_(loads),
 	working_conditions_factors_(working_conditions_factors)
-   //	beam_division_(beam_division)
  {
 	CS_coordinates_calc();
 	calc_inter_forces();
