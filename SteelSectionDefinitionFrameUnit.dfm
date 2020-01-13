@@ -39,15 +39,11 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       Top = 36
       Width = 455
       Height = 217
-      ActivePage = TabSheet_Standart
+      ActivePage = TabSheet_Weld
       TabOrder = 2
       OnChange = PageControl2Change
       object TabSheet_Weld: TTabSheet
         Caption = #1057#1074#1072#1088#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Image1: TImage
           Left = 0
           Top = 6
@@ -193,10 +189,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       object TabSheet_Standart: TTabSheet
         Caption = #1055#1088#1086#1082#1072#1090#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Label10: TLabel
           Left = 328
           Top = 2
@@ -1490,10 +1482,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       object TabSheet_StandTube: TTabSheet
         Caption = #1058#1088#1091#1073#1099' '#1043#1054#1057#1058' 30245-2012'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object PageControl_Tube: TPageControl
           Left = 0
           Top = 2

@@ -167,15 +167,16 @@ TStud TCompositeBeamMainForm::init_stud()
 // ---------------------------------------------------------------------------
 // Инициализация композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_composite_beam(
-														TGeometry geometry,
-														TLoads loads,
-														CompositeSection composite_section,
-														TStud stud,
-														WorkingConditionsFactors working_conditions_factors)
+void TCompositeBeamMainForm::init_composite_beam(TGeometry 				  geometry,
+												 TLoads 				  loads,
+												 CompositeSection 		  composite_section,
+												 TStud 					  stud,
+												 WorkingConditionsFactors working_conditions_factors)
 {
- composite_beam_=TCompositeBeam(geometry,loads,composite_section,stud,
-					  working_conditions_factors);
+ composite_beam_=TCompositeBeam(geometry,
+								loads,
+								composite_section,stud,
+								working_conditions_factors);
 }
 //---------------------------------------------------------------------------
 //	Функция запускающая расчёт композитной балки
@@ -408,6 +409,17 @@ void TCompositeBeamMainForm::generate_report()
 	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_t_uf(LengthUnit::cm),"%t%");
 	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_t_w(LengthUnit::cm),"%s%");
 	  report_.PasteTextPattern(0,"%r%");
+
+//[2] Результаты расчёта
+//[2.1] Геометрические параметры
+//[2.1.1] Стального сечения
+	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_A_st(LengthUnit::cm),"%A_st%");
+	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_I_st(LengthUnit::cm),"%I_st%");
+	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_Wf2_st(LengthUnit::cm),"%Wf2_st%");
+	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_Wf1_st(LengthUnit::cm),"%Wf1_st%");
+	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_Z_f2_st(LengthUnit::cm),"%Z_f2_st%");
+	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_Z_f1_st(LengthUnit::cm),"%Z_f1_st%");
+
 }
 
 //---------------------------------------------------------------------------

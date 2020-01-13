@@ -22,7 +22,7 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 
-	TStandartProfil StandartProfil;
+	TStandartProfil StandartProfil; //поле index устанавливается конструктором по умолчанию в -1
 	COMMON_SECT com_sect;  //Это union в котором собраны типы сечений двутавр, труба, круг и т.д.
 	GEOM_PARAM_SECT param_sect; //Структура с геометрическими зарактеристиками
 

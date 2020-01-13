@@ -2522,10 +2522,11 @@ class TStandartProfil
   //------------- ДВУТАВРЫ -------------------------
   // Установить профили двутавра
   void  SetProfil(int index);
+    // Заполнить структуру параметров сечения двутавра по его номеру
+  int SetParamProfil(SECT_DVUTAVR* sect, int n_profil);
   // Получить вектор параметров профиля по его индексу
   double * GetVectorParamProfil(int index_profil);
-  // Получить вектор секториальных параметров профиля по его индексу
-  double * GetVectorSectorParamProfil(int index_profil);
+
   // Получить вектор имен профилей и длину вектора
   AnsiString* GetVectorNameProfil(int *n_profil);
 
@@ -2534,37 +2535,14 @@ class TStandartProfil
   int Get_NumberProfil(SECT_DVUTAVR* section, int index);
   // Получить номер профиля, ближайший по заданному параметру 0-по высоте, 4-по площади, 6-по моменту инерции
   int Get_NumberProfil_param(double param, int index);
-  // Заполнить структуру параметров сечения двутавра по его номеру
-  int SetParamProfil(SECT_DVUTAVR* sect, int n_profil);
 
-  //------------- ТРУБЫ -------------------------
-  // Установить профили трубы
-  void  SetProfil_Tube(int index);
-  // Получить количество профилей трубы
-  int GetNumberAllProfil_Tube();
 
-  // Получить вектор параметров профиля трубы по номеру группы (h*b) и номеру внутри группы (t)
-  double * GetVectorParamProfil_Tube(int index_profil, int n_thick);
-  // Получить вектор параметров профиля трубы по порядковому номеру профиля
-  double * GetVectorParamProfil_TubeNum(int number_prof);
-  // Получить порядковый номер профиля трубы по номеру группы (h*b) и номеру внутри группы (t)
-  int GetNumberProfil_Tube(int index_profil, int n_thick);
-  // Получить вектор толщин профиля трубы по номеру группы (h*b) и их количество
-  double *GetVectorParamThickness_Tube(int n_profil, int *num_thick);
-  // Получить  номер группы (h*b) и номер внутри группы (t) по порядковому номеру профиля трубы
-  int GetGroup_a_Profil_Tube(int Number, int *index_profil, int *n_thick);
-  // Заполнить структуру параметров сечения трубы по его номеру
-  int SetParamProfil_Tube(COMMON_SECT* sect_comm, int type_sect, int Number);
-  // Получить номер профиля трубы, ближайший 0) по ширине, высоте и толщине, 1) по площади, 2) по моменту инерции
-  int Get_NumberProfil_Tube(int type_sect, COMMON_SECT* sect_com, int index);
 
-  // Получить номер профиля, ближайший по заданному параметру 0-по высоте, 4-по площади, 6-по моменту инерции
-  int Choice_Profil_param(SECT_DVUTAVR* sect, double Ar, double ix, double W, double h_sect, double tw, double tf, double bf, bool flag_message);
 
 
 };
 
-void Check_StandartProfil(SECT_DVUTAVR* sect1, SECT_DVUTAVR* sect2, AnsiString text);
+//void Check_StandartProfil(SECT_DVUTAVR* sect1, SECT_DVUTAVR* sect2, AnsiString text);
 // Сменить или установить тип профиля двутавра для сечения
 void    Set_TypeProfil(SECT_DVUTAVR* sect1, int index_profil, int type_profil);
 // Сменить или установить тип профиля двутавра или трубы для сечения

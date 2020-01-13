@@ -437,8 +437,8 @@ void Get_param_sect_comm(int type, COMMON_SECT* section, GEOM_PARAM_SECT *param_
                         b_i*b_i*b_i*h_i/12;
    }
    else {
-     StandartProfil.SetProfil_Tube(typeSQUARE);
-     ParamProfil = StandartProfil.GetVectorParamProfil_Tube(section_tube.rect.n_group, section_tube.rect.n_profil);
+	// StandartProfil.SetProfil_Tube(typeSQUARE);
+	// ParamProfil = StandartProfil.GetVectorParamProfil_Tube(section_tube.rect.n_group, section_tube.rect.n_profil);
      if (ParamProfil == NULL) {
 	  #ifdef EMBRAC
 	   int rc = Application->MessageBox(L"Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
@@ -514,9 +514,9 @@ void Get_param_sect_comm(int type, COMMON_SECT* section, GEOM_PARAM_SECT *param_
                         b_i*b_i*b_i*h_i/12;
     }
     else {
-      StandartProfil.SetProfil_Tube(typeRECT);
-      ParamProfil = StandartProfil.GetVectorParamProfil_Tube(section->rect.n_group, section->rect.n_profil);
-      if (ParamProfil == NULL) {
+	 // StandartProfil.SetProfil_Tube(typeRECT);
+	 // ParamProfil = StandartProfil.GetVectorParamProfil_Tube(section->rect.n_group, section->rect.n_profil);
+	  if (ParamProfil == NULL) {
 	  #ifdef EMBRAC
 		int rc = Application->MessageBox(L"Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
 			   L"Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
@@ -594,8 +594,8 @@ void Get_param_sect_comm(int type, COMMON_SECT* section, GEOM_PARAM_SECT *param_
       param_sect->Hp = param_sect->Hsect;
     }
     else {
-      StandartProfil.SetProfil_Tube(typeCIRC);
-      ParamProfil = StandartProfil.GetVectorParamProfil_Tube(section->circ.n_group, section->circ.n_profil);
+	 // StandartProfil.SetProfil_Tube(typeCIRC);
+	 // ParamProfil = StandartProfil.GetVectorParamProfil_Tube(section->circ.n_group, section->circ.n_profil);
 	  if (ParamProfil == NULL) {
 	  #ifdef EMBRAC
 		int rc = Application->MessageBox(L"Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
