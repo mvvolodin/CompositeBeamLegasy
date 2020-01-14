@@ -200,6 +200,7 @@ void __fastcall TCompositeBeamMainForm::BtnCalculateClick(TObject *Sender)
 
 	BtnReport->Enabled=True;
 	fill_grid_with_results();
+	draw_diagram();
 }
 //---------------------------------------------------------------------------
 //Сформировать и открыть отчёт
@@ -312,10 +313,13 @@ void _fastcall TCompositeBeamMainForm::chck_bx_end_beamClick(TObject *Sender)
 void TCompositeBeamMainForm::fill_cmb_bx_LC()
 {
 	   //Метод AddItem, связывающий TStrings с объектами требуется в качестве параметра объект TObject
-	cmb_bx_LC->Items->Insert((int)LoadCaseNames::SW, "Собственный Вес");
-	cmb_bx_LC->Items->Insert((int)LoadCaseNames::DL_I , "Постоянная Нагрузка I стадия");
-	cmb_bx_LC->Items->Insert((int)LoadCaseNames::DL_II, "Постоянная Нагрузка II стадия");
-	cmb_bx_LC->Items->Insert((int)LoadCaseNames::LL, "Временная Нагрузка");
+	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::SW), "Собственный Вес");
+	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::DL_I) , "Постоянная Нагрузка I стадия");
+	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::DL_II), "Постоянная Нагрузка II стадия");
+	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::LL), "Временная Нагрузка");
+	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::I_stage), "Расчётные Нагрузки I стадии");
+	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::II_stage), "Расчётные Нагрузки II стадии");
+	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::Total), "Расчётные Нагрузки");
 	cmb_bx_LC->ItemIndex = (int)LoadCaseNames::SW;
 }
 
@@ -423,8 +427,9 @@ void TCompositeBeamMainForm::generate_report()
 }
 
 //---------------------------------------------------------------------------
-
-void __fastcall TCompositeBeamMainForm::btn_draw_diagramClick(TObject *Sender)
+// Отрисовка эпюр
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::draw_diagram()
 {
 	TImage *Image1=ImgStaticScheme;
 	//получаем вектор координат точек эпюры из объекта композитная балка
@@ -449,7 +454,20 @@ void __fastcall TCompositeBeamMainForm::btn_draw_diagramClick(TObject *Sender)
 		std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
 		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &Q_jump[0], n_supp, &coor_supp[0], flag_sign);
 	}
+
+
+}
+
+void __fastcall TCompositeBeamMainForm::cmb_bx_LCChange(TObject *Sender)
+{
+	draw_diagram();
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TCompositeBeamMainForm::rd_grp_internal_forces_typeClick(TObject *Sender)
+
+{
+	draw_diagram();
+}
+//---------------------------------------------------------------------------
 

@@ -406,15 +406,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 22
           Style = csOwnerDrawFixed
           TabOrder = 0
-        end
-        object btn_draw_diagram: TButton
-          Left = 722
-          Top = 20
-          Width = 120
-          Height = 25
-          Caption = #1053#1072#1088#1080#1089#1086#1074#1072#1090#1100' '#1101#1087#1102#1088#1091
-          TabOrder = 1
-          OnClick = btn_draw_diagramClick
+          OnChange = cmb_bx_LCChange
         end
         object rd_grp_internal_forces_type: TRadioGroup
           Left = 309
@@ -427,7 +419,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Items.Strings = (
             #1048#1079#1075#1080#1073#1072#1102#1097#1080#1081' '#1084#1086#1084#1077#1085#1090
             #1055#1086#1087#1077#1088#1077#1095#1085#1072#1103' '#1089#1080#1083#1072)
-          TabOrder = 2
+          TabOrder = 1
+          OnClick = rd_grp_internal_forces_typeClick
         end
       end
       object GrpBxErection: TGroupBox
@@ -579,10 +572,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtSectionMaterials: TTabSheet
       Caption = #1057#1077#1095#1077#1085#1080#1077' '#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1099
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GrpBxSteelSection: TGroupBox
         Left = -4
         Top = 283
@@ -10708,10 +10697,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbResults: TTabSheet
       Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1099' '#1088#1072#1089#1095#1105#1090#1072
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object strngGrdResults: TStringGrid
         Left = 0
         Top = 0

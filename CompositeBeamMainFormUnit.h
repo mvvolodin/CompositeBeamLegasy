@@ -99,7 +99,6 @@ __published:	// IDE-managed Components
 	TImage *ImgStaticScheme;
 	TLabel *lblLoadCase;
 	TComboBox *cmb_bx_LC;
-	TButton *btn_draw_diagram;
 	TRadioGroup *rd_grp_internal_forces_type;
 	TGroupBox *GrpBxErection;
 	TLabel *lbl_number_propping_supports;
@@ -163,7 +162,8 @@ __published:	// IDE-managed Components
 	void __fastcall BtBtnShearStudsChoiceClick(TObject *Sender);
 	void __fastcall NOutReportClick(TObject *Sender);
 	void __fastcall NExitClick(TObject *Sender);
-	void __fastcall btn_draw_diagramClick(TObject *Sender);
+	void __fastcall cmb_bx_LCChange(TObject *Sender);
+	void __fastcall rd_grp_internal_forces_typeClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);
@@ -193,6 +193,7 @@ private:
 	void grid_constr_comp_sect_geometr(); //Конструирование Grid для вывода геометрических характ. комп. сечения
 	void fill_cmb_bx_LC();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
 	void fill_grid_with_results();
+	void draw_diagram();//Отрисовка эпюр
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TCompositeBeamMainForm *CompositeBeamMainForm;

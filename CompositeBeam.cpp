@@ -88,6 +88,13 @@ void TCompositeBeam::calc_inter_forces()
 		internal_forces_I_.add_Q(temp_Q);
 	}
 
+    std::vector<int> a;//looks like this: 2,0,1,5,0
+std::vector<int> b;//looks like this: 0,0,1,3,5
+
+// std::plus adds together its two arguments:
+std::transform (a.begin(), a.end(), b.begin(), a.begin(), std::plus<int>());
+// a = 2,0,2,8,5
+
 	for (int i = 0; i < (geometry_.get_beam_division()+1); i++)
 	{
 		double temp_M=0.0;

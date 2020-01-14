@@ -119,4 +119,17 @@ void InternalForces::Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinate
 	Q_jump_[std::distance(cs_coordinates.begin(),itr)]=B;
 }
 
+	InternalForces::M_List InternalForces::get_M_(LoadUnit load_unit,LengthUnit length_unit)const
+	{
+		std::vector<double> temp_M (M_);
+		std::transform(M_.begin(),M_.end(),temp_M.begin(), [load_unit, length_unit](double M){return M/static_cast<double>(load_unit)/static_cast<double>(length_unit);});
+		return temp_M;
+	}
+	InternalForces::Q_List InternalForces::get_Q_(LoadUnit load_unit)const
+	{
+		std::vector<double> temp_Q (Q_);
+		std::transform(Q_.begin(),Q_.end(),temp_Q.begin(), [load_unit](double Q){return Q/static_cast<double>(load_unit);});
+		return temp_Q;
+	}
+
 

@@ -6,11 +6,16 @@
  #include <vector>
  #include <map>
  #include <algorithm>
+ #include "Units.h"
+
  enum class LoadCaseNames{
 	SW,
 	DL_I,
 	DL_II,
-	LL
+	LL,
+	I_stage,
+	II_stage,
+	Total
  };
 
  class InternalForces{
@@ -33,6 +38,8 @@
   //	inline int get_cs_number()const {return cs_number_;}
 	inline void add_M(double M){M_.push_back(M);}
 	inline void add_Q(double Q){Q_.push_back(Q);}
+	M_List get_M_(LoadUnit load_unit=LoadUnit::N,LengthUnit length_unit=LengthUnit::mm)const;
+	Q_List get_Q_(LoadUnit load_unit=LoadUnit::N)const;
 	inline M_List get_M()const {return M_;}
 	inline Q_List get_Q() const {return Q_;}
 	inline Q_JumpList get_Q_jump() const {return Q_jump_;}
