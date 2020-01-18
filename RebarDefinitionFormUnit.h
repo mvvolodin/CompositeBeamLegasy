@@ -26,11 +26,8 @@ __published:	// IDE-managed Components
 	TBitBtn *bt_btn_Ok;
 	void __fastcall cmb_bx_rebar_gradeChange(TObject *Sender);
 	void __fastcall bt_btn_OkClick(TObject *Sender);
-	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:	// User declarations
-	RebarNamedList* rebar_named_list; //С указателем не работает
 	Rebar rebar;
-
 	void create_rebar();//Функция которая проверяет корректность ввода и вызывает конструктор rebar
 public:		// User declarations
 	__fastcall TRebarDefinitionForm(TComponent* Owner);

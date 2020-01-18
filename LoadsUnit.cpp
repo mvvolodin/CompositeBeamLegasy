@@ -11,8 +11,8 @@ TLoads::TLoads()
 
 TLoads::TLoads(double SW, double DL_I, double DL_II, double LL,
 	double gamma_f_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL)
-	:SW_(SW),
-	DL_I_(DL_I*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
+	:SW_(SW/static_cast<int>(LengthUnit::m)),
+	DL_I_(DL_I*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),  //Полезно сделать сеттеры!
 	DL_II_(DL_II*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	LL_(LL*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	gamma_f_SW_(gamma_f_SW),

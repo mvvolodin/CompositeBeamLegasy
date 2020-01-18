@@ -8,20 +8,21 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+
+extern 	RebarNamedList rebar_named_list;
+
 TRebarDefinitionForm *RebarDefinitionForm;
+
 //---------------------------------------------------------------------------
 __fastcall TRebarDefinitionForm::TRebarDefinitionForm(TComponent* Owner)
 	: TForm(Owner)
 {
-	rebar_named_list=new RebarNamedList();
-	fill_rebar_named_list(rebar_named_list);
-
-	cmb_bx_rebar_grade->Text=rebar_named_list->begin()->first;
-	edt_R_s_n->Text=rebar_named_list->begin()->second.get_R_s();
+	cmb_bx_rebar_grade->Text=rebar_named_list.begin()->first;
+	edt_R_s_n->Text=rebar_named_list.begin()->second.get_R_s();
 	edt_diameter->Text="12";
 	edt_safety_factor->Text="1.15";
 
-	for (IteratorRebarNamedList it = rebar_named_list->begin(); it != rebar_named_list->end(); it++){
+	for (IteratorRebarNamedList it = rebar_named_list.begin(); it != rebar_named_list.end(); it++){
 		cmb_bx_rebar_grade->Items->Add(it->first);
 		};
 	create_rebar();
@@ -30,11 +31,7 @@ __fastcall TRebarDefinitionForm::TRebarDefinitionForm(TComponent* Owner)
 void __fastcall TRebarDefinitionForm::cmb_bx_rebar_gradeChange(TObject *Sender)
 {
 	String grade=cmb_bx_rebar_grade->Text;
-	edt_R_s_n->Text=FloatToStr(rebar_named_list->find(grade)->second.get_R_s());
-//  edt_R_s_n->Text=FloatToStr(rebar_named_list[grade].get_R_s());
-// Выражение с оператором [] не работает, так не смотря на то, что пара с ключом grade
-//существует всё равно, зачем то нужен cotr по умолчанию. Видимо компилятор проверяет все возможные
-//разветления в том числе, что если ключ не будет найден
+	edt_R_s_n->Text=FloatToStr(rebar_named_list.find(grade)->second.get_R_s());
 }
 //---------------------------------------------------------------------------
 
@@ -49,20 +46,14 @@ void TRebarDefinitionForm::create_rebar()
 	if (rc>0) return;
 	String grade=cmb_bx_rebar_grade->Text;
 	double R_s=StrToFloat(edt_R_s_n->Text);
-	rebar= Rebar(grade, R_s, diameter, safety_factor); //Copy initialization???
+	rebar= Rebar(grade, R_s, diameter, safety_factor);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TRebarDefinitionForm::bt_btn_OkClick(TObject *Sender)
 {
+	create_rebar();
 	Close();
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TRebarDefinitionForm::FormClose(TObject *Sender, TCloseAction &Action)
-{
-	create_rebar();
-}
-//---------------------------------------------------------------------------
-
 

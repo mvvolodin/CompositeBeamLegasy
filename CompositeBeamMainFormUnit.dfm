@@ -23,6 +23,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Width = 90
     Height = 13
     Caption = #1056#1072#1079#1073#1080#1077#1085#1080#1077' '#1073#1072#1083#1082#1080':'
+    Visible = False
   end
   object Label1: TLabel
     Left = 624
@@ -101,10 +102,11 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     ShowHint = True
     TabOrder = 1
     Text = '50'
+    Visible = False
   end
   object BtnCalculate: TButton
-    Left = 613
-    Top = 559
+    Left = 17
+    Top = 561
     Width = 75
     Height = 25
     Caption = #1056#1072#1089#1095#1105#1090
@@ -112,8 +114,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     OnClick = BtnCalculateClick
   end
   object BtnReport: TButton
-    Left = 693
-    Top = 559
+    Left = 97
+    Top = 561
     Width = 75
     Height = 25
     Caption = #1054#1090#1095#1105#1090
@@ -122,8 +124,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     OnClick = BtnReportClick
   end
   object BtBtnExit: TBitBtn
-    Left = 774
-    Top = 559
+    Left = 178
+    Top = 561
     Width = 75
     Height = 25
     Caption = #1042#1099#1093#1086#1076
@@ -135,7 +137,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -195,13 +197,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 13
           Caption = #1042#1088#1077#1084#1077#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072
         end
-        object Label3: TLabel
-          Left = 4
-          Top = 154
-          Width = 174
-          Height = 13
-          Caption = ' '#1057#1086#1073#1089#1090#1074#1077#1085#1085#1099#1081' '#1074#1077#1089' '#1089#1090#1072#1083#1100#1085#1086#1081' '#1073#1072#1083#1082#1080
-        end
         object edt_gamma_f_DL_I: TEdit
           Left = 188
           Top = 40
@@ -225,14 +220,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 21
           TabOrder = 2
           Text = '1.35'
-        end
-        object Edit3: TEdit
-          Left = 184
-          Top = 151
-          Width = 49
-          Height = 21
-          TabOrder = 3
-          Text = 'Edit3'
         end
       end
       object GrpBxLoadCases: TGroupBox
@@ -575,7 +562,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       object GrpBxSteelSection: TGroupBox
         Left = -4
         Top = 283
-        Width = 300
+        Width = 307
         Height = 60
         Caption = '  '#1055#1088#1086#1082#1072#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077'  '
         TabOrder = 0
@@ -589,7 +576,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object BtnSteelSectionChoice: TBitBtn
           Left = 133
           Top = 17
-          Width = 150
+          Width = 167
           Height = 30
           Caption = #1042#1099#1073#1088#1072#1090#1100'/'#1080#1079#1084#1077#1085#1080#1090#1100' '#1089#1077#1095#1077#1085#1080#1077
           TabOrder = 1
@@ -673,7 +660,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object BtBtnSteelChoice: TBitBtn
           Left = 126
           Top = 18
-          Width = 150
+          Width = 167
           Height = 30
           Caption = #1042#1099#1073#1088#1072#1090#1100'/'#1080#1079#1084#1077#1085#1080#1090#1100' '#1089#1090#1072#1083#1100
           TabOrder = 1
@@ -697,7 +684,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object BtnConcreteChoice: TBitBtn
           Left = 126
           Top = 16
-          Width = 150
+          Width = 167
           Height = 30
           Caption = #1042#1099#1073#1088#1072#1090#1100'/'#1080#1079#1084#1077#1085#1080#1090#1100' '#1073#1077#1090#1086#1085
           TabOrder = 1
@@ -711,7 +698,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Height = 60
         Caption = '  '#1040#1088#1084#1072#1090#1091#1088#1072'  '
         TabOrder = 6
-        object PnlRebarsViewer: TPanel
+        object pnl_rebar_viewer: TPanel
           Left = 21
           Top = 19
           Width = 90
@@ -721,7 +708,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object BtBtnRebarsChoice: TBitBtn
           Left = 126
           Top = 19
-          Width = 150
+          Width = 167
           Height = 30
           Caption = #1042#1099#1073#1088#1072#1090#1100'/'#1080#1079#1084#1077#1085#1080#1090#1100' '#1072#1088#1084#1072#1090#1091#1088#1091
           TabOrder = 1
@@ -731,11 +718,11 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       object GrpBxShearStuds: TGroupBox
         Left = 0
         Top = 212
-        Width = 300
+        Width = 303
         Height = 60
         Caption = '  '#1043#1080#1073#1082#1080#1077' '#1091#1087#1086#1088#1099'  '
         TabOrder = 7
-        object PnlShearStudsViewer: TPanel
+        object pnl_shear_stud_viewer: TPanel
           Left = 24
           Top = 16
           Width = 90
@@ -745,7 +732,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object BtBtnShearStudsChoice: TBitBtn
           Left = 129
           Top = 16
-          Width = 150
+          Width = 167
           Height = 30
           Caption = #1042#1099#1073#1088#1072#1090#1100'/'#1080#1079#1084#1077#1085#1080#1090#1100' '#1091#1087#1086#1088#1099
           TabOrder = 1
@@ -10719,8 +10706,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
-    Left = 32
-    Top = 544
+    Left = 744
+    Top = 560
     object NFile: TMenuItem
       Caption = #1060#1072#1081#1083
       object NNew: TMenuItem
@@ -10767,17 +10754,17 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   end
   object SaveDialog1: TSaveDialog
     Filter = #1060#1072#1081#1083' '#1087#1088#1086#1077#1082#1090#1072' (*.arsC)|*.arsC'
-    Left = 76
-    Top = 544
+    Left = 788
+    Top = 560
   end
   object OpenDialog_Model: TOpenDialog
     Filter = #1060#1072#1081#1083#1099' '#1087#1088#1086#1077#1082#1090#1086#1074' (*.arsC)|*.arsC|'#1042#1089#1077' '#1092#1072#1081#1083#1099' |*.*'
-    Left = 132
-    Top = 544
+    Left = 844
+    Top = 560
   end
   object ImageList1: TImageList
-    Left = 192
-    Top = 544
+    Left = 904
+    Top = 560
     Bitmap = {
       494C010106000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020

@@ -53,9 +53,12 @@ __fastcall TSteelSectionDefinitionFrame::TSteelSectionDefinitionFrame(TComponent
      StringGrid_B->Cells[0][5]="Iyy (cм4)";
 	 StringGrid_B->Cells[0][6]="iy (мм)";
 
+	 ComboBox_profil->ItemIndex=0;// Выбор первого в списке профиля для корректной работы функции заполняющие данные профиля, см. ниже
+
+	 fill_I_section_data();
 /*
 		 StringGrid_Tube->Cells[0][0]="h (мм)";    //Квадратная и прямоугольная трубы
-    	 StringGrid_Tube->Cells[0][1]="b (мм)";
+		 StringGrid_Tube->Cells[0][1]="b (мм)";
     	 StringGrid_Tube->Cells[0][2]="t (мм)";
     	 StringGrid_Tube->Cells[0][3]="A (cм2)";
     	 StringGrid_Tube->Cells[0][4]="Iyy (cм4)";
@@ -371,14 +374,14 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
 
    int rc;
    double ss;
-   double * ParamProfil;
+   double * ParamProfil;//указатель на строку с данными профиля
 
 
 	//*type_sect_currently = Type_sect;
 	switch (Type_sect) {
 	case DVUTAVR:
-	  common_sect_.dvutavr.flag_concl=false;//расшифровка имени flag_concl???
-	  if (common_sect_.dvutavr.n_group < 0) {
+	  common_sect_.dvutavr.flag_concl=false;//расшифровка имени flag_conclusion (чтение не завершено)
+	  if (common_sect_.dvutavr.n_group < 0) {//значит сварной двутавр
 		rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.dvutavr.b1));
 		if (rc>0) return rc;
         rc=String_double_plus(Label4->Caption,Edit4->Text, &(common_sect_.dvutavr.h1));
@@ -395,7 +398,7 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
           common_sect_.dvutavr.flag_concl=true;
         //}
         //else {
-        //  common_sect_.dvutavr.b2=common_sect_.dvutavr.b1;
+		//  common_sect_.dvutavr.b2=common_sect_.dvutavr.b1;
         //  common_sect_.dvutavr.h2=common_sect_.dvutavr.h1;
         //  common_sect_.dvutavr.flag_concl=true;
         //}
@@ -403,34 +406,34 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
         common_sect_.dvutavr.n_profil = -1;
         common_sect_.dvutavr.index_orient = 0;
       }
-      else {      // стандартное сечение
+	  else {      // стандартное сечение (прокатные сеченния из сортамент)
 		if (PageControl1->ActivePage == TabSheet_GOST57837)
 		  common_sect_.dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
 		if (PageControl1->ActivePage == TabSheet_GOST)
 		  common_sect_.dvutavr.n_group = RadioGroup_GOST->ItemIndex;
 		if (PageControl1->ActivePage == TabSheet_STO)
 		  common_sect_.dvutavr.n_group = RadioGroup_STO->ItemIndex + typeSTO_B;
-        common_sect_.dvutavr.n_profil = ComboBox_profil->ItemIndex;
-      // Установить тип стандартного сечения
-        StandartProfil.SetProfil(common_sect_.dvutavr.n_group);
-        ParamProfil = StandartProfil.GetVectorParamProfil(common_sect_.dvutavr.n_profil);
-        common_sect_.dvutavr.b = ParamProfil[2];
-        common_sect_.dvutavr.h = ParamProfil[0] - 2*ParamProfil[3];
+		common_sect_.dvutavr.n_profil = ComboBox_profil->ItemIndex;
+	  // Установить тип стандартного сечения
+		StandartProfil.SetProfil(common_sect_.dvutavr.n_group);
+		ParamProfil = StandartProfil.GetVectorParamProfil(common_sect_.dvutavr.n_profil);
+		common_sect_.dvutavr.b = ParamProfil[2];
+		common_sect_.dvutavr.h = ParamProfil[0] - 2*ParamProfil[3];
         common_sect_.dvutavr.b1 = ParamProfil[1];
         common_sect_.dvutavr.b2 = ParamProfil[1];
-        common_sect_.dvutavr.h1 = ParamProfil[3];
-        common_sect_.dvutavr.h2 = ParamProfil[3];
-        common_sect_.dvutavr.flag_concl=true;
-        common_sect_.dvutavr.index_orient = 0;
+		common_sect_.dvutavr.h1 = ParamProfil[3];
+		common_sect_.dvutavr.h2 = ParamProfil[3];
+		common_sect_.dvutavr.flag_concl=true;
+		common_sect_.dvutavr.index_orient = 0;
       }
-    break;
+	break;
     case SQUARE_TUBE:
       common_sect_.square.flag_concl=false;
       if (common_sect_.rect.n_group < 0) {
         rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.square.side));
         if (rc>0) return rc;
         rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect_.square.side/2, &(common_sect_.square.thickness));
-        if (rc>0) return rc;
+		if (rc>0) return rc;
         common_sect_.square.flag_concl=true;
 		common_sect_.square.b1 = common_sect_.square.h1 = common_sect_.square.b2 =common_sect_.square.h2 = 0;
         common_sect_.square.n_group = -1;
@@ -450,7 +453,7 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
 				  common_sect_.square.b1 = common_sect_.square.h1 = common_sect_.square.b2 =common_sect_.square.h2 = 0;
 				  common_sect_.square.flag_concl=true;
       */  }
-    break;
+	break;
     case RECT_TUBE:
       common_sect_.rect.flag_concl=false;
       if (common_sect_.rect.n_group < 0) {
@@ -486,7 +489,7 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
         common_sect_.rect.h1 = ParamProfil[2];
         common_sect_.rect.b1 = ParamProfil[2];
         common_sect_.dvutavr.b2 = 0;
-        common_sect_.dvutavr.h2 = 0;
+		common_sect_.dvutavr.h2 = 0;
         common_sect_.dvutavr.flag_concl=true;
       }
     break;
@@ -522,7 +525,7 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
     ;
   }
 
-      return 0;
+	  return 0;
 }
 //--------------------------------------------------------------------
 //Процедура вызывающая нужную процедуру в зависимости от типа сечения
@@ -569,7 +572,7 @@ void __fastcall TSteelSectionDefinitionFrame::draw_dvutavr(TImage * Image1, SECT
   TPoint vertices[30];
   int zero, zero1, zero2;
   float scale_1, scale;
-  int rc;
+  int rc; //return code в функции не встречается!!! Х
 
 
   if (sect->n_group < 0) {
@@ -1194,23 +1197,8 @@ void __fastcall TSteelSectionDefinitionFrame::Edit6_Change(TObject *Sender)
 
 void __fastcall TSteelSectionDefinitionFrame::Button_ApplyClick(TObject *Sender)
 {
-   int rc;
+		fill_I_section_data();
 
-   if (Type_sect==DVUTAVR) {
-	  // Установить тип стандартного сечения
-	  if (PageControl1->ActivePage == TabSheet_GOST57837)
-		  common_sect_.dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
-	  if (PageControl1->ActivePage == TabSheet_GOST)
-		  common_sect_.dvutavr.n_group = RadioGroup_GOST->ItemIndex;
-	  if (PageControl1->ActivePage == TabSheet_STO)
-		  common_sect_.dvutavr.n_group = RadioGroup_STO->ItemIndex + typeSTO_B;
-	  // Установить тип стандартного сечения
-	  StandartProfil.SetProfil(common_sect_.dvutavr.n_group);
-	  // Заполнить структуру профиля двутавра
-	  rc = StandartProfil.SetParamProfil(&(common_sect_.dvutavr), ComboBox_profil->ItemIndex);
-	  if (rc >0) return;
-   }
-   return;
 }
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionDefinitionFrame::ComboBox_TypeSectChange(TObject *Sender)
@@ -1346,7 +1334,7 @@ void __fastcall TSteelSectionDefinitionFrame::Change_type_sect(int index_profil,
 	   TabSheet_Standart->TabVisible = true;
        //Image1->Visible = false;
        if (index_profil  < typeSTO_B)
-          RadioGroup_GOSTClick(Sender);
+		  RadioGroup_GOSTClick(Sender);
        if (index_profil  >= typeSTO_B && index_profil <=typeSTO_K)
           RadioGroup_STOClick(Sender);
        if (index_profil >=typeGOST_G57837_B && index_profil <=typeGOST_G57837_S)
@@ -1755,6 +1743,21 @@ void __fastcall TSteelSectionDefinitionFrame::RadioGroupGOST57837Click(
    PageControl1->ActivePage = TabSheet_GOST57837;
 }
 //---------------------------------------------------------------------------
+
+void TSteelSectionDefinitionFrame::fill_I_section_data()
+{
+		  // Установить тип стандартного сечения
+	  if (PageControl1->ActivePage == TabSheet_GOST57837)
+		  common_sect_.dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
+	  if (PageControl1->ActivePage == TabSheet_GOST)
+		  common_sect_.dvutavr.n_group = RadioGroup_GOST->ItemIndex;
+	  if (PageControl1->ActivePage == TabSheet_STO)
+		  common_sect_.dvutavr.n_group = RadioGroup_STO->ItemIndex + typeSTO_B;
+	  // Установить тип стандартного сечения
+	  StandartProfil.SetProfil(common_sect_.dvutavr.n_group);
+	  // Заполнить структуру профиля двутавра
+	StandartProfil.SetParamProfil(&(common_sect_.dvutavr), ComboBox_profil->ItemIndex);
+}
 
 void __fastcall TSteelSectionDefinitionFrame::ComboBox_Cyl_DChange(
       TObject *Sender)

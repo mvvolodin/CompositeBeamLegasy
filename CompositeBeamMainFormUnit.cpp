@@ -41,7 +41,8 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	PnlSteelViewer->Caption=SteelDefinitionForm->ComboBox_steel->Text;
 	pnl_concrete_grade->Caption=ConcreteDefinitionForm->cmb_bx_concrete_grade_list->Text;
 	rdgrp_slab_typeClick(Sender);
-	PnlShearStudsViewer->Caption=StudDefinitionForm->cmb_bx_stud_part_number->Text;
+	pnl_shear_stud_viewer->Caption=StudDefinitionForm->cmb_bx_stud_part_number->Text;
+	pnl_rebar_viewer->Caption=RebarDefinitionForm->cmb_bx_rebar_grade->Text;
 }
 //---------------------------------------------------------------------------
 //Инициализация топологии
@@ -66,11 +67,15 @@ TGeometry TCompositeBeamMainForm::init_geomet()
 }
 //---------------------------------------------------------------------------
 //Инициализация нагрузок и коэффициентов надёжности по нагрузкам
+//(для инициализации SW (собственного веса) необходима инициализация структуры I сечения- предусловие)
 //---------------------------------------------------------------------------
 TLoads TCompositeBeamMainForm::init_loads()
 {
 	int rc=0; //rc- return code -код ошибки
-	double SW=1.0;//необходимо получать по типу профиля
+	double SW=SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr.weight*GRAV_ACCELERAT;
+	//SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr.
+
+	//необходимо получать по типу профиля
 	double DL_I=.0;
 	double DL_II=.0;
 	double LL=.0;
@@ -188,9 +193,9 @@ void __fastcall TCompositeBeamMainForm::BtnCalculateClick(TObject *Sender)
    //установить все объекты в ноль
 
    TGeometry geometry=init_geomet();//поле содержащее топологию
+   TISectionInitialData i_section_initial_data=init_i_section();
    TLoads loads=init_loads();;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
    TStud stud=init_stud(); //поле соержащее упоры Нельсона
-   TISectionInitialData i_section_initial_data=init_i_section();
    TSteelInitialData steel_i_section_initial_data=init_steel_i_section();
    WorkingConditionsFactors working_conditions_factors=init_working_conditions_factors();
    TConcretePart* concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!
@@ -361,13 +366,18 @@ void __fastcall TCompositeBeamMainForm::BtnConcreteChoiceClick(TObject *Sender)
 void __fastcall TCompositeBeamMainForm::BtBtnRebarsChoiceClick(TObject *Sender)
 {
 	RebarDefinitionForm->ShowModal();
+	//Синхронизация текста на pnl и расчётных данных
+	if(pnl_rebar_viewer->Caption!=RebarDefinitionForm->get_rebar().get_grade())
+		pnl_rebar_viewer->Caption=RebarDefinitionForm->get_rebar().get_grade();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm::BtBtnShearStudsChoiceClick(TObject *Sender)
 {
 	StudDefinitionForm->ShowModal();
-    PnlShearStudsViewer->Caption=StudDefinitionForm->cmb_bx_stud_part_number->Text;//После закрытия формы, на pnl заносится текст из cmb_bx
+	//Синхронизация текста на pnl и расчётных данных
+	if(pnl_shear_stud_viewer->Caption!=StudDefinitionForm->get_stud().get_name())
+		pnl_shear_stud_viewer->Caption=StudDefinitionForm->get_stud().get_name();
 }
 //---------------------------------------------------------------------------
 
@@ -405,14 +415,14 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_LL()), "%gamma_f_LL%");
 //[1.1] Стальное сечение
 //[1.1.1] Номинальные размеры двутавра
-	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_h_st(LengthUnit::cm),"%profile_number%");
+	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_profile_number(),"%profile_number%");
 	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_h_st(LengthUnit::cm),"%h%");
 	  report_.PasteTextPattern(0,"%h%");
 	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_b_uf(LengthUnit::cm),"%b%");
 	  report_.PasteTextPattern(0,"%b_w%");
 	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_t_uf(LengthUnit::cm),"%t%");
 	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_t_w(LengthUnit::cm),"%s%");
-	  report_.PasteTextPattern(0,"%r%");
+	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_r(LengthUnit::cm),"%r%");
 
 //[2] Результаты расчёта
 //[2.1] Геометрические параметры
@@ -444,14 +454,14 @@ void TCompositeBeamMainForm::draw_diagram()
 	if (rd_grp_internal_forces_type->ItemIndex==0)
 	{
 		//получаем вектор изгибающих моментов из объекта композитная балка
-		std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M();
+		std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M(LoadUnit::kN, LengthUnit::m);
 		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
 	}
 	else
 	{
 		//получаем поперечные силы из объекта композитная балка
-		std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q();
-		std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump();
+		std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q(LoadUnit::kN);
+		std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump(LoadUnit::kN);
 		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &Q_jump[0], n_supp, &coor_supp[0], flag_sign);
 	}
 
@@ -470,4 +480,6 @@ void __fastcall TCompositeBeamMainForm::rd_grp_internal_forces_typeClick(TObject
 	draw_diagram();
 }
 //---------------------------------------------------------------------------
+
+
 

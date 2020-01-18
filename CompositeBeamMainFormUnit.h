@@ -134,18 +134,16 @@ __published:	// IDE-managed Components
 	TPanel *pnl_concrete_grade;
 	TBitBtn *BtnConcreteChoice;
 	TGroupBox *GrpBxRebars;
-	TPanel *PnlRebarsViewer;
+	TPanel *pnl_rebar_viewer;
 	TBitBtn *BtBtnRebarsChoice;
 	TGroupBox *GrpBxShearStuds;
-	TPanel *PnlShearStudsViewer;
+	TPanel *pnl_shear_stud_viewer;
 	TBitBtn *BtBtnShearStudsChoice;
 	TGroupBox *GroupBox6;
 	TImage *Image1;
 	TStringGrid *strng_grd_compos_sect_geom_character;
 	TTabSheet *TbResults;
 	TStringGrid *strngGrdResults;
-	TLabel *Label3;
-	TEdit *Edit3;
 
 	void __fastcall chck_bx_end_beamClick(TObject *Sender);
 	void __fastcall BtnCalculateClick(TObject *Sender);

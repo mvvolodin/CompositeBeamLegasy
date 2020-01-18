@@ -141,14 +141,14 @@ __published:	// IDE-managed Components
         void __fastcall FillComboBox1(TObject *Sender);
         void __fastcall RadioGroupGOST57837Click(TObject *Sender);
         void __fastcall ComboBox_Cyl_DChange(TObject *Sender);
-        void __fastcall ComboBox_Cyl_tChange(TObject *Sender);
+		void __fastcall ComboBox_Cyl_tChange(TObject *Sender);
         void __fastcall CylTube_Change(TObject *Sender);
-        void __fastcall draw_axes_zero(TImage *Image_Ax, int x0, int y0);
+		void __fastcall draw_axes_zero(TImage *Image_Ax, int x0, int y0);
 
 
 
 private:    // User declarations
-
+		void fill_I_section_data();//заполняет структуры с основными данными двутавра
 public:		// User declarations
         __fastcall TSteelSectionDefinitionFrame(TComponent* Owner);
 	   TArrow CoorAx;

@@ -51,9 +51,9 @@ void TCompositeBeam::calc_inter_forces()
 	//расчёт линейной нагрузки
 
 	double SW_l=SW;
-	double DL_I_l=DL_I*(bl+br);
-	double DL_II_l=DL_II*(bl+br);
-	double LL_l=LL*(bl+br);
+	double DL_I_l=DL_I*(bl+br)/2.0;
+	double DL_II_l=DL_II*(bl+br)/2.0;
+	double LL_l=LL*(bl+br)/2.0;
 
 	//координаты сечений с расчётом внутренних сил
 

@@ -26,7 +26,7 @@ private:
 	double gamma_f_LL_;
 
 public:
-	inline double get_self_weight() const {return 1000*SW_;}
+	inline double get_self_weight(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const {return SW_/static_cast<int>(load_unit)*static_cast<int>(length_unit);}
 	inline double get_dead_load_first_stage(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const {return DL_I_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
 	inline double get_dead_load_second_stage(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const {return DL_II_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
 	inline double get_live_load(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const{return LL_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);};

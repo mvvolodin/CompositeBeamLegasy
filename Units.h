@@ -2,6 +2,8 @@
 #ifndef UnitsH
 #define UnitsH
 
+#define GRAV_ACCELERAT 9.81
+
 enum class LoadUnit{
 	N=1,
 	kN=1000,

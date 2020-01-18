@@ -113,11 +113,11 @@ void  TStandartProfil::SetProfil(int index) //
    case typeGOST_Width:
 
      n_Profil = N_GOST_Width;
-     for (i=0; i<n_Profil; i++) {
+	 for (i=0; i<n_Profil; i++) {
        Name_Profil[i] = Name_Gost_Width[i];
        for (j=0; j<14; j++) {
            Gost_Profil[i][j] = Gost_Width[i][j];
-       }
+	   }
      }
    break;
    case typeGOST_K:
@@ -256,7 +256,7 @@ void  TStandartProfil::SetProfil(int index) //
    for (i=0; i<n_Profil; i++) {
 	   Gost_SectorProfil[i][0] *= 10;
 	   Gost_SectorProfil[i][1] *= 1e6;
-       Gost_SectorProfil[i][2] *= 100;
+	   Gost_SectorProfil[i][2] *= 100;
        Gost_SectorProfil[i][3] *= 100;
 	   Gost_SectorProfil[i][4] *= 1000;
        Gost_SectorProfil[i][5] *= 1000;
@@ -268,8 +268,8 @@ void  TStandartProfil::SetProfil(int index) //
 //----------------------------------------------------------------------
 // Получить вектор имен профилей и длину вектора
 AnsiString* TStandartProfil::GetVectorNameProfil(int *n_profil) {
-   *n_profil = n_Profil;
-   return Name_Profil;
+   *n_profil = n_Profil; //возвращаем число профилей
+   return Name_Profil;    //возвращаем массив имён
 }
 //----------------------------------------------------------------------
 // Получить вектор параметров профиля двутавра или швеллера по его номеру
@@ -283,14 +283,21 @@ double* TStandartProfil::GetVectorParamProfil(int n_profil) {
 int TStandartProfil::SetParamProfil(SECT_DVUTAVR* sect, int n_profil) {
    if (n_profil >= n_Profil || n_profil <0)
 	  return 1;
-   sect->n_group = Index;
+   sect->n_group = Index; //не информативное имя, лучше profile_group_number
    sect->n_profil = n_profil;
-   sect->h = Gost_Profil[n_profil][0] - 2*Gost_Profil[n_profil][3];
-   sect->b = Gost_Profil[n_profil][2];
-   sect->b1 = Gost_Profil[n_profil][1];
-   sect->b2 = Gost_Profil[n_profil][1];
-   sect->h1 = Gost_Profil[n_profil][3];
-   sect->h2 = Gost_Profil[n_profil][3];
+   sect->h = Gost_Profil[n_profil][parHSECT];
+   sect->b = Gost_Profil[n_profil][parTW];
+   sect->b1 = Gost_Profil[n_profil][parBSECT];
+   sect->b2 = Gost_Profil[n_profil][parBSECT];
+   sect->h1 = Gost_Profil[n_profil][parTF];
+   sect->h2 = Gost_Profil[n_profil][parTF];
+   sect->r = Gost_Profil[n_profil][parRAD ];
+   sect->weight=Gost_Profil[n_profil][parWEIGHT_DVUTAVR];
+   int profile_numbers_number;
+   AnsiString* profile_numbers=GetVectorNameProfil(&profile_numbers_number);
+   strcpy(sect->profile_number_, profile_numbers[n_profil].c_str());
+
+
    sect->flag_concl = true;
    return 0;
 }

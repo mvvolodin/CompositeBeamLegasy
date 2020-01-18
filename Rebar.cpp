@@ -3,22 +3,36 @@
 #pragma hdrstop
 
 #include "Rebar.h"
-#include <Vcl.Dialogs.hpp>
-
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-void fill_rebar_named_list(RebarNamedList* rebar_named_list)
+RebarNamedList rebar_named_list
 {
-	rebar_named_list->insert(RebarPair("A240",RebarBasic("A240",240)));
-	rebar_named_list->insert(RebarPair("A400",RebarBasic("A400",400)));
-	rebar_named_list->insert(RebarPair("A500",RebarBasic("A500",500)));
-	rebar_named_list->insert(RebarPair("A600",RebarBasic("A600",600)));
-	rebar_named_list->insert(RebarPair("A800",RebarBasic("A800",800)));
-	rebar_named_list->insert(RebarPair("A1000",RebarBasic("A1000",1000)));
-/*  Конструкция ниже не работает в "classic" компилятор. Объект пропадает и инициализация NULL???
-	rebar_named_list->insert(RebarPair("A400",RebarBasic("A400",400)));
+{{"A240"},		{"A240",240}},
+{{"A400"},		{"A400",400}},
+{{"A500"},		{"A500",500}},
+{{"A600"},		{"A600",600}},
+{{"A800"},		{"A800",800}},
+{{"A1000"},		{"A1000",1000}},
+};
 
-*/
-}
+RebarBasic::RebarBasic():
+	grade(""),
+	R_s(0.0){}
+
+RebarBasic::RebarBasic(String grade, double R_s):
+	grade(grade),
+	R_s(R_s){}
+
+Rebar::Rebar():
+	RebarBasic(),
+	E_s(200000),
+	diameter(0.0),
+	safety_factor(0.0){}
+
+Rebar::Rebar(String grade, double R_s, double diameter, double safety_factor):
+	RebarBasic(grade, R_s),
+	E_s(200000),
+	diameter(diameter),
+	safety_factor(safety_factor){}
 
