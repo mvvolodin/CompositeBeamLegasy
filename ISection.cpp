@@ -33,16 +33,15 @@
 	 t_lf_= i_section_initial_data.t_lf_;
 	 h_w_= i_section_initial_data.h_w_;
 	 t_w_= i_section_initial_data.t_w_;
-	 A_st_=i_section_initial_data.Ar;
-	 I_st_=i_section_initial_data.Iyy;
+	 A_st_=i_section_initial_data.Ast;
+	 I_st_=i_section_initial_data.Ist;
 	 h_st_=i_section_initial_data.Hsect;
 	 r_= i_section_initial_data.r_;
-	 weight_=i_section_initial_data.weight_;              ;
-	 Z_f2_st_=i_section_initial_data.Zct;
-	 Z_f1_st_=h_st_- Z_f2_st_;
-	 Wf2_st_=i_section_initial_data.Wu_max; //!!! в struct GEOM_PARAM_SECT содержатся Wu_max и Wu_min
-	 Wf1_st_=i_section_initial_data.Wu_min; //!!! нет гарантии, что Wu_max это Wf2_st, а Wu_min это Wf1_st_
-
+	 weight_=i_section_initial_data.weight_;
+	 Z_f2_st_=i_section_initial_data.Z_f2_st;
+	 Z_f1_st_=i_section_initial_data.Z_f1_st;
+	 Wf2_st_=i_section_initial_data.Wf2_st;
+	 Wf1_st_=i_section_initial_data.Wf2_st;
 
 
 	}

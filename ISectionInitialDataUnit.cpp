@@ -25,10 +25,10 @@ TISectionInitialData::TISectionInitialData (SECT_DVUTAVR* i_section_initial_data
 	GEOM_PARAM_SECT excessive_sect_geomet_data;
 	Get_param_sect(i_section_initial_data, &excessive_sect_geomet_data);
 
-	Ar=excessive_sect_geomet_data.Ar;
-	Izz=excessive_sect_geomet_data.Izz;
-	Iyy=excessive_sect_geomet_data.Iyy;
 	Hsect=excessive_sect_geomet_data.Hsect;
-	Zct=excessive_sect_geomet_data.Zct;
+	Z_f2_st=Z_f1_st=excessive_sect_geomet_data.Zct;
+	Ast=excessive_sect_geomet_data.Ar;
+	Wf2_st=Wf1_st=excessive_sect_geomet_data.Wsect;
+	Ist=excessive_sect_geomet_data.Izz;
 };
 

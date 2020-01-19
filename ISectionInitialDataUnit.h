@@ -18,19 +18,16 @@ struct TISectionInitialData{
 	double t_w_;
 	double weight_;//погонная масса
 	double r_;//радиус галтели
-	double Ar;
-	double Izz;
-	double Iyy;
+	double Ast;
+	double Ist;
 	double Hsect; // высота сечения (по оси Z)
-	double Zct;   // координта ц.т. сечения относительно внешней грани
 	double Sx[3]; // статичесие моменты в точках вычисления касательных напряжений
 	double Sy[3]; // статичесие моменты в точках вычисления касательных напряжений
 	double Hp;    // расстояние между ц.т. поясов
-	double Zp;    // координта ц.т. сечения относительно ц.т. внешнего пояса
-	double Wu_max;
-	double Wu_min;
-	double Wv_max;
-	double Wv_min;
+	double Z_f2_st;    // координта ц.т. сечения относительно ц.т. внешнего пояса
+	double Z_f1_st;  // координта ц.т. сечения относительно ц.т. внутреннего пояса
+	double Wf2_st;
+	double Wf1_st;
 
 	TISectionInitialData(){};
 	TISectionInitialData (SECT_DVUTAVR* i_section_initial_data);

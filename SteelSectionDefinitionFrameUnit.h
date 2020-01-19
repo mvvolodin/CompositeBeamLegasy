@@ -81,13 +81,10 @@ __published:	// IDE-managed Components
         TImage *Image_Cyl;
         TComboBox *ComboBox_Cyl_D;
         TComboBox *ComboBox_Cyl_t;
-        TStringGrid *StringGrid_Cyl;
-        void __fastcall Write_sect(TObject *Sender);
-        int  __fastcall Read_sect();
+		TStringGrid *StringGrid_Cyl;
+		int  __fastcall Read_sect();
         void __fastcall DrawSect();
-        void __fastcall CheckChangeSect();
-        void __fastcall Check_Original();
-        void __fastcall Check_Type(TObject *Sender);
+		void __fastcall CheckChangeSect();
         void __fastcall Check_Modify();
         void __fastcall Edit6_Change(TObject *Sender);
         void __fastcall Edit1_Change(TObject *Sender);
@@ -96,9 +93,8 @@ __published:	// IDE-managed Components
         void __fastcall Edit4_Change(TObject *Sender);
         void __fastcall Edit5_Change(TObject *Sender);
         void __fastcall Button_ApplyClick(TObject *Sender);
-        void __fastcall CheckBox1MouseDown(TObject *Sender,
-          TMouseButton Button, TShiftState Shift, int X, int Y);
-        void __fastcall ComboBox_TypeSectChange(TObject *Sender);
+		void __fastcall CheckBox1MouseDown(TObject *Sender,
+		  TMouseButton Button, TShiftState Shift, int X, int Y);
         void __fastcall draw_dvutavr(TImage * Image1,SECT_DVUTAVR *sect);
         void __fastcall draw_square_tube(TImage * Image1,SECT_SQUARE *sect);
         void __fastcall draw_rect_tube(TImage * Image1, SECT_RECT *sect);
@@ -124,25 +120,16 @@ __published:	// IDE-managed Components
         void __fastcall Change_type_sect(int index_profil, TObject *Sender);
         void __fastcall Change_type_sect_tube(int index_profil, TObject *Sender);
         void __fastcall Weld_Change(TObject *Sender);
-        void __fastcall PageControl1Change(TObject *Sender);
+		void __fastcall PageControl1Change(TObject *Sender);
         void __fastcall RadioGroup_STOClick(TObject *Sender);
         void __fastcall PageControl2Change(TObject *Sender);
         void __fastcall RadioGroup_orientClick(TObject *Sender);
 
-        void __fastcall Put_h_rect(TObject *Sender);
-        void __fastcall ComboBox_h_b_rectChange(TObject *Sender);
-        void __fastcall ComboBox_t_rectChange(TObject *Sender);
-        void __fastcall ComboBox_h_b_squareChange(TObject *Sender);
-        void __fastcall ComboBox_t_squareChange(TObject *Sender);
-        void __fastcall CheckBox_type_sectClick(TObject *Sender);
-        void __fastcall RectTube_Change(TObject *Sender);
-		void __fastcall SquareTube_Change(TObject *Sender);
-        // Заполнить список профилей
-        void __fastcall FillComboBox1(TObject *Sender);
-        void __fastcall RadioGroupGOST57837Click(TObject *Sender);
-        void __fastcall ComboBox_Cyl_DChange(TObject *Sender);
-		void __fastcall ComboBox_Cyl_tChange(TObject *Sender);
-        void __fastcall CylTube_Change(TObject *Sender);
+		void __fastcall Put_h_rect(TObject *Sender);
+		void __fastcall CheckBox_type_sectClick(TObject *Sender);
+		// Заполнить список профилей
+		void __fastcall FillComboBox1(TObject *Sender);
+		void __fastcall RadioGroupGOST57837Click(TObject *Sender);
 		void __fastcall draw_axes_zero(TImage *Image_Ax, int x0, int y0);
 
 

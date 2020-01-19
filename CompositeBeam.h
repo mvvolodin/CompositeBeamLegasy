@@ -52,11 +52,6 @@ private:
 private:
 	void calculate_gamma_1();
 	void CS_coordinates_calc();
-	void print_i_sect_to_log();//Печать геометрии двутавра в log
-	void print_concrete_part_to_log();//Печать железобетонной части в log
-	void print_inter_forces_to_log();//Печать внутренних усилий в log
-	void print_comp_sect_to_log();//Печать геометрии композитного сечения в log
-	void print_stresses_to_log();
 	void calc_inter_forces();
 	void calc_stresses();
 

@@ -20,7 +20,6 @@ Steel::Steel(TSteelInitialData steel_initial_data)
 	G_s_=steel_initial_data.G_s;
 	nu_=steel_initial_data.nu;
 	gamma_m_=steel_initial_data.gamma_m;
-
 }
 
 

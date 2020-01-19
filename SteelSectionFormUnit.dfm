@@ -41,13 +41,26 @@ object SteelSectionForm: TSteelSectionForm
       inherited PageControl2: TPageControl [5]
         TabOrder = 4
         inherited TabSheet_Standart: TTabSheet [0]
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 447
+          ExplicitHeight = 189
+          inherited ComboBox_profil: TComboBox
+            Left = 331
+            Top = 21
+            ExplicitLeft = 331
+            ExplicitTop = 21
+          end
           inherited StringGrid_B: TStringGrid
+            Left = 331
+            Top = 42
+            ExplicitLeft = 331
+            ExplicitTop = 42
             ColWidths = (
               50
               50)
           end
           inherited PageControl1: TPageControl
-            ActivePage = SteelSectionDefinitionFrame.TabSheet_GOST
             inherited TabSheet_STO: TTabSheet
               ExplicitLeft = 4
               ExplicitTop = 24
@@ -60,9 +73,25 @@ object SteelSectionForm: TSteelSectionForm
               ExplicitWidth = 321
               ExplicitHeight = 171
             end
+            inherited TabSheet_GOST57837: TTabSheet
+              ExplicitLeft = 4
+              ExplicitTop = 24
+              ExplicitWidth = 321
+              ExplicitHeight = 171
+            end
           end
         end
         inherited TabSheet_Weld: TTabSheet [1]
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 447
+          ExplicitHeight = 189
+        end
+        inherited TabSheet_StandTube: TTabSheet
+          ExplicitLeft = 4
+          ExplicitTop = 24
+          ExplicitWidth = 447
+          ExplicitHeight = 189
         end
       end
     end

@@ -218,6 +218,14 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
           ColWidths = (
             52
             52)
+          RowHeights = (
+            18
+            18
+            18
+            18
+            18
+            18
+            18)
         end
         object PageControl1: TPageControl
           Left = 0
@@ -1506,7 +1514,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
               Height = 21
               TabOrder = 0
               Text = '0'
-              OnChange = ComboBox_h_b_squareChange
             end
             object ComboBox_t_square: TComboBox
               Left = 48
@@ -1515,7 +1522,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
               Height = 21
               TabOrder = 1
               Text = '0'
-              OnChange = ComboBox_t_squareChange
             end
           end
           object TabSheet_Rect: TTabSheet
@@ -1548,7 +1554,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
               Height = 21
               TabOrder = 0
               Text = '0'
-              OnChange = ComboBox_h_b_rectChange
             end
             object ComboBox_t_rect: TComboBox
               Left = 56
@@ -1557,7 +1562,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
               Height = 21
               TabOrder = 1
               Text = '0'
-              OnChange = ComboBox_t_rectChange
             end
             object RadioGroup_orient: TRadioGroup
               Left = 0
@@ -1624,7 +1628,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
           Height = 21
           TabOrder = 0
           Text = '0'
-          OnChange = ComboBox_Cyl_DChange
         end
         object ComboBox_Cyl_t: TComboBox
           Left = 80
@@ -1633,7 +1636,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
           Height = 21
           TabOrder = 1
           Text = '0'
-          OnChange = ComboBox_Cyl_tChange
         end
         object StringGrid_Cyl: TStringGrid
           Left = 288
@@ -1658,7 +1660,6 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       Height = 21
       TabOrder = 3
       Text = '0. '#1058#1080#1087' '#1085#1077' '#1074#1099#1073#1088#1072#1085
-      OnChange = ComboBox_TypeSectChange
       Items.Strings = (
         '0. '#1058#1080#1087' '#1085#1077' '#1074#1099#1073#1088#1072#1085
         '1. '#1044#1074#1091#1090#1072#1074#1088

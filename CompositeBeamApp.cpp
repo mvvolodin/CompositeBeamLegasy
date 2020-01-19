@@ -1,16 +1,8 @@
 //---------------------------------------------------------------------------
-
 #include <vcl.h>
 #pragma hdrstop
 #include <tchar.h>
-//#include "Log.h"
-#include "Logger.h"
-
-bool debug=true;
-FILE* logfile=fopen("Debug.txt","w");
-
 //---------------------------------------------------------------------------
-
 USEFORM("SteelDefinitionFormUnit.cpp", SteelDefinitionForm);
 USEFORM("RebarDefinitionFormUnit.cpp", RebarDefinitionForm);
 USEFORM("StudDefinitionFormUnit.cpp", StudDefinitionForm);

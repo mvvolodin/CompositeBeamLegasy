@@ -192,6 +192,7 @@ private:
 	void fill_cmb_bx_LC();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
 	void fill_grid_with_results();
 	void draw_diagram();//Отрисовка эпюр
+	void calculate_composite_beam();//инициализирует и рассчитывает балку
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TCompositeBeamMainForm *CompositeBeamMainForm;

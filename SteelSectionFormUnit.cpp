@@ -22,24 +22,16 @@ __fastcall TSteelSectionForm::TSteelSectionForm(TComponent* Owner)
 	: TForm(Owner)
 {
    common_sect = &com_sect; //при создании глобальной переменной присваивается закрытый член класса
-   SteelSectionDefinitionFrame->ComboBox_TypeSect->ItemIndex = 1;
-   SteelSectionDefinitionFrame->ComboBox_TypeSectChange(Owner);//Инициализация объекта профилем по умолчанию
+ //#define DVUTAVR 1;- аналого типа enum
+  // SteelSectionDefinitionFrame->ComboBox_TypeSectChange(Owner);//Инициализация объекта профилем по умолчанию
 }
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionForm::FormShow(TObject *Sender) //обработчик события вызывается каждый раз перед
 {                                                            // тем как отображается форма
-   SteelSectionDefinitionFrame->TabSheet_Weld->TabVisible = true;
-   SteelSectionDefinitionFrame->TabSheet_STO->TabVisible = true;
-   SteelSectionDefinitionFrame->TabSheet_GOST->TabVisible = true;
-   SteelSectionDefinitionFrame->TabSheet_CYL->TabVisible = true;
-   SteelSectionDefinitionFrame->TabSheet_StandTube->TabVisible = true;
-   SteelSectionDefinitionFrame->Label_type_sect->Visible = true;
-   SteelSectionDefinitionFrame->ComboBox_TypeSect->Visible = true;
 
-   Type_sect = DVUTAVR; //#define DVUTAVR 1;- аналого типа enum
 
-   SteelSectionDefinitionFrame->ComboBox_TypeSect->ItemIndex = 1;
-   SteelSectionDefinitionFrame->ComboBox_TypeSectChange(Sender);
+  // SteelSectionDefinitionFrame->ComboBox_TypeSect->ItemIndex = 1;
+ //  SteelSectionDefinitionFrame->ComboBox_TypeSectChange(Sender);
 
 }
 //---------------------------------------------------------------------------

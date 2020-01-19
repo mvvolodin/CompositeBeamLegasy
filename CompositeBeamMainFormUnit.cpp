@@ -31,8 +31,13 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
 	fill_cmb_bx_LC();
 }
 //----------------------------------------------------------------------
+//
+//----------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 {
+//Так как главная форма создаётся перед остальными формами и учитывая, что форма появляется
+//только один раз, все инструкции использующее данные других форм должны быть вынесены в
+//обработчик события OnShow, когда все формы гарантировано созданы и инициализированы.
 	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837->ItemIndex=0;
 	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837Click(Sender);
 	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame
@@ -43,6 +48,7 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	rdgrp_slab_typeClick(Sender);
 	pnl_shear_stud_viewer->Caption=StudDefinitionForm->cmb_bx_stud_part_number->Text;
 	pnl_rebar_viewer->Caption=RebarDefinitionForm->cmb_bx_rebar_grade->Text;
+	calculate_composite_beam();
 }
 //---------------------------------------------------------------------------
 //Инициализация топологии
@@ -188,24 +194,7 @@ void TCompositeBeamMainForm::init_composite_beam(TGeometry 				  geometry,
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::BtnCalculateClick(TObject *Sender)
 {
-   //проверка объекта и в случае его наличия будет вызван деструктор
-   //проверка в nullptr  в concrete_section_
-   //установить все объекты в ноль
-
-   TGeometry geometry=init_geomet();//поле содержащее топологию
-   TISectionInitialData i_section_initial_data=init_i_section();
-   TLoads loads=init_loads();;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
-   TStud stud=init_stud(); //поле соержащее упоры Нельсона
-   TSteelInitialData steel_i_section_initial_data=init_steel_i_section();
-   WorkingConditionsFactors working_conditions_factors=init_working_conditions_factors();
-   TConcretePart* concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!
-   CompositeSection composite_section=init_composite_section(geometry,steel_i_section_initial_data,i_section_initial_data,
-																	concrete_part);
-   init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
-
-	BtnReport->Enabled=True;
-	fill_grid_with_results();
-	draw_diagram();
+	calculate_composite_beam();
 }
 //---------------------------------------------------------------------------
 //Сформировать и открыть отчёт
@@ -400,39 +389,53 @@ void __fastcall TCompositeBeamMainForm::NExitClick(TObject *Sender)
 void TCompositeBeamMainForm::generate_report()
 {
 	 TWord_Automation report_=TWord_Automation("ReportCompositeBeam.docx");
+	 ISection i_section= composite_beam_.get_composite_section().get_steel_part();
+	 TGeometry geometry=composite_beam_.get_geometry();
+	 TLoads loads=composite_beam_.get_loads();
+	 Steel steel=composite_beam_.get_composite_section().get_steel_grade();
+
 //[1.1] Топология
 	report_.PasteTextPattern("Нет", "%end_beam%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_span(LengthUnit::m)), "%span%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_trib_width_left(LengthUnit::m)), "%trib_width_left% ");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_geometry().get_trib_width_right(LengthUnit::m)), "%trib_width_right% ");
+	report_.PasteTextPattern(FloatToStr(geometry.get_span(LengthUnit::mm)), "%span%");
+	report_.PasteTextPattern(FloatToStr(geometry.get_trib_width_left(LengthUnit::mm)), "%trib_width_left% ");
+	report_.PasteTextPattern(FloatToStr(geometry.get_trib_width_right(LengthUnit::mm)), "%trib_width_right% ");
 
 //[1.2] Загружения
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m)), "%DL_I%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m)), "%DL_II%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_live_load(LoadUnit::kN, LengthUnit::m)), "%LL%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_DL_I()), "%gamma_f_DL_I%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_DL_II()), "%gamma_f_DL_II%");
-	report_.PasteTextPattern(FloatToStr(composite_beam_.get_loads().get_gamma_f_LL()), "%gamma_f_LL%");
+	report_.PasteTextPattern(FloatToStr(loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m)), "%DL_I%");
+	report_.PasteTextPattern(FloatToStr(loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m)), "%DL_II%");
+	report_.PasteTextPattern(FloatToStr(loads.get_live_load(LoadUnit::kN, LengthUnit::m)), "%LL%");
+	report_.PasteTextPattern(FloatToStr(loads.get_gamma_f_DL_I()), "%gamma_f_DL_I%");
+	report_.PasteTextPattern(FloatToStr(loads.get_gamma_f_DL_II()), "%gamma_f_DL_II%");
+	report_.PasteTextPattern(FloatToStr(loads.get_gamma_f_LL()), "%gamma_f_LL%");
 //[1.1] Стальное сечение
 //[1.1.1] Номинальные размеры двутавра
-	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_profile_number(),"%profile_number%");
-	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_h_st(LengthUnit::cm),"%h%");
+	  report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
+	  report_.PasteTextPattern(i_section.get_h_st(LengthUnit::mm),"%h%");
 	  report_.PasteTextPattern(0,"%h%");
-	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_b_uf(LengthUnit::cm),"%b%");
+	  report_.PasteTextPattern(i_section.get_b_uf(LengthUnit::mm),"%b%");
 	  report_.PasteTextPattern(0,"%b_w%");
-	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_t_uf(LengthUnit::cm),"%t%");
-	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_t_w(LengthUnit::cm),"%s%");
-	  report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_r(LengthUnit::cm),"%r%");
+	  report_.PasteTextPattern(i_section.get_t_uf(LengthUnit::mm),"%t%");
+	  report_.PasteTextPattern(i_section.get_t_w(LengthUnit::mm),"%s%");
+	  report_.PasteTextPattern(i_section.get_r(LengthUnit::mm),"%r%");
+//[1.1.2] Характеристики стали
+	  report_.PasteTextPattern(steel.get_R_y(),"%R_yn%");
+	  report_.PasteTextPattern(steel.get_R_u(),"%R_un%");
+	  report_.PasteTextPattern(steel.get_E_s(),"%E%");
+	  report_.PasteTextPattern(steel.get_G_s(),"%G%");
+	  report_.PasteTextPattern(steel.get_nu(),"%nu%");
+	  report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
+	  report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
 
 //[2] Результаты расчёта
 //[2.1] Геометрические параметры
 //[2.1.1] Стального сечения
-	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_A_st(LengthUnit::cm),"%A_st%");
-	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_I_st(LengthUnit::cm),"%I_st%");
-	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_Wf2_st(LengthUnit::cm),"%Wf2_st%");
-	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_Wf1_st(LengthUnit::cm),"%Wf1_st%");
-	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_Z_f2_st(LengthUnit::cm),"%Z_f2_st%");
-	   report_.PasteTextPattern(composite_beam_.get_composite_section().get_steel_part().get_Z_f1_st(LengthUnit::cm),"%Z_f1_st%");
+
+	   report_.PasteTextPattern(i_section.get_A_st(LengthUnit::cm),"%A_st%");
+	   report_.PasteTextPattern(i_section.get_I_st(LengthUnit::cm),"%I_st%");
+	   report_.PasteTextPattern(i_section.get_Wf2_st(LengthUnit::cm),"%Wf2_st%");
+	   report_.PasteTextPattern(i_section.get_Wf1_st(LengthUnit::cm),"%Wf1_st%");
+	   report_.PasteTextPattern(i_section.get_Z_f2_st(LengthUnit::cm),"%Z_f2_st%");
+	   report_.PasteTextPattern(i_section.get_Z_f1_st(LengthUnit::cm),"%Z_f1_st%");
 
 }
 
@@ -478,6 +481,29 @@ void __fastcall TCompositeBeamMainForm::rd_grp_internal_forces_typeClick(TObject
 
 {
 	draw_diagram();
+}
+
+void TCompositeBeamMainForm::calculate_composite_beam()
+{
+   //проверка объекта и в случае его наличия будет вызван деструктор
+   //проверка в nullptr  в concrete_section_
+   //установить все объекты в ноль
+
+   TGeometry geometry=init_geomet();//поле содержащее топологию
+   TISectionInitialData i_section_initial_data=init_i_section();
+   TLoads loads=init_loads();;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
+   TStud stud=init_stud(); //поле соержащее упоры Нельсона
+   TSteelInitialData steel_i_section_initial_data=init_steel_i_section();
+   WorkingConditionsFactors working_conditions_factors=init_working_conditions_factors();
+   TConcretePart* concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!
+   CompositeSection composite_section=init_composite_section(geometry,steel_i_section_initial_data,i_section_initial_data,
+																	concrete_part);
+   init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
+
+	BtnReport->Enabled=True;
+	fill_grid_with_results();
+	draw_diagram();
+
 }
 //---------------------------------------------------------------------------
 

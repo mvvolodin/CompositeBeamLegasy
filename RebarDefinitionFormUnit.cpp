@@ -22,9 +22,9 @@ __fastcall TRebarDefinitionForm::TRebarDefinitionForm(TComponent* Owner)
 	edt_diameter->Text="12";
 	edt_safety_factor->Text="1.15";
 
-	for (IteratorRebarNamedList it = rebar_named_list.begin(); it != rebar_named_list.end(); it++){
-		cmb_bx_rebar_grade->Items->Add(it->first);
-		};
+	for (auto rebar:rebar_named_list) {
+		cmb_bx_rebar_grade->Items->Add(rebar.first);
+	}
 	create_rebar();
 }
 //---------------------------------------------------------------------------
@@ -39,11 +39,8 @@ void TRebarDefinitionForm::create_rebar()
 {
 	double diameter=0.0;
 	double safety_factor=0.0;
-	int rc=0; //rc- return code -код ошибки
-	rc=String_double_plus(lbl_diameter->Caption, edt_diameter->Text, &diameter);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_safety_factor->Caption, edt_safety_factor->Text, &safety_factor);
-	if (rc>0) return;
+	String_double_plus(lbl_diameter->Caption, edt_diameter->Text, &diameter);
+	String_double_plus(lbl_safety_factor->Caption, edt_safety_factor->Text, &safety_factor);
 	String grade=cmb_bx_rebar_grade->Text;
 	double R_s=StrToFloat(edt_R_s_n->Text);
 	rebar= Rebar(grade, R_s, diameter, safety_factor);

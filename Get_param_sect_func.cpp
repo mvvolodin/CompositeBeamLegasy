@@ -129,19 +129,19 @@ void Get_param_sect(SECT_DVUTAVR* section, GEOM_PARAM_SECT *param_sect) {
    }
    else {
      StandartProfil.SetProfil(section->n_group);
-     ParamProfil = StandartProfil.GetVectorParamProfil(section->n_profil);
+	 ParamProfil = StandartProfil.GetVectorParamProfil(section->n_profil);
      param_sect->Ar = ParamProfil[parAREA];
      param_sect->Hsect = ParamProfil[parHSECT];
 
      param_sect->Zct = param_sect->Hsect/2;
-     param_sect->Wsect = ParamProfil[parBF];
+	 param_sect->Wsect = ParamProfil[parWZ];
      param_sect->Yct = param_sect->Wsect/2;
      param_sect->Izz = ParamProfil[parIZZ];
      param_sect->Iyy = ParamProfil[parIYY];
      param_sect->Iyz = 0.0;
      param_sect->Hp = param_sect->Hsect - section->h1/2 - section->h2/2;
      param_sect->Zp = param_sect->Zct - section->h1/2;
-     param_sect->Rad = ParamProfil[parRAD];
+	 param_sect->Rad = ParamProfil[parRAD];
 
    /* Справочник металлиста, стр 87 - для тонкостенного двутавра */
      param_sect->Itor = (section->h1*section->h1*section->h1*section->b1 +
