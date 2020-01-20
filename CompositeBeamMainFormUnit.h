@@ -36,7 +36,9 @@
 
  #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
  #include "Word_Automation.h"//Подключаем файл классом объекта отчёт
-
+ //@
+void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
+//@@
 class TCompositeBeamMainForm : public TForm
 {
 
@@ -53,7 +55,7 @@ __published:	// IDE-managed Components
 	TMenuItem *NSaveAs;
 	TMenuItem *NOutReport;
 	TMenuItem *N8;
-	TSaveDialog *SaveDialog1;
+	TSaveDialog *SaveDialog_Model;
 	TOpenDialog *OpenDialog_Model;
 	TImageList *ImageList1;
 	TToolBar *ToolBar1;
@@ -144,6 +146,7 @@ __published:	// IDE-managed Components
 	TStringGrid *strng_grd_compos_sect_geom_character;
 	TTabSheet *TbResults;
 	TStringGrid *strngGrdResults;
+	TOpenDialog *OpenDialog1;
 
 	void __fastcall chck_bx_end_beamClick(TObject *Sender);
 	void __fastcall BtnCalculateClick(TObject *Sender);
@@ -162,6 +165,10 @@ __published:	// IDE-managed Components
 	void __fastcall NExitClick(TObject *Sender);
 	void __fastcall cmb_bx_LCChange(TObject *Sender);
 	void __fastcall rd_grp_internal_forces_typeClick(TObject *Sender);
+	void __fastcall NNewClick(TObject *Sender);
+	void __fastcall NSaveClick(TObject *Sender);
+	void __fastcall NSaveAsClick(TObject *Sender);
+	void __fastcall NOpenClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);
@@ -193,6 +200,14 @@ private:
 	void fill_grid_with_results();
 	void draw_diagram();//Отрисовка эпюр
 	void calculate_composite_beam();//инициализирует и рассчитывает балку
+
+	//@----------------------------------------------------------------
+	#define UNTITLED  "Без имени"
+	bool modify_project;  // признак изменения проекта после сохранения
+	char ModelFile[240];
+	AnsiString FileDir_Name;
+
+	//@@
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TCompositeBeamMainForm *CompositeBeamMainForm;

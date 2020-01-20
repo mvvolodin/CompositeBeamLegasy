@@ -29,9 +29,6 @@ Coordinates=164,174,45,51
 [MainMenu1]
 Coordinates=680,56,81,36
 
-[SaveDialog1]
-Coordinates=844,155,87,36
-
 [N8]
 Coordinates=570,528,40,36
 
@@ -97,4 +94,7 @@ Coordinates=668,540,93,58
 
 [lbl_beam_division]
 Coordinates=120,1,60,58
+
+[SaveDialog_Model]
+Coordinates=844,155,87,36
 

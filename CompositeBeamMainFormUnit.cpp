@@ -29,6 +29,10 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
 	grid_constructor_ratios();
 	grid_constr_comp_sect_geometr();
 	fill_cmb_bx_LC();
+	//@
+	modify_project = false;
+	//@@
+
 }
 //----------------------------------------------------------------------
 //
@@ -38,6 +42,10 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 //Так как главная форма создаётся перед остальными формами и учитывая, что форма появляется
 //только один раз, все инструкции использующее данные других форм должны быть вынесены в
 //обработчик события OnShow, когда все формы гарантировано созданы и инициализированы.
+	//@
+	NNewClick(Sender);
+	//@@
+
 	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837->ItemIndex=0;
 	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837Click(Sender);
 	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame
@@ -49,6 +57,7 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	pnl_shear_stud_viewer->Caption=StudDefinitionForm->cmb_bx_stud_part_number->Text;
 	pnl_rebar_viewer->Caption=RebarDefinitionForm->cmb_bx_rebar_grade->Text;
 	calculate_composite_beam();
+
 }
 //---------------------------------------------------------------------------
 //Инициализация топологии
@@ -372,10 +381,9 @@ void __fastcall TCompositeBeamMainForm::BtBtnShearStudsChoiceClick(TObject *Send
 
 void __fastcall TCompositeBeamMainForm::NOutReportClick(TObject *Sender)
 {
-	  // Вывести файл отчета
-	   int rc = Application->MessageBox(L"Здесь выводится файл отчета в формате Word",
-			   L" ", MB_OK | MB_ICONINFORMATION);
-
+	  //@ Вывести файл отчета
+	  BtnReportClick(Sender);
+      //@@
 }
 //---------------------------------------------------------------------------
 
@@ -508,4 +516,118 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 //---------------------------------------------------------------------------
 
 
+
+void __fastcall TCompositeBeamMainForm::NNewClick(TObject *Sender)
+{
+	//@
+	int i;
+	if (modify_project) {
+		 i=Application->MessageBox(L"Сохранить текущий проект?", L" ",
+				  MB_YESNO | MB_ICONQUESTION);
+		 if (i==IDYES) NSaveClick(Sender);
+	}
+	strcpy(ModelFile, UNTITLED);
+	modify_project = false;
+
+	Caption = "Расчет комбинированной балки - [Новый проект]";
+	//@@
+	//--------------------------------------------------------
+	// Текст события
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::NSaveClick(TObject *Sender)
+{
+   //@
+   //char * path;
+   AnsiString File;
+
+   //------------------------------------
+   // Получение имени директории, в которой находится исполняемый модуль
+   //unsigned long dword = GetModuleFileName(NULL, Path_gen, PATHLEN );
+   //path = strrchr(Path_gen, '\\');
+   //path[0] = '\0';
+
+   if  (strcmp(ModelFile, UNTITLED)==0) {
+	  if(SaveDialog_Model->Execute())
+      {
+		  File = SaveDialog_Model->FileName;
+		  FileDir_Name = File;
+		  ModelName(File.c_str(), ModelFile);
+	  }
+	  else return;
+   }
+   else
+	   File = FileDir_Name;
+   TFileStream* FS = new TFileStream(File, fmCreate);
+   for(int i=0;i<CompositeBeamMainForm->ComponentCount;++i)
+	  FS->WriteComponent(CompositeBeamMainForm->Components[i]);
+   delete(FS);
+   Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
+
+   modify_project = false;
+   //@@
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::NSaveAsClick(TObject *Sender)
+{
+	//@
+	strcpy(ModelFile, UNTITLED);
+	NSaveClick(Sender);
+	//@@
+}
+//---------------------------------------------------------------------------
+//@--------------------------------------------------------------------------
+// Выделение из имени файла в имени модели
+void ModelName(char * str0, char* ModelFile)
+{
+	  char *ptr1, *ptr2;
+	  char i, str[240];
+
+	  if  (strcmp(ModelFile, UNTITLED)==0) {
+	   i= 240<strlen(str0) ? 240 : strlen(str0);
+	   strcpy(str,str0);
+	   ptr1 = strrchr(str,'\\');
+	   ptr2 = strrchr(ptr1,'.');
+	   if (ptr2!=NULL)
+		 *ptr2='\0';
+	   if (ptr1==NULL)
+		 strcpy(ModelFile, str);
+	   else
+		 strcpy(ModelFile, ptr1+1);
+	  }
+}
+
+void __fastcall TCompositeBeamMainForm::NOpenClick(TObject *Sender)
+{
+
+   NNewClick(Sender);
+
+   if(OpenDialog_Model->Execute())
+   {
+	  FileDir_Name = OpenDialog_Model->FileName;
+   }
+   if (FileDir_Name!="") {
+
+	  strcpy(ModelFile, UNTITLED);
+	  TFileStream* FS = new TFileStream(FileDir_Name, fmOpenRead);
+	  for(int i=0;i<CompositeBeamMainForm->ComponentCount;++i) {
+		 //FS->ReadComponent(CompositeBeamMainForm->Components[i]);
+	  }
+	  delete(FS);
+
+	  ModelName(FileDir_Name.c_str(), ModelFile);
+
+	  Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
+
+	  modify_project = false;
+
+   }
+   //@@
+
+
+}
+//---------------------------------------------------------------------------
 
