@@ -174,6 +174,12 @@
         <None Include="Data_Profil.h">
             <BuildOrder>23</BuildOrder>
         </None>
+        <CppCompile Include="DefineSteelFormUnit.cpp">
+            <Form>DefineSteelForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>DefineSteelFormUnit.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
         <CppCompile Include="DrawEpurMain.cpp">
             <VirtualFolder>{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}</VirtualFolder>
             <DependentOn>DrawEpurMain.h</DependentOn>
@@ -340,6 +346,7 @@
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
+        <FormResources Include="DefineSteelFormUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

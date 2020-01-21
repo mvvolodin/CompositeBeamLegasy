@@ -10,6 +10,8 @@
 
 #include "CompositeBeamMainFormUnit.h"
 #include "String_doubleUnit.h"  //Функции проверяющие правильность ввода данных в поля формы
+#include "SteelSectionFormUnit.h"
+
 
 #include "Report.h" //Подключаем генератор отчётов
 
@@ -50,8 +52,12 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837Click(Sender);
 	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame
 	->ComboBox_profil->Text;
-	SteelDefinitionForm->ComboBox_steelChange(Sender);
-	PnlSteelViewer->Caption=SteelDefinitionForm->ComboBox_steel->Text;
+	//@
+	//SteelDefinitionForm->ComboBox_steelChange(Sender);
+	DefineSteelForm->ComboBox_steelChange(Sender);
+	//PnlSteelViewer->Caption=SteelDefinitionForm->ComboBox_steel->Text;
+	PnlSteelViewer->Caption = DefineSteelForm->ComboBox_steel->Text;
+	//@@
 	pnl_concrete_grade->Caption=ConcreteDefinitionForm->cmb_bx_concrete_grade_list->Text;
 	rdgrp_slab_typeClick(Sender);
 	pnl_shear_stud_viewer->Caption=StudDefinitionForm->cmb_bx_stud_part_number->Text;
@@ -121,12 +127,27 @@ TISectionInitialData TCompositeBeamMainForm::init_i_section()
 //---------------------------------------------------------------------------
 TSteelInitialData TCompositeBeamMainForm::init_steel_i_section()
 {
+	/*
 	return TSteelInitialData(SteelDefinitionForm->MaterProp.Ry,
 							 SteelDefinitionForm->MaterProp.Ru,
 							 SteelDefinitionForm->MaterProp.E,
 							 SteelDefinitionForm->MaterProp.G,
 							 SteelDefinitionForm->MaterProp.nu,
 							 SteelDefinitionForm->MaterProp.gamma_m);
+	*/
+	return TSteelInitialData(DefineSteelForm->MaterProp.Ry,
+							 DefineSteelForm->MaterProp.Ru,
+							 DefineSteelForm->MaterProp.E,
+							 DefineSteelForm->MaterProp.G,
+							 DefineSteelForm->MaterProp.nu,
+							 DefineSteelForm->MaterProp.gamma_m);
+	//@ Заполнение свойств материала для заданной толщины t_max  - "рыба"
+	double t_max = 20;
+	int rc;
+	double Ry =  Steel_param_Ry(DefineSteelForm->MaterProp.title, t_max, &rc, false);
+	double Ru =  Steel_param_Ru(DefineSteelForm->MaterProp.title, t_max, &rc, false);
+	//@@
+
 }
 //---------------------------------------------------------------------------
 //Инициализация железобетонной части сечения
@@ -333,8 +354,11 @@ void TCompositeBeamMainForm::fill_cmb_bx_LC()
 
 void __fastcall TCompositeBeamMainForm::BtBtnSteelChoiceClick(TObject *Sender)
 {
-	 SteelDefinitionForm->ShowModal();
-	 PnlSteelViewer->Caption = SteelDefinitionForm->ComboBox_steel->Text;
+	 //SteelDefinitionForm->ShowModal();
+	 //PnlSteelViewer->Caption = SteelDefinitionForm->ComboBox_steel->Text;
+	 DefineSteelForm->ShowModal();
+	 PnlSteelViewer->Caption = DefineSteelForm->ComboBox_steel->Text;
+
 }
 //---------------------------------------------------------------------------
 

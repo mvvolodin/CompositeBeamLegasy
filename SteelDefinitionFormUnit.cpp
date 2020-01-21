@@ -16,14 +16,14 @@ TSteelDefinitionForm *SteelDefinitionForm;
 static bool flag_close;  //для чего нужен этот флаг
 static String text, header;
 
- MATER_PARAM mater_param;//Глобальная переменная для передачи параметров материала в главную форму MV 18.08.19
- STEEL_PARAM steel_param;//Глобальная переменная для передачи параметров материала в главную форму MV 29.09.19
+ extern MATER_PARAM mater_param;//Глобальная переменная для передачи параметров материала в главную форму MV 18.08.19
+ extern STEEL_PARAM steel_param;//Глобальная переменная для передачи параметров материала в главную форму MV 29.09.19
 
 //---------------------------------------------------------------------------
 __fastcall TSteelDefinitionForm::TSteelDefinitionForm(TComponent* Owner)
         : TForm(Owner)
 {
-		Set_index_steel(ComboBox_gost->ItemIndex);
+	   Set_index_steel(ComboBox_gost->ItemIndex);
 
 }
 //---------------------------------------------------------------
@@ -56,6 +56,7 @@ void __fastcall TSteelDefinitionForm::Set_index_steel(int index) {
    ComboBox_steel->ItemIndex = 0;
 }
 //-----------------------------------------------
+// Прочитать материал
 void __fastcall TSteelDefinitionForm::Read_Mater(TObject *Sender)
 {
 	 int i, j, rc;

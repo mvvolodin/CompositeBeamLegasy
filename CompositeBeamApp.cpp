@@ -5,11 +5,12 @@
 //---------------------------------------------------------------------------
 USEFORM("SteelDefinitionFormUnit.cpp", SteelDefinitionForm);
 USEFORM("RebarDefinitionFormUnit.cpp", RebarDefinitionForm);
-USEFORM("StudDefinitionFormUnit.cpp", StudDefinitionForm);
-USEFORM("SteelSectionDefinitionFrameUnit.cpp", SteelSectionDefinitionFrame); /* TFrame: File Type */
 USEFORM("SteelSectionFormUnit.cpp", SteelSectionForm);
+USEFORM("SteelSectionDefinitionFrameUnit.cpp", SteelSectionDefinitionFrame); /* TFrame: File Type */
+USEFORM("StudDefinitionFormUnit.cpp", StudDefinitionForm);
 USEFORM("CompositeBeamMainFormUnit.cpp", CompositeBeamMainForm);
 USEFORM("ConcreteDefinitionFormUnit.cpp", ConcreteDefinitionForm);
+USEFORM("DefineSteelFormUnit.cpp", DefineSteelForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -23,6 +24,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TConcreteDefinitionForm), &ConcreteDefinitionForm);
 		Application->CreateForm(__classid(TRebarDefinitionForm), &RebarDefinitionForm);
 		Application->CreateForm(__classid(TStudDefinitionForm), &StudDefinitionForm);
+		Application->CreateForm(__classid(TDefineSteelForm), &DefineSteelForm);
 		Application->Run();
 	}
 	catch (Exception &exception)

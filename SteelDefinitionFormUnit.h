@@ -11,18 +11,7 @@
 #include <Buttons.hpp>
 //---------------------------------------------------------------------------
 
-	typedef struct _material  /* элемент массива данных материала */
-	   {
-		char   title[12];
-		double E;          /* модуль Юнга */
-		double G;          /* модуль сдвига */
-		double nu;         /* коэффициент Пуассона */
-		double Ry;         /* Расчетное допускаемое напряжение (предел текучески) для минимальной толщиы */
-		double Ru;         /* Расчетное временное сопротивление разрыву */
-		double gamma_m;    /* коэффициент надежности по материалу */
-		double dens;       /* плотность */
-		}  MATERIAL;
-
+#include "Steel_param_ARSS.h"
 
 
 class TSteelDefinitionForm : public TForm

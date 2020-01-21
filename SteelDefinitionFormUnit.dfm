@@ -65,7 +65,7 @@ object SteelDefinitionForm: TSteelDefinitionForm
       OnChange = ComboBox_steelChange
     end
     object ComboBox_gost: TComboBox
-      Left = 176
+      Left = 177
       Top = 8
       Width = 265
       Height = 21

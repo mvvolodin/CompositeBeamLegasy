@@ -28,8 +28,9 @@
 
 #include "CompositeBeam.h"//Подключаем логику
 
+//#include "SteelDefinitionFormUnit.h"   //Подключаем формы
 #include "SteelDefinitionFormUnit.h"   //Подключаем формы
-#include "SteelSectionFormUnit.h"
+#include "DefineSteelFormUnit.h"
 #include "StudDefinitionFormUnit.h"
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
