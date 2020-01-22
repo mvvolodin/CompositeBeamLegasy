@@ -28,6 +28,8 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
 	: TForm(Owner)
 {
 //:composite_section_(nullptr)
+	TComponentClass classes[2] = {__classid(TTabSheet),__classid(TToolButton)};
+	RegisterClasses(classes, 1);
 	grid_constructor_ratios();
 	grid_constr_comp_sect_geometr();
 	fill_cmb_bx_LC();
@@ -127,14 +129,6 @@ TISectionInitialData TCompositeBeamMainForm::init_i_section()
 //---------------------------------------------------------------------------
 TSteelInitialData TCompositeBeamMainForm::init_steel_i_section()
 {
-	/*
-	return TSteelInitialData(SteelDefinitionForm->MaterProp.Ry,
-							 SteelDefinitionForm->MaterProp.Ru,
-							 SteelDefinitionForm->MaterProp.E,
-							 SteelDefinitionForm->MaterProp.G,
-							 SteelDefinitionForm->MaterProp.nu,
-							 SteelDefinitionForm->MaterProp.gamma_m);
-	*/
 	return TSteelInitialData(DefineSteelForm->MaterProp.Ry,
 							 DefineSteelForm->MaterProp.Ru,
 							 DefineSteelForm->MaterProp.E,
@@ -229,7 +223,7 @@ void __fastcall TCompositeBeamMainForm::BtnCalculateClick(TObject *Sender)
 //---------------------------------------------------------------------------
 //Сформировать и открыть отчёт
 //---------------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm::BtnReportClick(TObject *Sender)
+void __fastcall TCompositeBeamMainForm::btn_reportClick(TObject *Sender)
 {
 	Screen->Cursor = crHourGlass;//На время создания отчёта присвоем курсору вид часов
 	generate_report();
@@ -251,6 +245,7 @@ switch(rdgrp_slab_type->ItemIndex)
 			grp_bx_flat_slab->Visible=false;
 			break;
 }
+    OnControlsChange(Sender);
 }
 //---------------------------------------------------------------------------
 //Обработчик события обеспечивающий заполнение первой строки жирным шрифтом
@@ -259,7 +254,7 @@ void __fastcall TCompositeBeamMainForm::strngGrdResultsDrawCell(TObject *Sender,
 																int ACol, int ARow,
 																 TRect &Rect, TGridDrawState State)
 {
-TStringGrid *p1 = (TStringGrid*)Sender;
+	TStringGrid *p1 = (TStringGrid*)Sender;
 	if (ACol == 0 && ARow == 0){
 	p1->Canvas->Font->Style=TFontStyles() << fsBold;
 	}
@@ -320,17 +315,6 @@ strngGrdResults->Cells [1][1]="0.89";
 strngGrdResults->Cells [1][2]="0.33";
 strngGrdResults->Cells [1][3]="0.89";
 }
-void _fastcall TCompositeBeamMainForm::chck_bx_end_beamClick(TObject *Sender)
-{
-	if (chck_bx_end_beam->Checked){
-		lbl_trib_width_left->Caption="Свес плиты [мм]:";
-		lbl_trib_width_right->Caption="Расстояние между балками [мм]:";
-		}
-	else{
-		lbl_trib_width_left->Caption="Расстояние между балками слева [мм]:";
-		lbl_trib_width_right->Caption="Расстояние между балками справа [мм]:";
-    }
-}
 //---------------------------------------------------------------------------
 //	Функция заполняющая ComboBox случаями загружений
 //---------------------------------------------------------------------------
@@ -346,9 +330,6 @@ void TCompositeBeamMainForm::fill_cmb_bx_LC()
 	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::Total), "Расчётные Нагрузки");
 	cmb_bx_LC->ItemIndex = (int)LoadCaseNames::SW;
 }
-
-
-
 
 //---------------------------------------------------------------------------
 
@@ -405,9 +386,7 @@ void __fastcall TCompositeBeamMainForm::BtBtnShearStudsChoiceClick(TObject *Send
 
 void __fastcall TCompositeBeamMainForm::NOutReportClick(TObject *Sender)
 {
-	  //@ Вывести файл отчета
-	  BtnReportClick(Sender);
-      //@@
+	generate_report();
 }
 //---------------------------------------------------------------------------
 
@@ -532,7 +511,7 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 																	concrete_part);
    init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
 
-	BtnReport->Enabled=True;
+	btn_report->Enabled=True;
 	fill_grid_with_results();
 	draw_diagram();
 
@@ -584,9 +563,10 @@ void __fastcall TCompositeBeamMainForm::NSaveClick(TObject *Sender)
    }
    else
 	   File = FileDir_Name;
+
    TFileStream* FS = new TFileStream(File, fmCreate);
    for(int i=0;i<CompositeBeamMainForm->ComponentCount;++i)
-	  FS->WriteComponent(CompositeBeamMainForm->Components[i]);
+		FS->WriteComponent(CompositeBeamMainForm->Components[i]);
    delete(FS);
    Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
 
@@ -636,10 +616,10 @@ void __fastcall TCompositeBeamMainForm::NOpenClick(TObject *Sender)
    if (FileDir_Name!="") {
 
 	  strcpy(ModelFile, UNTITLED);
+
 	  TFileStream* FS = new TFileStream(FileDir_Name, fmOpenRead);
-	  for(int i=0;i<CompositeBeamMainForm->ComponentCount;++i) {
-		 //FS->ReadComponent(CompositeBeamMainForm->Components[i]);
-	  }
+	  for(int i=0;i<CompositeBeamMainForm->ComponentCount;++i)
+				 FS->ReadComponent(CompositeBeamMainForm->Components[i]);
 	  delete(FS);
 
 	  ModelName(FileDir_Name.c_str(), ModelFile);
@@ -652,6 +632,40 @@ void __fastcall TCompositeBeamMainForm::NOpenClick(TObject *Sender)
    //@@
 
 
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::OnControlsChange(TObject *Sender)
+{
+	if (btn_report->Enabled)
+		btn_report->Enabled=false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::chck_bx_end_beamClick(TObject *Sender)
+{
+	if (chck_bx_end_beam->Checked){
+		lbl_trib_width_left->Caption="Свес плиты [мм]:";
+		lbl_trib_width_right->Caption="Расстояние между балками [мм]:";
+		}
+	else{
+		lbl_trib_width_left->Caption="Расстояние между балками слева [мм]:";
+		lbl_trib_width_right->Caption="Расстояние между балками справа [мм]:";
+	}
+	OnControlsChange(Sender);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::CmbBxAnalysisTheoryChoiceChange(TObject *Sender)
+
+{
+    OnControlsChange(Sender);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::ComboBox2Change(TObject *Sender)
+{
+	OnControlsChange(Sender);
 }
 //---------------------------------------------------------------------------
 

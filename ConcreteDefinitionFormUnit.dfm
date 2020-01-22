@@ -8,7 +8,6 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
   Color = clBtnFace
   ParentFont = True
   OldCreateOrder = False
-  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   object lbl_R_b: TLabel

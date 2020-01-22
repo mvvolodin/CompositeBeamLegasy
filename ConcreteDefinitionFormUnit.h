@@ -30,7 +30,6 @@ __published:	// IDE-managed Components
 	TEdit *edt_epsilon_b_lim;
 	void __fastcall cmb_bx_concrete_grade_listChange(TObject *Sender);
 	void __fastcall BtBtnConcreteChoiceClick(TObject *Sender);
-	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:	// User declarations
 	Concrete concrete_;
 	ConcreteBasicData concrete_data_;

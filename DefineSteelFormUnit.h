@@ -39,7 +39,6 @@ __published:	// IDE-managed Components
 	TStringGrid *StringGrid_Prop;
 
         void __fastcall BitBtn_OKClick(TObject *Sender);
-        void __fastcall FormShow(TObject *Sender);
         void __fastcall ComboBox_steelChange(TObject *Sender);
 		void __fastcall ComboBox_gostChange(TObject *Sender);
 		void __fastcall Read_Mater(TObject *Sender);

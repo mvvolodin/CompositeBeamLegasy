@@ -48,6 +48,7 @@ void __fastcall TConcreteDefinitionForm::cmb_bx_concrete_grade_listChange(TObjec
 
 void __fastcall TConcreteDefinitionForm::BtBtnConcreteChoiceClick(TObject *Sender)
 {
+	init_concrete();
 	Close();
 }
 //---------------------------------------------------------------------------
@@ -71,11 +72,5 @@ void TConcreteDefinitionForm::init_concrete()
 	concrete_=Concrete(concrete_basic, gamma_b, epsilon_b_lim);
 }
 
-
-void __fastcall TConcreteDefinitionForm::FormClose(TObject *Sender, TCloseAction &Action)
-
-{
-    init_concrete();
-}
 //---------------------------------------------------------------------------
 

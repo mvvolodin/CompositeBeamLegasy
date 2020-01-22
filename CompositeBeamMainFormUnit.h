@@ -27,16 +27,14 @@
 
 
 #include "CompositeBeam.h"//Подключаем логику
-
-//#include "SteelDefinitionFormUnit.h"   //Подключаем формы
-#include "SteelDefinitionFormUnit.h"   //Подключаем формы
 #include "DefineSteelFormUnit.h"
 #include "StudDefinitionFormUnit.h"
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
 
  #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
- #include "Word_Automation.h"//Подключаем файл классом объекта отчёт
+ #include "Word_Automation.h"
+#include <Vcl.Imaging.jpeg.hpp>//Подключаем файл классом объекта отчёт
  //@
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 //@@
@@ -48,7 +46,7 @@ __published:	// IDE-managed Components
 	TMenuItem *NFile;
 	TMenuItem *N3;
 	TButton *BtnCalculate;
-	TButton *BtnReport;
+	TButton *btn_report;
 	TLabel *lbl_beam_division;
 	TEdit *edt_beam_division;
 	TMenuItem *NOpen;
@@ -148,10 +146,15 @@ __published:	// IDE-managed Components
 	TTabSheet *TbResults;
 	TStringGrid *strngGrdResults;
 	TOpenDialog *OpenDialog1;
+	TPageControl *pg_ctrl_geom_char;
+	TTabSheet *tb_sht_composite_geom_char;
+	TTabSheet *tb_sht_concrete_geom_char;
+	TTabSheet *tb_sht_steel_geom_char;
+	TStringGrid *strng_grd_steel_sect_geom_character;
+	TStringGrid *strng_grd_concrete_sect_geom_character;
 
-	void __fastcall chck_bx_end_beamClick(TObject *Sender);
 	void __fastcall BtnCalculateClick(TObject *Sender);
-	void __fastcall BtnReportClick(TObject *Sender);
+	void __fastcall btn_reportClick(TObject *Sender);
 	void __fastcall rdgrp_slab_typeClick(TObject *Sender);
 	void __fastcall strngGrdResultsDrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
 		  TGridDrawState State);
@@ -170,6 +173,10 @@ __published:	// IDE-managed Components
 	void __fastcall NSaveClick(TObject *Sender);
 	void __fastcall NSaveAsClick(TObject *Sender);
 	void __fastcall NOpenClick(TObject *Sender);
+	void __fastcall OnControlsChange(TObject *Sender);
+	void __fastcall chck_bx_end_beamClick(TObject *Sender);
+	void __fastcall CmbBxAnalysisTheoryChoiceChange(TObject *Sender);
+	void __fastcall ComboBox2Change(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);

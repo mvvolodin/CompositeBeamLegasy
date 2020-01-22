@@ -28,6 +28,7 @@ __published:	// IDE-managed Components
 	TEdit *edt_stud_safety_factor;
 	void __fastcall bt_btn_stud_choiceClick(TObject *Sender);
 	void __fastcall cmb_bx_stud_part_numberChange(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:
 	TStud stud_;
 	TStudData stud_data;

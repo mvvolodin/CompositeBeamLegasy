@@ -3,7 +3,6 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("SteelDefinitionFormUnit.cpp", SteelDefinitionForm);
 USEFORM("RebarDefinitionFormUnit.cpp", RebarDefinitionForm);
 USEFORM("SteelSectionFormUnit.cpp", SteelSectionForm);
 USEFORM("SteelSectionDefinitionFrameUnit.cpp", SteelSectionDefinitionFrame); /* TFrame: File Type */
@@ -19,7 +18,6 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
 		Application->CreateForm(__classid(TCompositeBeamMainForm), &CompositeBeamMainForm);
-		Application->CreateForm(__classid(TSteelDefinitionForm), &SteelDefinitionForm);
 		Application->CreateForm(__classid(TSteelSectionForm), &SteelSectionForm);
 		Application->CreateForm(__classid(TConcreteDefinitionForm), &ConcreteDefinitionForm);
 		Application->CreateForm(__classid(TRebarDefinitionForm), &RebarDefinitionForm);

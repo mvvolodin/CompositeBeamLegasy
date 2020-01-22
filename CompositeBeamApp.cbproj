@@ -175,6 +175,7 @@
             <BuildOrder>23</BuildOrder>
         </None>
         <CppCompile Include="DefineSteelFormUnit.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>DefineSteelForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>DefineSteelFormUnit.h</DependentOn>
@@ -266,13 +267,6 @@
             <DependentOn>Steel.h</DependentOn>
             <BuildOrder>38</BuildOrder>
         </CppCompile>
-        <CppCompile Include="SteelDefinitionFormUnit.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>SteelDefinitionForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>SteelDefinitionFormUnit.h</DependentOn>
-            <BuildOrder>20</BuildOrder>
-        </CppCompile>
         <CppCompile Include="SteelInitialDataUnit.cpp">
             <VirtualFolder>{C6F2178C-7378-48FB-AD9E-9A60F5F99E54}</VirtualFolder>
             <DependentOn>SteelInitialDataUnit.h</DependentOn>
@@ -339,7 +333,6 @@
             <DependentOn>WRData_Check.h</DependentOn>
             <BuildOrder>32</BuildOrder>
         </CppCompile>
-        <FormResources Include="SteelDefinitionFormUnit.dfm"/>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
         <FormResources Include="SteelSectionFormUnit.dfm"/>
         <FormResources Include="SteelSectionDefinitionFrameUnit.dfm"/>
@@ -374,11 +367,11 @@
                     <Source Name="MainSource">CompositeBeamApp.cpp</Source>
                 </Source>
                 <VFOLDERS>
+                    <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
                     <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
                     <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
                     <VFOLDER ID="{C6F2178C-7378-48FB-AD9E-9A60F5F99E54}" name="Initial Data"/>
                     <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
-                    <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
                 </VFOLDERS>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>

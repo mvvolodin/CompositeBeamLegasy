@@ -36,10 +36,10 @@ __fastcall TStudDefinitionForm::TStudDefinitionForm(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TStudDefinitionForm::bt_btn_stud_choiceClick(TObject *Sender)
 {
-	init_stud();
 	Close();
 }
 //---------------------------------------------------------------------------
+
 
 void __fastcall TStudDefinitionForm::cmb_bx_stud_part_numberChange(TObject *Sender)
 {
@@ -71,5 +71,10 @@ void TStudDefinitionForm::init_stud()
 	stud_=TStud(name, l, d_an, gamma_c, R_y); //NOT copy initialization. Assigment becuase stud_ was initialized before
 }
 
+void __fastcall TStudDefinitionForm::FormClose(TObject *Sender, TCloseAction &Action)
+
+{
+	init_stud();//При закрытии формы происходит присвоение полю stud_ значений контролов
+}
 //---------------------------------------------------------------------------
 

@@ -24,25 +24,20 @@ static String text, header;
 __fastcall TDefineSteelForm::TDefineSteelForm(TComponent* Owner)
         : TForm(Owner)
 {
-	   ComboBox_gost->Items->Clear();
-	   ComboBox_gost->Items->Add("СП 16.13330.2017, Таблица В.4, двутавры");
-	   ComboBox_gost->Items->Add("ГОСТ 27772-2015, Таблица 5, фасонный прокат");
-	   ComboBox_gost->ItemIndex = 0;
-	   Set_index_steel(ComboBox_gost->ItemIndex);
+	Caption="Выбор стали";
+	StringGrid_Prop->ColCount = 3;
+	StringGrid_Prop->Cells[0][0] = "Толщина проката, мм";
+	StringGrid_Prop->Cells[1][0] = "  Ryn";
+	StringGrid_Prop->Cells[2][0] = "  Run";
+	ComboBox_gost->Items->Clear();
+	ComboBox_gost->Items->Add("СП 16.13330.2017, Таблица В.4, двутавры");
+	ComboBox_gost->Items->Add("ГОСТ 27772-2015, Таблица 5, фасонный прокат");
+	ComboBox_gost->ItemIndex = 0;
+
+	Set_index_steel(ComboBox_gost->ItemIndex);
+	ComboBox_steelChange(nullptr);
 }
 //---------------------------------------------------------------
-void __fastcall TDefineSteelForm::FormShow(TObject *Sender)
-{
-   int n_steel;
-
-   Caption="Выбор стали";
-   ComboBox_steelChange(Sender);
-   StringGrid_Prop->ColCount = 3;
-   StringGrid_Prop->Cells[0][0] = "Толщина проката, мм";
-   StringGrid_Prop->Cells[1][0] = "  Ryn";
-   StringGrid_Prop->Cells[2][0] = "  Run";
-}
-//---------------------------------------------------------------------------
 // Установить индекс стали
 void __fastcall TDefineSteelForm::Set_index_steel(int index) {
 
