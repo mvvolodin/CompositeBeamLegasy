@@ -32,6 +32,8 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
 	RegisterClasses(classes, 1);
 	grid_constructor_ratios();
 	grid_constr_comp_sect_geometr();
+	grid_constr_steel_sect_geometr();
+	grid_constr_concrete_sect_geometr();
 	fill_cmb_bx_LC();
 	//@
 	modify_project = false;
@@ -254,18 +256,12 @@ void __fastcall TCompositeBeamMainForm::strngGrdResultsDrawCell(TObject *Sender,
 																int ACol, int ARow,
 																 TRect &Rect, TGridDrawState State)
 {
-	TStringGrid *p1 = (TStringGrid*)Sender;
-	if (ACol == 0 && ARow == 0){
-	p1->Canvas->Font->Style=TFontStyles() << fsBold;
-	}
-	else	if (ACol == 1 && ARow == 0){
-
-                		p1->Canvas->Font->Style=TFontStyles() << fsBold;
-					}
-
-            	   p1->Canvas->Brush->Style = bsSolid;
-            	   p1->Canvas->FillRect(Rect);
-				   p1->Canvas->TextOut(Rect.Left, Rect.Top, p1->Cells[ACol][ARow]);
+	ShowMessage(static_cast<TStringGrid*>(Sender)->Name);
+	if (ARow ==0 || ACol==0)
+	static_cast<TStringGrid*>(Sender)->Canvas->Font->Style=TFontStyles() << fsBold;
+	static_cast<TStringGrid*>(Sender)->Canvas->Brush->Style = bsSolid;
+	static_cast<TStringGrid*>(Sender)->Canvas->FillRect(Rect);
+ 	static_cast<TStringGrid*>(Sender)->Canvas->TextOut(Rect.Left+30, Rect.Top+11, strngGrdResults->Cells[ACol][ARow]);
 }
 
 //---------------------------------------------------------------------------
@@ -273,15 +269,42 @@ void __fastcall TCompositeBeamMainForm::strngGrdResultsDrawCell(TObject *Sender,
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::grid_constr_comp_sect_geometr()
 {
- strng_grd_compos_sect_geom_character->Cells [0][0]="Геометрические характеристики";
- strng_grd_compos_sect_geom_character->Cells [1][0]="Значения";
- strng_grd_compos_sect_geom_character->Cells [0][1]="Площадь Ared, [мм2]";
- strng_grd_compos_sect_geom_character->Cells [0][2]="Момент инерции Ired, [мм4]";
- strng_grd_compos_sect_geom_character->Cells [0][3]="Момент сопротивления, верхн. полка W_f2_red, [мм3]";
- strng_grd_compos_sect_geom_character->Cells [0][4]="Момент сопротивления, нижн. полка W_f1_red, [мм3]";
- //strng_grd_compos_sect_geom_character->Cells [0][5]="Расстояние Z_b_st, [мм]";
- //strng_grd_compos_sect_geom_character->Cells [0][6]="Расстояние Z_b_st, [мм]";
- //strng_grd_compos_sect_geom_character->Cells [0][6]="Собственный вес, [кг/м]";
+ strng_grd_compos_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
+ strng_grd_compos_sect_geom_character->Cells [1][0]=L"Значения";
+ strng_grd_compos_sect_geom_character->Cells [0][1]=L"Площадь Ared, [мм2]";
+ strng_grd_compos_sect_geom_character->Cells [0][2]=L"Момент инерции Ired, [мм4]";
+ strng_grd_compos_sect_geom_character->Cells [0][3]=L"Момент сопротивления, верхн. полка W_f2_red, [мм3]";
+ strng_grd_compos_sect_geom_character->Cells [0][4]=L"Момент сопротивления, нижн. полка W_f1_red, [мм3]";
+ strng_grd_compos_sect_geom_character->Cells [0][5]=L"Расстояние Z_b_st, [мм]";
+ strng_grd_compos_sect_geom_character->Cells [0][6]=L"Расстояние Z_b_st, [мм]";
+ strng_grd_compos_sect_geom_character->Cells [0][6]=L"Собственный вес, [кг/м]";
+}
+//---------------------------------------------------------------------------
+//Функция заполняющая объект TStringGrid геометрическими характеристиками стального сечения
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::grid_constr_steel_sect_geometr()
+{
+	strng_grd_steel_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
+	strng_grd_steel_sect_geom_character->Cells [0][0]=L"Значения";
+	strng_grd_steel_sect_geom_character->Cells [0][1]=L"Площадь";
+	strng_grd_steel_sect_geom_character->Cells [0][2]=L"Момент инерции";
+	strng_grd_steel_sect_geom_character->Cells [0][3]=L"Момент сопротивления крайних волокон верхней полки";
+	strng_grd_steel_sect_geom_character->Cells [0][4]=L"Момент сопротивления крайних волокон нижней полки";
+	strng_grd_steel_sect_geom_character->Cells [0][5]=L"Расстояние от Ц.Т. до наружной грани верхней полки";
+	strng_grd_steel_sect_geom_character->Cells [0][6]=L"Расстояние от Ц.Т. до наружной грани нижней полки";
+}
+//---------------------------------------------------------------------------
+//Функция заполняющая объект TStringGrid геометрическими характеристиками железобетонного сечения
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::grid_constr_concrete_sect_geometr()
+{
+	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
+	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Значения";
+	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Расчётная величина свеса слева";
+	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Расчётная величина свеса справа";
+	strng_grd_concrete_sect_geom_character->Cells [0][1]=L"Площадь";
+	strng_grd_concrete_sect_geom_character->Cells [0][2]=L"Момент инерции";
+	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Момент сопротивления";
 }
 
 void TCompositeBeamMainForm::fill_grid_with_results()
@@ -510,7 +533,7 @@ void TCompositeBeamMainForm::calculate_composite_beam()
    CompositeSection composite_section=init_composite_section(geometry,steel_i_section_initial_data,i_section_initial_data,
 																	concrete_part);
    init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
-
+//Вывод результатов расчёта
 	btn_report->Enabled=True;
 	fill_grid_with_results();
 	draw_diagram();

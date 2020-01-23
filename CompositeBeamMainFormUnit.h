@@ -150,8 +150,8 @@ __published:	// IDE-managed Components
 	TTabSheet *tb_sht_composite_geom_char;
 	TTabSheet *tb_sht_concrete_geom_char;
 	TTabSheet *tb_sht_steel_geom_char;
-	TStringGrid *strng_grd_steel_sect_geom_character;
 	TStringGrid *strng_grd_concrete_sect_geom_character;
+	TStringGrid *strng_grd_steel_sect_geom_character;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -204,6 +204,8 @@ private:
 	void generate_report();
 	void grid_constructor_ratios(); // Конструирование Grid контрола для вывода результатоа
 	void grid_constr_comp_sect_geometr(); //Конструирование Grid для вывода геометрических характ. комп. сечения
+	void grid_constr_steel_sect_geometr();
+	void grid_constr_concrete_sect_geometr();
 	void fill_cmb_bx_LC();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
 	void fill_grid_with_results();
 	void draw_diagram();//Отрисовка эпюр
