@@ -137,7 +137,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -374,13 +374,13 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
       end
       object GrpBxStaticScheme: TGroupBox
-        Left = 3
+        Left = 15
         Top = 230
         Width = 1030
         Height = 266
         Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
         TabOrder = 3
-        object ImgStaticScheme: TImage
+        object img_static_scheme: TImage
           Left = 2
           Top = 51
           Width = 1026
@@ -450,8 +450,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
             '0'
             '1'
             '2'
-            '3'
-            '4')
+            '3')
         end
       end
       object GrpBxShearStudsPlacement: TGroupBox
@@ -18632,7 +18631,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
               DrawingStyle = gdsClassic
               RowCount = 10
               TabOrder = 0
-              OnDrawCell = strngGrdResultsDrawCell
+              OnDrawCell = strng_grd_rendering
               ColWidths = (
                 307
                 366)
@@ -18662,7 +18661,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
               DrawingStyle = gdsClassic
               RowCount = 10
               TabOrder = 0
-              OnDrawCell = strngGrdResultsDrawCell
+              OnDrawCell = strng_grd_rendering
               ColWidths = (
                 305
                 361)
@@ -18683,7 +18682,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
               RowCount = 10
               ScrollBars = ssNone
               TabOrder = 0
-              OnDrawCell = strngGrdResultsDrawCell
+              OnDrawCell = strng_grd_rendering
               ColWidths = (
                 304
                 254)
@@ -18703,8 +18702,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
       end
     end
-    object TbResults: TTabSheet
+    object tb_results: TTabSheet
       Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1099' '#1088#1072#1089#1095#1105#1090#1072
+      Enabled = False
       ImageIndex = 2
       object strngGrdResults: TStringGrid
         Left = 0
@@ -18718,7 +18718,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         RowCount = 4
         ScrollBars = ssNone
         TabOrder = 0
-        OnDrawCell = strngGrdResultsDrawCell
+        OnDrawCell = strng_grd_rendering
         ColWidths = (
           513
           349)

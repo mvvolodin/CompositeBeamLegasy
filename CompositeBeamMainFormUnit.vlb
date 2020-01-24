@@ -152,9 +152,6 @@ Coordinates=438,270,91,58
 [edt_span]
 Coordinates=1502,232,67,58
 
-[TbResults]
-Coordinates=0,137,72,36
-
 [pnl_shear_stud_viewer]
 Coordinates=421,548,147,58
 
@@ -220,9 +217,6 @@ Coordinates=104,548,104,58
 
 [Pnl_SteelSectionViewer]
 Coordinates=1241,144,152,58
-
-[ImgStaticScheme]
-Coordinates=1241,298,115,58
 
 [BtnSteelSectionChoice]
 Coordinates=60,644,146,58
@@ -335,4 +329,10 @@ Coordinates=791,386,101,124
 
 [GroupBox6]
 Coordinates=1502,309,79,58
+
+[tb_results]
+Coordinates=0,137,72,36
+
+[img_static_scheme]
+Coordinates=1241,298,115,58
 

@@ -97,7 +97,7 @@ __published:	// IDE-managed Components
 	TEdit *edt_width_right;
 	TCheckBox *chck_bx_end_beam;
 	TGroupBox *GrpBxStaticScheme;
-	TImage *ImgStaticScheme;
+	TImage *img_static_scheme;
 	TLabel *lblLoadCase;
 	TComboBox *cmb_bx_LC;
 	TRadioGroup *rd_grp_internal_forces_type;
@@ -143,7 +143,7 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox6;
 	TImage *Image1;
 	TStringGrid *strng_grd_compos_sect_geom_character;
-	TTabSheet *TbResults;
+	TTabSheet *tb_results;
 	TStringGrid *strngGrdResults;
 	TOpenDialog *OpenDialog1;
 	TPageControl *pg_ctrl_geom_char;
@@ -156,7 +156,7 @@ __published:	// IDE-managed Components
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
 	void __fastcall rdgrp_slab_typeClick(TObject *Sender);
-	void __fastcall strngGrdResultsDrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
+	void __fastcall strng_grd_rendering(TObject *Sender, int ACol, int ARow, TRect &Rect,
 		  TGridDrawState State);
 	void __fastcall BtBtnSteelChoiceClick(TObject *Sender);
 	void __fastcall BtnSteelSectionChoiceClick(TObject *Sender);

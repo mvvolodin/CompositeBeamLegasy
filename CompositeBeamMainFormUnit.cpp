@@ -252,16 +252,18 @@ switch(rdgrp_slab_type->ItemIndex)
 //---------------------------------------------------------------------------
 //Обработчик события обеспечивающий заполнение первой строки жирным шрифтом
 //---------------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm::strngGrdResultsDrawCell(TObject *Sender,
+void __fastcall TCompositeBeamMainForm::strng_grd_rendering(TObject *Sender,
 																int ACol, int ARow,
 																 TRect &Rect, TGridDrawState State)
 {
-	ShowMessage(static_cast<TStringGrid*>(Sender)->Name);
-	if (ARow ==0 || ACol==0)
-	static_cast<TStringGrid*>(Sender)->Canvas->Font->Style=TFontStyles() << fsBold;
-	static_cast<TStringGrid*>(Sender)->Canvas->Brush->Style = bsSolid;
-	static_cast<TStringGrid*>(Sender)->Canvas->FillRect(Rect);
- 	static_cast<TStringGrid*>(Sender)->Canvas->TextOut(Rect.Left+30, Rect.Top+11, strngGrdResults->Cells[ACol][ARow]);
+	TStringGrid* str_grid=static_cast<TStringGrid*>(Sender);
+	if (ARow ==0)
+	{
+		str_grid->Canvas->Font->Style=TFontStyles()<< fsBold;
+		str_grid->Canvas->Font->Style<<fsBold;
+		str_grid->Canvas->FillRect(Rect);
+		str_grid->Canvas->TextOut(Rect.Left+3, Rect.Top+5, str_grid->Cells[ACol][ARow]);
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -285,7 +287,7 @@ void TCompositeBeamMainForm::grid_constr_comp_sect_geometr()
 void TCompositeBeamMainForm::grid_constr_steel_sect_geometr()
 {
 	strng_grd_steel_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
-	strng_grd_steel_sect_geom_character->Cells [0][0]=L"Значения";
+	strng_grd_steel_sect_geom_character->Cells [1][0]=L"Значения";
 	strng_grd_steel_sect_geom_character->Cells [0][1]=L"Площадь";
 	strng_grd_steel_sect_geom_character->Cells [0][2]=L"Момент инерции";
 	strng_grd_steel_sect_geom_character->Cells [0][3]=L"Момент сопротивления крайних волокон верхней полки";
@@ -299,7 +301,7 @@ void TCompositeBeamMainForm::grid_constr_steel_sect_geometr()
 void TCompositeBeamMainForm::grid_constr_concrete_sect_geometr()
 {
 	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
-	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Значения";
+	strng_grd_concrete_sect_geom_character->Cells [1][0]=L"Значения";
 	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Расчётная величина свеса слева";
 	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Расчётная величина свеса справа";
 	strng_grd_concrete_sect_geom_character->Cells [0][1]=L"Площадь";
@@ -478,7 +480,7 @@ void TCompositeBeamMainForm::generate_report()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::draw_diagram()
 {
-	TImage *Image1=ImgStaticScheme;
+	TImage *Image1=img_static_scheme;
 	//получаем вектор координат точек эпюры из объекта композитная балка
 	std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
 	//получаем вектор координат опор из объекта композитная балка
@@ -533,10 +535,13 @@ void TCompositeBeamMainForm::calculate_composite_beam()
    CompositeSection composite_section=init_composite_section(geometry,steel_i_section_initial_data,i_section_initial_data,
 																	concrete_part);
    init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
-//Вывод результатов расчёта
-	btn_report->Enabled=True;
-	fill_grid_with_results();
+//Вывод результатов расчёта в GUI
+	tb_results->Enabled=true;
 	draw_diagram();
+	fill_grid_with_results();
+//Вывод результатов расчёта в отчёт
+	btn_report->Enabled=true;
+
 
 }
 //---------------------------------------------------------------------------
@@ -662,6 +667,9 @@ void __fastcall TCompositeBeamMainForm::OnControlsChange(TObject *Sender)
 {
 	if (btn_report->Enabled)
 		btn_report->Enabled=false;
+	if(tb_results->Enabled)
+		tb_results->Enabled=false;
+	//img_static_scheme->
 }
 //---------------------------------------------------------------------------
 
@@ -691,4 +699,5 @@ void __fastcall TCompositeBeamMainForm::ComboBox2Change(TObject *Sender)
 	OnControlsChange(Sender);
 }
 //---------------------------------------------------------------------------
+
 
