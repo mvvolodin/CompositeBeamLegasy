@@ -10,6 +10,12 @@ InternalForces::InternalForces()
 }
 InternalForces::InternalForces(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
+	M_.clear(); //изгибающие моменты
+	Q_.clear();//поперечные силы
+	Q_jump_.clear();//реакции внешних опор
+	R_.clear();//реакции внутренних опор
+
+
 	switch (temporary_supports_number)
 	{
 		case static_cast<int>(SupportsNumber::Zero):
@@ -110,7 +116,7 @@ void InternalForces::M_calc_three_span_beam(double p, CS_Coordinates cs_coordina
 	double del_Q = del_x*p;     // Градиент перерезывающей силы
 	double Q_temp;
 
-	//M_.push_back(M_temp);
+	M_.push_back(M_temp);
 
 	for (i = 0; i < 3; i++) {
 	  Q_temp = Q[i*2]*length*p/3;
@@ -120,6 +126,9 @@ void InternalForces::M_calc_three_span_beam(double p, CS_Coordinates cs_coordina
 		Q_temp -= del_Q;
 	  }
 	}
+   //Добавить в WatchList выражение	*(M_._Mypair._Myval2._Myfirst+i). В поле Repeat Count ввести количество отображаемых элементов
+
+
 }
 void InternalForces::M_calc_four_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
