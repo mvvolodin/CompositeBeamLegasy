@@ -9,8 +9,8 @@ class RebarBasic{
 public:
 	RebarBasic();
 	RebarBasic(String grade, double R_s);
-	inline String get_grade() const {return grade;};
-	inline double get_R_s() const {return R_s;};
+	inline String get_grade() const {return grade;}
+	inline double get_R_s() const {return R_s;}
 protected:
 	String grade;
 	double R_s;

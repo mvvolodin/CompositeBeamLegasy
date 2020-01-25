@@ -31,7 +31,6 @@ __published:	// IDE-managed Components
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:
 	TStud stud_;
-	TStudData stud_data;
 	void fill_stud_data();
     void init_stud();
 public:

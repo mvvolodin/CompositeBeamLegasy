@@ -5,6 +5,7 @@
 #include "GeometryUnit.h"
 #include "Concrete.h"
 #include "Rebar.h"
+#include "Units.h"
 
 // ---------------------------------------------------------------------------
 class TConcretePart {
@@ -41,19 +42,20 @@ public:
 	TConcretePart(Concrete concrete, Rebar rebar);
 
 	inline String get_slab_type() const {return slab_type_;}
-	inline double get_R_b() const {return concrete_.get_R_b();}
-	inline double get_R_bt() const {return concrete_.get_R_bt();}
+	inline Concrete get_concrete() const {return concrete_;}
+	inline double get_R_bn() const {return concrete_.get_R_bn();}
+	inline double get_R_btn() const {return concrete_.get_R_btn();}
 	inline double get_E_b() const {return concrete_.get_E_b();}
 	inline Rebar get_rebar() const {return rebar_;}
-	inline double get_C_b() const {return C_b_;}
+	inline double get_C_b(LengthUnit length_unit=LengthUnit::mm) const {return C_b_/static_cast<int>(length_unit);}
 	inline void set_b_l(double b_l) {b_l_ = b_l;}
 	inline void set_b_r(double b_r) {b_r_ = b_r;}
-	inline double get_h_b() const {return h_b_;}
-	inline double get_t_sl() const {return t_sl_;}
-	inline double get_b_l() const {return b_l_;}
-	inline double get_b_r() const {return b_r_;}
-	inline double get_A_b() const {return A_b_;}
-	inline double get_I_b() const {return I_b_;}
+	inline double get_h_b(LengthUnit length_unit=LengthUnit::mm) const {return h_b_/static_cast<int>(length_unit);}
+	inline double get_t_sl(LengthUnit length_unit=LengthUnit::mm) const {return t_sl_/static_cast<int>(length_unit);}
+	inline double get_b_l(LengthUnit length_unit=LengthUnit::mm) const {return b_l_/static_cast<int>(length_unit);}
+	inline double get_b_r(LengthUnit length_unit=LengthUnit::mm) const {return b_r_/static_cast<int>(length_unit);}
+	inline double get_A_b(LengthUnit length_unit=LengthUnit::mm) const {return A_b_/std::pow(static_cast<int>(length_unit),2);}
+	inline double get_I_b(LengthUnit length_unit=LengthUnit::mm) const {return I_b_/std::pow(static_cast<int>(length_unit),4);}
 };
 
 class TFlatSlab : public TConcretePart {

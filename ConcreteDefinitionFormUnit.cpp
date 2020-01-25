@@ -15,10 +15,11 @@ __fastcall TConcreteDefinitionForm::TConcreteDefinitionForm(TComponent* Owner)
 {
 	fill_concrete_data();
 	lbl_gamma_b->Caption=(lbl_gamma_b->Caption + u"\u03B3"+u"b");
+    lbl_gamma_bt->Caption=(lbl_gamma_bt->Caption + u"\u03B3"+u"bt");
 	lbl_epsilon_b_lim->Caption=(lbl_epsilon_b_lim->Caption+u"\u03B5"+u"lim");
 	cmb_bx_concrete_grade_list->Text=concrete_data_.begin()->first;
-	edt_R_b->Text=concrete_data_.begin()->second.get_R_b();
-	edt_R_bt->Text=concrete_data_.begin()->second.get_R_bt();
+	edt_R_bn->Text=concrete_data_.begin()->second.get_R_bn();
+	edt_R_btn->Text=concrete_data_.begin()->second.get_R_btn();
 	edt_E_b->Text=concrete_data_.begin()->second.get_E_b();
 
 	for (ConcreteBasicDataIterator it = concrete_data_.begin(); it != concrete_data_.end(); it++){
@@ -40,8 +41,8 @@ void TConcreteDefinitionForm::fill_concrete_data()
 void __fastcall TConcreteDefinitionForm::cmb_bx_concrete_grade_listChange(TObject *Sender)
 {
 	String grade= cmb_bx_concrete_grade_list->Text;
-	edt_R_b->Text=FloatToStr(concrete_data_[grade].get_R_b());
-	edt_R_bt->Text=FloatToStr(concrete_data_[grade].get_R_bt());
+	edt_R_bn->Text=FloatToStr(concrete_data_[grade].get_R_bn());
+	edt_R_btn->Text=FloatToStr(concrete_data_[grade].get_R_btn());
 	edt_E_b->Text=FloatToStr(concrete_data_[grade].get_E_b());
 }
 //---------------------------------------------------------------------------
@@ -55,22 +56,31 @@ void __fastcall TConcreteDefinitionForm::BtBtnConcreteChoiceClick(TObject *Sende
 void TConcreteDefinitionForm::init_concrete()
 {   int rc=0; //rc- return code -код ошибки. Присваиваем начальное значение.
 	String grade="";
-	double R_b=0.0;
-	double R_bt=0.0;
+	double R_bn=0.0;
+	double R_btn=0.0;
 	double E_b=0.0;
 	double gamma_b=0.0;
+	double gamma_bt=0.0;
 	double epsilon_b_lim=0.0;
 	grade=cmb_bx_concrete_grade_list->Text;
-	R_b=StrToFloat(edt_R_b->Text);
-	R_bt=StrToFloat(edt_R_bt->Text);
+	R_bn=StrToFloat(edt_R_bn->Text);
+	R_btn=StrToFloat(edt_R_btn->Text);
 	E_b=StrToFloat(edt_E_b->Text);
 	rc=String_double_plus(lbl_gamma_b->Caption, edt_gamma_b->Text, &gamma_b);
 	if (rc>0) return;
+	rc=String_double_plus(lbl_gamma_bt->Caption, edt_gamma_bt->Text, &gamma_bt);
+	if (rc>0) return;
 	rc=String_double_plus(lbl_epsilon_b_lim->Caption, edt_epsilon_b_lim->Text, &epsilon_b_lim);
 	if (rc>0) return;
-	ConcreteBasic concrete_basic (grade, E_b, R_b, R_bt);
-	concrete_=Concrete(concrete_basic, gamma_b, epsilon_b_lim);
-}
+	ConcreteBasic concrete_basic (grade, E_b, R_bn, R_btn);
+	concrete_=Concrete(concrete_basic, gamma_b, gamma_bt, epsilon_b_lim);
+};
+
+//---------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------
+
 
 //---------------------------------------------------------------------------
 

@@ -128,9 +128,6 @@ Coordinates=1011,155,127,58
 [PnlSteelViewer]
 Coordinates=1011,430,102,58
 
-[Label25]
-Coordinates=171,270,60,58
-
 [GrpBxLoadsSafetyFactors]
 Coordinates=834,548,165,58
 
@@ -142,9 +139,6 @@ Coordinates=1502,386,152,36
 
 [GrpBxSteelSection]
 Coordinates=626,644,123,58
-
-[Label1]
-Coordinates=237,78,53,58
 
 [edt_live_load]
 Coordinates=438,270,91,58
@@ -199,9 +193,6 @@ Coordinates=92,77,107,58
 
 [ComboBox2]
 Coordinates=312,475,101,124
-
-[Edit1]
-Coordinates=614,475,44,58
 
 [Label2]
 Coordinates=111,1,53,58
@@ -288,9 +279,6 @@ Coordinates=692,366,95,58
 [lbl_gamma_c]
 Coordinates=593,366,91,58
 
-[Edit2]
-Coordinates=131,366,44,58
-
 [BtBtnSteelChoice]
 Coordinates=12,366,115,58
 
@@ -315,9 +303,6 @@ Coordinates=205,174,128,58
 [lbl_dead_load_second_stage]
 Coordinates=791,78,182,58
 
-[Label26]
-Coordinates=722,475,60,58
-
 [lbl_live_load]
 Coordinates=1241,529,86,58
 
@@ -335,4 +320,19 @@ Coordinates=0,137,72,36
 
 [img_static_scheme]
 Coordinates=1241,298,115,58
+
+[edt_edge_studs_dist]
+Coordinates=614,475,44,58
+
+[edt_middle_studs_dist]
+Coordinates=131,366,44,58
+
+[lbl_middle_studs_dist]
+Coordinates=722,475,60,58
+
+[lbl_edge_studs_dist]
+Coordinates=171,270,60,58
+
+[lbl_edge_studs_rows_num]
+Coordinates=237,78,53,58
 

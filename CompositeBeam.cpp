@@ -11,7 +11,7 @@ TCompositeBeam::TCompositeBeam():
 					loads_(TLoads()),
 					working_conditions_factors_(WorkingConditionsFactors()),
 					composite_section_(CompositeSection()),
-					stud_(TStud()){}
+					studs_(TStud()){}
 //---------------------------------------------------------------------------
 //Конструктор композитной балки
 //---------------------------------------------------------------------------
@@ -22,7 +22,7 @@ TCompositeBeam::TCompositeBeam():
 								WorkingConditionsFactors working_conditions_factors)
 	:geometry_(geometry),
 	composite_section_(composite_section),
-	stud_(stud),
+	studs_(stud),
 	loads_(loads),
 	working_conditions_factors_(working_conditions_factors)
  {
@@ -174,7 +174,7 @@ void TCompositeBeam::CS_coordinates_calc()
  void TCompositeBeam::calculate_gamma_1()
  {
 	double gamma_bi=working_conditions_factors_.get_gamma_bi();
-	double R_b=composite_section_.get_concrete_part()->get_R_b();
+	double R_b=composite_section_.get_concrete_part()->get_R_bn();
 	//double R_y=composite_section_->get_steel_part().get_R_y();
    //	gamma_1_=1+(gamma_bi*R_b-sigma_b)/(gamma_c*R_y)*A_b/A_f2_st;
  }

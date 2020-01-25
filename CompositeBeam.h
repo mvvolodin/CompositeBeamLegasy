@@ -28,7 +28,7 @@ private:
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;
 	CompositeSection composite_section_;
-	TStud stud_;
+	TStud studs_;
 
 //прозводные поля
 	CS_Coordinates cs_coordinates_;
@@ -69,6 +69,7 @@ inline InternalForces get_internal_forces_I()const{return internal_forces_I_;}
 inline InternalForces get_internal_forces_II()const{return internal_forces_II_;}
 inline InternalForces get_internal_forces_total()const{return internal_forces_total_;}
 inline CS_Coordinates get_CS_coordinates()const {return cs_coordinates_;}
+inline TStud get_studs()const {return studs_;}
 inline TGeometry get_geometry()const {return geometry_;}
 inline TLoads get_loads()const {return loads_;}
 

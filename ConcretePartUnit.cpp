@@ -14,11 +14,11 @@ TConcretePart::TConcretePart()
 {
 }
 TConcretePart::TConcretePart(Concrete concrete, Rebar rebar)
-	:concrete_(concrete),rebar_(rebar)
+	:concrete_(concrete),rebar_(rebar),slab_type_(L"Плоская")
 {
 }
 TConcretePart::TConcretePart(Concrete concrete, Rebar rebar, double t_sl)
-	:concrete_(concrete), rebar_(rebar), t_sl_(t_sl)
+	:concrete_(concrete), rebar_(rebar), t_sl_(t_sl),slab_type_(L"По настилу")
 
 {
 }

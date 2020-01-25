@@ -8,6 +8,7 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
 #include <Vcl.Buttons.hpp>
+#include <Vcl.ExtCtrls.hpp>
 #include <map>
 #include "Concrete.h"
 
@@ -15,19 +16,22 @@
 class TConcreteDefinitionForm : public TForm
 {
 __published:	// IDE-managed Components
-	TLabel *lbl_R_b;
+	TLabel *lbl_R_bn;
 	TLabel *lbl_E_b;
-	TEdit *edt_R_b;
+	TEdit *edt_R_bn;
 	TEdit *edt_E_b;
-	TEdit *edt_R_bt;
-	TLabel *lbl_R_bt;
+	TEdit *edt_R_btn;
+	TLabel *lbl_R_btn;
 	TComboBox *cmb_bx_concrete_grade_list;
-	TLabel *Label4;
+	TLabel *lbl_concrete_grade;
 	TBitBtn *BtBtnConcreteChoice;
 	TEdit *edt_gamma_b;
 	TLabel *lbl_gamma_b;
 	TLabel *lbl_epsilon_b_lim;
 	TEdit *edt_epsilon_b_lim;
+	TEdit *edt_gamma_bt;
+	TLabel *lbl_gamma_bt;
+	TPanel *pnl_concrete_grade;
 	void __fastcall cmb_bx_concrete_grade_listChange(TObject *Sender);
 	void __fastcall BtBtnConcreteChoiceClick(TObject *Sender);
 private:	// User declarations

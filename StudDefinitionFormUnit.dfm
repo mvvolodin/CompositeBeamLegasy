@@ -56,6 +56,7 @@ object StudDefinitionForm: TStudDefinitionForm
     Width = 121
     Height = 21
     TabOrder = 0
+    Text = '300'
   end
   object edt_stud_diameter: TEdit
     Left = 264

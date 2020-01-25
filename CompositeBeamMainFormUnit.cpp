@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-
 #include <vcl.h>
 #include<ComObj.hpp>
 #pragma hdrstop
@@ -11,17 +10,10 @@
 #include "CompositeBeamMainFormUnit.h"
 #include "String_doubleUnit.h"  //Функции проверяющие правильность ввода данных в поля формы
 #include "SteelSectionFormUnit.h"
-
-
 #include "Report.h" //Подключаем генератор отчётов
-
 #include "Word_Automation.h"  // Вывод отчета в Word
 
 TCompositeBeamMainForm *CompositeBeamMainForm;
-
-//extern COMMON_SECT *common_sect;
-//extern MATER_PARAM mater_param; //в модуле поставщике почему-то не используется указатель
-//extern STEEL_PARAM steel_param; //в модуле поставщике почему-то не используется указатель
 
 //----------------------------------------------------------------------
  _fastcall TCompositeBeamMainForm::TCompositeBeamMainForm(TComponent* Owner)
@@ -30,15 +22,12 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
 //:composite_section_(nullptr)
 	TComponentClass classes[2] = {__classid(TTabSheet),__classid(TToolButton)};
 	RegisterClasses(classes, 1);
-	grid_constructor_ratios();
-	grid_constr_comp_sect_geometr();
-	grid_constr_steel_sect_geometr();
-	grid_constr_concrete_sect_geometr();
+	cotr_ratios_grid();
+	cotr_comp_sect_geometr_grid();
+	cotr_steel_sect_geometr_grid();
+	ctor_concrete_sect_geometr_grid();;
 	fill_cmb_bx_LC();
-	//@
 	modify_project = false;
-	//@@
-
 }
 //----------------------------------------------------------------------
 //
@@ -56,12 +45,8 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837Click(Sender);
 	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame
 	->ComboBox_profil->Text;
-	//@
-	//SteelDefinitionForm->ComboBox_steelChange(Sender);
 	DefineSteelForm->ComboBox_steelChange(Sender);
-	//PnlSteelViewer->Caption=SteelDefinitionForm->ComboBox_steel->Text;
 	PnlSteelViewer->Caption = DefineSteelForm->ComboBox_steel->Text;
-	//@@
 	pnl_concrete_grade->Caption=ConcreteDefinitionForm->cmb_bx_concrete_grade_list->Text;
 	rdgrp_slab_typeClick(Sender);
 	pnl_shear_stud_viewer->Caption=StudDefinitionForm->cmb_bx_stud_part_number->Text;
@@ -123,8 +108,7 @@ TLoads TCompositeBeamMainForm::init_loads()
 //---------------------------------------------------------------------------
 TISectionInitialData TCompositeBeamMainForm::init_i_section()
 {
-	  //return  TISectionInitialData (&(common_sect->dvutavr));  SteelSectionDefinitionFrame->common_sect_;
-	  return TISectionInitialData (&(SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr));
+	return TISectionInitialData (&(SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr));
 }
 //---------------------------------------------------------------------------
 //	Инициализация материала двутавра
@@ -177,9 +161,9 @@ TStud TCompositeBeamMainForm::init_stud()
 //---------------------------------------------------------------------------
  WorkingConditionsFactors TCompositeBeamMainForm::init_working_conditions_factors()
  {
-	double gamma_bi=.0;
-	double gamma_si=.0;
-	double gamma_c=.0;
+	double gamma_bi=0.0;
+	double gamma_si=0.0;
+	double gamma_c=0.0;
 
 	String_double_plus(lbl_gamma_bi->Caption, edt_gamma_bi->Text, &gamma_bi);
 	String_double_plus(lbl_gamma_si->Caption, edt_gamma_si->Text, &gamma_si);
@@ -254,7 +238,7 @@ switch(rdgrp_slab_type->ItemIndex)
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::strng_grd_rendering(TObject *Sender,
 																int ACol, int ARow,
-																 TRect &Rect, TGridDrawState State)
+																TRect &Rect, TGridDrawState State)
 {
 	TStringGrid* str_grid=static_cast<TStringGrid*>(Sender);
 	if (ARow ==0)
@@ -265,26 +249,25 @@ void __fastcall TCompositeBeamMainForm::strng_grd_rendering(TObject *Sender,
 		str_grid->Canvas->TextOut(Rect.Left+3, Rect.Top+5, str_grid->Cells[ACol][ARow]);
 	}
 }
-
 //---------------------------------------------------------------------------
 //	Функция заполняющая Grid выводящий результаты расчёта геометрических характеристик композитного сечения
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::grid_constr_comp_sect_geometr()
+void TCompositeBeamMainForm::cotr_comp_sect_geometr_grid()
 {
- strng_grd_compos_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
- strng_grd_compos_sect_geom_character->Cells [1][0]=L"Значения";
- strng_grd_compos_sect_geom_character->Cells [0][1]=L"Площадь Ared, [мм2]";
- strng_grd_compos_sect_geom_character->Cells [0][2]=L"Момент инерции Ired, [мм4]";
- strng_grd_compos_sect_geom_character->Cells [0][3]=L"Момент сопротивления, верхн. полка W_f2_red, [мм3]";
- strng_grd_compos_sect_geom_character->Cells [0][4]=L"Момент сопротивления, нижн. полка W_f1_red, [мм3]";
- strng_grd_compos_sect_geom_character->Cells [0][5]=L"Расстояние Z_b_st, [мм]";
- strng_grd_compos_sect_geom_character->Cells [0][6]=L"Расстояние Z_b_st, [мм]";
- strng_grd_compos_sect_geom_character->Cells [0][6]=L"Собственный вес, [кг/м]";
+	strng_grd_compos_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
+	strng_grd_compos_sect_geom_character->Cells [1][0]=L"Значения";
+	strng_grd_compos_sect_geom_character->Cells [0][1]=L"Площадь Ared, [мм2]";
+	strng_grd_compos_sect_geom_character->Cells [0][2]=L"Момент инерции Ired, [мм4]";
+	strng_grd_compos_sect_geom_character->Cells [0][3]=L"Момент сопротивления, верхн. полка W_f2_red, [мм3]";
+	strng_grd_compos_sect_geom_character->Cells [0][4]=L"Момент сопротивления, нижн. полка W_f1_red, [мм3]";
+	strng_grd_compos_sect_geom_character->Cells [0][5]=L"Расстояние Z_b_st, [мм]";
+	strng_grd_compos_sect_geom_character->Cells [0][6]=L"Расстояние Z_b_st, [мм]";
+	strng_grd_compos_sect_geom_character->Cells [0][6]=L"Собственный вес, [кг/м]";
 }
 //---------------------------------------------------------------------------
 //Функция заполняющая объект TStringGrid геометрическими характеристиками стального сечения
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::grid_constr_steel_sect_geometr()
+void TCompositeBeamMainForm::cotr_steel_sect_geometr_grid()
 {
 	strng_grd_steel_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
 	strng_grd_steel_sect_geom_character->Cells [1][0]=L"Значения";
@@ -298,19 +281,35 @@ void TCompositeBeamMainForm::grid_constr_steel_sect_geometr()
 //---------------------------------------------------------------------------
 //Функция заполняющая объект TStringGrid геометрическими характеристиками железобетонного сечения
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::grid_constr_concrete_sect_geometr()
+void TCompositeBeamMainForm::ctor_concrete_sect_geometr_grid()
 {
 	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
 	strng_grd_concrete_sect_geom_character->Cells [1][0]=L"Значения";
-	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Расчётная величина свеса слева";
-	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Расчётная величина свеса справа";
-	strng_grd_concrete_sect_geom_character->Cells [0][1]=L"Площадь";
-	strng_grd_concrete_sect_geom_character->Cells [0][2]=L"Момент инерции";
-	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Момент сопротивления";
+	strng_grd_concrete_sect_geom_character->Cells [0][1]=L"Расчётная величина свеса слева";
+	strng_grd_concrete_sect_geom_character->Cells [0][2]=L"Расчётная величина свеса справа";
+	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Площадь";
+	strng_grd_concrete_sect_geom_character->Cells [0][4]=L"Момент инерции";
+	strng_grd_concrete_sect_geom_character->Cells [0][5]=L"Момент сопротивления";
 }
+void TCompositeBeamMainForm::fill_steel_sect_geometr_grid()
+{
+	ISection i_section= composite_beam_.get_composite_section().get_steel_part();
 
-void TCompositeBeamMainForm::fill_grid_with_results()
-{  //Данные стального и бетонного сечений. Пока нет ясности надо ли эти данные выводить
+	strng_grd_steel_sect_geom_character->Cells [1][1]=FloatToStrF(i_section.get_A_st(), ffFixed, 15, 0);
+	strng_grd_steel_sect_geom_character->Cells [1][2]=FloatToStrF(i_section.get_I_st(), ffFixed, 15, 0);
+	strng_grd_steel_sect_geom_character->Cells [1][3]=FloatToStrF(i_section.get_Wf2_st(), ffFixed, 15, 0);
+	strng_grd_steel_sect_geom_character->Cells [1][4]=FloatToStrF(i_section.get_Wf1_st(), ffFixed, 15, 0);
+	strng_grd_steel_sect_geom_character->Cells [1][5]=FloatToStrF(i_section.get_Z_f2_st(), ffFixed, 15, 0);
+	strng_grd_steel_sect_geom_character->Cells [1][6]=FloatToStrF(i_section.get_Z_f1_st(), ffFixed, 15, 0);
+}
+void TCompositeBeamMainForm::fill_concrete_sect_geometr_grid()
+{
+
+
+}
+void TCompositeBeamMainForm::fill_composite_sect_geometr_grid()
+{
+ //Данные стального и бетонного сечений. Пока нет ясности надо ли эти данные выводить
   //double I_st=composite_beam.get_composite_section().get_steel_part().get_I_st();
   //double A_st= composite_beam.get_composite_section().get_steel_part().get_A_st();
   //double A_b=composite_beam.get_composite_section().get_concrete_part().get_A_b();
@@ -326,10 +325,15 @@ void TCompositeBeamMainForm::fill_grid_with_results()
 	strng_grd_compos_sect_geom_character->Cells [1][4]=FloatToStrF(W_f1_red, ffFixed, 15, 0);
 
 }
+
+void TCompositeBeamMainForm::fill_results_grid()
+{
+
+}
 //---------------------------------------------------------------------------
 //	Функция заполняющая Grid выводящий результаты расчёта композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm:: grid_constructor_ratios()
+void TCompositeBeamMainForm:: cotr_ratios_grid()
 {
 strngGrdResults->Cells [0][0]="Проверка";
 strngGrdResults->Cells [0][1]="Расчёт по прочности на действие изгибающих моментов, раздел 6.2.1";
@@ -424,18 +428,21 @@ void __fastcall TCompositeBeamMainForm::NExitClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::generate_report()
 {
-	 TWord_Automation report_=TWord_Automation("ReportCompositeBeam.docx");
-	 ISection i_section= composite_beam_.get_composite_section().get_steel_part();
-	 TGeometry geometry=composite_beam_.get_geometry();
-	 TLoads loads=composite_beam_.get_loads();
-	 Steel steel=composite_beam_.get_composite_section().get_steel_grade();
-
+	TWord_Automation report_=TWord_Automation("ReportCompositeBeam.docx");
+	TGeometry geometry=composite_beam_.get_geometry();
+	TLoads loads=composite_beam_.get_loads();
+	ISection i_section= composite_beam_.get_composite_section().get_steel_part();
+	TConcretePart* concrete_part=composite_beam_.get_composite_section().get_concrete_part();
+	Concrete concrete=concrete_part->get_concrete();
+	Rebar rebar=concrete_part->get_rebar();
+	Steel steel=composite_beam_.get_composite_section().get_steel_grade();
+	TStud studs=composite_beam_.get_studs();
+	
 //[1.1] Топология
 	report_.PasteTextPattern("Нет", "%end_beam%");
 	report_.PasteTextPattern(FloatToStr(geometry.get_span(LengthUnit::mm)), "%span%");
 	report_.PasteTextPattern(FloatToStr(geometry.get_trib_width_left(LengthUnit::mm)), "%trib_width_left% ");
 	report_.PasteTextPattern(FloatToStr(geometry.get_trib_width_right(LengthUnit::mm)), "%trib_width_right% ");
-
 //[1.2] Загружения
 	report_.PasteTextPattern(FloatToStr(loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m)), "%DL_I%");
 	report_.PasteTextPattern(FloatToStr(loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m)), "%DL_II%");
@@ -445,34 +452,76 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(FloatToStr(loads.get_gamma_f_LL()), "%gamma_f_LL%");
 //[1.1] Стальное сечение
 //[1.1.1] Номинальные размеры двутавра
-	  report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
-	  report_.PasteTextPattern(i_section.get_h_st(LengthUnit::mm),"%h%");
-	  report_.PasteTextPattern(0,"%h%");
-	  report_.PasteTextPattern(i_section.get_b_uf(LengthUnit::mm),"%b%");
-	  report_.PasteTextPattern(0,"%b_w%");
-	  report_.PasteTextPattern(i_section.get_t_uf(LengthUnit::mm),"%t%");
-	  report_.PasteTextPattern(i_section.get_t_w(LengthUnit::mm),"%s%");
-	  report_.PasteTextPattern(i_section.get_r(LengthUnit::mm),"%r%");
+	report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
+	report_.PasteTextPattern(i_section.get_h_st(LengthUnit::mm),"%h%");
+	report_.PasteTextPattern(0,"%h%");
+	report_.PasteTextPattern(i_section.get_b_uf(LengthUnit::mm),"%b%");
+	report_.PasteTextPattern(0,"%b_w%");
+	report_.PasteTextPattern(i_section.get_t_uf(LengthUnit::mm),"%t%");
+	report_.PasteTextPattern(i_section.get_t_w(LengthUnit::mm),"%s%");
+	report_.PasteTextPattern(i_section.get_r(LengthUnit::mm),"%r%");
 //[1.1.2] Характеристики стали
-	  report_.PasteTextPattern(steel.get_R_y(),"%R_yn%");
-	  report_.PasteTextPattern(steel.get_R_u(),"%R_un%");
-	  report_.PasteTextPattern(steel.get_E_s(),"%E%");
-	  report_.PasteTextPattern(steel.get_G_s(),"%G%");
-	  report_.PasteTextPattern(steel.get_nu(),"%nu%");
-	  report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
-	  report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
+	report_.PasteTextPattern(steel.get_R_y(),"%R_yn%");
+	report_.PasteTextPattern(steel.get_R_u(),"%R_un%");
+	report_.PasteTextPattern(steel.get_E_s(),"%E%");
+	report_.PasteTextPattern(steel.get_G_s(),"%G%");
+	report_.PasteTextPattern(steel.get_nu(),"%nu%");
+	report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
+	report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
+//[1.2] Железобетонное сечение
+//[1.2.1] Номинальные размеры плиты
 
+//[1.2.2] Характеристики бетона
+
+	report_.PasteTextPattern(concrete.get_grade(),"%conc_grade%");
+	report_.PasteTextPattern(concrete.get_R_bn(),"%R_bn%");
+	report_.PasteTextPattern(concrete.get_R_btn(),"%R_btn%");
+	report_.PasteTextPattern(concrete.get_E_b(),"%E_b%");
+	report_.PasteTextPattern(concrete.get_gamma_b(),"%gamma_b%");
+	report_.PasteTextPattern(concrete.get_gamma_bt(),"%gamma_bt%");
+
+
+//[1.3] Арматура
+	report_.PasteTextPattern(rebar.get_grade(),"%grade%");
+	report_.PasteTextPattern(rebar.get_diameter(),"%d%");
+	report_.PasteTextPattern(rebar.get_R_s(),"%R_sn%");
+//[1.4] Соединительные элементы
+	report_.PasteTextPattern(studs.get_name(),"%name%");
+	report_.PasteTextPattern(studs.get_l(LengthUnit::cm),"%l%");
+	report_.PasteTextPattern(studs.get_d_an(LengthUnit::cm),"%d%");
+	report_.PasteTextPattern(studs.get_R_y(),"%R_y%");
+	report_.PasteTextPattern(studs.get_z_e(LengthUnit::cm),"%z_e%");
+	report_.PasteTextPattern(studs.get_z_m(LengthUnit::cm),"%z_m%");
+	report_.PasteTextPattern(studs.get_edge_rows_num(LengthUnit::cm),"%ed_rw_num%");
+	report_.PasteTextPattern(studs.get_middle_rows_num(LengthUnit::cm),"%mid_rw_num%");
+
+
+	
 //[2] Результаты расчёта
 //[2.1] Геометрические параметры
 //[2.1.1] Стального сечения
+	report_.PasteTextPattern(i_section.get_A_st(LengthUnit::cm),"%A_st%");
+	report_.PasteTextPattern(i_section.get_I_st(LengthUnit::cm),"%I_st%");
+	report_.PasteTextPattern(i_section.get_Wf2_st(LengthUnit::cm),"%Wf2_st%");
+	report_.PasteTextPattern(i_section.get_Wf1_st(LengthUnit::cm),"%Wf1_st%");
+	report_.PasteTextPattern(i_section.get_Z_f2_st(LengthUnit::cm),"%Z_f2_st%");
+	report_.PasteTextPattern(i_section.get_Z_f1_st(LengthUnit::cm),"%Z_f1_st%");
+//[2.1.2] Железобетонного сечения
+	report_.PasteTextPattern(concrete_part->get_slab_type(),"%slab_type%");
+	report_.PasteTextPattern(concrete_part->get_b_l(LengthUnit::cm),"%b_l%");
+	report_.PasteTextPattern(concrete_part->get_b_r(LengthUnit::cm),"%b_r%");
+	report_.PasteTextPattern(concrete_part->get_C_b(LengthUnit::cm),"%C_b%");
+	report_.PasteTextPattern(concrete_part->get_A_b(LengthUnit::cm),"%A_b%");
+	report_.PasteTextPattern(concrete_part->get_I_b(LengthUnit::cm),"%I_b%");
 
-	   report_.PasteTextPattern(i_section.get_A_st(LengthUnit::cm),"%A_st%");
-	   report_.PasteTextPattern(i_section.get_I_st(LengthUnit::cm),"%I_st%");
-	   report_.PasteTextPattern(i_section.get_Wf2_st(LengthUnit::cm),"%Wf2_st%");
-	   report_.PasteTextPattern(i_section.get_Wf1_st(LengthUnit::cm),"%Wf1_st%");
-	   report_.PasteTextPattern(i_section.get_Z_f2_st(LengthUnit::cm),"%Z_f2_st%");
-	   report_.PasteTextPattern(i_section.get_Z_f1_st(LengthUnit::cm),"%Z_f1_st%");
 
+	
+
+
+
+
+
+ 
 }
 
 //---------------------------------------------------------------------------
@@ -536,13 +585,15 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 																	concrete_part);
    init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
 //Вывод результатов расчёта в GUI
-	tb_results->Enabled=true;
 	draw_diagram();
-	fill_grid_with_results();
+	fill_steel_sect_geometr_grid();
+	fill_concrete_sect_geometr_grid();
+	fill_composite_sect_geometr_grid();
+	fill_results_grid();
+
 //Вывод результатов расчёта в отчёт
 	btn_report->Enabled=true;
-
-
+	tb_results->TabVisible=true;
 }
 //---------------------------------------------------------------------------
 
@@ -667,9 +718,8 @@ void __fastcall TCompositeBeamMainForm::OnControlsChange(TObject *Sender)
 {
 	if (btn_report->Enabled)
 		btn_report->Enabled=false;
-	if(tb_results->Enabled)
-		tb_results->Enabled=false;
-	//img_static_scheme->
+	if(tb_results->TabVisible)
+		tb_results->TabVisible=false;
 }
 //---------------------------------------------------------------------------
 

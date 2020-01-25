@@ -67,7 +67,7 @@ __published:	// IDE-managed Components
 	TMenuItem *NExit;
 	TMenuItem *N2;
 	TToolButton *ToolButton1;
-	TLabel *Label1;
+	TLabel *lbl_edge_studs_rows_num;
 	TPageControl *PgCntrlCompositeBeam;
 	TTabSheet *TbShtStaticScheme;
 	TGroupBox *GrpBxLoadsSafetyFactors;
@@ -105,10 +105,10 @@ __published:	// IDE-managed Components
 	TLabel *lbl_number_propping_supports;
 	TComboBox *cmb_bx_number_propping_supports;
 	TGroupBox *GrpBxShearStudsPlacement;
-	TLabel *Label25;
-	TLabel *Label26;
-	TEdit *Edit1;
-	TEdit *Edit2;
+	TLabel *lbl_edge_studs_dist;
+	TLabel *lbl_middle_studs_dist;
+	TEdit *edt_edge_studs_dist;
+	TEdit *edt_middle_studs_dist;
 	TGroupBox *GrpBxAnalysisTheory;
 	TComboBox *CmbBxAnalysisTheoryChoice;
 	TGroupBox *grp_bx_working_conditions_factors;
@@ -152,6 +152,9 @@ __published:	// IDE-managed Components
 	TTabSheet *tb_sht_steel_geom_char;
 	TStringGrid *strng_grd_concrete_sect_geom_character;
 	TStringGrid *strng_grd_steel_sect_geom_character;
+	TLabel *lbl_middle_studs_rows_num;
+	TComboBox *cmb_bx_middle_studs_rows__num;
+	TComboBox *cmb_bx_edge_studs_rows_num;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -202,12 +205,15 @@ private:
 									   TStud stud,
 									   WorkingConditionsFactors working_conditions_factors);
 	void generate_report();
-	void grid_constructor_ratios(); // Конструирование Grid контрола для вывода результатоа
-	void grid_constr_comp_sect_geometr(); //Конструирование Grid для вывода геометрических характ. комп. сечения
-	void grid_constr_steel_sect_geometr();
-	void grid_constr_concrete_sect_geometr();
+	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
+	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения
+	void cotr_steel_sect_geometr_grid();
+	void ctor_concrete_sect_geometr_grid();
 	void fill_cmb_bx_LC();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
-	void fill_grid_with_results();
+	void fill_results_grid();
+	void fill_steel_sect_geometr_grid();
+	void fill_concrete_sect_geometr_grid();
+	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
 	void calculate_composite_beam();//инициализирует и рассчитывает балку
 

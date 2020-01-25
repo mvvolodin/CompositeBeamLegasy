@@ -45,7 +45,7 @@ void Ratios::calculate_I_case(WorkingConditionsFactors working_conditions_factor
 		double A_st=composite_section.get_steel_part().get_A_st();
 		double A_b=composite_section.get_concrete_part()->get_A_b();
 		double R_y=composite_section.get_steel_grade().get_R_y ();
-		double R_b=composite_section.get_concrete_part()->get_R_b();
+		double R_b=composite_section.get_concrete_part()->get_R_bn();
 		double gamma_bi=working_conditions_factors.get_gamma_bi();
 		double gamma_c=working_conditions_factors.get_gamma_c();
 		double A_f2_st=composite_section.get_steel_part().get_A_f2_st();
