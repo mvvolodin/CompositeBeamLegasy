@@ -61,7 +61,7 @@
 	void Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);
 	void Q_calc_three_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);
     void Q_calc_four_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);
- };
+};
 
  typedef std::map<LoadCaseNames, InternalForces> InternalForcesNamededList;
  typedef std::pair <LoadCaseNames, InternalForces> InternalForcesNamededListItem;
