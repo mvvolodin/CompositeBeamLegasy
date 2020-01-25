@@ -10,12 +10,6 @@ InternalForces::InternalForces()
 }
 InternalForces::InternalForces(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
-	M_.clear(); //изгибающие моменты
-	Q_.clear();//поперечные силы
-	Q_jump_.clear();//реакции внешних опор
-	R_.clear();//реакции внутренних опор
-
-
 	switch (temporary_supports_number)
 	{
 		case static_cast<int>(SupportsNumber::Zero):
@@ -92,11 +86,11 @@ void InternalForces::M_calc_two_span_beam(double p, CS_Coordinates cs_coordinate
 		if (cs_coordinates[n]<=l/2)
 		{ //здесь двойка это количество пролётов. Необходимо применить enum
 
-			temp_M=A*temp_l-p*temp_l*temp_l/2;
+			temp_M = A*temp_l - p*temp_l*temp_l/2;
 		}
 		else
 		{
-			temp_M=A*temp_l-p*temp_l*temp_l/2+B*(temp_l-l/2);
+			temp_M=A*temp_l - p*temp_l*temp_l/2 + B*(temp_l-l/2);
 		}
 		M_.push_back(temp_M);
 	}
@@ -105,52 +99,67 @@ void InternalForces::M_calc_two_span_beam(double p, CS_Coordinates cs_coordinate
 // Расчёт эпюры моментов
 void InternalForces::M_calc_three_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
-	double M_temp = 0.0;
-	double length = cs_coordinates.back();
-	// Значения перерезывающей силы на опорах
-	double Q[6] = {0.4, -0.6, 0.5, 0.6, -0.5, -0.4};
+	double temp_M=0.0;
+	double l=cs_coordinates.back();
 
-	int n_point = cs_coordinates.size();
-	int i, j;
-	double del_x = length/n_point;  // Расстояние между точками
-	double del_Q = del_x*p;     // Градиент перерезывающей силы
-	double Q_temp;
+	double A=0.4*p*l/3.0;
+	double B=1.1*p*l/3.0;
+	double C=1.1*p*l/3.0;
 
-	M_.push_back(M_temp);
+	for (int n = 0; n< cs_coordinates.size(); ++n)
+	{
+		double temp_l=cs_coordinates[n];
 
-	for (i = 0; i < 3; i++) {
-	  Q_temp = Q[i*2]*length*p/3;
-	  for (int j = 0; j < n_point/3 ; j++) {
-		M_.push_back(M_temp);
-		M_temp += (Q_temp - del_Q/2)*del_x;
-		Q_temp -= del_Q;
-	  }
+		if (cs_coordinates[n]<=l/3) {
+		   temp_M = A*temp_l - p*temp_l*temp_l/2;
+		   M_.push_back(temp_M);
+		   continue;
+		}
+		if (cs_coordinates[n]<=2*l/3) {
+		   temp_M = A*temp_l - p*temp_l*temp_l/2 + B*(temp_l - l/3);
+		   M_.push_back(temp_M);
+		   continue;
+		}
+		temp_M = A*temp_l + B*(temp_l - l/3) - p*temp_l*temp_l/2 + C*(temp_l - 2*l/3);
+		M_.push_back(temp_M);
 	}
-   //Добавить в WatchList выражение	*(M_._Mypair._Myval2._Myfirst+i). В поле Repeat Count ввести количество отображаемых элементов
-
 
 }
 void InternalForces::M_calc_four_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
-	double M_temp;
-	double length = cs_coordinates.back();
-	// Значения перерезывающей силы на опорах
-	double Q[8] = {0.392, -0.608, 0.536, -0.464, 0.464, -0.536, 0.608, -0.392};
+	double temp_M=0.0;
+	double l=cs_coordinates.back();
 
-	int n_point = cs_coordinates.size();
-	int i, j;
-	double del_x = length/n_point;  // Расстояние между точками
-	double del_Q = del_x*p;     // Градиент перерезывающей силы
-	double Q_temp;
-	for (i = 0; i < 4; i++) {
-	  Q_temp = Q[i*2]*length*p/4;
-	  for (int j = 0; j < n_point/4 ; j++) {
-		M_.push_back(M_temp);
-		M_temp += (Q_temp - del_Q/2)*del_x;
-		Q_temp -= del_Q;
-	  }
+	double A = 0.393*p*l/4.0;
+	double B = 1.143*p*l/4.0;
+	double C = 0.929*p*l/4.0;
+	double D = 1.143*p*l/4.0;
+
+	for (int n = 0; n< cs_coordinates.size(); ++n)
+	{
+		double temp_l=cs_coordinates[n];
+
+		if (cs_coordinates[n]<=l/4)
+		{
+			temp_M = A*temp_l - p*temp_l*temp_l/2;
+			M_.push_back(temp_M);
+			continue;
+		}
+		if (cs_coordinates[n]<=l/2) {
+			temp_M = A*temp_l - p*temp_l*temp_l/2 + B*(temp_l - l/4);
+			M_.push_back(temp_M);
+			continue;
+		}
+		if (cs_coordinates[n]<=3*l/4) {
+			temp_M = A*temp_l + B*(temp_l - l/4) - p*temp_l*temp_l/2 + C*(temp_l - l/2);
+			M_.push_back(temp_M);
+			continue;
+		}
+		temp_M = A*temp_l + B*(temp_l - l/4) - p*temp_l*temp_l/2 + C*(temp_l - l/2) + D*(temp_l - 3*l/4);
+		M_.push_back(temp_M);
 	}
-	  //
+
+
 }
 void InternalForces::Q_calc_simple_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
@@ -200,54 +209,81 @@ void InternalForces::Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinate
 void InternalForces::Q_calc_three_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
 
-	double length = cs_coordinates.back();
-	// Значения перерезывающей силы на опорах
-	double Q[6] = {0.4, -0.6, 0.5, 0.6, -0.5, -0.4};
+	double temp_Q=0.0;
+	double l=cs_coordinates.back();
 
-	int n_point = cs_coordinates.size();
-	int i, j;
-	double del_x = length/n_point;  // Расстояние между точками
-	double del_Q = del_x*p;     // Градиент перерезывающей силы
-	double Q_temp;
-	for (i = 0; i < 3; i++) {
-	  Q_temp = Q[i*2]*p*length/3;
-	  for (int j = 0; j < n_point/3 ; j++) {
-		Q_.push_back(Q_temp);
-		Q_temp -= del_Q;
-	  }
+	double A=0.4*p*l/3.0;
+	double B=1.1*p*l/3.0;
+	double C=1.1*p*l/3.0;
+
+	for (int n = 0; n< cs_coordinates.size(); ++n)
+	{
+		double temp_l=cs_coordinates[n];
+
+		if (cs_coordinates[n]<=l/3) {
+		   temp_Q = A - p*temp_l;
+		   Q_.push_back(temp_Q);
+		   continue;
+		}
+		if (cs_coordinates[n]<=2*l/3) {
+		   temp_Q = A - p*temp_l + B;
+		   Q_.push_back(temp_Q);
+		   continue;
+		}
+		temp_Q = A + B - p*temp_l + C;
+		Q_.push_back(temp_Q);
 	}
 
 	Q_jump_=Q_JumpList(Q_.size(),0);
-	std::vector<double>::iterator itr = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), 9000);
-
-	Q_jump_[std::distance(cs_coordinates.begin(),itr)] = 0;
+	std::vector<double>::iterator itr1 = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), l/3);
+	Q_jump_[std::distance(cs_coordinates.begin(),itr1)] = B;
+	std::vector<double>::iterator itr2 = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), 2*l/3);
+	Q_jump_[std::distance(cs_coordinates.begin(),itr2)] = C;
 
 
 }
 void InternalForces::Q_calc_four_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
 
-	double length = cs_coordinates.back();
-	// Значения перерезывающей силы на опорах
-	double Q[8] = {0.392, -0.608, 0.536, -0.464, 0.464, -0.536, 0.608, -0.392};
+	double temp_Q=0.0;
+	double l=cs_coordinates.back();
 
-	int n_point = cs_coordinates.size();
-	int i, j;
-	double del_x = length/n_point;  // Расстояние между точками
-	double del_Q = del_x*p;     // Градиент перерезывающей силы
-	double Q_temp;
-	for (i = 0; i < 4; i++) {
-	  Q_temp = Q[i*2]*p*length/4;
-	  for (int j = 0; j < n_point/4; j++) {
-		Q_.push_back(Q_temp);
-		Q_temp -= del_Q;
-	  }
+	double A = 0.393*p*l/4.0;
+	double B = 1.143*p*l/4.0;
+	double C = 0.929*p*l/4.0;
+	double D = 1.143*p*l/4.0;
+
+	for (int n = 0; n< cs_coordinates.size(); ++n)
+	{
+		double temp_l=cs_coordinates[n];
+
+		if (cs_coordinates[n]<=l/4)
+		{
+		   temp_Q = A - p*temp_l;
+		   Q_.push_back(temp_Q);
+		   continue;
+		}
+		if (cs_coordinates[n]<=l/2) {
+		   temp_Q = A - p*temp_l + B;
+		   Q_.push_back(temp_Q);
+			continue;
+		}
+		if (cs_coordinates[n]<=3*l/4) {
+		   temp_Q = A - p*temp_l + B + C;
+		   Q_.push_back(temp_Q);
+			continue;
+		}
+		temp_Q = A - p*temp_l + B + C + D;
+		Q_.push_back(temp_Q);
 	}
 
 	Q_jump_=Q_JumpList(Q_.size(),0);
-	std::vector<double>::iterator itr = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), 9000);
-
-	Q_jump_[std::distance(cs_coordinates.begin(),itr)] = 0;
+	std::vector<double>::iterator itr1 = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), l/4);
+	Q_jump_[std::distance(cs_coordinates.begin(),itr1)] = B;
+	std::vector<double>::iterator itr2 = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), l/2);
+	Q_jump_[std::distance(cs_coordinates.begin(),itr2)] = C;
+	std::vector<double>::iterator itr3 = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), 3*l/4);
+	Q_jump_[std::distance(cs_coordinates.begin(),itr3)] = D;
 
 }
 InternalForces::M_List InternalForces::get_M(LoadUnit load_unit,LengthUnit length_unit)const
