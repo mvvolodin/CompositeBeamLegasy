@@ -64,7 +64,7 @@ void TCompositeBeam::calc_inter_forces()
 
 	//формирование списка с внутренними усилиями
 
-	double gamma_f_SW=loads_.get_gamma_f_SW();
+	double gamma_f_SW=loads_.get_gamma_f_st_SW();
 	double gamma_f_DL_I=loads_.get_gamma_f_DL_I();
 	double gamma_f_DL_II=loads_.get_gamma_f_DL_II();
 	double gamma_f_LL=loads_.get_gamma_f_LL();

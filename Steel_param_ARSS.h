@@ -81,26 +81,28 @@
 #define weldTAVR2 0
 #define weldNAXLEST 1
 #define weldTAVR1  2
-	typedef struct _material  /* элемент массива данных материала */
-	   {
-		char   title[12];
-		double E;          /* модуль Юнга */
-		double G;          /* модуль сдвига */
-		double nu;         /* коэффициент Пуассона */
-		double Ry;         /* Расчетное допускаемое напряжение (предел текучески) для минимальной толщиы */
-		double Ru;         /* Расчетное временное сопротивление разрыву */
-		double gamma_m;    /* коэффициент надежности по материалу */
-		double dens;       /* плотность */
-		}  MATERIAL;
+//typedef struct _material  /* элемент массива данных материала */
+//{
+//	char   title[12];
+//	double E;          /* модуль Юнга */
+//	double G;          /* модуль сдвига */
+//	double nu;         /* коэффициент Пуассона */
+//	double Ry;         /* Расчетное допускаемое напряжение (предел текучески) для минимальной толщиы */
+//	double Ru;         /* Расчетное временное сопротивление разрыву */
+//	double gamma_m;    /* коэффициент надежности по материалу */
+//	double dens;       /* плотность */
+//}  MATERIAL;
 
 //---------------------------------------------------------------------------
 typedef struct _steel_param {  // данные о параметрах стали для данной толщины
-    char   title[8];
-    double thick;
+	char   title[8];
+		  /* модуль сдвига */
+	double thick;
 	double Ryn;                 // Предел текучести (нормативное значение)
 	double Run;                 // Временное сопротивление стали разрыву - sigma_b (нормативное значение)
 	double Ry;                  // Предел текучести (расчетное значение)
-	double Ru;                  // Временное сопротивление стали разрыву - sigma_b (расчетное значение)
+	double Ru;
+	 /* плотность */
 } STEEL_PARAM;
 
 typedef struct _mater_param {  // данные о параметрах стали
@@ -112,8 +114,9 @@ typedef struct _mater_param {  // данные о параметрах стали
     double Ry_row[10];
     double Ru_row[10];
 } MATER_PARAM;
-
+// Получить временное сопротивление растяжению, сжатию и изгибу по марке стали и толщине проката
 double Steel_param_Run(char *Msteel, double thick, int *rc, bool flag_diag_thick);
+// Получить расчетное сопротивление растяжению, сжатию и изгибу по временному сопротивления - по марке стали и толщине проката
 double Steel_param_Ru(char *Msteel, double thick, int *rc, bool flag_diag_thick);
 // Получить диапазон толщин, в который попадает заданная толщина
 int Get_thick_range(char *Msteel, double thick, double *thick_range);

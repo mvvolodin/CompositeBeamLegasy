@@ -35,6 +35,8 @@
  #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
  #include "Word_Automation.h"
 #include <Vcl.Imaging.jpeg.hpp>//Подключаем файл классом объекта отчёт
+#include <memory>
+#include <cassert>
  //@
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 //@@
@@ -155,6 +157,8 @@ __published:	// IDE-managed Components
 	TLabel *lbl_middle_studs_rows_num;
 	TComboBox *cmb_bx_middle_studs_rows__num;
 	TComboBox *cmb_bx_edge_studs_rows_num;
+	TEdit *edt_gamma_f_st_SW_;
+	TLabel *lbl_gamma_f_st_SW;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -191,12 +195,12 @@ private:
 	TGeometry init_geomet();//Инициализация топологии
 	TLoads init_loads(); //Инициализация нагрузок
 	TISectionInitialData init_i_section();//Инициализация объекта геометрия двутавра
-	TSteelInitialData init_steel_i_section(); //Инициализация стали двутавра
+	Steel init_steel_i_section(); //Инициализация стали двутавра
 	TConcretePart* init_concrete_part();//Инициализация бетонной части композитного сечения
 	TStud init_stud();//Инициализация упоров
 	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
 	CompositeSection init_composite_section(TGeometry geometry,
-											TSteelInitialData steel_i_section_initial_data,
+											Steel steel_i_section,
 											TISectionInitialData i_section_initial_data,
 											TConcretePart* concrete_part);//Инициализация композитного сечения
 	void init_composite_beam(TGeometry geometry,
@@ -217,6 +221,8 @@ private:
 	void draw_diagram();//Отрисовка эпюр
 	void calculate_composite_beam();//инициализирует и рассчитывает балку
 
+	int __fastcall LoadComponent(String filename, TComponent* Component);
+	int __fastcall SaveComponent(String filename, TComponent* Component);
 	//@----------------------------------------------------------------
 	#define UNTITLED  "Без имени"
 	bool modify_project;  // признак изменения проекта после сохранения

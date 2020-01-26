@@ -173,9 +173,6 @@ Coordinates=32,270,130,58
 [lbl_gamma_f_LL]
 Coordinates=1011,276,109,58
 
-[edt_gamma_f_DL_I]
-Coordinates=1011,1,127,58
-
 [lbl_gamma_f_DL_I]
 Coordinates=1003,548,122,58
 
@@ -335,4 +332,7 @@ Coordinates=171,270,60,58
 
 [lbl_edge_studs_rows_num]
 Coordinates=237,78,53,58
+
+[edt_gamma_f_DL_I]
+Coordinates=1011,1,127,58
 

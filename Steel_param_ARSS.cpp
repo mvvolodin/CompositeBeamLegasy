@@ -577,6 +577,7 @@ int Get_steel_param(MATER_PARAM *mater_param, double thick, STEEL_PARAM* steel_p
 	 return steel_T_UPPER_GLOB;
    if (mater_param->thick_row[0] < thick)
 	  i--;
+   strcpy(steel_param->title, mater_param->title);
    steel_param->thick = thick;
    steel_param->Ryn = mater_param->Ryn_row[i];
    steel_param->Run = mater_param->Run_row[i];

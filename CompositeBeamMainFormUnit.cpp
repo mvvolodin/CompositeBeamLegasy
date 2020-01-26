@@ -86,22 +86,23 @@ TLoads TCompositeBeamMainForm::init_loads()
 	//SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr.
 
 	//необходимо получать по типу профиля
-	double DL_I=.0;
-	double DL_II=.0;
-	double LL=.0;
-	double gamma_f_SW=1.0;//необходимо предусмотреть поле для ввода
-	double gamma_f_DL_I=.0;
-	double gamma_f_DL_II=.0;
-	double gamma_f_LL=.0;
+	double DL_I=0.0;
+	double DL_II=0.0;
+	double LL=0.0;
+	double gamma_f_st_SW=0.0;
+	double gamma_f_DL_I=0.0;
+	double gamma_f_DL_II=0.0;
+	double gamma_f_LL=0.0;
 
 	String_double_plus(lbl_dead_load_first_stage->Caption, edt_dead_load_first_stage->Text, &DL_I);
 	String_double_plus(lbl_dead_load_second_stage->Caption, edt_dead_load_second_stage->Text, &DL_II);
 	String_double_plus(lbl_live_load->Caption, edt_live_load->Text, &LL);
+	String_double_plus(lbl_gamma_f_st_SW->Caption, edt_gamma_f_st_SW_->Text, &gamma_f_st_SW);
 	String_double_plus(lbl_gamma_f_DL_I->Caption, edt_gamma_f_DL_I->Text, &gamma_f_DL_I);
 	String_double_plus(lbl_gamma_f_DL_II->Caption, edt_gamma_f_DL_II->Text, &gamma_f_DL_II);
 	String_double_plus(lbl_gamma_f_LL->Caption, edt_gamma_f_LL->Text, &gamma_f_LL);
 
-	return TLoads (SW, DL_I, DL_II, LL, gamma_f_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
+	return TLoads (SW, DL_I, DL_II, LL, gamma_f_st_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
 }
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
@@ -113,21 +114,37 @@ TISectionInitialData TCompositeBeamMainForm::init_i_section()
 //---------------------------------------------------------------------------
 //	Инициализация материала двутавра
 //---------------------------------------------------------------------------
-TSteelInitialData TCompositeBeamMainForm::init_steel_i_section()
+Steel TCompositeBeamMainForm::init_steel_i_section()
 {
-	return TSteelInitialData(DefineSteelForm->MaterProp.Ry,
-							 DefineSteelForm->MaterProp.Ru,
-							 DefineSteelForm->MaterProp.E,
-							 DefineSteelForm->MaterProp.G,
-							 DefineSteelForm->MaterProp.nu,
-							 DefineSteelForm->MaterProp.gamma_m);
-	//@ Заполнение свойств материала для заданной толщины t_max  - "рыба"
-	double t_max = 20;
-	int rc;
-	double Ry =  Steel_param_Ry(DefineSteelForm->MaterProp.title, t_max, &rc, false);
-	double Ru =  Steel_param_Ru(DefineSteelForm->MaterProp.title, t_max, &rc, false);
-	//@@
+	MATER_PARAM mater_param;
+	STEEL_PARAM my_steel_param;
+	TISectionInitialData i_section=init_i_section();//требуется для получения максимально толщины двутавра
 
+	int rc;
+	char title[8]="";
+	double E=0.0;
+	double G=0.0;
+	double nu=0.0;
+	double dens=0.0;
+	double gamma_m=0.0;
+	double R_yn=0.0;
+	double R_un=0.0;
+
+	double t_max = i_section.t_uf_;
+	char* str=((AnsiString)DefineSteelForm->ComboBox_steel->Text).c_str();
+
+	Get_Mater_param(str, &mater_param);
+	Get_steel_param(&mater_param, t_max, &my_steel_param);
+	R_yn =  my_steel_param.Ryn;
+	R_un =  my_steel_param.Run;
+	strcpy(title, my_steel_param.title);
+
+    String_double_plus(DefineSteelForm->Label3->Caption, DefineSteelForm->Edit_E->Text, &E);
+	String_double_zero_plus(DefineSteelForm->Label4->Caption, DefineSteelForm->Edit_G->Text, &G);
+	String_double_plus(DefineSteelForm->Label5->Caption, DefineSteelForm->Edit_nu->Text, &nu);
+	String_double_zero_plus(DefineSteelForm->Label_gamma_m->Caption, DefineSteelForm->Edit_gamma_m->Text, &gamma_m);
+
+	return Steel(title, E, G, nu, gamma_m,R_yn,R_un);
 }
 //---------------------------------------------------------------------------
 //Инициализация железобетонной части сечения
@@ -176,12 +193,12 @@ TStud TCompositeBeamMainForm::init_stud()
 //---------------------------------------------------------------------------
  CompositeSection TCompositeBeamMainForm::init_composite_section(
 											TGeometry geometry,
-											TSteelInitialData steel_i_section_initial_data,
+											Steel steel_i_section,
 											TISectionInitialData i_section_initial_data,
 											TConcretePart* concrete_part)
 {
 	return CompositeSection(geometry,
-							steel_i_section_initial_data,
+							steel_i_section,
 							i_section_initial_data,
 							concrete_part);
 }
@@ -447,6 +464,9 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(FloatToStr(loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m)), "%DL_I%");
 	report_.PasteTextPattern(FloatToStr(loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m)), "%DL_II%");
 	report_.PasteTextPattern(FloatToStr(loads.get_live_load(LoadUnit::kN, LengthUnit::m)), "%LL%");
+
+//[1.3] Коэффициенты надёжности по нагрузке
+	report_.PasteTextPattern(FloatToStr(loads.get_gamma_f_st_SW()), "%gamma_f_st_SW%");
 	report_.PasteTextPattern(FloatToStr(loads.get_gamma_f_DL_I()), "%gamma_f_DL_I%");
 	report_.PasteTextPattern(FloatToStr(loads.get_gamma_f_DL_II()), "%gamma_f_DL_II%");
 	report_.PasteTextPattern(FloatToStr(loads.get_gamma_f_LL()), "%gamma_f_LL%");
@@ -461,13 +481,13 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(i_section.get_t_w(LengthUnit::mm),"%s%");
 	report_.PasteTextPattern(i_section.get_r(LengthUnit::mm),"%r%");
 //[1.1.2] Характеристики стали
+	report_.PasteTextPattern(steel.get_steel_grade(),"%steel_grade%");
 	report_.PasteTextPattern(steel.get_R_y(),"%R_yn%");
 	report_.PasteTextPattern(steel.get_R_u(),"%R_un%");
 	report_.PasteTextPattern(steel.get_E_s(),"%E%");
 	report_.PasteTextPattern(steel.get_G_s(),"%G%");
 	report_.PasteTextPattern(steel.get_nu(),"%nu%");
-	report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
-	report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
+	report_.PasteTextPattern(steel.get_gamma_m(),"%gamma_m%");
 //[1.2] Железобетонное сечение
 //[1.2.1] Номинальные размеры плиты
 
@@ -578,10 +598,10 @@ void TCompositeBeamMainForm::calculate_composite_beam()
    TISectionInitialData i_section_initial_data=init_i_section();
    TLoads loads=init_loads();;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
    TStud stud=init_stud(); //поле соержащее упоры Нельсона
-   TSteelInitialData steel_i_section_initial_data=init_steel_i_section();
+   Steel steel_i_section=init_steel_i_section();
    WorkingConditionsFactors working_conditions_factors=init_working_conditions_factors();
    TConcretePart* concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!
-   CompositeSection composite_section=init_composite_section(geometry,steel_i_section_initial_data,i_section_initial_data,
+   CompositeSection composite_section=init_composite_section(geometry,steel_i_section,i_section_initial_data,
 																	concrete_part);
    init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
 //Вывод результатов расчёта в GUI
@@ -647,6 +667,7 @@ void __fastcall TCompositeBeamMainForm::NSaveClick(TObject *Sender)
    for(int i=0;i<CompositeBeamMainForm->ComponentCount;++i)
 		FS->WriteComponent(CompositeBeamMainForm->Components[i]);
    delete(FS);
+//	SaveComponent(File, CompositeBeamMainForm);
    Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
 
    modify_project = false;
@@ -700,6 +721,7 @@ void __fastcall TCompositeBeamMainForm::NOpenClick(TObject *Sender)
 	  for(int i=0;i<CompositeBeamMainForm->ComponentCount;++i)
 				 FS->ReadComponent(CompositeBeamMainForm->Components[i]);
 	  delete(FS);
+	 //LoadComponent(FileDir_Name, CompositeBeamMainForm);
 
 	  ModelName(FileDir_Name.c_str(), ModelFile);
 
@@ -748,6 +770,49 @@ void __fastcall TCompositeBeamMainForm::ComboBox2Change(TObject *Sender)
 {
 	OnControlsChange(Sender);
 }
+
+int __fastcall TCompositeBeamMainForm::LoadComponent(String filename, TComponent* Component)
+{
+	assert(Component!=nullptr);
+	assert(Component->Owner!=nullptr);
+
+	std::auto_ptr<TFileStream> fs (new TFileStream(filename, fmOpenRead));
+	std::auto_ptr<TReader> Reader (new TReader(fs.get(), 4096));
+
+	Reader->Root=Component->Owner;
+	TControl* Control=dynamic_cast<TControl*>(Component);
+	if(Control){
+		Reader->Parent=Control->Parent;
+	}
+
+	delete Component;
+	Component=nullptr;
+	Reader->BeginReferences();
+	try{
+		Component=Reader->ReadComponent(nullptr);
+	}
+
+	__finally{
+	Reader->FixupReferences();
+	Reader->EndReferences();
+	}
+	return Reader->Position;
+}
+int __fastcall TCompositeBeamMainForm::SaveComponent(String filename, TComponent* Component)
+{
+	assert(Component!=nullptr);
+	assert(Component->Owner!=nullptr);
+
+	std::auto_ptr<TFileStream> fs (new TFileStream(filename, fmCreate));
+	std::auto_ptr<TWriter> Writer (new TWriter(fs.get(), 4096));
+
+	Writer->Root=Component->Owner;
+	Writer->WriteComponent(Component);
+	return Writer->Position;
+}
 //---------------------------------------------------------------------------
 
+
+
+//---------------------------------------------------------------------------
 

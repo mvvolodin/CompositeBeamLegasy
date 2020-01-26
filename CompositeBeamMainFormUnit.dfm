@@ -144,21 +144,21 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         TabOrder = 0
         object lbl_gamma_f_DL_I: TLabel
           Left = 16
-          Top = 43
+          Top = 60
           Width = 112
           Height = 13
           Caption = #1055#1086#1089#1090#1086#1103#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072
         end
         object lbl_gamma_f_DL_II: TLabel
           Left = 16
-          Top = 89
+          Top = 98
           Width = 112
           Height = 13
           Caption = #1055#1086#1089#1090#1086#1103#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072
         end
         object Label2: TLabel
           Left = 16
-          Top = 24
+          Top = 41
           Width = 50
           Height = 13
           Caption = 'I '#1089#1090#1072#1076#1080#1103
@@ -171,7 +171,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
         object Label6: TLabel
           Left = 16
-          Top = 62
+          Top = 79
           Width = 55
           Height = 13
           Caption = 'II '#1089#1090#1072#1076#1080#1103
@@ -184,14 +184,21 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
         object lbl_gamma_f_LL: TLabel
           Left = 16
-          Top = 108
+          Top = 125
           Width = 106
           Height = 13
           Caption = #1042#1088#1077#1084#1077#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072
         end
+        object lbl_gamma_f_st_SW: TLabel
+          Left = 16
+          Top = 22
+          Width = 171
+          Height = 13
+          Caption = #1057#1086#1073#1089#1090#1074#1077#1085#1085#1099#1081' '#1074#1077#1089' '#1089#1090#1072#1083#1100#1085#1086#1081' '#1073#1072#1083#1082#1080
+        end
         object edt_gamma_f_DL_I: TEdit
-          Left = 188
-          Top = 40
+          Left = 196
+          Top = 46
           Width = 45
           Height = 21
           TabOrder = 0
@@ -199,8 +206,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object edt_gamma_f_DL_II: TEdit
-          Left = 188
-          Top = 77
+          Left = 196
+          Top = 94
           Width = 45
           Height = 21
           TabOrder = 1
@@ -208,12 +215,21 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object edt_gamma_f_LL: TEdit
-          Left = 188
-          Top = 104
+          Left = 196
+          Top = 121
           Width = 45
           Height = 21
           TabOrder = 2
           Text = '1.35'
+          OnChange = OnControlsChange
+        end
+        object edt_gamma_f_st_SW_: TEdit
+          Left = 196
+          Top = 19
+          Width = 45
+          Height = 21
+          TabOrder = 3
+          Text = '1.05'
           OnChange = OnControlsChange
         end
       end

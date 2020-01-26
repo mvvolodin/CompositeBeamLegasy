@@ -40,7 +40,7 @@ public:
 	CompositeSection(SteelPart    steel_part,
 					 TConcretePart* concrete_part);
 	CompositeSection(TGeometry geometry,
-					  TSteelInitialData steel_i_section_initial_data,
+					  Steel steel_i_section,
 					  TISectionInitialData i_sect_initial_data,
 					  TConcretePart* concrete_part);
 private:

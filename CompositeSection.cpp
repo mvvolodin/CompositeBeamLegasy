@@ -19,10 +19,10 @@ CompositeSection::CompositeSection(SteelPart    steel_part,
 }
 
 CompositeSection::CompositeSection(TGeometry geometry,
-									  TSteelInitialData steel_i_section_initial_data,
+									  Steel steel_i_section,
 									  TISectionInitialData i_sect_initial_data,
 									  TConcretePart* concrete_part)
-	:concrete_part(concrete_part)
+	:i_sect_steel(steel_i_section),concrete_part(concrete_part)
 {
 	Alfa_s_=.0;// акие плюсы применени€ подобных литералов "0." или ".0"
 	Alfa_b_=.0; //—ледует рассмотреть инициализацию через member initializer list
@@ -40,7 +40,7 @@ CompositeSection::CompositeSection(TGeometry geometry,
 	W_b_red_=.0;
 
 	steel_part=ISection(i_sect_initial_data);
-	i_sect_steel=Steel(steel_i_section_initial_data);
+
 
 	if (!geometry.is_end_beam())
 	{

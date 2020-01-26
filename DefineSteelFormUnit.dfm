@@ -60,9 +60,9 @@ object DefineSteelForm: TDefineSteelForm
       Top = 8
       Width = 65
       Height = 21
-      ItemIndex = 1
+      ItemIndex = 2
       TabOrder = 0
-      Text = 'C245'
+      Text = 'C255'
       OnChange = ComboBox_steelChange
       Items.Strings = (
         'C235'

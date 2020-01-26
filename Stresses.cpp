@@ -39,13 +39,12 @@ void Stresses::define_stress_state(CompositeSection 		composite_section,
 	double gamma_c=working_conditions_factors.get_gamma_c();
 	double R_b=composite_section.get_concrete_part()->get_R_bn();
 	double R_s=composite_section.get_concrete_part()->get_rebar().get_R_s();
-   double	CS_number_=sigma_b_.size();//ужасное решение
+	double CS_number_=sigma_b_.size();//ужасное решение
 	for (int i=0; i < CS_number_; ++i)
 	{
 		if (sigma_b_[i]<gamma_bi*R_b)
 		{
 			state_sigma_b_.push_back(StressState::elastic);
-
 		}
 		else
 		{

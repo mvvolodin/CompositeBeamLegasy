@@ -267,11 +267,6 @@
             <DependentOn>Steel.h</DependentOn>
             <BuildOrder>38</BuildOrder>
         </CppCompile>
-        <CppCompile Include="SteelInitialDataUnit.cpp">
-            <VirtualFolder>{C6F2178C-7378-48FB-AD9E-9A60F5F99E54}</VirtualFolder>
-            <DependentOn>SteelInitialDataUnit.h</DependentOn>
-            <BuildOrder>36</BuildOrder>
-        </CppCompile>
         <CppCompile Include="SteelPart.cpp">
             <DependentOn>SteelPart.h</DependentOn>
             <BuildOrder>44</BuildOrder>

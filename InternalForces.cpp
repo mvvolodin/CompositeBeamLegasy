@@ -200,7 +200,7 @@ void InternalForces::Q_calc_two_span_beam(double p, CS_Coordinates cs_coordinate
 		Q_.push_back(temp_Q);
 	}
 	Q_jump_=Q_JumpList(Q_.size(),0);
-	std::vector<double>::iterator itr = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), 9000);
+	std::vector<double>::iterator itr = std::find(std::begin(cs_coordinates), std::end(cs_coordinates), l/2);
 
 	Q_jump_[std::distance(cs_coordinates.begin(),itr)]=B;
 }
