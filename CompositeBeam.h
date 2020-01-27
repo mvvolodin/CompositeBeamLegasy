@@ -32,10 +32,7 @@ private:
 
 //прозводные поля
 	CS_Coordinates cs_coordinates_;
-	InternalForcesNamededList internal_forces_LC_;
-	InternalForces internal_forces_I_;
-	InternalForces internal_forces_II_;
-	InternalForces internal_forces_total_;
+	InternalForcesNamededList internal_forces_;
 
 //Производные поля напряжения
 
@@ -44,8 +41,6 @@ private:
 	Stresses stresses_II_;
 	Stresses stresses_total_;
 
-	std::vector<double> test_M_;
-    std::vector<double> test_Q_;
 	//StressesNamedList stresses_;
 	double gamma_1_;//коэффициент условий работы верхнего пояса
 
@@ -64,10 +59,7 @@ public:
 				   WorkingConditionsFactors working_conditions_factors);
 
 inline CompositeSection get_composite_section()const{return composite_section_;}//Уродливая запись!!!//Но возвращается ссылка на объект
-inline InternalForcesNamededList get_internal_forces_LC()const{return internal_forces_LC_;}
-inline InternalForces get_internal_forces_I()const{return internal_forces_I_;}
-inline InternalForces get_internal_forces_II()const{return internal_forces_II_;}
-inline InternalForces get_internal_forces_total()const{return internal_forces_total_;}
+inline InternalForcesNamededList get_internal_forces_LC()const{return internal_forces_;}
 inline CS_Coordinates get_CS_coordinates()const {return cs_coordinates_;}
 inline TStud get_studs()const {return studs_;}
 inline TGeometry get_geometry()const {return geometry_;}

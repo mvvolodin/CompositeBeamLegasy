@@ -50,17 +50,15 @@ void TCompositeBeam::calc_inter_forces()
 	double DL_II_l=DL_II*(bl+br)/2.0;
 	double LL_l=LL*(bl+br)/2.0;
 
-	//координаты сечений с расчётом внутренних сил
 
-   //	InternalForces::CS_coordinates cs_coordinates=geometry_.get_CS_coordinates();
 	int temporary_supports_number=geometry_.get_temporary_supports_number();
 
 	//формирование именованного списка с внктрениими усилиями от случаев загружения
 
-	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::SW,InternalForces(SW_l,cs_coordinates_,temporary_supports_number)));
-	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_I,InternalForces(DL_I_l,cs_coordinates_,temporary_supports_number)));
-	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_II,InternalForces(DL_II_l,cs_coordinates_,temporary_supports_number)));
-	internal_forces_LC_.insert(InternalForcesNamededListItem(LoadCaseNames::LL,InternalForces(LL_l,cs_coordinates_,temporary_supports_number)));
+	internal_forces_.insert(InternalForcesNamededListItem(LoadCaseNames::SW,InternalForces(SW_l,cs_coordinates_,temporary_supports_number)));
+	internal_forces_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_I,InternalForces(DL_I_l,cs_coordinates_,temporary_supports_number)));
+	internal_forces_.insert(InternalForcesNamededListItem(LoadCaseNames::DL_II,InternalForces(DL_II_l,cs_coordinates_,0)));
+	internal_forces_.insert(InternalForcesNamededListItem(LoadCaseNames::LL,InternalForces(LL_l,cs_coordinates_,0)));
 
 	//формирование списка с внутренними усилиями
 
@@ -69,53 +67,50 @@ void TCompositeBeam::calc_inter_forces()
 	double gamma_f_DL_II=loads_.get_gamma_f_DL_II();
 	double gamma_f_LL=loads_.get_gamma_f_LL();
 
-	for (int i = 0; i < (geometry_.get_beam_division()+1); i++)
+	int cs_num=cs_coordinates_.size();
+
+	std::vector<double> M_I;
+	std::vector<double> Q_I;
+
+	for (int i = 0; i < cs_num; i++)
 	{
-		double temp_M=0.0;
-		double temp_Q=0.0;
 
-		temp_M=gamma_f_SW*internal_forces_LC_[LoadCaseNames::SW].get_M()[i]+
-			   gamma_f_DL_I*internal_forces_LC_[LoadCaseNames::DL_I].get_M()[i];
-		temp_Q=gamma_f_SW*internal_forces_LC_[LoadCaseNames::SW].get_Q()[i]+
-			   gamma_f_DL_I*internal_forces_LC_[LoadCaseNames::DL_I].get_Q()[i];
-
-		internal_forces_I_.add_M(temp_M);
-		internal_forces_I_.add_Q(temp_Q);
+		M_I.push_back(gamma_f_SW*internal_forces_[LoadCaseNames::SW].get_M()[i]+
+			   gamma_f_DL_I*internal_forces_[LoadCaseNames::DL_I].get_M()[i]);
+		Q_I.push_back(gamma_f_SW*internal_forces_[LoadCaseNames::SW].get_Q()[i]+
+			   gamma_f_DL_I*internal_forces_[LoadCaseNames::DL_I].get_Q()[i]);
 	}
 
-    std::vector<int> a;//looks like this: 2,0,1,5,0
-std::vector<int> b;//looks like this: 0,0,1,3,5
+	internal_forces_.insert(InternalForcesNamededListItem(LoadCaseNames::I_stage, InternalForces(M_I, Q_I)));
 
-// std::plus adds together its two arguments:
-std::transform (a.begin(), a.end(), b.begin(), a.begin(), std::plus<int>());
-// a = 2,0,2,8,5
+	std::vector<double> M_II;
+	std::vector<double> Q_II;
 
-	for (int i = 0; i < (geometry_.get_beam_division()+1); i++)
+	for (int i = 0; i < cs_num; i++)
 	{
-		double temp_M=0.0;
-		double temp_Q=0.0;
 
-		temp_M=gamma_f_DL_II*internal_forces_LC_[LoadCaseNames::DL_II].get_M()[i]+
-			   gamma_f_LL*internal_forces_LC_[LoadCaseNames::LL].get_M()[i];
-		temp_Q=gamma_f_DL_II*internal_forces_LC_[LoadCaseNames::DL_II].get_Q()[i]+
-			   gamma_f_LL*internal_forces_LC_[LoadCaseNames::LL].get_Q()[i];
+		M_II.push_back(gamma_f_DL_II*internal_forces_[LoadCaseNames::DL_II].get_M()[i]+
+			   gamma_f_LL*internal_forces_[LoadCaseNames::LL].get_M()[i]);
+		Q_II.push_back(gamma_f_DL_II*internal_forces_[LoadCaseNames::DL_II].get_Q()[i]+
+			   gamma_f_LL*internal_forces_[LoadCaseNames::LL].get_Q()[i]);
 
-		internal_forces_II_.add_M(temp_M);
-		internal_forces_II_.add_Q(temp_Q);
 
 	}
 
-	for (int i = 0; i < (geometry_.get_beam_division()+1); i++)
+	internal_forces_.insert(InternalForcesNamededListItem(LoadCaseNames::II_stage, InternalForces(M_II, Q_II)));
+
+	std::vector<double> M_total;
+	std::vector<double> Q_total;
+
+	for (int i = 0; i < cs_num; i++)
 	{
-		double temp_M=0.0;
-		double temp_Q=0.0;
 
-		temp_M=internal_forces_I_.get_M()[i]+internal_forces_II_.get_M()[i];
-		temp_Q=internal_forces_I_.get_Q()[i]+internal_forces_II_.get_Q()[i];
+		M_total.push_back(M_I[i]+M_II[i]);
+		Q_total.push_back(Q_I[i]+Q_II[i]);
 
-		internal_forces_total_.add_M(temp_M);
-		internal_forces_total_.add_Q(temp_Q);
 	}
+
+	internal_forces_.insert(InternalForcesNamededListItem(LoadCaseNames::Total, InternalForces(M_total, Q_total)));
 
 }
 //---------------------------------------------------------------------------
@@ -123,15 +118,12 @@ std::transform (a.begin(), a.end(), b.begin(), a.begin(), std::plus<int>());
 //---------------------------------------------------------------------------
 void TCompositeBeam::calc_stresses()
 {
-	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::SW,Stresses(internal_forces_LC_[LoadCaseNames::SW],composite_section_, working_conditions_factors_)));
-	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::DL_I,Stresses(internal_forces_LC_[LoadCaseNames::DL_I],composite_section_, working_conditions_factors_)));
-	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::DL_II,Stresses(internal_forces_LC_[LoadCaseNames::DL_II],composite_section_, working_conditions_factors_)));
-	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::LL,Stresses(internal_forces_LC_[LoadCaseNames::LL],composite_section_, working_conditions_factors_)));
+	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::SW,Stresses(internal_forces_[LoadCaseNames::SW],composite_section_, working_conditions_factors_)));
+	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::DL_I,Stresses(internal_forces_[LoadCaseNames::DL_I],composite_section_, working_conditions_factors_)));
+	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::DL_II,Stresses(internal_forces_[LoadCaseNames::DL_II],composite_section_, working_conditions_factors_)));
+	stresses_LC_.insert(StressesNamedListItem(LoadCaseNames::LL,Stresses(internal_forces_[LoadCaseNames::LL],composite_section_, working_conditions_factors_)));
 
-	stresses_I_= Stresses(internal_forces_I_,composite_section_, working_conditions_factors_);
-	stresses_II_= Stresses(internal_forces_II_,composite_section_, working_conditions_factors_);
-	stresses_total_= Stresses(internal_forces_II_,composite_section_, working_conditions_factors_);
-	
+
 }
 //---------------------------------------------------------------------------
 //Созадём лист с координатами расчётных сечений

@@ -8,6 +8,10 @@
 InternalForces::InternalForces()
 {
 }
+InternalForces::InternalForces(M_List M, Q_List Q):M_(M), Q_(Q)
+{
+
+}
 InternalForces::InternalForces(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
 {
 	switch (temporary_supports_number)

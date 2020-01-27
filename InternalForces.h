@@ -47,6 +47,7 @@ public:
 
 public:
 	InternalForces();
+	InternalForces(M_List M, Q_List Q);
 	InternalForces(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);
 private:
 	void R_calc_simple_beam(double p, double l);

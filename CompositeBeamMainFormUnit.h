@@ -34,7 +34,8 @@
 
  #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
  #include "Word_Automation.h"
-#include <Vcl.Imaging.jpeg.hpp>//Подключаем файл классом объекта отчёт
+#include <Vcl.Imaging.jpeg.hpp>
+#include <Vcl.Imaging.pngimage.hpp>//Подключаем файл классом объекта отчёт
 #include <memory>
 #include <cassert>
  //@
