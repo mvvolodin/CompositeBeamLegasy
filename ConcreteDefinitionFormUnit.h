@@ -39,7 +39,6 @@ private:	// User declarations
 	ConcreteBasicData concrete_data_;
    typedef ConcreteBasicData::iterator ConcreteBasicDataIterator;
 private:  //User declaration
-	void fill_concrete_data();
     void init_concrete();
 
 public:		// User declarations

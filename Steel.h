@@ -11,7 +11,7 @@ class Steel{
 public:
 
 	Steel();
-	Steel::	Steel(String steel_grade, double E, double G, double nu,
+	Steel(String steel_grade, double E, double G, double nu,
 			  double gamma_m,double R_yn,double R_un);
 	inline String get_steel_grade () const {return steel_grade_;}
 	inline double get_R_y () const {return R_y_;}

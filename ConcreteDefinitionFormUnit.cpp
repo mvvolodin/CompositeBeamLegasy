@@ -8,12 +8,12 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TConcreteDefinitionForm *ConcreteDefinitionForm;
+extern std::vector <ConcreteBasic> concrete_basic;
 
 //---------------------------------------------------------------------------
 __fastcall TConcreteDefinitionForm::TConcreteDefinitionForm(TComponent* Owner)
 	: TForm(Owner)
 {
-	fill_concrete_data();
 	lbl_gamma_b->Caption=(lbl_gamma_b->Caption + u"\u03B3"+u"b");
     lbl_gamma_bt->Caption=(lbl_gamma_bt->Caption + u"\u03B3"+u"bt");
 	lbl_epsilon_b_lim->Caption=(lbl_epsilon_b_lim->Caption+u"\u03B5"+u"lim");
@@ -22,28 +22,23 @@ __fastcall TConcreteDefinitionForm::TConcreteDefinitionForm(TComponent* Owner)
 	edt_R_btn->Text=concrete_data_.begin()->second.get_R_btn();
 	edt_E_b->Text=concrete_data_.begin()->second.get_E_b();
 
-	for (ConcreteBasicDataIterator it = concrete_data_.begin(); it != concrete_data_.end(); it++){
-		cmb_bx_concrete_grade_list->Items->Add(it->first);
-		} ;
+	for(auto concrete:concrete_basic) {
+		cmb_bx_concrete_grade_list->Items->Add(concrete.get_grade());
+	}
+		cmb_bx_concrete_grade_list->ItemIndex=0;
+		cmb_bx_concrete_grade_listChange(nullptr);
+
 		init_concrete();
 }
 //---------------------------------------------------------------------------
-void TConcreteDefinitionForm::fill_concrete_data()
-{
-	ConcreteBasic B25 ("B25",25000,250,2),
-				  B30 ("B30",30000,300,30),
-				  B35 ("B35",35000,350,35);
-	concrete_data_.insert(ConcreteBasicDataItem("B25",B25));
-	concrete_data_.insert(ConcreteBasicDataItem("B30",B30));
-	concrete_data_.insert(ConcreteBasicDataItem("B35",B35));
-}
-
 void __fastcall TConcreteDefinitionForm::cmb_bx_concrete_grade_listChange(TObject *Sender)
 {
 	String grade= cmb_bx_concrete_grade_list->Text;
-	edt_R_bn->Text=FloatToStr(concrete_data_[grade].get_R_bn());
-	edt_R_btn->Text=FloatToStr(concrete_data_[grade].get_R_btn());
-	edt_E_b->Text=FloatToStr(concrete_data_[grade].get_E_b());
+	auto it_concrete=std::find_if(concrete_basic.begin(),concrete_basic.end(),
+		[grade](ConcreteBasic concrete_basic){return concrete_basic.get_grade()==grade;});
+	edt_R_bn->Text=FloatToStr(it_concrete->get_R_bn());
+	edt_R_btn->Text=FloatToStr(it_concrete->get_R_btn());
+	edt_E_b->Text=FloatToStr(it_concrete->get_E_b());
 }
 //---------------------------------------------------------------------------
 
