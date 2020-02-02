@@ -10,7 +10,7 @@
 #pragma resource "*.dfm"
 TStudDefinitionForm *StudDefinitionForm;
 
-extern TStudBasicNamedList stud_named_list;
+//extern TStudBasicNamedList stud_named_list;
 
 //---------------------------------------------------------------------------
 __fastcall TStudDefinitionForm::TStudDefinitionForm(TComponent* Owner)

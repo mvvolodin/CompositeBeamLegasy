@@ -5,10 +5,21 @@
 #include "StudUnit.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+//double* out_my;
+//
+//get_array(.............,out_my)
+//
+//int get_array(double* in, int size_in, double* out)
+//{
+//  return size_out;
+//}
+//
+//out_my[10]
 
-TStudBasicNamedList stud_named_list
+TStudBasicNamedList stud_named_list  //Ассоциацивный массив подходит в моём случае лучше так как поиск
+										//выполняется только по одному из полей, если бы поиск был по нескольким полям то возможно вектор
 {
-	{{"SDx10x50"},		{"SDx10x50",10,50}},
+	{{"SDx10x50"},		{"SDx10x50",10,50}},  //вероятно из BasicStud рекомендуется исключить имя
 	{{"SDx10x75"},		{"SDx10x75",10,75}},
 	{{"SDx10x100"},		{"SDx10x100",10,100}},
 	{{"SDx10x125"},		{"SDx10x125",10,125}},

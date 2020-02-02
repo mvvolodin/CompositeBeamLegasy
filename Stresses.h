@@ -3,48 +3,35 @@
 #ifndef StressesH
 #define StressesH
 
-//#include "CompositeBeam.h" //Почему не компилируется с одним #include "CompositeBeam.h"   http://www.cplusplus.com/forum/articles/10627/
 #include "CompositeSection.h"
 #include "InternalForces.h"
 #include "WorkingConditionsFactors.h"
 
-enum class StressState{ //наименования не очень симпатичные
-	elastic,
-	plastic
+
+enum StressStateCase{ //придумать содержательные названия
+	UNDEFINED=1,
+	CASE_I,
+	CASE_II,
+	CASE_III,
+	PLASTIC,
 };
 //---------------------------------------------------------------------------
-class Stresses{ //Как образуется множественная форма Stresses?
-
-	typedef std::vector<double> SigmaB_List;//один и тот же тип под разными псевдонимами.
-	typedef std::vector<double> SigmaS_List;// это хорошая практика?
-	typedef std::vector<StressState> StressStateList;
+struct Stresses{ //Как образуется множественная форма Stresses?
 
 private:
 
-	SigmaB_List sigma_b_;//напряжения в бетоне на уровне центра тяжести плиты
-	SigmaS_List sigma_s_;//напряжения в арматуре соответствующие деформациям в бетоне при напряжении sigma_b
-	StressStateList state_sigma_b_;
-	StressStateList state_sigma_s_;
-
-private:
-	void calculate_stresses(InternalForces internal_forces, CompositeSection composite_section);
-
-	void define_stress_state(CompositeSection 			composite_section,
-							 WorkingConditionsFactors 	working_conditions_factors);
+	double sigma_b_=0.0;//напряжения в бетоне на уровне центра тяжести плиты
+	double sigma_s_=0.0;//напряжения в арматуре соответствующие деформациям в бетоне при напряжении sigma_b
+	StressStateCase stress_state_case_=UNDEFINED;
 
 public:
-    Stresses();
-	Stresses(InternalForces iternal_forces, CompositeSection composite_section, WorkingConditionsFactors 	working_conditions_factor);
-	inline SigmaB_List get_sigma_b()const {return sigma_b_;}
-	inline SigmaS_List get_sigma_s()const {return sigma_s_;}
-	inline void add_sigma_b(double sigma_b){sigma_b_.push_back(sigma_b);}
-	inline void add_sigma_s(double sigma_s){sigma_s_.push_back(sigma_s);}
-	inline StressStateList get_state_sigma_b()const {return state_sigma_b_;}
-	inline StressStateList get_state_sigma_s()const {return state_sigma_s_;}
+	Stresses();
+	Stresses (double sigma_b, double sigma_s, StressStateCase stress_state_case);
+	inline double get_sigma_b()const {return sigma_b_;}
+	inline double get_sigma_s()const {return sigma_s_;}
+//	inline void add_sigma_b(double sigma_b){sigma_b_.push_back(sigma_b);}
+//	inline void add_sigma_s(double sigma_s){sigma_s_.push_back(sigma_s);}
+	inline StressStateCase get_state() const {return StressStateCase::CASE_II;}
 };
-
- typedef std::map<LoadCaseNames, Stresses> StressesNamedList;
- typedef std::pair <LoadCaseNames, Stresses> StressesNamedListItem;
- typedef StressesNamedList::iterator StressesNamedListIterator;
 
 #endif

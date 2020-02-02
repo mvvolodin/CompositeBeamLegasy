@@ -8,7 +8,7 @@
  #include <algorithm>
  #include "Units.h"
 
- enum class LoadCaseNames{
+ enum class Impact{
 	SW,
 	DL_I,
 	DL_II,
@@ -64,7 +64,7 @@ private:
 	void Q_calc_four_span_beam(double p, CS_Coordinates cs_coordinates, int temporary_supports_number);
 };
 
-typedef std::map<LoadCaseNames, InternalForces> InternalForcesNamededList;
-typedef std::pair <LoadCaseNames, InternalForces> InternalForcesNamededListItem;
-typedef InternalForcesNamededList::iterator InternalForcesNamededListIterator;
+typedef std::map<Impact, InternalForces> InternalForcesNamedList;
+typedef std::pair <Impact, InternalForces> InternalForcesNamedListItem;
+typedef InternalForcesNamedList::iterator InternalForcesNamedListIterator;
 #endif

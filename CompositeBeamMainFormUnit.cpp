@@ -267,7 +267,7 @@ void __fastcall TCompositeBeamMainForm::strng_grd_rendering(TObject *Sender,
 	}
 }
 //---------------------------------------------------------------------------
-//	Функция заполняющая Grid выводящий результаты расчёта геометрических характеристик композитного сечения
+//	Функция заполняющая TStringGrid выводящий результаты расчёта геометрических характеристик композитного сечения
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::cotr_comp_sect_geometr_grid()
 {
@@ -304,9 +304,10 @@ void TCompositeBeamMainForm::ctor_concrete_sect_geometr_grid()
 	strng_grd_concrete_sect_geom_character->Cells [1][0]=L"Значения";
 	strng_grd_concrete_sect_geom_character->Cells [0][1]=L"Расчётная величина свеса слева";
 	strng_grd_concrete_sect_geom_character->Cells [0][2]=L"Расчётная величина свеса справа";
-	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Площадь";
-	strng_grd_concrete_sect_geom_character->Cells [0][4]=L"Момент инерции";
-	strng_grd_concrete_sect_geom_character->Cells [0][5]=L"Момент сопротивления";
+	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Расстояние от нижней грани до центра тяжести";
+	strng_grd_concrete_sect_geom_character->Cells [0][4]=L"Площадь";
+	strng_grd_concrete_sect_geom_character->Cells [0][5]=L"Момент инерции";
+   //	strng_grd_concrete_sect_geom_character->Cells [0][6]=L"Момент сопротивления";
 }
 void TCompositeBeamMainForm::fill_steel_sect_geometr_grid()
 {
@@ -321,16 +322,16 @@ void TCompositeBeamMainForm::fill_steel_sect_geometr_grid()
 }
 void TCompositeBeamMainForm::fill_concrete_sect_geometr_grid()
 {
+	TConcretePart* concrete_part=composite_beam_.get_composite_section().get_concrete_part();
 
-
+	strng_grd_concrete_sect_geom_character->Cells [1][1]=FloatToStrF(concrete_part->get_b_l(), ffFixed, 15, 0);
+	strng_grd_concrete_sect_geom_character->Cells [1][2]=FloatToStrF(concrete_part->get_b_r(), ffFixed, 15, 0);
+	strng_grd_concrete_sect_geom_character->Cells [1][3]=FloatToStrF(concrete_part->get_C_b(), ffFixed, 15, 0);
+	strng_grd_concrete_sect_geom_character->Cells [1][4]=FloatToStrF(concrete_part->get_A_b(), ffFixed, 15, 0);
+	strng_grd_concrete_sect_geom_character->Cells [1][5]=FloatToStrF(concrete_part->get_I_b(), ffFixed, 15, 0);
 }
 void TCompositeBeamMainForm::fill_composite_sect_geometr_grid()
 {
- //Данные стального и бетонного сечений. Пока нет ясности надо ли эти данные выводить
-  //double I_st=composite_beam.get_composite_section().get_steel_part().get_I_st();
-  //double A_st= composite_beam.get_composite_section().get_steel_part().get_A_st();
-  //double A_b=composite_beam.get_composite_section().get_concrete_part().get_A_b();
-  //double I_b=composite_beam.get_composite_section().get_concrete_part().get_I_b();
 	double A_red=composite_beam_.get_composite_section().get_A_red();
 	double I_red=composite_beam_.get_composite_section().get_I_red();
 	double W_f2_red=composite_beam_.get_composite_section().get_W_f2_red();
@@ -367,14 +368,14 @@ strngGrdResults->Cells [1][3]="0.89";
 void TCompositeBeamMainForm::fill_cmb_bx_LC()
 {
 	   //Метод AddItem, связывающий TStrings с объектами требуется в качестве параметра объект TObject
-	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::SW), "Собственный Вес");
-	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::DL_I) , "Постоянная Нагрузка I стадия");
-	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::DL_II), "Постоянная Нагрузка II стадия");
-	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::LL), "Временная Нагрузка");
-	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::I_stage), "Расчётные Нагрузки I стадии");
-	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::II_stage), "Расчётные Нагрузки II стадии");
-	cmb_bx_LC->Items->Insert(static_cast<int>(LoadCaseNames::Total), "Расчётные Нагрузки");
-	cmb_bx_LC->ItemIndex = (int)LoadCaseNames::SW;
+	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::SW), "Собственный Вес");
+	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная Нагрузка I стадия");
+	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная Нагрузка II стадия");
+	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::LL), "Временная Нагрузка");
+	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::I_stage), "Расчётные Нагрузки I стадии");
+	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::II_stage), "Расчётные Нагрузки II стадии");
+	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::Total), "Расчётные Нагрузки");
+	cmb_bx_LC->ItemIndex = (int)Impact::SW;
 }
 
 //---------------------------------------------------------------------------
@@ -562,14 +563,14 @@ void TCompositeBeamMainForm::draw_diagram()
 	if (rd_grp_internal_forces_type->ItemIndex==0)
 	{
 		//получаем вектор изгибающих моментов из объекта композитная балка
-		std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_M(LoadUnit::kN, LengthUnit::m);
+		std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_LC->ItemIndex)].get_M(LoadUnit::kN, LengthUnit::m);
 		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
 	}
 	else
 	{
 		//получаем поперечные силы из объекта композитная балка
-		std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q(LoadUnit::kN);
-		std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<LoadCaseNames>(cmb_bx_LC->ItemIndex)].get_Q_jump(LoadUnit::kN);
+		std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_LC->ItemIndex)].get_Q(LoadUnit::kN);
+		std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_LC->ItemIndex)].get_Q_jump(LoadUnit::kN);
 		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &Q_jump[0], n_supp, &coor_supp[0], flag_sign);
 	}
 
@@ -814,5 +815,11 @@ int __fastcall TCompositeBeamMainForm::SaveComponent(String filename, TComponent
 
 
 
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
+{
+	FormLogger->Show();
+}
 //---------------------------------------------------------------------------
 

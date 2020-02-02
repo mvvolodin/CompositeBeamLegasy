@@ -52,7 +52,7 @@ void __fastcall TDefineSteelForm::Set_index_steel(int index) {
      }
    break;
    }
-   ComboBox_steel->ItemIndex = 0;
+   ComboBox_steel->ItemIndex = 5;
 }
 
 //---------------------------------------------------------------------------

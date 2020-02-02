@@ -8,6 +8,10 @@
 
 #include "MathFunction.h"
 #include<cmath>
+ISection CompositeSection::steel_part___; //не используетс
+TConcretePart* CompositeSection::concrete_part___;  //не используется
+Steel CompositeSection::i_sect_steel___; //не используетс
+
 CompositeSection::CompositeSection()
 {
 
@@ -24,20 +28,6 @@ CompositeSection::CompositeSection(TGeometry geometry,
 									  TConcretePart* concrete_part)
 	:i_sect_steel(steel_i_section),concrete_part(concrete_part)
 {
-	Alfa_s_=.0;//Какие плюсы применения подобных литералов "0." или ".0"
-	Alfa_b_=.0; //Следует рассмотреть инициализацию через member initializer list
-	H_stb_=.0;
-	A_red_=.0;
-	Z_b_st_=.0;
-	S_stb_=.0;
-	Z_st_red_=.0;
-	I_red_=.0;
-	Z_red_f2_=.0;
-	Z_red_f1_=.0;
-	Z_b_red_=.0;
-	W_f2_red_=.0;
-	W_f1_red_=.0;
-	W_b_red_=.0;
 
 	steel_part=ISection(i_sect_initial_data);
 

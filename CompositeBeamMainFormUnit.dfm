@@ -1960,7 +1960,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 3
           Width = 426
           Height = 393
-          ActivePage = tb_sht_composite_geom_char
+          ActivePage = tb_sht_concrete_geom_char
           TabOrder = 0
           object tb_sht_steel_geom_char: TTabSheet
             Caption = #1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
@@ -2072,6 +2072,15 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           24)
       end
     end
+  end
+  object btn_logger: TButton
+    Left = 259
+    Top = 561
+    Width = 75
+    Height = 25
+    Caption = #1051#1086#1075
+    TabOrder = 6
+    OnClick = btn_loggerClick
   end
   object MainMenu1: TMainMenu
     Images = ImageList1

@@ -20,7 +20,6 @@ public:
 		{return l_/static_cast<int>(length_unit);}
 	inline double get_d_an(LengthUnit length_unit=LengthUnit::mm) const
 		{return d_an_/static_cast<int>(length_unit);}
-
 };
 
 class TStud:public TStudBasic{

@@ -31,11 +31,13 @@
 #include "StudDefinitionFormUnit.h"
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
+#include "LoggerFormUnit.h"
+#include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
+#include "Word_Automation.h"
 
- #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
- #include "Word_Automation.h"
 #include <Vcl.Imaging.jpeg.hpp>
-#include <Vcl.Imaging.pngimage.hpp>//Подключаем файл классом объекта отчёт
+#include <Vcl.Imaging.pngimage.hpp>
+
 #include <memory>
 #include <cassert>
  //@
@@ -160,6 +162,7 @@ __published:	// IDE-managed Components
 	TComboBox *cmb_bx_edge_studs_rows_num;
 	TEdit *edt_gamma_f_st_SW_;
 	TLabel *lbl_gamma_f_st_SW;
+	TButton *btn_logger;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -185,6 +188,7 @@ __published:	// IDE-managed Components
 	void __fastcall chck_bx_end_beamClick(TObject *Sender);
 	void __fastcall CmbBxAnalysisTheoryChoiceChange(TObject *Sender);
 	void __fastcall ComboBox2Change(TObject *Sender);
+	void __fastcall btn_loggerClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);
