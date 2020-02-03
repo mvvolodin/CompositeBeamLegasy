@@ -25,14 +25,17 @@ __fastcall TDefineSteelForm::TDefineSteelForm(TComponent* Owner)
 	ComboBox_gost->Items->Clear();
 	ComboBox_gost->Items->Add("СП 16.13330.2017, Таблица В.4, двутавры");
 	ComboBox_gost->Items->Add("ГОСТ 27772-2015, Таблица 5, фасонный прокат");
-	ComboBox_gost->ItemIndex = 0;
 
-	Set_index_steel(ComboBox_gost->ItemIndex);
-	ComboBox_steelChange(nullptr);
+	ComboBox_gost->ItemIndex = 0;
+	set_steel_standard(ComboBox_gost->ItemIndex);
+
+	ComboBox_steel->ItemIndex = 3;
+	fill_grd_steel_data();
+
 }
 //---------------------------------------------------------------
 // Установить индекс стали
-void __fastcall TDefineSteelForm::Set_index_steel(int index) {
+void __fastcall TDefineSteelForm::set_steel_standard(int index) {
 
    int i;
    AnsiString Steel_Hot[N_STEEL_HOT] = {STEEL_HOT};
@@ -52,7 +55,7 @@ void __fastcall TDefineSteelForm::Set_index_steel(int index) {
      }
    break;
    }
-   ComboBox_steel->ItemIndex = 5;
+
 }
 
 //---------------------------------------------------------------------------
@@ -63,6 +66,22 @@ void __fastcall TDefineSteelForm::BitBtn_OKClick(TObject *Sender)
 //----------------------------------------------------------------------
 void __fastcall TDefineSteelForm::ComboBox_steelChange(
 	  TObject *Sender)
+{
+	fill_grd_steel_data();
+}
+//---------------------------------------------------------------------------
+void __fastcall TDefineSteelForm::ComboBox_gostChange(TObject *Sender)
+{
+	set_steel_standard(ComboBox_gost->ItemIndex);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TDefineSteelForm::BitBtn_CancelClick(TObject *Sender)
+{
+    Close();
+}
+
+void __fastcall TDefineSteelForm::fill_grd_steel_data()
 {
 	   int i, rc;
 
@@ -92,17 +111,7 @@ void __fastcall TDefineSteelForm::ComboBox_steelChange(
 		 StringGrid_Prop->Cells[2][i+1] = mater_param.Run_row[i];
 	   }
 
-}
-//---------------------------------------------------------------------------
-void __fastcall TDefineSteelForm::ComboBox_gostChange(TObject *Sender)
-{
-	Set_index_steel(ComboBox_gost->ItemIndex);
-}
-//---------------------------------------------------------------------------
 
-void __fastcall TDefineSteelForm::BitBtn_CancelClick(TObject *Sender)
-{
-    Close();
 }
 //---------------------------------------------------------------------------
 

@@ -116,7 +116,6 @@ TISectionInitialData TCompositeBeamMainForm::init_i_section()
 //---------------------------------------------------------------------------
 Steel TCompositeBeamMainForm::init_steel_i_section()
 {
-	MATER_PARAM mater_param;
 	STEEL_PARAM my_steel_param;
 	TISectionInitialData i_section=init_i_section();//требуется для получения максимально толщины двутавра
 
@@ -133,8 +132,11 @@ Steel TCompositeBeamMainForm::init_steel_i_section()
 	double t_max = i_section.t_uf_;
 	char* str=((AnsiString)DefineSteelForm->ComboBox_steel->Text).c_str();
 
-	Get_Mater_param(str, &mater_param);
-	Get_steel_param(&mater_param, t_max, &my_steel_param);
+	bool  flag_diag_thick=false;//для чего этот флаг
+
+	rc=Steel_param(str, t_max, &my_steel_param, flag_diag_thick);
+	if(rc!=0)
+		return Steel();//что возвращать из функции если Steel_param вернул ошибку?
 	R_yn =  my_steel_param.Ryn;
 	R_un =  my_steel_param.Run;
 	strcpy(title, my_steel_param.title);
@@ -238,17 +240,17 @@ void __fastcall TCompositeBeamMainForm::btn_reportClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::rdgrp_slab_typeClick(TObject *Sender)
 {
-switch(rdgrp_slab_type->ItemIndex)
-{
-	case 0: grpBxCorrugatedSlab->Visible=false;
-			grp_bx_flat_slab->Visible=true;
-			break;
+	switch(rdgrp_slab_type->ItemIndex)
+	{
+		case 0: grp_bx_corrugated_slab->Visible=false;
+				grp_bx_flat_slab->Visible=true;
+				break;
 
-   case 1:	grpBxCorrugatedSlab->Visible=true;
-			grp_bx_flat_slab->Visible=false;
-			break;
-}
-    OnControlsChange(Sender);
+	   case 1:	grp_bx_corrugated_slab->Visible=true;
+				grp_bx_flat_slab->Visible=false;
+				break;
+	}
+		OnControlsChange(Sender);
 }
 //---------------------------------------------------------------------------
 //Обработчик события обеспечивающий заполнение первой строки жирным шрифтом

@@ -107,9 +107,6 @@ Coordinates=484,366,102,58
 [Label6]
 Coordinates=663,475,53,58
 
-[grpBxCorrugatedSlab]
-Coordinates=791,155,138,58
-
 [GrpBxShearStudsPlacement]
 Coordinates=348,644,178,58
 
@@ -335,4 +332,7 @@ Coordinates=237,78,53,58
 
 [edt_gamma_f_DL_I]
 Coordinates=1011,1,127,58
+
+[grp_bx_corrugated_slab]
+Coordinates=791,155,138,58
 

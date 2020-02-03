@@ -42,9 +42,8 @@ __published:	// IDE-managed Components
 		void __fastcall ComboBox_steelChange(TObject *Sender);
 		void __fastcall ComboBox_gostChange(TObject *Sender);
 		void __fastcall BitBtn_CancelClick(TObject *Sender);
-		// Установить индекс стали
-		void __fastcall Set_index_steel(int index);
-
+		void __fastcall set_steel_standard(int index);	// Установить индекс стали
+		void __fastcall fill_grd_steel_data();//Заполнить таблицу с данными стали
 private:	// User declarations
 
 public:		// User declarations

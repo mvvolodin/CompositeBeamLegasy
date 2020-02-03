@@ -26,11 +26,7 @@ __fastcall TStudDefinitionForm::TStudDefinitionForm(TComponent* Owner)
 	edt_stud_height->Text=FloatToStr(stud_named_list.find(name)->second.get_l());
 	init_stud();
 }
-//---------------------------------------------------------------------------
-void __fastcall TStudDefinitionForm::bt_btn_stud_choiceClick(TObject *Sender)
-{
-	Close();
-}
+
 //---------------------------------------------------------------------------
 
 
@@ -67,11 +63,11 @@ void TStudDefinitionForm::init_stud()
 				R_y, gamma_c); //NOT copy initialization. Assigment becuase stud_ was initialized before
 
 }
-
-void __fastcall TStudDefinitionForm::FormClose(TObject *Sender, TCloseAction &Action)
-
-{
-	init_stud();//При закрытии формы происходит присвоение полю stud_ значений контролов
-}
 //---------------------------------------------------------------------------
+void __fastcall TStudDefinitionForm::bt_btn_stud_choiceClick(TObject *Sender)
+{
+	init_stud();
+	Close();
+}
+
 

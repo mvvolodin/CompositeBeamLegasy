@@ -131,7 +131,7 @@ __published:	// IDE-managed Components
 	TGroupBox *grp_bx_flat_slab;
 	TLabel *lbl_flat_slab_thickness;
 	TEdit *edt_flat_slab_thickness;
-	TGroupBox *grpBxCorrugatedSlab;
+	TGroupBox *grp_bx_corrugated_slab;
 	TComboBox *ComboBox2;
 	TGroupBox *GrpBxSteel;
 	TPanel *PnlSteelViewer;
@@ -163,6 +163,9 @@ __published:	// IDE-managed Components
 	TEdit *edt_gamma_f_st_SW_;
 	TLabel *lbl_gamma_f_st_SW;
 	TButton *btn_logger;
+	TEdit *edt_corrugated_slab_thickness;
+	TLabel *Label1;
+	TLabel *lbl_corrugated_sheet_type;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);

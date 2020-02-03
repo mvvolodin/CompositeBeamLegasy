@@ -120,7 +120,7 @@ TStud::TStud(String name,
 			 double z_e, double z_m,
 			 double edge_rows_num, double middle_rows_num,
 			 double R_y, double gamma_c):
-
+	 TStudBasic(name, l, d_an),
 	 z_e_(z_e),
 	 z_m_(z_m),
 	 edge_rows_num_(edge_rows_num),

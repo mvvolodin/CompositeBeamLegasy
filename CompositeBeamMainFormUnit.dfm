@@ -669,9 +669,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_flat_slab_thickness: TLabel
           Left = 16
           Top = 29
-          Width = 107
+          Width = 103
           Height = 13
-          Caption = #1058#1086#1083#1097#1080#1085#1072' '#1087#1083#1080#1090#1099': ['#1084#1084']'
+          Caption = #1058#1086#1083#1097#1080#1085#1072' '#1087#1083#1080#1090#1099', '#1084#1084':'
         end
         object edt_flat_slab_thickness: TEdit
           Left = 167
@@ -683,18 +683,32 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
       end
-      object grpBxCorrugatedSlab: TGroupBox
-        Left = 329
+      object grp_bx_corrugated_slab: TGroupBox
+        Left = 3
         Top = 415
-        Width = 300
+        Width = 462
         Height = 60
         Caption = '  '#1055#1083#1080#1090#1072' '#1087#1086' '#1085#1072#1089#1090#1080#1083#1091'  '
         TabOrder = 3
         Visible = False
+        object Label1: TLabel
+          Left = 209
+          Top = 27
+          Width = 175
+          Height = 13
+          Caption = #1058#1086#1083#1097#1080#1085#1072' '#1087#1083#1080#1090#1099' '#1085#1072#1076' '#1085#1072#1089#1090#1080#1083#1086#1084', '#1084#1084':'
+        end
+        object lbl_corrugated_sheet_type: TLabel
+          Left = 27
+          Top = 27
+          Width = 36
+          Height = 13
+          Caption = #1052#1072#1088#1082#1072':'
+        end
         object ComboBox2: TComboBox
-          Left = 11
-          Top = 21
-          Width = 145
+          Left = 87
+          Top = 23
+          Width = 100
           Height = 21
           TabOrder = 0
           Text = 'H60-845'
@@ -704,6 +718,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
             'H75-750'
             'H114-750'
             'H153-850')
+        end
+        object edt_corrugated_slab_thickness: TEdit
+          Left = 398
+          Top = 23
+          Width = 41
+          Height = 21
+          TabOrder = 1
+          Text = '100'
         end
       end
       object GrpBxSteel: TGroupBox

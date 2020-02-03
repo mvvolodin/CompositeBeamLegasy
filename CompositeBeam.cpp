@@ -334,25 +334,25 @@ Ratios TCompositeBeam::calculate_III_case(Impact impact, int cs_id)
 
 double TCompositeBeam::get_max_upper_flange_ratio()
 {
-//	RatiosListIterator it_max_upper_flange_ratio;
-//
-//	for (auto ratios_case:ratios_named_list_)
-//	   it_max_upper_flange_ratio=max_element(ratios_case.second.begin(),
-//							 ratios_case.second.end(),
-//							 [](const Ratios& rat1, const Ratios& rat2)
-//							 {return rat1.get_ratio_upper_flange()<rat2.get_ratio_upper_flange();});
-//	return it_max_upper_flange_ratio->get_ratio_upper_flange();
+	RatiosListIterator it_max_upper_flange_ratio;
+
+	for (auto ratios_case:ratios_named_list_)
+	   it_max_upper_flange_ratio=max_element(ratios_case.second.begin(),
+							 ratios_case.second.end(),
+							 [](const Ratios& rat1, const Ratios& rat2)
+							 {return rat1.get_ratio_upper_flange()<rat2.get_ratio_upper_flange();});
+	return it_max_upper_flange_ratio->get_ratio_upper_flange();
 }
 double TCompositeBeam::get_max_lower_flange_ratio()
 {
-//	RatiosListIterator it_max_lower_flange_ratio;
-//
-//	for (auto ratios_case:ratios_named_list_)
-//	   it_max_lower_flange_ratio=max_element(ratios_case.second.begin(),
-//							 ratios_case.second.end(),
-//							 [](const Ratios& rat1, const Ratios& rat2)
-//							 {return rat1.get_ratio_lower_flange()<rat2.get_ratio_lower_flange();});
-//	return it_max_lower_flange_ratio->get_ratio_lower_flange();
+	RatiosListIterator it_max_lower_flange_ratio;
+
+	for (auto ratios_case:ratios_named_list_)
+	   it_max_lower_flange_ratio=max_element(ratios_case.second.begin(),
+							 ratios_case.second.end(),
+							 [](const Ratios& rat1, const Ratios& rat2)
+							 {return rat1.get_ratio_lower_flange()<rat2.get_ratio_lower_flange();});
+	return it_max_lower_flange_ratio->get_ratio_lower_flange();
 
 }
 void TCompositeBeam::log_stresses()
@@ -367,6 +367,9 @@ void TCompositeBeam::log_stresses()
 	for (auto ratios:ratios_named_list_.at(Impact::II_stage)) {
 		mm_lines->Add(L"КИ верхний пояс="+FloatToStr(ratios.get_ratio_upper_flange()));
 	}
+
+	mm_lines->Add(L"Верхний пояс"+FloatToStr(get_max_upper_flange_ratio()));
+	mm_lines->Add(L"Нижний пояс"+FloatToStr(get_max_lower_flange_ratio()));
 
 
 
