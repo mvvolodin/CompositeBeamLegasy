@@ -10,6 +10,7 @@
 #include <Vcl.Buttons.hpp>
 //---------------------------------------------------------------------------
 #include "StudUnit.h"
+#include <Vcl.ExtCtrls.hpp>
 
 //---------------------------------------------------------------------------
 class TStudDefinitionForm : public TForm
@@ -26,6 +27,7 @@ __published:	// IDE-managed Components
 	TBitBtn *bt_btn_stud_choice;
 	TLabel *lbl_stud_safety_factor;
 	TEdit *edt_stud_safety_factor;
+	TPanel *pnl_stud_part_number;
 	void __fastcall bt_btn_stud_choiceClick(TObject *Sender);
 	void __fastcall cmb_bx_stud_part_numberChange(TObject *Sender);
 private:

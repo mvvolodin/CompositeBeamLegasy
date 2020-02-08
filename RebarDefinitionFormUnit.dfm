@@ -13,13 +13,6 @@ object RebarDefinitionForm: TRebarDefinitionForm
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object lbl_rebar_grade: TLabel
-    Left = 20
-    Top = 19
-    Width = 85
-    Height = 13
-    Caption = ' '#1050#1083#1072#1089#1089' '#1072#1088#1084#1072#1090#1091#1088#1099
-  end
   object lbl_R_s_n: TLabel
     Left = 20
     Top = 59
@@ -55,20 +48,12 @@ object RebarDefinitionForm: TRebarDefinitionForm
     Height = 21
     TabOrder = 1
   end
-  object cmb_bx_rebar_grade: TComboBox
-    Left = 240
-    Top = 16
-    Width = 121
-    Height = 21
-    TabOrder = 2
-    OnChange = cmb_bx_rebar_gradeChange
-  end
   object edt_diameter: TEdit
     Left = 240
     Top = 88
     Width = 121
     Height = 21
-    TabOrder = 3
+    TabOrder = 2
   end
   object bt_btn_Ok: TBitBtn
     Left = 286
@@ -76,7 +61,29 @@ object RebarDefinitionForm: TRebarDefinitionForm
     Width = 75
     Height = 25
     Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
-    TabOrder = 4
+    TabOrder = 3
     OnClick = bt_btn_OkClick
+  end
+  object pnl_rebar_grade: TPanel
+    Left = 20
+    Top = 12
+    Width = 349
+    Height = 41
+    TabOrder = 4
+    object lbl_rebar_grade: TLabel
+      Left = 4
+      Top = 14
+      Width = 85
+      Height = 13
+      Caption = ' '#1050#1083#1072#1089#1089' '#1072#1088#1084#1072#1090#1091#1088#1099
+    end
+    object cmb_bx_rebar_grade: TComboBox
+      Left = 220
+      Top = 11
+      Width = 121
+      Height = 21
+      TabOrder = 0
+      OnChange = cmb_bx_rebar_gradeChange
+    end
   end
 end

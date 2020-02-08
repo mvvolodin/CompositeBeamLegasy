@@ -10,6 +10,7 @@
 #include <Vcl.Buttons.hpp>
 //---------------------------------------------------------------------------
 #include "Rebar.h"
+#include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 
 class TRebarDefinitionForm : public TForm
@@ -24,6 +25,7 @@ __published:	// IDE-managed Components
 	TEdit *edt_diameter;
 	TLabel *lbl_diameter;
 	TBitBtn *bt_btn_Ok;
+	TPanel *pnl_rebar_grade;
 	void __fastcall cmb_bx_rebar_gradeChange(TObject *Sender);
 	void __fastcall bt_btn_OkClick(TObject *Sender);
 private:	// User declarations

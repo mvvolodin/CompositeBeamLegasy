@@ -25,7 +25,7 @@ __fastcall TConcreteDefinitionForm::TConcreteDefinitionForm(TComponent* Owner)
 	for(auto concrete:concrete_basic) {
 		cmb_bx_concrete_grade_list->Items->Add(concrete.get_grade());
 	}
-		cmb_bx_concrete_grade_list->ItemIndex=0;
+		cmb_bx_concrete_grade_list->ItemIndex=4;//Бетон B25 по умолчанию
 		cmb_bx_concrete_grade_listChange(nullptr);
 
 		init_concrete();

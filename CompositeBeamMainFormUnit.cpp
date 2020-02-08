@@ -37,9 +37,7 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 //Так как главная форма создаётся перед остальными формами и учитывая, что форма появляется
 //только один раз, все инструкции использующее данные других форм должны быть вынесены в
 //обработчик события OnShow, когда все формы гарантировано созданы и инициализированы.
-	//@
 	NNewClick(Sender);
-	//@@
 
 	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837->ItemIndex=0;
 	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837Click(Sender);
@@ -627,7 +625,6 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 
 void __fastcall TCompositeBeamMainForm::NNewClick(TObject *Sender)
 {
-	//@
 	int i;
 	if (modify_project) {
 		 i=Application->MessageBox(L"Сохранить текущий проект?", L" ",
@@ -638,32 +635,23 @@ void __fastcall TCompositeBeamMainForm::NNewClick(TObject *Sender)
 	modify_project = false;
 
 	Caption = "Расчет комбинированной балки - [Новый проект]";
-	//@@
-	//--------------------------------------------------------
-	// Текст события
 
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm::NSaveClick(TObject *Sender)
 {
-   AnsiString File;
-
    // Получение имени директории, в которой находится исполняемый модуль
 
    if  (strcmp(ModelFile, UNTITLED)==0) {
 	  if(SaveDialog_Model->Execute())
 	  {
-		  File = SaveDialog_Model->FileName;
-		  FileDir_Name = File;
-		  ModelName(File.c_str(), ModelFile); //выделяет имя файла для отображения на форме
+		  FileDir_Name = SaveDialog_Model->FileName;;//поле класс хранит путь полный
+		  ModelName(FileDir_Name.c_str(), ModelFile); //выделяет имя файла для отображения на форме из пути
 	  }
-	  else return;
    }
-   else
-	   File = FileDir_Name;
 	   //добавить функцию проверки правильности сохраняемых данных
-	save_controls_to_file(File);
+	save_controls_to_file();
 
    Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
 
@@ -672,13 +660,13 @@ void __fastcall TCompositeBeamMainForm::NSaveClick(TObject *Sender)
 //---------------------------------------------------------------------------
 //Сохраняет состояние элементов управления в файл
 //---------------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm::save_controls_to_file(String file)
+void __fastcall TCompositeBeamMainForm::save_controls_to_file()
 {
 	TFileStream* fs;
 
 	try
 	{
-		fs = new TFileStream(file, fmCreate);
+		fs = new TFileStream(FileDir_Name, fmCreate);
 		//Топология
 		fs->WriteComponent(edt_span);
 		fs->WriteComponent(edt_width_left);
@@ -712,7 +700,7 @@ void __fastcall TCompositeBeamMainForm::save_controls_to_file(String file)
 		fs->WriteComponent(cmb_bx_impact);
 		//Силовой фактор
 		fs->WriteComponent(rd_grp_internal_forces_type);
-
+		//Форма сталь
 		fs->WriteComponent(pnl_steel);
 		fs->WriteComponent(DefineSteelForm->ComboBox_gost);
 		fs->WriteComponent(DefineSteelForm->ComboBox_steel);
@@ -721,6 +709,34 @@ void __fastcall TCompositeBeamMainForm::save_controls_to_file(String file)
 		fs->WriteComponent(DefineSteelForm->Edit_nu);
 		fs->WriteComponent(DefineSteelForm->Edit_gamma_m);
 		fs->WriteComponent(DefineSteelForm->StringGrid_Prop);
+		//Форма бетон
+		fs->WriteComponent(pnl_concrete_grade);
+		fs->WriteComponent(ConcreteDefinitionForm->cmb_bx_concrete_grade_list);
+		fs->WriteComponent(ConcreteDefinitionForm->edt_R_bn);
+		fs->WriteComponent(ConcreteDefinitionForm->edt_R_btn);
+		fs->WriteComponent(ConcreteDefinitionForm->edt_E_b);
+		fs->WriteComponent(ConcreteDefinitionForm->edt_gamma_b);
+		fs->WriteComponent(ConcreteDefinitionForm->edt_gamma_bt);
+		fs->WriteComponent(ConcreteDefinitionForm->edt_epsilon_b_lim);
+		//Форма арматура
+		fs->WriteComponent(pnl_rebar_viewer);
+		fs->WriteComponent(RebarDefinitionForm->cmb_bx_rebar_grade);
+		fs->WriteComponent(RebarDefinitionForm->edt_R_s_n);
+		fs->WriteComponent(RebarDefinitionForm->edt_diameter);
+		fs->WriteComponent(RebarDefinitionForm->edt_safety_factor);
+		//Форма гибкие упоры
+		fs->WriteComponent(pnl_shear_stud_viewer);
+		fs->WriteComponent(StudDefinitionForm->cmb_bx_stud_part_number);
+		fs->WriteComponent(StudDefinitionForm->edt_stud_diameter);
+		fs->WriteComponent(StudDefinitionForm->edt_stud_height);
+		fs->WriteComponent(StudDefinitionForm->edt_stud_safety_factor);
+		//Форма прокатное сечение
+
+		//Тип железобетонной плиты
+		fs->WriteComponent(rdgrp_slab_type);
+		fs->WriteComponent(cmb_bx_corrugated_sheeting_part_number);
+		fs->WriteComponent(edt_corrugated_slab_thickness);
+		fs->WriteComponent(edt_flat_slab_thickness);
 
 	}
 	__finally
@@ -731,13 +747,13 @@ void __fastcall TCompositeBeamMainForm::save_controls_to_file(String file)
 //---------------------------------------------------------------------------
 //Загружает состояние элементов управления из файла
 //---------------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm::load_controls_from_file(String file)
+void __fastcall TCompositeBeamMainForm::load_controls_from_file()
 {
 	TFileStream* fs;
 
 	try
 	{
-		fs = new TFileStream(file, fmOpenRead);
+		fs = new TFileStream(FileDir_Name, fmOpenRead);
 		//Топология
 		fs->ReadComponent(edt_span);
 		fs->ReadComponent(edt_width_left);
@@ -780,17 +796,42 @@ void __fastcall TCompositeBeamMainForm::load_controls_from_file(String file)
 		fs->ReadComponent(DefineSteelForm->Edit_nu);
 		fs->ReadComponent(DefineSteelForm->Edit_gamma_m);
 		fs->ReadComponent(DefineSteelForm->StringGrid_Prop);
+		//Форма бетон
+        fs->ReadComponent(pnl_concrete_grade);
+		fs->ReadComponent(ConcreteDefinitionForm->cmb_bx_concrete_grade_list);
+		fs->ReadComponent(ConcreteDefinitionForm->edt_R_bn);
+		fs->ReadComponent(ConcreteDefinitionForm->edt_R_btn);
+		fs->ReadComponent(ConcreteDefinitionForm->edt_E_b);
+		fs->ReadComponent(ConcreteDefinitionForm->edt_gamma_b);
+		fs->ReadComponent(ConcreteDefinitionForm->edt_gamma_bt);
+		fs->ReadComponent(ConcreteDefinitionForm->edt_epsilon_b_lim);
+		//Форма арматура
+		fs->ReadComponent(pnl_rebar_viewer);
+		fs->ReadComponent(RebarDefinitionForm->cmb_bx_rebar_grade);
+		fs->ReadComponent(RebarDefinitionForm->edt_R_s_n);
+		fs->ReadComponent(RebarDefinitionForm->edt_diameter);
+		fs->ReadComponent(RebarDefinitionForm->edt_safety_factor);
+		//Форма гибкие упоры
+		fs->ReadComponent(pnl_shear_stud_viewer);
+		fs->ReadComponent(StudDefinitionForm->cmb_bx_stud_part_number);
+		fs->ReadComponent(StudDefinitionForm->edt_stud_diameter);
+		fs->ReadComponent(StudDefinitionForm->edt_stud_height);
+		fs->ReadComponent(StudDefinitionForm->edt_stud_safety_factor);
+		//Форма прокатное сечение
 
 
-
-
+		//Тип железобетонной плиты
+		fs->ReadComponent(rdgrp_slab_type);
+		fs->ReadComponent(cmb_bx_corrugated_sheeting_part_number);
+		fs->ReadComponent(edt_corrugated_slab_thickness);
+		fs->ReadComponent(edt_flat_slab_thickness);
 	}
 	__finally
 	{
 		delete fs;
 	}
 
-    calculate_composite_beam();
+   // calculate_composite_beam();
 }
 
 void __fastcall TCompositeBeamMainForm::NSaveAsClick(TObject *Sender)
@@ -833,7 +874,7 @@ void __fastcall TCompositeBeamMainForm::NOpenClick(TObject *Sender)
 
 	  strcpy(ModelFile, UNTITLED);
 
-   		load_controls_from_file(FileDir_Name);
+	  load_controls_from_file();
 
 	  ModelName(FileDir_Name.c_str(), ModelFile);
 
@@ -842,8 +883,6 @@ void __fastcall TCompositeBeamMainForm::NOpenClick(TObject *Sender)
 	  modify_project = false;
 
    }
-   //@@
-
 
 }
 //---------------------------------------------------------------------------
@@ -878,7 +917,7 @@ void __fastcall TCompositeBeamMainForm::cmb_bx_analysis_theoryChange(TObject *Se
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TCompositeBeamMainForm::ComboBox2Change(TObject *Sender)
+void __fastcall TCompositeBeamMainForm::cmb_bx_corrugated_sheeting_part_numberChange(TObject *Sender)
 {
 	OnControlsChange(Sender);
 }

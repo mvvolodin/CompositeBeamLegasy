@@ -55,7 +55,7 @@ __fastcall TSteelSectionDefinitionFrame::TSteelSectionDefinitionFrame(TComponent
 
    Type_sect = DVUTAVR;
 
-	 ComboBox_profil->ItemIndex=0;// Выбор первого в списке профиля для корректной работы функции заполняющие данные профиля, см. ниже
+	 ComboBox_profil->ItemIndex=49;// 70Б4 сечение по умолчанию
 
 	 fill_I_section_data();
 

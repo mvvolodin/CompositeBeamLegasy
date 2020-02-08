@@ -22,6 +22,11 @@ TConcretePart::TConcretePart(Concrete concrete, Rebar rebar, double t_sl)
 
 {
 }
+// double clamp( double v, double lo, double hi )
+//{
+//	assert( !(hi < lo) );
+//	return (v < lo) ? lo : (hi < v) ? hi : v;
+//}
 //---------------------------------------------------------------------------
 //Определение расчётного свеса плиты
 //Передаваемые параметры (в порядке представленном в функции):
@@ -33,7 +38,7 @@ TConcretePart::TConcretePart(Concrete concrete, Rebar rebar, double t_sl)
 double TConcretePart::effective_width_calc(double t_sl, double a,  double B, double l)
 {
 	double b=0;
-	if (l>=4*b)
+	if (l>=4*B)
 		b=B/2;
 	else
 		b=a+6*t_sl;
@@ -68,7 +73,7 @@ void TFlatSlab::calc_area()
 
 void TFlatSlab::calc_inertia()
 {
-	 I_b_=(b_l_+b_r_)*std::pow(t_sl_,3);
+	 I_b_=(b_l_+b_r_)*std::pow(t_sl_,3)/12;
 }
 
 //---------------------------------------------------------------------------

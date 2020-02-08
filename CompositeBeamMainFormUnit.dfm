@@ -705,14 +705,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 13
           Caption = #1052#1072#1088#1082#1072':'
         end
-        object ComboBox2: TComboBox
+        object cmb_bx_corrugated_sheeting_part_number: TComboBox
           Left = 87
           Top = 23
           Width = 100
           Height = 21
           TabOrder = 0
           Text = 'H60-845'
-          OnChange = ComboBox2Change
+          OnChange = cmb_bx_corrugated_sheeting_part_numberChange
           Items.Strings = (
             'H60-845'
             'H75-750'
@@ -2161,6 +2161,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   object SaveDialog_Model: TSaveDialog
     DefaultExt = 'arcC'
     Filter = #1060#1072#1081#1083' '#1087#1088#1086#1077#1082#1090#1072' (*.arsC)|*.arsC'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Left = 788
     Top = 560
   end

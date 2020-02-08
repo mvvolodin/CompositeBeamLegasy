@@ -132,7 +132,7 @@ __published:	// IDE-managed Components
 	TLabel *lbl_flat_slab_thickness;
 	TEdit *edt_flat_slab_thickness;
 	TGroupBox *grp_bx_corrugated_slab;
-	TComboBox *ComboBox2;
+	TComboBox *cmb_bx_corrugated_sheeting_part_number;
 	TGroupBox *GrpBxSteel;
 	TPanel *pnl_steel;
 	TBitBtn *BtBtnSteelChoice;
@@ -190,7 +190,7 @@ __published:	// IDE-managed Components
 	void __fastcall OnControlsChange(TObject *Sender);
 	void __fastcall chck_bx_end_beamClick(TObject *Sender);
 	void __fastcall cmb_bx_analysis_theoryChange(TObject *Sender);
-	void __fastcall ComboBox2Change(TObject *Sender);
+	void __fastcall cmb_bx_corrugated_sheeting_part_numberChange(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
 
 public:		// User declarations
@@ -228,8 +228,8 @@ private:
 	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
 	void calculate_composite_beam();//инициализирует и рассчитывает балку
-	void __fastcall save_controls_to_file(String file);//Сохраняет состояние элементов управления в файл
-	void __fastcall TCompositeBeamMainForm::load_controls_from_file(String file);//Загружает состояние элементов управления из файла
+	void __fastcall save_controls_to_file();//Сохраняет состояние элементов управления в файл
+	void __fastcall load_controls_from_file();//Загружает состояние элементов управления из файла
 	int __fastcall LoadComponent(String filename, TComponent* Component);
 	int __fastcall SaveComponent(String filename, TComponent* Component);
 	#define UNTITLED  "Без имени"

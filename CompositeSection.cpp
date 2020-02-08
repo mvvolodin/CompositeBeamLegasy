@@ -35,7 +35,7 @@ CompositeSection::CompositeSection(TGeometry geometry,
 	if (!geometry.is_end_beam())
 	{
 		double t_sl= concrete_part->get_t_sl();
-		double a=steel_part.get_b_uf();
+		double a=steel_part.get_b_uf()/2;
 		double B_l=geometry.get_trib_width_left();
 		double B_r=geometry.get_trib_width_right();
 		double l=geometry.get_span();

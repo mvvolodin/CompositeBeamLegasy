@@ -76,7 +76,7 @@ void TCompositeBeam::CS_coordinates_calc()
 		cs_num_=cs_coordinates_.size();
 	}
 //---------------------------------------------------------------------------
-//–асчЄт внутренних моментов и сил дл€ нормативных случаев загружений
+//–асчЄт внутренних моментов и сил
 //---------------------------------------------------------------------------
 void TCompositeBeam::calc_inter_forces()
 {
@@ -114,35 +114,35 @@ void TCompositeBeam::calc_inter_forces()
 
 	int cs_num=cs_coordinates_.size();
 
+	//внутренние усили€ (I) стадии
+
+	InternalForces int_forces_I_SW=InternalForces(SW_l,cs_coordinates_, temporary_supports_number);
+	InternalForces int_forces_I_DL_I=InternalForces(DL_I_l,cs_coordinates_, temporary_supports_number);
+
+	//формирование именованного списка с расчЄтными внутренними усили€ми I стадии
+
 	std::vector<double> M_I;
 	std::vector<double> Q_I;
 
 	for (int i = 0; i < cs_num; i++)
 	{
 
-		M_I.push_back(gamma_f_SW*internal_forces_[Impact::SW].get_M()[i]+
-			   gamma_f_DL_I*internal_forces_[Impact::DL_I].get_M()[i]);
-		Q_I.push_back(gamma_f_SW*internal_forces_[Impact::SW].get_Q()[i]+
-			   gamma_f_DL_I*internal_forces_[Impact::DL_I].get_Q()[i]);
+		M_I.push_back(gamma_f_SW*int_forces_I_SW.get_M()[i]+
+			   gamma_f_DL_I*int_forces_I_DL_I.get_M()[i]);
+		Q_I.push_back(gamma_f_SW*int_forces_I_SW.get_Q()[i]+
+			   gamma_f_DL_I*int_forces_I_DL_I.get_Q()[i]);
 	}
 
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::I_stage, InternalForces(M_I, Q_I)));
 
-	std::vector<double> M_II;
-	std::vector<double> Q_II;
+	//внутренние усили€ (I+II) стадии
 
-	for (int i = 0; i < cs_num; i++)
-	{
+	InternalForces int_forces_total_SW=InternalForces(SW_l,cs_coordinates_, 0);
+	InternalForces int_forces_total_DL_I=InternalForces(DL_I_l,cs_coordinates_, 0);
+	InternalForces int_forces_total_DL_II=InternalForces(DL_II_l,cs_coordinates_, 0);
+	InternalForces int_forces_total_LL=InternalForces(LL_l,cs_coordinates_, 0);
 
-		M_II.push_back(gamma_f_DL_II*internal_forces_[Impact::DL_II].get_M()[i]+
-			   gamma_f_LL*internal_forces_[Impact::LL].get_M()[i]);
-		Q_II.push_back(gamma_f_DL_II*internal_forces_[Impact::DL_II].get_Q()[i]+
-			   gamma_f_LL*internal_forces_[Impact::LL].get_Q()[i]);
-
-
-	}
-
-	internal_forces_.insert(InternalForcesNamedListItem(Impact::II_stage, InternalForces(M_II, Q_II)));
+	//формирование именованного списка с расчЄтными внутренними усили€ми (I+II) стадии
 
 	std::vector<double> M_total;
 	std::vector<double> Q_total;
@@ -150,17 +150,38 @@ void TCompositeBeam::calc_inter_forces()
 	for (int i = 0; i < cs_num; i++)
 	{
 
-		M_total.push_back(M_I[i]+M_II[i]);
-		Q_total.push_back(Q_I[i]+Q_II[i]);
+		M_total.push_back(gamma_f_SW*int_forces_total_SW.get_M()[i]+
+			   gamma_f_DL_I*int_forces_total_DL_I.get_M()[i]+
+			   gamma_f_DL_II*int_forces_total_DL_II.get_M()[i]+
+			   gamma_f_LL*int_forces_total_LL.get_M()[i]);
+		Q_total.push_back(gamma_f_SW*int_forces_total_SW.get_Q()[i]+
+			   gamma_f_DL_I*int_forces_total_DL_I.get_Q()[i]+
+			   gamma_f_DL_II*int_forces_total_DL_II.get_Q()[i]+
+			   gamma_f_LL*int_forces_total_LL.get_Q()[i]);
 
 	}
 
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::Total, InternalForces(M_total, Q_total)));
 
+	std::vector<double> M_II;
+	std::vector<double> Q_II;
+
+	//формирование списка с внутренними расчЄтными усили€ми от (II) стадий
+
+	for (int i = 0; i < cs_num; i++)
+	{
+
+		M_II.push_back(M_total[i]+M_I[i]);
+		Q_II.push_back(Q_total[i]+Q_I[i]);
+
+	}
+
+	internal_forces_.insert(InternalForcesNamedListItem(Impact::II_stage, InternalForces(M_II, Q_II)));
+
 }
 
 //---------------------------------------------------------------------------
-//–асчЄт напр€жений
+//–асчЄт напр€жений в бетоне и арматуре от усилий II стадии
 //---------------------------------------------------------------------------
 
 void TCompositeBeam::calculate_stresses()
@@ -175,19 +196,12 @@ void TCompositeBeam::calculate_stresses()
 	double R_s=composite_section_.get_concrete_part()->get_rebar().get_R_s();
 
 	std::vector<Stresses> temp_stresses_list;
-   //	TStrings* mm_lines=FormLogger->mmLogger->Lines;
 
-	for (auto internal_forces_case:internal_forces_){
-
-//		for (auto temp_stresses:temp_stresses_list)
-//		{
-//		mm_lines->Add(FloatToStr(temp_stresses.get_sigma_b()));
-//		}
-		temp_stresses_list.clear(); //temp_stresses_list._Mypair._Myval2._Myfirst->sigma_b
+		temp_stresses_list.clear();
 
 		for (int i = 0; i < cs_num_; i++){
 
-			double M=internal_forces_case.second.get_M()[i];
+			double M=internal_forces_[Impact::II_stage].get_M()[i];
 			double sigma_b=M/(alfa_b*W_b_red);
 			double sigma_s=M/(alfa_s*W_b_red);
 
@@ -205,8 +219,7 @@ void TCompositeBeam::calculate_stresses()
 			else
 				temp_stresses_list.push_back(Stresses{sigma_b,sigma_s,UNDEFINED});
 		}
-		stresses_named_list_.insert(StressesNamedListItem(internal_forces_case.first,temp_stresses_list));
-	}
+		stresses_named_list_.insert(StressesNamedListItem(Impact::II_stage,temp_stresses_list));
 }
 
 //---------------------------------------------------------------------------

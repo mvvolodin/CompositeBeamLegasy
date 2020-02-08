@@ -176,9 +176,6 @@ Coordinates=755,644,116,58
 [rdgrp_slab_type]
 Coordinates=92,77,107,58
 
-[ComboBox2]
-Coordinates=312,475,101,124
-
 [Label2]
 Coordinates=111,1,53,58
 
@@ -335,4 +332,7 @@ Coordinates=791,386,101,124
 
 [pnl_steel]
 Coordinates=1011,430,102,58
+
+[cmb_bx_corrugated_sheeting_part_number]
+Coordinates=312,475,101,124
 
