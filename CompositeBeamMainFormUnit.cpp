@@ -46,7 +46,7 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame
 	->ComboBox_profil->Text;
 	DefineSteelForm->ComboBox_steelChange(Sender);
-	PnlSteelViewer->Caption = DefineSteelForm->ComboBox_steel->Text;
+	pnl_steel->Caption = DefineSteelForm->ComboBox_steel->Text;
 	pnl_concrete_grade->Caption=ConcreteDefinitionForm->cmb_bx_concrete_grade_list->Text;
 	rdgrp_slab_typeClick(Sender);
 	pnl_shear_stud_viewer->Caption=StudDefinitionForm->cmb_bx_stud_part_number->Text;
@@ -370,14 +370,14 @@ strngGrdResults->Cells [1][3]="0.89";
 void TCompositeBeamMainForm::fill_cmb_bx_LC()
 {
 	   //Метод AddItem, связывающий TStrings с объектами требуется в качестве параметра объект TObject
-	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::SW), "Собственный Вес");
-	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная Нагрузка I стадия");
-	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная Нагрузка II стадия");
-	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::LL), "Временная Нагрузка");
-	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::I_stage), "Расчётные Нагрузки I стадии");
-	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::II_stage), "Расчётные Нагрузки II стадии");
-	cmb_bx_LC->Items->Insert(static_cast<int>(Impact::Total), "Расчётные Нагрузки");
-	cmb_bx_LC->ItemIndex = (int)Impact::SW;
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW), "Собственный Вес");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная Нагрузка I стадия");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная Нагрузка II стадия");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::LL), "Временная Нагрузка");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::I_stage), "Расчётные Нагрузки I стадии");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::II_stage), "Расчётные Нагрузки II стадии");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::Total), "Расчётные Нагрузки");
+	cmb_bx_impact->ItemIndex = (int)Impact::SW;
 }
 
 //---------------------------------------------------------------------------
@@ -387,7 +387,7 @@ void __fastcall TCompositeBeamMainForm::BtBtnSteelChoiceClick(TObject *Sender)
 	 //SteelDefinitionForm->ShowModal();
 	 //PnlSteelViewer->Caption = SteelDefinitionForm->ComboBox_steel->Text;
 	 DefineSteelForm->ShowModal();
-	 PnlSteelViewer->Caption = DefineSteelForm->ComboBox_steel->Text;
+	 pnl_steel->Caption = DefineSteelForm->ComboBox_steel->Text;
 
 }
 //---------------------------------------------------------------------------
@@ -565,21 +565,24 @@ void TCompositeBeamMainForm::draw_diagram()
 	if (rd_grp_internal_forces_type->ItemIndex==0)
 	{
 		//получаем вектор изгибающих моментов из объекта композитная балка
-		std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_LC->ItemIndex)].get_M(LoadUnit::kN, LengthUnit::m);
+		std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)].get_M(LoadUnit::kN, LengthUnit::m);
+		//преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
+		std::transform(M.begin(),M.end(), M.begin(), [](double M) { return -1*std::round(M*1000)/1000;});
 		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
 	}
 	else
 	{
 		//получаем поперечные силы из объекта композитная балка
-		std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_LC->ItemIndex)].get_Q(LoadUnit::kN);
-		std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_LC->ItemIndex)].get_Q_jump(LoadUnit::kN);
+		std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)].get_Q(LoadUnit::kN);
+		std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)].get_Q_jump(LoadUnit::kN);
+        //преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
+		std::transform(Q.begin(),Q.end(), Q.begin(), [](double Q) { return -1*std::round(Q*1000)/1000;});
+		std::transform(Q_jump.begin(),Q_jump.end(), Q_jump.begin(), [](double Q_jump) { return -1*std::round(Q_jump*1000)/1000;});
 		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &Q_jump[0], n_supp, &coor_supp[0], flag_sign);
 	}
-
-
 }
 
-void __fastcall TCompositeBeamMainForm::cmb_bx_LCChange(TObject *Sender)
+void __fastcall TCompositeBeamMainForm::cmb_bx_impactChange(TObject *Sender)
 {
 	draw_diagram();
 }
@@ -644,46 +647,156 @@ void __fastcall TCompositeBeamMainForm::NNewClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::NSaveClick(TObject *Sender)
 {
-   //@
-   //char * path;
    AnsiString File;
 
-   //------------------------------------
    // Получение имени директории, в которой находится исполняемый модуль
-   //unsigned long dword = GetModuleFileName(NULL, Path_gen, PATHLEN );
-   //path = strrchr(Path_gen, '\\');
-   //path[0] = '\0';
 
    if  (strcmp(ModelFile, UNTITLED)==0) {
 	  if(SaveDialog_Model->Execute())
-      {
+	  {
 		  File = SaveDialog_Model->FileName;
 		  FileDir_Name = File;
-		  ModelName(File.c_str(), ModelFile);
+		  ModelName(File.c_str(), ModelFile); //выделяет имя файла для отображения на форме
 	  }
 	  else return;
    }
    else
 	   File = FileDir_Name;
+	   //добавить функцию проверки правильности сохраняемых данных
+	save_controls_to_file(File);
 
-   TFileStream* FS = new TFileStream(File, fmCreate);
-   for(int i=0;i<CompositeBeamMainForm->ComponentCount;++i)
-		FS->WriteComponent(CompositeBeamMainForm->Components[i]);
-   delete(FS);
-//	SaveComponent(File, CompositeBeamMainForm);
    Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
 
    modify_project = false;
-   //@@
 }
 //---------------------------------------------------------------------------
+//Сохраняет состояние элементов управления в файл
+//---------------------------------------------------------------------------
+void __fastcall TCompositeBeamMainForm::save_controls_to_file(String file)
+{
+	TFileStream* fs;
+
+	try
+	{
+		fs = new TFileStream(file, fmCreate);
+		//Топология
+		fs->WriteComponent(edt_span);
+		fs->WriteComponent(edt_width_left);
+		fs->WriteComponent(edt_width_right);
+		fs->WriteComponent(chck_bx_end_beam);
+		fs->WriteComponent(lbl_trib_width_left);
+		fs->WriteComponent(lbl_trib_width_right);
+		//Загружения
+		fs->WriteComponent(edt_dead_load_first_stage);
+		fs->WriteComponent(edt_dead_load_second_stage);
+		fs->WriteComponent(edt_live_load);
+		//Коэффициенты надёжности по нагрузкам
+		fs->WriteComponent(edt_gamma_f_st_SW_);
+		fs->WriteComponent(edt_gamma_f_DL_I);
+		fs->WriteComponent(edt_gamma_f_DL_II);
+		fs->WriteComponent(edt_gamma_f_LL);
+		//Коэффициенты условий работ
+		fs->WriteComponent(edt_gamma_c);
+		fs->WriteComponent(edt_gamma_bi);
+		fs->WriteComponent(edt_gamma_si);
+		//Теория расчёта
+		fs->WriteComponent(cmb_bx_analysis_theory);
+		//Гибкие упоры
+		fs->WriteComponent(edt_edge_studs_dist);
+		fs->WriteComponent(edt_middle_studs_dist);
+		fs->WriteComponent(cmb_bx_edge_studs_rows_num);
+		fs->WriteComponent(cmb_bx_middle_studs_rows__num);
+		//Монтаж
+		fs->WriteComponent(cmb_bx_number_propping_supports);
+		//Расчётная схема
+		fs->WriteComponent(cmb_bx_impact);
+		//Силовой фактор
+		fs->WriteComponent(rd_grp_internal_forces_type);
+
+		fs->WriteComponent(pnl_steel);
+		fs->WriteComponent(DefineSteelForm->ComboBox_gost);
+		fs->WriteComponent(DefineSteelForm->ComboBox_steel);
+		fs->WriteComponent(DefineSteelForm->Edit_E);
+		fs->WriteComponent(DefineSteelForm->Edit_G);
+		fs->WriteComponent(DefineSteelForm->Edit_nu);
+		fs->WriteComponent(DefineSteelForm->Edit_gamma_m);
+		fs->WriteComponent(DefineSteelForm->StringGrid_Prop);
+
+	}
+	__finally
+	{
+		delete fs;
+	}
+}
+//---------------------------------------------------------------------------
+//Загружает состояние элементов управления из файла
+//---------------------------------------------------------------------------
+void __fastcall TCompositeBeamMainForm::load_controls_from_file(String file)
+{
+	TFileStream* fs;
+
+	try
+	{
+		fs = new TFileStream(file, fmOpenRead);
+		//Топология
+		fs->ReadComponent(edt_span);
+		fs->ReadComponent(edt_width_left);
+		fs->ReadComponent(edt_width_right);
+		fs->ReadComponent(chck_bx_end_beam);
+		fs->ReadComponent(lbl_trib_width_left);
+		fs->ReadComponent(lbl_trib_width_right);
+		//Загружения
+		fs->ReadComponent(edt_dead_load_first_stage);
+		fs->ReadComponent(edt_dead_load_second_stage);
+		fs->ReadComponent(edt_live_load);
+		//Коэффициенты надёжности по нагрузкам
+		fs->ReadComponent(edt_gamma_f_st_SW_);
+		fs->ReadComponent(edt_gamma_f_DL_I);
+		fs->ReadComponent(edt_gamma_f_DL_II);
+		fs->ReadComponent(edt_gamma_f_LL);
+		//Коэффициенты условий работ
+		fs->ReadComponent(edt_gamma_c);
+		fs->ReadComponent(edt_gamma_bi);
+		fs->ReadComponent(edt_gamma_si);
+		//Теория расчёта
+		fs->ReadComponent(cmb_bx_analysis_theory);
+		//Гибкие упоры
+		fs->ReadComponent(edt_edge_studs_dist);
+		fs->ReadComponent(edt_middle_studs_dist);
+		fs->ReadComponent(cmb_bx_edge_studs_rows_num);
+		fs->ReadComponent(cmb_bx_middle_studs_rows__num);
+		//Монтаж
+		fs->ReadComponent(cmb_bx_number_propping_supports);
+		//Расчётная схема
+		fs->ReadComponent(cmb_bx_impact);
+		//Силовой фактор
+		fs->ReadComponent(rd_grp_internal_forces_type);
+        //Форма сталь
+		fs->ReadComponent(pnl_steel);
+		fs->ReadComponent(DefineSteelForm->ComboBox_gost);
+		fs->ReadComponent(DefineSteelForm->ComboBox_steel);
+		fs->ReadComponent(DefineSteelForm->Edit_E);
+		fs->ReadComponent(DefineSteelForm->Edit_G);
+		fs->ReadComponent(DefineSteelForm->Edit_nu);
+		fs->ReadComponent(DefineSteelForm->Edit_gamma_m);
+		fs->ReadComponent(DefineSteelForm->StringGrid_Prop);
+
+
+
+
+	}
+	__finally
+	{
+		delete fs;
+	}
+
+    calculate_composite_beam();
+}
 
 void __fastcall TCompositeBeamMainForm::NSaveAsClick(TObject *Sender)
 {
-	//@
 	strcpy(ModelFile, UNTITLED);
 	NSaveClick(Sender);
-	//@@
 }
 //---------------------------------------------------------------------------
 //@--------------------------------------------------------------------------
@@ -720,11 +833,7 @@ void __fastcall TCompositeBeamMainForm::NOpenClick(TObject *Sender)
 
 	  strcpy(ModelFile, UNTITLED);
 
-	  TFileStream* FS = new TFileStream(FileDir_Name, fmOpenRead);
-	  for(int i=0;i<CompositeBeamMainForm->ComponentCount;++i)
-				 FS->ReadComponent(CompositeBeamMainForm->Components[i]);
-	  delete(FS);
-	 //LoadComponent(FileDir_Name, CompositeBeamMainForm);
+   		load_controls_from_file(FileDir_Name);
 
 	  ModelName(FileDir_Name.c_str(), ModelFile);
 
@@ -762,7 +871,7 @@ void __fastcall TCompositeBeamMainForm::chck_bx_end_beamClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TCompositeBeamMainForm::CmbBxAnalysisTheoryChoiceChange(TObject *Sender)
+void __fastcall TCompositeBeamMainForm::cmb_bx_analysis_theoryChange(TObject *Sender)
 
 {
     OnControlsChange(Sender);

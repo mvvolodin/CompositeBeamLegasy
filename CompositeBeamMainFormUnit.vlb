@@ -107,9 +107,6 @@ Coordinates=484,366,102,58
 [Label6]
 Coordinates=663,475,53,58
 
-[GrpBxShearStudsPlacement]
-Coordinates=348,644,178,58
-
 [edt_gamma_si]
 Coordinates=527,644,98,58
 
@@ -121,9 +118,6 @@ Coordinates=662,306,128,36
 
 [BtBtnRebarsChoice]
 Coordinates=1011,155,127,58
-
-[PnlSteelViewer]
-Coordinates=1011,430,102,58
 
 [GrpBxLoadsSafetyFactors]
 Coordinates=834,548,165,58
@@ -154,9 +148,6 @@ Coordinates=1241,606,126,58
 
 [edt_gamma_f_LL]
 Coordinates=537,232,114,58
-
-[GrpBxAnalysisTheory]
-Coordinates=1502,1,139,58
 
 [edt_dead_load_first_stage]
 Coordinates=791,1,166,58
@@ -237,9 +228,6 @@ Coordinates=209,637,129,58
 [edt_gamma_f_DL_II]
 Coordinates=791,309,130,58
 
-[CmbBxAnalysisTheoryChoice]
-Coordinates=315,1,184,124
-
 [lbl_trib_width_right]
 Coordinates=180,366,123,58
 
@@ -303,9 +291,6 @@ Coordinates=1241,529,86,58
 [Label10]
 Coordinates=164,475,60,58
 
-[cmb_bx_LC]
-Coordinates=791,386,101,124
-
 [GroupBox6]
 Coordinates=1502,309,79,58
 
@@ -335,4 +320,19 @@ Coordinates=1011,1,127,58
 
 [grp_bx_corrugated_slab]
 Coordinates=791,155,138,58
+
+[grb_bx_analysis_theory]
+Coordinates=1502,1,139,58
+
+[grp_bx_shear_studs_placement]
+Coordinates=348,644,178,58
+
+[cmb_bx_analysis_theory]
+Coordinates=315,1,184,124
+
+[cmb_bx_impact]
+Coordinates=791,386,101,124
+
+[pnl_steel]
+Coordinates=1011,430,102,58
 

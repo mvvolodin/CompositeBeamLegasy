@@ -11,12 +11,12 @@ TGeometry::TGeometry(){}
 
 TGeometry::TGeometry(int beam_division, bool end_beam, double span, double trib_width_left, double trib_width_right,
 	int temporary_supports_number)
-	 :beam_division_(beam_division),
-	 end_beam_(end_beam),
-	 span_(span),
-	 trib_width_left_(trib_width_left),
-	 trib_width_right_(trib_width_right),
-	 temporary_supports_number_(temporary_supports_number)
+	 :beam_division_			(beam_division),
+	 end_beam_					(end_beam),
+	 span_						(span),
+	 trib_width_left_			(trib_width_left),
+	 trib_width_right_			(trib_width_right),
+	 temporary_supports_number_	(temporary_supports_number)
 {
 	permanent_supports_coordinates_calculation();
 	temporary_supports_coordinates_calculation();

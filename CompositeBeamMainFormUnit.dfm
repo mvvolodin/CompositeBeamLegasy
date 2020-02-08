@@ -403,14 +403,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 13
           Caption = #1053#1072#1075#1088#1091#1078#1077#1085#1080#1077
         end
-        object cmb_bx_LC: TComboBox
+        object cmb_bx_impact: TComboBox
           Left = 81
           Top = 23
           Width = 181
           Height = 22
           Style = csOwnerDrawFixed
           TabOrder = 0
-          OnChange = cmb_bx_LCChange
+          OnChange = cmb_bx_impactChange
         end
         object rd_grp_internal_forces_type: TRadioGroup
           Left = 309
@@ -461,7 +461,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
             '3')
         end
       end
-      object GrpBxShearStudsPlacement: TGroupBox
+      object grp_bx_shear_studs_placement: TGroupBox
         Left = 186
         Top = 154
         Width = 662
@@ -539,14 +539,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
             '2')
         end
       end
-      object GrpBxAnalysisTheory: TGroupBox
+      object grb_bx_analysis_theory: TGroupBox
         Left = 3
         Top = 154
         Width = 174
         Height = 70
         Caption = '  '#1058#1077#1086#1088#1080#1103' '#1088#1072#1089#1095#1105#1090#1072'  '
         TabOrder = 6
-        object CmbBxAnalysisTheoryChoice: TComboBox
+        object cmb_bx_analysis_theory: TComboBox
           Left = 16
           Top = 30
           Width = 145
@@ -554,7 +554,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           ItemIndex = 0
           TabOrder = 0
           Text = #1059#1087#1088#1091#1075#1086'-'#1087#1083#1072#1089#1090#1080#1095#1077#1089#1082#1072#1103
-          OnChange = CmbBxAnalysisTheoryChoiceChange
+          OnChange = cmb_bx_analysis_theoryChange
           Items.Strings = (
             #1059#1087#1088#1091#1075#1086'-'#1087#1083#1072#1089#1090#1080#1095#1077#1089#1082#1072#1103
             #1046#1105#1089#1090#1082#1086'-'#1087#1083#1072#1089#1090#1080#1095#1077#1089#1082#1072#1103)
@@ -735,7 +735,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Height = 60
         Caption = '  '#1057#1090#1072#1083#1100'  '
         TabOrder = 4
-        object PnlSteelViewer: TPanel
+        object pnl_steel: TPanel
           Left = 24
           Top = 18
           Width = 90
@@ -1982,7 +1982,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 3
           Width = 426
           Height = 393
-          ActivePage = tb_sht_concrete_geom_char
+          ActivePage = tb_sht_composite_geom_char
           TabOrder = 0
           object tb_sht_steel_geom_char: TTabSheet
             Caption = #1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077

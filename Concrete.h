@@ -10,10 +10,10 @@
 //---------------------------------------------------------------------------
 class ConcreteBasic{
 private:
-	String grade_="";
-	double E_b_=0.0;
-	double R_bn_=0.0;
-	double R_btn_=0.0;
+	String grade_{""};
+	double E_b_{0.0};
+	double R_bn_ {0.0};
+	double R_btn_ {0.0};
 public:
 	ConcreteBasic();
 	ConcreteBasic(String grade, double E_b, double R_b, double R_bt);
@@ -27,9 +27,9 @@ typedef std::pair <String, ConcreteBasic> ConcreteBasicDataItem;
 
 class Concrete:public ConcreteBasic{
 private:
-	double gamma_b_=0.0;
-	double gamma_bt_=0.0;
-	double epsilon_b_lim_=0.0;
+	double gamma_b_ {0.0};
+	double gamma_bt_ {0.0};
+	double epsilon_b_lim_ {0.0};
 public:
 	Concrete();
 	Concrete(ConcreteBasic concrete_basic, double gamma_b, double gamma_bt, double epsilon_b_lim);

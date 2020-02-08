@@ -104,18 +104,18 @@ __published:	// IDE-managed Components
 	TGroupBox *GrpBxStaticScheme;
 	TImage *img_static_scheme;
 	TLabel *lblLoadCase;
-	TComboBox *cmb_bx_LC;
+	TComboBox *cmb_bx_impact;
 	TRadioGroup *rd_grp_internal_forces_type;
 	TGroupBox *GrpBxErection;
 	TLabel *lbl_number_propping_supports;
 	TComboBox *cmb_bx_number_propping_supports;
-	TGroupBox *GrpBxShearStudsPlacement;
+	TGroupBox *grp_bx_shear_studs_placement;
 	TLabel *lbl_edge_studs_dist;
 	TLabel *lbl_middle_studs_dist;
 	TEdit *edt_edge_studs_dist;
 	TEdit *edt_middle_studs_dist;
-	TGroupBox *GrpBxAnalysisTheory;
-	TComboBox *CmbBxAnalysisTheoryChoice;
+	TGroupBox *grb_bx_analysis_theory;
+	TComboBox *cmb_bx_analysis_theory;
 	TGroupBox *grp_bx_working_conditions_factors;
 	TLabel *lbl_gamma_c;
 	TLabel *lbl_gamma_bi;
@@ -134,7 +134,7 @@ __published:	// IDE-managed Components
 	TGroupBox *grp_bx_corrugated_slab;
 	TComboBox *ComboBox2;
 	TGroupBox *GrpBxSteel;
-	TPanel *PnlSteelViewer;
+	TPanel *pnl_steel;
 	TBitBtn *BtBtnSteelChoice;
 	TGroupBox *GrpBxConcrete;
 	TPanel *pnl_concrete_grade;
@@ -181,7 +181,7 @@ __published:	// IDE-managed Components
 	void __fastcall BtBtnShearStudsChoiceClick(TObject *Sender);
 	void __fastcall NOutReportClick(TObject *Sender);
 	void __fastcall NExitClick(TObject *Sender);
-	void __fastcall cmb_bx_LCChange(TObject *Sender);
+	void __fastcall cmb_bx_impactChange(TObject *Sender);
 	void __fastcall rd_grp_internal_forces_typeClick(TObject *Sender);
 	void __fastcall NNewClick(TObject *Sender);
 	void __fastcall NSaveClick(TObject *Sender);
@@ -189,7 +189,7 @@ __published:	// IDE-managed Components
 	void __fastcall NOpenClick(TObject *Sender);
 	void __fastcall OnControlsChange(TObject *Sender);
 	void __fastcall chck_bx_end_beamClick(TObject *Sender);
-	void __fastcall CmbBxAnalysisTheoryChoiceChange(TObject *Sender);
+	void __fastcall cmb_bx_analysis_theoryChange(TObject *Sender);
 	void __fastcall ComboBox2Change(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
 
@@ -228,16 +228,15 @@ private:
 	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
 	void calculate_composite_beam();//инициализирует и рассчитывает балку
-
+	void __fastcall save_controls_to_file(String file);//Сохраняет состояние элементов управления в файл
+	void __fastcall TCompositeBeamMainForm::load_controls_from_file(String file);//Загружает состояние элементов управления из файла
 	int __fastcall LoadComponent(String filename, TComponent* Component);
 	int __fastcall SaveComponent(String filename, TComponent* Component);
-	//@----------------------------------------------------------------
 	#define UNTITLED  "Без имени"
 	bool modify_project;  // признак изменения проекта после сохранения
-	char ModelFile[240];
-	AnsiString FileDir_Name;
+	char ModelFile[240]; //Это имя файла?
+	AnsiString FileDir_Name; //Это имя директории?
 
-	//@@
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TCompositeBeamMainForm *CompositeBeamMainForm;
