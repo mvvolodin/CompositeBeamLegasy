@@ -204,9 +204,6 @@ Visible=True
 [grp_bx_flat_slab]
 Coordinates=309,366,109,58
 
-[strngGrdResults]
-Coordinates=334,144,108,58
-
 [lbl_number_propping_supports]
 Coordinates=1011,78,192,58
 
@@ -335,4 +332,7 @@ Coordinates=1011,430,102,58
 
 [cmb_bx_corrugated_sheeting_part_number]
 Coordinates=312,475,101,124
+
+[strng_grd_results]
+Coordinates=334,144,108,58
 

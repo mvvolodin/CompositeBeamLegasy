@@ -5,6 +5,7 @@
 //---------------------------------------------------------------------------
 #include <vector>
 #include "Units.h"
+#include <system.hpp> //добаляем тип String
 
 class TGeometry{
 
@@ -14,6 +15,7 @@ public:
 	TGeometry(int beam_division, bool end_beam, double span, double trib_width_left, double trib_width_right,
 			  int temporary_supports_number);
 	inline bool is_end_beam()const {return end_beam_;}
+	String is_end_beam_to_str()const;
 	inline double get_span(LengthUnit length_units=LengthUnit::mm)const {return span_/static_cast<int>(length_units);}
 	inline double get_trib_width_left(LengthUnit length_units=LengthUnit::mm) const {return trib_width_left_/static_cast<int>(length_units);}
 	inline double get_trib_width_right(LengthUnit length_units=LengthUnit::mm)const {return trib_width_right_/static_cast<int>(length_units);}

@@ -22,11 +22,6 @@ TConcretePart::TConcretePart(Concrete concrete, Rebar rebar, double t_sl)
 
 {
 }
-// double clamp( double v, double lo, double hi )
-//{
-//	assert( !(hi < lo) );
-//	return (v < lo) ? lo : (hi < v) ? hi : v;
-//}
 //---------------------------------------------------------------------------
 //Определение расчётного свеса плиты
 //Передаваемые параметры (в порядке представленном в функции):

@@ -76,13 +76,15 @@ public:
 	inline Steel get_steel_grade(){return i_sect_steel;}
 	inline double get_alfa_b() const {return Alfa_b_;}
 	inline double get_alfa_s() const {return Alfa_s_;}
-	inline double get_A_red() const {return A_red_;}
-	inline double get_I_red() const {return I_red_;}
-	inline double get_W_f2_red() const {return W_f2_red_;}
-	inline double get_W_f1_red() const {return W_f1_red_;}
-    inline double get_W_b_red() const {return W_b_red_;}
-	inline double get_Z_b_st() const {return Z_b_st_;}
-
+	inline double get_A_red(LengthUnit length_unit=LengthUnit::mm) const {return A_red_/std::pow(static_cast<int>(length_unit),2);}
+	inline double get_I_red(LengthUnit length_unit=LengthUnit::mm) const {return I_red_/std::pow(static_cast<int>(length_unit),4);}
+	inline double get_W_b_red(LengthUnit length_unit=LengthUnit::mm) const {return W_b_red_/std::pow(static_cast<int>(length_unit),3);}
+	inline double get_W_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return W_f2_red_/std::pow(static_cast<int>(length_unit),3);}
+	inline double get_W_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return W_f1_red_/std::pow(static_cast<int>(length_unit),3);}
+	inline double get_Z_b_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_red_/static_cast<int>(length_unit);}
+	inline double get_Z_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f2_/static_cast<int>(length_unit);}
+	inline double get_Z_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f1_/static_cast<int>(length_unit);}
+	inline double get_Z_b_st(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_st_/static_cast<int>(length_unit);}
 } ;
 //---------------------------------------------------------------------------
 #endif

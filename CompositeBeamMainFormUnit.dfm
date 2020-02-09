@@ -2045,7 +2045,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
               ColCount = 2
               DefaultColWidth = 100
               DrawingStyle = gdsClassic
-              RowCount = 10
+              RowCount = 9
               ScrollBars = ssNone
               TabOrder = 0
               OnDrawCell = strng_grd_rendering
@@ -2053,7 +2053,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
                 304
                 254)
               RowHeights = (
-                24
                 24
                 24
                 24
@@ -2071,7 +2070,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object tb_results: TTabSheet
       Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1099' '#1088#1072#1089#1095#1105#1090#1072
       ImageIndex = 2
-      object strngGrdResults: TStringGrid
+      object strng_grd_results: TStringGrid
         Left = 0
         Top = 0
         Width = 1054

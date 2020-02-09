@@ -18,7 +18,12 @@
 #include "WorkingConditionsFactors.h"
 #include "Stresses.h"
 #include "Ratios.h"
+
 //---------------------------------------------------------------------------
+enum class AnalysisTheory{  //Уточнить названия
+	ELASTO_PLASTCIC,
+	RIGID
+};
 
 class TCompositeBeam{
 
@@ -36,7 +41,8 @@ class TCompositeBeam{
 public:
 
 	TCompositeBeam();
-	TCompositeBeam(TGeometry 				geometry,
+	TCompositeBeam(AnalysisTheory           analysis_theory,
+				   TGeometry 				geometry,
 				   TLoads 					loads,
 				   CompositeSection         composite_section,
 				   TStud 					stud,
@@ -48,12 +54,15 @@ public:
 	inline TStud get_studs()const {return studs_;}
 	inline TGeometry get_geometry()const {return geometry_;}
 	inline TLoads get_loads()const {return loads_;}
+	inline WorkingConditionsFactors get_working_conditions_factors() const {return working_conditions_factors_;}
 
+	String get_analysis_theory();
 	double get_max_upper_flange_ratio();
 	double get_max_lower_flange_ratio();
 
 private:
 //Поля с исходными данными
+	AnalysisTheory analysis_theory_;
 	TGeometry geometry_;
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;
@@ -90,3 +99,65 @@ private:
  };
 
 #endif
+
+//class TheoryCalculator
+//{
+//virtual calc1();
+//virtual void calc1(CompositeBeam* compos_beam)=0;
+//}
+//
+//class Theory1Calculator:TheoryCalculator
+//{
+//	public:
+// calc(CompositeBeam* compos_beam)
+//	{
+//	void calc2();
+//	calc3();
+//	}
+//	private:
+//    void calc2();
+//    void calc3();
+//}
+//
+//class Theory2Calculator:TheoryCalculator
+//{
+//	public:
+// calc(CompositeBeam* compos_beam)
+//	{
+//	calc3()
+//	}
+//	private:
+//	void calc3();
+//}
+//
+//class TheoryFactory
+//{
+//    virtual void TheoryCalculator createCalculator()=0;
+//}
+//
+//class Theory1Factory:TheoryFactory
+//{
+//	TheoryCalculator createCalculator()
+//    {
+//        return new Theory1Calculator();
+//	}
+//}
+//class Theory2Factory:TheoryFactory
+//{
+//	TheoryCalculator createCalculator()
+//    {
+//        return new Theory2Calculator();
+//	}
+//}
+//
+//main()
+//{
+//TheoryFactory* theoryFactory;
+//
+//if(....)
+//theoryFactory=new Theory1Factory();
+//
+//TheoryCalculator *calc = theoryFactory->createCalculator(&balka);
+//calc->calc();
+//
+//}

@@ -42,3 +42,10 @@ void TGeometry::all_supports_coordinates_calculation()
 	all_supports_coordinates_.insert(all_supports_coordinates_.end(),temporary_supports_coordinates_.begin(),temporary_supports_coordinates_.end());
 	std::sort(all_supports_coordinates_.begin(),all_supports_coordinates_.end());
 }
+String TGeometry::is_end_beam_to_str()const
+{
+	if(!end_beam_)
+		return L"Нет";
+	else
+		return L"Да";
+}

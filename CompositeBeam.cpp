@@ -16,12 +16,14 @@ TCompositeBeam::TCompositeBeam():
 //---------------------------------------------------------------------------
 //Конструктор композитной балки
 //---------------------------------------------------------------------------
- TCompositeBeam::TCompositeBeam(TGeometry                geometry,
+ TCompositeBeam::TCompositeBeam(AnalysisTheory           analysis_theory,
+								TGeometry                geometry,
 								TLoads     				 loads,
 								CompositeSection         composite_section,
 								TStud 					 stud,
 								WorkingConditionsFactors working_conditions_factors)
-	:geometry_(geometry),
+   :analysis_theory_(analysis_theory),
+	geometry_(geometry),
 	composite_section_(composite_section),
 	studs_(stud),
 	loads_(loads),
@@ -387,6 +389,14 @@ void TCompositeBeam::log_stresses()
 
 
 
+}
+
+String TCompositeBeam::get_analysis_theory()
+{
+	if(analysis_theory_==AnalysisTheory::ELASTO_PLASTCIC)
+		return L"Упруго-пластическая";
+	else
+		return L"Жёстко-пластическая";
 }
 
 

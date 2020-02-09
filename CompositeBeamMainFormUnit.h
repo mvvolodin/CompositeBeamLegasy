@@ -38,8 +38,8 @@
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
 
-#include <memory>
-#include <cassert>
+//#include <memory>
+//#include <cassert>
  //@
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 //@@
@@ -149,7 +149,7 @@ __published:	// IDE-managed Components
 	TImage *Image1;
 	TStringGrid *strng_grd_compos_sect_geom_character;
 	TTabSheet *tb_results;
-	TStringGrid *strngGrdResults;
+	TStringGrid *strng_grd_results;
 	TOpenDialog *OpenDialog1;
 	TPageControl *pg_ctrl_geom_char;
 	TTabSheet *tb_sht_composite_geom_char;
@@ -200,6 +200,7 @@ private:
 
 	TCompositeBeam composite_beam_; //Основной объект в программе  // Пользовательсткие private функции
 
+	AnalysisTheory get_analysis_theory();
 	TGeometry init_geomet();//Инициализация топологии
 	TLoads init_loads(); //Инициализация нагрузок
 	TISectionInitialData init_i_section();//Инициализация объекта геометрия двутавра
@@ -211,17 +212,18 @@ private:
 											Steel steel_i_section,
 											TISectionInitialData i_section_initial_data,
 											TConcretePart* concrete_part);//Инициализация композитного сечения
-	void init_composite_beam(TGeometry geometry,
-									   TLoads loads,
-									   CompositeSection composite_section,
-									   TStud stud,
-									   WorkingConditionsFactors working_conditions_factors);
+	void init_composite_beam(AnalysisTheory 		  analysis_theory,
+							 TGeometry 				  geometry,
+							 TLoads 				  loads,
+							 CompositeSection 		  composite_section,
+							 TStud 					  stud,
+							 WorkingConditionsFactors working_conditions_factors);
 	void generate_report();
 	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
 	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения
 	void cotr_steel_sect_geometr_grid();
 	void ctor_concrete_sect_geometr_grid();
-	void fill_cmb_bx_LC();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
+	void fill_cmb_bx_impact();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
 	void fill_results_grid();
 	void fill_steel_sect_geometr_grid();
 	void fill_concrete_sect_geometr_grid();

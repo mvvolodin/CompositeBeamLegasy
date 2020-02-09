@@ -44,7 +44,14 @@ CompositeSection::CompositeSection(TGeometry geometry,
 	}
 	else
 	{
-		ShowMessage("Расчёт эффективной ширины бетоной плиты для концевой балки не реализован!");
+		double t_sl= concrete_part->get_t_sl();
+		double a=steel_part.get_b_uf()/2;
+		double B_l=geometry.get_trib_width_left();
+		double B_r=geometry.get_trib_width_right();
+		double l=geometry.get_span();
+		concrete_part->set_b_l(concrete_part->effective_width_cantilever_calc(t_sl,a,B_l,l));
+		concrete_part->set_b_r(concrete_part->effective_width_calc(t_sl,a,B_r,l));
+
 	}
 
 	concrete_part->calc_area(); //заполняемы производные данные
