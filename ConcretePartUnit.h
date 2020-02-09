@@ -8,6 +8,7 @@
 #include "Units.h"
 
 // ---------------------------------------------------------------------------
+
 class TConcretePart {
 
 private:
@@ -38,8 +39,9 @@ public:
 	// !Урок! виртуальный деструктор добавить.
 
 	TConcretePart();
+	TConcretePart(String slab_type, Concrete concrete, Rebar rebar);
 	TConcretePart(Concrete concrete, Rebar rebar, double t_sl);
-	TConcretePart(Concrete concrete, Rebar rebar);
+
 
 	inline String get_slab_type() const {return slab_type_;}
 	inline Concrete get_concrete() const {return concrete_;}
@@ -71,17 +73,24 @@ public:
 class TCorrugatedSlab : public TConcretePart{
 
 private:
-	double h_p; // Высота настила
-	double h_f; // Толщина железобетона над настилом
+	typedef std::map<String, int> CorrugatedSheetsNamedList;
+
+	CorrugatedSheetsNamedList corrugated_sheets_={{L"Н60-845",60},
+												 {L"Н75-750",75},
+												 {L"Н114-750",114},
+												 {L"Н153-850",153},
+												 {L"ТРП200",200}};
+	int h_p_; // Высота настила
+	double h_f_; // Толщина железобетона над настилом
 
 	virtual void calc_area();
 	virtual void calc_inertia();
 
 public:
-	TCorrugatedSlab(Concrete concrete, Rebar rebar);
+	TCorrugatedSlab(String slab_type, Concrete concrete, Rebar rebar, double h_f);
 
-	inline double get_sheet_height() const {return h_p;}
-	inline double get_conc_topping() const {return h_f;}
+	inline double get_sheet_height() const {return h_p_;}
+	inline double get_conc_topping() const {return h_f_;}
 
 };
 

@@ -13,12 +13,12 @@
 TConcretePart::TConcretePart()
 {
 }
-TConcretePart::TConcretePart(Concrete concrete, Rebar rebar)
-	:concrete_(concrete),rebar_(rebar),slab_type_(L"Плоская")
+TConcretePart::TConcretePart(String slab_type, Concrete concrete, Rebar rebar)
+	:slab_type_(slab_type),concrete_(concrete),rebar_(rebar)
 {
 }
 TConcretePart::TConcretePart(Concrete concrete, Rebar rebar, double t_sl)
-	:concrete_(concrete), rebar_(rebar), t_sl_(t_sl),slab_type_(L"По настилу")
+	:concrete_(concrete), rebar_(rebar), t_sl_(t_sl),slab_type_(L"Плоская плита")
 
 {
 }
@@ -73,9 +73,10 @@ void TFlatSlab::calc_inertia()
 
 //---------------------------------------------------------------------------
 
-TCorrugatedSlab::TCorrugatedSlab(Concrete concrete, Rebar rebar)
-	:TConcretePart(concrete, rebar)
+TCorrugatedSlab::TCorrugatedSlab(String slab_type, Concrete concrete, Rebar rebar, double h_f) //h_f высота бетона над настилом
+	:TConcretePart(slab_type, concrete, rebar),h_f_(h_f)
 {
+   h_p_=corrugated_sheets_.find(slab_type)->second;
 }
 
 void TCorrugatedSlab::calc_area()

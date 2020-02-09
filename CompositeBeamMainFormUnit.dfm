@@ -129,7 +129,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -691,7 +691,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Caption = '  '#1055#1083#1080#1090#1072' '#1087#1086' '#1085#1072#1089#1090#1080#1083#1091'  '
         TabOrder = 3
         Visible = False
-        object Label1: TLabel
+        object lbl_h_f: TLabel
           Left = 209
           Top = 27
           Width = 175
@@ -714,12 +714,13 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Text = 'H60-845'
           OnChange = cmb_bx_corrugated_sheeting_part_numberChange
           Items.Strings = (
-            'H60-845'
-            'H75-750'
-            'H114-750'
-            'H153-850')
+            #1053'60-845'
+            #1053'75-750'
+            #1053'114-750'
+            #1053'153-850'
+            #1058#1056#1055' 200')
         end
-        object edt_corrugated_slab_thickness: TEdit
+        object edt_h_f: TEdit
           Left = 398
           Top = 23
           Width = 41
@@ -1984,55 +1985,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 393
           ActivePage = tb_sht_composite_geom_char
           TabOrder = 0
-          object tb_sht_steel_geom_char: TTabSheet
-            Caption = #1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
-            ImageIndex = 2
-            object strng_grd_steel_sect_geom_character: TStringGrid
-              Left = 0
-              Top = 0
-              Width = 418
-              Height = 365
-              Align = alClient
-              ColCount = 2
-              DrawingStyle = gdsClassic
-              RowCount = 10
-              TabOrder = 0
-              OnDrawCell = strng_grd_rendering
-              ColWidths = (
-                307
-                366)
-              RowHeights = (
-                24
-                24
-                24
-                24
-                24
-                24
-                24
-                24
-                24
-                24)
-            end
-          end
-          object tb_sht_concrete_geom_char: TTabSheet
-            Caption = #1046#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
-            ImageIndex = 1
-            object strng_grd_concrete_sect_geom_character: TStringGrid
-              Left = 0
-              Top = 0
-              Width = 418
-              Height = 365
-              Align = alClient
-              ColCount = 2
-              DrawingStyle = gdsClassic
-              RowCount = 10
-              TabOrder = 0
-              OnDrawCell = strng_grd_rendering
-              ColWidths = (
-                305
-                361)
-            end
-          end
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1050#1086#1084#1087#1086#1079#1080#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             object strng_grd_compos_sect_geom_character: TStringGrid
@@ -2062,6 +2014,52 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
                 24
                 24
                 24)
+            end
+          end
+          object tb_sht_steel_geom_char: TTabSheet
+            Caption = #1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
+            ImageIndex = 2
+            object strng_grd_steel_sect_geom_character: TStringGrid
+              Left = 0
+              Top = 0
+              Width = 418
+              Height = 365
+              Align = alClient
+              ColCount = 2
+              DrawingStyle = gdsClassic
+              RowCount = 7
+              TabOrder = 0
+              OnDrawCell = strng_grd_rendering
+              ColWidths = (
+                307
+                366)
+              RowHeights = (
+                24
+                24
+                24
+                24
+                24
+                24
+                24)
+            end
+          end
+          object tb_sht_concrete_geom_char: TTabSheet
+            Caption = #1046#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
+            ImageIndex = 1
+            object strng_grd_concrete_sect_geom_character: TStringGrid
+              Left = 0
+              Top = 0
+              Width = 418
+              Height = 365
+              Align = alClient
+              ColCount = 2
+              DrawingStyle = gdsClassic
+              RowCount = 6
+              TabOrder = 0
+              OnDrawCell = strng_grd_rendering
+              ColWidths = (
+                305
+                361)
             end
           end
         end
@@ -2101,6 +2099,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Height = 25
     Caption = #1051#1086#1075
     TabOrder = 6
+    Visible = False
     OnClick = btn_loggerClick
   end
   object MainMenu1: TMainMenu

@@ -54,8 +54,8 @@ CompositeSection::CompositeSection(TGeometry geometry,
 
 	}
 
-	concrete_part->calc_area(); //заполняемы производные данные
-	concrete_part->calc_inertia();//заполняемые производные данные
+	concrete_part->calc_area(); //заполняемы переменную класса (поле) результатом расчёта площади
+	concrete_part->calc_inertia();//заполняемы переменную класса (поле) результатом расчёта момента инерции
 
 	alfa_to_rebar_steel_calc();
 	alfa_to_concrete_calc();
@@ -89,9 +89,9 @@ void CompositeSection::alfa_to_concrete_calc()
 
 void CompositeSection::compos_sect_height_calc()
 {
-	double h_p = concrete_part->get_h_b(); //толщина железобетонной плиты. Для случая плиты по настилу сумма высоты настила и толщины бетона над ним
+	double h_b = concrete_part->get_h_b(); //толщина железобетонной плиты. Для случая плиты по настилу сумма высоты настила и толщины бетона над ним
 	double h_st = steel_part.get_h_st(); // Высота стальной балки
-	H_stb_ = h_p + h_st;
+	H_stb_ = h_b + h_st;
 }
 
 void CompositeSection::compos_sect_area_calc()

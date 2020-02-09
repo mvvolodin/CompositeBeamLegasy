@@ -160,8 +160,14 @@ TConcretePart* TCompositeBeamMainForm::init_concrete_part()
 	}
 	else
 	{
-	   return new TCorrugatedSlab(ConcreteDefinitionForm->get_concrete(),
-								  RebarDefinitionForm->get_rebar());
+	double h_f=0.;
+
+	String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f);
+
+	return new TCorrugatedSlab(cmb_bx_corrugated_sheeting_part_number->Text,
+								  ConcreteDefinitionForm->get_concrete(),
+								  RebarDefinitionForm->get_rebar(),
+								  h_f);
 	}
 }
 //---------------------------------------------------------------------------
@@ -368,10 +374,11 @@ void TCompositeBeamMainForm::fill_results_grid()
 void TCompositeBeamMainForm:: cotr_ratios_grid()
 {
 	strng_grd_results->Cells [0][0]="Проверка";
-	strng_grd_results->Cells [0][1]="Расчёт по прочности на действие изгибающих моментов, раздел 6.2.1";
-	strng_grd_results->Cells [0][2]="Расчёт по прочности на действие поперечной силы, раздел 6.2.2 ";
-	strng_grd_results->Cells [0][3]="Расчёт конструкций объединения железобетонной плиты со стальной балкой, раздел 6.2.4";
 	strng_grd_results->Cells [1][0]="Коэффициенты Использования (КИ) ";
+	strng_grd_results->Cells [0][1]="Верхний пояс стального сечения, раздел 6.2.1";
+	strng_grd_results->Cells [0][2]="Нижний пояс стального сеченния, раздел 6.2.1";
+	strng_grd_results->Cells [0][3]="Поперечная силы, раздел 6.2.4";
+
 }
 //---------------------------------------------------------------------------
 //	Функция заполняющая ComboBox случаями загружений
@@ -504,8 +511,8 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(steel.get_gamma_m(),"%gamma_m%");
 //[1.5] Железобетонное сечение
 //[1.5.1] Номинальные размеры плиты
-//%slab_type
-//%t_sl
+	report_.PasteTextPattern(concrete_part->get_slab_type(),"%slab_type%");
+	report_.PasteTextPattern(concrete_part->get_t_sl(),"%t_sl%");
 
 //[1.5.2] Характеристики бетона
 
@@ -770,7 +777,7 @@ void __fastcall TCompositeBeamMainForm::save_controls_to_file()
 		//Тип железобетонной плиты
 		fs->WriteComponent(rdgrp_slab_type);
 		fs->WriteComponent(cmb_bx_corrugated_sheeting_part_number);
-		fs->WriteComponent(edt_corrugated_slab_thickness);
+		fs->WriteComponent(edt_h_f);
 		fs->WriteComponent(edt_flat_slab_thickness);
 
 	}
@@ -858,7 +865,7 @@ void __fastcall TCompositeBeamMainForm::load_controls_from_file()
 		//Тип железобетонной плиты
 		fs->ReadComponent(rdgrp_slab_type);
 		fs->ReadComponent(cmb_bx_corrugated_sheeting_part_number);
-		fs->ReadComponent(edt_corrugated_slab_thickness);
+		fs->ReadComponent(edt_h_f);
 		fs->ReadComponent(edt_flat_slab_thickness);
 	}
 	__finally
@@ -1006,5 +1013,8 @@ void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
 {
 	FormLogger->Show();
 }
+//---------------------------------------------------------------------------
+
+
 //---------------------------------------------------------------------------
 

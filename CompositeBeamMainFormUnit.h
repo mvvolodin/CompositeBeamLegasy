@@ -163,8 +163,8 @@ __published:	// IDE-managed Components
 	TEdit *edt_gamma_f_st_SW_;
 	TLabel *lbl_gamma_f_st_SW;
 	TButton *btn_logger;
-	TEdit *edt_corrugated_slab_thickness;
-	TLabel *Label1;
+	TEdit *edt_h_f;
+	TLabel *lbl_h_f;
 	TLabel *lbl_corrugated_sheet_type;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
