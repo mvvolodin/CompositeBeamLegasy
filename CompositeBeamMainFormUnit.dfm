@@ -323,29 +323,29 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Caption = '  '#1058#1086#1087#1086#1083#1086#1075#1080#1103'  '
         TabOrder = 2
         object lbl_span: TLabel
-          Left = 3
-          Top = 24
+          Left = 17
+          Top = 25
           Width = 56
           Height = 13
           Caption = #1055#1088#1086#1083#1105#1090', '#1084#1084
         end
         object lbl_trib_width_left: TLabel
-          Left = 3
-          Top = 58
+          Left = 17
+          Top = 51
           Width = 194
           Height = 13
           Caption = #1056#1072#1089#1089#1090#1086#1103#1085#1080#1077' '#1084#1077#1078#1076#1091' '#1073#1072#1083#1082#1072#1084#1080' '#1089#1083#1077#1074#1072', '#1084#1084':'
         end
         object lbl_trib_width_right: TLabel
-          Left = 3
-          Top = 80
+          Left = 17
+          Top = 81
           Width = 200
           Height = 13
           Caption = #1056#1072#1089#1089#1090#1086#1103#1085#1080#1077' '#1084#1077#1078#1076#1091' '#1073#1072#1083#1082#1072#1084#1080' '#1089#1087#1088#1072#1074#1072', '#1084#1084':'
         end
         object edt_span: TEdit
-          Left = 213
-          Top = 21
+          Left = 224
+          Top = 22
           Width = 52
           Height = 21
           BevelInner = bvSpace
@@ -354,8 +354,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object edt_width_left: TEdit
-          Left = 213
-          Top = 48
+          Left = 224
+          Top = 49
           Width = 52
           Height = 21
           TabOrder = 1
@@ -363,8 +363,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object edt_width_right: TEdit
-          Left = 213
-          Top = 75
+          Left = 224
+          Top = 76
           Width = 52
           Height = 21
           TabOrder = 2
@@ -372,8 +372,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object chck_bx_end_beam: TCheckBox
-          Left = 3
-          Top = 99
+          Left = 17
+          Top = 111
           Width = 97
           Height = 17
           Caption = #1050#1088#1072#1081#1085#1103#1103' '#1073#1072#1083#1082#1072

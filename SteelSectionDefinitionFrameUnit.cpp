@@ -47,7 +47,7 @@ __fastcall TSteelSectionDefinitionFrame::TSteelSectionDefinitionFrame(TComponent
 	ComboBox_TypeSect->ItemIndex = 1;
    TabSheet_Weld->TabVisible = false;
    TabSheet_STO->TabVisible = false;
-   TabSheet_GOST->TabVisible = true;
+   TabSheet_GOST->TabVisible = false;
    TabSheet_CYL->TabVisible = false;
    TabSheet_StandTube->TabVisible = false;
    Label_type_sect->Visible = false;
