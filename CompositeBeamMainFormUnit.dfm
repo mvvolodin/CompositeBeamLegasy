@@ -502,7 +502,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Width = 48
           Height = 21
           TabOrder = 0
-          Text = '200'
+          Text = '180'
           OnChange = OnControlsChange
         end
         object edt_middle_studs_dist: TEdit

@@ -1,8 +1,11 @@
 //---------------------------------------------------------------------------
+#include<algorithm>
+#include<cmath>
 
 #pragma hdrstop
 
 #include "StudUnit.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //double* out_my;
@@ -117,15 +120,44 @@ TStudBasic::TStudBasic(String name, double l, double d_an):
 TStud::TStud(){}
 TStud::TStud(String name,
 			 double l, double d_an,
-			 double z_e, double z_m,
+			 double edge_rows_dist, double middle_rows_dist,
 			 double edge_rows_num, double middle_rows_num,
 			 double R_y, double gamma_c):
 	 TStudBasic(name, l, d_an),
-	 z_e_(z_e),
-	 z_m_(z_m),
+	 edge_rows_dist_(edge_rows_dist),
+	 middle_rows_dist_(middle_rows_dist),
 	 edge_rows_num_(edge_rows_num),
 	 middle_rows_num_(middle_rows_num),
 	 R_y_(R_y),
-	 gamma_c_(gamma_c){}
+	 gamma_c_(gamma_c)
+{
+	calculate_coordinates(18000);
+}
+//-----------------------------------------------------------------------------
+//Определение координат размещения стад-болтов
+//in:l-пролёт балки
+//-----------------------------------------------------------------------------
+void TStud::calculate_coordinates(double span)
+{
+	double span_third=span/3;
 
+	double temp_coord=0.; //текущая координата, переменная общая для всех циклов
+
+	while(temp_coord<span_third){
+
+		stud_coordinates_.push_back(temp_coord+=edge_rows_dist_);
+	}
+
+	while(temp_coord<2*span_third){
+
+		stud_coordinates_.push_back(temp_coord+=middle_rows_dist_);
+	}
+
+	while(temp_coord<span){
+
+		stud_coordinates_.push_back(temp_coord+=edge_rows_dist_);
+	}
+
+	std::transform(stud_coordinates_.begin(),stud_coordinates_.end(),stud_coordinates_.begin(),[](double coord){return std::round(coord);});
+}
 

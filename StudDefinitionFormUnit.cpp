@@ -58,7 +58,7 @@ void TStudDefinitionForm::init_stud()
 						  &gamma_c);
 	if (rc>0) return;
 	stud_=TStud(name, l, d_an,
-				200, 400,
+				180, 400,
 				2, 1,
 				R_y, gamma_c); //NOT copy initialization. Assigment becuase stud_ was initialized before
 

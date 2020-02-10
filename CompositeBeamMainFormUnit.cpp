@@ -533,10 +533,10 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(studs.get_l(LengthUnit::cm),"%l%");
 	report_.PasteTextPattern(studs.get_d_an(LengthUnit::cm),"%d%");
 	report_.PasteTextPattern(studs.get_R_y(),"%R_y%");
-	report_.PasteTextPattern(studs.get_z_e(LengthUnit::cm),"%z_e%");
-	report_.PasteTextPattern(studs.get_z_m(LengthUnit::cm),"%z_m%");
-	report_.PasteTextPattern(studs.get_edge_rows_num(LengthUnit::cm),"%ed_rw_num%");
-	report_.PasteTextPattern(studs.get_middle_rows_num(LengthUnit::cm),"%mid_rw_num%");
+	report_.PasteTextPattern(studs.get_edge_rows_dist(LengthUnit::cm),"%z_e%");
+	report_.PasteTextPattern(studs.get_middle_rows_dist(LengthUnit::cm),"%z_m%");
+	report_.PasteTextPattern(studs.get_edge_rows_num(),"%ed_rw_num%");
+	report_.PasteTextPattern(studs.get_middle_rows_num(),"%mid_rw_num%");
 //[1.8] Коэффициенты
 	report_.PasteTextPattern(working_conditions_factors.get_gamma_c(),"%gamma_c%");
 	report_.PasteTextPattern(working_conditions_factors.get_gamma_bi(),"%gamma_bi%");
