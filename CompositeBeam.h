@@ -13,7 +13,7 @@
 #include "Steel.h"
 #include "CompositeSection.h"
 #include "InternalForces.h"
-#include "StudUnit.h"
+#include "UnitStud.h"
 #include "Rebar.h"
 #include "WorkingConditionsFactors.h"
 #include "Stresses.h"
@@ -69,6 +69,7 @@ private:
 	TStud studs_;
 //Поля с результатами расчётов
 	std::vector<double> cs_coordinates_;
+	std::vector<double> cs_coordinates_shear_;//координаты сечений для определения сдвигающих усилий
 	int cs_num_;//количество расчётных сечений.ВСЕ ЦИКЛЫ ДОЛЖНЫ ЕГО ПРИМЕНЯТЬ!!!!
 	InternalForcesNamedList internal_forces_;
 //Поля с результатами расчётов полей напряжений
@@ -83,9 +84,11 @@ private:
 private:
 	void calculate_gamma_1();
 	void CS_coordinates_calc();
+	void calc_cs_coordinates_studs_verification();
 	void calc_inter_forces();
 	void calc_stresses();
 	void calc_ratios();
+	void calc_stud_ratios();
 //Расчёт напряжений
 	void calculate_stresses();
  // Расчёт коэффициентов использования

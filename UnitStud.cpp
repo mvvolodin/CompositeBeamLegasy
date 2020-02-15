@@ -4,7 +4,7 @@
 
 #pragma hdrstop
 
-#include "StudUnit.h"
+#include "UnitStud.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -160,36 +160,30 @@ void TStud::calculate_coordinates(double span)
 	for (int i = 0; i < na; i++)
 		stud_coordinates_.emplace_back(2*L3 + a*i);
 
-//	double sum = 0;
-//	for (int i = 0; i < 10; i++) {
-//		sum += 0.1; // 0.10000000000000000056
-//	}
-//	if (sum == 1) {
-//		cout << "Yes";
-//	}
-//	else
-//		cout << "No";
-
-//	double span_third=span/3;
-//
-//	double temp_coord=0.; //текущая координата, переменная общая для всех циклов
-//
-//	while(temp_coord<span_third){
-//
-//		stud_coordinates_.push_back(temp_coord+=edge_rows_dist_);
-//	}
-//
-//	while(temp_coord<2*span_third){
-//
-//		stud_coordinates_.push_back(temp_coord+=middle_rows_dist_);
-//	}
-//
-//	while(temp_coord<span){
-//
-//		stud_coordinates_.push_back(temp_coord+=edge_rows_dist_);
-//	}
-//
-//
+	stud_coordinates_.emplace_back(span);
 	std::transform(stud_coordinates_.begin(),stud_coordinates_.end(),stud_coordinates_.begin(),[](double coord){return std::round(coord);});
+	for(int i=0;i<(stud_coordinates_.size()-1);++i){
+	  cs_shear_forces_coordinates_.emplace_back((stud_coordinates_[i]+stud_coordinates_[i+1])/2.);
+
+	}
+}
+
+void TStud::calc_ratios()
+{
+
+
+}
+
+void TStud::calc_shear_forces(double A_b, double A_s, std::vector<double> sigma_b,
+	std::vector<double> sigma_s, int num_coord_shear_forces)
+{
+	std::vector<double> S;
+
+	for(int i=0; i<num_coord_shear_forces; ++i){
+		 double temp_S=0.;
+		 temp_S=(sigma_b[i+1]*A_b+sigma_s[i+1]*A_b)-
+			(sigma_b[i]*A_b+sigma_s[i]*A_b);
+		 S.emplace_back(temp_S);
+	}
 }
 

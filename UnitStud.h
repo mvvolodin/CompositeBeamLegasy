@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef StudUnitH
-#define StudUnitH
+#ifndef UnitStudH
+#define UnitStudH
 
 #include<System.hpp>
 #include<map>
@@ -52,8 +52,12 @@ private:
 	double R_y_=0.; //Предел текучести
 	double gamma_c_=0.; //Коэффициент условий работы
 	std::vector<double> stud_coordinates_;
+	std::vector<double> cs_shear_forces_coordinates_;
 
 	void calculate_coordinates(double span);//определение координат размещения стад-болтов
+    void calc_ratios();
+	void calc_shear_forces(double A_b, double A_s, std::vector<double> sigma_b,
+	std::vector<double> sigma_s, int num_coord_shear_forces);
 };
 
 typedef std::pair <String, TStudBasic> TStudBasicPair;

@@ -30,6 +30,7 @@ TCompositeBeam::TCompositeBeam():
 	working_conditions_factors_(working_conditions_factors)
  {
 	CS_coordinates_calc();
+	calc_cs_coordinates_studs_verification();
 	calc_inter_forces();
 	calculate_stresses();
 	calc_ratios();
@@ -77,6 +78,13 @@ void TCompositeBeam::CS_coordinates_calc()
 
 		cs_num_=cs_coordinates_.size();
 	}
+//---------------------------------------------------------------------------
+//Вычисление координат сечений для определения сдвигающих усилий по шву объединения
+//---------------------------------------------------------------------------
+void TCompositeBeam::calc_cs_coordinates_studs_verification()
+{
+
+}
 //---------------------------------------------------------------------------
 //Расчёт внутренних моментов и сил
 //---------------------------------------------------------------------------
@@ -397,6 +405,11 @@ String TCompositeBeam::get_analysis_theory()
 		return L"Упруго-пластическая";
 	else
 		return L"Жёстко-пластическая";
+}
+
+void TCompositeBeam::calc_stud_ratios()
+{
+
 }
 
 

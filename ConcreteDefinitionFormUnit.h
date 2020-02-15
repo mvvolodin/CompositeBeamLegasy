@@ -32,6 +32,8 @@ __published:	// IDE-managed Components
 	TEdit *edt_gamma_bt;
 	TLabel *lbl_gamma_bt;
 	TPanel *pnl_concrete_grade;
+	TLabel *lbl_phi_b_cr;
+	TEdit *edt_phi_b_cr;
 	void __fastcall cmb_bx_concrete_grade_listChange(TObject *Sender);
 	void __fastcall BtBtnConcreteChoiceClick(TObject *Sender);
 private:	// User declarations

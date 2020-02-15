@@ -9,7 +9,7 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Buttons.hpp>
 //---------------------------------------------------------------------------
-#include "StudUnit.h"
+#include "UnitStud.h"
 #include <Vcl.ExtCtrls.hpp>
 
 //---------------------------------------------------------------------------

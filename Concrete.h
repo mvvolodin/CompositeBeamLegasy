@@ -11,9 +11,10 @@
 class ConcreteBasic{
 private:
 	String grade_{""};
-	double E_b_{0.0};
-	double R_bn_ {0.0};
-	double R_btn_ {0.0};
+	double R_bn_ {0.};
+	double R_btn_ {0.};
+protected:
+	double E_b_{0.};
 public:
 	ConcreteBasic();
 	ConcreteBasic(String grade, double E_b, double R_b, double R_bt);
@@ -27,15 +28,20 @@ typedef std::pair <String, ConcreteBasic> ConcreteBasicDataItem;
 
 class Concrete:public ConcreteBasic{
 private:
-	double gamma_b_ {0.0};
-	double gamma_bt_ {0.0};
-	double epsilon_b_lim_ {0.0};
+	double phi_b_cr_{0.};
+	double gamma_b_ {0.};
+	double gamma_bt_ {0.};
+	double epsilon_b_lim_ {0.};
+
+    double E_b_tau_{.0};//Модуль деформации бетона
 public:
 	Concrete();
-	Concrete(ConcreteBasic concrete_basic, double gamma_b, double gamma_bt, double epsilon_b_lim);
+	Concrete(ConcreteBasic concrete_basic, double phi_b_cr, double gamma_b, double gamma_bt, double epsilon_b_lim);
 	inline double get_gamma_b()const {return gamma_b_;}
 	inline double get_gamma_bt()const {return gamma_bt_;}
+	inline double get_phi_b_cr()const {return phi_b_cr_;}
 	inline double get_epsilon_b_lim()const {return epsilon_b_lim_;}
+	inline double get_E_b_tau()const {return E_b_tau_;}
 };
 
 extern std::vector <ConcreteBasic> concrete_basic;

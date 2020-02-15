@@ -129,7 +129,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = tb_results
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -2093,7 +2093,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Height = 25
     Caption = #1051#1086#1075
     TabOrder = 6
-    Visible = False
     OnClick = btn_loggerClick
   end
   object MainMenu1: TMainMenu

@@ -83,9 +83,9 @@ void CompositeSection::alfa_to_rebar_steel_calc()
 
 void CompositeSection::alfa_to_concrete_calc()
 {
-	double E_st_=i_sect_steel.get_E_s(); // Модуль упругости стали
-	double E_b_=concrete_part->get_E_b();//Модуль упругости бетона
-	alfa_b_=E_st_/E_b_;
+	double E_st=i_sect_steel.get_E_s(); // Модуль упругости стали
+	double E_b_tau=concrete_part->get_concrete().get_E_b_tau();//Модуль упругости бетона
+	alfa_b_=E_st/E_b_tau;
 }
 
 void CompositeSection::compos_sect_height_calc()

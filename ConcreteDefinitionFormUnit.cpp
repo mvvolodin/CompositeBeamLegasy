@@ -49,26 +49,25 @@ void __fastcall TConcreteDefinitionForm::BtBtnConcreteChoiceClick(TObject *Sende
 }
 //---------------------------------------------------------------------------
 void TConcreteDefinitionForm::init_concrete()
-{   int rc=0; //rc- return code -код ошибки. Присваиваем начальное значение.
+ {
 	String grade="";
-	double R_bn=0.0;
-	double R_btn=0.0;
-	double E_b=0.0;
-	double gamma_b=0.0;
-	double gamma_bt=0.0;
-	double epsilon_b_lim=0.0;
+	double R_bn=0.;
+	double R_btn=0.;
+	double E_b=0.;
+	double phi_b_cr=0.;
+	double gamma_b=0.;
+	double gamma_bt=0.;
+	double epsilon_b_lim=0.;
 	grade=cmb_bx_concrete_grade_list->Text;
 	R_bn=StrToFloat(edt_R_bn->Text);
 	R_btn=StrToFloat(edt_R_btn->Text);
 	E_b=StrToFloat(edt_E_b->Text);
-	rc=String_double_plus(lbl_gamma_b->Caption, edt_gamma_b->Text, &gamma_b);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_gamma_bt->Caption, edt_gamma_bt->Text, &gamma_bt);
-	if (rc>0) return;
-	rc=String_double_plus(lbl_epsilon_b_lim->Caption, edt_epsilon_b_lim->Text, &epsilon_b_lim);
-	if (rc>0) return;
+	String_double_plus(lbl_gamma_b->Caption, edt_phi_b_cr->Text, &phi_b_cr);
+	String_double_plus(lbl_gamma_b->Caption, edt_gamma_b->Text, &gamma_b);
+	String_double_plus(lbl_gamma_bt->Caption, edt_gamma_bt->Text, &gamma_bt);
+	String_double_plus(lbl_epsilon_b_lim->Caption, edt_epsilon_b_lim->Text, &epsilon_b_lim);
 	ConcreteBasic concrete_basic (grade, E_b, R_bn, R_btn);
-	concrete_=Concrete(concrete_basic, gamma_b, gamma_bt, epsilon_b_lim);
+	concrete_=Concrete(concrete_basic, phi_b_cr, gamma_b, gamma_bt, epsilon_b_lim);
 };
 
 //---------------------------------------------------------------------------
