@@ -377,7 +377,8 @@ void TCompositeBeamMainForm:: cotr_ratios_grid()
 	strng_grd_results->Cells [1][0]="Коэффициенты Использования (КИ) ";
 	strng_grd_results->Cells [0][1]="Верхний пояс стального сечения, раздел 6.2.1";
 	strng_grd_results->Cells [0][2]="Нижний пояс стального сеченния, раздел 6.2.1";
-	strng_grd_results->Cells [0][3]="Поперечная силы, раздел 6.2.4";
+	strng_grd_results->Cells [0][3]="Поперечная силы, раздел 6.2.2";
+	strng_grd_results->Cells [0][4]="Прочность упоров объединения, раздел 9.1.2";
 
 }
 //---------------------------------------------------------------------------
@@ -1017,4 +1018,6 @@ void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
 
 
 //---------------------------------------------------------------------------
+
+
 

@@ -21,8 +21,7 @@ protected:
 
 	double b_l_; // эффективная ширина слева
 	double b_r_; // эффективная ширина справа
-	double h_b_;
-	// толщина железобетонной плиты. Для случая плиты по настилу сумма высоты настила и толщины бетона над ним
+	double h_b_;// толщина железобетонной плиты. Для случая плиты по настилу сумма высоты настила и толщины бетона над ним
 	double C_b_;
 	// расстояние от нижней грани железобетонной плиты до её центр тяжести
 	double t_sl_; // расчётная толщина железобетонной плиты
@@ -34,8 +33,10 @@ public:
 	double effective_width_calc(double t_sl, double a, double B, double l);
 	double effective_width_cantilever_calc(double t_slc, double a, double С,
 		double l);
+	virtual void calc_h_b()=0;//высота плиты (для профнастила – сумма высоты профнастила и толщины бетона над профнастилом)
+	virtual void calc_C_b()=0; // pure virtual
 	virtual void calc_area() = 0; // pure virtual
-	virtual void calc_inertia() = 0;
+	virtual void calc_inertia() = 0; // pure virtual
 	// !Урок! виртуальный деструктор добавить.
 
 	TConcretePart();
@@ -65,9 +66,12 @@ class TFlatSlab : public TConcretePart {
 private:
 	virtual void calc_area();
 	virtual void calc_inertia();
+	virtual void calc_h_b();
+	virtual void calc_C_b();
 
 public:
 	TFlatSlab(Concrete concrete, Rebar rebar, double t_sl);
+
 };
 
 class TCorrugatedSlab : public TConcretePart{
@@ -83,6 +87,9 @@ private:
 	int h_p_; // Высота настила
 	double h_f_; // Толщина железобетона над настилом
 
+	double h_b_;//Расстояние
+	virtual void calc_h_b();
+	virtual void calc_C_b();
 	virtual void calc_area();
 	virtual void calc_inertia();
 

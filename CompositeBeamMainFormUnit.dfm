@@ -129,7 +129,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = tb_results
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -515,7 +515,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object cmb_bx_middle_studs_rows__num: TComboBox
-          Left = 532
+          Left = 542
           Top = 46
           Width = 36
           Height = 21
@@ -527,9 +527,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
             '2')
         end
         object cmb_bx_edge_studs_rows_num: TComboBox
-          Left = 534
+          Left = 542
           Top = 19
-          Width = 36
+          Width = 35
           Height = 21
           ItemIndex = 0
           TabOrder = 3
@@ -2077,18 +2077,12 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         ColCount = 2
         DefaultColWidth = 200
         DrawingStyle = gdsClassic
-        RowCount = 4
         ScrollBars = ssNone
         TabOrder = 0
         OnDrawCell = strng_grd_rendering
         ColWidths = (
           513
           349)
-        RowHeights = (
-          24
-          24
-          24
-          24)
       end
     end
   end

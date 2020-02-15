@@ -12,11 +12,11 @@
 class TStudBasic{
 private:
 	String name_="";
-	double l_=0.;   //Длина круглого стержня гибкого упора
 	double d_an_=0.; //Диаметр стержня гибкого упора
+	double l_=0.;   //Длина круглого стержня гибкого упора
 public:
 	TStudBasic();
-	TStudBasic(String name, double l, double d_an);
+	TStudBasic(String name, double d_an, double l);
 	inline String get_name() const {return name_;};
 	inline double get_l(LengthUnit length_unit=LengthUnit::mm) const
 		{return l_/static_cast<int>(length_unit);}
@@ -28,7 +28,7 @@ class TStud:public TStudBasic{
 public:
 	TStud();
 	TStud(String name,
-		 double l, double d_an,
+		 double d_an, double l,
 		 double z_e, double z_m,
 		 double edge_rows_num, double middle_rows_num,
 		 double R_y, double gamma_c);

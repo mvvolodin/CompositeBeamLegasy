@@ -27,19 +27,18 @@ enum class AnalysisTheory{  //Уточнить названия
 
 class TCompositeBeam{
 
-	typedef std::vector<Stresses> StressesList;
-	typedef std::map<Impact, StressesList> StressesNamedList;
-	typedef std::pair <Impact, StressesList> StressesNamedListItem;
-	typedef StressesNamedList::iterator StressesNamedListIterator;
+	using StressesList=std::vector<Stresses> ;
+	using StressesNamedList=std::map<Impact, StressesList> ;
+	using StressesNamedListItem=std::pair <Impact, StressesList> ;
+	using StressesNamedListIterator=StressesNamedList::iterator ;
 
-	typedef std::vector<Ratios> RatiosList;
-	typedef RatiosList::iterator RatiosListIterator;
-	typedef std::map<Impact, RatiosList> RatiosNamedList;
-	typedef std::pair <Impact, RatiosList> RatiosNamedListItem;
-	typedef RatiosNamedList::iterator RatiosNamedListIterator;
+	using RatiosList=std::vector<Ratios> ;
+	using RatiosListIterator=RatiosList::iterator ;
+	using RatiosNamedList=std::map<Impact, RatiosList> ;
+	using RatiosNamedListItem=std::pair <Impact, RatiosList> ;
+	using RatiosNamedListIterator=RatiosNamedList::iterator ;
 
 public:
-
 	TCompositeBeam();
 	TCompositeBeam(AnalysisTheory           analysis_theory,
 				   TGeometry 				geometry,

@@ -60,6 +60,14 @@ TFlatSlab::TFlatSlab(Concrete concrete, Rebar rebar, double t_sl)
 	:TConcretePart(concrete, rebar, t_sl)
 {
 }
+void TFlatSlab::calc_h_b()
+{
+	 h_b_=t_sl_;
+}
+void TFlatSlab::calc_C_b()
+{
+	 C_b_=h_b_/2.;
+}
 
 void TFlatSlab::calc_area()
 {
@@ -78,12 +86,22 @@ TCorrugatedSlab::TCorrugatedSlab(String slab_type, Concrete concrete, Rebar reba
 {
    h_p_=corrugated_sheets_.find(slab_type)->second;
 }
+void TCorrugatedSlab::calc_h_b()
+{
+	 h_b_=h_p_+h_f_;
+}
+void TCorrugatedSlab::calc_C_b()
+{
+	 C_b_=h_p_+h_f_/2.;
+}
 
 void TCorrugatedSlab::calc_area()
 {
+	A_b_=(b_l_+b_r_)*h_f_;
 }
 
 void TCorrugatedSlab::calc_inertia()
 {
+	I_b_=(b_l_+b_r_)*std::pow(h_f_,3)/12;
 }
 

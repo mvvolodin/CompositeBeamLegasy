@@ -37,13 +37,19 @@ void __fastcall TRebarDefinitionForm::cmb_bx_rebar_gradeChange(TObject *Sender)
 
 void TRebarDefinitionForm::create_rebar()
 {
-	double diameter=0.0;
-	double safety_factor=0.0;
+	double diameter=0.;
+	double b=0.;
+	double a_u=0.;
+	double a_l=0.;
+	double safety_factor=0.;
 	String_double_plus(lbl_diameter->Caption, edt_diameter->Text, &diameter);
+	String_double_plus(lbl_diameter->Caption, edt_b->Text, &b);
+	String_double_plus(lbl_diameter->Caption, edt_a_u->Text, &a_u);
+	String_double_plus(lbl_diameter->Caption, edt_a_l->Text, &a_l);
 	String_double_plus(lbl_safety_factor->Caption, edt_safety_factor->Text, &safety_factor);
 	String grade=cmb_bx_rebar_grade->Text;
 	double R_s=StrToFloat(edt_R_s_n->Text);
-	rebar= Rebar(grade, R_s, diameter, safety_factor);
+	rebar_= Rebar(grade, R_s, diameter, b, a_u, a_l, safety_factor);
 }
 //---------------------------------------------------------------------------
 
@@ -53,4 +59,5 @@ void __fastcall TRebarDefinitionForm::bt_btn_OkClick(TObject *Sender)
 	Close();
 }
 //---------------------------------------------------------------------------
+
 

@@ -112,18 +112,18 @@ TStudBasicNamedList stud_named_list  //Ассоциацивный массив подходит в моём случ
 //Отмечу, что не совсем понято почему. Ведь оперетора [] нет, для которого ребуется value initialization
 //обычно предоставляемая default ctr
 TStudBasic::TStudBasic(){}
-TStudBasic::TStudBasic(String name, double l, double d_an):
+TStudBasic::TStudBasic(String name, double d_an, double l):
 						name_(name),
-						l_(l),
-						d_an_(d_an){}
+						d_an_(d_an),
+						l_(l){}
 
 TStud::TStud(){}
 TStud::TStud(String name,
-			 double l, double d_an,
+			 double d_an, double l,
 			 double edge_rows_dist, double middle_rows_dist,
 			 double edge_rows_num, double middle_rows_num,
 			 double R_y, double gamma_c):
-	 TStudBasic(name, l, d_an),
+	 TStudBasic(name, d_an, l),
 	 edge_rows_dist_(edge_rows_dist),
 	 middle_rows_dist_(middle_rows_dist),
 	 edge_rows_num_(edge_rows_num),
@@ -139,25 +139,57 @@ TStud::TStud(String name,
 //-----------------------------------------------------------------------------
 void TStud::calculate_coordinates(double span)
 {
-	double span_third=span/3;
+	const double L = span;
+	const double L3 = L/3.0; //49
 
-	double temp_coord=0.; //текущая координата, переменная общая для всех циклов
+	double a = edge_rows_dist_; // 10
 
-	while(temp_coord<span_third){
+	int na = L3 / a + 1;
+	a = L3/na;
 
-		stud_coordinates_.push_back(temp_coord+=edge_rows_dist_);
-	}
+	for (int i = 0; i < na; i++)
+		stud_coordinates_.emplace_back(0 + a*i);
 
-	while(temp_coord<2*span_third){
+	double b = middle_rows_dist_; // 10
+	int nb = L3 / b + 1;
+	b = L3/nb;
 
-		stud_coordinates_.push_back(temp_coord+=middle_rows_dist_);
-	}
+	for (int i = 0; i < nb; i++)
+		stud_coordinates_.emplace_back(L3 + b*i);
 
-	while(temp_coord<span){
+	for (int i = 0; i < na; i++)
+		stud_coordinates_.emplace_back(2*L3 + a*i);
 
-		stud_coordinates_.push_back(temp_coord+=edge_rows_dist_);
-	}
+//	double sum = 0;
+//	for (int i = 0; i < 10; i++) {
+//		sum += 0.1; // 0.10000000000000000056
+//	}
+//	if (sum == 1) {
+//		cout << "Yes";
+//	}
+//	else
+//		cout << "No";
 
+//	double span_third=span/3;
+//
+//	double temp_coord=0.; //текущая координата, переменная общая для всех циклов
+//
+//	while(temp_coord<span_third){
+//
+//		stud_coordinates_.push_back(temp_coord+=edge_rows_dist_);
+//	}
+//
+//	while(temp_coord<2*span_third){
+//
+//		stud_coordinates_.push_back(temp_coord+=middle_rows_dist_);
+//	}
+//
+//	while(temp_coord<span){
+//
+//		stud_coordinates_.push_back(temp_coord+=edge_rows_dist_);
+//	}
+//
+//
 	std::transform(stud_coordinates_.begin(),stud_coordinates_.end(),stud_coordinates_.begin(),[](double coord){return std::round(coord);});
 }
 
