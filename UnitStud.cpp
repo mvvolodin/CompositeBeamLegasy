@@ -181,35 +181,24 @@ std::vector<double> Studs::calculate_coordinates(double L)
 void Studs::calculate_capacity(double R_b, double R_y, double gamma_c)
 {
 	if ((2.5 <= l_/d_an_) && (l_/d_an_ <= 4.2)){ //возможен ли вариант, когда отношение l_/d_an_ меньше 2.5. Надо ли выводить информационное сообщение?
-		P_rd_=0.24*l_*d_an_*std::pow(10*R_b,0.5);
+		P_rd_=0.24*l_*d_an_*std::pow(10*R_b,0.5)*1000; //1000 перевод в Н, так как в СП кН
 	}
 
 	else if (l_/d_an_ > 4.2){
-		P_rd_=d_an_*d_an_*std::pow(10*R_b,0.5);
+		P_rd_=d_an_*d_an_*std::pow(10*R_b,0.5)*1000;
 	}
 
-	P_rd_addition_=0.063*d_an_*d_an_*gamma_c*R_y;
+	P_rd_addition_=0.063*d_an_*d_an_*gamma_c*R_y*1000;
 }
 
 
-std::vector<double> Studs::calc_ratios(std::vector<double> S)//пер
+std::vector<double> Studs::calc_ratios(std::vector<double> S)
 {
-	std::vector<double> ratio;
+	std::vector<double> ratios;
 	for(auto s:S)
-		s/std::min( P_rd_, P_rd_addition_);
-	return ratio;
+		ratios.emplace_back(s/std::min( P_rd_, P_rd_addition_));
+	return ratios;
 }
 
-void Studs::calc_shear_forces(double A_b, double A_s, std::vector<double> sigma_b,
-	std::vector<double> sigma_s, int num_coord_shear_forces)
-{
-	std::vector<double> S;
 
-	for(int i=0; i<num_coord_shear_forces; ++i){
-		 double temp_S=0.;
-		 temp_S=(sigma_b[i+1]*A_b+sigma_s[i+1]*A_b)-
-			(sigma_b[i]*A_b+sigma_s[i]*A_b);
-		 S.emplace_back(temp_S);
-	}
-}
 

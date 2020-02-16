@@ -42,25 +42,25 @@ void __fastcall TStudDefinitionForm::cmb_bx_stud_part_numberChange(TObject *Send
 //---------------------------------------------------------------------------
 void TStudDefinitionForm::init_stud()
 {
-	int rc=0;
-	String name="";
-	double d_an=0.0;
-	double l=0.0;
-	double gamma_c=0.0;
-	double R_y=0.0;
-
-	name=cmb_bx_stud_part_number->Text;
-	d_an=StrToFloat(edt_stud_diameter->Text); //возращает long double 10 байт
-	l=StrToFloat(edt_stud_height->Text);
-	R_y=StrToFloat(edt_stud_yield_strength->Text);
-	rc=String_double_plus(lbl_stud_safety_factor->Caption,
-						  edt_stud_safety_factor->Text,
-						  &gamma_c);
-	if (rc>0) return;
-	stud_=Studs(name, l, d_an,
-				180, 400,
-				2, 1,
-				R_y, gamma_c); //NOT copy initialization. Assigment becuase stud_ was initialized before
+//	int rc=0;
+//	String name="";
+//	double d_an=0.;
+//	double l=0.;
+//	double gamma_c=0.;
+//	double R_y=0.;
+//
+//	name=cmb_bx_stud_part_number->Text;
+//	d_an=StrToFloat(edt_stud_diameter->Text); //возращает long double 10 байт
+//	l=StrToFloat(edt_stud_height->Text);
+//	R_y=StrToFloat(edt_stud_yield_strength->Text);
+//	rc=String_double_plus(lbl_stud_safety_factor->Caption,
+//						  edt_stud_safety_factor->Text,
+//						  &gamma_c);
+//	if (rc>0) return;
+//	stud_=Studs(name, d_an, l,
+//				180, 400,
+//				2, 1,
+//				R_y, gamma_c); //NOT copy initialization. Assigment becuase stud_ was initialized before
 
 }
 //---------------------------------------------------------------------------

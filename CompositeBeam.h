@@ -76,9 +76,11 @@ private:
 	InternalForcesNamedList internal_forces_;
 //Поля с результатами расчётов полей напряжений
 	StressesNamedList stresses_named_list_; //
+	StressesNamedList stresses_named_list_studs_;
+    std::vector<double> S_; //Сдвигающие усилия по шву объединения железобетонной плиты и стальной балки
 //Поля с результатами расчётов полей коэффициенты использования
 	RatiosNamedList ratios_named_list_;//std::map<Impact, StressesList> StressesNamedList//std::vector<Stresses> StressesList
-
+	std::vector<double> ratios_studs_;
 	double gamma_1_;//коэффициент условий работы верхнего пояса
 
 
@@ -91,7 +93,7 @@ private:
 	void calc_inter_forces();
 	void calc_stresses();
 	void calc_ratios();
-	void calc_stud_ratios();
+	void calc_studs_ratios();
 //Расчёт напряжений
 	void calculate_stresses();
  // Расчёт коэффициентов использования

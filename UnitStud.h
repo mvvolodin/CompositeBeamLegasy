@@ -32,8 +32,12 @@ public:
 		 double z_e, double z_m,
 		 double edge_rows_num, double middle_rows_num,
 		 double R_y, double gamma_c);
+
 	std::vector<double> calculate_coordinates(double L);//определение координат размещения стад-болтов
 	int calculate_studs_transverse_rows_number(double L);//определение количества поперечных рядов стад-болтов
+	void calculate_capacity(double R_b, double R_y, double gamma_c);
+	std::vector<double> calc_ratios(std::vector<double> S);//расчёт и возврат динамического массива КИ
+
 	inline double get_edge_rows_dist(LengthUnit length_unit=LengthUnit::mm) const
 		{return edge_rows_dist_/static_cast<int>(length_unit);}
 	inline double get_middle_rows_dist(LengthUnit length_unit=LengthUnit::mm) const
@@ -44,7 +48,6 @@ public:
 		{return middle_rows_num_;}
 	inline double get_gamma_c()const{return gamma_c_;}
 	inline double get_R_y()const{return R_y_;}
-	std::vector<double> calc_ratios(std::vector<double> S);//расчёт и возврат динамического массива КИ
 
 private:
 	double edge_rows_dist_=0.;//Шаг упоров в крайних третях
@@ -57,9 +60,6 @@ private:
 	double P_rd_;
 	double P_rd_addition_;//обозначение правой части формулы (9.7)
 
-	void calculate_capacity(double R_b, double R_y, double gamma_c);
-	void calc_shear_forces(double A_b, double A_s, std::vector<double> sigma_b,
-	std::vector<double> sigma_s, int num_coord_shear_forces);
 };
 
 typedef std::pair <String, TStudBasic> TStudBasicPair;

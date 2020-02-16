@@ -33,6 +33,8 @@ TCompositeBeam::TCompositeBeam():
 	calc_studs_coordinates();
 	calc_inter_forces();
 	calculate_stresses();
+	calc_inter_forces_for_studs();
+	calc_studs_ratios();
 	calc_ratios();
 
 	log_stresses();
@@ -87,16 +89,35 @@ void TCompositeBeam::calc_studs_coordinates()
 	double L=geometry_.get_span();
 	stud_coordinates_=studs_.calculate_coordinates(L);//нужна ли отдельная функция? название фун-ции достаточно описательное
 	studs_num_=studs_.calculate_studs_transverse_rows_number(L);
+
 }
 //---------------------------------------------------------------------------
 //Расчёт внутренних моментов и сил
 //---------------------------------------------------------------------------
 void TCompositeBeam::calc_inter_forces_for_studs()
 {
+	std::vector<Stresses> stresses=stresses_named_list_.at(Impact::II_stage);
 
+	for(int i=0; i<stresses.size(); ++i){//отступление от правила, что во всех циклах используется studs_num_
 
+		double S=0.;
+		double sigma_b_r=0.;
+		double sigma_s_r=0.;
+		double sigma_b_l=0.;
+		double sigma_s_l=0.;
 
+		double A_s=composite_section_.get_concrete_part()->get_rebar().get_A_s();
+		double A_b=composite_section_.get_concrete_part()->get_A_b();
 
+		sigma_b_r=stresses[i+1].get_sigma_b();
+		sigma_s_r=stresses[i+1].get_sigma_s();
+		sigma_b_l=stresses[i].get_sigma_b();
+		sigma_s_l=stresses[i].get_sigma_s();
+
+		S=(sigma_b_r * A_b + sigma_s_r * A_s) - (sigma_b_l * A_b + sigma_s_l * A_s);
+
+		S_.emplace_back(S);
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -269,7 +290,7 @@ void TCompositeBeam::calc_inter_forces()
 
 	}
 
-	internal_forces_.insert(InternalForcesNamedListItem(Impact::II_stage, InternalForces(M_II_studs, Q_II_studs)));
+	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::II_stage, InternalForces(M_II_studs, Q_II_studs)));
 
 }
 
@@ -313,6 +334,32 @@ void TCompositeBeam::calculate_stresses()
 				temp_stresses_list.push_back(Stresses{sigma_b,sigma_s,UNDEFINED});
 		}
 		stresses_named_list_.insert(StressesNamedListItem(Impact::II_stage,temp_stresses_list));
+
+		std::vector<Stresses> temp_stresses_studs_list;
+
+		temp_stresses_studs_list.clear();
+
+		for (int i = 1; i < (studs_num_-1); i++){
+
+			double M=internal_forces_studs_[Impact::II_stage].get_M()[i];
+			double sigma_b=M/(alfa_b*W_b_red);
+			double sigma_s=M/(alfa_s*W_b_red);
+
+			if((sigma_b<gamma_bi*R_b) && (sigma_s<gamma_si*R_s))
+
+				temp_stresses_studs_list.emplace_back(Stresses{sigma_b,sigma_s,CASE_I});
+
+			else if ((sigma_b>=gamma_bi*R_b) && (sigma_s<gamma_si*R_s))
+
+				temp_stresses_studs_list.emplace_back(Stresses{sigma_b,sigma_s,CASE_II});
+
+			else if ((sigma_b>=gamma_bi*R_b) && (sigma_s>=gamma_si*R_s))
+
+				temp_stresses_studs_list.emplace_back(Stresses{sigma_b,sigma_s,CASE_III});
+			else
+				temp_stresses_studs_list.emplace_back(Stresses{sigma_b,sigma_s,UNDEFINED});
+		}
+		stresses_named_list_.insert(StressesNamedListItem(Impact::II_stage, temp_stresses_studs_list));
 }
 
 //---------------------------------------------------------------------------
@@ -490,8 +537,11 @@ String TCompositeBeam::get_analysis_theory()
 		return L"Жёстко-пластическая";
 }
 
-void TCompositeBeam::calc_stud_ratios()
+void TCompositeBeam::calc_studs_ratios()
 {
+	studs_.calculate_capacity(300,50,1);
+
+	ratios_studs_=studs_.calc_ratios(S_);
 
 }
 

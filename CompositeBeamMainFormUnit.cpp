@@ -152,7 +152,7 @@ TConcretePart* TCompositeBeamMainForm::init_concrete_part()
 	if (rdgrp_slab_type->ItemIndex==0)
 	{
 		int rc=0; //rc- return code -код ошибки
-		double t_sl=.0;
+		double t_sl=0.;
 		rc=String_double_plus(lbl_flat_slab_thickness->Caption, edt_flat_slab_thickness->Text, &t_sl);
 		return new TFlatSlab(ConcreteDefinitionForm->get_concrete(),
 							 RebarDefinitionForm->get_rebar(),
@@ -175,16 +175,44 @@ TConcretePart* TCompositeBeamMainForm::init_concrete_part()
 //---------------------------------------------------------------------------
 Studs TCompositeBeamMainForm::init_stud()
 {
-	 return StudDefinitionForm->get_stud();
+	String name="";
+	double d_an=0.;
+	double l=0.;
+	double gamma_c=0.;
+	double R_y=0.;
+
+	double edge_studs_dist=0.;
+	double middle_studs_dist=0.;
+	double edge_studs_rows_num=0.;
+	double middle_studs_rows_num=0.;
+
+	name=StudDefinitionForm->cmb_bx_stud_part_number->Text;
+	d_an=StrToFloat(StudDefinitionForm->edt_stud_diameter->Text); //возращает long double 10 байт
+	l=StrToFloat(StudDefinitionForm->edt_stud_height->Text);
+	R_y=StrToFloat(StudDefinitionForm->edt_stud_yield_strength->Text);
+	String_double_plus(StudDefinitionForm->lbl_stud_safety_factor->Caption,
+						  StudDefinitionForm->edt_stud_safety_factor->Text,
+						  &gamma_c);
+
+	String_double_plus(lbl_edge_studs_dist->Caption, edt_edge_studs_dist->Text, &edge_studs_dist);
+	String_double_plus(lbl_middle_studs_dist->Caption, edt_middle_studs_dist->Text, &middle_studs_dist);
+
+	edge_studs_rows_num=StrToFloat(cmb_bx_edge_studs_rows_num->Text);
+	middle_studs_rows_num=StrToFloat(cmb_bx_middle_studs_rows__num->Text);
+
+	 return Studs(name, d_an, l,
+				edge_studs_dist, middle_studs_dist,
+				edge_studs_rows_num, middle_studs_rows_num,
+				R_y, gamma_c); ;
 }
 //---------------------------------------------------------------------------
 //	Инициализация коэффициентов условий работы
 //---------------------------------------------------------------------------
  WorkingConditionsFactors TCompositeBeamMainForm::init_working_conditions_factors()
  {
-	double gamma_bi=0.0;
-	double gamma_si=0.0;
-	double gamma_c=0.0;
+	double gamma_bi=0.;
+	double gamma_si=0.;
+	double gamma_c=0.;
 
 	String_double_plus(lbl_gamma_bi->Caption, edt_gamma_bi->Text, &gamma_bi);
 	String_double_plus(lbl_gamma_si->Caption, edt_gamma_si->Text, &gamma_si);
@@ -445,8 +473,8 @@ void __fastcall TCompositeBeamMainForm::BtBtnShearStudsChoiceClick(TObject *Send
 {
 	StudDefinitionForm->ShowModal();
 	//Синхронизация текста на pnl и расчётных данных
-	if(pnl_shear_stud_viewer->Caption!=StudDefinitionForm->get_stud().get_name())
-		pnl_shear_stud_viewer->Caption=StudDefinitionForm->get_stud().get_name();
+   //	if(pnl_shear_stud_viewer->Caption!=StudDefinitionForm->get_stud().get_name())
+	 //	pnl_shear_stud_viewer->Caption=StudDefinitionForm->get_stud().get_name();
 }
 //---------------------------------------------------------------------------
 

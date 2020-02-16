@@ -129,7 +129,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -2046,10 +2046,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_concrete_geom_char: TTabSheet
             Caption = #1046#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_concrete_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
