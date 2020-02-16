@@ -44,13 +44,13 @@ public:
 				   TGeometry 				geometry,
 				   TLoads 					loads,
 				   CompositeSection         composite_section,
-				   TStud 					stud,
+				   Studs 					stud,
 				   WorkingConditionsFactors working_conditions_factors);
 
 	inline CompositeSection get_composite_section()const{return composite_section_;}//Уродливая запись!!!//Но возвращается ссылка на объект
 	inline InternalForcesNamedList get_internal_forces_LC()const{return internal_forces_;}
 	inline std::vector<double> get_CS_coordinates()const {return cs_coordinates_;}
-	inline TStud get_studs()const {return studs_;}
+	inline Studs get_studs()const {return studs_;}
 	inline TGeometry get_geometry()const {return geometry_;}
 	inline TLoads get_loads()const {return loads_;}
 	inline WorkingConditionsFactors get_working_conditions_factors() const {return working_conditions_factors_;}
@@ -66,11 +66,13 @@ private:
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;
 	CompositeSection composite_section_;
-	TStud studs_;
+	Studs studs_;
 //Поля с результатами расчётов
 	std::vector<double> cs_coordinates_;
-	std::vector<double> cs_coordinates_shear_;//координаты сечений для определения сдвигающих усилий
+	std::vector<double> stud_coordinates_;//координаты расположения упоров
 	int cs_num_;//количество расчётных сечений.ВСЕ ЦИКЛЫ ДОЛЖНЫ ЕГО ПРИМЕНЯТЬ!!!!
+	int studs_num_;//количество поперечных рядов упоров.ВСЕ ЦИКЛЫ ДОЛЖНЫ ЕГО ПРИМЕНЯТЬ!!!!
+	InternalForcesNamedList internal_forces_studs_;
 	InternalForcesNamedList internal_forces_;
 //Поля с результатами расчётов полей напряжений
 	StressesNamedList stresses_named_list_; //
@@ -83,8 +85,9 @@ private:
 
 private:
 	void calculate_gamma_1();
-	void CS_coordinates_calc();
-	void calc_cs_coordinates_studs_verification();
+	void calc_cs_coordinates(); //определение координат сечений для определения усилий требуемых для проверки балки
+	void calc_studs_coordinates(); // определение координат сечений для определения усилий требуемых для упоров
+	void calc_inter_forces_for_studs();
 	void calc_inter_forces();
 	void calc_stresses();
 	void calc_ratios();

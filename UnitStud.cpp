@@ -117,8 +117,8 @@ TStudBasic::TStudBasic(String name, double d_an, double l):
 						d_an_(d_an),
 						l_(l){}
 
-TStud::TStud(){}
-TStud::TStud(String name,
+Studs::Studs(){}
+Studs::Studs(String name,
 			 double d_an, double l,
 			 double edge_rows_dist, double middle_rows_dist,
 			 double edge_rows_num, double middle_rows_num,
@@ -131,50 +131,76 @@ TStud::TStud(String name,
 	 R_y_(R_y),
 	 gamma_c_(gamma_c)
 {
-	calculate_coordinates(18000);
+
+}
+//-----------------------------------------------------------------------------
+//ќпределение количества поперечных р€дов стад-болтов
+//in:l-пролЄт балки
+//out:количество поперечных р€дов стад-болтов
+//-----------------------------------------------------------------------------
+int Studs::calculate_studs_transverse_rows_number(double L)
+{
+	const double L3 = L/3.0;
+	int na = L3 / edge_rows_dist_ + 1; //добавл€ем единицу, чтобы шаг упоров гарантировано не превысил заданный максимальный шаг
+	int nb = L3 / middle_rows_dist_ + 1;
+	return na + nb + na + 1;
 }
 //-----------------------------------------------------------------------------
 //ќпределение координат размещени€ стад-болтов
 //in:l-пролЄт балки
+//out:лист с координатами расположени€ упоров
 //-----------------------------------------------------------------------------
-void TStud::calculate_coordinates(double span)
+std::vector<double> Studs::calculate_coordinates(double L)
 {
-	const double L = span;
-	const double L3 = L/3.0; //49
+	const double L3 = L/3.0;
+	std::vector<double> stud_coordinates;
 
-	double a = edge_rows_dist_; // 10
+	double a = edge_rows_dist_;
 
 	int na = L3 / a + 1;
 	a = L3/na;
 
 	for (int i = 0; i < na; i++)
-		stud_coordinates_.emplace_back(0 + a*i);
+		stud_coordinates.emplace_back(0 + a*i);
 
-	double b = middle_rows_dist_; // 10
+	double b = middle_rows_dist_;
 	int nb = L3 / b + 1;
 	b = L3/nb;
 
 	for (int i = 0; i < nb; i++)
-		stud_coordinates_.emplace_back(L3 + b*i);
+		stud_coordinates.emplace_back(L3 + b*i);
 
 	for (int i = 0; i < na; i++)
-		stud_coordinates_.emplace_back(2*L3 + a*i);
+		stud_coordinates.emplace_back(2*L3 + a*i);
 
-	stud_coordinates_.emplace_back(span);
-	std::transform(stud_coordinates_.begin(),stud_coordinates_.end(),stud_coordinates_.begin(),[](double coord){return std::round(coord);});
-	for(int i=0;i<(stud_coordinates_.size()-1);++i){
-	  cs_shear_forces_coordinates_.emplace_back((stud_coordinates_[i]+stud_coordinates_[i+1])/2.);
-
-	}
+	stud_coordinates.emplace_back(L);
+	std::transform(stud_coordinates.begin(),stud_coordinates.end(),stud_coordinates.begin(),[](double coord){return std::round(coord);});
+	return stud_coordinates;
 }
 
-void TStud::calc_ratios()
+void Studs::calculate_capacity(double R_b, double R_y, double gamma_c)
 {
+	if ((2.5 <= l_/d_an_) && (l_/d_an_ <= 4.2)){ //возможен ли вариант, когда отношение l_/d_an_ меньше 2.5. Ќадо ли выводить информационное сообщение?
+		P_rd_=0.24*l_*d_an_*std::pow(10*R_b,0.5);
+	}
 
+	else if (l_/d_an_ > 4.2){
+		P_rd_=d_an_*d_an_*std::pow(10*R_b,0.5);
+	}
 
+	P_rd_addition_=0.063*d_an_*d_an_*gamma_c*R_y;
 }
 
-void TStud::calc_shear_forces(double A_b, double A_s, std::vector<double> sigma_b,
+
+std::vector<double> Studs::calc_ratios(std::vector<double> S)//пер
+{
+	std::vector<double> ratio;
+	for(auto s:S)
+		s/std::min( P_rd_, P_rd_addition_);
+	return ratio;
+}
+
+void Studs::calc_shear_forces(double A_b, double A_s, std::vector<double> sigma_b,
 	std::vector<double> sigma_s, int num_coord_shear_forces)
 {
 	std::vector<double> S;

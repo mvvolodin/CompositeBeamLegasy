@@ -206,7 +206,7 @@ private:
 	TISectionInitialData init_i_section();//Инициализация объекта геометрия двутавра
 	Steel init_steel_i_section(); //Инициализация стали двутавра
 	TConcretePart* init_concrete_part();//Инициализация бетонной части композитного сечения
-	TStud init_stud();//Инициализация упоров
+	Studs init_stud();//Инициализация упоров
 	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
 	CompositeSection init_composite_section(TGeometry geometry,
 											Steel steel_i_section,
@@ -216,7 +216,7 @@ private:
 							 TGeometry 				  geometry,
 							 TLoads 				  loads,
 							 CompositeSection 		  composite_section,
-							 TStud 					  stud,
+							 Studs					  stud,
 							 WorkingConditionsFactors working_conditions_factors);
 	void generate_report();
 	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа

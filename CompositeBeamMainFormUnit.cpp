@@ -173,7 +173,7 @@ TConcretePart* TCompositeBeamMainForm::init_concrete_part()
 //---------------------------------------------------------------------------
 //	Инициализация упоров
 //---------------------------------------------------------------------------
-TStud TCompositeBeamMainForm::init_stud()
+Studs TCompositeBeamMainForm::init_stud()
 {
 	 return StudDefinitionForm->get_stud();
 }
@@ -213,7 +213,7 @@ void TCompositeBeamMainForm::init_composite_beam(AnalysisTheory           analys
 												 TGeometry 				  geometry,
 												 TLoads 				  loads,
 												 CompositeSection 		  composite_section,
-												 TStud 					  stud,
+												 Studs 					  stud,
 												 WorkingConditionsFactors working_conditions_factors)
 {
  composite_beam_=TCompositeBeam(analysis_theory,
@@ -474,7 +474,7 @@ void TCompositeBeamMainForm::generate_report()
 	Concrete concrete=concrete_part->get_concrete();
 	Rebar rebar=concrete_part->get_rebar();
 	Steel steel=composite_beam_.get_composite_section().get_steel_grade();
-	TStud studs=composite_beam_.get_studs();
+	Studs studs=composite_beam_.get_studs();
 	WorkingConditionsFactors working_conditions_factors=composite_beam_.get_working_conditions_factors();
 
 //[1.1] Топология
@@ -644,7 +644,7 @@ void TCompositeBeamMainForm::calculate_composite_beam()
    TGeometry geometry=init_geomet();//поле содержащее топологию
    TISectionInitialData i_section_initial_data=init_i_section();
    TLoads loads=init_loads();;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
-   TStud stud=init_stud(); //поле соержащее упоры Нельсона
+   Studs stud=init_stud(); //поле соержащее упоры Нельсона
    Steel steel_i_section=init_steel_i_section();
    WorkingConditionsFactors working_conditions_factors=init_working_conditions_factors();
    TConcretePart* concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!

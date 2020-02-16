@@ -31,12 +31,12 @@ __published:	// IDE-managed Components
 	void __fastcall bt_btn_stud_choiceClick(TObject *Sender);
 	void __fastcall cmb_bx_stud_part_numberChange(TObject *Sender);
 private:
-	TStud stud_;
+	Studs stud_;
 	void fill_stud_data();
     void init_stud();
 public:
 	__fastcall TStudDefinitionForm(TComponent* Owner);
-	inline TStud get_stud()const{return stud_;};
+	inline Studs get_stud()const{return stud_;};
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TStudDefinitionForm *StudDefinitionForm;

@@ -12,7 +12,7 @@ TCompositeBeam::TCompositeBeam():
 					loads_(TLoads()),
 					working_conditions_factors_(WorkingConditionsFactors()),
 					composite_section_(CompositeSection()),
-					studs_(TStud()){}
+					studs_(Studs()){}
 //---------------------------------------------------------------------------
 // онструктор композитной балки
 //---------------------------------------------------------------------------
@@ -20,7 +20,7 @@ TCompositeBeam::TCompositeBeam():
 								TGeometry                geometry,
 								TLoads     				 loads,
 								CompositeSection         composite_section,
-								TStud 					 stud,
+								Studs					 stud,
 								WorkingConditionsFactors working_conditions_factors)
    :analysis_theory_(analysis_theory),
 	geometry_(geometry),
@@ -29,8 +29,8 @@ TCompositeBeam::TCompositeBeam():
 	loads_(loads),
 	working_conditions_factors_(working_conditions_factors)
  {
-	CS_coordinates_calc();
-	calc_cs_coordinates_studs_verification();
+	calc_cs_coordinates();
+	calc_studs_coordinates();
 	calc_inter_forces();
 	calculate_stresses();
 	calc_ratios();
@@ -44,7 +44,7 @@ TCompositeBeam::TCompositeBeam():
 //---------------------------------------------------------------------------
 //—озадЄм лист с координатами расчЄтных сечений
 //---------------------------------------------------------------------------
-void TCompositeBeam::CS_coordinates_calc()
+void TCompositeBeam::calc_cs_coordinates()
 	{   double span=geometry_.get_span();
 		double temporary_supports_number_=geometry_.get_temporary_supports_number();
 
@@ -79,12 +79,26 @@ void TCompositeBeam::CS_coordinates_calc()
 		cs_num_=cs_coordinates_.size();
 	}
 //---------------------------------------------------------------------------
-//¬ычисление координат сечений дл€ определени€ сдвигающих усилий по шву объединени€
+//¬ычисление координат сечений дл€ определени€ сдвигающих усилий по
+//шву объединени€
 //---------------------------------------------------------------------------
-void TCompositeBeam::calc_cs_coordinates_studs_verification()
+void TCompositeBeam::calc_studs_coordinates()
+{
+	double L=geometry_.get_span();
+	stud_coordinates_=studs_.calculate_coordinates(L);//нужна ли отдельна€ функци€? название фун-ции достаточно описательное
+	studs_num_=studs_.calculate_studs_transverse_rows_number(L);
+}
+//---------------------------------------------------------------------------
+//–асчЄт внутренних моментов и сил
+//---------------------------------------------------------------------------
+void TCompositeBeam::calc_inter_forces_for_studs()
 {
 
+
+
+
 }
+
 //---------------------------------------------------------------------------
 //–асчЄт внутренних моментов и сил
 //---------------------------------------------------------------------------
@@ -101,42 +115,58 @@ void TCompositeBeam::calc_inter_forces()
 	//расчЄт линейной нагрузки
 
 	double SW_l=SW;
-	double DL_I_l=DL_I*(bl+br)/2.0;
-	double DL_II_l=DL_II*(bl+br)/2.0;
-	double LL_l=LL*(bl+br)/2.0;
+	double DL_I_l=DL_I*(bl+br)/2.;
+	double DL_II_l=DL_II*(bl+br)/2.;
+	double LL_l=LL*(bl+br)/2.;
 
 
 	int temporary_supports_number=geometry_.get_temporary_supports_number();
 
-	//формирование именованного списка с внктрениими усили€ми от случаев загружени€
+	std::vector<double> cs_at_midpoints_btw_studs;
+
+	//заполнение вектора кооридинатами сечений между стад-болтами
+
+	for(int i=0;i<(studs_num_-1);++i){
+		cs_at_midpoints_btw_studs.emplace_back((stud_coordinates_[i]+stud_coordinates_[i+1])/2.);
+	}
+
+	//формирование именованного списка с внктрениими усили€ми от случаев загружени€ дл€ проверки балки
 
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::SW,InternalForces(SW_l,cs_coordinates_,temporary_supports_number)));
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::DL_I,InternalForces(DL_I_l,cs_coordinates_,temporary_supports_number)));
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::DL_II,InternalForces(DL_II_l,cs_coordinates_,0)));
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::LL,InternalForces(LL_l,cs_coordinates_,0)));
 
-	//формирование списка с внутренними усили€ми
+	//формирование именованного списка с внктрениими усили€ми от случаев загружени€ дл€ проверки объединени€
+
+	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::SW,InternalForces(SW_l, cs_at_midpoints_btw_studs,temporary_supports_number)));
+	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::DL_I,InternalForces(DL_I_l, cs_at_midpoints_btw_studs,temporary_supports_number)));
+	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::DL_II,InternalForces(DL_II_l, cs_at_midpoints_btw_studs,0)));
+	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::LL,InternalForces(LL_l, cs_at_midpoints_btw_studs,0)));
+
+	//формирование именованного списка с внктрениими усили€ми от комбинаций загружений дл€ проверки балки
 
 	double gamma_f_SW=loads_.get_gamma_f_st_SW();
 	double gamma_f_DL_I=loads_.get_gamma_f_DL_I();
 	double gamma_f_DL_II=loads_.get_gamma_f_DL_II();
 	double gamma_f_LL=loads_.get_gamma_f_LL();
 
-	int cs_num=cs_coordinates_.size();
 
 	//внутренние усили€ (I) стадии
 
 	InternalForces int_forces_I_SW=InternalForces(SW_l,cs_coordinates_, temporary_supports_number);
 	InternalForces int_forces_I_DL_I=InternalForces(DL_I_l,cs_coordinates_, temporary_supports_number);
 
+	InternalForces int_forces_studs_I_SW=InternalForces(SW_l, cs_at_midpoints_btw_studs, temporary_supports_number);
+	InternalForces int_forces_studs_I_DL_I=InternalForces(DL_I_l, cs_at_midpoints_btw_studs, temporary_supports_number);
+
 	//формирование именованного списка с расчЄтными внутренними усили€ми I стадии
 
 	std::vector<double> M_I;
 	std::vector<double> Q_I;
 
-	for (int i = 0; i < cs_num; i++)
+	for (int i = 0; i < cs_num_; i++)
 	{
-
 		M_I.push_back(gamma_f_SW*int_forces_I_SW.get_M()[i]+
 			   gamma_f_DL_I*int_forces_I_DL_I.get_M()[i]);
 		Q_I.push_back(gamma_f_SW*int_forces_I_SW.get_Q()[i]+
@@ -145,6 +175,20 @@ void TCompositeBeam::calc_inter_forces()
 
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::I_stage, InternalForces(M_I, Q_I)));
 
+	std::vector<double> M_I_studs;
+	std::vector<double> Q_I_studs;
+
+	for (int i = 0; i < (studs_num_ - 1); i++)
+	{
+
+		M_I_studs.push_back(gamma_f_SW*int_forces_studs_I_SW.get_M()[i]+
+			   gamma_f_DL_I*int_forces_studs_I_DL_I.get_M()[i]);
+		Q_I_studs.push_back(gamma_f_SW*int_forces_studs_I_SW.get_Q()[i]+
+			   gamma_f_DL_I*int_forces_studs_I_DL_I.get_Q()[i]);
+	}
+
+	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::I_stage, InternalForces(M_I_studs, Q_I_studs)));
+
 	//внутренние усили€ (I+II) стадии
 
 	InternalForces int_forces_total_SW=InternalForces(SW_l,cs_coordinates_, 0);
@@ -152,12 +196,17 @@ void TCompositeBeam::calc_inter_forces()
 	InternalForces int_forces_total_DL_II=InternalForces(DL_II_l,cs_coordinates_, 0);
 	InternalForces int_forces_total_LL=InternalForces(LL_l,cs_coordinates_, 0);
 
+	InternalForces int_forces_total_studs_SW=InternalForces(SW_l,cs_coordinates_, 0);
+	InternalForces int_forces_total_studs_DL_I=InternalForces(DL_I_l,cs_coordinates_, 0);
+	InternalForces int_forces_total_studs_DL_II=InternalForces(DL_II_l,cs_coordinates_, 0);
+	InternalForces int_forces_total_studs_LL=InternalForces(LL_l,cs_coordinates_, 0);
+
 	//формирование именованного списка с расчЄтными внутренними усили€ми (I+II) стадии
 
 	std::vector<double> M_total;
 	std::vector<double> Q_total;
 
-	for (int i = 0; i < cs_num; i++)
+	for (int i = 0; i < cs_num_; i++)
 	{
 
 		M_total.push_back(gamma_f_SW*int_forces_total_SW.get_M()[i]+
@@ -173,12 +222,31 @@ void TCompositeBeam::calc_inter_forces()
 
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::Total, InternalForces(M_total, Q_total)));
 
+	std::vector<double> M_total_studs;
+	std::vector<double> Q_total_studs;
+
+	for (int i = 0; i < (studs_num_ - 1); i++)
+	{
+
+		M_total_studs.push_back(gamma_f_SW*int_forces_total_studs_SW.get_M()[i]+
+			   gamma_f_DL_I*int_forces_total_studs_DL_I.get_M()[i]+
+			   gamma_f_DL_II*int_forces_total_studs_DL_II.get_M()[i]+
+			   gamma_f_LL*int_forces_total_studs_LL.get_M()[i]);
+		Q_total_studs.push_back(gamma_f_SW*int_forces_total_studs_SW.get_Q()[i]+
+			   gamma_f_DL_I*int_forces_total_studs_DL_I.get_Q()[i]+
+			   gamma_f_DL_II*int_forces_total_studs_DL_II.get_Q()[i]+
+			   gamma_f_LL*int_forces_total_studs_LL.get_Q()[i]);
+
+	}
+
+	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::Total, InternalForces(M_total_studs, Q_total_studs)));
+
 	std::vector<double> M_II;
 	std::vector<double> Q_II;
 
 	//формирование списка с внутренними расчЄтными усили€ми от (II) стадий
 
-	for (int i = 0; i < cs_num; i++)
+	for (int i = 0; i < cs_num_; i++)
 	{
 
 		M_II.push_back(M_total[i]+M_I[i]);
@@ -187,6 +255,21 @@ void TCompositeBeam::calc_inter_forces()
 	}
 
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::II_stage, InternalForces(M_II, Q_II)));
+
+	std::vector<double> M_II_studs;
+	std::vector<double> Q_II_studs;
+
+	//формирование списка с внутренними расчЄтными усили€ми от (II) стадий
+
+	for (int i = 0; i < (studs_num_ - 1); i++)
+	{
+
+		M_II_studs.push_back(M_total[i]+M_I_studs[i]);
+		Q_II_studs.push_back(Q_total[i]+Q_I_studs[i]);
+
+	}
+
+	internal_forces_.insert(InternalForcesNamedListItem(Impact::II_stage, InternalForces(M_II_studs, Q_II_studs)));
 
 }
 
