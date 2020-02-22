@@ -107,7 +107,7 @@ void TCompositeBeam::calc_inter_forces_for_studs()
 		double sigma_s_l=0.;
 
 		double A_s=composite_section_.get_concrete_part()->get_rebar().get_A_s();
-		double A_b=composite_section_.get_concrete_part()->get_A_b();
+		double A_b=get_A_b();
 
 		sigma_b_r=stresses[i+1].get_sigma_b();
 		sigma_s_r=stresses[i+1].get_sigma_s();
@@ -410,7 +410,7 @@ void TCompositeBeam::calc_ratios()
 		double W_f1_st=composite_section_.get_steel_part().get_Wf1_st();
 		double A_s=composite_section_.get_concrete_part()->get_rebar().get_A_s();
 		double A_st=composite_section_.get_steel_part().get_A_st();
-		double A_b=composite_section_.get_concrete_part()->get_A_b();
+		double A_b=get_A_b();
 		double R_y=composite_section_.get_steel_grade().get_R_y ();
 		double R_b=composite_section_.get_concrete_part()->get_R_bn();
 		double gamma_bi=working_conditions_factors_.get_gamma_bi();
@@ -441,7 +441,7 @@ Ratios TCompositeBeam::calculate_II_case(Impact impact, int cs_id)
 		double A_s=composite_section_.get_concrete_part()->get_rebar().get_A_s();
 		double R_s=composite_section_.get_concrete_part()->get_rebar().get_R_s();
 		double A_st=composite_section_.get_steel_part().get_A_st();
-		double A_b=composite_section_.get_concrete_part()->get_A_b();
+		double A_b=get_A_b();
 		double R_y=composite_section_.get_steel_grade().get_R_y ();
 		double R_b=composite_section_.get_concrete_part()->get_R_bn();
 		double gamma_bi=working_conditions_factors_.get_gamma_bi();
@@ -467,7 +467,7 @@ Ratios TCompositeBeam::calculate_III_case(Impact impact, int cs_id)
 		double A_s=composite_section_.get_concrete_part()->get_rebar().get_A_s();
 		double R_s=composite_section_.get_concrete_part()->get_rebar().get_R_s();
 		double A_st=composite_section_.get_steel_part().get_A_st();
-		double A_b=composite_section_.get_concrete_part()->get_A_b();
+		double A_b=get_A_b();
 		double R_y=composite_section_.get_steel_grade().get_R_y ();
 		double R_b=composite_section_.get_concrete_part()->get_R_bn();
 		double gamma_bi=working_conditions_factors_.get_gamma_bi();
@@ -544,6 +544,69 @@ void TCompositeBeam::calc_studs_ratios()
 	ratios_studs_=studs_.calc_ratios(S_);
 
 }
+
+TCompositeBeam::NeutralAxis TCompositeBeam::calc_neutral_axis()
+{
+	double x_b = 0.;
+	double x_f2 = 0.;
+	double x_w = 0.;
+
+	const double b_sl = composite_section_.get_concrete_part()->get_b_sl();
+	const double R_b = get_R_b();
+	const double R_y = get_R_y();
+	const double A_st = get_A_st();
+	const double A_f1_st = get_A_f1_st();
+	const double A_f2_st = get_A_f2_st();
+	const double R_s = get_R_s();
+	const double A_s = get_A_s();
+	const double h_b = get_h_b();
+	const double t_f2 = get_t_f2();
+	const double b_f2 = get_b_f2();
+	const double A_w_st = get_A_w_st();
+	const double h_w = get_h_w();
+	const double t_w = get_t_w();
+	const double A_b = get_A_b();
+    const double C_b = get_C_b();
+
+	const double h_f = 2* (h_b - C_b);
+
+	x_b = (R_y * A_st + R_s * A_s)/R_b * b_sl;
+
+	x_f2 = (A_f1_st * R_y + (h_b + t_f2) * b_f2 * R_y + A_w_st*R_y + h_b * b_f2 * R_y
+		- R_b * A_b - R_s * A_s) / ( 2 * b_f2 * R_y);
+
+	x_w = (A_f1_st * R_y + (h_b + t_f2 + h_w) * t_w * R_y + (h_b + t_f2) * t_w * R_y
+		 - R_b * A_b - A_f2_st * R_y - R_s * A_s ) / ( 2 * t_w * R_y);
+
+	if (x_b <= h_f)
+		return NeutralAxis {NA_Location::CONCRETE, x_b};
+
+	if ((x_f2 <= (h_b + t_f2)) && (x_f2 >= h_b))
+		return NeutralAxis {NA_Location::UPPER_FLANGE, x_f2};
+
+	if ((x_w <= (h_b + t_f2 + h_w)) && (x_w >= (h_b + t_f2)))
+		return NeutralAxis {NA_Location::WEB, x_w};
+
+	return NeutralAxis {NA_Location::NO_SOLUTION, 0.};
+}
+
+double TCompositeBeam::calc_rigid_plastic_moment()
+{
+	auto [na_location, x_na] {calc_neutral_axis()};
+
+	switch(na_location)
+	{
+		case NA_Location::CONCRETE:
+			return 1;
+		case NA_Location::UPPER_FLANGE:
+			return 1;
+		case NA_Location::WEB:
+			return 1;
+		case NA_Location::NO_SOLUTION:
+			return 1;
+	}
+
+   }
 
 
 

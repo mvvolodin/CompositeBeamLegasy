@@ -33,10 +33,11 @@ public:
 	double effective_width_calc(double t_sl, double a, double B, double l);
 	double effective_width_cantilever_calc(double t_slc, double a, double С,
 		double l);
-	virtual void calc_h_b()=0;//высота плиты (для профнастила – сумма высоты профнастила и толщины бетона над профнастилом)
-	virtual void calc_C_b()=0; // pure virtual
+	virtual void calc_h_b() = 0;//высота плиты (для профнастила – сумма высоты профнастила и толщины бетона над профнастилом)
+	virtual void calc_C_b() = 0; // pure virtual
 	virtual void calc_area() = 0; // pure virtual
 	virtual void calc_inertia() = 0; // pure virtual
+
 	// !Урок! виртуальный деструктор добавить.
 
 	TConcretePart();
@@ -55,8 +56,9 @@ public:
 	inline void set_b_r(double b_r) {b_r_ = b_r;}
 	inline double get_h_b(LengthUnit length_unit=LengthUnit::mm) const {return h_b_/static_cast<int>(length_unit);}
 	inline double get_t_sl(LengthUnit length_unit=LengthUnit::mm) const {return t_sl_/static_cast<int>(length_unit);}
-	inline double get_b_l(LengthUnit length_unit=LengthUnit::mm) const {return b_l_/static_cast<int>(length_unit);}
-	inline double get_b_r(LengthUnit length_unit=LengthUnit::mm) const {return b_r_/static_cast<int>(length_unit);}
+	inline double get_b_l(LengthUnit length_unit=LengthUnit::mm) const {return b_l_/static_cast<int>(length_unit);} //после добавления b_sl в этой функции нет необходимости. Удалить после изменения кода с вызовами
+	inline double get_b_r(LengthUnit length_unit=LengthUnit::mm) const {return b_r_/static_cast<int>(length_unit);} //после добавления b_sl в этой функции нет необходимости. Удалить после изменения кода с вызовами
+	inline double get_b_sl(LengthUnit length_unit=LengthUnit::mm) const {return (b_r_+ b_l_)/static_cast<int>(length_unit);}
 	inline double get_A_b(LengthUnit length_unit=LengthUnit::mm) const {return A_b_/std::pow(static_cast<int>(length_unit),2);}
 	inline double get_I_b(LengthUnit length_unit=LengthUnit::mm) const {return I_b_/std::pow(static_cast<int>(length_unit),4);}
 };
@@ -64,10 +66,10 @@ public:
 class TFlatSlab : public TConcretePart {
 
 private:
-	virtual void calc_area();
-	virtual void calc_inertia();
-	virtual void calc_h_b();
-	virtual void calc_C_b();
+	virtual void calc_area() override;
+	virtual void calc_inertia() override;
+	virtual void calc_h_b() override;
+	virtual void calc_C_b() override;
 
 public:
 	TFlatSlab(Concrete concrete, Rebar rebar, double t_sl);
@@ -88,17 +90,13 @@ private:
 	double h_f_; // Толщина железобетона над настилом
 
 	double h_b_;//Расстояние
-	virtual void calc_h_b();
-	virtual void calc_C_b();
-	virtual void calc_area();
-	virtual void calc_inertia();
+	virtual void calc_h_b() override;
+	virtual void calc_C_b() override;
+	virtual void calc_area() override;
+	virtual void calc_inertia() override;
 
 public:
 	TCorrugatedSlab(String slab_type, Concrete concrete, Rebar rebar, double h_f);
-
-	inline double get_sheet_height() const {return h_p_;}
-	inline double get_conc_topping() const {return h_f_;}
-
 };
 
 #endif

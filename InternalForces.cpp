@@ -16,7 +16,7 @@ InternalForces::InternalForces(double p, CS_Coordinates cs_coordinates, int temp
 {
 	switch (temporary_supports_number)
 	{
-		case static_cast<int>(SupportsNumber::Zero):
+		case static_cast<int>(SupportsNumber::Zero):  //Для того чтобы не было static_cast<> в функцию следует передавать Enum class
 			R_calc_simple_beam(p, cs_coordinates.back());
 			M_calc_simple_beam(p, cs_coordinates, temporary_supports_number);
 			Q_calc_simple_beam(p, cs_coordinates, temporary_supports_number);

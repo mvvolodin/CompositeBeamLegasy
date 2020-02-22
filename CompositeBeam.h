@@ -27,6 +27,19 @@ enum class AnalysisTheory{  //Уточнить названия
 
 class TCompositeBeam{
 
+
+	enum class NA_Location{
+	CONCRETE,
+	UPPER_FLANGE,
+	WEB,
+	NO_SOLUTION
+	};
+
+	struct NeutralAxis{
+		NA_Location na_location_;
+		double x_na_; //Расстояние от наружней грани сталежелезобетонной балки до нейтральной оси
+	};
+
 	using StressesList=std::vector<Stresses> ;
 	using StressesNamedList=std::map<Impact, StressesList> ;
 	using StressesNamedListItem=std::pair <Impact, StressesList> ;
@@ -86,6 +99,23 @@ private:
 
 
 private:
+	double get_h_b() const {return composite_section_.get_concrete_part()->get_h_b();}
+	double get_C_b() const {return composite_section_.get_concrete_part()->get_C_b();}
+	double get_t_f2() const {return composite_section_.get_steel_part().get_t_uf();}
+	double get_b_f2() const {return composite_section_.get_steel_part().get_b_uf();}
+	double get_A_w_st() const {return composite_section_.get_steel_part().get_b_uf();}
+	double get_A_b() const {return composite_section_.get_concrete_part()->get_A_b();}
+	double get_R_s() const {return  composite_section_.get_concrete_part()->get_rebar().get_R_s();}
+	double get_A_s() const {return  composite_section_.get_concrete_part()->get_rebar().get_A_s();}
+	double get_R_b() const {return  composite_section_.get_concrete_part()->get_concrete().get_R_b();}
+	double get_R_y() const {return  composite_section_.get_steel_grade().get_R_y ();}
+	double get_A_st() const {return  composite_section_.get_steel_part().get_A_st();}
+	double get_A_f1_st() const {return  composite_section_.get_steel_part().get_A_f1_st();}
+	double get_A_f2_st() const {return  composite_section_.get_steel_part().get_A_f2_st();}
+	double get_b_sl() const {return composite_section_.get_concrete_part()->get_b_sl();}
+	double get_h_w()  const {return composite_section_.get_steel_part().get_h_w();}
+	double get_t_w()  const {return composite_section_.get_steel_part().get_t_w();}
+
 	void calculate_gamma_1();
 	void calc_cs_coordinates(); //определение координат сечений для определения усилий требуемых для проверки балки
 	void calc_studs_coordinates(); // определение координат сечений для определения усилий требуемых для упоров
@@ -94,6 +124,8 @@ private:
 	void calc_stresses();
 	void calc_ratios();
 	void calc_studs_ratios();
+	NeutralAxis calc_neutral_axis();
+	double calc_rigid_plastic_moment();
 //Расчёт напряжений
 	void calculate_stresses();
  // Расчёт коэффициентов использования
