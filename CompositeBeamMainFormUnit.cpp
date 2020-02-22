@@ -276,10 +276,14 @@ void __fastcall TCompositeBeamMainForm::rdgrp_slab_typeClick(TObject *Sender)
 	{
 		case 0: grp_bx_corrugated_slab->Visible=false;
 				grp_bx_flat_slab->Visible=true;
+				Image2->Visible=false;
+				Image1->Visible=true;
 				break;
 
 	   case 1:	grp_bx_corrugated_slab->Visible=true;
 				grp_bx_flat_slab->Visible=false;
+				Image2->Visible=true;
+				Image1->Visible=false;
 				break;
 	}
 		OnControlsChange(Sender);

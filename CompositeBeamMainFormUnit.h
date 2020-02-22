@@ -166,6 +166,7 @@ __published:	// IDE-managed Components
 	TEdit *edt_h_f;
 	TLabel *lbl_h_f;
 	TLabel *lbl_corrugated_sheet_type;
+	TImage *Image2;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
