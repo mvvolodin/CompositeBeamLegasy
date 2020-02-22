@@ -36,6 +36,7 @@ TCompositeBeam::TCompositeBeam():
 	calc_inter_forces_for_studs();
 	calc_studs_ratios();
 	calc_ratios();
+    calc_ratio_rigid_plastic();
 
 	log_stresses();
 
@@ -551,7 +552,7 @@ TCompositeBeam::NeutralAxis TCompositeBeam::calc_neutral_axis()
 	double x_f2 = 0.;
 	double x_w = 0.;
 
-	const double b_sl = composite_section_.get_concrete_part()->get_b_sl();
+	const double b_sl = get_b_sl();
 	const double R_b = get_R_b();
 	const double R_y = get_R_y();
 	const double A_st = get_A_st();
@@ -566,11 +567,11 @@ TCompositeBeam::NeutralAxis TCompositeBeam::calc_neutral_axis()
 	const double h_w = get_h_w();
 	const double t_w = get_t_w();
 	const double A_b = get_A_b();
-    const double C_b = get_C_b();
+	const double C_b = get_C_b();
 
 	const double h_f = 2* (h_b - C_b);
 
-	x_b = (R_y * A_st + R_s * A_s)/R_b * b_sl;
+	x_b = (R_y * A_st + R_s * A_s)/(R_b * b_sl);
 
 	x_f2 = (A_f1_st * R_y + (h_b + t_f2) * b_f2 * R_y + A_w_st*R_y + h_b * b_f2 * R_y
 		- R_b * A_b - R_s * A_s) / ( 2 * b_f2 * R_y);
@@ -592,21 +593,81 @@ TCompositeBeam::NeutralAxis TCompositeBeam::calc_neutral_axis()
 
 double TCompositeBeam::calc_rigid_plastic_moment()
 {
+	double M_Rd = 0.;
+
 	auto [na_location, x_na] {calc_neutral_axis()};
+	const double R_b = get_R_b();
+	const double C_b = get_C_b();
+	const double b_sl = get_b_sl();
+	const double h_b = get_h_b();
+	const double R_y = get_R_y();
+	const double t_f2 = get_t_f2();
+	const double b_f2 = get_b_f2();
+	const double t_f1 = get_t_f1();
+	const double h_w = get_h_w();
+	const double t_w = get_t_w();
+	const double A_st = get_A_st();
+	const double A_w_st = get_A_w_st();
+	const double A_f1_st = get_A_f1_st();
+	const double A_f2_st = get_A_f2_st();
+
+	const double h_f = 2* (h_b - C_b);
 
 	switch(na_location)
 	{
 		case NA_Location::CONCRETE:
-			return 1;
-		case NA_Location::UPPER_FLANGE:
-			return 1;
-		case NA_Location::WEB:
-			return 1;
-		case NA_Location::NO_SOLUTION:
-			return 1;
-	}
 
-   }
+			return
+
+			M_Rd = -1. * R_b * b_sl * x_na * x_na / 2. +
+			R_y * A_f2_st * (h_b + t_f2/2.) +
+			R_y * A_w_st * (h_b + t_f2 + h_w/2.) +
+			R_y * A_f1_st * (h_b + t_f2 + h_w + t_f1 / 2.);
+
+		case NA_Location::UPPER_FLANGE:
+
+			return
+
+			M_Rd = -1. * R_b * b_sl * h_f * h_f / 2. +
+			-1. * R_y * (x_na - h_b) * b_f2 * ((x_na - h_b) / 2. + h_b) +
+			R_y * (h_b + t_f2 - x_na) * b_f2 * ((h_b + t_f2 - x_na) / 2. + x_na) +
+			R_y * t_w * h_w * (h_b + t_f2 + h_w / 2.) +
+			R_y * A_f1_st * (h_b + t_f2 + h_w + t_f1 / 2.);
+
+		case NA_Location::WEB:
+
+			return
+
+			M_Rd = -1. * R_b * b_sl * h_f * h_f/2. +
+			-1. * R_y * A_f2_st * (h_b + t_f2 / 2) +
+			-1. * R_y * t_w * (x_na - h_b - t_f1) * ((x_na - h_b - t_f1) / 2. + h_b + t_f2) +
+			R_y * t_w * (h_b + t_f2 + h_w - x_na) * ((h_b + t_f2 + h_w - x_na) / 2. + h_b + t_f2 + h_w / 2.) +
+			R_y * A_f1_st * (h_b + t_f2 + h_w + t_f1 / 2);
+
+		case NA_Location::NO_SOLUTION:
+
+			return M_Rd = 0.;
+	}
+}
+
+void TCompositeBeam::calc_ratio_rigid_plastic()
+{
+	std::vector<double> M {get_M(Impact::Total)};
+	double M_Ed = *std::max_element(M.begin(),M.end());
+	double M_Rd = calc_rigid_plastic_moment();
+	ratio_rigid_plastic_ = M_Ed / M_Rd;
+
+}
+
+std::vector<double> TCompositeBeam::get_M(Impact impact)
+{
+  return internal_forces_[impact].get_M();
+
+}
+
+
+
+
 
 
 

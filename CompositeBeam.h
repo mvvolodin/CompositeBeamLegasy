@@ -71,6 +71,7 @@ public:
 	String get_analysis_theory();
 	double get_max_upper_flange_ratio();
 	double get_max_lower_flange_ratio();
+	double get_ratio_rigid_plastic() const {return ratio_rigid_plastic_;}
 
 private:
 //Поля с исходными данными
@@ -94,14 +95,17 @@ private:
 //Поля с результатами расчётов полей коэффициенты использования
 	RatiosNamedList ratios_named_list_;//std::map<Impact, StressesList> StressesNamedList//std::vector<Stresses> StressesList
 	std::vector<double> ratios_studs_;
+	double ratio_rigid_plastic_; //КИ при расчёте в предположении жёстко - пластического материала
 	double gamma_1_;//коэффициент условий работы верхнего пояса
 
 
 
 private:
+//Функции доступа к геометрическим характеристик композитного сечения
 	double get_h_b() const {return composite_section_.get_concrete_part()->get_h_b();}
 	double get_C_b() const {return composite_section_.get_concrete_part()->get_C_b();}
 	double get_t_f2() const {return composite_section_.get_steel_part().get_t_uf();}
+	double get_t_f1() const {return composite_section_.get_steel_part().get_t_lf();}
 	double get_b_f2() const {return composite_section_.get_steel_part().get_b_uf();}
 	double get_A_w_st() const {return composite_section_.get_steel_part().get_b_uf();}
 	double get_A_b() const {return composite_section_.get_concrete_part()->get_A_b();}
@@ -113,8 +117,12 @@ private:
 	double get_A_f1_st() const {return  composite_section_.get_steel_part().get_A_f1_st();}
 	double get_A_f2_st() const {return  composite_section_.get_steel_part().get_A_f2_st();}
 	double get_b_sl() const {return composite_section_.get_concrete_part()->get_b_sl();}
-	double get_h_w()  const {return composite_section_.get_steel_part().get_h_w();}
-	double get_t_w()  const {return composite_section_.get_steel_part().get_t_w();}
+	double get_h_w() const {return composite_section_.get_steel_part().get_h_w();}
+	double get_t_w() const {return composite_section_.get_steel_part().get_t_w();}
+
+//Функции доступа к усилиям
+
+	std::vector<double> get_M(Impact impact);
 
 	void calculate_gamma_1();
 	void calc_cs_coordinates(); //определение координат сечений для определения усилий требуемых для проверки балки
@@ -126,6 +134,7 @@ private:
 	void calc_studs_ratios();
 	NeutralAxis calc_neutral_axis();
 	double calc_rigid_plastic_moment();
+    void calc_ratio_rigid_plastic();
 //Расчёт напряжений
 	void calculate_stresses();
  // Расчёт коэффициентов использования
