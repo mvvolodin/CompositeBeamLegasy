@@ -646,7 +646,7 @@ double TCompositeBeam::calc_rigid_plastic_moment()
 
 		case NA_Location::NO_SOLUTION:
 
-			return M_Rd = 0.;
+			return M_Rd = 1.;
 	}
 }
 

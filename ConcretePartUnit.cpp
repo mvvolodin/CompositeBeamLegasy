@@ -22,6 +22,7 @@ TConcretePart::TConcretePart(Concrete concrete, Rebar rebar, double t_sl)
 
 {
 }
+
 //---------------------------------------------------------------------------
 //Определение расчётного свеса плиты
 //Передаваемые параметры (в порядке представленном в функции):
@@ -84,15 +85,15 @@ void TFlatSlab::calc_inertia()
 TCorrugatedSlab::TCorrugatedSlab(String slab_type, Concrete concrete, Rebar rebar, double h_f) //h_f высота бетона над настилом
 	:TConcretePart(slab_type, concrete, rebar),h_f_(h_f)
 {
-   h_p_=corrugated_sheets_.find(slab_type)->second;
+   corrugated_sheet_ = corrugated_sheets_map[slab_type];
 }
 void TCorrugatedSlab::calc_h_b()
 {
-	 h_b_=h_p_+h_f_;
+	 h_b_=corrugated_sheet_.get_height()+h_f_;
 }
 void TCorrugatedSlab::calc_C_b()
 {
-	 C_b_=h_p_+h_f_/2.;
+	 C_b_=corrugated_sheet_.get_height()+h_f_/2.;
 }
 
 void TCorrugatedSlab::calc_area()

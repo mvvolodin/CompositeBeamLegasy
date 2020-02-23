@@ -44,27 +44,27 @@
     <Transaction>1899/12/30 00:00:00.000.716,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\LoadsUnit.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Loads.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.964,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\CompositeBeamMainForm.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\CompositeBeamMainFormUnit.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.805,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\WorkingConditionsFactors.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.565,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeamBuilder.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.113,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ISection.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.688,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ISection.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.246,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\StudInitialDataUnit.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.202,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\SteelPart.h</Transaction>
-    <Transaction>1899/12/30 00:00:00.000.465,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Steel.h</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.840,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\RebarDefinitionFormUnit.dfm=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.dfm</Transaction>
     <Transaction>1899/12/30 00:00:00.000.590,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Loads.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.823,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Geometry.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.368,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeam.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.760,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionInitialData.h</Transaction>
-    <Transaction>1899/12/30 00:00:00.000.565,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeamBuilder.h</Transaction>
-    <Transaction>1899/12/30 00:00:00.000.435,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\SteelInitialDataUnit.h</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.465,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Steel.h</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.600,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionInitialData.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionInitialDataUnit.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.594,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\SteelDefinitionForm.cpp=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\SteelDefinitionFormUnit.cpp</Transaction>
     <Transaction>1899/12/30 00:00:00.000.693,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeSection.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Section.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.021,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\GeometryInitialData.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit2.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.501,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionInitialDataUnit.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcretepPartInitialDataUnit.h</Transaction>
-    <Transaction>1899/12/30 00:00:00.000.840,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\RebarDefinitionFormUnit.dfm=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.dfm</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.435,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\SteelInitialDataUnit.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.469,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForces.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.833,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ReportGenerator.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.507,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\Define_Material_ARSS.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\SteelDefinitionForm.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.630,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeam.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeamForm.h</Transaction>
-    <Transaction>1899/12/30 00:00:00.000.600,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionInitialData.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionInitialDataUnit.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.294,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteInitialDataUnit.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.964,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\CompositeBeamMainForm.cpp=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\CompositeBeamMainFormUnit.cpp</Transaction>
     <Transaction>1899/12/30 00:00:00.000.231,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\SteelISectionForm.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\SteelSectionFormUnit.h</Transaction>
@@ -88,6 +88,8 @@
     <Transaction>2020/02/02 19:55:15.000.170,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\LoggerFormUnit.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
     <Transaction>2020/02/02 19:55:15.000.170,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\LoggerFormUnit.dfm=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.dfm</Transaction>
     <Transaction>2020/02/15 18:50:21.000.383,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\StudUnit.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\UnitStud.h</Transaction>
+    <Transaction>2020/02/23 09:27:36.947,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CorrugatedSheets.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
+    <Transaction>2020/02/23 09:40:46.030,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CorrugatedSheet.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CorrugatedSheets.h</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <VirtualFolder ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}"/>
@@ -487,5 +489,8 @@
     <File Path="Word_Automation.h"/>
     <File Path="Word_Automation.cpp"/>
     <File Path="Word_Automation.h"/>
+    <File Path="CorrugatedSheet.cpp"/>
+    <File Path="CorrugatedSheet.cpp"/>
+    <File Path="CorrugatedSheet.h"/>
   </ProjectSortOrder>
 </BorlandProject>

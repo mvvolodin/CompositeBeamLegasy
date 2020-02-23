@@ -171,6 +171,10 @@
             <DependentOn>ConcretePartUnit.h</DependentOn>
             <BuildOrder>15</BuildOrder>
         </CppCompile>
+        <CppCompile Include="CorrugatedSheet.cpp">
+            <DependentOn>CorrugatedSheet.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
         <None Include="Data_Profil.h">
             <BuildOrder>23</BuildOrder>
         </None>
@@ -333,8 +337,8 @@
             <BuildOrder>32</BuildOrder>
         </CppCompile>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
-        <FormResources Include="SteelSectionFormUnit.dfm"/>
         <FormResources Include="SteelSectionDefinitionFrameUnit.dfm"/>
+        <FormResources Include="SteelSectionFormUnit.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>

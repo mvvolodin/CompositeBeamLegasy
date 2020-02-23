@@ -129,7 +129,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = tb_results
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -192,9 +192,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_gamma_f_st_SW: TLabel
           Left = 16
           Top = 22
-          Width = 171
+          Width = 120
           Height = 13
-          Caption = #1057#1086#1073#1089#1090#1074#1077#1085#1085#1099#1081' '#1074#1077#1089' '#1089#1090#1072#1083#1100#1085#1086#1081' '#1073#1072#1083#1082#1080
+          Caption = #1057#1086#1073#1089#1090#1074#1077#1085#1085#1099#1081' '#1074#1077#1089' '#1089#1090#1072#1083#1080
         end
         object edt_gamma_f_DL_I: TEdit
           Left = 196
@@ -428,9 +428,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
       end
       object GrpBxErection: TGroupBox
-        Left = 851
+        Left = 594
         Top = 154
-        Width = 194
+        Width = 251
         Height = 70
         Caption = '  '#1052#1086#1085#1090#1072#1078'  '
         TabOrder = 4
@@ -462,9 +462,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
       end
       object grp_bx_shear_studs_placement: TGroupBox
-        Left = 186
+        Left = 3
         Top = 154
-        Width = 662
+        Width = 585
         Height = 70
         Caption = '  '#1043#1080#1073#1082#1080#1077' '#1091#1087#1086#1088#1099'  '
         TabOrder = 5
@@ -546,6 +546,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Height = 70
         Caption = '  '#1058#1077#1086#1088#1080#1103' '#1088#1072#1089#1095#1105#1090#1072'  '
         TabOrder = 6
+        Visible = False
         object cmb_bx_analysis_theory: TComboBox
           Left = 16
           Top = 30
@@ -711,14 +712,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Width = 100
           Height = 21
           TabOrder = 0
-          Text = 'H60-845'
           OnChange = cmb_bx_corrugated_sheeting_part_numberChange
-          Items.Strings = (
-            #1053'60-845'
-            #1053'75-750'
-            #1053'114-750'
-            #1053'153-850'
-            #1058#1056#1055' 200')
         end
         object edt_h_f: TEdit
           Left = 398
@@ -833,10 +827,11 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Caption = '  '#1050#1086#1084#1073#1080#1085#1080#1088#1086#1074#1072#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077'  '
         TabOrder = 8
         object Image1: TImage
-          Left = 3
-          Top = 18
+          Left = 5
+          Top = 20
           Width = 250
           Height = 375
+          Center = True
           Picture.Data = {
             0954506E67496D61676589504E470D0A1A0A0000000D49484452000004B00000
             06400802000000E64E2CA8000000017352474200AECE1CE90000000467414D41
@@ -1976,13 +1971,15 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
             0549E921080100001624A587200400005890941E821000006041527A08420000
             800549E921080100001624A54754104E3F040000E0116282F0FF01D66D3B0E40
             79DC960000000049454E44AE426082}
+          Proportional = True
           Stretch = True
         end
         object Image2: TImage
-          Left = 6
-          Top = 18
+          Left = 5
+          Top = 20
           Width = 250
           Height = 375
+          Center = True
           Picture.Data = {
             0954506E67496D61676589504E470D0A1A0A0000000D49484452000004B00000
             06400802000000E64E2CA8000099744944415478DAECDD5B9A2349729851F4A2
@@ -3214,6 +3211,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
             20293D04210000C082A4F410840000000B92D243100200002C484A0F41080000
             B020293D04210000C082A4F410840000000B92D2232A08A7BF040000E0116282
             F0FF036A64B3C2771F088E0000000049454E44AE426082}
+          Proportional = True
           Stretch = True
           Visible = False
         end
@@ -3316,6 +3314,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         ColCount = 2
         DefaultColWidth = 200
         DrawingStyle = gdsClassic
+        RowCount = 6
         ScrollBars = ssNone
         TabOrder = 0
         OnDrawCell = strng_grd_rendering

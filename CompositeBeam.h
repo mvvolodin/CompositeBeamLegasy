@@ -18,6 +18,7 @@
 #include "WorkingConditionsFactors.h"
 #include "Stresses.h"
 #include "Ratios.h"
+#include "CorrugatedSheet.h"
 
 //---------------------------------------------------------------------------
 enum class AnalysisTheory{  //Уточнить названия
@@ -71,6 +72,7 @@ public:
 	String get_analysis_theory();
 	double get_max_upper_flange_ratio();
 	double get_max_lower_flange_ratio();
+    double get_max_stud_ratio();
 	double get_ratio_rigid_plastic() const {return ratio_rigid_plastic_;}
 
 private:

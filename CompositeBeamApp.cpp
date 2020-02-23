@@ -4,8 +4,8 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("RebarDefinitionFormUnit.cpp", RebarDefinitionForm);
-USEFORM("SteelSectionFormUnit.cpp", SteelSectionForm);
 USEFORM("SteelSectionDefinitionFrameUnit.cpp", SteelSectionDefinitionFrame); /* TFrame: File Type */
+USEFORM("SteelSectionFormUnit.cpp", SteelSectionForm);
 USEFORM("StudDefinitionFormUnit.cpp", StudDefinitionForm);
 USEFORM("CompositeBeamMainFormUnit.cpp", CompositeBeamMainForm);
 USEFORM("ConcreteDefinitionFormUnit.cpp", ConcreteDefinitionForm);

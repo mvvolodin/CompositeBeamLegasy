@@ -225,6 +225,7 @@ private:
 	void cotr_steel_sect_geometr_grid();
 	void ctor_concrete_sect_geometr_grid();
 	void fill_cmb_bx_impact();//«аполн€ем ComboBox названи€ми случаев загружени€ и соответствующими объектами типа перечесление случаев загружений
+	void fill_cmb_bx_corrugated_sheets();
 	void fill_results_grid();
 	void fill_steel_sect_geometr_grid();
 	void fill_concrete_sect_geometr_grid();

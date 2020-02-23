@@ -25,6 +25,7 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
 	cotr_steel_sect_geometr_grid();
 	ctor_concrete_sect_geometr_grid();;
 	fill_cmb_bx_impact();
+	fill_cmb_bx_corrugated_sheets();
 	modify_project = false;
 }
 //----------------------------------------------------------------------
@@ -392,12 +393,15 @@ void TCompositeBeamMainForm::fill_composite_sect_geometr_grid()
 
 void TCompositeBeamMainForm::fill_results_grid()
 {
-	double max_upper_flange_ratio=composite_beam_.get_max_upper_flange_ratio();
-	double max_lower_flange_ratio=composite_beam_.get_max_lower_flange_ratio();
+	double max_upper_flange_ratio = composite_beam_.get_max_upper_flange_ratio();
+	double max_lower_flange_ratio = composite_beam_.get_max_lower_flange_ratio();
+	double ratio_rigid_plastic = composite_beam_.get_ratio_rigid_plastic();
 
 	strng_grd_results->Cells [1][1]=FloatToStrF(std::abs(max_upper_flange_ratio), ffFixed, 15, 2);
 	strng_grd_results->Cells [1][2]=FloatToStrF(std::abs(max_lower_flange_ratio), ffFixed, 15, 2);
 
+  //	strng_grd_results->Cells [1][4]=FloatToStrF(std::abs(max_lower_flange_ratio), ffFixed, 15, 2);
+	strng_grd_results->Cells [1][5]=FloatToStrF(ratio_rigid_plastic, ffFixed, 15, 2);
 
 }
 //---------------------------------------------------------------------------
@@ -411,6 +415,8 @@ void TCompositeBeamMainForm:: cotr_ratios_grid()
 	strng_grd_results->Cells [0][2]="Нижний пояс стального сеченния, раздел 6.2.1";
 	strng_grd_results->Cells [0][3]="Поперечная силы, раздел 6.2.2";
 	strng_grd_results->Cells [0][4]="Прочность упоров объединения, раздел 9.1.2";
+	strng_grd_results->Cells [0][5]="Прочность балки при жёскопластическом материале раздел 6.2.1.6";
+
 
 }
 //---------------------------------------------------------------------------
@@ -418,7 +424,6 @@ void TCompositeBeamMainForm:: cotr_ratios_grid()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::fill_cmb_bx_impact()
 {
-	   //Метод AddItem, связывающий TStrings с объектами требуется в качестве параметра объект TObject
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW), "Собственный Вес");
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная Нагрузка I стадия");
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная Нагрузка II стадия");
@@ -428,7 +433,16 @@ void TCompositeBeamMainForm::fill_cmb_bx_impact()
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::Total), "Расчётные Нагрузки");
 	cmb_bx_impact->ItemIndex = (int)Impact::SW;
 }
+//---------------------------------------------------------------------------
+//	Функция заполняющая ComboBox настилами
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::fill_cmb_bx_corrugated_sheets()
+{
+	for(auto corrugated_sheet: corrugated_sheets_map)
+	cmb_bx_corrugated_sheeting_part_number->Items->Add(corrugated_sheet.first);
+	cmb_bx_corrugated_sheeting_part_number->ItemIndex = 0;
 
+}
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm::BtBtnSteelChoiceClick(TObject *Sender)
@@ -440,8 +454,6 @@ void __fastcall TCompositeBeamMainForm::BtBtnSteelChoiceClick(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-
-
 
 void __fastcall TCompositeBeamMainForm::BtnSteelSectionChoiceClick(TObject *Sender)
 {
