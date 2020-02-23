@@ -47,10 +47,11 @@ class TCompositeBeam{
 	using StressesNamedListIterator=StressesNamedList::iterator ;
 
 	using RatiosList=std::vector<Ratios> ;
-	using RatiosListIterator=RatiosList::iterator ;
+	using RatiosListIterator=RatiosList::iterator;
 	using RatiosNamedList=std::map<Impact, RatiosList> ;
 	using RatiosNamedListItem=std::pair <Impact, RatiosList> ;
 	using RatiosNamedListIterator=RatiosNamedList::iterator ;
+
 
 public:
 	TCompositeBeam();
@@ -61,18 +62,18 @@ public:
 				   Studs 					stud,
 				   WorkingConditionsFactors working_conditions_factors);
 
-	inline CompositeSection get_composite_section()const{return composite_section_;}//Уродливая запись!!!//Но возвращается ссылка на объект
-	inline InternalForcesNamedList get_internal_forces_LC()const{return internal_forces_;}
-	inline std::vector<double> get_CS_coordinates()const {return cs_coordinates_;}
-	inline Studs get_studs()const {return studs_;}
-	inline TGeometry get_geometry()const {return geometry_;}
-	inline TLoads get_loads()const {return loads_;}
-	inline WorkingConditionsFactors get_working_conditions_factors() const {return working_conditions_factors_;}
+	CompositeSection get_composite_section()const{return composite_section_;}//Уродливая запись!!!//Но возвращается ссылка на объект
+	InternalForcesNamedList get_internal_forces_LC()const{return internal_forces_;}
+	std::vector<double> get_CS_coordinates()const {return cs_coordinates_;}
+	Studs get_studs()const {return studs_;}
+	TGeometry get_geometry()const {return geometry_;}
+	TLoads get_loads()const {return loads_;}
+	WorkingConditionsFactors get_working_conditions_factors() const {return working_conditions_factors_;}
 
 	String get_analysis_theory();
 	double get_max_upper_flange_ratio();
 	double get_max_lower_flange_ratio();
-    double get_max_stud_ratio();
+	double get_max_stud_ratio();
 	double get_ratio_rigid_plastic() const {return ratio_rigid_plastic_;}
 
 private:
@@ -101,7 +102,6 @@ private:
 	double gamma_1_;//коэффициент условий работы верхнего пояса
 
 
-
 private:
 //Функции доступа к геометрическим характеристик композитного сечения
 	double get_h_b() const {return composite_section_.get_concrete_part()->get_h_b();}
@@ -121,6 +121,8 @@ private:
 	double get_b_sl() const {return composite_section_.get_concrete_part()->get_b_sl();}
 	double get_h_w() const {return composite_section_.get_steel_part().get_h_w();}
 	double get_t_w() const {return composite_section_.get_steel_part().get_t_w();}
+////Функции доступа к коэффициентам
+	double get_gamma_c() const {return working_conditions_factors_.get_gamma_c();}
 
 //Функции доступа к усилиям
 

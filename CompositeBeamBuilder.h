@@ -43,30 +43,30 @@ public:
 					 String gamma_f_DL_II_cpt, String gamma_f_DL_II_txt,
 					 String gamma_f_LL_cpt, String gamma_f_LL_txt)
 	{
-	int rc=0; //rc- return code -код ошибки
-	double SW=1.0;//необходимо получать по типу профиля
-	double DL_I=0.0;
-	double DL_II=0.0;
-	double LL=0.0;
-	double gamma_f_SW=1.0;//необходимо предусмотреть поле для ввода
-	double gamma_f_DL_I=0.0;
-	double gamma_f_DL_II=0.0;
-	double gamma_f_LL=0.0;
-
-	rc=String_double_plus(dead_load_first_stage_cpt, dead_load_first_stage_txt, &DL_I);
-	//if (rc>0) return;
-	rc=String_double_plus(dead_load_second_stage_cpt, dead_load_second_stage_txt, &DL_II);
-	//if (rc>0) return;
-	rc=String_double_plus(live_load_cpt, live_load_txt, &LL);
-	//if (rc>0) return;
-	rc=String_double_plus(gamma_f_DL_I_cpt, gamma_f_DL_I_txt, &gamma_f_DL_I);
-	//if (rc>0) return;
-	rc=String_double_plus(gamma_f_DL_II_cpt, gamma_f_DL_II_txt, &gamma_f_DL_II);
-	//if (rc>0) return;
-	rc=String_double_plus(gamma_f_LL_cpt, gamma_f_LL_txt, &gamma_f_LL);
-	//if (rc>0) return;
-
-	return TLoads (SW, DL_I, DL_II, LL, gamma_f_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
+//	int rc=0; //rc- return code -код ошибки
+//	double SW=1.0;//необходимо получать по типу профиля
+//	double DL_I=0.0;
+//	double DL_II=0.0;
+//	double LL=0.0;
+//	double gamma_f_SW=1.0;//необходимо предусмотреть поле для ввода
+//	double gamma_f_DL_I=0.0;
+//	double gamma_f_DL_II=0.0;
+//	double gamma_f_LL=0.0;
+//
+//	rc=String_double_plus(dead_load_first_stage_cpt, dead_load_first_stage_txt, &DL_I);
+//	//if (rc>0) return;
+//	rc=String_double_plus(dead_load_second_stage_cpt, dead_load_second_stage_txt, &DL_II);
+//	//if (rc>0) return;
+//	rc=String_double_plus(live_load_cpt, live_load_txt, &LL);
+//	//if (rc>0) return;
+//	rc=String_double_plus(gamma_f_DL_I_cpt, gamma_f_DL_I_txt, &gamma_f_DL_I);
+//	//if (rc>0) return;
+//	rc=String_double_plus(gamma_f_DL_II_cpt, gamma_f_DL_II_txt, &gamma_f_DL_II);
+//	//if (rc>0) return;
+//	rc=String_double_plus(gamma_f_LL_cpt, gamma_f_LL_txt, &gamma_f_LL);
+//	//if (rc>0) return;
+//
+//	return TLoads (SW, DL_I, DL_II, LL, gamma_f_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
 	}
 
 	CompositeSection BuildCompositeSection(SteelPart    steel_part,

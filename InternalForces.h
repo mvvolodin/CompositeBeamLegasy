@@ -9,7 +9,8 @@
  #include "Units.h"
 
  enum class Impact{
-	SW,
+	SW_BEAM,
+	SW_SHEETS,
 	DL_I,
 	DL_II,
 	LL,

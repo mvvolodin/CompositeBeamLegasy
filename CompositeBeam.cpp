@@ -126,17 +126,19 @@ void TCompositeBeam::calc_inter_forces_for_studs()
 //---------------------------------------------------------------------------
 void TCompositeBeam::calc_inter_forces()
 {
-	double SW=loads_.get_self_weight();
-	double DL_I=loads_.get_dead_load_first_stage();
-	double DL_II=loads_.get_dead_load_second_stage();
-	double LL=loads_.get_live_load();
+	double SW = loads_.get_self_weight();
+	double SW_sheets = loads_.get_self_weight_sheets();
+	double DL_I = loads_.get_dead_load_first_stage();
+	double DL_II = loads_.get_dead_load_second_stage();
+	double LL = loads_.get_live_load();
 
-	double bl=geometry_.get_trib_width_left();
-	double br=geometry_.get_trib_width_right();
+	double bl = geometry_.get_trib_width_left();
+	double br = geometry_.get_trib_width_right();
 
 	//расчёт линейной нагрузки
 
 	double SW_l=SW;
+	double SW_sheets_l=SW_sheets*(bl+br)/2.;
 	double DL_I_l=DL_I*(bl+br)/2.;
 	double DL_II_l=DL_II*(bl+br)/2.;
 	double LL_l=LL*(bl+br)/2.;
@@ -154,14 +156,16 @@ void TCompositeBeam::calc_inter_forces()
 
 	//формирование именованного списка с внктрениими усилиями от случаев загружения для проверки балки
 
-	internal_forces_.insert(InternalForcesNamedListItem(Impact::SW,InternalForces(SW_l,cs_coordinates_,temporary_supports_number)));
+	internal_forces_.insert(InternalForcesNamedListItem(Impact::SW_BEAM,InternalForces(SW_l,cs_coordinates_,temporary_supports_number)));
+	internal_forces_.insert(InternalForcesNamedListItem(Impact::SW_SHEETS,InternalForces(SW_sheets_l,cs_coordinates_,temporary_supports_number)));
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::DL_I,InternalForces(DL_I_l,cs_coordinates_,temporary_supports_number)));
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::DL_II,InternalForces(DL_II_l,cs_coordinates_,0)));
 	internal_forces_.insert(InternalForcesNamedListItem(Impact::LL,InternalForces(LL_l,cs_coordinates_,0)));
 
 	//формирование именованного списка с внктрениими усилиями от случаев загружения для проверки объединения
 
-	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::SW,InternalForces(SW_l, cs_at_midpoints_btw_studs,temporary_supports_number)));
+	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::SW_BEAM,InternalForces(SW_l, cs_at_midpoints_btw_studs,temporary_supports_number)));
+	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::SW_BEAM,InternalForces(SW_sheets_l, cs_at_midpoints_btw_studs,temporary_supports_number)));
 	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::DL_I,InternalForces(DL_I_l, cs_at_midpoints_btw_studs,temporary_supports_number)));
 	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::DL_II,InternalForces(DL_II_l, cs_at_midpoints_btw_studs,0)));
 	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::LL,InternalForces(LL_l, cs_at_midpoints_btw_studs,0)));
@@ -177,9 +181,11 @@ void TCompositeBeam::calc_inter_forces()
 	//внутренние усилия (I) стадии
 
 	InternalForces int_forces_I_SW=InternalForces(SW_l,cs_coordinates_, temporary_supports_number);
+	InternalForces int_forces_I_SW_sheets=InternalForces(SW_sheets_l,cs_coordinates_, temporary_supports_number);
 	InternalForces int_forces_I_DL_I=InternalForces(DL_I_l,cs_coordinates_, temporary_supports_number);
 
 	InternalForces int_forces_studs_I_SW=InternalForces(SW_l, cs_at_midpoints_btw_studs, temporary_supports_number);
+	InternalForces int_forces_studs_I_SW_sheets=InternalForces(SW_sheets_l, cs_at_midpoints_btw_studs, temporary_supports_number);
 	InternalForces int_forces_studs_I_DL_I=InternalForces(DL_I_l, cs_at_midpoints_btw_studs, temporary_supports_number);
 
 	//формирование именованного списка с расчётными внутренними усилиями I стадии
@@ -190,8 +196,10 @@ void TCompositeBeam::calc_inter_forces()
 	for (int i = 0; i < cs_num_; i++)
 	{
 		M_I.push_back(gamma_f_SW*int_forces_I_SW.get_M()[i]+
-			   gamma_f_DL_I*int_forces_I_DL_I.get_M()[i]);
+			gamma_f_SW*int_forces_I_SW_sheets.get_M()[i]+
+			gamma_f_DL_I*int_forces_I_DL_I.get_M()[i]);
 		Q_I.push_back(gamma_f_SW*int_forces_I_SW.get_Q()[i]+
+			gamma_f_SW*int_forces_I_SW_sheets.get_Q()[i]+
 			   gamma_f_DL_I*int_forces_I_DL_I.get_Q()[i]);
 	}
 
@@ -204,9 +212,11 @@ void TCompositeBeam::calc_inter_forces()
 	{
 
 		M_I_studs.push_back(gamma_f_SW*int_forces_studs_I_SW.get_M()[i]+
-			   gamma_f_DL_I*int_forces_studs_I_DL_I.get_M()[i]);
+			gamma_f_SW*int_forces_studs_I_SW_sheets.get_M()[i]+
+			gamma_f_DL_I*int_forces_studs_I_DL_I.get_M()[i]);
 		Q_I_studs.push_back(gamma_f_SW*int_forces_studs_I_SW.get_Q()[i]+
-			   gamma_f_DL_I*int_forces_studs_I_DL_I.get_Q()[i]);
+			gamma_f_SW*int_forces_studs_I_SW_sheets.get_Q()[i]+
+			gamma_f_DL_I*int_forces_studs_I_DL_I.get_Q()[i]);
 	}
 
 	internal_forces_studs_.insert(InternalForcesNamedListItem(Impact::I_stage, InternalForces(M_I_studs, Q_I_studs)));
@@ -214,11 +224,13 @@ void TCompositeBeam::calc_inter_forces()
 	//внутренние усилия (I+II) стадии
 
 	InternalForces int_forces_total_SW=InternalForces(SW_l,cs_coordinates_, 0);
+	InternalForces int_forces_total_SW_sheets=InternalForces(SW_sheets_l,cs_coordinates_, 0);
 	InternalForces int_forces_total_DL_I=InternalForces(DL_I_l,cs_coordinates_, 0);
 	InternalForces int_forces_total_DL_II=InternalForces(DL_II_l,cs_coordinates_, 0);
 	InternalForces int_forces_total_LL=InternalForces(LL_l,cs_coordinates_, 0);
 
 	InternalForces int_forces_total_studs_SW=InternalForces(SW_l,cs_coordinates_, 0);
+	InternalForces int_forces_total_studs_SW_sheets=InternalForces(SW_sheets_l,cs_coordinates_, 0);
 	InternalForces int_forces_total_studs_DL_I=InternalForces(DL_I_l,cs_coordinates_, 0);
 	InternalForces int_forces_total_studs_DL_II=InternalForces(DL_II_l,cs_coordinates_, 0);
 	InternalForces int_forces_total_studs_LL=InternalForces(LL_l,cs_coordinates_, 0);
@@ -232,10 +244,12 @@ void TCompositeBeam::calc_inter_forces()
 	{
 
 		M_total.push_back(gamma_f_SW*int_forces_total_SW.get_M()[i]+
+			   gamma_f_SW*int_forces_total_SW_sheets.get_M()[i]+
 			   gamma_f_DL_I*int_forces_total_DL_I.get_M()[i]+
 			   gamma_f_DL_II*int_forces_total_DL_II.get_M()[i]+
 			   gamma_f_LL*int_forces_total_LL.get_M()[i]);
 		Q_total.push_back(gamma_f_SW*int_forces_total_SW.get_Q()[i]+
+			   gamma_f_SW*int_forces_total_SW_sheets.get_Q()[i]+
 			   gamma_f_DL_I*int_forces_total_DL_I.get_Q()[i]+
 			   gamma_f_DL_II*int_forces_total_DL_II.get_Q()[i]+
 			   gamma_f_LL*int_forces_total_LL.get_Q()[i]);
@@ -251,13 +265,15 @@ void TCompositeBeam::calc_inter_forces()
 	{
 
 		M_total_studs.push_back(gamma_f_SW*int_forces_total_studs_SW.get_M()[i]+
-			   gamma_f_DL_I*int_forces_total_studs_DL_I.get_M()[i]+
-			   gamma_f_DL_II*int_forces_total_studs_DL_II.get_M()[i]+
-			   gamma_f_LL*int_forces_total_studs_LL.get_M()[i]);
+			gamma_f_SW*int_forces_total_studs_SW_sheets.get_M()[i]+
+			gamma_f_DL_I*int_forces_total_studs_DL_I.get_M()[i]+
+			gamma_f_DL_II*int_forces_total_studs_DL_II.get_M()[i]+
+			gamma_f_LL*int_forces_total_studs_LL.get_M()[i]);
 		Q_total_studs.push_back(gamma_f_SW*int_forces_total_studs_SW.get_Q()[i]+
-			   gamma_f_DL_I*int_forces_total_studs_DL_I.get_Q()[i]+
-			   gamma_f_DL_II*int_forces_total_studs_DL_II.get_Q()[i]+
-			   gamma_f_LL*int_forces_total_studs_LL.get_Q()[i]);
+			gamma_f_SW*int_forces_total_studs_SW_sheets.get_Q()[i]+
+			gamma_f_DL_I*int_forces_total_studs_DL_I.get_Q()[i]+
+			gamma_f_DL_II*int_forces_total_studs_DL_II.get_Q()[i]+
+			gamma_f_LL*int_forces_total_studs_LL.get_Q()[i]);
 
 	}
 
@@ -509,6 +525,11 @@ double TCompositeBeam::get_max_lower_flange_ratio()
 	return it_max_lower_flange_ratio->get_ratio_lower_flange();
 
 }
+
+double TCompositeBeam::get_max_stud_ratio()
+{
+   return *std::max_element(ratios_studs_.begin(),ratios_studs_.end());
+}
 void TCompositeBeam::log_stresses()
 {
 	TStrings* mm_lines=FormLogger->mmLogger->Lines;
@@ -540,8 +561,11 @@ String TCompositeBeam::get_analysis_theory()
 
 void TCompositeBeam::calc_studs_ratios()
 {
-	studs_.calculate_capacity(300,50,1);
+	double R_b = get_R_b();
+	double R_y = get_R_y();
+	double gamma_c = get_gamma_c();
 
+	studs_.calculate_capacity(R_b, R_y,gamma_c);
 	ratios_studs_=studs_.calc_ratios(S_);
 
 }

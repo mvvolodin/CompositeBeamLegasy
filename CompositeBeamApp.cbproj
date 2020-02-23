@@ -137,14 +137,6 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <CppCompile Include="CompositeBeamBuilder.cpp">
-            <DependentOn>CompositeBeamBuilder.h</DependentOn>
-            <BuildOrder>42</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="CompositeBeamDirector.cpp">
-            <DependentOn>CompositeBeamDirector.h</DependentOn>
-            <BuildOrder>43</BuildOrder>
-        </CppCompile>
         <CppCompile Include="CompositeBeamMainFormUnit.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>CompositeBeamMainForm</Form>
@@ -337,8 +329,8 @@
             <BuildOrder>32</BuildOrder>
         </CppCompile>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
-        <FormResources Include="SteelSectionDefinitionFrameUnit.dfm"/>
         <FormResources Include="SteelSectionFormUnit.dfm"/>
+        <FormResources Include="SteelSectionDefinitionFrameUnit.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>

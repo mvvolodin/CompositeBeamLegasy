@@ -56,10 +56,10 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 TGeometry TCompositeBeamMainForm::init_geomet()
 {
-	double beam_division=.0;//поменять тип на double и написать функцию проверки значения поля на тип int
-	double span=.0;
-	double trib_width_left=.0;
-	double trib_width_right=.0;
+	double beam_division = 0.;//поменять тип на double и написать функцию проверки значения поля на тип int
+	double span = 0.;
+	double trib_width_left = 0.;
+	double trib_width_right = 0.;
 
 	String_double_plus(lbl_beam_division->Caption, edt_beam_division->Text, &beam_division);
 	String_double_plus(lbl_span->Caption, edt_span->Text, &span);
@@ -78,18 +78,20 @@ TGeometry TCompositeBeamMainForm::init_geomet()
 //---------------------------------------------------------------------------
 TLoads TCompositeBeamMainForm::init_loads()
 {
-	int rc=0; //rc- return code -код ошибки
-	double SW=SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr.weight*GRAV_ACCELERAT;
-	//SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr.
+	double SW_sheets = 0.;
 
-	//необходимо получать по типу профиля
-	double DL_I=0.0;
-	double DL_II=0.0;
-	double LL=0.0;
-	double gamma_f_st_SW=0.0;
-	double gamma_f_DL_I=0.0;
-	double gamma_f_DL_II=0.0;
-	double gamma_f_LL=0.0;
+	if (rdgrp_slab_type->ItemIndex==1)
+		SW_sheets = corrugated_sheets_map[cmb_bx_corrugated_sheeting_part_number->Text].get_weight()* GRAV_ACCELERAT;
+
+	double SW = SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr.weight * GRAV_ACCELERAT;
+
+	double DL_I = 0.;
+	double DL_II = 0.;
+	double LL = 0.;
+	double gamma_f_st_SW = 0.;
+	double gamma_f_DL_I = 0.;
+	double gamma_f_DL_II= 0.;
+	double gamma_f_LL = 0.;
 
 	String_double_plus(lbl_dead_load_first_stage->Caption, edt_dead_load_first_stage->Text, &DL_I);
 	String_double_plus(lbl_dead_load_second_stage->Caption, edt_dead_load_second_stage->Text, &DL_II);
@@ -99,7 +101,7 @@ TLoads TCompositeBeamMainForm::init_loads()
 	String_double_plus(lbl_gamma_f_DL_II->Caption, edt_gamma_f_DL_II->Text, &gamma_f_DL_II);
 	String_double_plus(lbl_gamma_f_LL->Caption, edt_gamma_f_LL->Text, &gamma_f_LL);
 
-	return TLoads (SW, DL_I, DL_II, LL, gamma_f_st_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
+	return TLoads (SW, SW_sheets, DL_I, DL_II, LL, gamma_f_st_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
 }
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
@@ -152,16 +154,15 @@ TConcretePart* TCompositeBeamMainForm::init_concrete_part()
 {
 	if (rdgrp_slab_type->ItemIndex==0)
 	{
-		int rc=0; //rc- return code -код ошибки
-		double t_sl=0.;
-		rc=String_double_plus(lbl_flat_slab_thickness->Caption, edt_flat_slab_thickness->Text, &t_sl);
+		double t_sl= 0.;
+		String_double_plus(lbl_flat_slab_thickness->Caption, edt_flat_slab_thickness->Text, &t_sl);
 		return new TFlatSlab(ConcreteDefinitionForm->get_concrete(),
 							 RebarDefinitionForm->get_rebar(),
 							 t_sl);
 	}
 	else
 	{
-	double h_f=0.;
+	double h_f= 0.;
 
 	String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f);
 
@@ -396,11 +397,12 @@ void TCompositeBeamMainForm::fill_results_grid()
 	double max_upper_flange_ratio = composite_beam_.get_max_upper_flange_ratio();
 	double max_lower_flange_ratio = composite_beam_.get_max_lower_flange_ratio();
 	double ratio_rigid_plastic = composite_beam_.get_ratio_rigid_plastic();
-
+	double max_ratio_studs = composite_beam_.get_max_stud_ratio();
+	
 	strng_grd_results->Cells [1][1]=FloatToStrF(std::abs(max_upper_flange_ratio), ffFixed, 15, 2);
 	strng_grd_results->Cells [1][2]=FloatToStrF(std::abs(max_lower_flange_ratio), ffFixed, 15, 2);
 
-  //	strng_grd_results->Cells [1][4]=FloatToStrF(std::abs(max_lower_flange_ratio), ffFixed, 15, 2);
+	strng_grd_results->Cells [1][4]=FloatToStrF(std::abs(max_ratio_studs), ffFixed, 15, 2);
 	strng_grd_results->Cells [1][5]=FloatToStrF(ratio_rigid_plastic, ffFixed, 15, 2);
 
 }
@@ -424,14 +426,15 @@ void TCompositeBeamMainForm:: cotr_ratios_grid()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::fill_cmb_bx_impact()
 {
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW), "Собственный Вес");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_BEAM), "Собственный Вес Балки");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_SHEETS), "Собственный Вес Настила");
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная Нагрузка I стадия");
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная Нагрузка II стадия");
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::LL), "Временная Нагрузка");
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::I_stage), "Расчётные Нагрузки I стадии");
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::II_stage), "Расчётные Нагрузки II стадии");
 	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::Total), "Расчётные Нагрузки");
-	cmb_bx_impact->ItemIndex = (int)Impact::SW;
+	cmb_bx_impact->ItemIndex = (int)Impact::SW_BEAM;
 }
 //---------------------------------------------------------------------------
 //	Функция заполняющая ComboBox настилами
@@ -818,6 +821,8 @@ void __fastcall TCompositeBeamMainForm::save_controls_to_file()
 		fs->WriteComponent(StudDefinitionForm->edt_stud_height);
 		fs->WriteComponent(StudDefinitionForm->edt_stud_safety_factor);
 		//Форма прокатное сечение
+		fs->WriteComponent(SteelSectionForm->SteelSectionDefinitionFrame->ComboBox_profil);
+        fs->WriteComponent(Pnl_SteelSectionViewer);
 
 		//Тип железобетонной плиты
 		fs->WriteComponent(rdgrp_slab_type);
@@ -884,7 +889,7 @@ void __fastcall TCompositeBeamMainForm::load_controls_from_file()
 		fs->ReadComponent(DefineSteelForm->Edit_gamma_m);
 		fs->ReadComponent(DefineSteelForm->StringGrid_Prop);
 		//Форма бетон
-        fs->ReadComponent(pnl_concrete_grade);
+		fs->ReadComponent(pnl_concrete_grade);
 		fs->ReadComponent(ConcreteDefinitionForm->cmb_bx_concrete_grade_list);
 		fs->ReadComponent(ConcreteDefinitionForm->edt_R_bn);
 		fs->ReadComponent(ConcreteDefinitionForm->edt_R_btn);
@@ -905,7 +910,8 @@ void __fastcall TCompositeBeamMainForm::load_controls_from_file()
 		fs->ReadComponent(StudDefinitionForm->edt_stud_height);
 		fs->ReadComponent(StudDefinitionForm->edt_stud_safety_factor);
 		//Форма прокатное сечение
-
+		fs->ReadComponent(SteelSectionForm->SteelSectionDefinitionFrame->ComboBox_profil);
+		fs->ReadComponent(Pnl_SteelSectionViewer);
 
 		//Тип железобетонной плиты
 		fs->ReadComponent(rdgrp_slab_type);

@@ -11,9 +11,9 @@
 
 class TStudBasic{
 protected:
-	String name_="";
-	double d_an_=0.; //Диаметр стержня гибкого упора
-	double l_=0.;   //Длина круглого стержня гибкого упора
+	String name_ = "";
+	double d_an_ = 0.; //Диаметр стержня гибкого упора
+	double l_= 0. ;   //Длина круглого стержня гибкого упора
 public:
 	TStudBasic();
 	TStudBasic(String name, double d_an, double l);
@@ -50,15 +50,15 @@ public:
 	inline double get_R_y()const{return R_y_;}
 
 private:
-	double edge_rows_dist_=0.;//Шаг упоров в крайних третях
-	double middle_rows_dist_=0.; //Шаг упоров в средней трети
-	double edge_rows_num_=0.; // Количество рядов упоров в крайних третях
-	double middle_rows_num_=0.; //Количество рядов упоров в средней трети
-	double R_y_=0.; //Предел текучести
-	double gamma_c_=0.; //Коэффициент условий работы
+	double edge_rows_dist_ = 0.;//Шаг упоров в крайних третях
+	double middle_rows_dist_ = 0.; //Шаг упоров в средней трети
+	double edge_rows_num_= 0.; // Количество рядов упоров в крайних третях
+	double middle_rows_num_ = 0.; //Количество рядов упоров в средней трети
+	double R_y_= 0. ; //Предел текучести
+	double gamma_c_ = 0.; //Коэффициент условий работы
 
-	double P_rd_;
-	double P_rd_addition_;//обозначение правой части формулы (9.7)
+	double P_rd_ = 0.;
+	double P_rd_addition_ = 0.;//обозначение правой части формулы (9.7)
 
 };
 
