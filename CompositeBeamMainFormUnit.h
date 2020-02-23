@@ -207,12 +207,10 @@ private:
 	TISectionInitialData init_i_section();//Инициализация объекта геометрия двутавра
 	Steel init_steel_i_section(); //Инициализация стали двутавра
 	TConcretePart* init_concrete_part();//Инициализация бетонной части композитного сечения
+	SteelPart init_steel_part();
 	Studs init_stud();//Инициализация упоров
 	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
-	CompositeSection init_composite_section(TGeometry geometry,
-											Steel steel_i_section,
-											TISectionInitialData i_section_initial_data,
-											TConcretePart* concrete_part);//Инициализация композитного сечения
+
 	void init_composite_beam(AnalysisTheory 		  analysis_theory,
 							 TGeometry 				  geometry,
 							 TLoads 				  loads,

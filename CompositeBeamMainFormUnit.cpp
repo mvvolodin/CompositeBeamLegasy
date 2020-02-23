@@ -119,14 +119,14 @@ Steel TCompositeBeamMainForm::init_steel_i_section()
 	TISectionInitialData i_section=init_i_section();//требуется для получения максимально толщины двутавра
 
 	int rc;
-	char title[8]="";
-	double E=0.0;
-	double G=0.0;
-	double nu=0.0;
-	double dens=0.0;
-	double gamma_m=0.0;
-	double R_yn=0.0;
-	double R_un=0.0;
+	char title[8] = "";
+	double E = 0.;
+	double G = 0.;
+	double nu = 0.;
+	double dens = 0.;
+	double gamma_m = 0.;
+	double R_yn = 0.;
+	double R_un = 0.;
 
 	double t_max = i_section.t_uf_;
 	char* str=((AnsiString)DefineSteelForm->ComboBox_steel->Text).c_str();
@@ -140,7 +140,7 @@ Steel TCompositeBeamMainForm::init_steel_i_section()
 	R_un =  my_steel_param.Run;
 	strcpy(title, my_steel_param.title);
 
-    String_double_plus(DefineSteelForm->Label3->Caption, DefineSteelForm->Edit_E->Text, &E);
+	String_double_plus(DefineSteelForm->Label3->Caption, DefineSteelForm->Edit_E->Text, &E);
 	String_double_zero_plus(DefineSteelForm->Label4->Caption, DefineSteelForm->Edit_G->Text, &G);
 	String_double_plus(DefineSteelForm->Label5->Caption, DefineSteelForm->Edit_nu->Text, &nu);
 	String_double_zero_plus(DefineSteelForm->Label_gamma_m->Caption, DefineSteelForm->Edit_gamma_m->Text, &gamma_m);
@@ -171,6 +171,17 @@ TConcretePart* TCompositeBeamMainForm::init_concrete_part()
 								  RebarDefinitionForm->get_rebar(),
 								  h_f);
 	}
+}
+//---------------------------------------------------------------------------
+//Инициализация стальной части сечения
+//---------------------------------------------------------------------------
+SteelPart TCompositeBeamMainForm::init_steel_part()
+{
+
+   TISectionInitialData i_section_initial_data=init_i_section();
+   Steel steel_i_section=init_steel_i_section();
+
+	return SteelPart(ISection(i_section_initial_data), steel_i_section);
 }
 //---------------------------------------------------------------------------
 //	Инициализация упоров
@@ -222,20 +233,7 @@ Studs TCompositeBeamMainForm::init_stud()
 
 	return WorkingConditionsFactors(gamma_bi,gamma_si,gamma_c);
  }
-// ---------------------------------------------------------------------------
-// Инициализация композитного сечения
-//---------------------------------------------------------------------------
- CompositeSection TCompositeBeamMainForm::init_composite_section(
-											TGeometry geometry,
-											Steel steel_i_section,
-											TISectionInitialData i_section_initial_data,
-											TConcretePart* concrete_part)
-{
-	return CompositeSection(geometry,
-							steel_i_section,
-							i_section_initial_data,
-							concrete_part);
-}
+
 // ---------------------------------------------------------------------------
 // Инициализация композитной балки
 //---------------------------------------------------------------------------
@@ -352,7 +350,7 @@ void TCompositeBeamMainForm::ctor_concrete_sect_geometr_grid()
 }
 void TCompositeBeamMainForm::fill_steel_sect_geometr_grid()
 {
-	ISection i_section= composite_beam_.get_composite_section().get_steel_part();
+	ISection i_section= composite_beam_.get_composite_section().get_steel_part().get_I_section();
 
 	strng_grd_steel_sect_geom_character->Cells [1][1]=FloatToStrF(i_section.get_A_st(), ffFixed, 15, 0);
 	strng_grd_steel_sect_geom_character->Cells [1][2]=FloatToStrF(i_section.get_I_st(), ffFixed, 15, 0);
@@ -398,10 +396,11 @@ void TCompositeBeamMainForm::fill_results_grid()
 	double max_lower_flange_ratio = composite_beam_.get_max_lower_flange_ratio();
 	double ratio_rigid_plastic = composite_beam_.get_ratio_rigid_plastic();
 	double max_ratio_studs = composite_beam_.get_max_stud_ratio();
+	double max_shear_ratio = composite_beam_.get_max_shear_ratio();
 	
 	strng_grd_results->Cells [1][1]=FloatToStrF(std::abs(max_upper_flange_ratio), ffFixed, 15, 2);
 	strng_grd_results->Cells [1][2]=FloatToStrF(std::abs(max_lower_flange_ratio), ffFixed, 15, 2);
-
+	strng_grd_results->Cells [1][3]=FloatToStrF(std::abs(max_shear_ratio), ffFixed, 15, 2);
 	strng_grd_results->Cells [1][4]=FloatToStrF(std::abs(max_ratio_studs), ffFixed, 15, 2);
 	strng_grd_results->Cells [1][5]=FloatToStrF(ratio_rigid_plastic, ffFixed, 15, 2);
 
@@ -516,7 +515,7 @@ void TCompositeBeamMainForm::generate_report()
 	TGeometry geometry=composite_beam_.get_geometry();
 	TLoads loads=composite_beam_.get_loads();
 	CompositeSection composite_section=composite_beam_.get_composite_section();
-	ISection i_section= composite_beam_.get_composite_section().get_steel_part();
+	ISection i_section= composite_beam_.get_composite_section().get_steel_part().get_I_section();
 	TConcretePart* concrete_part=composite_beam_.get_composite_section().get_concrete_part();
 	Concrete concrete=concrete_part->get_concrete();
 	Rebar rebar=concrete_part->get_rebar();
@@ -689,14 +688,12 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 
    AnalysisTheory analysis_theory=get_analysis_theory();
    TGeometry geometry=init_geomet();//поле содержащее топологию
-   TISectionInitialData i_section_initial_data=init_i_section();
-   TLoads loads=init_loads();;//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
+   TLoads loads=init_loads();//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
    Studs stud=init_stud(); //поле соержащее упоры Нельсона
-   Steel steel_i_section=init_steel_i_section();
    WorkingConditionsFactors working_conditions_factors=init_working_conditions_factors();
+   SteelPart steel_part = init_steel_part();
    TConcretePart* concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!
-   CompositeSection composite_section=init_composite_section(geometry,steel_i_section,i_section_initial_data,
-																	concrete_part);
+   CompositeSection composite_section = CompositeSection(steel_part, concrete_part, geometry);
    init_composite_beam(analysis_theory, geometry,loads,composite_section, stud,working_conditions_factors);
 //Вывод результатов расчёта в GUI
 	draw_diagram();

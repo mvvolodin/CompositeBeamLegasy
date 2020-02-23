@@ -9,28 +9,11 @@
 #include "Rebar.h"
 #include "SteelPart.h"
 
-using namespace std;
-
-struct TSteelInitialData;//Пробуем forward declaration
-class TGeometry;
-
-
-class CompositeSection {
+class CompositeSection{
 private:
-	double id_;//не используется;
-	double coorinate_; //не используется
 
-	ISection steel_part;
-	TConcretePart* concrete_part;//абстрактный тип. Есть ли возможность уйти от указателя?
-	Steel i_sect_steel; //поместить в тип ISection, сам тип расширить и переименовать TSteelPart
-
-	static ISection steel_part___; //не используется
-	static TConcretePart* concrete_part___;  //не используется
-	static Steel i_sect_steel___;  //не используется
-
- //	InternalForces2 internal_forces_;
-//	Stresses stresses_;
-//	Ratios ratios_;
+	SteelPart steel_part_;
+	TConcretePart* concrete_part_;
 
 public:
 	double alfa_s_= 0.;//коэффициент приведения к стали
@@ -54,11 +37,8 @@ public:
 public:
 	CompositeSection();
 	CompositeSection(SteelPart    steel_part,
-					 TConcretePart* concrete_part);
-	CompositeSection(TGeometry geometry,
-					  Steel steel_i_section,
-					  TISectionInitialData i_sect_initial_data,
-					  TConcretePart* concrete_part);
+					 TConcretePart* concrete_part,
+					 TGeometry geometry);
 private:
 	void alfa_to_rebar_steel_calc();
 	void alfa_to_concrete_calc();
@@ -75,9 +55,10 @@ private:
 	void sect_modulus_lower_fl();
 	void sect_modulus_conc();
 public:
-	inline ISection get_steel_part()const {return steel_part;}
-	inline TConcretePart* get_concrete_part()const {return concrete_part;}
-	inline Steel get_steel_grade()const {return i_sect_steel;}
+	inline SteelPart get_steel_part()const {return steel_part_;}
+	inline ISection get_I_section()const {return steel_part_.get_I_section();}
+	inline TConcretePart* get_concrete_part()const {return concrete_part_;}
+	inline Steel get_steel_grade()const {return steel_part_.get_I_steel();}
 	inline double get_alfa_b() const {return alfa_b_;}
 	inline double get_alfa_s() const {return alfa_s_;}
 	inline double get_A_red(LengthUnit length_unit=LengthUnit::mm) const {return A_red_/std::pow(static_cast<int>(length_unit),2);}
