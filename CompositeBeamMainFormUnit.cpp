@@ -152,13 +152,17 @@ Steel TCompositeBeamMainForm::init_steel_i_section()
 //---------------------------------------------------------------------------
 TConcretePart* TCompositeBeamMainForm::init_concrete_part()
 {
+	TGeometry geometry = init_geomet();
+	TISectionInitialData init_i_section = &(SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr);
+	double b_uf = init_i_section.b_uf_;
+
 	if (rdgrp_slab_type->ItemIndex==0)
 	{
 		double t_sl= 0.;
 		String_double_plus(lbl_flat_slab_thickness->Caption, edt_flat_slab_thickness->Text, &t_sl);
 		return new TFlatSlab(ConcreteDefinitionForm->get_concrete(),
 							 RebarDefinitionForm->get_rebar(),
-							 t_sl);
+							 t_sl , geometry, b_uf);
 	}
 	else
 	{
@@ -169,7 +173,7 @@ TConcretePart* TCompositeBeamMainForm::init_concrete_part()
 	return new TCorrugatedSlab(cmb_bx_corrugated_sheeting_part_number->Text,
 								  ConcreteDefinitionForm->get_concrete(),
 								  RebarDefinitionForm->get_rebar(),
-								  h_f);
+								  h_f, geometry, b_uf);
 	}
 }
 //---------------------------------------------------------------------------
@@ -559,7 +563,7 @@ void TCompositeBeamMainForm::generate_report()
 //[1.5] Железобетонное сечение
 //[1.5.1] Номинальные размеры плиты
 	report_.PasteTextPattern(concrete_part->get_slab_type(),"%slab_type%");
-	report_.PasteTextPattern(concrete_part->get_t_sl(),"%t_sl%");
+	report_.PasteTextPattern(concrete_part->get_h_b(),"%t_sl%");
 
 //[1.5.2] Характеристики бетона
 
@@ -633,17 +637,19 @@ void TCompositeBeamMainForm::draw_diagram()
 	TImage *Image1=img_static_scheme;
 	//получаем вектор координат точек эпюры из объекта композитная балка
 	std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
-	//получаем вектор координат опор из объекта композитная балка
-	std::vector<double>	coor_supp=composite_beam_.get_geometry().get_all_supports_coordinates();
+
+	InternalForces internal_forces = composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)];
 	//определим суммарное количество опор (временных и постоянных)
 	int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
-	composite_beam_.get_geometry().get_temporary_supports_number();
+	internal_forces.get_num_temp_supports();
+	std::vector<double>	coor_supp = internal_forces.get_supports_coordinates();
 	//флаг отрисовки значений на эпюре
 	bool flag_sign=true;
+
 	if (rd_grp_internal_forces_type->ItemIndex==0)
 	{
 		//получаем вектор изгибающих моментов из объекта композитная балка
-		std::vector<double> M=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)].get_M(LoadUnit::kN, LengthUnit::m);
+		std::vector<double> M= internal_forces .get_M(LoadUnit::kN, LengthUnit::m);
 		//преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
 		std::transform(M.begin(),M.end(), M.begin(), [](double M) { return -1*std::round(M*1000)/1000;});
 		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
@@ -651,9 +657,9 @@ void TCompositeBeamMainForm::draw_diagram()
 	else
 	{
 		//получаем поперечные силы из объекта композитная балка
-		std::vector<double> Q=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)].get_Q(LoadUnit::kN);
-		std::vector<double> Q_jump=composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)].get_Q_jump(LoadUnit::kN);
-        //преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
+		std::vector<double> Q=internal_forces .get_Q(LoadUnit::kN);
+		std::vector<double> Q_jump=internal_forces .get_Q_jump(LoadUnit::kN);
+		//преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
 		std::transform(Q.begin(),Q.end(), Q.begin(), [](double Q) { return -1*std::round(Q*1000)/1000;});
 		std::transform(Q_jump.begin(),Q_jump.end(), Q_jump.begin(), [](double Q_jump) { return -1*std::round(Q_jump*1000)/1000;});
 		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &Q_jump[0], n_supp, &coor_supp[0], flag_sign);

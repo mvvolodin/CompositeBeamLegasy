@@ -146,6 +146,7 @@ void TCompositeBeam::calc_inter_forces()
 
 
 	int temporary_supports_number=geometry_.get_temporary_supports_number();
+	double l = geometry_.get_span();
 
 	std::vector<double> cs_at_midpoints_btw_studs;
 
@@ -204,7 +205,8 @@ void TCompositeBeam::calc_inter_forces()
 			   gamma_f_DL_I*int_forces_I_DL_I.get_Q()[i]);
 	}
 
-	internal_forces_.insert(InternalForcesNamedListItem(Impact::I_stage, InternalForces(M_I, Q_I)));
+	internal_forces_.insert(InternalForcesNamedListItem(Impact::I_stage, InternalForces(M_I, Q_I, l, temporary_supports_number)));
+
 
 	std::vector<double> M_I_studs;
 	std::vector<double> Q_I_studs;
@@ -257,7 +259,7 @@ void TCompositeBeam::calc_inter_forces()
 
 	}
 
-	internal_forces_.insert(InternalForcesNamedListItem(Impact::Total, InternalForces(M_total, Q_total)));
+	internal_forces_.insert(InternalForcesNamedListItem(Impact::Total, InternalForces(M_total, Q_total, l, 0)));
 
 	std::vector<double> M_total_studs;
 	std::vector<double> Q_total_studs;
@@ -293,7 +295,7 @@ void TCompositeBeam::calc_inter_forces()
 
 	}
 
-	internal_forces_.insert(InternalForcesNamedListItem(Impact::II_stage, InternalForces(M_II, Q_II)));
+	internal_forces_.insert(InternalForcesNamedListItem(Impact::II_stage, InternalForces(M_II, Q_II, l, 0)));
 
 	std::vector<double> M_II_studs;
 	std::vector<double> Q_II_studs;
@@ -697,9 +699,9 @@ std::vector<double> TCompositeBeam::get_Q(Impact impact)
 
 void TCompositeBeam::calc_shear_ratios()
 {
-	std::vector<double> Q = get_Q(Impact::Total);
+	std::vector<double> Q {get_Q(Impact::Total)};
 	double Q_Rd = get_Q_Rd();
-for(auto Q_Ed: Q)
+	for(auto Q_Ed: Q)
 		shear_ratios_.push_back(Q_Ed / Q_Rd);
 
 }

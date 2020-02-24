@@ -38,3 +38,7 @@ Rebar::Rebar(String grade, double R_s, double diameter, double b, double a_u,
 	safety_factor_(safety_factor)
 	{}
 
+void Rebar::calc_A_s()
+{
+	A_s_ = 3.14159*diameter_*diameter_ / (4 * b_);
+}

@@ -13,14 +13,24 @@
 TConcretePart::TConcretePart()
 {
 }
-TConcretePart::TConcretePart(String slab_type, Concrete concrete, Rebar rebar)
-	:slab_type_(slab_type),concrete_(concrete),rebar_(rebar)
+TConcretePart::TConcretePart(String slab_type, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf)
+	:slab_type_(slab_type),concrete_(concrete),rebar_(rebar), h_f_(h_f)
 {
-}
-TConcretePart::TConcretePart(Concrete concrete, Rebar rebar, double t_sl)
-	:concrete_(concrete), rebar_(rebar), t_sl_(t_sl),slab_type_(L"Плоская плита")
+		double a=b_uf/2;
+		double B_l=geometry.get_trib_width_left();
+		double B_r=geometry.get_trib_width_right();
+		double l=geometry.get_span();
 
-{
+	if (!geometry.is_end_beam())
+	{
+		set_b_l(effective_width_calc(h_f_,a,B_l,l));
+		set_b_r(effective_width_calc(h_f_,a,B_r,l));
+	}
+	else
+	{
+		set_b_l(effective_width_cantilever_calc(h_f_,a,B_l,l));
+		set_b_r(effective_width_calc(h_f_,a,B_r,l));
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -57,52 +67,24 @@ double TConcretePart::effective_width_cantilever_calc(double t_slc, double a,  d
 		bc=a+6*t_slc;
 	return clamp(bc, l/12, C );
 }
-TFlatSlab::TFlatSlab(Concrete concrete, Rebar rebar, double t_sl)
-	:TConcretePart(concrete, rebar, t_sl)
+TFlatSlab::TFlatSlab(Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf)
+	:TConcretePart(L"Плоская плита", concrete, rebar, h_f, geometry, b_uf)
 {
-}
-void TFlatSlab::calc_h_b()
-{
-	 h_b_=t_sl_;
-}
-void TFlatSlab::calc_C_b()
-{
-	 C_b_=h_b_/2.;
-}
-
-void TFlatSlab::calc_area()
-{
-	 A_b_=(b_l_+b_r_)*t_sl_;
-}
-
-void TFlatSlab::calc_inertia()
-{
-	 I_b_=(b_l_+b_r_)*std::pow(t_sl_,3)/12;
+	h_b_=h_f_;
+	C_b_=h_b_/2.;
+	A_b_=(b_l_+b_r_)*h_f;
+	I_b_=(b_l_+b_r_)*std::pow(h_f_,3)/12;
 }
 
 //---------------------------------------------------------------------------
 
-TCorrugatedSlab::TCorrugatedSlab(String slab_type, Concrete concrete, Rebar rebar, double h_f) //h_f высота бетона над настилом
-	:TConcretePart(slab_type, concrete, rebar),h_f_(h_f)
+TCorrugatedSlab::TCorrugatedSlab(String slab_type, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf)
+	:TConcretePart(slab_type, concrete, rebar, h_f, geometry, b_uf)
 {
    corrugated_sheet_ = corrugated_sheets_map[slab_type];
-}
-void TCorrugatedSlab::calc_h_b()
-{
-	 h_b_=corrugated_sheet_.get_height()+h_f_;
-}
-void TCorrugatedSlab::calc_C_b()
-{
-	 C_b_=corrugated_sheet_.get_height()+h_f_/2.;
-}
-
-void TCorrugatedSlab::calc_area()
-{
-	A_b_=(b_l_+b_r_)*h_f_;
-}
-
-void TCorrugatedSlab::calc_inertia()
-{
-	I_b_=(b_l_+b_r_)*std::pow(h_f_,3)/12;
+   h_b_=corrugated_sheet_.get_height()+h_f_;
+   C_b_=corrugated_sheet_.get_height()+h_f_/2.;
+   A_b_=(b_l_+b_r_)*h_f_;
+   I_b_=(b_l_+b_r_)*std::pow(h_f_,3)/12;
 }
 

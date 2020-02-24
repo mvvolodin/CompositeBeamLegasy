@@ -15,7 +15,6 @@ private:
 	SteelPart steel_part_;
 	TConcretePart* concrete_part_;
 
-public:
 	double alfa_s_= 0.;//коэффициент приведения к стали
 	double alfa_b_= 0.;//коэффициент приведения к бетону
 	double H_red_= 0.; //высота композитного сечения
@@ -34,12 +33,7 @@ public:
 	double W_f2_red_= 0.; //Момент сопротивления сталежелезобетонного сечения для верхней полки
 	double W_f1_red_= 0.; //Момент сопротивления сталежелезобетонного сечения для нижней полки
 	double W_b_red_= 0.;//Момент сопротивления сталежелезобетонного сечения для Ц.Т. железобетонной плиты
-public:
-	CompositeSection();
-	CompositeSection(SteelPart    steel_part,
-					 TConcretePart* concrete_part,
-					 TGeometry geometry);
-private:
+
 	void alfa_to_rebar_steel_calc();
 	void alfa_to_concrete_calc();
 	void compos_sect_height_calc();
@@ -54,22 +48,28 @@ private:
 	void sect_modulus_upper_fl();
 	void sect_modulus_lower_fl();
 	void sect_modulus_conc();
+
 public:
-	inline SteelPart get_steel_part()const {return steel_part_;}
-	inline ISection get_I_section()const {return steel_part_.get_I_section();}
-	inline TConcretePart* get_concrete_part()const {return concrete_part_;}
-	inline Steel get_steel_grade()const {return steel_part_.get_I_steel();}
-	inline double get_alfa_b() const {return alfa_b_;}
-	inline double get_alfa_s() const {return alfa_s_;}
-	inline double get_A_red(LengthUnit length_unit=LengthUnit::mm) const {return A_red_/std::pow(static_cast<int>(length_unit),2);}
-	inline double get_I_red(LengthUnit length_unit=LengthUnit::mm) const {return I_red_/std::pow(static_cast<int>(length_unit),4);}
-	inline double get_W_b_red(LengthUnit length_unit=LengthUnit::mm) const {return W_b_red_/std::pow(static_cast<int>(length_unit),3);}
-	inline double get_W_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return W_f2_red_/std::pow(static_cast<int>(length_unit),3);}
-	inline double get_W_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return W_f1_red_/std::pow(static_cast<int>(length_unit),3);}
-	inline double get_Z_b_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_red_/static_cast<int>(length_unit);}
-	inline double get_Z_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f2_/static_cast<int>(length_unit);}
-	inline double get_Z_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f1_/static_cast<int>(length_unit);}
-	inline double get_Z_b_st(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_st_/static_cast<int>(length_unit);}
+	CompositeSection();
+	CompositeSection(SteelPart    steel_part,
+					 TConcretePart* concrete_part,
+					 TGeometry geometry);
+
+	SteelPart get_steel_part()const {return steel_part_;}
+	ISection get_I_section()const {return steel_part_.get_I_section();}
+	TConcretePart* get_concrete_part()const {return concrete_part_;}
+	Steel get_steel_grade()const {return steel_part_.get_I_steel();}
+	double get_alfa_b() const {return alfa_b_;}
+	double get_alfa_s() const {return alfa_s_;}
+	double get_A_red(LengthUnit length_unit=LengthUnit::mm) const {return A_red_/std::pow(static_cast<int>(length_unit),2);}
+	double get_I_red(LengthUnit length_unit=LengthUnit::mm) const {return I_red_/std::pow(static_cast<int>(length_unit),4);}
+	double get_W_b_red(LengthUnit length_unit=LengthUnit::mm) const {return W_b_red_/std::pow(static_cast<int>(length_unit),3);}
+	double get_W_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return W_f2_red_/std::pow(static_cast<int>(length_unit),3);}
+	double get_W_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return W_f1_red_/std::pow(static_cast<int>(length_unit),3);}
+	double get_Z_b_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_red_/static_cast<int>(length_unit);}
+	double get_Z_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f2_/static_cast<int>(length_unit);}
+	double get_Z_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f1_/static_cast<int>(length_unit);}
+	double get_Z_b_st(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_st_/static_cast<int>(length_unit);}
 } ;
 //---------------------------------------------------------------------------
 #endif

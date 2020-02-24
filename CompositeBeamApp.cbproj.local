@@ -34,8 +34,8 @@
     <Transaction>1899/12/30 00:00:00.000.153,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionUnit.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcretePartUnit.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.630,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeamForm.dfm=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeam.dfm</Transaction>
     <Transaction>1899/12/30 00:00:00.000.858,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit2.cpp=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\RebarDefinitionForm.cpp</Transaction>
-    <Transaction>1899/12/30 00:00:00.000.113,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ISection.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.688,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ISection.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.565,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeamBuilder.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.964,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\CompositeBeamMainFormUnit.dfm=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\CompositeBeamMainForm.dfm</Transaction>
     <Transaction>1899/12/30 00:00:00.000.971,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Stress.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\StressUnit.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.297,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeamApp.cbproj=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Project1.cbproj</Transaction>
@@ -43,7 +43,7 @@
     <Transaction>1899/12/30 00:00:00.000.693,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Section.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeSection.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.805,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\WorkingConditionsFactors.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.415,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Ratios.h</Transaction>
-    <Transaction>1899/12/30 00:00:00.000.565,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeamBuilder.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.113,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ISection.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.565,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Steel.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.251,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\StudUnit.h</Transaction>
     <Transaction>1899/12/30 00:00:00.000.760,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionInitialData.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
@@ -453,7 +453,13 @@
     <File Path="SteelPart.cpp"/>
     <File Path="SteelPart.cpp"/>
     <File Path="SteelPart.cpp"/>
+    <File Path="Data_Profil.h"/>
+    <File Path="Get_param_sect_func.h"/>
     <File Path="SteelPart.cpp"/>
+    <File Path="Steel.h"/>
+    <File Path="ISection.h"/>
+    <File Path="ISectionInitialDataUnit.h"/>
+    <File Path="Units.h"/>
     <File Path="SteelPart.h"/>
     <File Path="SteelPart.h"/>
     <File Path="Report.cpp"/>

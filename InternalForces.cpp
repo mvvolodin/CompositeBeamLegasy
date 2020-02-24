@@ -8,33 +8,40 @@
 InternalForces::InternalForces()
 {
 }
-InternalForces::InternalForces(M_List M, Q_List Q):M_(M), Q_(Q)
+InternalForces::InternalForces(M_List M, Q_List Q):
+	M_(M), Q_(Q)
 {
-
 }
-InternalForces::InternalForces(double p, CS_Coordinates cs_coordinates, int temporary_supports_number)
+InternalForces::InternalForces(M_List M, Q_List Q, double l, int num_temp_supports):
+	M_(M), Q_(Q), num_temp_supports_(num_temp_supports)
 {
-	switch (temporary_supports_number)
+	calc_supports_coordiantes(l , num_temp_supports);
+}
+InternalForces::InternalForces(double p, CS_Coordinates cs_coordinates, int num_temp_supports):
+	num_temp_supports_(num_temp_supports)
+{
+	calc_supports_coordiantes(cs_coordinates.back() , num_temp_supports);
+	switch (num_temp_supports)
 	{
 		case static_cast<int>(SupportsNumber::Zero):  //Для того чтобы не было static_cast<> в функцию следует передавать Enum class
 			R_calc_simple_beam(p, cs_coordinates.back());
-			M_calc_simple_beam(p, cs_coordinates, temporary_supports_number);
-			Q_calc_simple_beam(p, cs_coordinates, temporary_supports_number);
+			M_calc_simple_beam(p, cs_coordinates, num_temp_supports);
+			Q_calc_simple_beam(p, cs_coordinates, num_temp_supports);
 			break;
 		case static_cast<int>(SupportsNumber::One):
 			R_calc_two_span_beam(p, cs_coordinates.back());
-			M_calc_two_span_beam(p, cs_coordinates, temporary_supports_number);
-			Q_calc_two_span_beam(p, cs_coordinates, temporary_supports_number);
+			M_calc_two_span_beam(p, cs_coordinates, num_temp_supports);
+			Q_calc_two_span_beam(p, cs_coordinates, num_temp_supports);
 			break;
 		case static_cast<int>(SupportsNumber::Two):
 			R_calc_three_span_beam(p, cs_coordinates.back());
-			M_calc_three_span_beam(p, cs_coordinates, temporary_supports_number);
-			Q_calc_three_span_beam(p, cs_coordinates, temporary_supports_number);
+			M_calc_three_span_beam(p, cs_coordinates, num_temp_supports);
+			Q_calc_three_span_beam(p, cs_coordinates, num_temp_supports);
 			break;
 		case static_cast<int>(SupportsNumber::Three):
 			R_calc_four_span_beam(p, cs_coordinates.back());
-			M_calc_four_span_beam(p, cs_coordinates, temporary_supports_number);
-			Q_calc_four_span_beam(p, cs_coordinates, temporary_supports_number);
+			M_calc_four_span_beam(p, cs_coordinates, num_temp_supports);
+			Q_calc_four_span_beam(p, cs_coordinates, num_temp_supports);
 		break;
 
 	}
@@ -307,6 +314,14 @@ InternalForces::Q_List InternalForces::get_Q_jump(LoadUnit load_unit)const
 	std::vector<double> temp_Q (Q_jump_);
 	std::transform(Q_jump_.begin(),Q_jump_.end(),temp_Q.begin(), [load_unit](double Q){return Q/static_cast<double>(load_unit);});
 	return temp_Q;
+}
+
+void InternalForces::calc_supports_coordiantes(double l, int num_temp_supports_)
+{
+	supports_coordinates_.push_back(0);
+	for (int i = 1; i < (num_temp_supports_ + 1); ++ i)
+		supports_coordinates_.push_back(i * l / (num_temp_supports_ + 1));
+	supports_coordinates_.push_back(l);
 }
 
 
