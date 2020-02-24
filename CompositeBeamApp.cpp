@@ -4,13 +4,14 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("RebarDefinitionFormUnit.cpp", RebarDefinitionForm);
-USEFORM("SteelSectionFormUnit.cpp", SteelSectionForm);
 USEFORM("SteelSectionDefinitionFrameUnit.cpp", SteelSectionDefinitionFrame); /* TFrame: File Type */
+USEFORM("SteelSectionFormUnit.cpp", SteelSectionForm);
 USEFORM("StudDefinitionFormUnit.cpp", StudDefinitionForm);
-USEFORM("CompositeBeamMainFormUnit.cpp", CompositeBeamMainForm);
 USEFORM("ConcreteDefinitionFormUnit.cpp", ConcreteDefinitionForm);
-USEFORM("LoggerFormUnit.cpp", FormLogger);
+USEFORM("CompositeBeamMainFormUnit.cpp", CompositeBeamMainForm);
 USEFORM("DefineSteelFormUnit.cpp", DefineSteelForm);
+USEFORM("LoggerFormUnit.cpp", FormLogger);
+USEFORM("AboutProg.cpp", AboutProgForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -25,6 +26,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TStudDefinitionForm), &StudDefinitionForm);
 		Application->CreateForm(__classid(TDefineSteelForm), &DefineSteelForm);
 		Application->CreateForm(__classid(TFormLogger), &FormLogger);
+		Application->CreateForm(__classid(TAboutProgForm), &AboutProgForm);
 		Application->Run();
 	}
 	catch (Exception &exception)

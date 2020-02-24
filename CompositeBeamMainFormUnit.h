@@ -193,6 +193,7 @@ __published:	// IDE-managed Components
 	void __fastcall cmb_bx_analysis_theoryChange(TObject *Sender);
 	void __fastcall cmb_bx_corrugated_sheeting_part_numberChange(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
+	void __fastcall N8Click(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);

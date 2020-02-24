@@ -125,6 +125,12 @@
         <LinkPackageImports>rtl.bpi;vcl.bpi;vclx.bpi;xmlrtl.bpi</LinkPackageImports>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="AboutProg.cpp">
+            <Form>AboutProgForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>AboutProg.h</DependentOn>
+            <BuildOrder>46</BuildOrder>
+        </CppCompile>
         <CppCompile Include="CompositeBeam.cpp">
             <DependentOn>CompositeBeam.h</DependentOn>
             <BuildOrder>3</BuildOrder>
@@ -329,13 +335,14 @@
             <BuildOrder>32</BuildOrder>
         </CppCompile>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
-        <FormResources Include="SteelSectionFormUnit.dfm"/>
         <FormResources Include="SteelSectionDefinitionFrameUnit.dfm"/>
+        <FormResources Include="SteelSectionFormUnit.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
-        <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
-        <FormResources Include="LoggerFormUnit.dfm"/>
+        <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>
+        <FormResources Include="LoggerFormUnit.dfm"/>
+        <FormResources Include="AboutProg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

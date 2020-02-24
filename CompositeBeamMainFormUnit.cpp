@@ -12,6 +12,7 @@
 #include "SteelSectionFormUnit.h"
 #include "Report.h" //Подключаем генератор отчётов
 #include "Word_Automation.h"  // Вывод отчета в Word
+#include "AboutProg.h"
 
 TCompositeBeamMainForm *CompositeBeamMainForm;
 
@@ -1073,4 +1074,10 @@ void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+
+void __fastcall TCompositeBeamMainForm::N8Click(TObject *Sender)
+{
+	AboutProgForm->ShowModal();
+}
+//---------------------------------------------------------------------------
 
