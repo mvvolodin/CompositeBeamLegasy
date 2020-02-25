@@ -16,7 +16,7 @@ public:
 	ISection get_I_section() const {return I_section_;}
 	Steel get_I_steel() const {return I_steel_;}
 	double get_Q_Rd() const {return Q_Rd_;}
-	double get_E_st() const {return I_steel_.get_E_s();}
+	double get_E_st() const {return I_steel_.get_E_st();}
 	double get_h_st() const {return I_section_.get_h_st();}
 	double get_A_st() const {return I_section_.get_A_st();}
 

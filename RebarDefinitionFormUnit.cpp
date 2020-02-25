@@ -18,7 +18,7 @@ __fastcall TRebarDefinitionForm::TRebarDefinitionForm(TComponent* Owner)
 	: TForm(Owner)
 {
 	cmb_bx_rebar_grade->Text=rebar_named_list.begin()->first;
-	edt_R_s_n->Text=rebar_named_list.begin()->second.get_R_s();
+	edt_R_s_n->Text=rebar_named_list.begin()->second.get_R_sn();
 	edt_diameter->Text="12";
 	edt_safety_factor->Text="1.15";
 
@@ -31,7 +31,7 @@ __fastcall TRebarDefinitionForm::TRebarDefinitionForm(TComponent* Owner)
 void __fastcall TRebarDefinitionForm::cmb_bx_rebar_gradeChange(TObject *Sender)
 {
 	String grade=cmb_bx_rebar_grade->Text;
-	edt_R_s_n->Text=FloatToStr(rebar_named_list.find(grade)->second.get_R_s());
+	edt_R_s_n->Text=FloatToStr(rebar_named_list.find(grade)->second.get_R_sn());
 }
 //---------------------------------------------------------------------------
 

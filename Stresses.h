@@ -31,7 +31,7 @@ public:
 	inline double get_sigma_s()const {return sigma_s_;}
 //	inline void add_sigma_b(double sigma_b){sigma_b_.push_back(sigma_b);}
 //	inline void add_sigma_s(double sigma_s){sigma_s_.push_back(sigma_s);}
-	inline StressStateCase get_state() const {return StressStateCase::CASE_II;}
+	inline StressStateCase get_state() const {return stress_state_case_;}
 };
 
 #endif

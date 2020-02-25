@@ -23,13 +23,13 @@ TConcretePart::TConcretePart(String slab_type, Concrete concrete, Rebar rebar, d
 
 	if (!geometry.is_end_beam())
 	{
-		set_b_l(effective_width_calc(h_f_,a,B_l,l));
-		set_b_r(effective_width_calc(h_f_,a,B_r,l));
+		b_l_ = effective_width_calc(h_f_,a,B_l,l);
+		b_r_ = effective_width_calc(h_f_,a,B_r,l);
 	}
 	else
 	{
-		set_b_l(effective_width_cantilever_calc(h_f_,a,B_l,l));
-		set_b_r(effective_width_calc(h_f_,a,B_r,l));
+		b_l_ = effective_width_cantilever_calc(h_f_,a,B_l,l);
+		b_r_ = effective_width_calc(h_f_,a,B_r,l);
 	}
 }
 
@@ -70,10 +70,10 @@ double TConcretePart::effective_width_cantilever_calc(double t_slc, double a,  d
 TFlatSlab::TFlatSlab(Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf)
 	:TConcretePart(L"Плоская плита", concrete, rebar, h_f, geometry, b_uf)
 {
-	h_b_=h_f_;
+	h_b_=h_f;
 	C_b_=h_b_/2.;
 	A_b_=(b_l_+b_r_)*h_f;
-	I_b_=(b_l_+b_r_)*std::pow(h_f_,3)/12;
+	I_b_=(b_l_+b_r_)*std::pow(h_f,3)/12;
 }
 
 //---------------------------------------------------------------------------
@@ -82,9 +82,9 @@ TCorrugatedSlab::TCorrugatedSlab(String slab_type, Concrete concrete, Rebar reba
 	:TConcretePart(slab_type, concrete, rebar, h_f, geometry, b_uf)
 {
    corrugated_sheet_ = corrugated_sheets_map[slab_type];
-   h_b_=corrugated_sheet_.get_height()+h_f_;
-   C_b_=corrugated_sheet_.get_height()+h_f_/2.;
-   A_b_=(b_l_+b_r_)*h_f_;
-   I_b_=(b_l_+b_r_)*std::pow(h_f_,3)/12;
+   h_b_=corrugated_sheet_.get_height()+h_f;
+   C_b_=corrugated_sheet_.get_height()+h_f/2.;
+   A_b_=(b_l_+b_r_)*h_f;
+   I_b_=(b_l_+b_r_)*std::pow(h_f,3)/12;
 }
 

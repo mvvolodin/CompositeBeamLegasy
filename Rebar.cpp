@@ -19,26 +19,26 @@ RebarNamedList rebar_named_list
 RebarBasic::RebarBasic()
 {
 }
-RebarBasic::RebarBasic(String grade, double R_s):
+RebarBasic::RebarBasic(String grade, double R_sn):
 	grade_(grade),
-	R_s_(R_s){}
+	R_sn_(R_sn){}
 
 Rebar::Rebar():
-	RebarBasic(),
-	E_s_(200000){}
+	RebarBasic(){}
 
-Rebar::Rebar(String grade, double R_s, double diameter, double b, double a_u,
-	double a_l, double safety_factor):
-	RebarBasic{grade, R_s},
-	E_s_{200000},
-	diameter_{diameter},
-	b_{b},
-	a_u_{a_u},
-	a_l_{a_l},
-	safety_factor_(safety_factor)
-	{}
+Rebar::Rebar(String grade, double R_sn, double d_s, double b, double a_u,
+	double a_l, double gamma_s):
+	RebarBasic{grade, R_sn},
+	d_s_(d_s),
+	b_(b),
+	a_u_(a_u),
+	a_l_(a_l),
+	gamma_s_(gamma_s)
+{
+   calc_A_s();
+}
 
 void Rebar::calc_A_s()
 {
-	A_s_ = 3.14159*diameter_*diameter_ / (4 * b_);
+	A_s_ = 3.14159*d_s_*d_s_ / (4. * b_);
 }

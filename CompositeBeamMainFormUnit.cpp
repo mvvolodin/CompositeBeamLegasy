@@ -555,11 +555,11 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(i_section.get_r(LengthUnit::mm),"%r%");
 //[1.4.2] Характеристики стали
 	report_.PasteTextPattern(steel.get_steel_grade(),"%steel_grade%");
-	report_.PasteTextPattern(steel.get_R_y(),"%R_yn%");
-	report_.PasteTextPattern(steel.get_R_u(),"%R_un%");
-	report_.PasteTextPattern(steel.get_E_s(),"%E%");
-	report_.PasteTextPattern(steel.get_G_s(),"%G%");
-	report_.PasteTextPattern(steel.get_nu(),"%nu%");
+	report_.PasteTextPattern(steel.get_R_yn(),"%R_yn%");
+	report_.PasteTextPattern(steel.get_R_un(),"%R_un%");
+	report_.PasteTextPattern(steel.get_E_st(),"%E_st%");
+	report_.PasteTextPattern(steel.get_G_st(),"%G_st%");
+	report_.PasteTextPattern(steel.get_nu_st(),"%nu_st%");
 	report_.PasteTextPattern(steel.get_gamma_m(),"%gamma_m%");
 //[1.5] Железобетонное сечение
 //[1.5.1] Номинальные размеры плиты
@@ -579,11 +579,11 @@ void TCompositeBeamMainForm::generate_report()
 //[1.6] Арматура
 	report_.PasteTextPattern(rebar.get_grade(),"%grade%");
 	report_.PasteTextPattern(rebar.get_diameter(),"%d%");
-	report_.PasteTextPattern(rebar.get_R_s(),"%R_sn%");
+	report_.PasteTextPattern(rebar.get_R_sn(),"%R_sn%");
 //[1.7] Соединительные элементы
 	report_.PasteTextPattern(studs.get_name(),"%name%");
 	report_.PasteTextPattern(studs.get_l(LengthUnit::cm),"%l%");
-	report_.PasteTextPattern(studs.get_d_an(LengthUnit::cm),"%d%");
+	report_.PasteTextPattern(studs.get_d_an(LengthUnit::cm),"%d_an%");
 	report_.PasteTextPattern(studs.get_R_y(),"%R_y%");
 	report_.PasteTextPattern(studs.get_edge_rows_dist(LengthUnit::cm),"%z_e%");
 	report_.PasteTextPattern(studs.get_middle_rows_dist(LengthUnit::cm),"%z_m%");

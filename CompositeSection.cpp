@@ -27,10 +27,10 @@ CompositeSection::CompositeSection(SteelPart    steel_part,
 	dist_conc_to_steel_calc();
 	first_moment_of_area_comp_calc();
 	dist_steel_to_compos_calc();
-	inertia_compos_calc();
 	dist_compos_to_upper_fl_calc();
 	dist_compos_to_lower_fl_calc();
 	dist_conc_to_compos_calc();
+	inertia_compos_calc();
 	sect_modulus_upper_fl();
 	sect_modulus_lower_fl();
 	sect_modulus_conc();
@@ -46,7 +46,7 @@ void CompositeSection::alfa_to_rebar_steel_calc()
 
 void CompositeSection::alfa_to_concrete_calc()
 {
-	double E_st=steel_part_.get_I_steel().get_E_s(); // Модуль упругости стали
+	double E_st=steel_part_.get_I_steel().get_E_st(); // Модуль упругости стали
 	double E_b_tau=concrete_part_->get_E_b_tau();//Модуль упругости бетона
 	alfa_b_=E_st/E_b_tau;
 }
@@ -62,7 +62,6 @@ void CompositeSection::compos_sect_area_calc()
 {
 	double A_b=concrete_part_->get_A_b();
 	double A_st=steel_part_.get_A_st();
-	double b=concrete_part_->get_rebar().get_b();
 	double A_s=concrete_part_->get_A_s();
 	int num_rows=concrete_part_->get_rebar().get_num_rows();
 	double b_l=concrete_part_->get_b_l();
@@ -103,14 +102,14 @@ void CompositeSection::dist_steel_to_compos_calc()
 
 void CompositeSection::dist_conc_to_compos_calc()
 {
-	double C_b=concrete_part_->get_C_b();
-	double h_b=concrete_part_->get_h_b();
-	double a_u=concrete_part_->get_rebar().get_a_u();
-	double a_l=concrete_part_->get_rebar().get_a_l();
-	double h_f=h_b-C_b;//не является универсальным решением, необходимо расширит класс Rebar полями c расстояниями от Ц.Т. бетона до арматуры
+	const double C_b=concrete_part_->get_C_b();
+	const double h_f=concrete_part_->get_h_f();
+	const double a_u=concrete_part_->get_rebar().get_a_u();
+	const double a_l=concrete_part_->get_rebar().get_a_l();
+
 	Z_b_red_=Z_b_st_-Z_st_red_;
 	Z_red_r_u_=Z_b_red_+h_f/2-a_u;
-	Z_red_r_u_=Z_b_red_-h_f/2+a_l;
+	Z_red_r_l_=Z_b_red_-h_f/2+a_l;
 }
 
 void CompositeSection::inertia_compos_calc()
@@ -123,7 +122,7 @@ void CompositeSection::inertia_compos_calc()
 	double b_l=concrete_part_->get_b_l();
 	double b_r=concrete_part_->get_b_r();
 	double I_b=concrete_part_->get_I_b();
-	I_red_=I_st+A_st*pow(Z_st_red_,2)+1/alfa_b_*I_b+1/alfa_b_*A_b*pow(Z_b_red_,2)
+	I_red_=I_st + A_st * pow(Z_st_red_,2) + 1/alfa_b_ *I_b + 1/alfa_b_ *A_b * pow(Z_b_red_,2)
 		+1/alfa_s_*A_s * (b_l + b_r) * (pow(Z_red_r_u_,2)+pow(Z_red_r_l_,2));
 }
 

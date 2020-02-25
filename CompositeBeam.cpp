@@ -4,6 +4,7 @@
 
 #include "CompositeBeam.h"
 #include "LoggerFormUnit.h"
+#include <cmath>
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -326,18 +327,19 @@ void TCompositeBeam::calculate_stresses()
 	double gamma_bi=working_conditions_factors_.get_gamma_bi();
 	double gamma_si=working_conditions_factors_.get_gamma_si();
 	double gamma_c=working_conditions_factors_.get_gamma_c();
-	double R_b=composite_section_.get_concrete_part()->get_R_bn();
+	double R_b=composite_section_.get_concrete_part()->get_R_b();
 	double R_s=composite_section_.get_concrete_part()->get_rebar().get_R_s();
 
 	std::vector<Stresses> temp_stresses_list;
 
 		temp_stresses_list.clear();
 
-		for (int i = 0; i < cs_num_; i++){
+		for (int i = 0; i < cs_num_; i++)
+		{
 
 			double M=internal_forces_[Impact::II_stage].get_M()[i];
-			double sigma_b=M/(alfa_b*W_b_red);
-			double sigma_s=M/(alfa_s*W_b_red);
+			double sigma_b=std::abs(M)/(alfa_b*W_b_red);
+			double sigma_s=std::abs(M)/(alfa_s*W_b_red);
 
 			if((sigma_b<gamma_bi*R_b) && (sigma_s<gamma_si*R_s))
 
@@ -449,8 +451,8 @@ void TCompositeBeam::calc_ratios()
 
 		double N_b_s=A_b*sigma_b+A_s*sigma_s;
 
-		return Ratios { ((M-Z_b_st*N_b_s)/W_f2_st-N_b_s/A_st)/(gamma_1*gamma_c*R_y),
-						((M-Z_b_st*N_b_s)/W_f1_st-N_b_s/A_st)/(gamma_c*R_y)};
+		return Ratios { ((std::abs(M)-Z_b_st*std::abs(N_b_s))/W_f2_st - std::abs(N_b_s)/A_st)/(gamma_1*gamma_c*R_y),
+						((std::abs(M)-Z_b_st*std::abs(N_b_s))/W_f1_st + std::abs(N_b_s)/A_st)/(gamma_c*R_y)};
 
 }
 Ratios TCompositeBeam::calculate_II_case(Impact impact, int cs_id)
@@ -476,8 +478,8 @@ Ratios TCompositeBeam::calculate_II_case(Impact impact, int cs_id)
 		double N_bR_sR=A_b*R_b+A_s*R_s;
 		double N_bR_s=A_b*R_b+A_s*sigma_s;
 
-		return Ratios { ((M-Z_b_st*N_bR_sR)/W_f2_st-N_bR_sR/A_st)/(gamma_c*R_y),
-						((M-Z_b_st*N_bR_s)/W_f1_st-N_bR_s/A_st)/(gamma_c*R_y)};
+		return Ratios { ((std::abs(M)-Z_b_st*std::abs(N_bR_sR))/W_f2_st - std::abs(N_bR_sR)/A_st)/(gamma_c*R_y),
+						((std::abs(M)-Z_b_st*std::abs(N_bR_s))/W_f1_st + std::abs(N_bR_s)/A_st)/(gamma_c*R_y)};
 }
 Ratios TCompositeBeam::calculate_III_case(Impact impact, int cs_id)
 {
@@ -501,8 +503,8 @@ Ratios TCompositeBeam::calculate_III_case(Impact impact, int cs_id)
 
 		double N_bR_sR=A_b*R_b+A_s*R_s;
 
-		return Ratios { ((M-Z_b_st*N_bR_sR)/W_f2_st-N_bR_sR/A_st)/(gamma_c*R_y),
-						((M-Z_b_st*N_bR_sR)/W_f1_st-N_bR_sR/A_st)/(gamma_c*R_y)};
+		return Ratios { ((std::abs(M)-Z_b_st*std::abs(N_bR_sR))/W_f2_st - std::abs(N_bR_sR)/A_st)/(gamma_c*R_y),
+						((std::abs(M)-Z_b_st*std::abs(N_bR_sR))/W_f1_st + std::abs(N_bR_sR/A_st))/(gamma_c*R_y)};
 }
 
 double TCompositeBeam::get_max_upper_flange_ratio()
@@ -587,6 +589,7 @@ TCompositeBeam::NeutralAxis TCompositeBeam::calc_neutral_axis()
 	const double A_f2_st = get_A_f2_st();
 	const double R_s = get_R_s();
 	const double A_s = get_A_s();
+	const double b_s = composite_section_.get_b_s();
 	const double h_b = get_h_b();
 	const double t_f2 = get_t_f2();
 	const double b_f2 = get_b_f2();
@@ -598,13 +601,13 @@ TCompositeBeam::NeutralAxis TCompositeBeam::calc_neutral_axis()
 
 	const double h_f = 2* (h_b - C_b);
 
-	x_b = (R_y * A_st + R_s * A_s)/(R_b * b_sl);
+	x_b = (R_y * A_st + R_s * A_s * b_s)/(R_b * b_sl);
 
 	x_f2 = (A_f1_st * R_y + (h_b + t_f2) * b_f2 * R_y + A_w_st*R_y + h_b * b_f2 * R_y
-		- R_b * A_b - R_s * A_s) / ( 2 * b_f2 * R_y);
+		- R_b * A_b - R_s * A_s * b_s) / ( 2 * b_f2 * R_y);
 
 	x_w = (A_f1_st * R_y + (h_b + t_f2 + h_w) * t_w * R_y + (h_b + t_f2) * t_w * R_y
-		 - R_b * A_b - A_f2_st * R_y - R_s * A_s ) / ( 2 * t_w * R_y);
+		 - R_b * A_b - A_f2_st * R_y - R_s * A_s  * b_s ) / ( 2 * t_w * R_y);
 
 	if (x_b <= h_f)
 		return NeutralAxis {NA_Location::CONCRETE, x_b};

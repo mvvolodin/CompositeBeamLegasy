@@ -70,6 +70,9 @@ public:
 	double get_Z_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f2_/static_cast<int>(length_unit);}
 	double get_Z_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f1_/static_cast<int>(length_unit);}
 	double get_Z_b_st(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_st_/static_cast<int>(length_unit);}
+
+	double get_b_s()const {return concrete_part_->get_b_s();}
+
 } ;
 //---------------------------------------------------------------------------
 #endif
