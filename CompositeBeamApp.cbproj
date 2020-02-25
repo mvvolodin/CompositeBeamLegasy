@@ -129,7 +129,7 @@
             <Form>AboutProgForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>AboutProg.h</DependentOn>
-            <BuildOrder>46</BuildOrder>
+            <BuildOrder>47</BuildOrder>
         </CppCompile>
         <CppCompile Include="CompositeBeam.cpp">
             <DependentOn>CompositeBeam.h</DependentOn>
@@ -204,6 +204,10 @@
         <CppCompile Include="InternalForces.cpp">
             <DependentOn>InternalForces.h</DependentOn>
             <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="InternalForcesBeam.cpp">
+            <DependentOn>InternalForcesBeam.h</DependentOn>
+            <BuildOrder>46</BuildOrder>
         </CppCompile>
         <CppCompile Include="ISection.cpp">
             <DependentOn>ISection.h</DependentOn>
