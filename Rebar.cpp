@@ -24,7 +24,10 @@ RebarBasic::RebarBasic(String grade, double R_sn):
 	R_sn_(R_sn){}
 
 Rebar::Rebar():
-	RebarBasic(){}
+	RebarBasic()
+{
+	calc_A_s();
+}
 
 Rebar::Rebar(String grade, double R_sn, double d_s, double b, double a_u,
 	double a_l, double gamma_s):

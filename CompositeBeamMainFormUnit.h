@@ -43,7 +43,7 @@
  //@
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 //@@
-class TCompositeBeamMainForm : public TForm
+class TCompositeBeamMainForm : public TForm, TRebarDefinitionFormObserver
 {
 
 __published:	// IDE-managed Components
@@ -239,6 +239,8 @@ private:
 	bool modify_project;  // признак изменения проекта после сохранения
 	char ModelFile[240]; //Это имя файла?
 	AnsiString FileDir_Name; //Это имя директории?
+
+   	virtual void update() override;
 
 };
 //---------------------------------------------------------------------------

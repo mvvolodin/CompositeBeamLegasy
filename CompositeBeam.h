@@ -85,6 +85,17 @@ private:
 	WorkingConditionsFactors working_conditions_factors_;
 	CompositeSection composite_section_;
 	Studs studs_;
+//Поля с результатами расчётов внутренних усилия
+	InternalForces if_SW_;
+	InternalForces if_sheets_;
+	InternalForces if_DL_I_;
+	InternalForces if_DL_II_;
+	InternalForces if_LL_;
+
+	InternalForces if_stage_I_;
+	InternalForces if_stage_II_;
+	InternalForces if_stage_total_;
+
 //Поля с результатами расчётов
 	std::vector<double> cs_coordinates_;
 	std::vector<double> stud_coordinates_;//координаты расположения упоров
@@ -157,64 +168,5 @@ private:
 
 #endif
 
-//class TheoryCalculator
-//{
-//virtual calc1();
-//virtual void calc1(CompositeBeam* compos_beam)=0;
-//}
-//
-//class Theory1Calculator:TheoryCalculator
-//{
-//	public:
-// calc(CompositeBeam* compos_beam)
-//	{
-//	void calc2();
-//	calc3();
-//	}
-//	private:
-//    void calc2();
-//    void calc3();
-//}
-//
-//class Theory2Calculator:TheoryCalculator
-//{
-//	public:
-// calc(CompositeBeam* compos_beam)
-//	{
-//	calc3()
-//	}
-//	private:
-//	void calc3();
-//}
-//
-//class TheoryFactory
-//{
-//    virtual void TheoryCalculator createCalculator()=0;
-//}
-//
-//class Theory1Factory:TheoryFactory
-//{
-//	TheoryCalculator createCalculator()
-//    {
-//        return new Theory1Calculator();
-//	}
-//}
-//class Theory2Factory:TheoryFactory
-//{
-//	TheoryCalculator createCalculator()
-//    {
-//        return new Theory2Calculator();
-//	}
-//}
-//
-//main()
-//{
-//TheoryFactory* theoryFactory;
-//
-//if(....)
-//theoryFactory=new Theory1Factory();
-//
-//TheoryCalculator *calc = theoryFactory->createCalculator(&balka);
-//calc->calc();
-//
-//}
+
+

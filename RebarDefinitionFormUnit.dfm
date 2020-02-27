@@ -11,6 +11,7 @@ object RebarDefinitionForm: TRebarDefinitionForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object bt_btn_Ok: TBitBtn
@@ -154,5 +155,6 @@ object RebarDefinitionForm: TRebarDefinitionForm
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1080#1090#1100
     TabOrder = 3
+    OnClick = bt_btn_cancelClick
   end
 end

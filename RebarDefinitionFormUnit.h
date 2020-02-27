@@ -12,6 +12,10 @@
 #include "Rebar.h"
 #include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
+class TRebarDefinitionFormObserver{
+public:
+	virtual void update() = 0;
+};
 
 class TRebarDefinitionForm : public TForm
 {
@@ -37,12 +41,17 @@ __published:	// IDE-managed Components
 	TButton *bt_btn_cancel;
 	void __fastcall cmb_bx_rebar_gradeChange(TObject *Sender);
 	void __fastcall bt_btn_OkClick(TObject *Sender);
+	void __fastcall bt_btn_cancelClick(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
+	TRebarDefinitionFormObserver* observer_;
 	Rebar rebar_;
 	void create_rebar();//Функция которая проверяет корректность ввода и вызывает конструктор rebar
+	void initialization();
 public:		// User declarations
 	__fastcall TRebarDefinitionForm(TComponent* Owner);
-	inline Rebar get_rebar() const {return rebar_;}
+	Rebar get_rebar() const {return rebar_;}
+	void register_observer(TRebarDefinitionFormObserver* observer);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TRebarDefinitionForm *RebarDefinitionForm;

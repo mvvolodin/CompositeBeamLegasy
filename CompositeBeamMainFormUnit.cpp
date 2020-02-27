@@ -37,6 +37,8 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 //Так как главная форма создаётся перед остальными формами и учитывая, что форма появляется
 //только один раз, все инструкции использующее данные других форм должны быть вынесены в
 //обработчик события OnShow, когда все формы гарантировано созданы и инициализированы.
+	RebarDefinitionForm -> register_observer(this);
+
 	NNewClick(Sender);
 
 	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837->ItemIndex=0;
@@ -48,7 +50,7 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	pnl_concrete_grade->Caption=ConcreteDefinitionForm->cmb_bx_concrete_grade_list->Text;
 	rdgrp_slab_typeClick(Sender);
 	pnl_shear_stud_viewer->Caption=StudDefinitionForm->cmb_bx_stud_part_number->Text;
-	pnl_rebar_viewer->Caption=RebarDefinitionForm->cmb_bx_rebar_grade->Text;
+	pnl_rebar_viewer->Caption = RebarDefinitionForm ->get_rebar().get_grade();
 	calculate_composite_beam();
 
 }
@@ -430,14 +432,14 @@ void TCompositeBeamMainForm:: cotr_ratios_grid()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::fill_cmb_bx_impact()
 {
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_BEAM), "Собственный Вес Балки");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_SHEETS), "Собственный Вес Настила");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная Нагрузка I стадия");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная Нагрузка II стадия");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::LL), "Временная Нагрузка");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::I_stage), "Расчётные Нагрузки I стадии");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::II_stage), "Расчётные Нагрузки II стадии");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::Total), "Расчётные Нагрузки");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_BEAM), "Собственный вес балки");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_SHEETS), "Собственный вес настила");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная нагрузка I стадия");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная нагрузка II стадия");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::LL), "Временная нагрузка II стадии");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::I_stage), "Расчётные нагрузки I стадии");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::II_stage), "Расчётные нагрузки II стадии");
+	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::Total), "Расчётные нагрузки");
 	cmb_bx_impact->ItemIndex = (int)Impact::SW_BEAM;
 }
 //---------------------------------------------------------------------------
@@ -1059,6 +1061,10 @@ int __fastcall TCompositeBeamMainForm::SaveComponent(String filename, TComponent
 	return Writer->Position;
 }
 //---------------------------------------------------------------------------
+void TCompositeBeamMainForm::update()
+{
+	pnl_rebar_viewer->Caption = RebarDefinitionForm -> get_rebar().get_grade();
+}
 
 
 

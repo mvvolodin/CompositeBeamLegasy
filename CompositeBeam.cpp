@@ -291,8 +291,8 @@ void TCompositeBeam::calc_inter_forces()
 	for (int i = 0; i < cs_num_; i++)
 	{
 
-		M_II.push_back(M_total[i]+M_I[i]);
-		Q_II.push_back(Q_total[i]+Q_I[i]);
+		M_II.push_back(M_total[i] - M_I[i]);
+		Q_II.push_back(Q_total[i] - Q_I[i]);
 
 	}
 
@@ -306,8 +306,8 @@ void TCompositeBeam::calc_inter_forces()
 	for (int i = 0; i < (studs_num_ - 1); i++)
 	{
 
-		M_II_studs.push_back(M_total[i]+M_I_studs[i]);
-		Q_II_studs.push_back(Q_total[i]+Q_I_studs[i]);
+		M_II_studs.push_back(M_total[i] - M_I_studs[i]);
+		Q_II_studs.push_back(Q_total[i] - Q_I_studs[i]);
 
 	}
 
