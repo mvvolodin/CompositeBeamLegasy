@@ -13,7 +13,7 @@ class CompositeSection{
 private:
 
 	SteelPart steel_part_;
-	TConcretePart* concrete_part_;
+	TConcretePart concrete_part_;
 
 	double alfa_s_= 0.;//коэффициент приведения к стали
 	double alfa_b_= 0.;//коэффициент приведения к бетону
@@ -52,12 +52,12 @@ private:
 public:
 	CompositeSection();
 	CompositeSection(SteelPart    steel_part,
-					 TConcretePart* concrete_part,
+					 TConcretePart concrete_part,
 					 TGeometry geometry);
 
 	SteelPart get_steel_part()const {return steel_part_;}
 	ISection get_I_section()const {return steel_part_.get_I_section();}
-	TConcretePart* get_concrete_part()const {return concrete_part_;}
+	TConcretePart get_concrete_part()const {return concrete_part_;}
 	Steel get_steel_grade()const {return steel_part_.get_I_steel();}
 	double get_alfa_b() const {return alfa_b_;}
 	double get_alfa_s() const {return alfa_s_;}
@@ -71,7 +71,7 @@ public:
 	double get_Z_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f1_/static_cast<int>(length_unit);}
 	double get_Z_b_st(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_st_/static_cast<int>(length_unit);}
 
-	double get_b_s()const {return concrete_part_->get_b_s();}
+	double get_b_s()const {return concrete_part_.get_b_s();}
 
 } ;
 //---------------------------------------------------------------------------

@@ -38,12 +38,14 @@
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
 
+#include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
+
 //#include <memory>
 //#include <cassert>
  //@
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 //@@
-class TCompositeBeamMainForm : public TForm, TRebarDefinitionFormObserver
+class TCompositeBeamMainForm : public TForm, public IObserver_
 {
 
 __published:	// IDE-managed Components
@@ -72,7 +74,6 @@ __published:	// IDE-managed Components
 	TMenuItem *NExit;
 	TMenuItem *N2;
 	TToolButton *ToolButton1;
-	TLabel *lbl_edge_studs_rows_num;
 	TPageControl *PgCntrlCompositeBeam;
 	TTabSheet *TbShtStaticScheme;
 	TGroupBox *GrpBxLoadsSafetyFactors;
@@ -109,11 +110,6 @@ __published:	// IDE-managed Components
 	TGroupBox *GrpBxErection;
 	TLabel *lbl_number_propping_supports;
 	TComboBox *cmb_bx_number_propping_supports;
-	TGroupBox *grp_bx_shear_studs_placement;
-	TLabel *lbl_edge_studs_dist;
-	TLabel *lbl_middle_studs_dist;
-	TEdit *edt_edge_studs_dist;
-	TEdit *edt_middle_studs_dist;
 	TGroupBox *grb_bx_analysis_theory;
 	TComboBox *cmb_bx_analysis_theory;
 	TGroupBox *grp_bx_working_conditions_factors;
@@ -157,9 +153,6 @@ __published:	// IDE-managed Components
 	TTabSheet *tb_sht_steel_geom_char;
 	TStringGrid *strng_grd_concrete_sect_geom_character;
 	TStringGrid *strng_grd_steel_sect_geom_character;
-	TLabel *lbl_middle_studs_rows_num;
-	TComboBox *cmb_bx_middle_studs_rows__num;
-	TComboBox *cmb_bx_edge_studs_rows_num;
 	TEdit *edt_gamma_f_st_SW_;
 	TLabel *lbl_gamma_f_st_SW;
 	TButton *btn_logger;
@@ -207,7 +200,7 @@ private:
 	TLoads init_loads(); //Инициализация нагрузок
 	TISectionInitialData init_i_section();//Инициализация объекта геометрия двутавра
 	Steel init_steel_i_section(); //Инициализация стали двутавра
-	TConcretePart* init_concrete_part();//Инициализация бетонной части композитного сечения
+	TConcretePart init_concrete_part();//Инициализация бетонной части композитного сечения
 	SteelPart init_steel_part();
 	Studs init_stud();//Инициализация упоров
 	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
@@ -240,7 +233,8 @@ private:
 	char ModelFile[240]; //Это имя файла?
 	AnsiString FileDir_Name; //Это имя директории?
 
-   	virtual void update() override;
+	virtual void update(IPublisher* ipublisher) override;
+	void register_observers();
 
 };
 //---------------------------------------------------------------------------

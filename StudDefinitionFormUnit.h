@@ -12,8 +12,10 @@
 #include "UnitStud.h"
 #include <Vcl.ExtCtrls.hpp>
 
+#include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
+
 //---------------------------------------------------------------------------
-class TStudDefinitionForm : public TForm
+class TStudDefinitionForm : public TForm, public IPublisher
 {
 __published:	// IDE-managed Components
 	TLabel *lbl_stud_yield_strength;
@@ -24,19 +26,39 @@ __published:	// IDE-managed Components
 	TEdit *edt_stud_height;
 	TComboBox *cmb_bx_stud_part_number;
 	TLabel *lbl_stud_part_number;
-	TBitBtn *bt_btn_stud_choice;
+	TBitBtn *btn_ok;
 	TLabel *lbl_stud_safety_factor;
 	TEdit *edt_stud_safety_factor;
 	TPanel *pnl_stud_part_number;
-	void __fastcall bt_btn_stud_choiceClick(TObject *Sender);
+	TButton *btn_cancel;
+	TGroupBox *grp_bx_placement;
+	TLabel *lbl_edge_studs_dist;
+	TLabel *lbl_middle_studs_dist;
+	TLabel *edt_edge_studs_rows_num;
+	TLabel *lbl_middle_studs_rows_num;
+	TEdit *edt_edge_studs_dist;
+	TEdit *edt_middle_studs_dist;
+	TComboBox *cmb_bx_middle_studs_rows_num;
+	TComboBox *cmb_bx_edge_studs_rows_num;
+	TGroupBox *grp_bx_characteristics;
+	void __fastcall btn_okClick(TObject *Sender);
 	void __fastcall cmb_bx_stud_part_numberChange(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall btn_cancelClick(TObject *Sender);
 private:
-   //	Studs stud_;
+	static const Publisher_ID id_ = Publisher_ID::STUDS_FORM;
+	IObserver_* iobserver_;
+	Studs studs_;
+
 	void fill_stud_data();
-    void init_stud();
+	void set_studs();
+	void init_form_controls();
+	virtual String get_information()const override;
+	virtual Publisher_ID get_id()const override;
 public:
 	__fastcall TStudDefinitionForm(TComponent* Owner);
-   //	inline Studs get_stud()const{return stud_;};
+	Studs get_studs()const{return studs_;}
+	void register_observer(IObserver_* iobserver);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TStudDefinitionForm *StudDefinitionForm;

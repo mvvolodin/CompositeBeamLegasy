@@ -11,13 +11,11 @@
 //---------------------------------------------------------------------------
 #include "Rebar.h"
 #include <Vcl.ExtCtrls.hpp>
-//---------------------------------------------------------------------------
-class TRebarDefinitionFormObserver{
-public:
-	virtual void update() = 0;
-};
 
-class TRebarDefinitionForm : public TForm
+#include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
+//---------------------------------------------------------------------------
+
+class TRebarDefinitionForm : public TForm, public IPublisher
 {
 __published:	// IDE-managed Components
 	TEdit *edt_safety_factor;
@@ -44,14 +42,17 @@ __published:	// IDE-managed Components
 	void __fastcall bt_btn_cancelClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
-	TRebarDefinitionFormObserver* observer_;
+	static const Publisher_ID id_ = Publisher_ID::REBARS_FORM;
+	IObserver_* iobserver_;
 	Rebar rebar_;
-	void create_rebar();//Функция которая проверяет корректность ввода и вызывает конструктор rebar
-	void initialization();
+	void set_rebar();//Функция которая проверяет корректность ввода и вызывает конструктор rebar
+	void init_form_controls();
+	virtual String get_information()const override;
+	virtual Publisher_ID get_id()const override;
 public:		// User declarations
 	__fastcall TRebarDefinitionForm(TComponent* Owner);
 	Rebar get_rebar() const {return rebar_;}
-	void register_observer(TRebarDefinitionFormObserver* observer);
+	void register_observer(IObserver_* iobserver);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TRebarDefinitionForm *RebarDefinitionForm;

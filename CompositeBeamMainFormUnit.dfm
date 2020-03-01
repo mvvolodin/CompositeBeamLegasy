@@ -428,7 +428,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
       end
       object GrpBxErection: TGroupBox
-        Left = 594
+        Left = 3
         Top = 154
         Width = 251
         Height = 70
@@ -461,91 +461,13 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
             '3')
         end
       end
-      object grp_bx_shear_studs_placement: TGroupBox
-        Left = 3
-        Top = 154
-        Width = 585
-        Height = 70
-        Caption = '  '#1043#1080#1073#1082#1080#1077' '#1091#1087#1086#1088#1099'  '
-        TabOrder = 5
-        object lbl_edge_studs_dist: TLabel
-          Left = 13
-          Top = 23
-          Width = 176
-          Height = 13
-          Caption = #1064#1072#1075' '#1091#1087#1086#1088#1086#1074' '#1074' '#1082#1088#1072#1081#1085#1080#1093' '#1090#1088#1077#1090#1103#1093', '#1084#1084':'
-        end
-        object lbl_middle_studs_dist: TLabel
-          Left = 13
-          Top = 50
-          Width = 170
-          Height = 13
-          Caption = #1064#1072#1075' '#1091#1087#1086#1088#1086#1074' '#1074' '#1089#1088#1077#1076#1085#1077#1081' '#1090#1088#1077#1090#1080', '#1084#1084':'
-        end
-        object lbl_edge_studs_rows_num: TLabel
-          Left = 292
-          Top = 23
-          Width = 226
-          Height = 13
-          Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1088#1103#1076#1086#1074' '#1091#1087#1086#1088#1086#1074' '#1074' '#1082#1088#1072#1081#1085#1080#1093' '#1090#1088#1077#1090#1103#1093
-        end
-        object lbl_middle_studs_rows_num: TLabel
-          Left = 292
-          Top = 50
-          Width = 220
-          Height = 13
-          Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1088#1103#1076#1086#1074' '#1091#1087#1086#1088#1086#1074' '#1074' '#1089#1088#1077#1076#1085#1077#1081' '#1090#1088#1077#1090#1080
-        end
-        object edt_edge_studs_dist: TEdit
-          Left = 224
-          Top = 19
-          Width = 48
-          Height = 21
-          TabOrder = 0
-          Text = '180'
-          OnChange = OnControlsChange
-        end
-        object edt_middle_studs_dist: TEdit
-          Left = 224
-          Top = 46
-          Width = 48
-          Height = 21
-          TabOrder = 1
-          Text = '400'
-          OnChange = OnControlsChange
-        end
-        object cmb_bx_middle_studs_rows__num: TComboBox
-          Left = 542
-          Top = 46
-          Width = 36
-          Height = 21
-          ItemIndex = 0
-          TabOrder = 2
-          Text = '1'
-          Items.Strings = (
-            '1'
-            '2')
-        end
-        object cmb_bx_edge_studs_rows_num: TComboBox
-          Left = 542
-          Top = 19
-          Width = 35
-          Height = 21
-          ItemIndex = 0
-          TabOrder = 3
-          Text = '1'
-          Items.Strings = (
-            '1'
-            '2')
-        end
-      end
       object grb_bx_analysis_theory: TGroupBox
-        Left = 3
-        Top = 154
+        Left = 803
+        Top = 151
         Width = 174
         Height = 70
         Caption = '  '#1058#1077#1086#1088#1080#1103' '#1088#1072#1089#1095#1105#1090#1072'  '
-        TabOrder = 6
+        TabOrder = 5
         Visible = False
         object cmb_bx_analysis_theory: TComboBox
           Left = 16
@@ -567,7 +489,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Width = 201
         Height = 145
         Caption = ' '#1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090#1099' '#1091#1089#1083#1086#1074#1080#1081' '#1088#1072#1073#1086#1090#1099' '
-        TabOrder = 7
+        TabOrder = 6
         object lbl_gamma_c: TLabel
           Left = 16
           Top = 41

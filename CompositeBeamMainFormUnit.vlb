@@ -2,7 +2,7 @@
 Coordinates=493,1,75,33
 
 []
-Coordinates=1502,551,91,36
+Coordinates=348,644,178,58
 Visible=True
 
 [Edit9]
@@ -294,21 +294,6 @@ Coordinates=0,137,72,36
 [img_static_scheme]
 Coordinates=1241,298,115,58
 
-[edt_edge_studs_dist]
-Coordinates=614,475,44,58
-
-[edt_middle_studs_dist]
-Coordinates=131,366,44,58
-
-[lbl_middle_studs_dist]
-Coordinates=722,475,60,58
-
-[lbl_edge_studs_dist]
-Coordinates=171,270,60,58
-
-[lbl_edge_studs_rows_num]
-Coordinates=237,78,53,58
-
 [edt_gamma_f_DL_I]
 Coordinates=1011,1,127,58
 
@@ -317,9 +302,6 @@ Coordinates=791,155,138,58
 
 [grb_bx_analysis_theory]
 Coordinates=1502,1,139,58
-
-[grp_bx_shear_studs_placement]
-Coordinates=348,644,178,58
 
 [cmb_bx_analysis_theory]
 Coordinates=315,1,184,124

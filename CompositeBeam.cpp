@@ -109,7 +109,7 @@ void TCompositeBeam::calc_inter_forces_for_studs()
 		double sigma_b_l=0.;
 		double sigma_s_l=0.;
 
-		double A_s=composite_section_.get_concrete_part()->get_rebar().get_A_s();
+		double A_s=composite_section_.get_concrete_part().get_rebar().get_A_s();
 		double A_b=get_A_b();
 
 		sigma_b_r=stresses[i+1].get_sigma_b();
@@ -327,8 +327,8 @@ void TCompositeBeam::calculate_stresses()
 	double gamma_bi=working_conditions_factors_.get_gamma_bi();
 	double gamma_si=working_conditions_factors_.get_gamma_si();
 	double gamma_c=working_conditions_factors_.get_gamma_c();
-	double R_b=composite_section_.get_concrete_part()->get_R_b();
-	double R_s=composite_section_.get_concrete_part()->get_rebar().get_R_s();
+	double R_b=composite_section_.get_concrete_part().get_R_b();
+	double R_s=composite_section_.get_concrete_part().get_rebar().get_R_s();
 
 	std::vector<Stresses> temp_stresses_list;
 
@@ -390,7 +390,7 @@ void TCompositeBeam::calculate_stresses()
  void TCompositeBeam::calculate_gamma_1()
  {
 	double gamma_bi=working_conditions_factors_.get_gamma_bi();
-	double R_b=composite_section_.get_concrete_part()->get_R_bn();
+	double R_b=composite_section_.get_concrete_part().get_R_bn();
 	//double R_y=composite_section_->get_steel_part().get_R_y();
    //	gamma_1_=1+(gamma_bi*R_b-sigma_b)/(gamma_c*R_y)*A_b/A_f2_st;
  }
@@ -430,11 +430,11 @@ void TCompositeBeam::calc_ratios()
 		double Z_b_st=composite_section_.get_Z_b_st();
 		double W_f2_st=composite_section_.get_steel_part().get_I_section().get_Wf2_st();
 		double W_f1_st=composite_section_.get_steel_part().get_I_section().get_Wf1_st();
-		double A_s=composite_section_.get_concrete_part()->get_rebar().get_A_s();
+		double A_s=composite_section_.get_concrete_part().get_rebar().get_A_s();
 		double A_st=composite_section_.get_steel_part().get_I_section().get_A_st();
 		double A_b=get_A_b();
 		double R_y=composite_section_.get_steel_grade().get_R_y ();
-		double R_b=composite_section_.get_concrete_part()->get_R_bn();
+		double R_b=composite_section_.get_concrete_part().get_R_bn();
 		double gamma_bi=working_conditions_factors_.get_gamma_bi();
 		double gamma_c=working_conditions_factors_.get_gamma_c();
 		double A_f2_st=composite_section_.get_steel_part().get_I_section().get_A_f2_st();
@@ -460,12 +460,12 @@ Ratios TCompositeBeam::calculate_II_case(Impact impact, int cs_id)
 		double Z_b_st=composite_section_.get_Z_b_st();
 		double W_f2_st=composite_section_.get_steel_part().get_I_section().get_Wf2_st();
 		double W_f1_st=composite_section_.get_steel_part().get_I_section().get_Wf1_st();
-		double A_s=composite_section_.get_concrete_part()->get_rebar().get_A_s();
-		double R_s=composite_section_.get_concrete_part()->get_rebar().get_R_s();
+		double A_s=composite_section_.get_concrete_part().get_rebar().get_A_s();
+		double R_s=composite_section_.get_concrete_part().get_rebar().get_R_s();
 		double A_st=composite_section_.get_steel_part().get_I_section().get_A_st();
 		double A_b=get_A_b();
 		double R_y=composite_section_.get_steel_grade().get_R_y ();
-		double R_b=composite_section_.get_concrete_part()->get_R_bn();
+		double R_b=composite_section_.get_concrete_part().get_R_bn();
 		double gamma_bi=working_conditions_factors_.get_gamma_bi();
 		double gamma_c=working_conditions_factors_.get_gamma_c();
 		double A_f2_st=composite_section_.get_steel_part().get_I_section().get_A_f2_st();
@@ -486,12 +486,12 @@ Ratios TCompositeBeam::calculate_III_case(Impact impact, int cs_id)
 		double Z_b_st=composite_section_.get_Z_b_st();
 		double W_f2_st=composite_section_.get_steel_part().get_I_section().get_Wf2_st();
 		double W_f1_st=composite_section_.get_steel_part().get_I_section().get_Wf1_st();
-		double A_s=composite_section_.get_concrete_part()->get_rebar().get_A_s();
-		double R_s=composite_section_.get_concrete_part()->get_rebar().get_R_s();
+		double A_s=composite_section_.get_concrete_part().get_rebar().get_A_s();
+		double R_s=composite_section_.get_concrete_part().get_rebar().get_R_s();
 		double A_st=composite_section_.get_steel_part().get_I_section().get_A_st();
 		double A_b=get_A_b();
 		double R_y=composite_section_.get_steel_grade().get_R_y ();
-		double R_b=composite_section_.get_concrete_part()->get_R_bn();
+		double R_b=composite_section_.get_concrete_part().get_R_bn();
 		double gamma_bi=working_conditions_factors_.get_gamma_bi();
 		double gamma_c=working_conditions_factors_.get_gamma_c();
 		double A_f2_st=composite_section_.get_steel_part().get_I_section().get_A_f2_st();

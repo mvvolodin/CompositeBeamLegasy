@@ -117,21 +117,21 @@ private:
 
 private:
 //Функции доступа к характеристикам композитного сечения
-	double get_h_b() const {return composite_section_.get_concrete_part()->get_h_b();}
-	double get_C_b() const {return composite_section_.get_concrete_part()->get_C_b();}
+	double get_h_b() const {return composite_section_.get_concrete_part().get_h_b();}
+	double get_C_b() const {return composite_section_.get_concrete_part().get_C_b();}
 	double get_t_f2() const {return composite_section_.get_steel_part().get_I_section().get_t_uf();}
 	double get_t_f1() const {return composite_section_.get_steel_part().get_I_section().get_t_lf();}
 	double get_b_f2() const {return composite_section_.get_steel_part().get_I_section().get_b_uf();}
 	double get_A_w_st() const {return composite_section_.get_steel_part().get_I_section().get_b_uf();}
-	double get_A_b() const {return composite_section_.get_concrete_part()->get_A_b();}
-	double get_R_s() const {return  composite_section_.get_concrete_part()->get_rebar().get_R_s();}
-	double get_A_s() const {return  composite_section_.get_concrete_part()->get_rebar().get_A_s();}
-	double get_R_b() const {return  composite_section_.get_concrete_part()->get_concrete().get_R_b();}
+	double get_A_b() const {return composite_section_.get_concrete_part().get_A_b();}
+	double get_R_s() const {return  composite_section_.get_concrete_part().get_rebar().get_R_s();}
+	double get_A_s() const {return  composite_section_.get_concrete_part().get_rebar().get_A_s();}
+	double get_R_b() const {return  composite_section_.get_concrete_part().get_concrete().get_R_b();}
 	double get_R_y() const {return  composite_section_.get_steel_grade().get_R_y ();}
 	double get_A_st() const {return  composite_section_.get_steel_part().get_I_section().get_A_st();}
 	double get_A_f1_st() const {return  composite_section_.get_steel_part().get_I_section().get_A_f1_st();}
 	double get_A_f2_st() const {return  composite_section_.get_steel_part().get_I_section().get_A_f2_st();}
-	double get_b_sl() const {return composite_section_.get_concrete_part()->get_b_sl();}
+	double get_b_sl() const {return composite_section_.get_concrete_part().get_b_sl();}
 	double get_h_w() const {return composite_section_.get_steel_part().get_I_section().get_h_w();}
 	double get_t_w() const {return composite_section_.get_steel_part().get_I_section().get_t_w();}
 	double get_Q_Rd() const {return composite_section_.get_steel_part().get_Q_Rd();}
