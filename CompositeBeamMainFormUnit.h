@@ -40,11 +40,9 @@
 
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
 
-//#include <memory>
-//#include <cassert>
- //@
+
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
-//@@
+
 class TCompositeBeamMainForm : public TForm, public IObserver_
 {
 

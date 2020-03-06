@@ -43,10 +43,10 @@ void TCompositeBeamMainForm::register_observers()
 //----------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 {
-//Так как главная форма создаётся перед остальными формами и учитывая, что форма появляется
-//только один раз, все инструкции использующее данные других форм должны быть вынесены в
-//обработчик события OnShow, когда все формы гарантировано созданы и инициализированы.
 	register_observers();
+
+	pnl_shear_stud_viewer->Caption = StudDefinitionForm -> get_studs().get_name();
+	pnl_rebar_viewer->Caption = RebarDefinitionForm -> get_rebar().get_grade();
 
 	NNewClick(Sender);
 
@@ -58,8 +58,7 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	pnl_steel->Caption = DefineSteelForm->ComboBox_steel->Text;
 	pnl_concrete_grade->Caption=ConcreteDefinitionForm->cmb_bx_concrete_grade_list->Text;
 	rdgrp_slab_typeClick(Sender);
-	pnl_shear_stud_viewer->Caption = StudDefinitionForm -> get_studs().get_name();
-	pnl_rebar_viewer->Caption = RebarDefinitionForm -> get_rebar().get_grade();
+
 	calculate_composite_beam();
 
 }
