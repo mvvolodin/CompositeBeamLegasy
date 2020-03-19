@@ -22,6 +22,32 @@ TGeometry::TGeometry(int beam_division, bool end_beam, double span, double trib_
 	temporary_supports_coordinates_calculation();
 	all_supports_coordinates_calculation();
 }
+//---------------------------------------------------------------------------
+// Сохранение данных в бинарный файл
+//---------------------------------------------------------------------------
+void TGeometry::save_geometry(ostream& ostr)const
+{
+	ostr.write((char*)&end_beam_,sizeof(end_beam_));
+	ostr.write((char*)&span_,sizeof(span_));
+	ostr.write((char*)&trib_width_left_,sizeof(trib_width_left_));
+	ostr.write((char*)&trib_width_right_,sizeof(trib_width_right_));
+	ostr.write((char*)&temporary_supports_number_,sizeof(temporary_supports_number_));
+	ostr.write((char*)&beam_division_,sizeof(beam_division_));
+
+}
+//---------------------------------------------------------------------------
+// Чтение данных из бинарного файл
+//---------------------------------------------------------------------------
+void TGeometry::load_geometry(istream& istr)
+{
+	istr.read((char*)&end_beam_,sizeof(end_beam_));
+	istr.read((char*)&span_,sizeof(span_));
+	istr.read((char*)&trib_width_left_,sizeof(trib_width_left_));
+	istr.read((char*)&trib_width_right_,sizeof(trib_width_right_));
+	istr.read((char*)&temporary_supports_number_,sizeof(temporary_supports_number_));
+	istr.read((char*)&beam_division_,sizeof(beam_division_));
+
+}
 void TGeometry::permanent_supports_coordinates_calculation()
 {
    permanent_supports_coordinates_.push_back(0.0);

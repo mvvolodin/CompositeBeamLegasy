@@ -7,6 +7,7 @@
 #include<map>
 #include<utility>
 #include<vector>
+#include <ostream>
 #include "Units.h"
 
 class TStudBasic{
@@ -17,6 +18,7 @@ protected:
 public:
 	TStudBasic();
 	TStudBasic(String name, double d_an, double l);
+
 	String get_name() const {return name_;};
 	double get_l(LengthUnit length_unit=LengthUnit::mm) const
 		{return l_/static_cast<int>(length_unit);}
@@ -33,6 +35,7 @@ public:
 		 double edge_rows_num, double middle_rows_num,
 		 double R_y, double gamma_c);
 
+	void save_studs(std::ostream& ostr)const;
 	std::vector<double> calculate_coordinates(double L);//определение координат размещения стад-болтов
 	int calculate_studs_transverse_rows_number(double L);//определение количества поперечных рядов стад-болтов
 	void calculate_capacity(double R_b, double R_y, double gamma_c);

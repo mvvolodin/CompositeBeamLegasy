@@ -47,6 +47,28 @@ TCompositeBeam::TCompositeBeam():
 
 }
 //---------------------------------------------------------------------------
+//Сохраняем объект композитная балка в бинарный файл
+//---------------------------------------------------------------------------
+void TCompositeBeam::save_composite_beam(std::ostream& ostr) const
+{
+	geometry_.save_geometry(ostr);
+//	loads_.save_loads(ostr);
+//	working_conditions_factors_.save_working_conditions(ostr);
+//	composite_section_.save_composite_section(ostr);
+//	studs_.save_studs(ostr);
+
+}
+//---------------------------------------------------------------------------
+//Загружаем объект композитная балка из бинарного файла
+//---------------------------------------------------------------------------
+void TCompositeBeam::load_composite_beam(std::istream& istr)
+{
+
+	geometry_.load_geometry(istr);
+
+}
+
+//---------------------------------------------------------------------------
 //Созадём лист с координатами расчётных сечений
 //---------------------------------------------------------------------------
 void TCompositeBeam::calc_cs_coordinates()

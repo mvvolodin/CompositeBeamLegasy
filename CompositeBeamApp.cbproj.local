@@ -251,6 +251,7 @@
     <File Path="String_doubleUnit.h"/>
     <File Path="String_doubleUnit.h"/>
     <File Path="Data_Profil.h"/>
+    <File Path="ObserverPatternInterfaces.h"/>
     <File Path="Units.h"/>
     <File Path="ProcExt.h"/>
     <File Path="CompositeBeam.cpp"/>
@@ -500,6 +501,5 @@
     <File Path="AboutProg.h"/>
     <File Path="AboutProg.dfm"/>
     <File Path="AboutProg.h"/>
-    <File Path="ObserverPatternInterfaces.h"/>
   </ProjectSortOrder>
 </BorlandProject>

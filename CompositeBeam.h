@@ -5,6 +5,7 @@
 
 
 #include <vector>
+#include <ostream>
 //---------------------------------------------------------------------------
 #include "GeometryUnit.h"
 #include "LoadsUnit.h"
@@ -76,6 +77,8 @@ public:
 	double get_max_stud_ratio();
 	double get_ratio_rigid_plastic() const {return ratio_rigid_plastic_;}
 	double get_max_shear_ratio() const {return *std::max_element(shear_ratios_.begin(),shear_ratios_.end());}
+	void save_composite_beam(std::ostream& ostr) const;
+    void load_composite_beam(std::istream& istr);
 
 private:
 //Поля с исходными данными

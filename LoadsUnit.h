@@ -4,21 +4,16 @@
 #define LoadsUnitH
 //---------------------------------------------------------------------------
 #include <cmath>
+#include <ostream>
 #include "Units.h"
 
 class TLoads {
-private:
-	double SW_ = 0.;
-	double SW_sheets_ = 0.;
-	double DL_I_ = 0.;
-	double DL_II_ = 0.;
-	double LL_ = 0.;
-	double gamma_f_st_SW_ = 0.;
-	double gamma_f_DL_I_ = 0.;
-	double gamma_f_DL_II_ = 0.;
-	double gamma_f_LL_ = 0.;
-
 public:
+  	TLoads();
+	TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL,
+		double gamma_f_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL);
+	void save_loads(std::ostream& ostr) const;
+
 	double get_self_weight(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		{return SW_/static_cast<int>(load_unit)*static_cast<int>(length_unit);}
 	double get_self_weight_sheets(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
@@ -34,10 +29,17 @@ public:
 	double get_gamma_f_DL_II(){return gamma_f_DL_II_;};
 	double get_gamma_f_LL()const {return gamma_f_LL_;};
 
-public:
-  	TLoads();
-	TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL,
-		double gamma_f_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL);
+private:
+	double SW_ = 0.;
+	double SW_sheets_ = 0.;
+	double DL_I_ = 0.;
+	double DL_II_ = 0.;
+	double LL_ = 0.;
+	double gamma_f_st_SW_ = 0.;
+	double gamma_f_DL_I_ = 0.;
+	double gamma_f_DL_II_ = 0.;
+	double gamma_f_LL_ = 0.;
+
 };
 #endif
 

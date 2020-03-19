@@ -18,7 +18,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   PixelsPerInch = 96
   TextHeight = 13
   object lbl_beam_division: TLabel
-    Left = 469
+    Left = 543
     Top = 567
     Width = 90
     Height = 13
@@ -85,7 +85,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     end
   end
   object edt_beam_division: TEdit
-    Left = 565
+    Left = 639
     Top = 563
     Width = 42
     Height = 21
@@ -129,7 +129,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -3248,13 +3248,39 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   end
   object btn_logger: TButton
     Left = 259
-    Top = 561
+    Top = 559
     Width = 75
     Height = 25
     Caption = #1051#1086#1075
     TabOrder = 6
     Visible = False
     OnClick = btn_loggerClick
+  end
+  object btn_save_test: TButton
+    Left = 340
+    Top = 559
+    Width = 106
+    Height = 25
+    Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' ('#1090#1077#1089#1090')'
+    TabOrder = 7
+    OnClick = btn_save_testClick
+  end
+  object BitBtn1: TBitBtn
+    Left = 584
+    Top = 576
+    Width = 49
+    Height = 1
+    Caption = 'BitBtn1'
+    TabOrder = 8
+  end
+  object btn_load_test: TButton
+    Left = 452
+    Top = 559
+    Width = 102
+    Height = 25
+    Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' ('#1090#1077#1089#1090')'
+    TabOrder = 9
+    OnClick = btn_load_testClick
   end
   object MainMenu1: TMainMenu
     Images = ImageList1

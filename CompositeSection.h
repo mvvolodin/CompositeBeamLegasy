@@ -2,6 +2,7 @@
 
 #ifndef CompositeSectionH
 #define CompositeSectionH
+#include <ostream>
 #include "ISectionInitialDataUnit.h"
 #include "ISection.h"
 #include "ConcretePartUnit.h"
@@ -54,7 +55,7 @@ public:
 	CompositeSection(SteelPart    steel_part,
 					 TConcretePart concrete_part,
 					 TGeometry geometry);
-
+	void save_composite_section(std::ostream& ostr)const;
 	SteelPart get_steel_part()const {return steel_part_;}
 	ISection get_I_section()const {return steel_part_.get_I_section();}
 	TConcretePart get_concrete_part()const {return concrete_part_;}

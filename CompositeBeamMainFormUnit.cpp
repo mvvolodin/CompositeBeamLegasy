@@ -1,6 +1,8 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
 #include<ComObj.hpp>
+#include <ostream>
+#include <fstream>
 #pragma hdrstop
 
 //---------------------------------------------------------------------------
@@ -1072,6 +1074,26 @@ void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
 void __fastcall TCompositeBeamMainForm::N8Click(TObject *Sender)
 {
 	AboutProgForm->ShowModal();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TCompositeBeamMainForm::btn_save_testClick(TObject *Sender)
+{
+	std::ofstream ofstr {"test.bn"};
+	composite_beam_.save_composite_beam(ofstr);
+	ofstr.close();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TCompositeBeamMainForm::btn_load_testClick(TObject *Sender)
+{
+	std::ifstream ifstr {"test.bn"};
+	composite_beam_.load_composite_beam(ifstr);
+	ifstr.close();
+
+
 }
 //---------------------------------------------------------------------------
 

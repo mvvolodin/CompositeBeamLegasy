@@ -158,6 +158,9 @@ __published:	// IDE-managed Components
 	TLabel *lbl_h_f;
 	TLabel *lbl_corrugated_sheet_type;
 	TImage *Image2;
+	TButton *btn_save_test;
+	TBitBtn *BitBtn1;
+	TButton *btn_load_test;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -185,6 +188,8 @@ __published:	// IDE-managed Components
 	void __fastcall cmb_bx_corrugated_sheeting_part_numberChange(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
 	void __fastcall N8Click(TObject *Sender);
+	void __fastcall btn_save_testClick(TObject *Sender);
+	void __fastcall btn_load_testClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);
