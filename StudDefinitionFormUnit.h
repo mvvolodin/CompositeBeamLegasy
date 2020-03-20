@@ -48,17 +48,18 @@ __published:	// IDE-managed Components
 private:
 	static const Publisher_ID id_ = Publisher_ID::STUDS_FORM;
 	IObserver_* iobserver_;
-	Studs studs_;
+	Studs studs_temp_;
 
 	void fill_stud_data();
 	void set_studs();
 	void init_form_controls();
-	virtual String get_information()const override;
-	virtual Publisher_ID get_id()const override;
+	virtual String get_information()const override {return studs_temp_.get_name();}
+	virtual Publisher_ID get_id()const override {return id_;}
 public:
 	__fastcall TStudDefinitionForm(TComponent* Owner);
-	Studs get_studs()const{return studs_;}
+	Studs get_studs()const{return studs_temp_;}
 	void register_observer(IObserver_* iobserver);
+	void update(Studs studs);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TStudDefinitionForm *StudDefinitionForm;

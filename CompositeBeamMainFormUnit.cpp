@@ -1093,6 +1093,8 @@ void __fastcall TCompositeBeamMainForm::btn_load_testClick(TObject *Sender)
 	composite_beam_.load_composite_beam(ifstr);
 	ifstr.close();
 
+	StudDefinitionForm->update(composite_beam_.get_studs());
+
 
 }
 //---------------------------------------------------------------------------

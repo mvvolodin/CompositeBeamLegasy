@@ -89,6 +89,7 @@ object StudDefinitionForm: TStudDefinitionForm
       Height = 21
       ItemIndex = 0
       TabOrder = 2
+      Text = '1'
       Items.Strings = (
         '1'
         '2')
@@ -100,6 +101,7 @@ object StudDefinitionForm: TStudDefinitionForm
       Height = 21
       ItemIndex = 0
       TabOrder = 3
+      Text = '1'
       Items.Strings = (
         '1'
         '2')

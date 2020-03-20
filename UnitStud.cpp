@@ -124,6 +124,48 @@ Studs::Studs(String name,
 {
 
 }
+void Studs::save_studs(ostream& ostr) const
+{
+	save_stud_basic(ostr);
+
+	ostr.write((char*)&edge_rows_dist_ ,sizeof(edge_rows_dist_));
+	ostr.write((char*)&middle_rows_dist_ ,sizeof(middle_rows_dist_));
+	ostr.write((char*)&edge_rows_num_ ,sizeof(edge_rows_num_));
+	ostr.write((char*)&middle_rows_num_ ,sizeof(middle_rows_num_));
+	ostr.write((char*)& R_y_ ,sizeof( R_y_));
+	ostr.write((char*)&gamma_c_ ,sizeof(gamma_c_));
+}
+void TStudBasic::save_stud_basic(ostream& ostr) const
+{
+	unsigned short l = name_.Length();
+
+	ostr.write((char*)&l,sizeof(l));
+	ostr.write((char*)name_.c_str(),l*sizeof(wchar_t));
+	ostr.write((char*)&d_an_,sizeof(d_an_));
+	ostr.write((char*)&l_,sizeof(l_));
+}
+void Studs::load_studs(istream& istr)
+{
+	load_stud_basic(istr);
+
+	istr.read((char*)&edge_rows_dist_ ,sizeof(edge_rows_dist_));
+	istr.read((char*)&middle_rows_dist_ ,sizeof(middle_rows_dist_));
+	istr.read((char*)&edge_rows_num_ ,sizeof(edge_rows_num_));
+	istr.read((char*)&middle_rows_num_ ,sizeof(middle_rows_num_));
+	istr.read((char*)& R_y_ ,sizeof( R_y_));
+	istr.read((char*)&gamma_c_ ,sizeof(gamma_c_));
+
+}
+void TStudBasic::load_stud_basic(istream& istr)
+{
+	unsigned short l = name_.Length();
+
+	istr.read((char*)&l,sizeof(l));
+	istr.read((char*)name_.c_str(),l*sizeof(wchar_t));
+	istr.read((char*)&d_an_,sizeof(d_an_));
+	istr.read((char*)&l_,sizeof(l_));
+
+}
 //-----------------------------------------------------------------------------
 //Определение количества поперечных рядов стад-болтов
 //in:l-пролёт балки

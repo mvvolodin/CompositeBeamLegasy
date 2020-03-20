@@ -35,7 +35,8 @@ void __fastcall TStudDefinitionForm::cmb_bx_stud_part_numberChange(TObject *Send
 	edt_stud_height->Text=FloatToStr(stud_named_list.find(name)->second.get_l());
 }
 //---------------------------------------------------------------------------
-//Заполняет данные по упорам Нельсона
+//Читает данные из полей формы, проверяет правильность данных, создаёт объект
+// типа Studs и присваивает его полю формы studs_
 //---------------------------------------------------------------------------
 void TStudDefinitionForm::set_studs()
 {
@@ -64,7 +65,7 @@ void TStudDefinitionForm::set_studs()
 	edge_studs_rows_num=StrToFloat(cmb_bx_edge_studs_rows_num->Text);
 	middle_studs_rows_num=StrToFloat(cmb_bx_middle_studs_rows_num->Text);
 
-	 studs_ = Studs(name, d_an, l,
+	 studs_temp_ = Studs(name, d_an, l,
 				edge_studs_dist, middle_studs_dist,
 				edge_studs_rows_num, middle_studs_rows_num,
 				R_y, gamma_c);
@@ -79,15 +80,15 @@ void __fastcall TStudDefinitionForm::btn_okClick(TObject *Sender)
 
 void TStudDefinitionForm::init_form_controls()
 {
-	cmb_bx_stud_part_number -> Text = studs_.get_name();
-	edt_stud_yield_strength -> Text = studs_.get_R_y();
-	edt_stud_diameter -> Text = studs_.get_d_an();
-	edt_stud_height -> Text = studs_.get_l();
-	edt_stud_safety_factor -> Text = studs_.get_gamma_c();
-	edt_edge_studs_dist -> Text = studs_.get_edge_rows_dist();
-	cmb_bx_edge_studs_rows_num -> Text = studs_.get_edge_rows_num();
-	edt_middle_studs_dist -> Text = studs_.get_middle_rows_dist();
-	cmb_bx_middle_studs_rows_num -> Text = studs_.get_middle_rows_num();
+	cmb_bx_stud_part_number -> Text = studs_temp_.get_name();
+	edt_stud_yield_strength -> Text = studs_temp_.get_R_y();
+	edt_stud_diameter -> Text = studs_temp_.get_d_an();
+	edt_stud_height -> Text = studs_temp_.get_l();
+	edt_stud_safety_factor -> Text = studs_temp_.get_gamma_c();
+	edt_edge_studs_dist -> Text = studs_temp_.get_edge_rows_dist();
+	cmb_bx_edge_studs_rows_num -> Text = studs_temp_.get_edge_rows_num();
+	edt_middle_studs_dist -> Text = studs_temp_.get_middle_rows_dist();
+	cmb_bx_middle_studs_rows_num -> Text = studs_temp_.get_middle_rows_num();
 
 }
 
@@ -102,16 +103,14 @@ void __fastcall TStudDefinitionForm::btn_cancelClick(TObject *Sender)
 {
 	Close();
 }
-//---------------------------------------------------------------------------
-String TStudDefinitionForm::get_information()const
-{
-   return studs_.get_name();
 
-}
 //---------------------------------------------------------------------------
-Publisher_ID TStudDefinitionForm::get_id()const
+//Обновить поля формы данными объекта типа Studs
+//---------------------------------------------------------------------------
+void TStudDefinitionForm::update(Studs studs)
 {
-   return id_;
+	studs_temp_ = studs;
+	init_form_controls();
+	iobserver_ -> update(this);
 }
-//---------------------------------------------------------------------------
 

@@ -11,10 +11,6 @@
 #include "Units.h"
 
 class TStudBasic{
-protected:
-	String name_ = L"SDx10x100";
-	double d_an_ = 10.; //Диаметр стержня гибкого упора
-	double l_= 100. ;   //Длина круглого стержня гибкого упора
 public:
 	TStudBasic();
 	TStudBasic(String name, double d_an, double l);
@@ -24,6 +20,13 @@ public:
 		{return l_/static_cast<int>(length_unit);}
 	double get_d_an(LengthUnit length_unit=LengthUnit::mm) const
 		{return d_an_/static_cast<int>(length_unit);}
+protected:
+	String name_ = L"SDx10x100";
+	double d_an_ = 10.; //Диаметр стержня гибкого упора
+	double l_= 100. ;   //Длина круглого стержня гибкого упора
+
+	void save_stud_basic(std::ostream& ostr)const;
+	void load_stud_basic(std::istream& istr);
 };
 
 class Studs:public TStudBasic{
@@ -36,6 +39,7 @@ public:
 		 double R_y, double gamma_c);
 
 	void save_studs(std::ostream& ostr)const;
+    void load_studs(std::istream& istr);
 	std::vector<double> calculate_coordinates(double L);//определение координат размещения стад-болтов
 	int calculate_studs_transverse_rows_number(double L);//определение количества поперечных рядов стад-болтов
 	void calculate_capacity(double R_b, double R_y, double gamma_c);
