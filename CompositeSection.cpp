@@ -36,6 +36,12 @@ CompositeSection::CompositeSection(SteelPart    steel_part,
 	sect_modulus_conc();
 }
 
+void CompositeSection::set_default_values()
+{
+	steel_part_.set_default_values();
+	concrete_part_.set_default_values();
+}
+
 
 void CompositeSection::alfa_to_rebar_steel_calc()
 {

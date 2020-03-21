@@ -22,6 +22,17 @@ TGeometry::TGeometry(int beam_division, bool end_beam, double span, double trib_
 	temporary_supports_coordinates_calculation();
 	all_supports_coordinates_calculation();
 }
+void TGeometry::set_default_values()
+{
+	end_beam_ = false;
+	span_ = 18000;
+	trib_width_left_ = 6000;
+	trib_width_right_ = 6000;
+	temporary_supports_number_ = 0;
+	beam_division_ = 50;
+
+
+}
 //---------------------------------------------------------------------------
 // Сохранение данных в бинарный файл
 //---------------------------------------------------------------------------

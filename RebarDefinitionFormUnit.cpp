@@ -28,6 +28,19 @@ void __fastcall TRebarDefinitionForm::cmb_bx_rebar_gradeChange(TObject *Sender)
 	edt_R_s_n->Text=FloatToStr(rebar_named_list.find(grade)->second.get_R_sn());
 }
 //---------------------------------------------------------------------------
+//Присваивение значений полям формы из данных класс типа Studs
+//---------------------------------------------------------------------------
+void TRebarDefinitionForm::set_form_controls()
+{
+	edt_diameter -> Text = rebar_temp_.get_diameter();
+	edt_R_s_n -> Text = rebar_temp_.get_R_sn();
+	edt_b -> Text = rebar_temp_.get_b();
+	edt_a_u -> Text = rebar_temp_.get_a_u();
+	edt_a_l -> Text = rebar_temp_.get_a_l();
+	edt_safety_factor -> Text = rebar_temp_.get_gamma_s_();
+	cmb_bx_rebar_grade -> Text = rebar_temp_.get_grade();
+
+}
 
 void TRebarDefinitionForm::set_rebar()
 {
@@ -44,7 +57,7 @@ void TRebarDefinitionForm::set_rebar()
 	String_double_plus(lbl_safety_factor->Caption, edt_safety_factor->Text, &safety_factor);
 	String grade = cmb_bx_rebar_grade->Text;
 	double R_s = StrToFloat(edt_R_s_n->Text);
-	rebar_ = Rebar(grade, R_s, diameter, b, a_u, a_l, safety_factor);
+	rebar_temp_ = Rebar(grade, R_s, diameter, b, a_u, a_l, safety_factor);
 }
 //---------------------------------------------------------------------------
 
@@ -54,17 +67,7 @@ void __fastcall TRebarDefinitionForm::bt_btn_OkClick(TObject *Sender)
 	iobserver_ -> update(this);
 	Close();
 }
-//---------------------------------------------------------------------------
-void TRebarDefinitionForm::init_form_controls()
-{
-	cmb_bx_rebar_grade -> Text = rebar_.get_grade();
-	edt_R_s_n -> Text = rebar_.get_R_sn();
-	edt_diameter -> Text = rebar_.get_diameter();
-	edt_b -> Text = rebar_.get_b();
-	edt_a_u -> Text = rebar_.get_a_u();
-	edt_a_l -> Text = rebar_.get_a_l();
-	edt_safety_factor -> Text = rebar_.get_gamma_s_();
-}
+
 void TRebarDefinitionForm::register_observer(IObserver_* iobserver)
 {
 	iobserver_ = iobserver;
@@ -79,16 +82,25 @@ void __fastcall TRebarDefinitionForm::bt_btn_cancelClick(TObject *Sender)
 
 void __fastcall TRebarDefinitionForm::FormShow(TObject *Sender)
 {
-	init_form_controls();
+	set_form_controls();
 }
 String TRebarDefinitionForm::get_information()const
 {
-   return rebar_.get_grade();
+   return rebar_temp_.get_grade();
 
 }
 Publisher_ID TRebarDefinitionForm::get_id()const
 {
    return id_;
+}
+//---------------------------------------------------------------------------
+//Присваивем значения полям формы из параметра функции типа Rebar
+//---------------------------------------------------------------------------
+void TRebarDefinitionForm::set_form_controls(Rebar rebar)
+{
+	rebar_temp_ = rebar;
+	set_form_controls();
+	iobserver_ -> update(this);
 }
 //---------------------------------------------------------------------------
 

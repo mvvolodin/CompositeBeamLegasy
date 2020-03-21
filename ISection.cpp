@@ -27,6 +27,25 @@
 	 Wf2_st_=i_section_initial_data.Wf2_st;
 	 Wf1_st_=i_section_initial_data.Wf2_st;
 	}
+	void ISection::set_default_values()
+	{
+	 profile_number_ = L"70Á4";
+	 b_uf_= 262.;
+	 t_uf_= 25.;
+	 b_lf_= 262.;
+	 t_lf_= 25.;
+	 h_w_= 660.;
+	 t_w_= 17.;
+	 A_st_ = 24814.;
+	 I_st_ = 1996800000.;
+	 h_st_ = 710.;
+	 r_= 24.;
+	 weight_ = 248.14;
+	 Z_f2_st_= 355.;
+	 Z_f1_st_ = 355.;
+	 Wf2_st_ = 5624800;
+	 Wf1_st_ = 5624800;
+	}
 
 
 

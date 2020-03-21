@@ -19,6 +19,7 @@ RebarNamedList rebar_named_list
 RebarBasic::RebarBasic()
 {
 }
+
 RebarBasic::RebarBasic(String grade, double R_sn):
 	grade_(grade),
 	R_sn_(R_sn){}
@@ -26,7 +27,7 @@ RebarBasic::RebarBasic(String grade, double R_sn):
 Rebar::Rebar():
 	RebarBasic()
 {
-	calc_A_s();
+
 }
 
 Rebar::Rebar(String grade, double R_sn, double d_s, double b, double a_u,
@@ -39,6 +40,19 @@ Rebar::Rebar(String grade, double R_sn, double d_s, double b, double a_u,
 	gamma_s_(gamma_s)
 {
    calc_A_s();
+}
+void Rebar::set_default_values()
+{
+	grade_ = L"A1000";
+	R_sn_ = 1000.;
+	E_s_ = 200000.;
+	d_s_ = 12.;
+	b_  = 200.;
+	a_u_ = 50.;
+	a_l_ = 50.;
+	gamma_s_ = 1.15;
+
+	calc_A_s();
 }
 
 void Rebar::calc_A_s()

@@ -16,6 +16,7 @@ public:
 
 	TConcretePart();
 	TConcretePart(String slab_type, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf);
+	void set_default_values();
 
 	double effective_width_calc(double t_sl, double a, double B, double l);
 	double effective_width_cantilever_calc(double t_slc, double a, double Ñ, double l);

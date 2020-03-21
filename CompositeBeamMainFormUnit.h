@@ -105,11 +105,7 @@ __published:	// IDE-managed Components
 	TLabel *lblLoadCase;
 	TComboBox *cmb_bx_impact;
 	TRadioGroup *rd_grp_internal_forces_type;
-	TGroupBox *GrpBxErection;
-	TLabel *lbl_number_propping_supports;
 	TComboBox *cmb_bx_number_propping_supports;
-	TGroupBox *grb_bx_analysis_theory;
-	TComboBox *cmb_bx_analysis_theory;
 	TGroupBox *grp_bx_working_conditions_factors;
 	TLabel *lbl_gamma_c;
 	TLabel *lbl_gamma_bi;
@@ -161,6 +157,7 @@ __published:	// IDE-managed Components
 	TButton *btn_save_test;
 	TBitBtn *BitBtn1;
 	TButton *btn_load_test;
+	TLabel *lbl_number_propping_supports;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -198,7 +195,6 @@ private:
 
 	TCompositeBeam composite_beam_; //Основной объект в программе  // Пользовательсткие private функции
 
-	AnalysisTheory get_analysis_theory();
 	TGeometry init_geomet();//Инициализация топологии
 	TLoads init_loads(); //Инициализация нагрузок
 	TISectionInitialData init_i_section();//Инициализация объекта геометрия двутавра
@@ -208,12 +204,12 @@ private:
 	Studs init_stud();//Инициализация упоров
 	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
 
-	void init_composite_beam(AnalysisTheory 		  analysis_theory,
-							 TGeometry 				  geometry,
+	void init_composite_beam(TGeometry 				  geometry,
 							 TLoads 				  loads,
 							 CompositeSection 		  composite_section,
 							 Studs					  stud,
 							 WorkingConditionsFactors working_conditions_factors);
+	void set_form_controls();
 	void generate_report();
 	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
 	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения

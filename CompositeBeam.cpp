@@ -17,19 +17,34 @@ TCompositeBeam::TCompositeBeam():
 //---------------------------------------------------------------------------
 //Конструктор композитной балки
 //---------------------------------------------------------------------------
- TCompositeBeam::TCompositeBeam(AnalysisTheory           analysis_theory,
-								TGeometry                geometry,
+ TCompositeBeam::TCompositeBeam(TGeometry                geometry,
 								TLoads     				 loads,
 								CompositeSection         composite_section,
 								Studs					 stud,
 								WorkingConditionsFactors working_conditions_factors)
-   :analysis_theory_(analysis_theory),
-	geometry_(geometry),
+   :geometry_(geometry),
 	composite_section_(composite_section),
 	studs_(stud),
 	loads_(loads),
 	working_conditions_factors_(working_conditions_factors)
- {
+{
+}
+//---------------------------------------------------------------------------
+//Присваение данным класса значений по умолчанию
+//---------------------------------------------------------------------------
+void TCompositeBeam::set_default_values()
+{
+	geometry_.set_default_values();
+	loads_.set_default_values();
+	working_conditions_factors_.set_default_values();
+	composite_section_.set_default_values();
+	studs_.set_default_values();
+}
+//---------------------------------------------------------------------------
+//Расчёт композитной балки
+//---------------------------------------------------------------------------
+void TCompositeBeam::calculate()
+{
 	calc_cs_coordinates();
 	calc_studs_coordinates();
 	calc_inter_forces();
@@ -44,8 +59,8 @@ TCompositeBeam::TCompositeBeam():
 
 	get_max_upper_flange_ratio();
 	get_max_lower_flange_ratio();
-
 }
+
 //---------------------------------------------------------------------------
 //Сохраняем объект композитная балка в бинарный файл
 //---------------------------------------------------------------------------
@@ -577,14 +592,6 @@ void TCompositeBeam::log_stresses()
 
 
 
-}
-
-String TCompositeBeam::get_analysis_theory()
-{
-	if(analysis_theory_==AnalysisTheory::ELASTO_PLASTCIC)
-		return L"Упруго-пластическая";
-	else
-		return L"Жёстко-пластическая";
 }
 
 void TCompositeBeam::calc_studs_ratios()

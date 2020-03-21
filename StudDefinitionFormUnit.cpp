@@ -23,7 +23,7 @@ __fastcall TStudDefinitionForm::TStudDefinitionForm(TComponent* Owner)
 }
 void __fastcall TStudDefinitionForm::FormShow(TObject *Sender)
 {
-	init_form_controls();
+	set_form_controls();
 }
 //---------------------------------------------------------------------------
 
@@ -78,7 +78,15 @@ void __fastcall TStudDefinitionForm::btn_okClick(TObject *Sender)
 	Close();
 }
 
-void TStudDefinitionForm::init_form_controls()
+//---------------------------------------------------------------------------
+void __fastcall TStudDefinitionForm::btn_cancelClick(TObject *Sender)
+{
+	Close();
+}
+//---------------------------------------------------------------------------
+//Присваивение значений полям формы из данных класс типа Studs
+//---------------------------------------------------------------------------
+void TStudDefinitionForm::set_form_controls()
 {
 	cmb_bx_stud_part_number -> Text = studs_temp_.get_name();
 	edt_stud_yield_strength -> Text = studs_temp_.get_R_y();
@@ -92,25 +100,13 @@ void TStudDefinitionForm::init_form_controls()
 
 }
 
-
 //---------------------------------------------------------------------------
-void TStudDefinitionForm::register_observer(IObserver_* iobserver)
-{
-	iobserver_ = iobserver;
-}
+//Присваивем значения полям формы из параметра функции типа Studs
 //---------------------------------------------------------------------------
-void __fastcall TStudDefinitionForm::btn_cancelClick(TObject *Sender)
-{
-	Close();
-}
-
-//---------------------------------------------------------------------------
-//Обновить поля формы данными объекта типа Studs
-//---------------------------------------------------------------------------
-void TStudDefinitionForm::update(Studs studs)
+void TStudDefinitionForm::set_form_controls(Studs studs)
 {
 	studs_temp_ = studs;
-	init_form_controls();
+	set_form_controls();
 	iobserver_ -> update(this);
 }
 

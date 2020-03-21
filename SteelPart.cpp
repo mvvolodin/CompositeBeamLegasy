@@ -14,6 +14,11 @@ SteelPart::SteelPart(ISection I_section, Steel I_steel):
 {
 	calc_Q_Rd();
 }
+void SteelPart::set_default_values()
+{
+	I_section_.set_default_values();
+	I_steel_.set_default_values();
+}
 
 void SteelPart::calc_Q_Rd()
 {

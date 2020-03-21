@@ -52,14 +52,14 @@ private:
 
 	void fill_stud_data();
 	void set_studs();
-	void init_form_controls();
+	void set_form_controls();
 	virtual String get_information()const override {return studs_temp_.get_name();}
 	virtual Publisher_ID get_id()const override {return id_;}
 public:
 	__fastcall TStudDefinitionForm(TComponent* Owner);
 	Studs get_studs()const{return studs_temp_;}
-	void register_observer(IObserver_* iobserver);
-	void update(Studs studs);
+	void register_observer(IObserver_* iobserver){iobserver_ = iobserver;}
+	void set_form_controls(Studs studs);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TStudDefinitionForm *StudDefinitionForm;

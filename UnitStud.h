@@ -38,6 +38,7 @@ public:
 		 double edge_rows_num, double middle_rows_num,
 		 double R_y, double gamma_c);
 
+	void set_default_values();
 	void save_studs(std::ostream& ostr)const;
     void load_studs(std::istream& istr);
 	std::vector<double> calculate_coordinates(double L);//определение координат размещения стад-болтов

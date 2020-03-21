@@ -32,6 +32,15 @@ TConcretePart::TConcretePart(String slab_type, Concrete concrete, Rebar rebar, d
 		b_r_ = effective_width_calc(h_f_,a,B_r,l);
 	}
 }
+//-----------------------------------------------------------------------------
+//Присваение данным класса значений по умолчанию
+//-----------------------------------------------------------------------------
+void TConcretePart::set_default_values()
+{
+	slab_type_ = L"Плоская плита";
+	//concrete_.set_default_values();
+	rebar_.set_default_values();
+}
 
 //---------------------------------------------------------------------------
 //Определение расчётного свеса плиты

@@ -44,14 +44,15 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	static const Publisher_ID id_ = Publisher_ID::REBARS_FORM;
 	IObserver_* iobserver_;
-	Rebar rebar_;
+	Rebar rebar_temp_;
+	void set_form_controls();
 	void set_rebar();//Функция которая проверяет корректность ввода и вызывает конструктор rebar
-	void init_form_controls();
 	virtual String get_information()const override;
 	virtual Publisher_ID get_id()const override;
 public:		// User declarations
 	__fastcall TRebarDefinitionForm(TComponent* Owner);
-	Rebar get_rebar() const {return rebar_;}
+	void set_form_controls(Rebar rebar);
+	Rebar get_rebar() const {return rebar_temp_;}
 	void register_observer(IObserver_* iobserver);
 };
 //---------------------------------------------------------------------------

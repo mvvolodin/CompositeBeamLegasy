@@ -21,12 +21,6 @@
 #include "Ratios.h"
 #include "CorrugatedSheet.h"
 
-//---------------------------------------------------------------------------
-enum class AnalysisTheory{  //Уточнить названия
-	ELASTO_PLASTCIC,
-	RIGID
-};
-
 class TCompositeBeam{
 
 
@@ -56,13 +50,13 @@ class TCompositeBeam{
 
 public:
 	TCompositeBeam();
-	TCompositeBeam(AnalysisTheory           analysis_theory,
-				   TGeometry 				geometry,
+	TCompositeBeam(TGeometry 				geometry,
 				   TLoads 					loads,
 				   CompositeSection         composite_section,
 				   Studs 					stud,
 				   WorkingConditionsFactors working_conditions_factors);
-
+	void set_default_values();
+	void calculate();
 	CompositeSection get_composite_section()const{return composite_section_;}//Уродливая запись!!!//Но возвращается ссылка на объект
 	InternalForcesNamedList get_internal_forces_LC()const{return internal_forces_;}
 	std::vector<double> get_CS_coordinates()const {return cs_coordinates_;}
@@ -71,7 +65,6 @@ public:
 	TLoads get_loads()const {return loads_;}
 	WorkingConditionsFactors get_working_conditions_factors() const {return working_conditions_factors_;}
 
-	String get_analysis_theory();
 	double get_max_upper_flange_ratio();
 	double get_max_lower_flange_ratio();
 	double get_max_stud_ratio();
@@ -82,7 +75,6 @@ public:
 
 private:
 //Поля с исходными данными
-	AnalysisTheory analysis_theory_;
 	TGeometry geometry_;
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;

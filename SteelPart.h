@@ -12,7 +12,7 @@ class SteelPart{
 public:
 	SteelPart();
 	SteelPart(ISection I_section, Steel I_steel);
-
+	void set_default_values();
 	ISection get_I_section() const {return I_section_;}
 	Steel get_I_steel() const {return I_steel_;}
 	double get_Q_Rd() const {return Q_Rd_;}

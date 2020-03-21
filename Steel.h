@@ -13,6 +13,7 @@ public:
 	Steel();
 	Steel(String steel_grade, double E_st, double G_st, double nu_st,
 			  double gamma_m,double R_yn,double R_un);
+	void set_default_values();
 	String get_steel_grade () const {return steel_grade_;}
 	double get_R_y() const {return R_yn_ / gamma_m_;}
 	double get_R_yn() const {return R_yn_;}

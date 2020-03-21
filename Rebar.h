@@ -12,8 +12,8 @@ public:
 	String get_grade() const {return grade_;}
 	double get_R_sn() const {return R_sn_;}
 protected:
-	String grade_ = L"A1000";
-	double R_sn_ = 1000.;
+	String grade_ = L"";
+	double R_sn_ = 0.;
 };
 
 class Rebar:public RebarBasic{
@@ -21,6 +21,7 @@ public:
 	Rebar();
 	Rebar(String grade, double R_sn, double d_s, double b, double a_u,
 	double a_l, double gamma_s_);
+    void set_default_values();
 	double get_E_s() const {return E_s_;}
 	double get_R_s() const {return R_sn_ / gamma_s_ ;}
 	double get_diameter() const {return d_s_;}
@@ -32,13 +33,13 @@ public:
 	double get_num_rows(){return num_rows_;}
 
 private:
-	double E_s_ = 200000.;
-	double d_s_ = 12.;
-	double b_  = 200.;//Шаг арматуры
-	double a_u_ = 50.;// Защитный слой верхний арматуры
-	double a_l_ = 50.; //Защитный слой нижней арматуры
+	double E_s_ = 0.;
+	double d_s_ = 0.;
+	double b_  = 0.;//Шаг арматуры
+	double a_u_ = 0.;// Защитный слой верхний арматуры
+	double a_l_ = 0.; //Защитный слой нижней арматуры
 	static const int num_rows_ = 2;
-	double gamma_s_ = 1.15;
+	double gamma_s_ = 0.;
 
 	double A_s_ = 0.;// Площадь арматуры на единицу длины
 

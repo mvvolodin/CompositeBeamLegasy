@@ -22,7 +22,7 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
  _fastcall TCompositeBeamMainForm::TCompositeBeamMainForm(TComponent* Owner)
 	: TForm(Owner)
 {
-//:composite_section_(nullptr)
+	composite_beam_.set_default_values();
 	cotr_ratios_grid();
 	cotr_comp_sect_geometr_grid();
 	cotr_steel_sect_geometr_grid();
@@ -32,7 +32,42 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
 	modify_project = false;
 }
 //----------------------------------------------------------------------
-//
+////Присваивение значений полям формы из данных класс типа TCompositeBeam
+//----------------------------------------------------------------------
+void TCompositeBeamMainForm::set_form_controls()
+{
+ // Данные типа TGeometry
+	TGeometry geom = composite_beam_.get_geometry();
+	edt_beam_division -> Text = geom.get_beam_division();
+	edt_span -> Text = geom.get_span();
+	edt_width_left -> Text = geom.get_trib_width_left();
+	edt_width_right -> Text = geom.get_trib_width_right();
+	cmb_bx_number_propping_supports -> Text = geom.get_temporary_supports_number();
+//Данные типа Loads
+	TLoads loads = composite_beam_.get_loads();
+	edt_dead_load_first_stage -> Text = loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m);
+	edt_dead_load_second_stage -> Text = loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m);
+	edt_live_load -> Text = loads.get_live_load(LoadUnit::kN, LengthUnit::m);
+	edt_gamma_f_st_SW_-> Text = loads.get_gamma_f_st_SW();
+	edt_gamma_f_DL_I -> Text = loads.get_gamma_f_DL_I();
+	edt_gamma_f_DL_II -> Text = loads.get_gamma_f_DL_II();
+	edt_gamma_f_LL -> Text = loads.get_gamma_f_LL();
+
+//Данные типа WorkingConditionsFactors
+	WorkingConditionsFactors wcf = composite_beam_.get_working_conditions_factors();
+	edt_gamma_bi->Text = wcf.get_gamma_bi();
+	edt_gamma_si->Text = wcf.get_gamma_si();
+	edt_gamma_c->Text = wcf.get_gamma_c();
+
+//Данные типа Studs
+	StudDefinitionForm->set_form_controls(composite_beam_.get_studs());
+
+//Данные типа Rebar
+	RebarDefinitionForm->set_form_controls(composite_beam_.get_composite_section().get_concrete_part().get_rebar());
+
+
+
+}
 void TCompositeBeamMainForm::register_observers()
 {
 	std::vector<IPublisher*> ipublishers;
@@ -45,7 +80,10 @@ void TCompositeBeamMainForm::register_observers()
 //----------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 {
+
 	register_observers();
+
+	set_form_controls();
 
 	pnl_shear_stud_viewer->Caption = StudDefinitionForm -> get_studs().get_name();
 	pnl_rebar_viewer->Caption = RebarDefinitionForm -> get_rebar().get_grade();
@@ -226,15 +264,14 @@ Studs TCompositeBeamMainForm::init_stud()
 // ---------------------------------------------------------------------------
 // Инициализация композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_composite_beam(AnalysisTheory           analysis_theory,
-												 TGeometry 				  geometry,
+void TCompositeBeamMainForm::init_composite_beam(TGeometry 				  geometry,
 												 TLoads 				  loads,
 												 CompositeSection 		  composite_section,
 												 Studs 					  stud,
 												 WorkingConditionsFactors working_conditions_factors)
 {
- composite_beam_=TCompositeBeam(analysis_theory,
-								geometry,
+
+ composite_beam_=TCompositeBeam(geometry,
 								loads,
 								composite_section,stud,
 								working_conditions_factors);
@@ -578,7 +615,6 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(working_conditions_factors.get_gamma_bi(),"%gamma_bi%");
 	report_.PasteTextPattern(working_conditions_factors.get_gamma_si(),"%gamma_si%");
 //[1.9] Прочее
-	report_.PasteTextPattern(composite_beam_.get_analysis_theory(),"%analys_theory%");
 	report_.PasteTextPattern(geometry.get_temporary_supports_number(),"%temp_supp%");
 
 
@@ -663,21 +699,12 @@ void __fastcall TCompositeBeamMainForm::rd_grp_internal_forces_typeClick(TObject
 	draw_diagram();
 }
 
-AnalysisTheory TCompositeBeamMainForm::get_analysis_theory()
-{
-	if(cmb_bx_analysis_theory->Text==L"Упруго-пластическая")
-		return AnalysisTheory::ELASTO_PLASTCIC;
-	else
-		return AnalysisTheory::RIGID;
-}
-
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
    //проверка объекта и в случае его наличия будет вызван деструктор
    //проверка в nullptr  в concrete_section_
    //установить все объекты в ноль
 
-   AnalysisTheory analysis_theory=get_analysis_theory();
    TGeometry geometry=init_geomet();//поле содержащее топологию
    TLoads loads=init_loads();//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
    Studs stud=init_stud(); //поле соержащее упоры Нельсона
@@ -685,8 +712,9 @@ void TCompositeBeamMainForm::calculate_composite_beam()
    SteelPart steel_part = init_steel_part();
    TConcretePart concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!
    CompositeSection composite_section = CompositeSection(steel_part, concrete_part, geometry);
-   init_composite_beam(analysis_theory, geometry,loads,composite_section, stud,working_conditions_factors);
-//Вывод результатов расчёта в GUI
+   init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
+   composite_beam_.calculate();
+   //Вывод результатов расчёта в GUI
 	draw_diagram();
 	fill_steel_sect_geometr_grid();
 	fill_concrete_sect_geometr_grid();
@@ -766,8 +794,6 @@ void __fastcall TCompositeBeamMainForm::save_controls_to_file()
 		fs->WriteComponent(edt_gamma_c);
 		fs->WriteComponent(edt_gamma_bi);
 		fs->WriteComponent(edt_gamma_si);
-		//Теория расчёта
-		fs->WriteComponent(cmb_bx_analysis_theory);
 		//Гибкие упоры
 		fs->WriteComponent(StudDefinitionForm->edt_edge_studs_dist);
 		fs->WriteComponent(StudDefinitionForm->edt_middle_studs_dist);
@@ -855,8 +881,6 @@ void __fastcall TCompositeBeamMainForm::load_controls_from_file()
 		fs->ReadComponent(edt_gamma_c);
 		fs->ReadComponent(edt_gamma_bi);
 		fs->ReadComponent(edt_gamma_si);
-		//Теория расчёта
-		fs->ReadComponent(cmb_bx_analysis_theory);
 		//Гибкие упоры
 		fs->ReadComponent(StudDefinitionForm->edt_edge_studs_dist);
 		fs->ReadComponent(StudDefinitionForm->edt_middle_studs_dist);
@@ -1093,9 +1117,10 @@ void __fastcall TCompositeBeamMainForm::btn_load_testClick(TObject *Sender)
 	composite_beam_.load_composite_beam(ifstr);
 	ifstr.close();
 
-	StudDefinitionForm->update(composite_beam_.get_studs());
+	StudDefinitionForm->set_form_controls(composite_beam_.get_studs());
 
 
 }
 //---------------------------------------------------------------------------
+
 

@@ -15,3 +15,12 @@ WorkingConditionsFactors::WorkingConditionsFactors(double gamma_bi, double gamma
 {
 
 }
+//-----------------------------------------------------------------------------
+//ѕрисваение данным класса значений по умолчанию
+//-----------------------------------------------------------------------------
+void WorkingConditionsFactors::set_default_values()
+{
+	gamma_bi_= 1.;
+	gamma_si_ = 1.;
+	gamma_c_  = 1.;
+}
