@@ -73,6 +73,7 @@ void TCompositeBeamMainForm::register_observers()
 	std::vector<IPublisher*> ipublishers;
 	ipublishers.push_back(RebarDefinitionForm);
 	ipublishers.push_back(StudDefinitionForm);
+	ipublishers.push_back(ConcreteDefinitionForm);
 	for(auto ip:ipublishers)
 	ip -> register_observer(this);
 

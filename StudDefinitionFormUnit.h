@@ -12,7 +12,7 @@
 #include "UnitStud.h"
 #include <Vcl.ExtCtrls.hpp>
 
-#include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
+#include "ObserverPatternInterfaces.h"
 
 //---------------------------------------------------------------------------
 class TStudDefinitionForm : public TForm, public IPublisher

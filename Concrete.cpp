@@ -21,25 +21,55 @@ std::vector <ConcreteBasic> concrete_basic
 	{"B60", 39500, 39.5, 2.75},
 
 };
-
-ConcreteBasic::ConcreteBasic()
-{
-}
-ConcreteBasic::ConcreteBasic(String grade, double E_b, double R_bn, double R_btn)
-	:grade_(grade),E_b_(E_b),R_bn_(R_bn),R_btn_(R_btn){}
+//---------------------------------------------------------------------------
+ConcreteBasic::ConcreteBasic(){}
+//---------------------------------------------------------------------------
+ConcreteBasic::ConcreteBasic(String grade,
+							 double E_b,
+							 double R_bn,
+							 double R_btn):
+								grade_(grade),
+								E_b_  (E_b),
+								R_bn_ (R_bn),
+								R_btn_(R_btn){}
+//---------------------------------------------------------------------------
 Concrete::Concrete()
 	:ConcreteBasic(){}
-Concrete::Concrete(ConcreteBasic concrete_basic, double phi_b_cr, double gamma_b, double gamma_bt, double epsilon_b_lim)
-	:ConcreteBasic(concrete_basic),
-	phi_b_cr_(phi_b_cr),
-	gamma_b_(gamma_b),
-	gamma_bt_(gamma_bt),
-	epsilon_b_lim_(epsilon_b_lim)
+//---------------------------------------------------------------------------
+Concrete::Concrete(ConcreteBasic concrete_basic,
+				   double        phi_b_cr,
+				   double        gamma_b,
+				   double        gamma_bt,
+				   double        epsilon_b_lim):
+						ConcreteBasic (concrete_basic),
+						phi_b_cr_     (phi_b_cr),
+						gamma_b_      (gamma_b),
+						gamma_bt_     (gamma_bt),
+						epsilon_b_lim_(epsilon_b_lim)
+{
+	E_b_tau_calc();
+}
+//-----------------------------------------------------------------------------
+//Присваение данным класса значений по умолчанию
+//-----------------------------------------------------------------------------
+void Concrete::set_default_values()
+{
+	grade_ = L"B25";
+	E_b_ = 30000. ;
+	R_bn_ = 18.5;
+	R_btn_ = 1.55;
+	phi_b_cr_ = 3.2;
+	gamma_b_ =  1.3;
+	gamma_bt_ = 1.5;
+	epsilon_b_lim_ = 0.0016;
+	E_b_tau_calc();
+}
+//-----------------------------------------------------------------------------
+//Расчёт модуля деформации бетона
+//-----------------------------------------------------------------------------
+void Concrete::E_b_tau_calc()
 {
   E_b_tau_=E_b_/(1+phi_b_cr_);
-
 }
-
-
 
 

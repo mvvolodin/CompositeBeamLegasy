@@ -95,7 +95,6 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Width = 100
     Height = 21
     TabOrder = 4
-    Text = '1.3'
   end
   object edt_epsilon_b_lim: TEdit
     Left = 333
@@ -103,7 +102,6 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Width = 100
     Height = 21
     TabOrder = 5
-    Text = '0.0016'
   end
   object edt_gamma_bt: TEdit
     Left = 333
@@ -111,7 +109,6 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Width = 100
     Height = 21
     TabOrder = 6
-    Text = '1.5'
   end
   object pnl_concrete_grade: TPanel
     Left = 8
@@ -141,6 +138,5 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Width = 100
     Height = 21
     TabOrder = 8
-    Text = '3.2'
   end
 end

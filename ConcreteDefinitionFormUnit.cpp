@@ -35,7 +35,7 @@ void __fastcall TConcreteDefinitionForm::cmb_bx_concrete_grade_listChange(TObjec
 {
 	String grade= cmb_bx_concrete_grade_list->Text;
 	auto it_concrete=std::find_if(concrete_basic.begin(),concrete_basic.end(),
-		[grade](ConcreteBasic concrete_basic){return concrete_basic.get_grade()==grade;});
+		[grade](ConcreteBasic concrete_basic){return concrete_basic.get_grade() == grade;});
 	edt_R_bn->Text=FloatToStr(it_concrete->get_R_bn());
 	edt_R_btn->Text=FloatToStr(it_concrete->get_R_btn());
 	edt_E_b->Text=FloatToStr(it_concrete->get_E_b());
@@ -67,14 +67,15 @@ void TConcreteDefinitionForm::init_concrete()
 	String_double_plus(lbl_gamma_bt->Caption, edt_gamma_bt->Text, &gamma_bt);
 	String_double_plus(lbl_epsilon_b_lim->Caption, edt_epsilon_b_lim->Text, &epsilon_b_lim);
 	ConcreteBasic concrete_basic (grade, E_b, R_bn, R_btn);
-	concrete_=Concrete(concrete_basic, phi_b_cr, gamma_b, gamma_bt, epsilon_b_lim);
+	concrete_temp_=Concrete(concrete_basic, phi_b_cr, gamma_b, gamma_bt, epsilon_b_lim);
 };
-
 //---------------------------------------------------------------------------
-
-
+//Присваивем значения полям формы из параметра функции типа Concrete
 //---------------------------------------------------------------------------
-
-
-//---------------------------------------------------------------------------
+void TConcreteDefinitionForm::set_form_controls(Concrete concrete)
+{
+	concrete_temp_ = concrete;
+	set_form_controls();
+	iobserver_ -> update(this);
+}
 

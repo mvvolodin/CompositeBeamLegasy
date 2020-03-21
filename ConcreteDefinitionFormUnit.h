@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-
 #ifndef ConcreteDefinitionFormUnitH
 #define ConcreteDefinitionFormUnitH
 //---------------------------------------------------------------------------
@@ -10,10 +9,11 @@
 #include <Vcl.Buttons.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <map>
-#include "Concrete.h"
-
 //---------------------------------------------------------------------------
-class TConcreteDefinitionForm : public TForm
+#include "Concrete.h"
+#include "ObserverPatternInterfaces.h"
+//---------------------------------------------------------------------------
+class TConcreteDefinitionForm : public TForm, public IPublisher
 {
 __published:	// IDE-managed Components
 	TLabel *lbl_R_bn;
@@ -37,15 +37,21 @@ __published:	// IDE-managed Components
 	void __fastcall cmb_bx_concrete_grade_listChange(TObject *Sender);
 	void __fastcall BtBtnConcreteChoiceClick(TObject *Sender);
 private:	// User declarations
-	Concrete concrete_;
+	static const Publisher_ID id_ = Publisher_ID::CONCRETE_FORM;
+	IObserver_* iobserver_;
+	Concrete concrete_temp_;
 	ConcreteBasicData concrete_data_;
    typedef ConcreteBasicData::iterator ConcreteBasicDataIterator;
 private:  //User declaration
-    void init_concrete();
+	void init_concrete();
+	virtual String get_information()const override {return concrete_temp_.get_grade();}
+	virtual Publisher_ID get_id()const override {return id_;}
 
 public:		// User declarations
 	__fastcall TConcreteDefinitionForm(TComponent* Owner);
-	inline Concrete get_concrete()const {return concrete_;}
+	Concrete get_concrete()const {return concrete_temp_;}
+	void register_observer(IObserver_* iobserver){iobserver_ = iobserver;}
+	void set_form_controls(Concrete concrete);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TConcreteDefinitionForm *ConcreteDefinitionForm;
