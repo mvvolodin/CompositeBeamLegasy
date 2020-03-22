@@ -34,8 +34,13 @@ __published:	// IDE-managed Components
 	TPanel *pnl_concrete_grade;
 	TLabel *lbl_phi_b_cr;
 	TEdit *edt_phi_b_cr;
+	TButton *btn_cancel;
+	TButton *btn_close;
 	void __fastcall cmb_bx_concrete_grade_listChange(TObject *Sender);
 	void __fastcall BtBtnConcreteChoiceClick(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
+	void __fastcall btn_cancelClick(TObject *Sender);
+	void __fastcall btn_closeClick(TObject *Sender);
 private:	// User declarations
 	static const Publisher_ID id_ = Publisher_ID::CONCRETE_FORM;
 	IObserver_* iobserver_;
@@ -43,7 +48,8 @@ private:	// User declarations
 	ConcreteBasicData concrete_data_;
    typedef ConcreteBasicData::iterator ConcreteBasicDataIterator;
 private:  //User declaration
-	void init_concrete();
+	void set_form_controls();
+	void set_concrete();
 	virtual String get_information()const override {return concrete_temp_.get_grade();}
 	virtual Publisher_ID get_id()const override {return id_;}
 

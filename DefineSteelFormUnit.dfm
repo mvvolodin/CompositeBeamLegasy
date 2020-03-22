@@ -12,6 +12,7 @@ object DefineSteelForm: TDefineSteelForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Label9: TLabel
@@ -55,15 +56,14 @@ object DefineSteelForm: TDefineSteelForm
       Caption = #1057#1090#1072#1083#1100
       WordWrap = True
     end
-    object ComboBox_steel: TComboBox
+    object cmb_bx_steel_grades: TComboBox
       Left = 447
       Top = 8
       Width = 65
       Height = 21
       ItemIndex = 2
       TabOrder = 0
-      Text = 'C255'
-      OnChange = ComboBox_steelChange
+      OnChange = cmb_bx_steel_gradesChange
       Items.Strings = (
         'C235'
         'C245'
@@ -79,13 +79,13 @@ object DefineSteelForm: TDefineSteelForm
         'C590'
         'C590K')
     end
-    object ComboBox_gost: TComboBox
+    object cmb_bx_standard: TComboBox
       Left = 150
       Top = 8
       Width = 291
       Height = 21
       TabOrder = 1
-      OnChange = ComboBox_gostChange
+      OnChange = cmb_bx_standardChange
     end
   end
   object GroupBox1: TGroupBox
@@ -123,7 +123,6 @@ object DefineSteelForm: TDefineSteelForm
       Height = 21
       ReadOnly = True
       TabOrder = 0
-      Text = '206000'
     end
     object Edit_G: TEdit
       Left = 160
@@ -132,7 +131,6 @@ object DefineSteelForm: TDefineSteelForm
       Height = 21
       ReadOnly = True
       TabOrder = 1
-      Text = '79200'
     end
     object Edit_nu: TEdit
       Left = 160
@@ -141,7 +139,6 @@ object DefineSteelForm: TDefineSteelForm
       Height = 21
       ReadOnly = True
       TabOrder = 2
-      Text = '0.3'
     end
   end
   object GroupBox_Prop: TGroupBox
@@ -174,25 +171,24 @@ object DefineSteelForm: TDefineSteelForm
     Height = 21
     ReadOnly = True
     TabOrder = 4
-    Text = '7850'
   end
-  object BitBtn_Cancel: TBitBtn
+  object btn_close: TBitBtn
     Left = 453
-    Top = 240
+    Top = 238
     Width = 75
     Height = 25
-    Caption = #1042#1099#1093#1086#1076
+    Caption = #1047#1072#1082#1088#1099#1090#1100
     TabOrder = 6
-    OnClick = BitBtn_CancelClick
+    OnClick = btn_closeClick
   end
-  object BitBtn_OK: TBitBtn
-    Left = 373
-    Top = 240
+  object btn_ok: TBitBtn
+    Left = 291
+    Top = 238
     Width = 75
     Height = 25
     Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
     TabOrder = 0
-    OnClick = BitBtn_OKClick
+    OnClick = btn_okClick
   end
   object Edit_gamma_m: TEdit
     Left = 477
@@ -201,6 +197,14 @@ object DefineSteelForm: TDefineSteelForm
     Height = 21
     ReadOnly = True
     TabOrder = 5
-    Text = '1.025'
+  end
+  object btn_cancel: TButton
+    Left = 372
+    Top = 238
+    Width = 75
+    Height = 25
+    Caption = #1054#1090#1084#1077#1085#1080#1090#1100
+    TabOrder = 7
+    OnClick = btn_cancelClick
   end
 end

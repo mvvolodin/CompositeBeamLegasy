@@ -23,6 +23,7 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
 	: TForm(Owner)
 {
 	composite_beam_.set_default_values();
+
 	cotr_ratios_grid();
 	cotr_comp_sect_geometr_grid();
 	cotr_steel_sect_geometr_grid();
@@ -30,6 +31,29 @@ TCompositeBeamMainForm *CompositeBeamMainForm;
 	fill_cmb_bx_impact();
 	fill_cmb_bx_corrugated_sheets();
 	modify_project = false;
+}
+//----------------------------------------------------------------------
+void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
+{
+
+	register_observers();
+
+	register_I_composite_beam();
+
+	set_form_controls();
+
+	NNewClick(Sender);
+
+	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837->ItemIndex=0;
+	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837Click(Sender);
+	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame
+	->ComboBox_profil->Text;
+	DefineSteelForm->cmb_bx_steel_gradesChange(Sender);
+	pnl_steel->Caption = DefineSteelForm -> cmb_bx_steel_grades->Text;
+	rdgrp_slab_typeClick(Sender);
+
+	calculate_composite_beam();
+
 }
 //----------------------------------------------------------------------
 ////Присваивение значений полям формы из данных класс типа TCompositeBeam
@@ -55,18 +79,28 @@ void TCompositeBeamMainForm::set_form_controls()
 
 //Данные типа WorkingConditionsFactors
 	WorkingConditionsFactors wcf = composite_beam_.get_working_conditions_factors();
-	edt_gamma_bi->Text = wcf.get_gamma_bi();
-	edt_gamma_si->Text = wcf.get_gamma_si();
-	edt_gamma_c->Text = wcf.get_gamma_c();
+	edt_gamma_bi -> Text = wcf.get_gamma_bi();
+	edt_gamma_si -> Text = wcf.get_gamma_si();
+	edt_gamma_c -> Text = wcf.get_gamma_c();
+
+//Панели для отображения данных
+	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> get_studs().get_name();
+	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> get_rebar().get_grade();
+	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> get_concrete().get_grade();
+//
+	edt_h_f -> Text = composite_beam_.get_composite_section().get_concrete_part().get_h_f();
 
 //Данные типа Studs
-	StudDefinitionForm->set_form_controls(composite_beam_.get_studs());
+	StudDefinitionForm -> set_form_controls(composite_beam_.get_studs());
 
 //Данные типа Rebar
-	RebarDefinitionForm->set_form_controls(composite_beam_.get_composite_section().get_concrete_part().get_rebar());
+	RebarDefinitionForm -> set_form_controls(composite_beam_.get_composite_section().get_concrete_part().get_rebar());
 
+//Данные типа Concrete
+	ConcreteDefinitionForm -> set_form_controls(composite_beam_.get_composite_section().get_concrete_part().get_concrete());
 
-
+//Данные типа Steel
+	DefineSteelForm -> set_form_controls(composite_beam_.get_composite_section().get_steel_part().get_I_steel());
 }
 void TCompositeBeamMainForm::register_observers()
 {
@@ -74,35 +108,17 @@ void TCompositeBeamMainForm::register_observers()
 	ipublishers.push_back(RebarDefinitionForm);
 	ipublishers.push_back(StudDefinitionForm);
 	ipublishers.push_back(ConcreteDefinitionForm);
+	ipublishers.push_back(DefineSteelForm);
+	ipublishers.push_back(SteelSectionForm);
 	for(auto ip:ipublishers)
 	ip -> register_observer(this);
 
 }
-//----------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
+void TCompositeBeamMainForm::register_I_composite_beam()
 {
-
-	register_observers();
-
-	set_form_controls();
-
-	pnl_shear_stud_viewer->Caption = StudDefinitionForm -> get_studs().get_name();
-	pnl_rebar_viewer->Caption = RebarDefinitionForm -> get_rebar().get_grade();
-
-	NNewClick(Sender);
-
-	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837->ItemIndex=0;
-	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837Click(Sender);
-	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame
-	->ComboBox_profil->Text;
-	DefineSteelForm->ComboBox_steelChange(Sender);
-	pnl_steel->Caption = DefineSteelForm->ComboBox_steel->Text;
-	pnl_concrete_grade->Caption=ConcreteDefinitionForm->cmb_bx_concrete_grade_list->Text;
-	rdgrp_slab_typeClick(Sender);
-
-	calculate_composite_beam();
-
+	DefineSteelForm -> register_icopmosite_beam_user(this);
 }
+
 //---------------------------------------------------------------------------
 //Инициализация топологии
 //---------------------------------------------------------------------------
@@ -167,37 +183,7 @@ TISectionInitialData TCompositeBeamMainForm::init_i_section()
 //---------------------------------------------------------------------------
 Steel TCompositeBeamMainForm::init_steel_i_section()
 {
-	STEEL_PARAM my_steel_param;
-	TISectionInitialData i_section=init_i_section();//требуется для получения максимально толщины двутавра
-
-	int rc;
-	char title[8] = "";
-	double E = 0.;
-	double G = 0.;
-	double nu = 0.;
-	double dens = 0.;
-	double gamma_m = 0.;
-	double R_yn = 0.;
-	double R_un = 0.;
-
-	double t_max = i_section.t_uf_;
-	char* str=((AnsiString)DefineSteelForm->ComboBox_steel->Text).c_str();
-
-	bool  flag_diag_thick=false;//для чего этот флаг
-
-	rc=Steel_param(str, t_max, &my_steel_param, flag_diag_thick);
-	if(rc!=0)
-		return Steel();//что возвращать из функции если Steel_param вернул ошибку?
-	R_yn =  my_steel_param.Ryn;
-	R_un =  my_steel_param.Run;
-	strcpy(title, my_steel_param.title);
-
-	String_double_plus(DefineSteelForm->Label3->Caption, DefineSteelForm->Edit_E->Text, &E);
-	String_double_zero_plus(DefineSteelForm->Label4->Caption, DefineSteelForm->Edit_G->Text, &G);
-	String_double_plus(DefineSteelForm->Label5->Caption, DefineSteelForm->Edit_nu->Text, &nu);
-	String_double_zero_plus(DefineSteelForm->Label_gamma_m->Caption, DefineSteelForm->Edit_gamma_m->Text, &gamma_m);
-
-	return Steel(title, E, G, nu, gamma_m,R_yn,R_un);
+	return DefineSteelForm -> get_steel();
 }
 //---------------------------------------------------------------------------
 //Инициализация железобетонной части сечения
@@ -476,11 +462,7 @@ void TCompositeBeamMainForm::fill_cmb_bx_corrugated_sheets()
 
 void __fastcall TCompositeBeamMainForm::BtBtnSteelChoiceClick(TObject *Sender)
 {
-	 //SteelDefinitionForm->ShowModal();
-	 //PnlSteelViewer->Caption = SteelDefinitionForm->ComboBox_steel->Text;
-	 DefineSteelForm->ShowModal();
-	 pnl_steel->Caption = DefineSteelForm->ComboBox_steel->Text;
-
+	 DefineSteelForm->Show();
 }
 //---------------------------------------------------------------------------
 
@@ -500,26 +482,20 @@ void __fastcall TCompositeBeamMainForm::BtBtnExitClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::BtnConcreteChoiceClick(TObject *Sender)
 {
-	ConcreteDefinitionForm->ShowModal();//После закрытия формы выполняется следующая строчка устанавливающая значение ComboBox в Panel
-	pnl_concrete_grade->Caption = ConcreteDefinitionForm->cmb_bx_concrete_grade_list->Text;
+	ConcreteDefinitionForm->Show();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm::BtBtnRebarsChoiceClick(TObject *Sender)
 {
-	RebarDefinitionForm->ShowModal();
-	//Синхронизация текста на pnl и расчётных данных
-	if(pnl_rebar_viewer->Caption!=RebarDefinitionForm->get_rebar().get_grade())
-		pnl_rebar_viewer->Caption=RebarDefinitionForm->get_rebar().get_grade();
+	RebarDefinitionForm->Show();
+
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm::BtBtnShearStudsChoiceClick(TObject *Sender)
 {
-	StudDefinitionForm->ShowModal();
-	//Синхронизация текста на pnl и расчётных данных
-   //	if(pnl_shear_stud_viewer->Caption!=StudDefinitionForm->get_stud().get_name())
-	 //	pnl_shear_stud_viewer->Caption=StudDefinitionForm->get_stud().get_name();
+	StudDefinitionForm->Show();
 }
 //---------------------------------------------------------------------------
 
@@ -808,8 +784,8 @@ void __fastcall TCompositeBeamMainForm::save_controls_to_file()
 		fs->WriteComponent(rd_grp_internal_forces_type);
 		//Форма сталь
 		fs->WriteComponent(pnl_steel);
-		fs->WriteComponent(DefineSteelForm->ComboBox_gost);
-		fs->WriteComponent(DefineSteelForm->ComboBox_steel);
+		fs->WriteComponent(DefineSteelForm->cmb_bx_standard);
+		fs->WriteComponent(DefineSteelForm->cmb_bx_steel_grades);
 		fs->WriteComponent(DefineSteelForm->Edit_E);
 		fs->WriteComponent(DefineSteelForm->Edit_G);
 		fs->WriteComponent(DefineSteelForm->Edit_nu);
@@ -895,8 +871,8 @@ void __fastcall TCompositeBeamMainForm::load_controls_from_file()
 		fs->ReadComponent(rd_grp_internal_forces_type);
         //Форма сталь
 		fs->ReadComponent(pnl_steel);
-		fs->ReadComponent(DefineSteelForm->ComboBox_gost);
-		fs->ReadComponent(DefineSteelForm->ComboBox_steel);
+		fs->ReadComponent(DefineSteelForm->cmb_bx_standard);
+		fs->ReadComponent(DefineSteelForm->cmb_bx_steel_grades);
 		fs->ReadComponent(DefineSteelForm->Edit_E);
 		fs->ReadComponent(DefineSteelForm->Edit_G);
 		fs->ReadComponent(DefineSteelForm->Edit_nu);
@@ -1079,6 +1055,12 @@ void TCompositeBeamMainForm::update(IPublisher* ipublisher )
 		case(Publisher_ID::STUDS_FORM):
 			pnl_shear_stud_viewer -> Caption = ipublisher -> get_information();
 			break;
+		case(Publisher_ID::CONCRETE_FORM):
+			pnl_concrete_grade -> Caption = ipublisher -> get_information();
+			break;
+		case(Publisher_ID::STEEL_FORM):
+			pnl_steel -> Caption = ipublisher -> get_information();
+			break;
 	}
 
 }
@@ -1118,7 +1100,7 @@ void __fastcall TCompositeBeamMainForm::btn_load_testClick(TObject *Sender)
 	composite_beam_.load_composite_beam(ifstr);
 	ifstr.close();
 
-	StudDefinitionForm->set_form_controls(composite_beam_.get_studs());
+	set_form_controls();
 
 
 }

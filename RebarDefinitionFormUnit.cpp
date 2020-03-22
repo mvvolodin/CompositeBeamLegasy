@@ -22,6 +22,11 @@ __fastcall TRebarDefinitionForm::TRebarDefinitionForm(TComponent* Owner)
 	}
 }
 //---------------------------------------------------------------------------
+void __fastcall TRebarDefinitionForm::FormShow(TObject *Sender)
+{
+	set_form_controls();
+}
+//---------------------------------------------------------------------------
 void __fastcall TRebarDefinitionForm::cmb_bx_rebar_gradeChange(TObject *Sender)
 {
 	String grade=cmb_bx_rebar_grade->Text;
@@ -61,12 +66,6 @@ void TRebarDefinitionForm::set_rebar()
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TRebarDefinitionForm::bt_btn_OkClick(TObject *Sender)
-{
-	set_rebar();
-	iobserver_ -> update(this);
-	Close();
-}
 
 void TRebarDefinitionForm::register_observer(IObserver_* iobserver)
 {
@@ -74,16 +73,8 @@ void TRebarDefinitionForm::register_observer(IObserver_* iobserver)
 }
 
 
-void __fastcall TRebarDefinitionForm::bt_btn_cancelClick(TObject *Sender)
-{
-    Close();
-}
 //---------------------------------------------------------------------------
 
-void __fastcall TRebarDefinitionForm::FormShow(TObject *Sender)
-{
-	set_form_controls();
-}
 String TRebarDefinitionForm::get_information()const
 {
    return rebar_temp_.get_grade();
@@ -101,6 +92,22 @@ void TRebarDefinitionForm::set_form_controls(Rebar rebar)
 	rebar_temp_ = rebar;
 	set_form_controls();
 	iobserver_ -> update(this);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TRebarDefinitionForm::bt_btn_OkClick(TObject *Sender)
+{
+	set_rebar();
+	iobserver_ -> update(this);
+	Close();
+}
+void __fastcall TRebarDefinitionForm::bt_btn_cancelClick(TObject *Sender)
+{
+	set_form_controls();
+}
+void __fastcall TRebarDefinitionForm::btn_closeClick(TObject *Sender)
+{
+	Close();
 }
 //---------------------------------------------------------------------------
 

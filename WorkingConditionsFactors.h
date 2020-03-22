@@ -3,6 +3,7 @@
 #ifndef WorkingConditionsFactorsH
 #define WorkingConditionsFactorsH
 #include <ostream>
+#include <istream>
 //---------------------------------------------------------------------------
 class WorkingConditionsFactors{
 private:
@@ -12,9 +13,9 @@ private:
 public:
 	WorkingConditionsFactors();
 	WorkingConditionsFactors(double gamma_bi, double gamma_si, double gamma_c);
+	void save_working_conditions_factors(std::ostream& ostr)const;
+	void load_working_conditions_factors(std::istream& istr);
 	void set_default_values();
-	void save_working_conditions(std::ostream& ostr)const;
-	void save_working_conditions(std::istream& istr);
 	double get_gamma_bi()const{return gamma_bi_;}
 	double get_gamma_si()const{return gamma_si_;}
 	double get_gamma_c()const{return gamma_c_;}

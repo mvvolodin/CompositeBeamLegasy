@@ -8,6 +8,8 @@ enum class Publisher_ID{
 	REBARS_FORM,
 	STUDS_FORM,
 	CONCRETE_FORM,
+	STEEL_FORM,
+	SECTION_FORM,
 };
 
 class IPublisher;

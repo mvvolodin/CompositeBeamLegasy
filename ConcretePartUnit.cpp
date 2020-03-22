@@ -38,7 +38,7 @@ TConcretePart::TConcretePart(String slab_type, Concrete concrete, Rebar rebar, d
 void TConcretePart::set_default_values()
 {
 	slab_type_ = L"Плоская плита";
-	//concrete_.set_default_values();
+	concrete_.set_default_values();
 	rebar_.set_default_values();
 }
 

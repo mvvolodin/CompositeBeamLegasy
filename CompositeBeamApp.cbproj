@@ -204,6 +204,9 @@
             <DependentOn>Get_param_sect_func.h</DependentOn>
             <BuildOrder>30</BuildOrder>
         </CppCompile>
+        <None Include="ICompositeBeam.h">
+            <BuildOrder>49</BuildOrder>
+        </None>
         <CppCompile Include="InternalForces.cpp">
             <DependentOn>InternalForces.h</DependentOn>
             <BuildOrder>6</BuildOrder>

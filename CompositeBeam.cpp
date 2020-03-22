@@ -67,8 +67,8 @@ void TCompositeBeam::calculate()
 void TCompositeBeam::save_composite_beam(std::ostream& ostr) const
 {
 	geometry_.save_geometry(ostr);
-//	loads_.save_loads(ostr);
-//	working_conditions_factors_.save_working_conditions(ostr);
+	loads_.save_loads(ostr);
+	working_conditions_factors_.save_working_conditions_factors(ostr);
 //	composite_section_.save_composite_section(ostr);
 	studs_.save_studs(ostr);
 
@@ -80,6 +80,9 @@ void TCompositeBeam::load_composite_beam(std::istream& istr)
 {
 
 	geometry_.load_geometry(istr);
+	loads_.load_loads(istr);
+	working_conditions_factors_.load_working_conditions_factors(istr);
+//	composite_section_.load_composite_section(istr);
 	studs_.load_studs(istr);
 
 }

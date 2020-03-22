@@ -8,6 +8,7 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
   Color = clBtnFace
   ParentFont = True
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object lbl_R_bn: TLabel
@@ -81,9 +82,9 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     TabOrder = 2
   end
   object BtBtnConcreteChoice: TBitBtn
-    Left = 333
+    Left = 196
     Top = 238
-    Width = 100
+    Width = 75
     Height = 25
     Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
     TabOrder = 3
@@ -138,5 +139,23 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Width = 100
     Height = 21
     TabOrder = 8
+  end
+  object btn_cancel: TButton
+    Left = 277
+    Top = 238
+    Width = 75
+    Height = 25
+    Caption = #1054#1090#1084#1077#1085#1080#1090#1100
+    TabOrder = 9
+    OnClick = btn_cancelClick
+  end
+  object btn_close: TButton
+    Left = 358
+    Top = 238
+    Width = 75
+    Height = 25
+    Caption = #1047#1072#1082#1088#1099#1090#1100
+    TabOrder = 10
+    OnClick = btn_closeClick
   end
 end

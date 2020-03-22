@@ -10,8 +10,6 @@
 #pragma resource "*.dfm"
 TStudDefinitionForm *StudDefinitionForm;
 
-//extern TStudBasicNamedList stud_named_list;
-
 //---------------------------------------------------------------------------
 __fastcall TStudDefinitionForm::TStudDefinitionForm(TComponent* Owner)
 	: TForm(Owner)
@@ -70,19 +68,7 @@ void TStudDefinitionForm::set_studs()
 				edge_studs_rows_num, middle_studs_rows_num,
 				R_y, gamma_c);
 }
-//---------------------------------------------------------------------------
-void __fastcall TStudDefinitionForm::btn_okClick(TObject *Sender)
-{
-	set_studs();
-	iobserver_ -> update(this);
-	Close();
-}
 
-//---------------------------------------------------------------------------
-void __fastcall TStudDefinitionForm::btn_cancelClick(TObject *Sender)
-{
-	Close();
-}
 //---------------------------------------------------------------------------
 //Присваивение значений полям формы из данных класс типа Studs
 //---------------------------------------------------------------------------
@@ -109,4 +95,22 @@ void TStudDefinitionForm::set_form_controls(Studs studs)
 	set_form_controls();
 	iobserver_ -> update(this);
 }
+//---------------------------------------------------------------------------
+void __fastcall TStudDefinitionForm::btn_okClick(TObject *Sender)
+{
+	set_studs();
+	iobserver_ -> update(this);
+	Close();
+}
+//---------------------------------------------------------------------------
+void __fastcall TStudDefinitionForm::btn_cancelClick(TObject *Sender)
+{
+	set_form_controls();
+}
+//---------------------------------------------------------------------------
+void __fastcall TStudDefinitionForm::btn_closeClick(TObject *Sender)
+{
+	Close();
+}
+//---------------------------------------------------------------------------
 

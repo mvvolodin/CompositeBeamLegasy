@@ -16,7 +16,7 @@ object StudDefinitionForm: TStudDefinitionForm
   PixelsPerInch = 96
   TextHeight = 13
   object btn_ok: TBitBtn
-    Left = 673
+    Left = 511
     Top = 201
     Width = 75
     Height = 25
@@ -192,5 +192,14 @@ object StudDefinitionForm: TStudDefinitionForm
         OnChange = cmb_bx_stud_part_numberChange
       end
     end
+  end
+  object btn_close: TButton
+    Left = 673
+    Top = 201
+    Width = 75
+    Height = 25
+    Caption = #1047#1072#1082#1088#1099#1090#1100
+    TabOrder = 4
+    OnClick = btn_closeClick
   end
 end

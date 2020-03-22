@@ -19,6 +19,32 @@ TLoads::TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL
 	gamma_f_DL_II_(gamma_f_DL_II),
 	gamma_f_LL_(gamma_f_LL){}
 
+void TLoads::save_loads(std::ostream& ostr) const
+{
+	ostr.write((char*)&SW_, sizeof(SW_ ));
+	ostr.write((char*)&SW_sheets_, sizeof(SW_sheets_));
+	ostr.write((char*)&DL_I_, sizeof(DL_I_));
+	ostr.write((char*)&DL_II_, sizeof(DL_II_));
+	ostr.write((char*)&LL_, sizeof(LL_));
+	ostr.write((char*)&gamma_f_st_SW_, sizeof(gamma_f_st_SW_));
+	ostr.write((char*)&gamma_f_DL_I_, sizeof(gamma_f_DL_I_));
+	ostr.write((char*)&gamma_f_DL_II_, sizeof(gamma_f_DL_II_));
+	ostr.write((char*)&gamma_f_LL_, sizeof(gamma_f_LL_));
+
+}
+void TLoads::load_loads(std::istream& istr)
+{
+	istr.read((char*)&SW_, sizeof(SW_ ));
+	istr.read((char*)&SW_sheets_, sizeof(SW_sheets_));
+	istr.read((char*)&DL_I_, sizeof(DL_I_));
+	istr.read((char*)&DL_II_, sizeof(DL_II_));
+	istr.read((char*)&LL_, sizeof(LL_));
+	istr.read((char*)&gamma_f_st_SW_, sizeof(gamma_f_st_SW_));
+	istr.read((char*)&gamma_f_DL_I_, sizeof(gamma_f_DL_I_));
+	istr.read((char*)&gamma_f_DL_II_, sizeof(gamma_f_DL_II_));
+	istr.read((char*)&gamma_f_LL_, sizeof(gamma_f_LL_));
+
+}
 //-----------------------------------------------------------------------------
 //ѕрисваение данным класса значений по умолчанию
 //-----------------------------------------------------------------------------

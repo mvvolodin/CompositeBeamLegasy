@@ -37,10 +37,12 @@ __published:	// IDE-managed Components
 	TEdit *edt_a_u;
 	TEdit *edt_b;
 	TButton *bt_btn_cancel;
+	TButton *btn_close;
 	void __fastcall cmb_bx_rebar_gradeChange(TObject *Sender);
 	void __fastcall bt_btn_OkClick(TObject *Sender);
 	void __fastcall bt_btn_cancelClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
+	void __fastcall btn_closeClick(TObject *Sender);
 private:	// User declarations
 	static const Publisher_ID id_ = Publisher_ID::REBARS_FORM;
 	IObserver_* iobserver_;

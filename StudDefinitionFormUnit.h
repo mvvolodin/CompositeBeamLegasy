@@ -41,10 +41,12 @@ __published:	// IDE-managed Components
 	TComboBox *cmb_bx_middle_studs_rows_num;
 	TComboBox *cmb_bx_edge_studs_rows_num;
 	TGroupBox *grp_bx_characteristics;
+	TButton *btn_close;
 	void __fastcall btn_okClick(TObject *Sender);
 	void __fastcall cmb_bx_stud_part_numberChange(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall btn_cancelClick(TObject *Sender);
+	void __fastcall btn_closeClick(TObject *Sender);
 private:
 	static const Publisher_ID id_ = Publisher_ID::STUDS_FORM;
 	IObserver_* iobserver_;
@@ -58,7 +60,7 @@ private:
 public:
 	__fastcall TStudDefinitionForm(TComponent* Owner);
 	Studs get_studs()const{return studs_temp_;}
-	void register_observer(IObserver_* iobserver){iobserver_ = iobserver;}
+	void register_observer(IObserver_* iobserver) override {iobserver_ = iobserver;}
 	void set_form_controls(Studs studs);
 };
 //---------------------------------------------------------------------------

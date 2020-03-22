@@ -5,6 +5,7 @@
 //---------------------------------------------------------------------------
 #include <cmath>
 #include <ostream>
+#include <istream>
 #include "Units.h"
 
 class TLoads {

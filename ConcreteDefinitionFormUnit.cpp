@@ -17,38 +17,28 @@ __fastcall TConcreteDefinitionForm::TConcreteDefinitionForm(TComponent* Owner)
 	lbl_gamma_b->Caption=(lbl_gamma_b->Caption + u"\u03B3"+u"b");
     lbl_gamma_bt->Caption=(lbl_gamma_bt->Caption + u"\u03B3"+u"bt");
 	lbl_epsilon_b_lim->Caption=(lbl_epsilon_b_lim->Caption+u"\u03B5"+u"lim");
-	cmb_bx_concrete_grade_list->Text=concrete_data_.begin()->first;
-	edt_R_bn->Text=concrete_data_.begin()->second.get_R_bn();
-	edt_R_btn->Text=concrete_data_.begin()->second.get_R_btn();
-	edt_E_b->Text=concrete_data_.begin()->second.get_E_b();
 
 	for(auto concrete:concrete_basic) {
 		cmb_bx_concrete_grade_list->Items->Add(concrete.get_grade());
 	}
-		cmb_bx_concrete_grade_list->ItemIndex=4;//Бетон B25 по умолчанию
-		cmb_bx_concrete_grade_listChange(nullptr);
 
-		init_concrete();
+}
+void __fastcall TConcreteDefinitionForm::FormShow(TObject *Sender)
+{
+	set_form_controls();
 }
 //---------------------------------------------------------------------------
 void __fastcall TConcreteDefinitionForm::cmb_bx_concrete_grade_listChange(TObject *Sender)
 {
-	String grade= cmb_bx_concrete_grade_list->Text;
-	auto it_concrete=std::find_if(concrete_basic.begin(),concrete_basic.end(),
+	String grade = cmb_bx_concrete_grade_list -> Text;
+	auto it_concrete = std::find_if(concrete_basic.begin(),concrete_basic.end(),
 		[grade](ConcreteBasic concrete_basic){return concrete_basic.get_grade() == grade;});
-	edt_R_bn->Text=FloatToStr(it_concrete->get_R_bn());
-	edt_R_btn->Text=FloatToStr(it_concrete->get_R_btn());
-	edt_E_b->Text=FloatToStr(it_concrete->get_E_b());
+	edt_R_bn -> Text = FloatToStr(it_concrete->get_R_bn());
+	edt_R_btn -> Text = FloatToStr(it_concrete->get_R_btn());
+	edt_E_b -> Text = FloatToStr(it_concrete->get_E_b());
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TConcreteDefinitionForm::BtBtnConcreteChoiceClick(TObject *Sender)
-{
-	init_concrete();
-	Close();
-}
-//---------------------------------------------------------------------------
-void TConcreteDefinitionForm::init_concrete()
+void TConcreteDefinitionForm::set_concrete()
  {
 	String grade="";
 	double R_bn=0.;
@@ -68,7 +58,23 @@ void TConcreteDefinitionForm::init_concrete()
 	String_double_plus(lbl_epsilon_b_lim->Caption, edt_epsilon_b_lim->Text, &epsilon_b_lim);
 	ConcreteBasic concrete_basic (grade, E_b, R_bn, R_btn);
 	concrete_temp_=Concrete(concrete_basic, phi_b_cr, gamma_b, gamma_bt, epsilon_b_lim);
-};
+}
+//---------------------------------------------------------------------------
+//Присваивение значений полям формы из данных класс типа Concrete
+//---------------------------------------------------------------------------
+ void TConcreteDefinitionForm::set_form_controls()
+ {
+	cmb_bx_concrete_grade_list->Text = concrete_temp_.get_grade();
+	edt_R_bn->Text = concrete_temp_.get_R_bn();
+	edt_R_btn->Text = concrete_temp_.get_R_btn();
+	edt_E_b->Text = concrete_temp_.get_E_b();
+
+	edt_phi_b_cr->Text = concrete_temp_.get_phi_b_cr();
+	edt_gamma_b->Text = concrete_temp_.get_gamma_b();
+	edt_gamma_bt->Text = concrete_temp_.get_gamma_bt();
+	edt_epsilon_b_lim->Text = concrete_temp_.get_epsilon_b_lim();
+
+ }
 //---------------------------------------------------------------------------
 //Присваивем значения полям формы из параметра функции типа Concrete
 //---------------------------------------------------------------------------
@@ -78,4 +84,23 @@ void TConcreteDefinitionForm::set_form_controls(Concrete concrete)
 	set_form_controls();
 	iobserver_ -> update(this);
 }
+//---------------------------------------------------------------------------
+void __fastcall TConcreteDefinitionForm::BtBtnConcreteChoiceClick(TObject *Sender)
+{
+	set_concrete();
+	iobserver_ -> update(this);
+    Close();
+}
+//---------------------------------------------------------------------------
+void __fastcall TConcreteDefinitionForm::btn_cancelClick(TObject *Sender)
+{
+	set_form_controls();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TConcreteDefinitionForm::btn_closeClick(TObject *Sender)
+{
+	Close();
+}
+//---------------------------------------------------------------------------
 

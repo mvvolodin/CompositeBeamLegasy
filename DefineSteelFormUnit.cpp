@@ -17,84 +17,139 @@ TDefineSteelForm *DefineSteelForm;
 __fastcall TDefineSteelForm::TDefineSteelForm(TComponent* Owner)
         : TForm(Owner)
 {
-	Caption="Выбор стали";
+	Caption=L"Выбор стали";
 	StringGrid_Prop->ColCount = 3;
-	StringGrid_Prop->Cells[0][0] = "Толщина проката, мм";
-	StringGrid_Prop->Cells[1][0] = "  Ryn";
-	StringGrid_Prop->Cells[2][0] = "  Run";
-	ComboBox_gost->Items->Clear();
-	ComboBox_gost->Items->Add("СП 16.13330.2017, Таблица В.4, двутавры");
-	ComboBox_gost->Items->Add("ГОСТ 27772-2015, Таблица 5, фасонный прокат");
+	StringGrid_Prop->Cells[0][0] = L"Толщина проката, мм";
+	StringGrid_Prop->Cells[1][0] = L"  Ryn";
+	StringGrid_Prop->Cells[2][0] = L"  Run";
+	cmb_bx_standard->Items->Clear();
+	cmb_bx_standard -> Items -> Add(L"СП 16.13330.2017, Таблица В.4, двутавры");
+	cmb_bx_standard -> Items -> Add(L"ГОСТ 27772-2015, Таблица 5, фасонный прокат");
+}
+void __fastcall TDefineSteelForm::FormShow(TObject *Sender)
+{
+	set_form_controls();
+}
+//---------------------------------------------------------------------------
+void TDefineSteelForm::set_steel()
+{
+	STEEL_PARAM my_steel_param;
 
-	ComboBox_gost->ItemIndex = 0;
-	set_steel_standard(ComboBox_gost->ItemIndex);
+	int rc;
+	char title[8] = "";
+	double E = 0.;
+	double G = 0.;
+	double nu = 0.;
+	double dens = 0.;
+	double gamma_m = 0.;
+	double R_yn = 0.;
+	double R_un = 0.;
+	double density = 0.;
 
-	ComboBox_steel->ItemIndex = 3;
-	fill_grd_steel_data();
+	double t_max = icomposite_beam_ -> get_t_max();
+	char* str=((AnsiString)DefineSteelForm->cmb_bx_steel_grades->Text).c_str();
+
+	bool  flag_diag_thick=false;//для чего этот флаг
+
+	rc=Steel_param(str, t_max, &my_steel_param, flag_diag_thick);
+//	if(rc!=0)
+//		return Steel();//что возвращать из функции если Steel_param вернул ошибку?
+	R_yn =  my_steel_param.Ryn;
+	R_un =  my_steel_param.Run;
+
+	strcpy(title, my_steel_param.title);
+
+	String_double_plus(Label3->Caption, Edit_E->Text, &E);
+	String_double_zero_plus(Label4->Caption, Edit_G->Text, &G);
+	String_double_plus(Label5->Caption, Edit_nu->Text, &nu);
+	String_double_zero_plus(Label_gamma_m->Caption, Edit_gamma_m->Text, &gamma_m);
+	String_double_zero_plus(Label9 -> Caption, Edit_dens -> Text, &density);
+	String standard = cmb_bx_standard -> Text;
+
+
+	steel_temp_ = Steel(title, standard, E, G, nu, gamma_m,R_yn,R_un, density, t_max);
 
 }
-//---------------------------------------------------------------
-// Установить индекс стали
-void __fastcall TDefineSteelForm::set_steel_standard(int index) {
+void TDefineSteelForm::set_form_controls()
+{
+
+	Edit_E -> Text = steel_temp_.get_E_st();
+	Edit_G -> Text = steel_temp_.get_G_st();
+	Edit_nu -> Text = steel_temp_.get_nu_st();
+	Edit_dens -> Text = steel_temp_.get_density();
+	Edit_gamma_m -> Text = steel_temp_.get_gamma_m();
+
+	String str = steel_temp_.get_standard();
+	cmb_bx_standard -> Text = str;
+	cmb_bx_standard -> ItemIndex = cmb_bx_standard -> Items -> IndexOf(str);
+	set_steel_standard();
+
+	cmb_bx_steel_grades -> Text = steel_temp_.get_steel_grade();
+    fill_grd_steel_data();
+
+}
+void TDefineSteelForm::set_form_controls(Steel steel)
+{
+	steel_temp_ = steel;
+	set_form_controls();
+	iobserver_ -> update(this);
+}
+//---------------------------------------------------------------------
+// Заполнить cmb_bx_steel_grades в зависимости от выбранного стандарта
+//----------------------------------------------------------------------
+void __fastcall TDefineSteelForm::set_steel_standard() {
 
    int i;
    AnsiString Steel_Hot[N_STEEL_HOT] = {STEEL_HOT};
    AnsiString Steel_HotB[N_STEEL_HOTB] = {STEEL_HOTB};
 
-
-   ComboBox_steel->Items->Clear();
-   switch (index) {
+   cmb_bx_steel_grades -> Items -> Clear();
+   switch (cmb_bx_standard -> ItemIndex) {
    case 0:
 	 for (i=0; i<N_STEEL_HOT; i++) {
-	   ComboBox_steel->Items->Add(Steel_Hot[i]);
+	   cmb_bx_steel_grades -> Items -> Add(Steel_Hot[i]);
 	 }
    break;
    case 1:
 	 for (i=0; i<N_STEEL_HOTB; i++) {
-	   ComboBox_steel->Items->Add(Steel_HotB[i]);
+	   cmb_bx_steel_grades -> Items->Add(Steel_HotB[i]);
      }
    break;
    }
 
+   cmb_bx_steel_grades -> ItemIndex = 0;
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TDefineSteelForm::BitBtn_OKClick(TObject *Sender)
-{
-	 Close();
-}
+
 //----------------------------------------------------------------------
-void __fastcall TDefineSteelForm::ComboBox_steelChange(
+void __fastcall TDefineSteelForm::cmb_bx_steel_gradesChange(
 	  TObject *Sender)
 {
 	fill_grd_steel_data();
 }
 //---------------------------------------------------------------------------
-void __fastcall TDefineSteelForm::ComboBox_gostChange(TObject *Sender)
+void __fastcall TDefineSteelForm::cmb_bx_standardChange(TObject *Sender)
 {
-	set_steel_standard(ComboBox_gost->ItemIndex);
+	set_steel_standard();
+
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TDefineSteelForm::BitBtn_CancelClick(TObject *Sender)
-{
-    Close();
-}
-
+// Заполнение таблицы StringGrid_Prop свойствами стали
+//---------------------------------------------------------------------------
 void __fastcall TDefineSteelForm::fill_grd_steel_data()
 {
 	   int i, rc;
 
 		MATER_PARAM mater_param;
 
-	   AnsiString Name_prof = ComboBox_steel->Text ;
+	   AnsiString Name_prof = cmb_bx_steel_grades -> Text ;
 
 	   rc = Get_Mater_param(Name_prof.c_str(), &mater_param);
 	   if (rc>0) {
 		  return;
 	   }
 
-	   GroupBox_Prop->Caption = " Нормативные сопротивления стали "+ ComboBox_steel->Text + ", МПа";
+	   GroupBox_Prop->Caption = " Нормативные сопротивления стали "+ cmb_bx_steel_grades -> Text + ", МПа";
 	   StringGrid_Prop->RowCount = mater_param.n_row + 1;
 	   for (i=0; i<mater_param.n_row; i++) {
 		 if (i==0)
@@ -110,8 +165,29 @@ void __fastcall TDefineSteelForm::fill_grd_steel_data()
 		 StringGrid_Prop->Cells[1][i+1] = mater_param.Ryn_row[i];
 		 StringGrid_Prop->Cells[2][i+1] = mater_param.Run_row[i];
 	   }
-
-
 }
 //---------------------------------------------------------------------------
+void __fastcall TDefineSteelForm::btn_okClick(TObject *Sender)
+{
+	set_steel();
+	iobserver_ -> update(this);
+	Close();
+}
+void __fastcall TDefineSteelForm::btn_cancelClick(TObject *Sender)
+{
+	set_form_controls();
+}
+//---------------------------------------------------------------------------
+void __fastcall TDefineSteelForm::btn_closeClick(TObject *Sender)
+{
+    Close();
+}
+//---------------------------------------------------------------------------
+
+
+
+
+
+
+
 

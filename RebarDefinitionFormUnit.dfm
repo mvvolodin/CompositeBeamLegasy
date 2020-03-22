@@ -15,7 +15,7 @@ object RebarDefinitionForm: TRebarDefinitionForm
   PixelsPerInch = 96
   TextHeight = 13
   object bt_btn_Ok: TBitBtn
-    Left = 692
+    Left = 522
     Top = 152
     Width = 75
     Height = 25
@@ -156,5 +156,14 @@ object RebarDefinitionForm: TRebarDefinitionForm
     Caption = #1054#1090#1084#1077#1085#1080#1090#1100
     TabOrder = 3
     OnClick = bt_btn_cancelClick
+  end
+  object btn_close: TButton
+    Left = 684
+    Top = 152
+    Width = 75
+    Height = 25
+    Caption = #1047#1072#1082#1088#1099#1090#1100
+    TabOrder = 4
+    OnClick = btn_closeClick
   end
 end

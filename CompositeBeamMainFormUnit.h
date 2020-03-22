@@ -39,11 +39,12 @@
 #include <Vcl.Imaging.pngimage.hpp>
 
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
+#include "ICompositeBeam.h"
 
 
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 
-class TCompositeBeamMainForm : public TForm, public IObserver_
+class TCompositeBeamMainForm : public TForm, public IObserver_, public ICompositeBeam
 {
 
 __published:	// IDE-managed Components
@@ -234,6 +235,8 @@ private:
 
 	virtual void update(IPublisher* ipublisher) override;
 	void register_observers();
+	void register_I_composite_beam();
+	virtual double get_t_max()const{return composite_beam_.get_composite_section().get_steel_part().get_I_section().get_t_uf();};
 
 };
 //---------------------------------------------------------------------------
