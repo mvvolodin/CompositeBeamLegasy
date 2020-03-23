@@ -554,13 +554,12 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Width = 41
           Height = 21
           TabOrder = 0
-          Text = '200'
           OnChange = OnControlsChange
         end
       end
       object grp_bx_corrugated_slab: TGroupBox
         Left = 3
-        Top = 415
+        Top = 414
         Width = 462
         Height = 60
         Caption = '  '#1055#1083#1080#1090#1072' '#1087#1086' '#1085#1072#1089#1090#1080#1083#1091'  '
@@ -594,7 +593,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Width = 41
           Height = 21
           TabOrder = 1
-          Text = '100'
         end
       end
       object GrpBxSteel: TGroupBox

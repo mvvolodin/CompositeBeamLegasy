@@ -15,13 +15,13 @@ WorkingConditionsFactors::WorkingConditionsFactors(double gamma_bi, double gamma
 {
 
 }
-void WorkingConditionsFactors::save_working_conditions_factors(std::ostream& ostr)const
+void WorkingConditionsFactors::save(std::ostream& ostr)const
 {
 	ostr.write((char*)&gamma_bi_ ,sizeof(gamma_bi_));
 	ostr.write((char*)&gamma_si_ ,sizeof(gamma_si_));
 	ostr.write((char*)&gamma_c_ ,sizeof(gamma_c_));
 }
-void WorkingConditionsFactors::load_working_conditions_factors(std::istream& istr)
+void WorkingConditionsFactors::load(std::istream& istr)
 {
 	istr.read((char*)&gamma_bi_ ,sizeof(gamma_bi_));
 	istr.read((char*)&gamma_si_ ,sizeof(gamma_si_));

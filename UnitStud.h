@@ -39,8 +39,8 @@ public:
 		 double R_y, double gamma_c);
 
 	void set_default_values();
-	void save_studs(std::ostream& ostr)const;
-    void load_studs(std::istream& istr);
+	void save(std::ostream& ostr)const;
+	void load(std::istream& istr);
 	std::vector<double> calculate_coordinates(double L);//определение координат размещения стад-болтов
 	int calculate_studs_transverse_rows_number(double L);//определение количества поперечных рядов стад-болтов
 	void calculate_capacity(double R_b, double R_y, double gamma_c);

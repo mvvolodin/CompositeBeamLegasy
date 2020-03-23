@@ -141,7 +141,7 @@ void Studs::set_default_values()
 	gamma_c_ = 1.3; //Коэффициент условий работы
 
 }
-void Studs::save_studs(ostream& ostr) const
+void Studs::save(ostream& ostr) const
 {
 	save_stud_basic(ostr);
 
@@ -161,7 +161,7 @@ void TStudBasic::save_stud_basic(ostream& ostr) const
 	ostr.write((char*)&d_an_,sizeof(d_an_));
 	ostr.write((char*)&l_,sizeof(l_));
 }
-void Studs::load_studs(istream& istr)
+void Studs::load(istream& istr)
 {
 	load_stud_basic(istr);
 

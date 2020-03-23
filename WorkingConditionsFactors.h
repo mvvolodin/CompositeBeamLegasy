@@ -13,8 +13,8 @@ private:
 public:
 	WorkingConditionsFactors();
 	WorkingConditionsFactors(double gamma_bi, double gamma_si, double gamma_c);
-	void save_working_conditions_factors(std::ostream& ostr)const;
-	void load_working_conditions_factors(std::istream& istr);
+	void save(std::ostream& ostr)const;
+	void load(std::istream& istr);
 	void set_default_values();
 	double get_gamma_bi()const{return gamma_bi_;}
 	double get_gamma_si()const{return gamma_si_;}

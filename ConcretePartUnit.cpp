@@ -13,8 +13,8 @@
 TConcretePart::TConcretePart()
 {
 }
-TConcretePart::TConcretePart(String slab_type, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf)
-	:slab_type_(slab_type),concrete_(concrete),rebar_(rebar), h_f_(h_f)
+TConcretePart::TConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf)
+	:slab_type_(slab_type), slab_type_enum_(slab_type_enum),concrete_(concrete),rebar_(rebar), h_f_(h_f)
 {
 		double a=b_uf/2;
 		double B_l=geometry.get_trib_width_left();
@@ -38,8 +38,35 @@ TConcretePart::TConcretePart(String slab_type, Concrete concrete, Rebar rebar, d
 void TConcretePart::set_default_values()
 {
 	slab_type_ = L"Плоская плита";
+	slab_type_enum_ = SlabType::FLAT;
+    h_f_ = 200;
 	concrete_.set_default_values();
 	rebar_.set_default_values();
+}
+//---------------------------------------------------------------------------
+//Сохраняем объект ............. в бинарный файл
+//---------------------------------------------------------------------------
+void TConcretePart::save(std::ostream& ostr) const
+{
+//	geometry_.save_geometry(ostr);
+//	loads_.save_loads(ostr);
+//	working_conditions_factors_.save_working_conditions_factors(ostr);
+////	composite_section_.save_composite_section(ostr);
+//	studs_.save_studs(ostr);
+
+}
+//---------------------------------------------------------------------------
+//Загружаем объект ........... из бинарного файла
+//---------------------------------------------------------------------------
+void TConcretePart::load(std::istream& istr)
+{
+
+//	geometry_.load_geometry(istr);
+//	loads_.load_loads(istr);
+//	working_conditions_factors_.load_working_conditions_factors(istr);
+////	composite_section_.load_composite_section(istr);
+//	studs_.load_studs(istr);
+
 }
 
 //---------------------------------------------------------------------------
@@ -77,7 +104,7 @@ double TConcretePart::effective_width_cantilever_calc(double t_slc, double a,  d
 	return clamp(bc, l/12, C );
 }
 TFlatSlab::TFlatSlab(Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf)
-	:TConcretePart(L"Плоская плита", concrete, rebar, h_f, geometry, b_uf)
+	:TConcretePart(L"Плоская плита", SlabType::FLAT, concrete, rebar, h_f, geometry, b_uf)
 {
 	h_b_=h_f;
 	C_b_=h_b_/2.;
@@ -88,7 +115,7 @@ TFlatSlab::TFlatSlab(Concrete concrete, Rebar rebar, double h_f, TGeometry geome
 //---------------------------------------------------------------------------
 
 TCorrugatedSlab::TCorrugatedSlab(String slab_type, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf)
-	:TConcretePart(slab_type, concrete, rebar, h_f, geometry, b_uf)
+	:TConcretePart(slab_type, SlabType::CORRUGATED, concrete, rebar, h_f, geometry, b_uf)
 {
    corrugated_sheet_ = corrugated_sheets_map[slab_type];
    h_b_=corrugated_sheet_.get_height()+h_f;

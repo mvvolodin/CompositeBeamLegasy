@@ -88,7 +88,7 @@ void TDefineSteelForm::set_form_controls()
     fill_grd_steel_data();
 
 }
-void TDefineSteelForm::set_form_controls(Steel steel)
+void TDefineSteelForm::set_form_controls(Steel steel)  //const reference
 {
 	steel_temp_ = steel;
 	set_form_controls();

@@ -63,6 +63,7 @@ object DefineSteelForm: TDefineSteelForm
       Height = 21
       ItemIndex = 2
       TabOrder = 0
+      Text = 'C255'
       OnChange = cmb_bx_steel_gradesChange
       Items.Strings = (
         'C235'

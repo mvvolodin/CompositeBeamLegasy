@@ -87,8 +87,20 @@ void TCompositeBeamMainForm::set_form_controls()
 	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> get_studs().get_name();
 	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> get_rebar().get_grade();
 	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> get_concrete().get_grade();
-//
-	edt_h_f -> Text = composite_beam_.get_composite_section().get_concrete_part().get_h_f();
+//Данные для плиты
+
+	switch (composite_beam_.get_composite_section().get_concrete_part().get_slab_type_enum())
+	{
+	case SlabType::FLAT:
+		rdgrp_slab_type -> ItemIndex = 0;
+		edt_flat_slab_thickness -> Text = composite_beam_.get_composite_section().get_concrete_part().get_h_f();
+		break;
+	case SlabType::CORRUGATED:
+		rdgrp_slab_type -> ItemIndex = 1;
+		cmb_bx_corrugated_sheeting_part_number -> Text = composite_beam_.get_composite_section().get_concrete_part().get_slab_type();
+		edt_h_f -> Text = composite_beam_.get_composite_section().get_concrete_part().get_h_f();
+		break;
+	}
 
 //Данные типа Studs
 	StudDefinitionForm -> set_form_controls(composite_beam_.get_studs());
@@ -101,6 +113,8 @@ void TCompositeBeamMainForm::set_form_controls()
 
 //Данные типа Steel
 	DefineSteelForm -> set_form_controls(composite_beam_.get_composite_section().get_steel_part().get_I_steel());
+
+
 }
 void TCompositeBeamMainForm::register_observers()
 {
@@ -1061,6 +1075,9 @@ void TCompositeBeamMainForm::update(IPublisher* ipublisher )
 		case(Publisher_ID::STEEL_FORM):
 			pnl_steel -> Caption = ipublisher -> get_information();
 			break;
+		case(Publisher_ID::SECTION_FORM):
+			pnl_steel -> Caption = ipublisher -> get_information();
+			break;
 	}
 
 }
@@ -1087,8 +1104,8 @@ void __fastcall TCompositeBeamMainForm::N8Click(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::btn_save_testClick(TObject *Sender)
 {
-	std::ofstream ofstr {"test.bn"};
-	composite_beam_.save_composite_beam(ofstr);
+	std::ofstream ofstr {"test.bn", ios::binary}; ////
+	composite_beam_.save(ofstr);
 	ofstr.close();
 }
 //---------------------------------------------------------------------------
@@ -1097,7 +1114,7 @@ void __fastcall TCompositeBeamMainForm::btn_save_testClick(TObject *Sender)
 void __fastcall TCompositeBeamMainForm::btn_load_testClick(TObject *Sender)
 {
 	std::ifstream ifstr {"test.bn"};
-	composite_beam_.load_composite_beam(ifstr);
+	composite_beam_.load(ifstr);
 	ifstr.close();
 
 	set_form_controls();
@@ -1105,5 +1122,6 @@ void __fastcall TCompositeBeamMainForm::btn_load_testClick(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
+
 
 

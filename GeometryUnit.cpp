@@ -36,7 +36,7 @@ void TGeometry::set_default_values()
 //---------------------------------------------------------------------------
 // Сохранение данных в бинарный файл
 //---------------------------------------------------------------------------
-void TGeometry::save_geometry(ostream& ostr)const
+void TGeometry::save(ostream& ostr)const
 {
 	ostr.write((char*)&end_beam_,sizeof(end_beam_));
 	ostr.write((char*)&span_,sizeof(span_));
@@ -49,7 +49,7 @@ void TGeometry::save_geometry(ostream& ostr)const
 //---------------------------------------------------------------------------
 // Чтение данных из бинарного файл
 //---------------------------------------------------------------------------
-void TGeometry::load_geometry(istream& istr)
+void TGeometry::load(istream& istr)
 {
 	istr.read((char*)&end_beam_,sizeof(end_beam_));
 	istr.read((char*)&span_,sizeof(span_));

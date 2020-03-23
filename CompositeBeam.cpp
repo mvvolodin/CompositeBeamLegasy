@@ -64,26 +64,26 @@ void TCompositeBeam::calculate()
 //---------------------------------------------------------------------------
 //Сохраняем объект композитная балка в бинарный файл
 //---------------------------------------------------------------------------
-void TCompositeBeam::save_composite_beam(std::ostream& ostr) const
+void TCompositeBeam::save(std::ostream& ostr) const
 {
-	geometry_.save_geometry(ostr);
-	loads_.save_loads(ostr);
-	working_conditions_factors_.save_working_conditions_factors(ostr);
+	geometry_.save(ostr);
+	loads_.save(ostr);
+	working_conditions_factors_.save(ostr);
 //	composite_section_.save_composite_section(ostr);
-	studs_.save_studs(ostr);
+	studs_.save(ostr);
 
 }
 //---------------------------------------------------------------------------
 //Загружаем объект композитная балка из бинарного файла
 //---------------------------------------------------------------------------
-void TCompositeBeam::load_composite_beam(std::istream& istr)
+void TCompositeBeam::load(std::istream& istr)
 {
 
-	geometry_.load_geometry(istr);
-	loads_.load_loads(istr);
-	working_conditions_factors_.load_working_conditions_factors(istr);
+	geometry_.load(istr);
+	loads_.load(istr);
+	working_conditions_factors_.load(istr);
 //	composite_section_.load_composite_section(istr);
-	studs_.load_studs(istr);
+	studs_.load(istr);
 
 }
 

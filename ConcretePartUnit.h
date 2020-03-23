@@ -1,27 +1,38 @@
 // ---------------------------------------------------------------------------
-
 #ifndef ConcretePartUnitH
 #define ConcretePartUnitH
+// ---------------------------------------------------------------------------
+#include <ostream>
+#include <istream>
+// ---------------------------------------------------------------------------
 #include "GeometryUnit.h"
 #include "Concrete.h"
 #include "Rebar.h"
 #include "CorrugatedSheet.h"
 #include "Units.h"
-
 // ---------------------------------------------------------------------------
-
+enum class SlabType{
+	FLAT,
+	CORRUGATED,
+};
+// ---------------------------------------------------------------------------
 class TConcretePart {
 
 public:
 
 	TConcretePart();
-	TConcretePart(String slab_type, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf);
+	TConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf);
 	void set_default_values();
+	void save(std::ostream& ostr) const;
+	void load(std::istream& istr);
 
 	double effective_width_calc(double t_sl, double a, double B, double l);
 	double effective_width_cantilever_calc(double t_slc, double a, double С, double l);
 	String get_slab_type() const {return slab_type_;}
+	SlabType get_slab_type_enum() const {return slab_type_enum_;}
 	Concrete get_concrete() const {return concrete_;}
+	Rebar get_rebar() const {return rebar_;}
+    //Свйоства ниже неободимо удалит. Так как реализация этих свойст подразумевает знание классом ConcretePart классов Concrete и Rebar
 	double get_R_bn() const {return concrete_.get_R_bn();}
 	double get_R_btn() const {return concrete_.get_R_btn();}
 	double get_R_b() const {return concrete_.get_R_b();}
@@ -30,7 +41,7 @@ public:
 	double get_A_s() const {return rebar_.get_A_s();}
 	double get_b_s() const {return rebar_.get_b();}
 	double get_E_b_tau() const {return concrete_.get_E_b_tau();}
-	Rebar get_rebar() const {return rebar_;}
+
 	double get_C_b(LengthUnit length_unit=LengthUnit::mm) const {return C_b_/static_cast<int>(length_unit);}
 	double get_h_b(LengthUnit length_unit=LengthUnit::mm) const {return h_b_/static_cast<int>(length_unit);}
 	double get_h_f(LengthUnit length_unit=LengthUnit::mm) const {return h_f_/static_cast<int>(length_unit);}
@@ -43,6 +54,7 @@ public:
 private:
 
 	String slab_type_;
+	SlabType slab_type_enum_;
 	Concrete concrete_;
 	Rebar rebar_;
 

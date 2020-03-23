@@ -19,7 +19,7 @@ TLoads::TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL
 	gamma_f_DL_II_(gamma_f_DL_II),
 	gamma_f_LL_(gamma_f_LL){}
 
-void TLoads::save_loads(std::ostream& ostr) const
+void TLoads::save(std::ostream& ostr) const
 {
 	ostr.write((char*)&SW_, sizeof(SW_ ));
 	ostr.write((char*)&SW_sheets_, sizeof(SW_sheets_));
@@ -32,7 +32,7 @@ void TLoads::save_loads(std::ostream& ostr) const
 	ostr.write((char*)&gamma_f_LL_, sizeof(gamma_f_LL_));
 
 }
-void TLoads::load_loads(std::istream& istr)
+void TLoads::load(std::istream& istr)
 {
 	istr.read((char*)&SW_, sizeof(SW_ ));
 	istr.read((char*)&SW_sheets_, sizeof(SW_sheets_));

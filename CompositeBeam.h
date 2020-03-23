@@ -56,6 +56,8 @@ public:
 				   Studs 					stud,
 				   WorkingConditionsFactors working_conditions_factors);
 	void set_default_values();
+	void save(std::ostream& ostr) const;
+	void load(std::istream& istr);
 	void calculate();
 	CompositeSection get_composite_section()const{return composite_section_;}//Уродливая запись!!!//Но возвращается ссылка на объект
 	InternalForcesNamedList get_internal_forces_LC()const{return internal_forces_;}
@@ -70,12 +72,11 @@ public:
 	double get_max_stud_ratio();
 	double get_ratio_rigid_plastic() const {return ratio_rigid_plastic_;}
 	double get_max_shear_ratio() const {return *std::max_element(shear_ratios_.begin(),shear_ratios_.end());}
-	void save_composite_beam(std::ostream& ostr) const;
-    void load_composite_beam(std::istream& istr);
+
 
 private:
 //Поля с исходными данными
-	TGeometry geometry_;
+	TGeometry geometry_; //src- исходные поля...dst - поля с результатами..... aSize,
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;
 	CompositeSection composite_section_;

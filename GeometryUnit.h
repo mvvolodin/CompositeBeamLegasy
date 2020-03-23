@@ -18,8 +18,8 @@ public:
 			  int temporary_supports_number);
 
 	void set_default_values();
-	void save_geometry(ostream& ostr) const;
-	void load_geometry(istream& istr);
+	void save(ostream& ostr) const;
+	void load(istream& istr);
 	inline bool is_end_beam()const {return end_beam_;}
 	String is_end_beam_to_str()const;
 	double get_span(LengthUnit length_units=LengthUnit::mm)const {return span_/static_cast<int>(length_units);}

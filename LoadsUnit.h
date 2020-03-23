@@ -14,8 +14,8 @@ public:
 	TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL,
 		double gamma_f_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL);
 	void TLoads::set_default_values();
-	void save_loads(std::ostream& ostr) const;
-	void load_loads(std::istream& istr);
+	void save(std::ostream& ostr) const;
+	void load(std::istream& istr);
 	double get_self_weight(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		{return SW_/static_cast<int>(load_unit)*static_cast<int>(length_unit);}
 	double get_self_weight_sheets(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
