@@ -35,6 +35,16 @@ CompositeSection::CompositeSection(SteelPart    steel_part,
 	sect_modulus_lower_fl();
 	sect_modulus_conc();
 }
+void CompositeSection::save(std::ostream& ostr)const
+{
+	steel_part_.save(ostr);
+	concrete_part_.save(ostr);
+}
+void CompositeSection::load(std::istream& istr)
+{
+	steel_part_.load(istr);
+	concrete_part_.load(istr);
+}
 
 void CompositeSection::set_default_values()
 {

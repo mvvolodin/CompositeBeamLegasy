@@ -56,8 +56,8 @@ public:
 					 TConcretePart concrete_part,
 					 TGeometry geometry);
 	void set_default_values();
-	void save_composite_section(std::ostream& ostr)const;
-	void load_composite_section(std::istream& istr);
+	void save(std::ostream& ostr)const;
+	void load(std::istream& istr);
 	SteelPart get_steel_part()const {return steel_part_;}
 	ISection get_I_section()const {return steel_part_.get_I_section();}
 	TConcretePart get_concrete_part()const {return concrete_part_;}

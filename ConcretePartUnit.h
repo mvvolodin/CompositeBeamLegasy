@@ -22,10 +22,9 @@ public:
 
 	TConcretePart();
 	TConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf);
-	void set_default_values();
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
-
+	void set_default_values();
 	double effective_width_calc(double t_sl, double a, double B, double l);
 	double effective_width_cantilever_calc(double t_slc, double a, double Ñ, double l);
 	String get_slab_type() const {return slab_type_;}

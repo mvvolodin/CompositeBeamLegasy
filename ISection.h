@@ -3,8 +3,10 @@
 #ifndef ISectionH
 #define ISectionH
 //---------------------------------------------------------------------------
-
 #include <math.h>
+#include <ostream>
+#include <istream>
+//---------------------------------------------------------------------------
 #include "ISectionInitialDataUnit.h"
 #include "Units.h"
 
@@ -13,8 +15,10 @@ class ISection{
 public:
 	ISection();
 	ISection(TISectionInitialData i_section_initial_data);
+	void save(std::ostream& ostr)const;
+	void load(std::istream& istr);
 	void set_default_values();
-	String get_profile_number() const {return profile_number_;}
+	String get_profile_number()const {return profile_number_;}
 	double get_b_uf(LengthUnit length_unit=LengthUnit::mm) const {return b_uf_/static_cast<int>(length_unit);}
 	double get_t_uf(LengthUnit length_unit=LengthUnit::mm) const {return t_uf_/static_cast<int>(length_unit);}
 	double get_b_lf(LengthUnit length_unit=LengthUnit::mm) const {return b_lf_/static_cast<int>(length_unit);}

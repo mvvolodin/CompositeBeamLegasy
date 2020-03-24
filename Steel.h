@@ -1,18 +1,20 @@
 // ---------------------------------------------------------------------------
 #ifndef SteelH
 #define SteelH
-// ---------------------------------------------------------------------------
-
-#include "Units.h"
+//---------------------------------------------------------------------------
 #include <System.hpp>
-
+//---------------------------------------------------------------------------
+#include <istream>
+#include <ostream>
+#include "Units.h"
+//---------------------------------------------------------------------------
 class Steel{
-
 public:
-
 	Steel();
 	Steel(String steel_grade, String grade, double E_st, double G_st, double nu_st,
 			  double gamma_m,double R_yn,double R_un, double density, double t_max);
+	void save(std::ostream& ostr)const;
+	void load(std::istream& istr);
 	void set_default_values();
 	String get_steel_grade () const {return steel_grade_;}
 	String get_standard() const {return standard_;}
@@ -25,7 +27,6 @@ public:
 	double get_gamma_m () const {return gamma_m_;}
 	double get_density () const {return density_;}
 	double get_t_max () const {return t_max_;}
-
 private:
 	String standard_ = "";
 	String steel_grade_ = "";

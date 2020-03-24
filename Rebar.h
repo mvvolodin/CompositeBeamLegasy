@@ -4,6 +4,8 @@
 #define RebarH
 #include<System.hpp> //Подключаем тип String
 #include<map>
+#include <iostream>
+#include <ostream>
 
 class RebarBasic{
 public:
@@ -14,6 +16,8 @@ public:
 protected:
 	String grade_ = L"";
 	double R_sn_ = 0.;
+	void save(ostream& ostr) const;
+	void load(istream& istr);
 };
 
 class Rebar:public RebarBasic{
@@ -21,7 +25,9 @@ public:
 	Rebar();
 	Rebar(String grade, double R_sn, double d_s, double b, double a_u,
 	double a_l, double gamma_s_);
-    void set_default_values();
+	void save(ostream& ostr) const;
+	void load(istream& istr);
+	void set_default_values();
 	double get_E_s() const {return E_s_;}
 	double get_R_s() const {return R_sn_ / gamma_s_ ;}
 	double get_diameter() const {return d_s_;}

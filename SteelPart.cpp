@@ -14,6 +14,16 @@ SteelPart::SteelPart(ISection I_section, Steel I_steel):
 {
 	calc_Q_Rd();
 }
+void SteelPart::save(ostream& ostr) const
+{
+	I_section_.save(ostr);
+	I_steel_.save(ostr);
+}
+void SteelPart::load(istream& istr)
+{
+	I_section_.load(istr);
+	I_steel_.load(istr);
+}
 void SteelPart::set_default_values()
 {
 	I_section_.set_default_values();

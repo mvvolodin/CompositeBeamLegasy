@@ -41,6 +41,42 @@ Rebar::Rebar(String grade, double R_sn, double d_s, double b, double a_u,
 {
    calc_A_s();
 }
+void Rebar::save(ostream& ostr) const
+{
+	RebarBasic::save(ostr);
+	ostr.write((char*)&E_s_ ,sizeof(E_s_));
+	ostr.write((char*)&d_s_ ,sizeof(d_s_));
+	ostr.write((char*)&b_  ,sizeof(b_ ));
+	ostr.write((char*)&a_u_ ,sizeof(a_u_));
+	ostr.write((char*)&a_l_ ,sizeof(a_l_));
+	ostr.write((char*)&gamma_s_ ,sizeof(gamma_s_));
+
+
+}
+void RebarBasic::save(ostream& ostr) const
+{
+	unsigned short l = grade_.Length();
+	ostr.write((char*)&l,sizeof(l));
+	ostr.write((char*)grade_.c_str(),l*sizeof(wchar_t));
+	ostr.write((char*)&R_sn_ ,sizeof(R_sn_));
+}
+void Rebar::load(istream& istr)
+{
+	RebarBasic::load(istr);
+	istr.read((char*)&E_s_ ,sizeof(E_s_));
+	istr.read((char*)&d_s_ ,sizeof(d_s_));
+	istr.read((char*)&b_  ,sizeof(b_ ));
+	istr.read((char*)&a_u_ ,sizeof(a_u_));
+	istr.read((char*)&a_l_ ,sizeof(a_l_));
+	istr.read((char*)&gamma_s_ ,sizeof(gamma_s_));
+}
+void RebarBasic::load(istream& istr)
+{
+	unsigned short l = grade_.Length();
+	istr.read((char*)&l,sizeof(l));
+	istr.read((char*)grade_.c_str(),l*sizeof(wchar_t));
+	istr.read((char*)&R_sn_ ,sizeof(R_sn_));
+}
 void Rebar::set_default_values()
 {
 	grade_ = L"A1000";

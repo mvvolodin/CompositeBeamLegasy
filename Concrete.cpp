@@ -49,6 +49,47 @@ Concrete::Concrete(ConcreteBasic concrete_basic,
 {
 	E_b_tau_calc();
 }
+void ConcreteBasic::save(ostream& ostr) const
+{
+	unsigned short l = grade_.Length();
+	ostr.write((char*)&l,sizeof(l));
+	ostr.write((char*)grade_.c_str(),l*sizeof(wchar_t));
+
+	ostr.write((char*)&E_b_ ,sizeof(E_b_));
+	ostr.write((char*)&R_bn_ ,sizeof(R_bn_));
+	ostr.write((char*)&R_btn_ ,sizeof(R_btn_));
+}
+void ConcreteBasic::load(istream& istr)
+{
+	unsigned short l = grade_.Length();
+	istr.read((char*)&l,sizeof(l));
+	istr.read((char*)grade_.c_str(),l*sizeof(wchar_t));
+
+	istr.read((char*)&E_b_ ,sizeof(E_b_));
+	istr.read((char*)&R_bn_ ,sizeof(R_bn_));
+	istr.read((char*)&R_btn_ ,sizeof(R_btn_));
+}
+void Concrete::save(ostream& ostr) const
+{
+	ConcreteBasic::save(ostr);
+
+	ostr.write((char*)&phi_b_cr_ ,sizeof(phi_b_cr_));
+	ostr.write((char*)&gamma_b_ ,sizeof(gamma_b_));
+	ostr.write((char*)&gamma_bt_ ,sizeof(gamma_bt_));
+	ostr.write((char*)&epsilon_b_lim_ ,sizeof(epsilon_b_lim_));
+	ostr.write((char*)&E_b_tau_ ,sizeof(E_b_tau_));
+}
+void Concrete::load(istream& istr)
+{
+	ConcreteBasic::load(istr);
+
+	istr.read((char*)&phi_b_cr_ ,sizeof(phi_b_cr_));
+	istr.read((char*)&gamma_b_ ,sizeof(gamma_b_));
+	istr.read((char*)&gamma_bt_ ,sizeof(gamma_bt_));
+	istr.read((char*)&epsilon_b_lim_ ,sizeof(epsilon_b_lim_));
+	istr.read((char*)&E_b_tau_ ,sizeof(E_b_tau_));
+
+}
 //-----------------------------------------------------------------------------
 //ѕрисваение данным класса значений по умолчанию
 //-----------------------------------------------------------------------------

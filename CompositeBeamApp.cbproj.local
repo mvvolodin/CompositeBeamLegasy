@@ -129,6 +129,7 @@
     <File Path="WorkingConditionsFactors.h"/>
     <File Path="StandartProfil.h"/>
     <File Path="ConcreteDefinitionFormUnit.h"/>
+    <File Path="ICompositeBeam.h"/>
     <File Path="String_doubleUnit.h"/>
     <File Path="Units.h"/>
     <File Path="AboutProg.h"/>
@@ -157,6 +158,7 @@
     <File Path="ConcreteDefinitionFormUnit.cpp"/>
     <File Path="ConcreteDefinitionFormUnit.cpp"/>
     <File Path="ConcreteDefinitionFormUnit.cpp"/>
+    <File Path="ObserverPatternInterfaces.h"/>
     <File Path="ConcreteDefinitionFormUnit.h"/>
     <File Path="String_doubleUnit.h"/>
     <File Path="Concrete.h"/>
@@ -166,9 +168,13 @@
     <File Path="DefineSteelFormUnit.cpp"/>
     <File Path="DefineSteelFormUnit.cpp"/>
     <File Path="Steel_param_ARSS.h"/>
+    <File Path="ObserverPatternInterfaces.h"/>
     <File Path="DefineSteelFormUnit.h"/>
-    <File Path="String_doubleUnit.h"/>
+    <File Path="Steel.h"/>
+    <File Path="ICompositeBeam.h"/>
     <File Path="DefineSteelFormUnit.cpp"/>
+    <File Path="Units.h"/>
+    <File Path="String_doubleUnit.h"/>
     <File Path="DefineSteelFormUnit.dfm"/>
     <File Path="DefineSteelFormUnit.h"/>
     <File Path="LoggerFormUnit.cpp"/>
@@ -210,9 +216,13 @@
     <File Path="SteelSectionFormUnit.h"/>
     <File Path="SteelSectionDefinitionFrameUnit.h"/>
     <File Path="Get_param_sect_func.h"/>
+    <File Path="ObserverPatternInterfaces.h"/>
     <File Path="SteelSectionFormUnit.cpp"/>
     <File Path="StandartProfil.h"/>
+    <File Path="ISection.h"/>
     <File Path="GArrow.h"/>
+    <File Path="ISectionInitialDataUnit.h"/>
+    <File Path="Units.h"/>
     <File Path="SteelSectionFormUnit.dfm"/>
     <File Path="SteelSectionFormUnit.h"/>
     <File Path="StudDefinitionFormUnit.cpp"/>
@@ -252,6 +262,7 @@
     <File Path="String_doubleUnit.h"/>
     <File Path="Data_Profil.h"/>
     <File Path="ObserverPatternInterfaces.h"/>
+    <File Path="ICompositeBeam.h"/>
     <File Path="Units.h"/>
     <File Path="ProcExt.h"/>
     <File Path="CompositeBeam.cpp"/>
@@ -383,8 +394,12 @@
     <File Path="Steel_param_ARSS.cpp"/>
     <File Path="Steel_param_ARSS.cpp"/>
     <File Path="Steel_param_ARSS.h"/>
+    <File Path="ObserverPatternInterfaces.h"/>
     <File Path="Steel_param_ARSS.cpp"/>
     <File Path="DefineSteelFormUnit.h"/>
+    <File Path="Steel.h"/>
+    <File Path="ICompositeBeam.h"/>
+    <File Path="Units.h"/>
     <File Path="Steel_param_ARSS.h"/>
     <File Path="TypeData.h"/>
     <File Path="Rebar.cpp"/>

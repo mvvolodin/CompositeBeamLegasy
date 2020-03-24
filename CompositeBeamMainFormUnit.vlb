@@ -2,7 +2,7 @@
 Coordinates=493,1,75,33
 
 []
-Coordinates=348,644,178,58
+Coordinates=1502,1,139,58
 Visible=True
 
 [Edit9]
@@ -204,9 +204,6 @@ Visible=True
 [grp_bx_flat_slab]
 Coordinates=309,366,109,58
 
-[lbl_number_propping_supports]
-Coordinates=1011,78,192,58
-
 [edt_dead_load_second_stage]
 Coordinates=645,548,186,58
 
@@ -239,9 +236,6 @@ Coordinates=1502,496,144,36
 
 [lblLoadCase]
 Coordinates=1241,375,86,58
-
-[GrpBxErection]
-Coordinates=213,548,98,58
 
 [GrpBxRebars]
 Coordinates=0,0,92,58
@@ -299,12 +293,6 @@ Coordinates=1011,1,127,58
 
 [grp_bx_corrugated_slab]
 Coordinates=791,155,138,58
-
-[grb_bx_analysis_theory]
-Coordinates=1502,1,139,58
-
-[cmb_bx_analysis_theory]
-Coordinates=315,1,184,124
 
 [cmb_bx_impact]
 Coordinates=791,386,101,124
