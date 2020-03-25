@@ -139,6 +139,9 @@ private:
 	std::vector<double> get_M(Impact impact);
     std::vector<double> get_Q(Impact impact);
 
+	void calculate_effective_width();
+	double calculate_basic_effective_width(double t_sl, double a,  double B, double l);
+	double calculate_cantilever_effective_width(double t_slc, double a,  double C, double l);
 	void calculate_gamma_1();
 	void calc_cs_coordinates(); //определение координат сечений для определения усилий требуемых для проверки балки
 	void calc_studs_coordinates(); // определение координат сечений для определения усилий требуемых для упоров

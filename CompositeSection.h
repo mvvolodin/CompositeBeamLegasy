@@ -58,9 +58,11 @@ public:
 	void set_default_values();
 	void save(std::ostream& ostr)const;
 	void load(std::istream& istr);
+	void calculate();
 	SteelPart get_steel_part()const {return steel_part_;}
 	ISection get_I_section()const {return steel_part_.get_I_section();}
-	TConcretePart get_concrete_part()const {return concrete_part_;}
+	TConcretePart get_concrete_part() const {return concrete_part_;}
+	TConcretePart& get_concrete_part() {return concrete_part_;}
 	Steel get_steel_grade()const {return steel_part_.get_I_steel();}
 	double get_alfa_b() const {return alfa_b_;}
 	double get_alfa_s() const {return alfa_s_;}

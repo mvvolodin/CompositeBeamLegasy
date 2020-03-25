@@ -1,13 +1,14 @@
 //---------------------------------------------------------------------------
-
 #pragma hdrstop
-
+//---------------------------------------------------------------------------
+#include <cmath>
+//---------------------------------------------------------------------------
 #include "CompositeBeam.h"
 #include "LoggerFormUnit.h"
-#include <cmath>
-
+#include "MathFunction.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+//---------------------------------------------------------------------------
 TCompositeBeam::TCompositeBeam():
 					geometry_(TGeometry()),
 					loads_(TLoads()),
@@ -45,6 +46,8 @@ void TCompositeBeam::set_default_values()
 //---------------------------------------------------------------------------
 void TCompositeBeam::calculate()
 {
+	calculate_effective_width();
+	composite_section_.calculate();
 	calc_cs_coordinates();
 	calc_studs_coordinates();
 	calc_inter_forces();
@@ -59,6 +62,70 @@ void TCompositeBeam::calculate()
 
 	get_max_upper_flange_ratio();
 	get_max_lower_flange_ratio();
+}
+//---------------------------------------------------------------------------
+//Расчёт эффективной ширины композитного сечения
+//---------------------------------------------------------------------------
+void TCompositeBeam::calculate_effective_width()
+{
+	double b_l = 0.;
+	double b_r = 0.;
+
+	double h_f = composite_section_.get_concrete_part().get_h_f();
+	double b_uf = composite_section_.get_steel_part().get_I_section().get_b_uf();
+	double a=b_uf/2;
+	double B_l = geometry_.get_trib_width_left();
+	double B_r = geometry_.get_trib_width_right();
+	double l = geometry_.get_span();
+
+	if (!geometry_.is_end_beam())
+	{
+		b_l = calculate_basic_effective_width(h_f,a,B_l,l);
+		b_r = calculate_basic_effective_width(h_f,a,B_r,l);
+	}
+	else
+	{
+		b_l = calculate_cantilever_effective_width(h_f,a,B_l,l);
+		b_r = calculate_basic_effective_width(h_f,a,B_r,l);
+	}
+
+	composite_section_.get_concrete_part().set_b_l(b_l);
+	composite_section_.get_concrete_part().set_b_r(b_r);
+
+}
+//---------------------------------------------------------------------------
+//Определение расчётного свеса плиты
+//Передаваемые параметры (в порядке представленном в функции):
+//  *толщина плиты,
+//  *половина ширины контакта  ж.б плиты и стального пояса
+//	*расстояние между осями балок
+//	*пролёт балки
+//---------------------------------------------------------------------------
+double TCompositeBeam::calculate_basic_effective_width(double t_sl, double a,  double B, double l)
+{
+	double b=0;
+	if (l>=4*B)
+		b=B/2;
+	else
+		b=a+6*t_sl;
+	return clamp(b, l/8, B/2 );
+}
+//---------------------------------------------------------------------------
+//Определение расчётного свеса плиты в случае консоли
+//Передаваемые параметры (в порядке представленном в функции):
+//  *толщина плиты консоли,
+//  *половина ширины контакта  ж.б плиты и стального пояса
+//	*длина консольного свеса плиты
+//	*пролёт балки
+//---------------------------------------------------------------------------
+double TCompositeBeam::calculate_cantilever_effective_width(double t_slc, double a,  double C, double l)
+{
+	double bc=0;
+	if (l>=12*C)
+		bc=C;
+	else
+		bc=a+6*t_slc;
+	return clamp(bc, l/12, C );
 }
 
 //---------------------------------------------------------------------------

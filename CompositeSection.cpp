@@ -19,22 +19,7 @@ CompositeSection::CompositeSection(SteelPart    steel_part,
 								   TGeometry geometry):
 	steel_part_(steel_part),
 	concrete_part_(concrete_part)
-{
-	alfa_to_rebar_steel_calc();
-	alfa_to_concrete_calc();
-	compos_sect_height_calc();
-	compos_sect_area_calc();
-	dist_conc_to_steel_calc();
-	first_moment_of_area_comp_calc();
-	dist_steel_to_compos_calc();
-	dist_compos_to_upper_fl_calc();
-	dist_compos_to_lower_fl_calc();
-	dist_conc_to_compos_calc();
-	inertia_compos_calc();
-	sect_modulus_upper_fl();
-	sect_modulus_lower_fl();
-	sect_modulus_conc();
-}
+{}
 void CompositeSection::save(std::ostream& ostr)const
 {
 	steel_part_.save(ostr);
@@ -51,7 +36,23 @@ void CompositeSection::set_default_values()
 	steel_part_.set_default_values();
 	concrete_part_.set_default_values();
 }
-
+void CompositeSection::calculate()
+{
+	alfa_to_rebar_steel_calc();
+	alfa_to_concrete_calc();
+	compos_sect_height_calc();
+	compos_sect_area_calc();
+	dist_conc_to_steel_calc();
+	first_moment_of_area_comp_calc();
+	dist_steel_to_compos_calc();
+	dist_compos_to_upper_fl_calc();
+	dist_compos_to_lower_fl_calc();
+	dist_conc_to_compos_calc();
+	inertia_compos_calc();
+	sect_modulus_upper_fl();
+	sect_modulus_lower_fl();
+	sect_modulus_conc();
+}
 
 void CompositeSection::alfa_to_rebar_steel_calc()
 {

@@ -25,8 +25,6 @@ public:
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
 	void set_default_values();
-	double effective_width_calc(double t_sl, double a, double B, double l);
-	double effective_width_cantilever_calc(double t_slc, double a, double С, double l);
 	String get_slab_type() const {return slab_type_;}
 	SlabType get_slab_type_enum() const {return slab_type_enum_;}
 	Concrete get_concrete() const {return concrete_;}
@@ -44,6 +42,8 @@ public:
 	double get_C_b(LengthUnit length_unit=LengthUnit::mm) const {return C_b_/static_cast<int>(length_unit);}
 	double get_h_b(LengthUnit length_unit=LengthUnit::mm) const {return h_b_/static_cast<int>(length_unit);}
 	double get_h_f(LengthUnit length_unit=LengthUnit::mm) const {return h_f_/static_cast<int>(length_unit);}
+	void set_b_l(double b_l){b_l_ = b_l;}
+	void set_b_r(double b_r){b_r_ = b_r;}
 	double get_b_l(LengthUnit length_unit=LengthUnit::mm) const {return b_l_/static_cast<int>(length_unit);} //после добавления b_sl в этой функции нет необходимости. Удалить после изменения кода с вызовами
 	double get_b_r(LengthUnit length_unit=LengthUnit::mm) const {return b_r_/static_cast<int>(length_unit);} //после добавления b_sl в этой функции нет необходимости. Удалить после изменения кода с вызовами
 	double get_b_sl(LengthUnit length_unit=LengthUnit::mm) const {return (b_r_+ b_l_)/static_cast<int>(length_unit);}
@@ -56,6 +56,8 @@ private:
 	SlabType slab_type_enum_;
 	Concrete concrete_;
 	Rebar rebar_;
+	double effective_width_calc(double t_sl, double a, double B, double l);
+	double effective_width_cantilever_calc(double t_slc, double a, double С, double l);
 
 protected:
 
@@ -79,9 +81,7 @@ public:
 	TCorrugatedSlab(String slab_type, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf);
 
 private:
-	CorrugatedSheet corrugated_sheet_;
-	double h_p_; // Высота настила настилом
-;
+
 };
 
 #endif
