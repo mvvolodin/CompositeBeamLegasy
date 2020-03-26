@@ -21,23 +21,15 @@ class TConcretePart {
 public:
 
 	TConcretePart();
-	TConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf);
+	TConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f);
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
 	void set_default_values();
+	void calculate();
 	String get_slab_type() const {return slab_type_;}
 	SlabType get_slab_type_enum() const {return slab_type_enum_;}
 	Concrete get_concrete() const {return concrete_;}
 	Rebar get_rebar() const {return rebar_;}
-    //Свйоства ниже неободимо удалит. Так как реализация этих свойст подразумевает знание классом ConcretePart классов Concrete и Rebar
-	double get_R_bn() const {return concrete_.get_R_bn();}
-	double get_R_btn() const {return concrete_.get_R_btn();}
-	double get_R_b() const {return concrete_.get_R_b();}
-	double get_E_b() const {return concrete_.get_E_b();}
-	double get_E_s() const {return rebar_.get_E_s();}
-	double get_A_s() const {return rebar_.get_A_s();}
-	double get_b_s() const {return rebar_.get_b();}
-	double get_E_b_tau() const {return concrete_.get_E_b_tau();}
 
 	double get_C_b(LengthUnit length_unit=LengthUnit::mm) const {return C_b_/static_cast<int>(length_unit);}
 	double get_h_b(LengthUnit length_unit=LengthUnit::mm) const {return h_b_/static_cast<int>(length_unit);}
@@ -56,10 +48,6 @@ private:
 	SlabType slab_type_enum_;
 	Concrete concrete_;
 	Rebar rebar_;
-	double effective_width_calc(double t_sl, double a, double B, double l);
-	double effective_width_cantilever_calc(double t_slc, double a, double С, double l);
-
-protected:
 
 	double b_l_ = 0.; // эффективная ширина слева
 	double b_r_ = 0.; // эффективная ширина справа
@@ -68,20 +56,10 @@ protected:
 	double h_f_ = 0.; // расчётная толщина железобетонной плиты
 	double A_b_ = 0.; // Площадь железобетона
 	double I_b_ = 0.;
+
+	double effective_width_calc(double t_sl, double a, double B, double l);
+	double effective_width_cantilever_calc(double t_slc, double a, double С, double l);
 };
 
-class TFlatSlab : public TConcretePart {
-public:
-	TFlatSlab(Concrete concrete, Rebar rebar, double t_sl, TGeometry geometry, double b_uf);
-
-};
-
-class TCorrugatedSlab : public TConcretePart{
-public:
-	TCorrugatedSlab(String slab_type, Concrete concrete, Rebar rebar, double h_f, TGeometry geometry, double b_uf);
-
-private:
-
-};
 
 #endif

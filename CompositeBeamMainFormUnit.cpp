@@ -212,9 +212,11 @@ TConcretePart TCompositeBeamMainForm::init_concrete_part()
 	{
 		double t_sl= 0.;
 		String_double_plus(lbl_flat_slab_thickness->Caption, edt_flat_slab_thickness->Text, &t_sl);
-		return TFlatSlab(ConcreteDefinitionForm->get_concrete(),
-							 RebarDefinitionForm->get_rebar(),
-							 t_sl , geometry, b_uf);
+		return TConcretePart (L"Плоская плита",
+							  SlabType::FLAT,
+							  ConcreteDefinitionForm->get_concrete(),
+							  RebarDefinitionForm->get_rebar(),
+							  t_sl);
 	}
 	else
 	{
@@ -222,10 +224,11 @@ TConcretePart TCompositeBeamMainForm::init_concrete_part()
 
 	String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f);
 
-	return TCorrugatedSlab(cmb_bx_corrugated_sheeting_part_number->Text,
-								  ConcreteDefinitionForm->get_concrete(),
-								  RebarDefinitionForm->get_rebar(),
-								  h_f, geometry, b_uf);
+	return TConcretePart (cmb_bx_corrugated_sheeting_part_number->Text,
+						  SlabType::CORRUGATED,
+						  ConcreteDefinitionForm->get_concrete(),
+						  RebarDefinitionForm->get_rebar(),
+						  h_f);
 	}
 }
 //---------------------------------------------------------------------------
@@ -1114,7 +1117,11 @@ void __fastcall TCompositeBeamMainForm::btn_save_testClick(TObject *Sender)
 void __fastcall TCompositeBeamMainForm::btn_load_testClick(TObject *Sender)
 {
 	std::ifstream ifstr {"test.bn"};
+	TCompositeBeam cb;
+    String s = cb.get_composite_section().get_concrete_part().get_slab_type();
+	cb.load(ifstr);
 	composite_beam_.load(ifstr);
+
 	ifstr.close();
 
 	set_form_controls();

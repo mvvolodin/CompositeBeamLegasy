@@ -31,7 +31,7 @@ public:
 	double get_E_s() const {return E_s_;}
 	double get_R_s() const {return R_sn_ / gamma_s_ ;}
 	double get_diameter() const {return d_s_;}
-	double get_b() const {return b_;}
+	double get_b_s() const {return b_;}
 	double get_a_u() const {return a_u_;}
 	double get_a_l() const {return a_l_;}
 	double get_gamma_s_() const {return gamma_s_;}

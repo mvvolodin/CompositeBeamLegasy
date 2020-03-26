@@ -39,7 +39,7 @@ void TRebarDefinitionForm::set_form_controls()
 {
 	edt_diameter -> Text = rebar_temp_.get_diameter();
 	edt_R_s_n -> Text = rebar_temp_.get_R_sn();
-	edt_b -> Text = rebar_temp_.get_b();
+	edt_b -> Text = rebar_temp_.get_b_s();
 	edt_a_u -> Text = rebar_temp_.get_a_u();
 	edt_a_l -> Text = rebar_temp_.get_a_l();
 	edt_safety_factor -> Text = rebar_temp_.get_gamma_s_();

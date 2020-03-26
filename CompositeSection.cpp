@@ -38,6 +38,8 @@ void CompositeSection::set_default_values()
 }
 void CompositeSection::calculate()
 {
+	concrete_part_.calculate();
+
 	alfa_to_rebar_steel_calc();
 	alfa_to_concrete_calc();
 	compos_sect_height_calc();
@@ -57,14 +59,14 @@ void CompositeSection::calculate()
 void CompositeSection::alfa_to_rebar_steel_calc()
 {
 	double E_st_ = steel_part_.get_E_st();
-	double E_s_ = concrete_part_.get_E_s(); // Модуль упругости арматуры
+	double E_s_ = concrete_part_.get_rebar().get_E_s(); // Модуль упругости арматуры
 	alfa_s_ = E_st_ / E_s_;
 }
 
 void CompositeSection::alfa_to_concrete_calc()
 {
 	double E_st=steel_part_.get_I_steel().get_E_st(); // Модуль упругости стали
-	double E_b_tau=concrete_part_.get_E_b_tau();//Модуль упругости бетона
+	double E_b_tau=concrete_part_.get_concrete().get_E_b_tau();//Модуль упругости бетона
 	alfa_b_=E_st/E_b_tau;
 }
 
@@ -79,7 +81,7 @@ void CompositeSection::compos_sect_area_calc()
 {
 	double A_b=concrete_part_.get_A_b();
 	double A_st=steel_part_.get_A_st();
-	double A_s=concrete_part_.get_A_s();
+	double A_s=concrete_part_.get_rebar().get_A_s();
 	int num_rows=concrete_part_.get_rebar().get_num_rows();
 	double b_l=concrete_part_.get_b_l();
 	double b_r=concrete_part_.get_b_r();
@@ -105,7 +107,7 @@ void CompositeSection::first_moment_of_area_comp_calc()
 	double A_b = concrete_part_.get_A_b();
 	double b_l=concrete_part_.get_b_l();
 	double b_r=concrete_part_.get_b_r();
-	double b=concrete_part_.get_rebar().get_b();
+	double b=concrete_part_.get_rebar().get_b_s();
 	double A_s=concrete_part_.get_rebar().get_A_s();
 
 	S_red_= A_b*Z_b_st_/alfa_b_+1/alfa_s_*A_s *(b_l + b_r)*(Z_st_r_u_+Z_st_r_l_);
@@ -135,7 +137,7 @@ void CompositeSection::inertia_compos_calc()
 	double A_st = steel_part_.get_I_section().get_A_st();
 	double A_b=concrete_part_.get_A_b();
 	double A_s=concrete_part_.get_rebar().get_A_s();
-	double b=concrete_part_.get_rebar().get_b();
+	double b=concrete_part_.get_rebar().get_b_s();
 	double b_l=concrete_part_.get_b_l();
 	double b_r=concrete_part_.get_b_r();
 	double I_b=concrete_part_.get_I_b();
