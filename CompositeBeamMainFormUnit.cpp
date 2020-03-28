@@ -271,14 +271,18 @@ Studs TCompositeBeamMainForm::init_stud()
 // ---------------------------------------------------------------------------
 // Инициализация композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::init_composite_beam(TGeometry 				  geometry,
-												 TLoads 				  loads,
-												 CompositeSection 		  composite_section,
-												 Studs 					  stud,
-												 WorkingConditionsFactors working_conditions_factors)
+void TCompositeBeamMainForm::init_composite_beam()
 {
 
- composite_beam_=TCompositeBeam(geometry,
+   TGeometry geometry=init_geomet();//поле содержащее топологию
+   TLoads loads=init_loads();//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
+   Studs stud=init_stud(); //поле соержащее упоры Нельсона
+   WorkingConditionsFactors working_conditions_factors=init_working_conditions_factors();
+   SteelPart steel_part = init_steel_part();
+   TConcretePart concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!
+   CompositeSection composite_section = CompositeSection(steel_part, concrete_part, geometry);
+
+	composite_beam_=TCompositeBeam(geometry,
 								loads,
 								composite_section,stud,
 								working_conditions_factors);
@@ -698,18 +702,7 @@ void __fastcall TCompositeBeamMainForm::rd_grp_internal_forces_typeClick(TObject
 
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
-   //проверка объекта и в случае его наличия будет вызван деструктор
-   //проверка в nullptr  в concrete_section_
-   //установить все объекты в ноль
-
-   TGeometry geometry=init_geomet();//поле содержащее топологию
-   TLoads loads=init_loads();//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
-   Studs stud=init_stud(); //поле соержащее упоры Нельсона
-   WorkingConditionsFactors working_conditions_factors=init_working_conditions_factors();
-   SteelPart steel_part = init_steel_part();
-   TConcretePart concrete_part=init_concrete_part();//объект абстрактного класса, поэтому указатель!
-   CompositeSection composite_section = CompositeSection(steel_part, concrete_part, geometry);
-   init_composite_beam(geometry,loads,composite_section, stud,working_conditions_factors);
+   init_composite_beam();
    composite_beam_.calculate();
    //Вывод результатов расчёта в GUI
 	draw_diagram();
@@ -744,6 +737,7 @@ void __fastcall TCompositeBeamMainForm::NNewClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::NSaveClick(TObject *Sender)
 {
+	init_composite_beam(); //актуализируем композитную балку из полей формы
    // Получение имени директории, в которой находится исполняемый модуль
 
    if  (strcmp(ModelFile, UNTITLED)==0) {

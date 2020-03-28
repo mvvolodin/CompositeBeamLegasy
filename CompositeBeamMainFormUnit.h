@@ -201,11 +201,7 @@ private:
 	Studs init_stud();//Инициализация упоров
 	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
 
-	void init_composite_beam(TGeometry 				  geometry,
-							 TLoads 				  loads,
-							 CompositeSection 		  composite_section,
-							 Studs					  stud,
-							 WorkingConditionsFactors working_conditions_factors);
+	void init_composite_beam();
 	void set_form_controls();
 	void generate_report();
 	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
