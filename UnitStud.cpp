@@ -154,10 +154,12 @@ void Studs::save(ostream& ostr) const
 }
 void TStudBasic::save_stud_basic(ostream& ostr) const
 {
-	unsigned short l = name_.Length();
-
+	wchar_t* buf = name_.w_str();
+	unsigned short l = name_.Length()+1;
 	ostr.write((char*)&l,sizeof(l));
-	ostr.write((char*)name_.c_str(),l*sizeof(wchar_t));
+	ostr.write((char*)buf,l*sizeof(wchar_t));
+	free(buf);
+
 	ostr.write((char*)&d_an_,sizeof(d_an_));
 	ostr.write((char*)&l_,sizeof(l_));
 }
@@ -175,10 +177,14 @@ void Studs::load(istream& istr)
 }
 void TStudBasic::load_stud_basic(istream& istr)
 {
-	unsigned short l = name_.Length();
-
+	wchar_t* buf;
+	unsigned short l;
 	istr.read((char*)&l,sizeof(l));
-	istr.read((char*)name_.c_str(),l*sizeof(wchar_t));
+	buf =(wchar_t*) malloc(l*sizeof(wchar_t));
+	istr.read((char*)buf,l*sizeof(wchar_t));
+	name_ = String(buf);
+    free(buf);
+
 	istr.read((char*)&d_an_,sizeof(d_an_));
 	istr.read((char*)&l_,sizeof(l_));
 

@@ -892,12 +892,6 @@ void __fastcall TSteelSectionDefinitionFrame::RadioGroup_STOClick(TObject *Sende
 //---------------------------------------------------------------------------
 
 
-void __fastcall TSteelSectionDefinitionFrame::PageControl2Change(TObject *Sender)
-{
-     Button_Copy->Visible = TabSheet_Weld->TabVisible;
-
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TSteelSectionDefinitionFrame::RadioGroup_orientClick(TObject *Sender)
 {
@@ -995,4 +989,6 @@ void TSteelSectionDefinitionFrame::fill_I_section_data()
 	StandartProfil.SetParamProfil(&(common_sect_.dvutavr), ComboBox_profil->ItemIndex);
 }
 //---------------------------------------------------------------------------
+
+
 

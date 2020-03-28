@@ -20,13 +20,17 @@ Steel::	Steel(String steel_grade, String standard, double E_st, double G_st, dou
 				t_max_(t_max){}
 void Steel::save(std::ostream& ostr)const
 {
-	unsigned short l_1 = standard_.Length();
-	ostr.write((char*)&l_1,sizeof(l_1));
-	ostr.write((char*)standard_.c_str(),l_1*sizeof(wchar_t));
+	wchar_t* buf1 = standard_.w_str();
+	unsigned short l1 = standard_.Length()+1;
+	ostr.write((char*)&l1,sizeof(l1));
+	ostr.write((char*)buf1,l1*sizeof(wchar_t));
+    free(buf1);
 
-	unsigned short l_2 = steel_grade_.Length();
-	ostr.write((char*)&l_2,sizeof(l_2));
-	ostr.write((char*)steel_grade_.c_str(),l_2*sizeof(wchar_t));
+	wchar_t* buf2 = steel_grade_.w_str();
+	unsigned short l2 = steel_grade_.Length()+1;
+	ostr.write((char*)&l2,sizeof(l2));
+	ostr.write((char*)buf2,l2*sizeof(wchar_t));
+	free(buf2);
 
 	ostr.write((char*)&E_st_ ,sizeof(E_st_));
 	ostr.write((char*)&G_st_ ,sizeof(G_st_));
@@ -40,13 +44,21 @@ void Steel::save(std::ostream& ostr)const
 }
 void Steel::load(std::istream& istr)
 {
-	unsigned short l_1 = standard_.Length();
-	istr.read((char*)&l_1,sizeof(l_1));
-	istr.read((char*)standard_.c_str(),l_1*sizeof(wchar_t));
+	wchar_t* buf1;
+	unsigned short l1;
+	istr.read((char*)&l1,sizeof(l1));
+	buf1 =(wchar_t*) malloc(l1*sizeof(wchar_t));
+	istr.read((char*)buf1,l1*sizeof(wchar_t));
+	standard_ = String(buf1);
+	free(buf1);
 
-	unsigned short l_2 = steel_grade_.Length();
-	istr.read((char*)&l_2,sizeof(l_2));
-	istr.read((char*)steel_grade_.c_str(),l_2*sizeof(wchar_t));
+	wchar_t* buf2;
+	unsigned short l2;
+	istr.read((char*)&l2,sizeof(l2));
+	buf2 =(wchar_t*) malloc(l2*sizeof(wchar_t));
+	istr.read((char*)buf2,l2*sizeof(wchar_t));
+	steel_grade_ = String(buf2);
+	free(buf2);
 
 	istr.read((char*)&E_st_ ,sizeof(E_st_));
 	istr.read((char*)&G_st_ ,sizeof(G_st_));

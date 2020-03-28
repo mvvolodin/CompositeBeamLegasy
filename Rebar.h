@@ -23,7 +23,7 @@ protected:
 class Rebar:public RebarBasic{
 public:
 	Rebar();
-	Rebar(String grade, double R_sn, double d_s, double b, double a_u,
+	Rebar(String grade, double R_sn, double E_s, double d_s, double b, double a_u,
 	double a_l, double gamma_s_);
 	void save(ostream& ostr) const;
 	void load(istream& istr);

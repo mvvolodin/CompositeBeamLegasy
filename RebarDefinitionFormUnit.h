@@ -38,6 +38,8 @@ __published:	// IDE-managed Components
 	TEdit *edt_b;
 	TButton *bt_btn_cancel;
 	TButton *btn_close;
+	TEdit *edt_E_s;
+	TLabel *lbl_E_s;
 	void __fastcall cmb_bx_rebar_gradeChange(TObject *Sender);
 	void __fastcall bt_btn_OkClick(TObject *Sender);
 	void __fastcall bt_btn_cancelClick(TObject *Sender);

@@ -155,9 +155,7 @@ __published:	// IDE-managed Components
 	TLabel *lbl_h_f;
 	TLabel *lbl_corrugated_sheet_type;
 	TImage *Image2;
-	TButton *btn_save_test;
 	TBitBtn *BitBtn1;
-	TButton *btn_load_test;
 	TLabel *lbl_number_propping_supports;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
@@ -186,15 +184,13 @@ __published:	// IDE-managed Components
 	void __fastcall cmb_bx_corrugated_sheeting_part_numberChange(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
 	void __fastcall N8Click(TObject *Sender);
-	void __fastcall btn_save_testClick(TObject *Sender);
-	void __fastcall btn_load_testClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);
 
 private:
 
-	TCompositeBeam composite_beam_; //Основной объект в программе  // Пользовательсткие private функции
+	TCompositeBeam composite_beam_; //Основной объект в программе
 
 	TGeometry init_geomet();//Инициализация топологии
 	TLoads init_loads(); //Инициализация нагрузок
@@ -224,10 +220,6 @@ private:
 	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
 	void calculate_composite_beam();//инициализирует и рассчитывает балку
-	void __fastcall save_controls_to_file();//Сохраняет состояние элементов управления в файл
-	void __fastcall load_controls_from_file();//Загружает состояние элементов управления из файла
-	int __fastcall LoadComponent(String filename, TComponent* Component);
-	int __fastcall SaveComponent(String filename, TComponent* Component);
 	#define UNTITLED  "Без имени"
 	bool modify_project;  // признак изменения проекта после сохранения
 	char ModelFile[240]; //Это имя файла?

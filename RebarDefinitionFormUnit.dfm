@@ -1,9 +1,10 @@
 object RebarDefinitionForm: TRebarDefinitionForm
   Left = 0
   Top = 0
+  BorderStyle = bsDialog
   Caption = #1042#1099#1073#1086#1088' '#1072#1088#1084#1072#1090#1091#1088#1099
-  ClientHeight = 189
-  ClientWidth = 774
+  ClientHeight = 225
+  ClientWidth = 784
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,7 +17,7 @@ object RebarDefinitionForm: TRebarDefinitionForm
   TextHeight = 13
   object bt_btn_Ok: TBitBtn
     Left = 522
-    Top = 152
+    Top = 182
     Width = 75
     Height = 25
     Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
@@ -27,12 +28,12 @@ object RebarDefinitionForm: TRebarDefinitionForm
     Left = 8
     Top = 8
     Width = 425
-    Height = 169
+    Height = 199
     Caption = ' '#1061#1072#1088#1072#1082#1090#1077#1088#1080#1089#1090#1080#1082#1080' '
     TabOrder = 1
     object lbl_diameter: TLabel
       Left = 20
-      Top = 107
+      Top = 163
       Width = 191
       Height = 13
       Caption = #1053#1086#1084#1080#1085#1072#1083#1100#1085#1099#1081' '#1076#1080#1072#1084#1077#1090#1088' '#1072#1088#1084#1072#1090#1091#1088#1099', '#1084#1084':'
@@ -51,9 +52,16 @@ object RebarDefinitionForm: TRebarDefinitionForm
       Height = 13
       Caption = #1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090' '#1085#1072#1076#1105#1078#1085#1086#1089#1090#1080' '#1087#1086' '#1072#1088#1084#1072#1090#1091#1088#1077':'
     end
+    object lbl_E_s: TLabel
+      Left = 21
+      Top = 107
+      Width = 126
+      Height = 13
+      Caption = #1052#1086#1076#1091#1083#1100' '#1091#1087#1088#1091#1075#1086#1089#1090#1080', '#1052#1055#1072':'
+    end
     object edt_diameter: TEdit
       Left = 272
-      Top = 103
+      Top = 160
       Width = 121
       Height = 21
       TabOrder = 0
@@ -94,12 +102,19 @@ object RebarDefinitionForm: TRebarDefinitionForm
         OnChange = cmb_bx_rebar_gradeChange
       end
     end
+    object edt_E_s: TEdit
+      Left = 272
+      Top = 103
+      Width = 121
+      Height = 21
+      TabOrder = 4
+    end
   end
   object grp_bx_placement: TGroupBox
     Left = 439
     Top = 8
     Width = 328
-    Height = 138
+    Height = 120
     Caption = ' '#1056#1072#1089#1087#1086#1083#1086#1078#1077#1085#1080#1077'  '
     TabOrder = 2
     object lbl_b: TLabel
@@ -150,7 +165,7 @@ object RebarDefinitionForm: TRebarDefinitionForm
   end
   object bt_btn_cancel: TButton
     Left = 603
-    Top = 152
+    Top = 182
     Width = 75
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1080#1090#1100
@@ -159,7 +174,7 @@ object RebarDefinitionForm: TRebarDefinitionForm
   end
   object btn_close: TButton
     Left = 684
-    Top = 152
+    Top = 182
     Width = 75
     Height = 25
     Caption = #1047#1072#1082#1088#1099#1090#1100

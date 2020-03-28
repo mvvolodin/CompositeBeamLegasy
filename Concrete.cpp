@@ -51,9 +51,11 @@ Concrete::Concrete(ConcreteBasic concrete_basic,
 }
 void ConcreteBasic::save(ostream& ostr) const
 {
-	unsigned short l = grade_.Length();
+	wchar_t* buf = grade_.w_str();
+	unsigned short l = grade_.Length()+1;
 	ostr.write((char*)&l,sizeof(l));
-	ostr.write((char*)grade_.c_str(),l*sizeof(wchar_t));
+	ostr.write((char*)buf,l*sizeof(wchar_t));
+	free(buf);
 
 	ostr.write((char*)&E_b_ ,sizeof(E_b_));
 	ostr.write((char*)&R_bn_ ,sizeof(R_bn_));
@@ -61,9 +63,13 @@ void ConcreteBasic::save(ostream& ostr) const
 }
 void ConcreteBasic::load(istream& istr)
 {
-	unsigned short l = grade_.Length();
+	wchar_t* buf;
+	unsigned short l;
 	istr.read((char*)&l,sizeof(l));
-	istr.read((char*)grade_.c_str(),l*sizeof(wchar_t));
+	buf =(wchar_t*) malloc(l*sizeof(wchar_t));
+	istr.read((char*)buf,l*sizeof(wchar_t));
+	grade_ = String(buf);
+	free(buf);
 
 	istr.read((char*)&E_b_ ,sizeof(E_b_));
 	istr.read((char*)&R_bn_ ,sizeof(R_bn_));

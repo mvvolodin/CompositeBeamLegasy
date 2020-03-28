@@ -87,6 +87,7 @@ void TCompositeBeamMainForm::set_form_controls()
 	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> get_studs().get_name();
 	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> get_rebar().get_grade();
 	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> get_concrete().get_grade();
+
 //Данные для плиты
 
 	switch (composite_beam_.get_composite_section().get_concrete_part().get_slab_type_enum())
@@ -110,9 +111,11 @@ void TCompositeBeamMainForm::set_form_controls()
 
 //Данные типа Concrete
 	ConcreteDefinitionForm -> set_form_controls(composite_beam_.get_composite_section().get_concrete_part().get_concrete());
+	Concrete con = composite_beam_.get_composite_section().get_concrete_part().get_concrete();
 
 //Данные типа Steel
 	DefineSteelForm -> set_form_controls(composite_beam_.get_composite_section().get_steel_part().get_I_steel());
+
 
 
 }
@@ -750,188 +753,14 @@ void __fastcall TCompositeBeamMainForm::NSaveClick(TObject *Sender)
 		  ModelName(FileDir_Name.c_str(), ModelFile); //выделяет имя файла для отображения на форме из пути
 	  }
    }
-	   //добавить функцию проверки правильности сохраняемых данных
-	save_controls_to_file();
+
+	std::ofstream ofstr {FileDir_Name.c_str(), std::ios::out | std::ios::binary};
+	composite_beam_.save(ofstr);
+	ofstr.close();
 
    Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
 
    modify_project = false;
-}
-//---------------------------------------------------------------------------
-//Сохраняет состояние элементов управления в файл
-//---------------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm::save_controls_to_file()
-{
-	TFileStream* fs;
-
-	try
-	{
-		fs = new TFileStream(FileDir_Name, fmCreate);
-	  //	fs->WriteData("test");
-		//Топология
-		fs->WriteComponent(edt_span);
-		fs->WriteComponent(edt_width_left);
-		fs->WriteComponent(edt_width_right);
-		fs->WriteComponent(chck_bx_end_beam);
-		fs->WriteComponent(lbl_trib_width_left);
-		fs->WriteComponent(lbl_trib_width_right);
-		//Загружения
-		fs->WriteComponent(edt_dead_load_first_stage);
-		fs->WriteComponent(edt_dead_load_second_stage);
-		fs->WriteComponent(edt_live_load);
-		//Коэффициенты надёжности по нагрузкам
-		fs->WriteComponent(edt_gamma_f_st_SW_);
-		fs->WriteComponent(edt_gamma_f_DL_I);
-		fs->WriteComponent(edt_gamma_f_DL_II);
-		fs->WriteComponent(edt_gamma_f_LL);
-		//Коэффициенты условий работ
-		fs->WriteComponent(edt_gamma_c);
-		fs->WriteComponent(edt_gamma_bi);
-		fs->WriteComponent(edt_gamma_si);
-		//Гибкие упоры
-		fs->WriteComponent(StudDefinitionForm->edt_edge_studs_dist);
-		fs->WriteComponent(StudDefinitionForm->edt_middle_studs_dist);
-		fs->WriteComponent(StudDefinitionForm->cmb_bx_edge_studs_rows_num);
-		fs->WriteComponent(StudDefinitionForm->cmb_bx_middle_studs_rows_num);
-		//Монтаж
-		fs->WriteComponent(cmb_bx_number_propping_supports);
-		//Расчётная схема
-		fs->WriteComponent(cmb_bx_impact);
-		//Силовой фактор
-		fs->WriteComponent(rd_grp_internal_forces_type);
-		//Форма сталь
-		fs->WriteComponent(pnl_steel);
-		fs->WriteComponent(DefineSteelForm->cmb_bx_standard);
-		fs->WriteComponent(DefineSteelForm->cmb_bx_steel_grades);
-		fs->WriteComponent(DefineSteelForm->Edit_E);
-		fs->WriteComponent(DefineSteelForm->Edit_G);
-		fs->WriteComponent(DefineSteelForm->Edit_nu);
-		fs->WriteComponent(DefineSteelForm->Edit_gamma_m);
-		fs->WriteComponent(DefineSteelForm->StringGrid_Prop);
-		//Форма бетон
-		fs->WriteComponent(pnl_concrete_grade);
-		fs->WriteComponent(ConcreteDefinitionForm->cmb_bx_concrete_grade_list);
-		fs->WriteComponent(ConcreteDefinitionForm->edt_R_bn);
-		fs->WriteComponent(ConcreteDefinitionForm->edt_R_btn);
-		fs->WriteComponent(ConcreteDefinitionForm->edt_E_b);
-		fs->WriteComponent(ConcreteDefinitionForm->edt_gamma_b);
-		fs->WriteComponent(ConcreteDefinitionForm->edt_gamma_bt);
-		fs->WriteComponent(ConcreteDefinitionForm->edt_epsilon_b_lim);
-		//Форма арматура
-		fs->WriteComponent(pnl_rebar_viewer);
-		fs->WriteComponent(RebarDefinitionForm->cmb_bx_rebar_grade);
-		fs->WriteComponent(RebarDefinitionForm->edt_R_s_n);
-		fs->WriteComponent(RebarDefinitionForm->edt_diameter);
-		fs->WriteComponent(RebarDefinitionForm->edt_safety_factor);
-		//Форма гибкие упоры
-		fs->WriteComponent(pnl_shear_stud_viewer);
-		fs->WriteComponent(StudDefinitionForm->cmb_bx_stud_part_number);
-		fs->WriteComponent(StudDefinitionForm->edt_stud_diameter);
-		fs->WriteComponent(StudDefinitionForm->edt_stud_height);
-		fs->WriteComponent(StudDefinitionForm->edt_stud_safety_factor);
-		//Форма прокатное сечение
-		fs->WriteComponent(SteelSectionForm->SteelSectionDefinitionFrame->ComboBox_profil);
-        fs->WriteComponent(Pnl_SteelSectionViewer);
-
-		//Тип железобетонной плиты
-		fs->WriteComponent(rdgrp_slab_type);
-		fs->WriteComponent(cmb_bx_corrugated_sheeting_part_number);
-		fs->WriteComponent(edt_h_f);
-		fs->WriteComponent(edt_flat_slab_thickness);
-
-	}
-	__finally
-	{
-		delete fs;
-	}
-}
-//---------------------------------------------------------------------------
-//Загружает состояние элементов управления из файла
-//---------------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm::load_controls_from_file()
-{
-	TFileStream* fs;
-
-	try
-	{
-		fs = new TFileStream(FileDir_Name, fmOpenRead);
-		//Топология
-		fs->ReadComponent(edt_span);
-		fs->ReadComponent(edt_width_left);
-		fs->ReadComponent(edt_width_right);
-		fs->ReadComponent(chck_bx_end_beam);
-		fs->ReadComponent(lbl_trib_width_left);
-		fs->ReadComponent(lbl_trib_width_right);
-		//Загружения
-		fs->ReadComponent(edt_dead_load_first_stage);
-		fs->ReadComponent(edt_dead_load_second_stage);
-		fs->ReadComponent(edt_live_load);
-		//Коэффициенты надёжности по нагрузкам
-		fs->ReadComponent(edt_gamma_f_st_SW_);
-		fs->ReadComponent(edt_gamma_f_DL_I);
-		fs->ReadComponent(edt_gamma_f_DL_II);
-		fs->ReadComponent(edt_gamma_f_LL);
-		//Коэффициенты условий работ
-		fs->ReadComponent(edt_gamma_c);
-		fs->ReadComponent(edt_gamma_bi);
-		fs->ReadComponent(edt_gamma_si);
-		//Гибкие упоры
-		fs->ReadComponent(StudDefinitionForm->edt_edge_studs_dist);
-		fs->ReadComponent(StudDefinitionForm->edt_middle_studs_dist);
-		fs->ReadComponent(StudDefinitionForm->cmb_bx_edge_studs_rows_num);
-		fs->ReadComponent(StudDefinitionForm->cmb_bx_middle_studs_rows_num);
-		//Монтаж
-		fs->ReadComponent(cmb_bx_number_propping_supports);
-		//Расчётная схема
-		fs->ReadComponent(cmb_bx_impact);
-		//Силовой фактор
-		fs->ReadComponent(rd_grp_internal_forces_type);
-        //Форма сталь
-		fs->ReadComponent(pnl_steel);
-		fs->ReadComponent(DefineSteelForm->cmb_bx_standard);
-		fs->ReadComponent(DefineSteelForm->cmb_bx_steel_grades);
-		fs->ReadComponent(DefineSteelForm->Edit_E);
-		fs->ReadComponent(DefineSteelForm->Edit_G);
-		fs->ReadComponent(DefineSteelForm->Edit_nu);
-		fs->ReadComponent(DefineSteelForm->Edit_gamma_m);
-		fs->ReadComponent(DefineSteelForm->StringGrid_Prop);
-		//Форма бетон
-		fs->ReadComponent(pnl_concrete_grade);
-		fs->ReadComponent(ConcreteDefinitionForm->cmb_bx_concrete_grade_list);
-		fs->ReadComponent(ConcreteDefinitionForm->edt_R_bn);
-		fs->ReadComponent(ConcreteDefinitionForm->edt_R_btn);
-		fs->ReadComponent(ConcreteDefinitionForm->edt_E_b);
-		fs->ReadComponent(ConcreteDefinitionForm->edt_gamma_b);
-		fs->ReadComponent(ConcreteDefinitionForm->edt_gamma_bt);
-		fs->ReadComponent(ConcreteDefinitionForm->edt_epsilon_b_lim);
-		//Форма арматура
-		fs->ReadComponent(pnl_rebar_viewer);
-		fs->ReadComponent(RebarDefinitionForm->cmb_bx_rebar_grade);
-		fs->ReadComponent(RebarDefinitionForm->edt_R_s_n);
-		fs->ReadComponent(RebarDefinitionForm->edt_diameter);
-		fs->ReadComponent(RebarDefinitionForm->edt_safety_factor);
-		//Форма гибкие упоры
-		fs->ReadComponent(pnl_shear_stud_viewer);
-		fs->ReadComponent(StudDefinitionForm->cmb_bx_stud_part_number);
-		fs->ReadComponent(StudDefinitionForm->edt_stud_diameter);
-		fs->ReadComponent(StudDefinitionForm->edt_stud_height);
-		fs->ReadComponent(StudDefinitionForm->edt_stud_safety_factor);
-		//Форма прокатное сечение
-		fs->ReadComponent(SteelSectionForm->SteelSectionDefinitionFrame->ComboBox_profil);
-		fs->ReadComponent(Pnl_SteelSectionViewer);
-
-		//Тип железобетонной плиты
-		fs->ReadComponent(rdgrp_slab_type);
-		fs->ReadComponent(cmb_bx_corrugated_sheeting_part_number);
-		fs->ReadComponent(edt_h_f);
-		fs->ReadComponent(edt_flat_slab_thickness);
-	}
-	__finally
-	{
-		delete fs;
-	}
-
-   // calculate_composite_beam();
 }
 
 void __fastcall TCompositeBeamMainForm::NSaveAsClick(TObject *Sender)
@@ -974,7 +803,13 @@ void __fastcall TCompositeBeamMainForm::NOpenClick(TObject *Sender)
 
 	  strcpy(ModelFile, UNTITLED);
 
-	  load_controls_from_file();
+	  std::ifstream ifstr {FileDir_Name.c_str(), std::ios::in | std::ios::binary};
+
+	  composite_beam_.load(ifstr);
+
+	  ifstr.close();
+
+	  set_form_controls();
 
 	  ModelName(FileDir_Name.c_str(), ModelFile);
 
@@ -1022,45 +857,6 @@ void __fastcall TCompositeBeamMainForm::cmb_bx_corrugated_sheeting_part_numberCh
 	OnControlsChange(Sender);
 }
 
-int __fastcall TCompositeBeamMainForm::LoadComponent(String filename, TComponent* Component)
-{
-	assert(Component!=nullptr);
-	assert(Component->Owner!=nullptr);
-
-	std::auto_ptr<TFileStream> fs (new TFileStream(filename, fmOpenRead));
-	std::auto_ptr<TReader> Reader (new TReader(fs.get(), 4096));
-
-	Reader->Root=Component->Owner;
-	TControl* Control=dynamic_cast<TControl*>(Component);
-	if(Control){
-		Reader->Parent=Control->Parent;
-	}
-
-	delete Component;
-	Component=nullptr;
-	Reader->BeginReferences();
-	try{
-		Component=Reader->ReadComponent(nullptr);
-	}
-
-	__finally{
-	Reader->FixupReferences();
-	Reader->EndReferences();
-	}
-	return Reader->Position;
-}
-int __fastcall TCompositeBeamMainForm::SaveComponent(String filename, TComponent* Component)
-{
-	assert(Component!=nullptr);
-	assert(Component->Owner!=nullptr);
-
-	std::auto_ptr<TFileStream> fs (new TFileStream(filename, fmCreate));
-	std::auto_ptr<TWriter> Writer (new TWriter(fs.get(), 4096));
-
-	Writer->Root=Component->Owner;
-	Writer->WriteComponent(Component);
-	return Writer->Position;
-}
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update(IPublisher* ipublisher )
 {
@@ -1105,30 +901,9 @@ void __fastcall TCompositeBeamMainForm::N8Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
-void __fastcall TCompositeBeamMainForm::btn_save_testClick(TObject *Sender)
-{
-	std::ofstream ofstr {"test.bn", ios::binary}; ////
-	composite_beam_.save(ofstr);
-	ofstr.close();
-}
+
 //---------------------------------------------------------------------------
 
-
-void __fastcall TCompositeBeamMainForm::btn_load_testClick(TObject *Sender)
-{
-	std::ifstream ifstr {"test.bn"};
-	TCompositeBeam cb;
-    String s = cb.get_composite_section().get_concrete_part().get_slab_type();
-	cb.load(ifstr);
-	composite_beam_.load(ifstr);
-
-	ifstr.close();
-
-	set_form_controls();
-
-
-}
-//---------------------------------------------------------------------------
 
 
 

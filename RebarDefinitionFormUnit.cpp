@@ -39,6 +39,7 @@ void TRebarDefinitionForm::set_form_controls()
 {
 	edt_diameter -> Text = rebar_temp_.get_diameter();
 	edt_R_s_n -> Text = rebar_temp_.get_R_sn();
+	edt_E_s -> Text = rebar_temp_.get_E_s();
 	edt_b -> Text = rebar_temp_.get_b_s();
 	edt_a_u -> Text = rebar_temp_.get_a_u();
 	edt_a_l -> Text = rebar_temp_.get_a_l();
@@ -50,19 +51,21 @@ void TRebarDefinitionForm::set_form_controls()
 void TRebarDefinitionForm::set_rebar()
 {
 	double diameter = 0.;
+	double E_s = 0.;
 	double b = 0.;
 	double a_u = 0.;
 	double a_l = 0.;
 	double safety_factor = 0.;
 
 	String_double_plus(lbl_diameter->Caption, edt_diameter->Text, &diameter);
+	String_double_plus(lbl_E_s->Caption, edt_E_s->Text, &E_s);
 	String_double_plus(lbl_diameter->Caption, edt_b->Text, &b);
 	String_double_plus(lbl_diameter->Caption, edt_a_u->Text, &a_u);
 	String_double_plus(lbl_diameter->Caption, edt_a_l->Text, &a_l);
 	String_double_plus(lbl_safety_factor->Caption, edt_safety_factor->Text, &safety_factor);
 	String grade = cmb_bx_rebar_grade->Text;
 	double R_s = StrToFloat(edt_R_s_n->Text);
-	rebar_temp_ = Rebar(grade, R_s, diameter, b, a_u, a_l, safety_factor);
+	rebar_temp_ = Rebar(grade, R_s, E_s, diameter, b, a_u, a_l, safety_factor);
 }
 //---------------------------------------------------------------------------
 
@@ -110,4 +113,5 @@ void __fastcall TRebarDefinitionForm::btn_closeClick(TObject *Sender)
 	Close();
 }
 //---------------------------------------------------------------------------
+
 

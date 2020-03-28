@@ -29,9 +29,11 @@ ISection::ISection(TISectionInitialData i_section_initial_data)
 }
 void ISection::save(std::ostream& ostr)const
 {
-	unsigned short l = profile_number_.Length();
+	wchar_t* buf = profile_number_.w_str();
+	unsigned short l = profile_number_.Length()+1;
 	ostr.write((char*)&l,sizeof(l));
-	ostr.write((char*)profile_number_.c_str(),l*sizeof(wchar_t));
+	ostr.write((char*)buf,l*sizeof(wchar_t));
+    free(buf);
 
 	ostr.write((char*)&b_uf_ ,sizeof(b_uf_));
 	ostr.write((char*)&t_uf_ ,sizeof(t_uf_));
@@ -51,9 +53,13 @@ void ISection::save(std::ostream& ostr)const
 	}
 void ISection::load(std::istream& istr)
 {
-	unsigned short l = profile_number_.Length();
+	wchar_t* buf;
+	unsigned short l;
 	istr.read((char*)&l,sizeof(l));
-	istr.read((char*)profile_number_.c_str(),l*sizeof(wchar_t));
+	buf =(wchar_t*) malloc(l*sizeof(wchar_t));
+	istr.read((char*)buf,l*sizeof(wchar_t));
+	profile_number_ = String(buf);
+	free(buf);
 
 	istr.read((char*)&b_uf_ ,sizeof(b_uf_));
 	istr.read((char*)&t_uf_ ,sizeof(t_uf_));

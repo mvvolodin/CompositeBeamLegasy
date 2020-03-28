@@ -18,21 +18,13 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       Caption = #1058#1080#1087' '#1089#1077#1095#1077#1085#1080#1103
     end
     object Button_Apply: TButton
-      Left = 352
-      Top = 256
+      Left = 210
+      Top = 259
       Width = 81
       Height = 25
       Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
       TabOrder = 0
       OnClick = Button_ApplyClick
-    end
-    object Button_Copy: TButton
-      Left = 8
-      Top = 256
-      Width = 75
-      Height = 25
-      Caption = #1050#1086#1087#1080#1088#1086#1074#1072#1090#1100
-      TabOrder = 1
     end
     object PageControl2: TPageControl
       Left = 2
@@ -40,8 +32,7 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       Width = 455
       Height = 217
       ActivePage = TabSheet_Standart
-      TabOrder = 2
-      OnChange = PageControl2Change
+      TabOrder = 1
       object TabSheet_Weld: TTabSheet
         Caption = #1057#1074#1072#1088#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
         object Image1: TImage
@@ -232,7 +223,7 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
           Top = 2
           Width = 329
           Height = 199
-          ActivePage = TabSheet_GOST
+          ActivePage = TabSheet_GOST57837
           TabOrder = 2
           OnChange = PageControl1Change
           object TabSheet_STO: TTabSheet
@@ -1658,7 +1649,7 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       Top = 12
       Width = 169
       Height = 21
-      TabOrder = 3
+      TabOrder = 2
       Text = '0. '#1058#1080#1087' '#1085#1077' '#1074#1099#1073#1088#1072#1085
       Items.Strings = (
         '0. '#1058#1080#1087' '#1085#1077' '#1074#1099#1073#1088#1072#1085
@@ -1673,10 +1664,26 @@ object SteelSectionDefinitionFrame: TSteelSectionDefinitionFrame
       Width = 137
       Height = 17
       Caption = #1048#1079#1084#1077#1085#1080#1090#1100' '#1090#1080#1087' '#1089#1077#1095#1077#1085#1080#1103
-      TabOrder = 4
+      TabOrder = 3
       Visible = False
       OnClick = CheckBox_type_sectClick
       OnMouseDown = CheckBox1MouseDown
+    end
+    object btn_cancel: TButton
+      Left = 297
+      Top = 259
+      Width = 75
+      Height = 25
+      Caption = #1054#1090#1084#1077#1085#1080#1090#1100
+      TabOrder = 4
+    end
+    object btn_close: TButton
+      Left = 378
+      Top = 259
+      Width = 75
+      Height = 25
+      Caption = #1047#1072#1082#1088#1099#1090#1100
+      TabOrder = 5
     end
   end
 end

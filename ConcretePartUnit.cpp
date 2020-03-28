@@ -34,9 +34,10 @@ void TConcretePart::save(std::ostream& ostr) const
 	concrete_.save(ostr);
 	rebar_.save(ostr);
 
+	wchar_t* buf = slab_type_.w_str();
 	unsigned short l = slab_type_.Length();
 	ostr.write((char*)&l,sizeof(l));
-	ostr.write((char*)slab_type_.c_str(),l*sizeof(wchar_t));
+	ostr.write((char*)buf,l*sizeof(wchar_t));
 	ostr.write((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 }
 //---------------------------------------------------------------------------
@@ -47,9 +48,12 @@ void TConcretePart::load(std::istream& istr)
 	concrete_.load(istr);
 	rebar_.load(istr);
 
-	unsigned short l = slab_type_.Length();
+	wchar_t* buf;
+	unsigned short l;
 	istr.read((char*)&l,sizeof(l));
-	istr.read((char*)slab_type_.c_str(),l*sizeof(wchar_t));
+	buf =(wchar_t*) malloc(l*sizeof(wchar_t));
+	istr.read((char*)buf,l*sizeof(wchar_t));
+	slab_type_ = String(buf);
 	istr.read((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 }
 void TConcretePart::calculate()

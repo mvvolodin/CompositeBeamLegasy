@@ -23,7 +23,6 @@ class TSteelSectionDefinitionFrame : public TFrame
 __published:	// IDE-managed Components
         TGroupBox *GroupBox_Common;
         TButton *Button_Apply;
-        TButton *Button_Copy;
         TPageControl *PageControl2;
         TTabSheet *TabSheet_Weld;
         TTabSheet *TabSheet_Standart;
@@ -82,6 +81,8 @@ __published:	// IDE-managed Components
         TComboBox *ComboBox_Cyl_D;
         TComboBox *ComboBox_Cyl_t;
 		TStringGrid *StringGrid_Cyl;
+	TButton *btn_cancel;
+	TButton *btn_close;
 		int  __fastcall Read_sect();
         void __fastcall DrawSect();
 		void __fastcall CheckChangeSect();
@@ -122,7 +123,6 @@ __published:	// IDE-managed Components
         void __fastcall Weld_Change(TObject *Sender);
 		void __fastcall PageControl1Change(TObject *Sender);
         void __fastcall RadioGroup_STOClick(TObject *Sender);
-        void __fastcall PageControl2Change(TObject *Sender);
         void __fastcall RadioGroup_orientClick(TObject *Sender);
 
 		void __fastcall Put_h_rect(TObject *Sender);
