@@ -62,6 +62,8 @@ void TCompositeBeam::calculate()
 
 	get_max_upper_flange_ratio();
 	get_max_lower_flange_ratio();
+
+//	calculate_I_case(Impact::Total, 4000);
 }
 //---------------------------------------------------------------------------
 //Расчёт эффективной ширины композитного сечения
@@ -72,7 +74,7 @@ void TCompositeBeam::calculate_effective_width()
 	double b_r = 0.;
 
 	double h_f = composite_section_.get_concrete_part().get_h_f();
-	double b_uf = composite_section_.get_steel_part().get_I_section().get_b_uf();
+	double b_uf = composite_section_.get_steel_part().get_section().get_b_uf();
 	double a=b_uf/2;
 	double B_l = geometry_.get_trib_width_left();
 	double B_r = geometry_.get_trib_width_right();
@@ -493,16 +495,6 @@ void TCompositeBeam::calculate_stresses()
 }
 
 //---------------------------------------------------------------------------
-//Расчёт коэффициента уловий работы верхнего пояса
-//---------------------------------------------------------------------------
- void TCompositeBeam::calculate_gamma_1()
- {
-	double gamma_bi=working_conditions_factors_.get_gamma_bi();
-	double R_b=composite_section_.get_concrete_part().get_concrete().get_R_bn();
-	//double R_y=composite_section_->get_steel_part().get_R_y();
-   //	gamma_1_=1+(gamma_bi*R_b-sigma_b)/(gamma_c*R_y)*A_b/A_f2_st;
- }
-//---------------------------------------------------------------------------
 //Расчёт коэффициентов использования
 //---------------------------------------------------------------------------
 void TCompositeBeam::calc_ratios()
@@ -536,26 +528,23 @@ void TCompositeBeam::calc_ratios()
  Ratios TCompositeBeam::calculate_I_case(Impact impact, int cs_id)
 {
 		double Z_b_st=composite_section_.get_Z_b_st();
-		double W_f2_st=composite_section_.get_steel_part().get_I_section().get_Wf2_st();
-		double W_f1_st=composite_section_.get_steel_part().get_I_section().get_Wf1_st();
+		double W_f2_st=composite_section_.get_steel_part().get_section().get_Wf2_st();
+		double W_f1_st=composite_section_.get_steel_part().get_section().get_Wf1_st();
 		double A_s=composite_section_.get_concrete_part().get_rebar().get_A_s();
-		double A_st=composite_section_.get_steel_part().get_I_section().get_A_st();
+		double A_st=composite_section_.get_steel_part().get_section().get_A_st();
 		double A_b=get_A_b();
 		double R_y=composite_section_.get_steel_grade().get_R_y ();
 		double R_b=composite_section_.get_concrete_part().get_concrete().get_R_bn();
 		double gamma_bi=working_conditions_factors_.get_gamma_bi();
 		double gamma_c=working_conditions_factors_.get_gamma_c();
-		double A_f2_st=composite_section_.get_steel_part().get_I_section().get_A_f2_st();
+		double A_f2_st=composite_section_.get_steel_part().get_section().get_A_f2_st();
 
 		double sigma_b=stresses_named_list_.at(impact)[cs_id].get_sigma_b();
 		double sigma_s=stresses_named_list_.at(impact)[cs_id].get_sigma_s();
 		double M=internal_forces_.at(impact).get_M()[cs_id];
 
-		double gamma_1=1+(gamma_bi*R_b-sigma_b)/(gamma_c*R_y)*A_b/A_f2_st;
+		double gamma_1=std::max(1+(gamma_bi*R_b-sigma_b)/(gamma_c*R_y)*A_b/A_f2_st, 1.2);
 
-		if (gamma_1>=1.2) {//Выполнить через max std::math
-			gamma_1=1.2;
-		}
 
 		double N_b_s=A_b*sigma_b+A_s*sigma_s;
 
@@ -566,17 +555,17 @@ void TCompositeBeam::calc_ratios()
 Ratios TCompositeBeam::calculate_II_case(Impact impact, int cs_id)
 {
 		double Z_b_st=composite_section_.get_Z_b_st();
-		double W_f2_st=composite_section_.get_steel_part().get_I_section().get_Wf2_st();
-		double W_f1_st=composite_section_.get_steel_part().get_I_section().get_Wf1_st();
+		double W_f2_st=composite_section_.get_steel_part().get_section().get_Wf2_st();
+		double W_f1_st=composite_section_.get_steel_part().get_section().get_Wf1_st();
 		double A_s=composite_section_.get_concrete_part().get_rebar().get_A_s();
 		double R_s=composite_section_.get_concrete_part().get_rebar().get_R_s();
-		double A_st=composite_section_.get_steel_part().get_I_section().get_A_st();
+		double A_st=composite_section_.get_steel_part().get_section().get_A_st();
 		double A_b=get_A_b();
 		double R_y=composite_section_.get_steel_grade().get_R_y ();
 		double R_b=composite_section_.get_concrete_part().get_concrete().get_R_bn();
 		double gamma_bi=working_conditions_factors_.get_gamma_bi();
 		double gamma_c=working_conditions_factors_.get_gamma_c();
-		double A_f2_st=composite_section_.get_steel_part().get_I_section().get_A_f2_st();
+		double A_f2_st=composite_section_.get_steel_part().get_section().get_A_f2_st();
 
 		double sigma_b=stresses_named_list_.at(impact)[cs_id].get_sigma_b();
 		double sigma_s=stresses_named_list_.at(impact)[cs_id].get_sigma_s();
@@ -592,17 +581,17 @@ Ratios TCompositeBeam::calculate_II_case(Impact impact, int cs_id)
 Ratios TCompositeBeam::calculate_III_case(Impact impact, int cs_id)
 {
 		double Z_b_st=composite_section_.get_Z_b_st();
-		double W_f2_st=composite_section_.get_steel_part().get_I_section().get_Wf2_st();
-		double W_f1_st=composite_section_.get_steel_part().get_I_section().get_Wf1_st();
+		double W_f2_st=composite_section_.get_steel_part().get_section().get_Wf2_st();
+		double W_f1_st=composite_section_.get_steel_part().get_section().get_Wf1_st();
 		double A_s=composite_section_.get_concrete_part().get_rebar().get_A_s();
 		double R_s=composite_section_.get_concrete_part().get_rebar().get_R_s();
-		double A_st=composite_section_.get_steel_part().get_I_section().get_A_st();
+		double A_st=composite_section_.get_steel_part().get_section().get_A_st();
 		double A_b=get_A_b();
 		double R_y=composite_section_.get_steel_grade().get_R_y ();
 		double R_b=composite_section_.get_concrete_part().get_concrete().get_R_bn();
 		double gamma_bi=working_conditions_factors_.get_gamma_bi();
 		double gamma_c=working_conditions_factors_.get_gamma_c();
-		double A_f2_st=composite_section_.get_steel_part().get_I_section().get_A_f2_st();
+		double A_f2_st=composite_section_.get_steel_part().get_section().get_A_f2_st();
 
 		double sigma_b=stresses_named_list_.at(impact)[cs_id].get_sigma_b();
 		double sigma_s=stresses_named_list_.at(impact)[cs_id].get_sigma_s();
@@ -803,7 +792,7 @@ std::vector<double> TCompositeBeam::get_Q(Impact impact)
 void TCompositeBeam::calc_shear_ratios()
 {
 	std::vector<double> Q {get_Q(Impact::Total)};
-	double Q_Rd = get_Q_Rd();
+	double Q_Rd = composite_section_.get_steel_part().get_Q_Rd();
 	for(auto Q_Ed: Q)
 		shear_ratios_.push_back(Q_Ed / Q_Rd);
 

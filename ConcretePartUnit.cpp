@@ -27,7 +27,7 @@ void TConcretePart::set_default_values()
 	rebar_.set_default_values();
 }
 //---------------------------------------------------------------------------
-//Сохраняем объект ............. в бинарный файл
+//Сохранение объекта в бинарный файл
 //---------------------------------------------------------------------------
 void TConcretePart::save(std::ostream& ostr) const
 {
@@ -39,9 +39,10 @@ void TConcretePart::save(std::ostream& ostr) const
 	ostr.write((char*)&l,sizeof(l));
 	ostr.write((char*)buf,l*sizeof(wchar_t));
 	ostr.write((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
+	ostr.write((char*)&h_f_,sizeof(h_f_));
 }
 //---------------------------------------------------------------------------
-//Загружаем объект ........... из бинарного файла
+//Загрузка объекта из бинарного файла
 //---------------------------------------------------------------------------
 void TConcretePart::load(std::istream& istr)
 {
@@ -55,6 +56,7 @@ void TConcretePart::load(std::istream& istr)
 	istr.read((char*)buf,l*sizeof(wchar_t));
 	slab_type_ = String(buf);
 	istr.read((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
+	istr.read((char*)&h_f_,sizeof(h_f_));
 }
 void TConcretePart::calculate()
 {

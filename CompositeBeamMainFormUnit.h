@@ -201,8 +201,8 @@ private:
 	Studs init_stud();//Инициализация упоров
 	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
 
-	void init_composite_beam();
 	void set_form_controls();
+	void update_composite_beam();
 	void generate_report();
 	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
 	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения
@@ -215,7 +215,7 @@ private:
 	void fill_concrete_sect_geometr_grid();
 	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
-	void calculate_composite_beam();//инициализирует и рассчитывает балку
+	void calculate_composite_beam();
 	#define UNTITLED  "Без имени"
 	bool modify_project;  // признак изменения проекта после сохранения
 	char ModelFile[240]; //Это имя файла?
@@ -224,7 +224,7 @@ private:
 	virtual void update(IPublisher* ipublisher) override;
 	void register_observers();
 	void register_I_composite_beam();
-	virtual double get_t_max()const{return composite_beam_.get_composite_section().get_steel_part().get_I_section().get_t_uf();};
+	virtual double get_t_max()const{return composite_beam_.get_composite_section().get_steel_part().get_section().get_t_uf();};
 
 };
 //---------------------------------------------------------------------------

@@ -15,15 +15,13 @@ class SteelPart{
 public:
 	SteelPart();
 	SteelPart(ISection I_section, Steel I_steel);
+	void calculate();
 	void save(ostream& ostr) const;
 	void load(istream& istr);
 	void set_default_values();
-	ISection get_I_section() const {return I_section_;}
-	Steel get_I_steel() const {return I_steel_;}
+	ISection get_section() const {return I_section_;}
+	Steel get_steel() const {return I_steel_;}
 	double get_Q_Rd() const {return Q_Rd_;}
-	double get_E_st() const {return I_steel_.get_E_st();}
-	double get_h_st() const {return I_section_.get_h_st();}
-	double get_A_st() const {return I_section_.get_A_st();}
 
 private:
 	ISection I_section_;

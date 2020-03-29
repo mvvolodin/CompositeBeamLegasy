@@ -12,7 +12,11 @@ SteelPart::SteelPart(ISection I_section, Steel I_steel):
 	I_section_(I_section),
 	I_steel_(I_steel)
 {
-	calc_Q_Rd();
+
+}
+void SteelPart::calculate()
+{
+     calc_Q_Rd();
 }
 void SteelPart::save(ostream& ostr) const
 {
