@@ -44,14 +44,6 @@ __fastcall TSteelSectionDefinitionFrame::TSteelSectionDefinitionFrame(TComponent
      StringGrid_B->Cells[0][5]="Iyy (cм4)";
 	 StringGrid_B->Cells[0][6]="iy (мм)";
 
-	ComboBox_TypeSect->ItemIndex = 1;
-   TabSheet_Weld->TabVisible = false;
-   TabSheet_STO->TabVisible = false;
-   TabSheet_GOST->TabVisible = false;
-   TabSheet_CYL->TabVisible = false;
-   TabSheet_StandTube->TabVisible = false;
-   Label_type_sect->Visible = false;
-   ComboBox_TypeSect->Visible = false;
 
    Type_sect = DVUTAVR;
 
@@ -74,37 +66,10 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
 	case DVUTAVR:
 	  common_sect_.dvutavr.flag_concl=false;//расшифровка имени flag_conclusion (чтение не завершено)
 	  if (common_sect_.dvutavr.n_group < 0) {//значит сварной двутавр
-		rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.dvutavr.b1));
-		if (rc>0) return rc;
-        rc=String_double_plus(Label4->Caption,Edit4->Text, &(common_sect_.dvutavr.h1));
-        if (rc>0) return rc;
-        rc=String_double_plus(Label2->Caption,Edit2->Text, &(common_sect_.dvutavr.h));
-        if (rc>0) return rc;
-        rc=String_double_plus(Label1->Caption,Edit1->Text, &(common_sect_.dvutavr.b));
-        if (rc>0) return rc;
-        //if (!flag_simm_sect) {  // несимметричное сечение
-          rc=String_double_plus(Label5->Caption,Edit5->Text, &(common_sect_.dvutavr.b2));
-          if (rc>0) return rc;
-          rc=String_double_plus(Label6->Caption,Edit6->Text, &(common_sect_.dvutavr.h2));
-          if (rc>0) return rc;
-          common_sect_.dvutavr.flag_concl=true;
-        //}
-        //else {
-		//  common_sect_.dvutavr.b2=common_sect_.dvutavr.b1;
-        //  common_sect_.dvutavr.h2=common_sect_.dvutavr.h1;
-        //  common_sect_.dvutavr.flag_concl=true;
-        //}
-        common_sect_.dvutavr.n_group = -1;
-        common_sect_.dvutavr.n_profil = -1;
-        common_sect_.dvutavr.index_orient = 0;
-      }
+		 return 1;    // задан не прокатной двутавр
+	  }
 	  else {      // стандартное сечение (прокатные сеченния из сортамент)
-		if (PageControl1->ActivePage == TabSheet_GOST57837)
-		  common_sect_.dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
-		if (PageControl1->ActivePage == TabSheet_GOST)
-		  common_sect_.dvutavr.n_group = RadioGroup_GOST->ItemIndex;
-		if (PageControl1->ActivePage == TabSheet_STO)
-		  common_sect_.dvutavr.n_group = RadioGroup_STO->ItemIndex + typeSTO_B;
+		common_sect_.dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
 		common_sect_.dvutavr.n_profil = ComboBox_profil->ItemIndex;
 	  // Установить тип стандартного сечения
 		StandartProfil.SetProfil(common_sect_.dvutavr.n_group);
@@ -119,102 +84,8 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
 		common_sect_.dvutavr.index_orient = 0;
       }
 	break;
-    case SQUARE_TUBE:
-      common_sect_.square.flag_concl=false;
-      if (common_sect_.rect.n_group < 0) {
-        rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.square.side));
-        if (rc>0) return rc;
-        rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect_.square.side/2, &(common_sect_.square.thickness));
-		if (rc>0) return rc;
-        common_sect_.square.flag_concl=true;
-		common_sect_.square.b1 = common_sect_.square.h1 = common_sect_.square.b2 =common_sect_.square.h2 = 0;
-        common_sect_.square.n_group = -1;
-		common_sect_.square.n_profil = -1;
-      }
-      else {
-        common_sect_.square.n_group = ComboBox_h_b_square->ItemIndex;
-        common_sect_.square.n_profil = ComboBox_t_square->ItemIndex;
-		common_sect_.square.index_orient = 0;
-            /*
-          // Установить тип стандартного сечения трубы
-				  StandartProfil.SetProfil_Tube(typeSQUARE);
-                // Получить вектор параметров стандартного сечения трубы
-				  ParamProfil = StandartProfil.GetVectorParamProfil_Tube(common_sect_.square.n_group, common_sect_.square.n_profil);
-                  common_sect_.square.side = ParamProfil[0];
-                  common_sect_.square.thickness = ParamProfil[2];
-				  common_sect_.square.b1 = common_sect_.square.h1 = common_sect_.square.b2 =common_sect_.square.h2 = 0;
-				  common_sect_.square.flag_concl=true;
-      */  }
-	break;
-    case RECT_TUBE:
-      common_sect_.rect.flag_concl=false;
-      if (common_sect_.rect.n_group < 0) {
-        rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.rect.b));
-        if (rc>0) return rc;
-        rc=String_double_plus(Label4->Caption,Edit4->Text, &(common_sect_.rect.h));
-        if (rc>0) return rc;
-        rc=String_double_plus_low(Label2->Caption,Edit2->Text, common_sect_.rect.b/2 ,&(common_sect_.rect.b1));
-        if (rc>0) return rc;
-        rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect_.rect.h/2 ,&(common_sect_.rect.h1));
-        if (rc>0) return rc;
-        common_sect_.rect.flag_concl=true;
-        common_sect_.rect.b2 =common_sect_.rect.h2 = 0;
-        common_sect_.rect.n_group = -1;
-        common_sect_.rect.n_profil = -1;
-      }
-      else {
-        common_sect_.rect.n_group = ComboBox_h_b_rect->ItemIndex;
-        common_sect_.rect.n_profil = ComboBox_t_rect->ItemIndex;
-		common_sect_.rect.index_orient = RadioGroup_orient->ItemIndex;
-      // Установить тип стандартного сечения трубы
-		//StandartProfil.SetProfil_Tube(typeRECT);
-	  // Получить вектор параметров стандартного сечения трубы
-	   //	ParamProfil = StandartProfil.GetVectorParamProfil_Tube(common_sect_.rect.n_group, common_sect_.rect.n_profil);
-        if (common_sect_.rect.index_orient==0) { // по длинной стороне
-          common_sect_.rect.h = ParamProfil[0];
-          common_sect_.rect.b = ParamProfil[1];
-		}
-        else {
-          common_sect_.rect.h = ParamProfil[1];
-          common_sect_.rect.b = ParamProfil[0];
-        }
-        common_sect_.rect.h1 = ParamProfil[2];
-        common_sect_.rect.b1 = ParamProfil[2];
-        common_sect_.dvutavr.b2 = 0;
-		common_sect_.dvutavr.h2 = 0;
-        common_sect_.dvutavr.flag_concl=true;
-      }
-    break;
-    case CIRCULAR_TUBE:
-      common_sect_.circ.flag_concl=false;
-      if (common_sect_.rect.n_group < 0) {
-        rc=String_double_plus(Label3->Caption,Edit3->Text, &(common_sect_.circ.diameter));
-        if (rc>0) return rc;
-        rc=String_double_plus_low(Label1->Caption,Edit1->Text, common_sect_.circ.diameter/2, &(common_sect_.circ.thickness));
-        if (rc>0) return rc;
-        common_sect_.circ.flag_concl=true;
-        common_sect_.square.b1 = common_sect_.square.h1 = common_sect_.square.b2 =common_sect_.square.h2 = 0;
-        common_sect_.circ.n_group = -1;
-		common_sect_.circ.n_profil = -1;
-      }
-      else {  // Прокатное сечение
-        common_sect_.circ.n_group = ComboBox_Cyl_D->ItemIndex;
-        common_sect_.circ.n_profil = ComboBox_Cyl_t->ItemIndex;
-        common_sect_.circ.index_orient = 0;
-      // Установить тип стандартного сечения трубы
-	   //	StandartProfil.SetProfil_Tube(typeCIRC);
-			/*
-          // Получить вектор параметров стандартного сечения трубы
-				ParamProfil = StandartProfil.GetVectorParamProfil_Tube(common_sect_.circ.n_group, common_sect_.circ.n_profil);
-                  common_sect_.circ.diameter = ParamProfil[0];
-          		common_sect_.circ.thickness = ParamProfil[1];
-          		common_sect_.circ.b1 = common_sect_.circ.h1 = common_sect_.circ.b2 =common_sect_.circ.h2 = 0;
-				common_sect_.circ.flag_concl=true;
-      */
-      }
-	break;
-    default:
-    ;
+	default:
+	  return 3;  // Задано не двутавровое сечение
   }
 
 	  return 0;
@@ -231,36 +102,16 @@ void __fastcall TSteelSectionDefinitionFrame::DrawSect()
 
   switch (Type_sect) {
 	case DVUTAVR:
-	   draw_dvutavr(Image1, &(common_sect_.dvutavr));
+	   draw_dvutavr(Image_stand, &(common_sect_.dvutavr));
     break;
-    case SQUARE_TUBE:
-       if (common_sect_.square.n_group < 0)
-          draw_square_tube(Image1, &(common_sect_.square));
-       else {
-          draw_square_tube(Image_square, &(common_sect_.square));
-       }
-    break;
-    case RECT_TUBE:
-       if (common_sect_.rect.n_group < 0)
-          draw_rect_tube(Image1, &(common_sect_.rect));
-       else {
-          draw_rect_tube(Image_rect, &(common_sect_.rect));
-       }
-    break;
-    case CIRCULAR_TUBE:
-       if (common_sect_.circ.n_group < 0)
-          draw_circular_tube(Image1, &(common_sect_.circ));
-       else
-          draw_circular_tube(Image_Cyl, &(common_sect_.circ));
-    break;
-    default:
-    ;
+	default:
+	;
   }
 
 }
 //----------------------------------------------------------------------
 // рисование двутавра
-void __fastcall TSteelSectionDefinitionFrame::draw_dvutavr(TImage * Image1, SECT_DVUTAVR *sect) {
+void __fastcall TSteelSectionDefinitionFrame::draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect) {
   TPoint vertices[30];
   int zero, zero1, zero2;
   float scale_1, scale;
@@ -268,25 +119,25 @@ void __fastcall TSteelSectionDefinitionFrame::draw_dvutavr(TImage * Image1, SECT
 
 
   if (sect->n_group < 0) {
-    TRect NewRect = Rect(0, 0, Image1->Width,Image1->Height);
-    Image1->Canvas->Brush->Color = clWhite;
-    Image1->Canvas->FillRect(NewRect);
-    Image1->Canvas->Rectangle(0, 0, Image1->Width,Image1->Height);
+    TRect NewRect = Rect(0, 0, Image_stand->Width,Image_stand->Height);
+    Image_stand->Canvas->Brush->Color = clWhite;
+    Image_stand->Canvas->FillRect(NewRect);
+    Image_stand->Canvas->Rectangle(0, 0, Image_stand->Width,Image_stand->Height);
 
-    scale=(Image1->Width-20)/(1e0*sect->b2);
-    scale_1=MIN(scale,(Image1->Width-20)/(1e0*sect->b1));
-    scale=MIN(scale_1,(Image1->Height-20)/(1e0*(sect->h + sect->h1 + sect->h2)));
+    scale=(Image_stand->Width-20)/(1e0*sect->b2);
+    scale_1=MIN(scale,(Image_stand->Width-20)/(1e0*sect->b1));
+    scale=MIN(scale_1,(Image_stand->Height-20)/(1e0*(sect->h + sect->h1 + sect->h2)));
 
-    zero=(Image1->Height - (sect->h + sect->h1 + sect->h2)*scale)/2;
-    zero1=(Image1->Width - sect->b2*scale)/2;
-    zero2=(Image1->Width - sect->b1*scale)/2;
+    zero=(Image_stand->Height - (sect->h + sect->h1 + sect->h2)*scale)/2;
+    zero1=(Image_stand->Width - sect->b2*scale)/2;
+    zero2=(Image_stand->Width - sect->b1*scale)/2;
 
     Point_dvutavr(zero, zero1, zero2, sect, scale, vertices); // получить точки контура двутавра
 
-    Image1->Canvas->Brush->Color = COLOR;
-    Image1->Canvas->Polygon(vertices, 12);
-    Image1->Canvas->Brush->Color = clWhite;
-    draw_axes(Image1);
+    Image_stand->Canvas->Brush->Color = COLOR;
+    Image_stand->Canvas->Polygon(vertices, 12);
+    Image_stand->Canvas->Brush->Color = clWhite;
+    draw_axes(Image_stand);
   }
   else {
 	double * ParamProfil;
@@ -349,22 +200,22 @@ void __fastcall TSteelSectionDefinitionFrame::draw_dvutavr(TImage * Image1, SECT
 }
 //---------------------------------------------------------------------------
 // рисование квадратной трубы
-void __fastcall TSteelSectionDefinitionFrame::draw_square_tube(TImage * Image1, SECT_SQUARE *sect) {
+void __fastcall TSteelSectionDefinitionFrame::draw_square_tube(TImage * Image_stand, SECT_SQUARE *sect) {
   TPoint vertices[30];
   double zero, zero1;
   float scale;
   int rc;
 
-  TRect NewRect = Rect(0, 0, Image1->Width,Image1->Height);
-  Image1->Canvas->Brush->Color = clWhite;
-  Image1->Canvas->FillRect(NewRect);
-  Image1->Canvas->Rectangle(0, 0, Image1->Width,Image1->Height);
+  TRect NewRect = Rect(0, 0, Image_stand->Width,Image_stand->Height);
+  Image_stand->Canvas->Brush->Color = clWhite;
+  Image_stand->Canvas->FillRect(NewRect);
+  Image_stand->Canvas->Rectangle(0, 0, Image_stand->Width,Image_stand->Height);
 
-  scale=(Image1->Width-20)/(1e0*sect->side);
-  scale=MIN(scale,(Image1->Height-20)/(1e0*sect->side));
+  scale=(Image_stand->Width-20)/(1e0*sect->side);
+  scale=MIN(scale,(Image_stand->Height-20)/(1e0*sect->side));
 
-  zero1=(Image1->Height - sect->side*scale)/2;
-  zero=(Image1->Width - sect->side*scale)/2;
+  zero1=(Image_stand->Height - sect->side*scale)/2;
+  zero=(Image_stand->Width - sect->side*scale)/2;
 
 
   double s_c = sect->side*scale;
@@ -385,11 +236,11 @@ void __fastcall TSteelSectionDefinitionFrame::draw_square_tube(TImage * Image1, 
   vertices[11] = Point(zero + r2_c, zero1 + r2_c);
   vertices[12] = Point(zero, zero1 + r_c);
 
-  Image1->Canvas->Brush->Color = COLOR;
-  Image1->Canvas->Polygon(vertices, 12);
+  Image_stand->Canvas->Brush->Color = COLOR;
+  Image_stand->Canvas->Polygon(vertices, 12);
 
-  zero1=(Image1->Height - (sect->side - 2*sect->thickness)*scale)/2;
-  zero=(Image1->Width - (sect->side - 2*sect->thickness)*scale)/2;
+  zero1=(Image_stand->Height - (sect->side - 2*sect->thickness)*scale)/2;
+  zero=(Image_stand->Width - (sect->side - 2*sect->thickness)*scale)/2;
 
   s_c = (sect->side - 2*sect->thickness)*scale;
   r_c = (sect->rad - sect->thickness)*scale;
@@ -409,29 +260,29 @@ void __fastcall TSteelSectionDefinitionFrame::draw_square_tube(TImage * Image1, 
   vertices[11] = Point(zero + r2_c, zero1 + r2_c);
   vertices[12] = Point(zero, zero1 + r_c);
 
-  Image1->Canvas->Brush->Color = clWhite;
-  Image1->Canvas->Polygon(vertices, 12);
+  Image_stand->Canvas->Brush->Color = clWhite;
+  Image_stand->Canvas->Polygon(vertices, 12);
 
-  draw_axes(Image1);
+  draw_axes(Image_stand);
 
 }//---------------------------------------------------------------------------
 // рисование прямогольной трубы
-void __fastcall TSteelSectionDefinitionFrame::draw_rect_tube(TImage * Image1, SECT_RECT *sect) {
+void __fastcall TSteelSectionDefinitionFrame::draw_rect_tube(TImage * Image_stand, SECT_RECT *sect) {
   TPoint vertices[30];
   double zero, zero1;
   float scale;
   int rc;
 
-  TRect NewRect = Rect(0, 0, Image1->Width,Image1->Height);
-  Image1->Canvas->Brush->Color = clWhite;
-  Image1->Canvas->FillRect(NewRect);
-  Image1->Canvas->Rectangle(0, 0, Image1->Width,Image1->Height);
+  TRect NewRect = Rect(0, 0, Image_stand->Width,Image_stand->Height);
+  Image_stand->Canvas->Brush->Color = clWhite;
+  Image_stand->Canvas->FillRect(NewRect);
+  Image_stand->Canvas->Rectangle(0, 0, Image_stand->Width,Image_stand->Height);
 
-  scale=(Image1->Width-20)/(1e0*sect->b);
-  scale=MIN(scale,(Image1->Height-20)/(1e0*sect->h));
+  scale=(Image_stand->Width-20)/(1e0*sect->b);
+  scale=MIN(scale,(Image_stand->Height-20)/(1e0*sect->h));
 
-  zero1=(Image1->Height - sect->h*scale)/2;
-  zero=(Image1->Width - sect->b*scale)/2;
+  zero1=(Image_stand->Height - sect->h*scale)/2;
+  zero=(Image_stand->Width - sect->b*scale)/2;
 
   vertices[0] = Point(zero, zero1);
   vertices[1] = Point(zero, zero1 + sect->h*scale);
@@ -458,11 +309,11 @@ void __fastcall TSteelSectionDefinitionFrame::draw_rect_tube(TImage * Image1, SE
   vertices[11] = Point(zero + r2_c, zero1 + r2_c);
   vertices[12] = Point(zero, zero1 + r_c);
 
-  Image1->Canvas->Brush->Color = COLOR;
-  Image1->Canvas->Polygon(vertices, 12);
+  Image_stand->Canvas->Brush->Color = COLOR;
+  Image_stand->Canvas->Polygon(vertices, 12);
 
-  zero1=(Image1->Height - (sect->h - 2*sect->h1)*scale)/2;
-  zero=(Image1->Width - (sect->b - 2*sect->b1)*scale)/2;
+  zero1=(Image_stand->Height - (sect->h - 2*sect->h1)*scale)/2;
+  zero=(Image_stand->Width - (sect->b - 2*sect->b1)*scale)/2;
 
   h_c = (sect->h - 2*sect->h1)*scale;
   b_c = (sect->b - 2*sect->b1)*scale;
@@ -490,36 +341,36 @@ void __fastcall TSteelSectionDefinitionFrame::draw_rect_tube(TImage * Image1, SE
   vertices[11] = Point(zero + r2_c, zero1 + r2_c);
   vertices[12] = Point(zero, zero1 + r_c);
 
-  Image1->Canvas->Brush->Color = clWhite;
-  Image1->Canvas->Polygon(vertices, 12);
-  draw_axes(Image1);
+  Image_stand->Canvas->Brush->Color = clWhite;
+  Image_stand->Canvas->Polygon(vertices, 12);
+  draw_axes(Image_stand);
 
 }
 //---------------------------------------------------------------------------
 // рисование круглой трубы
-void __fastcall TSteelSectionDefinitionFrame::draw_circular_tube(TImage * Image1, SECT_CIRC *sect) {
+void __fastcall TSteelSectionDefinitionFrame::draw_circular_tube(TImage * Image_stand, SECT_CIRC *sect) {
   double zero, zero1;
   float scale;
   int rc;
 
-  TRect NewRect = Rect(0, 0, Image1->Width,Image1->Height);
-  Image1->Canvas->Brush->Color = clWhite;
-  Image1->Canvas->FillRect(NewRect);
-  Image1->Canvas->Rectangle(0, 0, Image1->Width,Image1->Height);
+  TRect NewRect = Rect(0, 0, Image_stand->Width,Image_stand->Height);
+  Image_stand->Canvas->Brush->Color = clWhite;
+  Image_stand->Canvas->FillRect(NewRect);
+  Image_stand->Canvas->Rectangle(0, 0, Image_stand->Width,Image_stand->Height);
 
-  scale=(Image1->Width-20)/(1e0*sect->diameter);
-  scale=MIN(scale,(Image1->Height-20)/(1e0*sect->diameter));
+  scale=(Image_stand->Width-20)/(1e0*sect->diameter);
+  scale=MIN(scale,(Image_stand->Height-20)/(1e0*sect->diameter));
 
-  zero=(Image1->Height - sect->diameter*scale)/2;
-  zero1=(Image1->Width - sect->diameter*scale)/2;
+  zero=(Image_stand->Height - sect->diameter*scale)/2;
+  zero1=(Image_stand->Width - sect->diameter*scale)/2;
 
-  Image1->Canvas->Brush->Color = COLOR;
-  Image1->Canvas->Ellipse(zero1, zero, zero1 + sect->diameter*scale, zero + sect->diameter*scale);
+  Image_stand->Canvas->Brush->Color = COLOR;
+  Image_stand->Canvas->Ellipse(zero1, zero, zero1 + sect->diameter*scale, zero + sect->diameter*scale);
 
-  Image1->Canvas->Brush->Color = clWhite;
-  Image1->Canvas->Ellipse(zero1 + sect->thickness*scale, zero + sect->thickness*scale,
+  Image_stand->Canvas->Brush->Color = clWhite;
+  Image_stand->Canvas->Ellipse(zero1 + sect->thickness*scale, zero + sect->thickness*scale,
                           zero1 + (sect->diameter - sect->thickness)*scale, zero + (sect->diameter - sect->thickness)*scale);
-  draw_axes(Image1);
+  draw_axes(Image_stand);
 }
 //---------------------------------------------------------------------------
 // Рисование системы координат
@@ -569,36 +420,16 @@ void  __fastcall TSteelSectionDefinitionFrame::draw_axes_zero(TImage *Image_Ax, 
 
 void  __fastcall TSteelSectionDefinitionFrame::Check_Modify() {
 
-      TRect NewRect = Rect(0, 0, Image1->Width,
-                           Image1->Height);
+	  TRect NewRect = Rect(0, 0, Image_stand->Width,
+						   Image_stand->Height);
 
-      Image1->Canvas->Brush->Color = clWhite;
-      Image1->Canvas->FillRect(NewRect);
-      Image1->Canvas->Rectangle(0, 0, Image1->Width,
-                           Image1->Height);
+      Image_stand->Canvas->Brush->Color = clWhite;
+      Image_stand->Canvas->FillRect(NewRect);
+      Image_stand->Canvas->Rectangle(0, 0, Image_stand->Width,
+                           Image_stand->Height);
 
-      CheckBox1->Enabled=false;
-      CheckBox1->Checked=true;
-      DrawSect();
+	  DrawSect();
       flag_sect_change=true;
-
-      Edit1->Color=clWindow;
-      Edit2->Color=clWindow;
-      Edit3->Color=clWindow;
-      Edit4->Color=clWindow;
-      Edit5->Color=clWindow;
-      Edit6->Color=clWindow;
-      Edit1->Enabled=true;
-      Edit2->Enabled=true;
-      Edit3->Enabled=true;
-      Edit4->Enabled=true;
-	  Edit5->Enabled=true;
-      Edit6->Enabled=true;
-      //if (flag_change_type_sect)  {
-      //  ComboBox1->Enabled = true;
-	  //  CheckBox_type_sect->Checked = true;
-      //}
-
 
 }
 //---------------------------------------------------------------------------
@@ -666,136 +497,19 @@ void __fastcall TSteelSectionDefinitionFrame::Button_ApplyClick(TObject *Sender)
 }
 
 
-void __fastcall TSteelSectionDefinitionFrame::Edit3Enter(TObject *Sender)
-{
-     Edit5->Text = Edit3->Text;    
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TSteelSectionDefinitionFrame::Edit3Exit(TObject *Sender)
-{
-      Edit5->Text = Edit3->Text;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TSteelSectionDefinitionFrame::Edit3Change(TObject *Sender)
-{
-  flag_sect_change=true;
-  Edit5->Text = Edit3->Text;
-
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TSteelSectionDefinitionFrame::Edit3KeyDown(TObject *Sender,
-      WORD &Key, TShiftState Shift)
-{
-   if (Key == VK_RETURN) Edit4->SetFocus();
-
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TSteelSectionDefinitionFrame::Edit4KeyDown(TObject *Sender,
-      WORD &Key, TShiftState Shift)
-{
-   if (Key == VK_RETURN) Edit2->SetFocus();
-}
-//---------------------------------------------------------------------------
 
 
-void __fastcall TSteelSectionDefinitionFrame::Edit2KeyDown(TObject *Sender,
-      WORD &Key, TShiftState Shift)
-{
-   if (Key == VK_RETURN) Edit1->SetFocus();
 
-}
-//---------------------------------------------------------------------------
 
-void __fastcall TSteelSectionDefinitionFrame::Edit1KeyDown(TObject *Sender,
-      WORD &Key, TShiftState Shift)
-{
-   if (Key == VK_RETURN) Edit5->SetFocus();
 
-}
-//---------------------------------------------------------------------------
 
-void __fastcall TSteelSectionDefinitionFrame::Edit5KeyDown(TObject *Sender,
-      WORD &Key, TShiftState Shift)
-{
-   if (Key == VK_RETURN) Edit6->SetFocus();
 
-}
-//---------------------------------------------------------------------------
 
-void __fastcall TSteelSectionDefinitionFrame::Edit6KeyDown(TObject *Sender,
-      WORD &Key, TShiftState Shift)
-{
-   if (Key == VK_RETURN) Edit3->SetFocus();
 
-}
-//---------------------------------------------------------------
 // Заполнение списка профилей  ГОСТ
-void __fastcall TSteelSectionDefinitionFrame::RadioGroup_GOSTClick(TObject *Sender)
-{
-   AnsiString *NameProfil;
-   int n_profil, i;
-
-
-   // Установить тип стандартного сечения
-   StandartProfil.SetProfil(RadioGroup_GOST->ItemIndex);
-   // Получить вектор имен профилей и длину вектора
-   NameProfil = StandartProfil.GetVectorNameProfil(&n_profil);
-
-   ComboBox_profil->Items->Clear();
-   for (i=0; i<n_profil; i++) {
-	  ComboBox_profil->Items->Add(NameProfil[i]);
-   }
-   ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect_.dvutavr), 0);
-   ComboBox_profilChange(Sender);
-
-}
-//---------------------------------------------------------------------------
 void __fastcall TSteelSectionDefinitionFrame::Change_type_sect(int index_profil, TObject *Sender)
 {
-    if (index_profil < 0) {
-       TabSheet_Weld->TabVisible = true;
-       TabSheet_Standart->TabVisible = false;
-       //Image1->Visible = true;
-       Weld_Change(Sender);
-    }
-    else {
-       TabSheet_Weld->TabVisible = false;
-	   TabSheet_Standart->TabVisible = true;
-       //Image1->Visible = false;
-       if (index_profil  < typeSTO_B)
-		  RadioGroup_GOSTClick(Sender);
-       if (index_profil  >= typeSTO_B && index_profil <=typeSTO_K)
-          RadioGroup_STOClick(Sender);
-       if (index_profil >=typeGOST_G57837_B && index_profil <=typeGOST_G57837_S)
-          RadioGroupGOST57837Click(Sender);
-    }
-}
-//---------------------------------------------------------------------------
-void __fastcall TSteelSectionDefinitionFrame::Change_type_sect_tube(int index_profil, TObject *Sender)
-{
-    if (index_profil < 0) {
-       TabSheet_Weld->TabVisible = true;
-       TabSheet_Standart->TabVisible = false;
-       TabSheet_StandTube->TabVisible = false;
-       Weld_Change(Sender);
-    }
-    else {
-       TabSheet_Weld->TabVisible = false;
-       TabSheet_Standart->TabVisible = false;
-       if (index_profil != typeCIRC) {
-         TabSheet_StandTube->TabVisible = true;
-         TabSheet_CYL->TabVisible = false;
-       }  
-       else {
-         TabSheet_StandTube->TabVisible = false;
-         TabSheet_CYL->TabVisible = true;
-       }
-
-    }
+		  RadioGroupGOST57837Click(Sender);
 }
 //---------------------------------------------------------------------------
 
@@ -815,103 +529,7 @@ void __fastcall TSteelSectionDefinitionFrame::ComboBox_profilChange(TObject *Sen
 
 }
 //---------------------------------------------------------------------------
-void __fastcall TSteelSectionDefinitionFrame::Weld_Change(TObject *Sender)
-{
-            Label3->Caption="Ширина верхней полки (b1)";
-            Label4->Caption="Толщина верхней полки (h1)";
-            Label1->Caption="Толщина стенки (b)";
-            Label2->Caption="Высота стенки (h)";
-            Label5->Caption="Ширина нижней полки (b2)";
-            Label6->Caption="Толщина нижней полки (h2)";
-            Edit3->Text=FloatToStrF(common_sect_.dvutavr.b1,ffFixed,15,1);
-            Edit4->Text=FloatToStrF(common_sect_.dvutavr.h1,ffFixed,15,0);
-            Edit1->Text=FloatToStrF(common_sect_.dvutavr.b,ffFixed,15,0);
-            Edit2->Text=FloatToStrF(common_sect_.dvutavr.h,ffFixed,15,0);
-            Edit5->Text=FloatToStrF(common_sect_.dvutavr.b2,ffFixed,15,0);
-            Edit6->Text=FloatToStrF(common_sect_.dvutavr.h2,ffFixed,15,0);
-}
-//---------------------------------------------------------------------------
 
-
-void __fastcall TSteelSectionDefinitionFrame::PageControl1Change(TObject *Sender)
-{
-    if (PageControl1->ActivePage == TabSheet_GOST57837) {
-       RadioGroupGOST57837Click(Sender);
-    }
-    if (PageControl1->ActivePage == TabSheet_GOST) {
-       switch(RadioGroup_STO->ItemIndex + typeSTO_B) {
-       case typeSTO_B:
-         RadioGroup_GOST->ItemIndex = typeGOST_B;
-       break;
-       case typeSTO_Width:
-         RadioGroup_GOST->ItemIndex = typeGOST_Width;
-       break;
-       case typeSTO_K:
-         RadioGroup_GOST->ItemIndex = typeGOST_K;
-       break;
-       }
-       RadioGroup_GOSTClick(Sender);
-    }
-    if (PageControl1->ActivePage == TabSheet_STO) {
-       switch(RadioGroup_GOST->ItemIndex) {
-       case typeGOST_0:
-       case typeGOST_B:
-       case typeGOST_DB:
-         RadioGroup_STO->ItemIndex = 0;
-       break;
-       case typeGOST_Width:
-         RadioGroup_STO->ItemIndex = typeSTO_Width - typeSTO_B;
-       break;
-       case typeGOST_K:
-         RadioGroup_STO->ItemIndex = typeSTO_K - typeSTO_B;
-       break;
-       }
-       RadioGroup_STOClick(Sender);
-    }
-}
-//---------------------------------------------------------------
-// Заполнение списка профилей  СТО
-void __fastcall TSteelSectionDefinitionFrame::RadioGroup_STOClick(TObject *Sender)
-{
-   AnsiString *NameProfil;
-   int n_profil, i;
-
-   // Установить тип стандартного сечения (константа typeSTO_B определяет сдвиг относительно сечений ГОСТ)
-   StandartProfil.SetProfil(RadioGroup_STO->ItemIndex + typeSTO_B);
-   // Получить вектор имен профилей и длину вектора
-   NameProfil = StandartProfil.GetVectorNameProfil(&n_profil);
-
-   ComboBox_profil->Items->Clear();
-   for (i=0; i<n_profil; i++) {
-      ComboBox_profil->Items->Add(NameProfil[i]);
-   }
-   ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect_.dvutavr), 0);
-   ComboBox_profilChange(Sender);
-        
-}
-//---------------------------------------------------------------------------
-
-
-
-void __fastcall TSteelSectionDefinitionFrame::RadioGroup_orientClick(TObject *Sender)
-{
-   double h0, b0;
-   b0 = common_sect_.rect.b;
-   h0 = common_sect_.rect.h;
-
-   if (RadioGroup_orient->ItemIndex==0) {
-     common_sect_.rect.b = MIN(b0, h0);
-     common_sect_.rect.h = MAX(b0, h0);
-   }
-   else {
-     common_sect_.rect.b = MAX(b0, h0);
-     common_sect_.rect.h = MIN(b0, h0);
-   }
-
-   DrawSect();
-
-}
-//---------------------------------------------------------------------------
 void __fastcall TSteelSectionDefinitionFrame::Put_h_rect(TObject *Sender)
 {
    int i;
@@ -930,31 +548,11 @@ void __fastcall TSteelSectionDefinitionFrame::Put_h_rect(TObject *Sender)
 
 }
 
-void __fastcall TSteelSectionDefinitionFrame::CheckBox_type_sectClick(
-	  TObject *Sender)
-{
-    if (CheckBox_type_sect->Checked) {
-       ComboBox_TypeSect->Enabled = true;
-    }
-
-}
-//---------------------------------------------------------------------------
 //
 // Заполнить список профилей
-void __fastcall TSteelSectionDefinitionFrame::FillComboBox1(TObject *Sender)
-{
-  ComboBox_TypeSect->Items->Clear();
-  ComboBox_TypeSect->Items->Add("0. Тип не выбран");
-  ComboBox_TypeSect->Items->Add("1. Двутавр");
- // ComboBox_TypeSect->Items->Add("2. Труба квадратная");
- // ComboBox_TypeSect->Items->Add("3. Труба прямоугольная");
- // ComboBox_TypeSect->Items->Add("4. Труба круглая");
-
-}
-//---------------------------------------------------------------
 // Заполнение списка профилей GOST_G57837
 void __fastcall TSteelSectionDefinitionFrame::RadioGroupGOST57837Click(
-      TObject *Sender)
+	  TObject *Sender)
 {
    AnsiString *NameProfil;
    int n_profil, i;
@@ -970,23 +568,17 @@ void __fastcall TSteelSectionDefinitionFrame::RadioGroupGOST57837Click(
    }
    ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect_.dvutavr), 0);
    ComboBox_profilChange(Sender);
-   PageControl1->ActivePage = TabSheet_GOST57837;
 }
 //---------------------------------------------------------------------------
 
 void TSteelSectionDefinitionFrame::fill_I_section_data()
 {
-		  // Установить тип стандартного сечения
-	  if (PageControl1->ActivePage == TabSheet_GOST57837)
-		  common_sect_.dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
-	  if (PageControl1->ActivePage == TabSheet_GOST)
-		  common_sect_.dvutavr.n_group = RadioGroup_GOST->ItemIndex;
-	  if (PageControl1->ActivePage == TabSheet_STO)
-		  common_sect_.dvutavr.n_group = RadioGroup_STO->ItemIndex + typeSTO_B;
+	  // Установить тип стандартного сечения
+	  common_sect_.dvutavr.n_group = RadioGroupGOST57837->ItemIndex + typeGOST_G57837_B;
 	  // Установить тип стандартного сечения
 	  StandartProfil.SetProfil(common_sect_.dvutavr.n_group);
 	  // Заполнить структуру профиля двутавра
-	StandartProfil.SetParamProfil(&(common_sect_.dvutavr), ComboBox_profil->ItemIndex);
+      StandartProfil.SetParamProfil(&(common_sect_.dvutavr), ComboBox_profil->ItemIndex);
 }
 //---------------------------------------------------------------------------
 
