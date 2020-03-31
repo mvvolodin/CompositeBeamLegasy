@@ -42,6 +42,30 @@ void TCompositeBeam::set_default_values()
 	studs_.set_default_values();
 }
 //---------------------------------------------------------------------------
+//Сохраняем объект композитная балка в бинарный файл
+//---------------------------------------------------------------------------
+void TCompositeBeam::save(std::ostream& ostr) const
+{
+	geometry_.save(ostr);
+	loads_.save(ostr);
+	working_conditions_factors_.save(ostr);
+	composite_section_.save(ostr);
+	studs_.save(ostr);
+
+}
+//---------------------------------------------------------------------------
+//Загружаем объект композитная балка из бинарного файла
+//---------------------------------------------------------------------------
+void TCompositeBeam::load(std::istream& istr)
+{
+	geometry_.load(istr);
+	loads_.load(istr);
+	working_conditions_factors_.load(istr);
+	composite_section_.load(istr);
+	studs_.load(istr);
+
+}
+//---------------------------------------------------------------------------
 //Расчёт композитной балки
 //---------------------------------------------------------------------------
 void TCompositeBeam::calculate()
@@ -62,6 +86,13 @@ void TCompositeBeam::calculate()
 
 	get_max_upper_flange_ratio();
 	get_max_lower_flange_ratio();
+
+	double M_max = get_max_abs_M(Impact::Total);
+	double coord_M_max = get_max_abs_M_coordinate(Impact::Total);
+	Stresses stresses = get_stresses(coord_M_max, Impact::II_stage);
+	calculate_ratios(M_max, stresses);
+
+	//calculate_stresses(Impact::II_stage);
 
 }
 //---------------------------------------------------------------------------
@@ -130,32 +161,6 @@ double TCompositeBeam::calculate_cantilever_effective_width(double t_slc, double
 }
 
 //---------------------------------------------------------------------------
-//Сохраняем объект композитная балка в бинарный файл
-//---------------------------------------------------------------------------
-void TCompositeBeam::save(std::ostream& ostr) const
-{
-	geometry_.save(ostr);
-	loads_.save(ostr);
-	working_conditions_factors_.save(ostr);
-	composite_section_.save(ostr);
-	studs_.save(ostr);
-
-}
-//---------------------------------------------------------------------------
-//Загружаем объект композитная балка из бинарного файла
-//---------------------------------------------------------------------------
-void TCompositeBeam::load(std::istream& istr)
-{
-
-	geometry_.load(istr);
-	loads_.load(istr);
-	working_conditions_factors_.load(istr);
-	composite_section_.load(istr);
-	studs_.load(istr);
-
-}
-
-//---------------------------------------------------------------------------
 //Созадём лист с координатами расчётных сечений
 //---------------------------------------------------------------------------
 void TCompositeBeam::calc_cs_coordinates()
@@ -198,9 +203,9 @@ void TCompositeBeam::calc_cs_coordinates()
 //---------------------------------------------------------------------------
 void TCompositeBeam::calc_studs_coordinates()
 {
-	double L=geometry_.get_span();
-	stud_coordinates_=studs_.calculate_coordinates(L);//нужна ли отдельная функция? название фун-ции достаточно описательное
-	studs_num_=studs_.calculate_studs_transverse_rows_number(L);
+	double L = geometry_.get_span();
+	stud_coordinates_ = studs_.calculate_coordinates(L);//нужна ли отдельная функция? название фун-ции достаточно описательное
+	studs_num_ = studs_.calculate_studs_transverse_rows_number(L);
 
 }
 //---------------------------------------------------------------------------
@@ -531,6 +536,64 @@ void TCompositeBeam::calc_ratios()
 	}
 
 }
+Ratios TCompositeBeam::calculate_ratios(double M, Stresses stresses)
+{
+	double Z_b_st = composite_section_.get_Z_b_st();
+	double W_f2_st = composite_section_.get_steel_part().get_section().get_Wf2_st();
+	double W_f1_st = composite_section_.get_steel_part().get_section().get_Wf1_st();
+	double A_s = composite_section_.get_concrete_part().get_rebar().get_A_s();
+	double R_s=composite_section_.get_concrete_part().get_rebar().get_R_s();
+	double A_st = composite_section_.get_steel_part().get_section().get_A_st();
+	double A_b = composite_section_.get_concrete_part().get_A_b();
+	double R_y = composite_section_.get_steel_grade().get_R_y ();
+	double R_b = composite_section_.get_concrete_part().get_concrete().get_R_bn();
+	double gamma_bi = working_conditions_factors_.get_gamma_bi();
+	double gamma_c = working_conditions_factors_.get_gamma_c();
+	double A_f2_st = composite_section_.get_steel_part().get_section().get_A_f2_st();
+
+	double sigma_b = stresses.get_sigma_b();
+	double sigma_s = stresses.get_sigma_s();
+	StressStateCase state = stresses.get_state();
+
+	double gamma_1 = 0.;
+	double N_b_s = 0.;
+	double N_bR_sR = 0.;
+	double N_bR_s = 0.;
+
+	double ratio_uf = 0.;
+	double ratio_lf = 0.;
+
+	switch(state)
+	{
+	case(CASE_I):
+
+		gamma_1 = std::min(1+(gamma_bi*R_b-sigma_b)/(gamma_c*R_y)*A_b/A_f2_st, 1.2);
+		N_b_s = A_b*sigma_b+A_s*sigma_s;
+		ratio_uf = ((std::abs(M)-Z_b_st*std::abs(N_b_s))/W_f2_st - std::abs(N_b_s)/A_st)/(gamma_1*gamma_c*R_y);
+		ratio_lf = ((std::abs(M)-Z_b_st*std::abs(N_b_s))/W_f1_st + std::abs(N_b_s)/A_st)/(gamma_c*R_y);
+		return Ratios {ratio_uf, ratio_lf};
+		break;
+
+	case(CASE_II):
+
+		N_bR_sR=A_b*R_b+A_s*R_s;
+		N_bR_s=A_b*R_b+A_s*sigma_s;
+		ratio_uf = ((std::abs(M)-Z_b_st*std::abs(N_bR_sR))/W_f2_st - std::abs(N_bR_sR)/A_st)/(gamma_c*R_y);
+		ratio_lf = ((std::abs(M)-Z_b_st*std::abs(N_bR_s))/W_f1_st + std::abs(N_bR_s)/A_st)/(gamma_c*R_y);
+		return Ratios {ratio_uf, ratio_lf};
+		break;
+
+	case(CASE_III):
+
+		N_bR_sR=A_b*R_b+A_s*R_s;
+
+		ratio_uf = ((std::abs(M)-Z_b_st*std::abs(N_bR_sR))/W_f2_st - std::abs(N_bR_sR)/A_st)/(gamma_c*R_y);
+		ratio_lf = ((std::abs(M)-Z_b_st*std::abs(N_bR_sR))/W_f1_st + std::abs(N_bR_sR/A_st))/(gamma_c*R_y);
+		return Ratios {ratio_uf, ratio_lf};
+		break;
+	}
+}
+
  Ratios TCompositeBeam::calculate_I_case(Impact impact, int cs_id)
 {
 		double Z_b_st=composite_section_.get_Z_b_st();
@@ -549,7 +612,7 @@ void TCompositeBeam::calc_ratios()
 		double sigma_s=stresses_named_list_.at(impact)[cs_id].get_sigma_s();
 		double M=internal_forces_.at(impact).get_M()[cs_id];
 
-		double gamma_1=std::max(1+(gamma_bi*R_b-sigma_b)/(gamma_c*R_y)*A_b/A_f2_st, 1.2);
+		double gamma_1=std::min(1+(gamma_bi*R_b-sigma_b)/(gamma_c*R_y)*A_b/A_f2_st, 1.2);
 
 
 		double N_b_s=A_b*sigma_b+A_s*sigma_s;
@@ -856,30 +919,36 @@ double TCompositeBeam::get_max_abs_Q_coordinate(Impact impact)
 //---------------------------------------------------------------------------
 Stresses TCompositeBeam::get_stresses(double cs_coordinate, Impact impact)
 {
-	StressesList sl = stresses_named_list_[impact];
+	StressesList& sl = stresses_named_list_[impact];
 
 	auto it = std::find(cs_coordinates_.begin(), cs_coordinates_.end(), cs_coordinate);
-	int s_index = std::distance(it, cs_coordinates_.begin());
+	int index = std::distance(cs_coordinates_.begin(), it);
 
-	return sl[s_index];
+	return sl[index];
 }
 //---------------------------------------------------------------------------
 //Получение момента по координате и воздействию
 //---------------------------------------------------------------------------
  double TCompositeBeam::get_M(double cs_coordinate, Impact impact)
  {
-	InternalForces intr_frcs;
+	InternalForces& intr_frcs = internal_forces_[impact];
 
+	auto it = std::find(cs_coordinates_.begin(), cs_coordinates_.end(), cs_coordinate);
+	int index = std::distance(it, cs_coordinates_.begin());
 
-
+	return intr_frcs.get_M()[index];
  }
 //---------------------------------------------------------------------------
 //Получение поперечной силы по координате и воздействию
 //---------------------------------------------------------------------------
  double TCompositeBeam::get_Q(double cs_coordinate, Impact impact)
  {
+	InternalForces& intr_frcs = internal_forces_[impact];
 
+	auto it = std::find(cs_coordinates_.begin(), cs_coordinates_.end(), cs_coordinate);
+	int index = std::distance(it, cs_coordinates_.begin());
 
+	return intr_frcs.get_Q()[index];
  }
 
 

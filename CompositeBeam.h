@@ -87,21 +87,11 @@ private:
 	int cs_num_;//количество расчётных сечений.ВСЕ ЦИКЛЫ ДОЛЖНЫ ЕГО ПРИМЕНЯТЬ!!!!
 	int studs_num_;//количество поперечных рядов упоров.ВСЕ ЦИКЛЫ ДОЛЖНЫ ЕГО ПРИМЕНЯТЬ!!!!
 
-//Поля с результатами расчётов внутренних усилия
-	InternalForces if_SW_;
-	InternalForces if_sheets_;
-	InternalForces if_DL_I_;
-	InternalForces if_DL_II_;
-	InternalForces if_LL_;
-
-	InternalForces if_stage_I_;
-	InternalForces if_stage_II_;
-	InternalForces if_stage_total_;
 
 //Поля с результатами расчётов внутренних усилия для проверки упоров
 
-	InternalForcesNamedList internal_forces_studs_;
 	InternalForcesNamedList internal_forces_;
+	InternalForcesNamedList internal_forces_studs_;
 
 //Поля с результатами расчётов полей напряжений
 	StressesNamedList stresses_named_list_; //
@@ -140,6 +130,7 @@ private:
 
  // Расчёт коэффициентов использования
 
+	Ratios calculate_ratios(double M, Stresses stresses);
 	Ratios calculate_I_case(Impact impact, int cs_id);
 	Ratios calculate_II_case(Impact impact, int cs_id);
 	Ratios calculate_III_case(Impact impact, int cs_id);
