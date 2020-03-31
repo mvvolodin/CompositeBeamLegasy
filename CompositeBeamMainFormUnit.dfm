@@ -3203,7 +3203,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Height = 25
     Caption = #1051#1086#1075
     TabOrder = 6
-    Visible = False
     OnClick = btn_loggerClick
   end
   object BitBtn1: TBitBtn
