@@ -40,7 +40,10 @@ Rebar::Rebar(String grade, double R_sn, double E_s, double d_s, double b, double
 	a_l_(a_l),
 	gamma_s_(gamma_s)
 {
-   calc_A_s();
+}
+void Rebar::calculate()
+{
+	calc_A_s();
 }
 void Rebar::save(ostream& ostr) const
 {

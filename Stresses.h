@@ -9,20 +9,19 @@
 
 
 enum StressStateCase{ //придумать содержательные названия
-	UNDEFINED=1,
+	UNDEFINED = 1,
 	CASE_I,
 	CASE_II,
 	CASE_III,
-	PLASTIC,
 };
 //---------------------------------------------------------------------------
 struct Stresses{ //Как образуется множественная форма Stresses?
 
 private:
 
-	double sigma_b_=0.;//напряжения в бетоне на уровне центра тяжести плиты
-	double sigma_s_=0.;//напряжения в арматуре соответствующие деформациям в бетоне при напряжении sigma_b
-	StressStateCase stress_state_case_=UNDEFINED;
+	double sigma_b_ = 0.;//напряжения в бетоне на уровне центра тяжести плиты
+	double sigma_s_ = 0.;//напряжения в арматуре соответствующие деформациям в бетоне при напряжении sigma_b
+	StressStateCase stress_state_case_ = UNDEFINED;
 
 public:
 	Stresses();

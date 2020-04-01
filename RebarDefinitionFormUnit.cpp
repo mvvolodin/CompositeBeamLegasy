@@ -57,11 +57,11 @@ void TRebarDefinitionForm::set_rebar()
 	double a_l = 0.;
 	double safety_factor = 0.;
 
-	String_double_plus(lbl_diameter->Caption, edt_diameter->Text, &diameter);
+	String_double_zero_plus(lbl_diameter->Caption, edt_diameter->Text, &diameter);
 	String_double_plus(lbl_E_s->Caption, edt_E_s->Text, &E_s);
-	String_double_plus(lbl_diameter->Caption, edt_b->Text, &b);
-	String_double_plus(lbl_diameter->Caption, edt_a_u->Text, &a_u);
-	String_double_plus(lbl_diameter->Caption, edt_a_l->Text, &a_l);
+	String_double_zero_plus(lbl_b->Caption, edt_b->Text, &b);
+	String_double_zero_plus(lbl_a_u->Caption, edt_a_u->Text, &a_u);
+	String_double_zero_plus(lbl_a_l->Caption, edt_a_l->Text, &a_l);
 	String_double_plus(lbl_safety_factor->Caption, edt_safety_factor->Text, &safety_factor);
 	String grade = cmb_bx_rebar_grade->Text;
 	double R_s = StrToFloat(edt_R_s_n->Text);
