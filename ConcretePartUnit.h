@@ -28,7 +28,8 @@ public:
 	void calculate();
 	String get_slab_type() const {return slab_type_;}
 	SlabType get_slab_type_enum() const {return slab_type_enum_;}
-	Concrete get_concrete() const {return concrete_;}
+	Concrete& get_concrete() {return concrete_;}
+	const Concrete& get_concrete()const {return concrete_;}
 	Rebar get_rebar() const {return rebar_;}
 
 	double get_C_b(LengthUnit length_unit=LengthUnit::mm) const {return C_b_/static_cast<int>(length_unit);}

@@ -47,7 +47,6 @@ Concrete::Concrete(ConcreteBasic concrete_basic,
 						gamma_bt_     (gamma_bt),
 						epsilon_b_lim_(epsilon_b_lim)
 {
-	E_b_tau_calc();
 }
 void ConcreteBasic::save(ostream& ostr) const
 {
@@ -114,9 +113,14 @@ void Concrete::set_default_values()
 //-----------------------------------------------------------------------------
 //Расчёт модуля деформации бетона
 //-----------------------------------------------------------------------------
+void Concrete::calculate()
+{
+	E_b_tau_calc();
+}
 void Concrete::E_b_tau_calc()
 {
-  E_b_tau_=E_b_/(1+phi_b_cr_);
+   E_b_tau_ = E_b_/(1+phi_b_cr_);
 }
+
 
 

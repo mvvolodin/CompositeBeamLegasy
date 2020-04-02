@@ -83,7 +83,7 @@ void CompositeSection::compos_sect_area_calc()
 	double A_b=concrete_part_.get_A_b();
 	double A_st=steel_part_.get_section().get_A_st();
 	double A_s=concrete_part_.get_rebar().get_A_s();
-	int num_rows=concrete_part_.get_rebar().get_num_rows();
+	int num_rows = concrete_part_.get_rebar().get_num_rows();
 	double b_l=concrete_part_.get_b_l();
 	double b_r=concrete_part_.get_b_r();
 

@@ -39,6 +39,8 @@ void TCompositeBeam::set_default_values()
 	loads_.set_default_values();
 	working_conditions_factors_.set_default_values();
 	composite_section_.set_default_values();
+	composite_section2_ = composite_section_;
+	composite_section2_.get_concrete_part().get_concrete().set_phi_b_cr(0);
 	studs_.set_default_values();
 }
 //---------------------------------------------------------------------------
@@ -63,15 +65,22 @@ void TCompositeBeam::load(std::istream& istr)
 	working_conditions_factors_.load(istr);
 	composite_section_.load(istr);
 	studs_.load(istr);
-
 }
 //---------------------------------------------------------------------------
 //Расчёт композитной балки
 //---------------------------------------------------------------------------
 void TCompositeBeam::calculate()
 {
+
 	calculate_effective_width();
 	composite_section_.calculate();
+	composite_section2_ = composite_section_;
+	composite_section2_.get_concrete_part().get_concrete().set_phi_b_cr(0);
+	composite_section2_.calculate();
+
+	CompositeSection cs = composite_section_;
+	CompositeSection cs2 = composite_section2_;
+
 	calc_cs_coordinates();
 	calc_studs_coordinates();
 	calc_inter_forces();
@@ -746,20 +755,17 @@ double TCompositeBeam::get_max_abs_M(Impact impact)
 	double min_M = *min_element(M_list.begin(), M_list.end());
 
 	return std::max(std::abs(max_M), std::abs(min_M));
-
 }
 double TCompositeBeam::get_max_abs_Q(Impact impact)
 {
 
 }
-
 void TCompositeBeam::calc_shear_ratios()
 {
 	std::vector<double> Q {get_Q_list(Impact::Total)};
 	double Q_Rd = composite_section_.get_steel_part().get_Q_Rd();
 	for(auto Q_Ed: Q)
 		shear_ratios_.push_back(Q_Ed / Q_Rd);
-
 }
 //---------------------------------------------------------------------------
 //Определение координаты сечения с макисмальным моментом
@@ -911,7 +917,22 @@ double TCompositeBeam::get_M_total_for_cs_with_max_lower_flange_ratio(LoadUnit l
 	double x = get_max_lower_flange_ratio_coordinate();
 	return get_M(x, Impact::Total)/static_cast<int>(load_unit)/static_cast<int>(length_unit);
 }
-
+//---------------------------------------------------------------------------
+// Определение напряжения в бетоне в сечении с максимальным КИ нижнего пояса
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_sigma_b_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
+{
+	double x = get_max_lower_flange_ratio_coordinate();
+	return get_stresses(x, Impact::II_stage).get_sigma_b()/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);
+}
+//---------------------------------------------------------------------------
+// Определение напряжения в арматуре в сечении с максимальным КИ нижнего пояса
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_sigma_s_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
+{
+	double x = get_max_lower_flange_ratio_coordinate();
+	return get_stresses(x, Impact::II_stage).get_sigma_s()/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);
+}
 
 
 

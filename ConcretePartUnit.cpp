@@ -61,6 +61,7 @@ void TConcretePart::load(std::istream& istr)
 void TConcretePart::calculate()
 {
 	rebar_.calculate();
+	concrete_.calculate();
 
 	switch (slab_type_enum_)
 	{

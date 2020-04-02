@@ -23,38 +23,41 @@
 
 
 class TCompositeBeam{
-
+//---------------------------------------------------------------------------
 	enum class NA_Location{
 		CONCRETE,
 		UPPER_FLANGE,
 		WEB,
 		NO_SOLUTION
 	};
-
+//---------------------------------------------------------------------------
 	struct NeutralAxis{
 		NA_Location na_location_;
 		double x_na_; //Расстояние от наружней грани сталежелезобетонной балки до нейтральной оси
 	};
-
+//---------------------------------------------------------------------------
 	using StressesList=std::vector<Stresses> ;
 	using StressesNamedList=std::map<Impact, StressesList> ;
 	using StressesNamedListItem=std::pair <Impact, StressesList> ;
 	using StressesNamedListIterator=StressesNamedList::iterator ;
-
+//---------------------------------------------------------------------------
 public:
+//---------------------------------------------------------------------------
 	TCompositeBeam();
 	TCompositeBeam(TGeometry 				geometry,
 				   TLoads 					loads,
 				   CompositeSection         composite_section,
 				   Studs 					stud,
 				   WorkingConditionsFactors working_conditions_factors);
+
 	void set_default_values();
+
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
+
 	void calculate();
 
-	InternalForcesNamedList get_internal_forces_LC()const{return internal_forces_;}
-	std::vector<double> get_CS_coordinates()const {return cs_coordinates_;}
+//Функции доступа к полям
 
 	TGeometry get_geometry()const {return geometry_;}
 	TLoads get_loads()const {return loads_;}
@@ -62,26 +65,39 @@ public:
 	CompositeSection get_composite_section()const{return composite_section_;}
 	Studs get_studs()const {return studs_;}
 
+//Функции построения эпюр
+
+	InternalForcesNamedList get_internal_forces_LC()const{return internal_forces_;}
+	std::vector<double> get_CS_coordinates()const {return cs_coordinates_;}
+
 //Функции получения результатов расчёта для вывода в отчёт
 
-	double get_max_stud_ratio();
 	double get_max_upper_flange_ratio()const;
 	double get_max_lower_flange_ratio()const;
 	double get_max_upper_flange_ratio_coordinate() const;
 	double get_max_lower_flange_ratio_coordinate() const;
+
 	double get_M_I_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
 	double get_M_II_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
 	double get_M_total_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
 
-	double get_ratio_rigid_plastic() const {return ratio_rigid_plastic_;}
-	double get_max_shear_ratio() const {return *std::max_element(shear_ratios_.begin(),shear_ratios_.end());}
+	double get_sigma_b_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
+	double get_sigma_s_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
 
+	double get_max_shear_ratio() const {return *std::max_element(shear_ratios_.begin(),shear_ratios_.end());}
+	double get_max_stud_ratio();
+
+	double get_ratio_rigid_plastic() const {return ratio_rigid_plastic_;}
+//---------------------------------------------------------------------------
 private:
+//---------------------------------------------------------------------------
 //Поля с исходными данными
+
 	TGeometry geometry_; //src- исходные поля...dst - поля с результатами..... aSize,
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;
 	CompositeSection composite_section_;
+	CompositeSection composite_section2_;
 	Studs studs_;
 
 //Поля с результатами расчётов координат
