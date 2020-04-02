@@ -21,13 +21,14 @@
 #include "Ratios.h"
 #include "CorrugatedSheet.h"
 
+
 class TCompositeBeam{
 
 	enum class NA_Location{
-	CONCRETE,
-	UPPER_FLANGE,
-	WEB,
-	NO_SOLUTION
+		CONCRETE,
+		UPPER_FLANGE,
+		WEB,
+		NO_SOLUTION
 	};
 
 	struct NeutralAxis{
@@ -61,9 +62,17 @@ public:
 	CompositeSection get_composite_section()const{return composite_section_;}
 	Studs get_studs()const {return studs_;}
 
-	double get_max_upper_flange_ratio();
-	double get_max_lower_flange_ratio();
+//Функции получения результатов расчёта для вывода в отчёт
+
 	double get_max_stud_ratio();
+	double get_max_upper_flange_ratio()const;
+	double get_max_lower_flange_ratio()const;
+	double get_max_upper_flange_ratio_coordinate() const;
+	double get_max_lower_flange_ratio_coordinate() const;
+	double get_M_I_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
+	double get_M_II_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
+	double get_M_total_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
+
 	double get_ratio_rigid_plastic() const {return ratio_rigid_plastic_;}
 	double get_max_shear_ratio() const {return *std::max_element(shear_ratios_.begin(),shear_ratios_.end());}
 
@@ -153,6 +162,11 @@ private:
 //Функции доступа к напряжениям
 
 	Stresses get_stresses(double cs_coordinate, Impact impact);
+
+//Функции  доступа к КИ
+
+	double get_upper_flange_ratio_coordinate(double uf_ratio)const;
+	double get_lower_flange_ratio_coordinate(double lf_ratio)const;
 
 //Выовод в лог
 

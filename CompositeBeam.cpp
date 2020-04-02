@@ -85,13 +85,18 @@ void TCompositeBeam::calculate()
 
 	log_stresses();
 
-	get_max_upper_flange_ratio();
-	get_max_lower_flange_ratio();
+	double max_uf_rat = get_max_upper_flange_ratio();
+	double max_lf_rat = get_max_lower_flange_ratio();
 
 	double M_max = get_max_abs_M(Impact::Total);
 	double coord_M_max = get_max_abs_M_coordinate(Impact::Total);
 	Stresses stresses = get_stresses(coord_M_max, Impact::II_stage);
 	calculate_ratios(M_max, stresses);
+
+
+
+	double max_uf_rat_coord = get_upper_flange_ratio_coordinate(max_uf_rat);
+	double max_lf_rat_coord = get_lower_flange_ratio_coordinate(max_lf_rat);
 
   //	std::vector<double> M = get_M(cs_coordinates_, Impact::Total);
 
@@ -558,21 +563,21 @@ Ratios TCompositeBeam::calculate_ratios(double M, Stresses stresses)
 }
 
 
-double TCompositeBeam::get_max_upper_flange_ratio()
+double TCompositeBeam::get_max_upper_flange_ratio()const
 {
 	Ratios ratios = *max_element(ratios_cs_list_.begin(),
 								ratios_cs_list_.end(),
 								[](const Ratios& rat1, const Ratios& rat2)
-								{return rat1.get_ratio_upper_flange()<rat2.get_ratio_upper_flange();});
+								{return std::abs(rat1.get_ratio_upper_flange()) < std::abs(rat2.get_ratio_upper_flange());});
 
 	return ratios.get_ratio_upper_flange();
 }
-double TCompositeBeam::get_max_lower_flange_ratio()
+double TCompositeBeam::get_max_lower_flange_ratio()const
 {
 	Ratios ratios = *max_element(ratios_cs_list_.begin(),
 								ratios_cs_list_.end(),
 								[](const Ratios& rat1, const Ratios& rat2)
-								{return rat1.get_ratio_upper_flange()<rat2.get_ratio_upper_flange();});
+								{return std::abs(rat1.get_ratio_lower_flange()) < std::abs(rat2.get_ratio_lower_flange());});
 	return ratios.get_ratio_lower_flange();
 }
 
@@ -757,7 +762,7 @@ void TCompositeBeam::calc_shear_ratios()
 
 }
 //---------------------------------------------------------------------------
-//Получение координаты сечения с макисмальным моментом
+//Определение координаты сечения с макисмальным моментом
 //---------------------------------------------------------------------------
 double TCompositeBeam::get_max_abs_M_coordinate(Impact impact)
 {
@@ -776,7 +781,7 @@ double TCompositeBeam::get_max_abs_M_coordinate(Impact impact)
 }
 
 //---------------------------------------------------------------------------
-//Получение координаты сечения с макисмальной поперечной силой
+//Определение координаты сечения с макисмальной поперечной силой
 //---------------------------------------------------------------------------
 double TCompositeBeam::get_max_abs_Q_coordinate(Impact impact)
 {
@@ -794,7 +799,7 @@ double TCompositeBeam::get_max_abs_Q_coordinate(Impact impact)
 	return (std::abs(*max_Q) > std::abs(*min_Q)) ? cs_max_Q: cs_min_Q;
 }
 //---------------------------------------------------------------------------
-//Получение напряжений по координате и воздействию
+//Определение напряжений по координате и воздействию
 //---------------------------------------------------------------------------
 Stresses TCompositeBeam::get_stresses(double cs_coordinate, Impact impact)
 {
@@ -806,19 +811,20 @@ Stresses TCompositeBeam::get_stresses(double cs_coordinate, Impact impact)
 	return sl[index];
 }
 //---------------------------------------------------------------------------
-//Получение момента по координате и воздействию
+//Определение момента по координате и воздействию
 //---------------------------------------------------------------------------
  double TCompositeBeam::get_M(double cs_coordinate, Impact impact)
  {
-	InternalForces& intr_frcs = internal_forces_[impact];
+	const InternalForces& intr_frcs = internal_forces_.at(impact);
 
 	auto it = std::find(cs_coordinates_.begin(), cs_coordinates_.end(), cs_coordinate);
 	int index = std::distance(cs_coordinates_.begin(), it);
 
 	return intr_frcs.get_M()[index];
  }
+
  //---------------------------------------------------------------------------
-//Получение вектора моментов по вектору координат и воздействию
+//Определение вектора моментов по вектору координат и воздействию
 //---------------------------------------------------------------------------
 std::vector<double> TCompositeBeam::get_M(std::vector<double> cs_coordinates, Impact impact)
  {
@@ -830,7 +836,7 @@ std::vector<double> TCompositeBeam::get_M(std::vector<double> cs_coordinates, Im
 	return M_list;
  }
 //---------------------------------------------------------------------------
-//Получение поперечной силы по координате и воздействию
+//Определение поперечной силы по координате и воздействию
 //---------------------------------------------------------------------------
  double TCompositeBeam::get_Q(double cs_coordinate, Impact impact)
  {
@@ -841,6 +847,70 @@ std::vector<double> TCompositeBeam::get_M(std::vector<double> cs_coordinates, Im
 
 	return intr_frcs.get_Q()[index];
  }
+//---------------------------------------------------------------------------
+//Определение координаты по КИ верхнего пояса
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_upper_flange_ratio_coordinate(double uf_ratio)const
+{
+	auto it = find_if(ratios_cs_list_.begin(),ratios_cs_list_.end(),
+					  [uf_ratio](const Ratios& rat)
+					  {return rat.get_ratio_upper_flange() == uf_ratio;});
+	int index = std::distance(ratios_cs_list_.begin(), it);
+	return cs_coordinates_[index];
+}
+//---------------------------------------------------------------------------
+// Определение координаты сечения по КИ нижнего пояса
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_lower_flange_ratio_coordinate(double lf_ratio)const
+{
+	auto it = find_if(ratios_cs_list_.begin(),ratios_cs_list_.end(),
+					  [lf_ratio](const Ratios& rat)
+					  {return rat.get_ratio_lower_flange() == lf_ratio;});
+	int index = std::distance(ratios_cs_list_.begin(), it);
+	return cs_coordinates_[index];
+}
+//---------------------------------------------------------------------------
+// Определение координаты сечения с максимальным КИ верхнего пояса
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_max_upper_flange_ratio_coordinate()const
+{
+	const double x = get_max_upper_flange_ratio();
+
+	return get_upper_flange_ratio_coordinate(x);
+}
+//---------------------------------------------------------------------------
+// Определение координаты сечения с максимальным КИ нижнего пояса
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_max_lower_flange_ratio_coordinate()const
+{
+	const double x = get_max_lower_flange_ratio();
+
+	return get_lower_flange_ratio_coordinate(x);
+}
+//---------------------------------------------------------------------------
+// Определение изгибающего момента I стадии в сечении с максимальным КИ нижнего пояса
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_M_I_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
+{
+	double x = get_max_lower_flange_ratio_coordinate();
+	return get_M(x, Impact::I_stage)/static_cast<int>(load_unit)/static_cast<int>(length_unit);
+}
+//---------------------------------------------------------------------------
+// Определение изгибающего момента II стадии в сечении с максимальным КИ нижнего пояса
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_M_II_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
+{
+	double x = get_max_lower_flange_ratio_coordinate();
+	return get_M(x, Impact::II_stage)/static_cast<int>(load_unit)/static_cast<int>(length_unit);
+}
+//---------------------------------------------------------------------------
+// Определение полного изгибающего момента в сечении с максимальным КИ нижнего пояса
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_M_total_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
+{
+	double x = get_max_lower_flange_ratio_coordinate();
+	return get_M(x, Impact::Total)/static_cast<int>(load_unit)/static_cast<int>(length_unit);
+}
 
 
 

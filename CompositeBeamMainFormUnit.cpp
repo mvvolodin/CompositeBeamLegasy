@@ -619,26 +619,23 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(geometry.get_temporary_supports_number(),"%temp_supp%");
 
 
-//[2] Результаты расчёта
-//[2.1] Расчётное сечение
-
-
-//[2.2] Геометрические параметры
-//[2.2.1] Стального сечения
+//[2] Результаты расчёта балки
+//[2.1] Геометрические параметры
+//[2.1.1] Стального сечения
 	report_.PasteTextPattern(i_section.get_A_st(LengthUnit::cm),"%A_st%");
 	report_.PasteTextPattern(i_section.get_I_st(LengthUnit::cm),"%I_st%");
 	report_.PasteTextPattern(i_section.get_Wf2_st(LengthUnit::cm),"%Wf2_st%");
 	report_.PasteTextPattern(i_section.get_Wf1_st(LengthUnit::cm),"%Wf1_st%");
 	report_.PasteTextPattern(i_section.get_Z_f2_st(LengthUnit::cm),"%Z_f2_st%");
 	report_.PasteTextPattern(i_section.get_Z_f1_st(LengthUnit::cm),"%Z_f1_st%");
-//[2.2.2] Железобетонного сечения
+//[2.1.2] Железобетонного сечения
 	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
 	report_.PasteTextPattern(concrete_part.get_b_l(LengthUnit::cm),"%b_l%");
 	report_.PasteTextPattern(concrete_part.get_b_r(LengthUnit::cm),"%b_r%");
 	report_.PasteTextPattern(concrete_part.get_C_b(LengthUnit::cm),"%C_b%");
 	report_.PasteTextPattern(concrete_part.get_A_b(LengthUnit::cm),"%A_b%");
 	report_.PasteTextPattern(concrete_part.get_I_b(LengthUnit::cm),"%I_b%");
-//[2.2.3] Композитного сечения
+//[2.1.3] Композитного сечения
 	report_.PasteTextPattern(std::round(composite_section.get_A_red(LengthUnit::cm)),"%A_red%");
 	report_.PasteTextPattern(std::round(composite_section.get_I_red(LengthUnit::cm)),"%I_red%");
 	report_.PasteTextPattern(std::round(composite_section.get_W_b_red(LengthUnit::cm)),"%W_b_red%");
@@ -647,7 +644,23 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(std::round(composite_section.get_Z_b_red(LengthUnit::cm)),"%Z_b_red%");
 	report_.PasteTextPattern(std::abs(std::round(composite_section.get_Z_f2_red(LengthUnit::cm))),"%Z_f2_red%");
 	report_.PasteTextPattern(std::round(composite_section.get_Z_f1_red(LengthUnit::cm)),"%Z_f1_red%");
+//[2.2] Усилия
+	report_.PasteTextPattern(composite_beam_.get_max_lower_flange_ratio_coordinate(),"%cs_x%");
+	report_.PasteTextPattern(composite_beam_.get_M_I_for_cs_with_max_lower_flange_ratio(LoadUnit::kN, LengthUnit::m),"%M_I%");
+	report_.PasteTextPattern(composite_beam_.get_M_II_for_cs_with_max_lower_flange_ratio(LoadUnit::kN, LengthUnit::m),"%M_II%");
+	report_.PasteTextPattern(composite_beam_.get_M_total_for_cs_with_max_lower_flange_ratio(LoadUnit::kN, LengthUnit::m),"%M_total%");
 
+
+//[2.3] Напряжения
+
+//[2.4] Коэффициенты использования
+
+//%ratio_uf%
+//%ratio_lf%
+
+//%ratio_shear%
+
+//[3] Результаты расчёта конструкций объединения
 
 }
 
