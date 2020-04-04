@@ -35,11 +35,7 @@ class TCompositeBeam{
 		NA_Location na_location_;
 		double x_na_; //Расстояние от наружней грани сталежелезобетонной балки до нейтральной оси
 	};
-//---------------------------------------------------------------------------
-	using StressesList=std::vector<Stresses> ;
-	using StressesNamedList=std::map<Impact, StressesList> ;
-	using StressesNamedListItem=std::pair <Impact, StressesList> ;
-	using StressesNamedListIterator=StressesNamedList::iterator ;
+
 //---------------------------------------------------------------------------
 public:
 //---------------------------------------------------------------------------
@@ -114,9 +110,12 @@ private:
 
 //Поля с результатами расчётов полей напряжений
 
-	StressesNamedList stresses_named_list_; //
-	StressesNamedList stresses_named_list_studs_;
-	std::vector<double> S_; //Сдвигающие усилия по шву объединения железобетонной плиты и стальной балки
+	std::vector<Stresses> stresses_list_;
+	std::vector<Stresses> stresses_list_studs_;
+
+//Сдвигающие усилия по шву объединения железобетонной плиты и стальной балки
+
+	std::vector<double> S_;
 
 //Поля с результатами расчётов полей коэффициенты использования
 
@@ -135,8 +134,9 @@ private:
 	double calculate_cantilever_effective_width(double t_slc, double a,  double C, double l);
 
 //Расчёт координат
-	void calc_cs_coordinates(); //определение координат сечений для определения усилий требуемых для проверки балки
-	void calc_studs_coordinates(); // определение координат сечений для определения усилий требуемых для упоров
+	void calc_cs_coordinates();
+	void calc_studs_coordinates();
+	std::vector<double> intr_frcs_coordinates_for_studs_verification(std::vector<double> studs_coordinates_list);
 
 //Расчёт усилий
 
@@ -145,9 +145,8 @@ private:
 
  //Расчёт напряжений
 
-	void calculate_stresses(Impact impact);
-	Stresses calculate_stresses(double M);
-	std::vector<Stresses> calculate_stresses(std::vector<double> cs_coordinates);
+	Stresses calculate_stresses(double M, CompositeSection& cs);
+	std::vector<Stresses> calculate_stresses(std::vector<double>& cs_coordinates, CompositeSection& cs);
 
  // Расчёт коэффициентов использования сечений
 
@@ -177,7 +176,7 @@ private:
 
 //Функции доступа к напряжениям
 
-	Stresses get_stresses(double cs_coordinate, Impact impact);
+	Stresses get_stresses(double cs_coordinate);
 
 //Функции  доступа к КИ
 

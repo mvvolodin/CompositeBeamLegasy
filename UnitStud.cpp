@@ -208,29 +208,47 @@ int Studs::calculate_studs_transverse_rows_number(double L)
 //-----------------------------------------------------------------------------
 std::vector<double> Studs::calculate_coordinates(double L)
 {
-	const double L3 = L/3.0;
 	std::vector<double> stud_coordinates;
 
-	double a = edge_rows_dist_;
+	const double L3 = L/3;
+	double d_e = edge_rows_dist_;
+	double d_m = middle_rows_dist_;
 
-	int na = L3 / a + 1;
-	a = L3/na;
+	double eps = 0.01;
 
-	for (int i = 0; i < na; i++)
-		stud_coordinates.emplace_back(0 + a*i);
+	int n_e;
 
-	double b = middle_rows_dist_;
-	int nb = L3 / b + 1;
-	b = L3/nb;
+	if (static_cast<int>(L3) % static_cast<int>(d_e))
+		n_e = L3 / d_e + 1 ;
+	else
+		n_e = L3 / d_e;
 
-	for (int i = 0; i < nb; i++)
-		stud_coordinates.emplace_back(L3 + b*i);
+	d_e = L3 / n_e;
 
-	for (int i = 0; i < na; i++)
-		stud_coordinates.emplace_back(2*L3 + a*i);
+	int n_m;
+
+	if (static_cast<int>(L3) % static_cast<int>(d_m))
+		n_m = L3 / d_m +1 ;
+	else
+		n_m = L3 / d_m;
+
+	d_m = L3 /n_m;
+
+	double x;
+
+	for(x = 0; L3 - x > eps; x += d_e)
+		stud_coordinates.emplace_back(x);
+	for(x = L3; 2*L3 - x > eps; x += d_m)
+		stud_coordinates.emplace_back(x);
+	for(x = 2*L3; L - x > eps; x += d_e)
+		stud_coordinates.emplace_back(x);
 
 	stud_coordinates.emplace_back(L);
+
+	stud_coordinates.shrink_to_fit();
+
 	std::transform(stud_coordinates.begin(),stud_coordinates.end(),stud_coordinates.begin(),[](double coord){return std::round(coord);});
+
 	return stud_coordinates;
 }
 
