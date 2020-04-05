@@ -41,9 +41,10 @@ public:
 	void set_default_values();
 	void save(std::ostream& ostr)const;
 	void load(std::istream& istr);
+	void calculate(double L, double R_b, double R_y, double gamma_c);
 	std::vector<double> calculate_coordinates(double L);//определение координат размещения стад-болтов
-	int calculate_studs_transverse_rows_number(double L);//определение количества поперечных рядов стад-болтов
-	void calculate_capacity(double R_b, double R_y, double gamma_c);
+	//int calculate_studs_transverse_rows_number(double L);//определение количества поперечных рядов стад-болтов
+	double calculate_capacity(double R_b, double R_y, double gamma_c);
 	std::vector<double> calc_ratios(std::vector<double> S);//расчёт и возврат динамического массива КИ
 
 	double get_edge_rows_dist(LengthUnit length_unit=LengthUnit::mm) const
@@ -56,23 +57,26 @@ public:
 		{return middle_rows_num_;}
 	double get_gamma_c()const{return gamma_c_;}
 	double get_R_y()const{return R_y_;}
+	std::vector<double> get_coordinates_list()const{return coordinates_list_;}
+	double get_P_rd()const{return P_rd_;}
 
 private:
-	double edge_rows_dist_ = 180.;//Шаг упоров в крайних третях
-	double middle_rows_dist_ = 400.; //Шаг упоров в средней трети
-	double edge_rows_num_= 1.; // Количество рядов упоров в крайних третях
-	double middle_rows_num_ = 1.; //Количество рядов упоров в средней трети
-	double R_y_= 300. ; //Предел текучести
-	double gamma_c_ = 1.3; //Коэффициент условий работы
+	double edge_rows_dist_ = 0.;//Шаг упоров в крайних третях
+	double middle_rows_dist_ = 0.; //Шаг упоров в средней трети
+	double edge_rows_num_= 0.; // Количество рядов упоров в крайних третях
+	double middle_rows_num_ = 0.; //Количество рядов упоров в средней трети
+	double R_y_= 0. ; //Предел текучести
+	double gamma_c_ = 0.; //Коэффициент условий работы
 
+ //Поля с результатами расчётов
+	std::vector<double> coordinates_list_;//координаты упоров
 	double P_rd_ = 0.;
-	double P_rd_addition_ = 0.;//обозначение правой части формулы (9.7)
 
 };
 
-typedef std::pair <String, TStudBasic> TStudBasicPair;
-typedef std::map <String, TStudBasic> TStudBasicNamedList;
-typedef TStudBasicNamedList::iterator IteratorTStudBasicNamedList;
+using TStudBasicPair = std::pair <String, TStudBasic>;
+using TStudBasicNamedList = std::map <String, TStudBasic>;
+using IteratorTStudBasicNamedList = TStudBasicNamedList::iterator;
 
 extern TStudBasicNamedList stud_named_list;
 //---------------------------------------------------------------------------

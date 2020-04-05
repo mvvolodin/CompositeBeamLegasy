@@ -183,23 +183,16 @@ void TStudBasic::load_stud_basic(istream& istr)
 	buf =(wchar_t*) malloc(l*sizeof(wchar_t));
 	istr.read((char*)buf,l*sizeof(wchar_t));
 	name_ = String(buf);
-    free(buf);
+	free(buf);
 
 	istr.read((char*)&d_an_,sizeof(d_an_));
 	istr.read((char*)&l_,sizeof(l_));
 
 }
-//-----------------------------------------------------------------------------
-//Определение количества поперечных рядов стад-болтов
-//in:l-пролёт балки
-//out:количество поперечных рядов стад-болтов
-//-----------------------------------------------------------------------------
-int Studs::calculate_studs_transverse_rows_number(double L)
+void Studs::calculate(double L, double R_b, double R_y, double gamma_c)
 {
-	const double L3 = L/3.0;
-	int na = L3 / edge_rows_dist_ + 1; //добавляем единицу, чтобы шаг упоров гарантировано не превысил заданный максимальный шаг
-	int nb = L3 / middle_rows_dist_ + 1;
-	return na + nb + na + 1;
+	coordinates_list_ = calculate_coordinates(L);
+	P_rd_ = calculate_capacity(R_b, R_y, gamma_c);
 }
 //-----------------------------------------------------------------------------
 //Определение координат размещения стад-болтов
@@ -252,17 +245,20 @@ std::vector<double> Studs::calculate_coordinates(double L)
 	return stud_coordinates;
 }
 
-void Studs::calculate_capacity(double R_b, double R_y, double gamma_c)
+double Studs::calculate_capacity(double R_b, double R_y, double gamma_c)
 {
-	if ((2.5 <= l_/d_an_) && (l_/d_an_ <= 4.2)){ //возможен ли вариант, когда отношение l_/d_an_ меньше 2.5. Надо ли выводить информационное сообщение?
-		P_rd_=0.24*l_*d_an_*std::pow(10*R_b,0.5)*1000; //1000 перевод в Н, так как в СП кН
-	}
+	double P_rd1 = 0.;
+	double P_rd2 = 0.;
 
+	if ((2.5 <= l_ / d_an_) && (l_ /d_an_ <= 4.2)){ //возможен ли вариант, когда отношение l_/d_an_ меньше 2.5. Надо ли выводить информационное сообщение?
+		P_rd1 = 0.24 * l_/10 * d_an_/10 * std::pow(10 * R_b , 0.5) * 1000; //1000 перевод в Н, так как в СП кН
+	}
 	else if (l_/d_an_ > 4.2){
-		P_rd_=d_an_*d_an_*std::pow(10*R_b,0.5)*1000;
+		P_rd1 = d_an_/10 * d_an_/10 * std::pow(10 * R_b, 0.5) * 1000;
 	}
 
-	P_rd_addition_=0.063*d_an_*d_an_*gamma_c*R_y*1000;
+	P_rd2 = 0.063 * d_an_/10 * d_an_/10 * gamma_c * R_y *1000;
+	return std::min(P_rd1, P_rd2);
 }
 
 
@@ -270,7 +266,7 @@ std::vector<double> Studs::calc_ratios(std::vector<double> S)
 {
 	std::vector<double> ratios;
 	for(auto s:S)
-		ratios.emplace_back(s/std::min( P_rd_, P_rd_addition_));
+		ratios.emplace_back(s/P_rd_);
 	return ratios;
 }
 

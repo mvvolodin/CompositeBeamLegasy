@@ -662,6 +662,14 @@ void TCompositeBeamMainForm::generate_report()
 
 //[3] Результаты расчёта конструкций объединения
 
+//[3.1] Несущая способность упора
+  //%P_rd%
+
+  //[3.2] Усилия
+//  %cs_stud%
+//%S_h%
+ //  [3.3] Коэффициенты использования
+    //%ratio_stud%
 }
 
 //---------------------------------------------------------------------------
@@ -672,7 +680,6 @@ void TCompositeBeamMainForm::draw_diagram()
 	TImage *Image1=img_static_scheme;
 	//получаем вектор координат точек эпюры из объекта композитная балка
 	std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
-
 	InternalForces internal_forces = composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)];
 	//определим суммарное количество опор (временных и постоянных)
 	int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+

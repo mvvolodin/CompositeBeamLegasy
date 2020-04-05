@@ -72,6 +72,8 @@ void InternalForces::M_calc_simple_beam(double p, CS_Coordinates cs_coordinates,
 	double temp_M=0.0;
 	double l=cs_coordinates.back();
 
+	std::vector<double> cs = cs_coordinates;
+
 	double A=0.5*p*l;
 
 	for (int n = 0; n < cs_coordinates.size(); ++n)

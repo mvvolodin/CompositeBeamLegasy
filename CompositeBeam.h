@@ -100,6 +100,7 @@ private:
 
 	std::vector<double> cs_coordinates_;
 	std::vector<double> stud_coordinates_;//координаты расположения упоров
+	std::vector<double> S_coordinates_;
 	int cs_num_;//количество расчётных сечений.ВСЕ ЦИКЛЫ ДОЛЖНЫ ЕГО ПРИМЕНЯТЬ!!!!
 	int studs_num_;//количество поперечных рядов упоров.ВСЕ ЦИКЛЫ ДОЛЖНЫ ЕГО ПРИМЕНЯТЬ!!!!
 
@@ -115,7 +116,7 @@ private:
 
 //Сдвигающие усилия по шву объединения железобетонной плиты и стальной балки
 
-	std::vector<double> S_;
+	std::vector<double> S_h_list_;
 
 //Поля с результатами расчётов полей коэффициенты использования
 
@@ -135,28 +136,28 @@ private:
 
 //Расчёт координат
 	void calc_cs_coordinates();
-	void calc_studs_coordinates();
+	std::vector<double> S_coordinates(std::vector<double> studs_coordinates);
 	std::vector<double> intr_frcs_coordinates_for_studs_verification(std::vector<double> studs_coordinates_list);
 
 //Расчёт усилий
 
-	void calc_inter_forces_for_studs();
 	void calc_inter_forces();
+	std::vector<double> internal_forces_for_studs(std::vector<Stresses>& stresses);
 
  //Расчёт напряжений
 
 	Stresses calculate_stresses(double M, CompositeSection& cs);
-	std::vector<Stresses> calculate_stresses(std::vector<double>& cs_coordinates, CompositeSection& cs);
+	std::vector<Stresses> calculate_stresses(std::vector<double>& cs_coordinates, CompositeSection& cs, InternalForcesNamedList& intr_frcs);
 
  // Расчёт коэффициентов использования сечений
 
-	std::vector<Ratios> calculate_ratios(std::vector<double> cs_coordinates);
+	std::vector<Ratios> calculate_ratios(std::vector<double>& cs_coordinates, InternalForcesNamedList& intr_frcs);
 	Ratios calculate_ratios(double M, Stresses stresses);
 
  // Расчёт коэффициентов использования упоров
 
-	void calc_studs_ratios();
-	void calc_shear_ratios();
+	void calculate_studs_ratios();
+	void calculate_shear_ratios();
 
 // Расчёт коэффициентов использования жёстко-пластическая теория
 
@@ -167,8 +168,9 @@ private:
 //Функции доступа к усилиям
 
 	std::vector<double> get_M_list(Impact impact);
-	double get_M(double cs_coordinate, Impact impact);
-	std::vector<double> get_M(std::vector<double> cs_coordinates, Impact impact);
+	double get_M(double cs_coordinate, Impact impact, InternalForcesNamedList& intr_frcs_named_list, std::vector<double> cs_list);
+	double get_M_for_studs(double cs_coordinate, Impact impact);
+	std::vector<double> get_M(std::vector<double>& cs_coordinates, Impact impact, InternalForcesNamedList& intr_frcs_named_list);
 	std::vector<double> get_Q_list(Impact impact);
 	double get_max_abs_M(Impact impact);
 	double get_max_abs_Q(Impact impact);
