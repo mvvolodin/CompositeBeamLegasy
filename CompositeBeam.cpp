@@ -99,6 +99,8 @@ void TCompositeBeam::calculate()
 
 	S_h_list_ = internal_forces_for_studs(stresses_list_studs_);
 
+	std::vector<double> S_h_list_check = S_h_list_;
+
 	calculate_studs_ratios();
 
 	ratios_cs_list_ = calculate_ratios(cs_coordinates_, internal_forces_);
@@ -250,41 +252,30 @@ std::vector<double> TCompositeBeam::intr_frcs_coordinates_for_studs_verification
    return x_list;
 }
 //---------------------------------------------------------------------------
-//Расчёт внутренних моментов и сил
+//Расчёт сдвигающих сил
 //---------------------------------------------------------------------------
 std::vector<double> TCompositeBeam::internal_forces_for_studs(std::vector<Stresses>& stresses )
 {
-	std::vector<double> S_list;
+	std::vector<double> S_h_list;
+	double A_s = composite_section2_.get_concrete_part().get_rebar().get_A_s();
+	double A_b = composite_section2_.get_concrete_part().get_A_b();
 
-//	for(int i = 0; i<stresses.size(); ++i){//отступление от правила, что во всех циклах используется studs_num_
-//
-//		double S = 0.;
-//		double sigma_b_r = 0.;
-//		double sigma_s_r = 0.;
-//		double sigma_b_l = 0.;
-//		double sigma_s_l = 0.;
-//
-//		double A_s = composite_section_.get_concrete_part().get_rebar().get_A_s();
-//		double A_b = composite_section_.get_concrete_part().get_A_b();
-//
-//		sigma_b_r = stresses[i+1].get_sigma_b();
-//		sigma_s_r = stresses[i+1].get_sigma_s();
-//		sigma_b_l = stresses[i].get_sigma_b();
-//		sigma_s_l = stresses[i].get_sigma_s();
-//
-//		S_list.push_back((sigma_b_r * A_b + sigma_s_r * A_s) - (sigma_b_l * A_b + sigma_s_l * A_s));
-//	}
-	double A_s = composite_section_.get_concrete_part().get_rebar().get_A_s();
-	double A_b = composite_section_.get_concrete_part().get_A_b();
+	double sigma_b_r = 0.;
+	double sigma_s_r = 0.;
+	double sigma_b_l = 0.;
+	double sigma_s_l = 0.;
 
-	for(auto str: stresses)
+	for(auto it = stresses.begin()+1; it != stresses.end()-1; ++it)
 	{
-		double sigma_b = str.get_sigma_b();
-		double sigma_s = str.get_sigma_s();
-		S_list.push_back(sigma_b * A_b + sigma_s * A_s);
+		sigma_b_r = (*(it - 1)).get_sigma_b();
+		sigma_s_r = (*(it - 1)).get_sigma_s();
+		sigma_b_l = (*it).get_sigma_b();
+		sigma_s_l = (*it).get_sigma_s();
+
+		S_h_list.push_back((sigma_b_r * A_b + sigma_s_r * A_s) - (sigma_b_l * A_b + sigma_s_l * A_s));
 	}
-	//std::vector<double> S_list_check = S_list;
-	return S_list;
+
+	return S_h_list;
 }
 
 //---------------------------------------------------------------------------
@@ -623,15 +614,17 @@ void TCompositeBeam::calculate_studs_ratios()
 	std::vector<double> studs_coordinates_list = studs_.get_coordinates_list();
 	double L3 = geometry_.get_span() / 3;
 
-	int size_S_list = S_h_list_.size();
-	int size_studs_coordinates_list = studs_coordinates_list.size();
-
 	std::vector<double> ratios;
 
-	for(int i = 1; studs_coordinates_list[i] != studs_coordinates_list.back(); ++i)
+	int i = 0;
+
+	ratios.push_back(0.);//первый упор не проверяется, считается, что КИ = 0
+
+	for(auto it = studs_coordinates_list.begin()+1; it != studs_coordinates_list.end()-1; ++it)
 	{
+
 		double temp_ratio = 0.;
-		double S_h = (S_h_list_[i]-S_h_list_[i-1]);
+		double S_h = S_h_list_[i -1];
 
 		if (L3 <= studs_coordinates_list[i] <= 2 * L3)
 		{
@@ -643,6 +636,7 @@ void TCompositeBeam::calculate_studs_ratios()
 			temp_ratio = std::abs(S_h)/P_rd/num_e;
 			ratios.push_back(temp_ratio);
 		}
+		++i;
 	}
 	ratios_studs_ = ratios;
 }
@@ -957,6 +951,36 @@ double TCompositeBeam::get_sigma_s_for_cs_with_max_lower_flange_ratio(LoadUnit l
 	double x = get_max_lower_flange_ratio_coordinate();
 	return get_stresses(x).get_sigma_s()/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);
 }
+//---------------------------------------------------------------------------
+// Определение координаты упора с максимальным КИ
+//---------------------------------------------------------------------------
+double TCompositeBeam::get_max_stud_ratio_coordinate()
+{
+	double x = get_max_stud_ratio();
+
+	return get_stud_ratio_coordinate(x);
+
+}
+//---------------------------------------------------------------------------
+// Определение координаты упора по КИ
+//--------------------------------------------------------------------------
+double TCompositeBeam::get_stud_ratio_coordinate(double ratio)
+{
+	std::vector<double> studs_coordinates_list = studs_.get_coordinates_list();
+
+	auto it = find(ratios_studs_.begin(),ratios_studs_.end(),ratio);
+
+	int index = std::distance(ratios_studs_.begin(), it);
+	return studs_coordinates_list[index];
+}
+double TCompositeBeam::get_max_S_h(LoadUnit load_unit)
+{
+	double max_S_h = *std::max_element(S_h_list_.begin(),S_h_list_.end());
+	double min_S_h = *std::min_element(S_h_list_.begin(),S_h_list_.end());
+
+	return std::max(std::abs(max_S_h),std::abs(min_S_h))/static_cast<int>(load_unit);
+}
+
 
 
 

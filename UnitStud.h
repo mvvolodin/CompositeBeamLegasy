@@ -58,7 +58,7 @@ public:
 	double get_gamma_c()const{return gamma_c_;}
 	double get_R_y()const{return R_y_;}
 	std::vector<double> get_coordinates_list()const{return coordinates_list_;}
-	double get_P_rd()const{return P_rd_;}
+	double get_P_rd(LoadUnit load_unit=LoadUnit::N)const{return P_rd_/static_cast<int>(load_unit);}
 
 private:
 	double edge_rows_dist_ = 0.;//Шаг упоров в крайних третях

@@ -82,6 +82,9 @@ public:
 
 	double get_max_shear_ratio() const {return *std::max_element(shear_ratios_.begin(),shear_ratios_.end());}
 	double get_max_stud_ratio();
+	double get_max_stud_ratio_coordinate();
+	double get_max_S_h(LoadUnit load_unit=LoadUnit::N);
+
 
 	double get_ratio_rigid_plastic() const {return ratio_rigid_plastic_;}
 //---------------------------------------------------------------------------
@@ -175,6 +178,7 @@ private:
 	double get_max_abs_M(Impact impact);
 	double get_max_abs_Q(Impact impact);
 	double get_Q(double cs_coordinate, Impact impact);
+	double get_stud_ratio_coordinate(double ratio);
 
 //Функции доступа к напряжениям
 

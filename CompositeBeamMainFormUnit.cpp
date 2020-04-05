@@ -538,16 +538,16 @@ void __fastcall TCompositeBeamMainForm::NExitClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::generate_report()
 {
-	TWord_Automation report_=TWord_Automation("ReportCompositeBeam.docx");
-	TGeometry geometry=composite_beam_.get_geometry();
-	TLoads loads=composite_beam_.get_loads();
-	CompositeSection composite_section=composite_beam_.get_composite_section();
-	ISection i_section= composite_beam_.get_composite_section().get_steel_part().get_section();
-	TConcretePart concrete_part=composite_beam_.get_composite_section().get_concrete_part();
-	Concrete concrete=concrete_part.get_concrete();
-	Rebar rebar=concrete_part.get_rebar();
-	Steel steel=composite_beam_.get_composite_section().get_steel_grade();
-	Studs studs=composite_beam_.get_studs();
+	TWord_Automation report_ = TWord_Automation("ReportCompositeBeam.docx");
+	TGeometry geometry = composite_beam_.get_geometry();
+	TLoads loads = composite_beam_.get_loads();
+	CompositeSection composite_section = composite_beam_.get_composite_section();
+	ISection i_section = composite_beam_.get_composite_section().get_steel_part().get_section();
+	TConcretePart concrete_part = composite_beam_.get_composite_section().get_concrete_part();
+	Concrete concrete = concrete_part.get_concrete();
+	Rebar rebar = concrete_part.get_rebar();
+	Steel steel = composite_beam_.get_composite_section().get_steel_grade();
+	Studs studs = composite_beam_.get_studs();
 	WorkingConditionsFactors working_conditions_factors=composite_beam_.get_working_conditions_factors();
 
 //[1.1] Топология
@@ -663,13 +663,14 @@ void TCompositeBeamMainForm::generate_report()
 //[3] Результаты расчёта конструкций объединения
 
 //[3.1] Несущая способность упора
-  //%P_rd%
+  report_.PasteTextPattern(FloatToStrF(composite_beam_.get_studs().get_P_rd(LoadUnit::kN),ffFixed, 15, 2),"%P_rd%");
 
   //[3.2] Усилия
-//  %cs_stud%
-//%S_h%
+  report_.PasteTextPattern(FloatToStrF(composite_beam_.get_max_stud_ratio_coordinate(),ffFixed, 15, 2),"%cs_stud%");
+  report_.PasteTextPattern(FloatToStrF(composite_beam_.get_max_S_h(LoadUnit::kN),ffFixed, 15, 2),"%S_h%");
+
  //  [3.3] Коэффициенты использования
-    //%ratio_stud%
+	report_.PasteTextPattern(FloatToStrF(composite_beam_.get_max_stud_ratio(),ffFixed, 15, 2),"%ratio_stud%");
 }
 
 //---------------------------------------------------------------------------
