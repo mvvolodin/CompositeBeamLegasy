@@ -66,7 +66,7 @@ void TCompositeBeamMainForm::set_form_controls()
 	edt_span -> Text = geom.get_span();
 	edt_width_left -> Text = geom.get_trib_width_left();
 	edt_width_right -> Text = geom.get_trib_width_right();
-	cmb_bx_number_propping_supports -> Text = geom.get_temporary_supports_number();
+	cmb_bx_number_propping_supports -> ItemIndex = cmb_bx_number_propping_supports -> Items -> IndexOf(geom.get_temporary_supports_number());
 //Данные типа Loads
 	TLoads loads = composite_beam_.get_loads();
 	edt_dead_load_first_stage -> Text = loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m);
@@ -97,7 +97,8 @@ void TCompositeBeamMainForm::set_form_controls()
 		break;
 	case SlabType::CORRUGATED:
 		rdgrp_slab_type -> ItemIndex = 1;
-        cmb_bx_corrugated_sheeting_part_number -> Text = composite_beam_.get_composite_section().get_concrete_part().get_slab_type();
+		cmb_bx_corrugated_sheeting_part_number -> ItemIndex =
+			cmb_bx_corrugated_sheeting_part_number -> Items -> IndexOf(composite_beam_.get_composite_section().get_concrete_part().get_slab_type());
 		break;
 	}
 	edt_flat_slab_thickness -> Text = composite_beam_.get_composite_section().get_concrete_part().get_h_f();

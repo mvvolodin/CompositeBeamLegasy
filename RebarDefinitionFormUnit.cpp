@@ -44,7 +44,7 @@ void TRebarDefinitionForm::set_form_controls()
 	edt_a_u -> Text = rebar_temp_.get_a_u();
 	edt_a_l -> Text = rebar_temp_.get_a_l();
 	edt_safety_factor -> Text = rebar_temp_.get_gamma_s_();
-	cmb_bx_rebar_grade -> Text = rebar_temp_.get_grade();
+	cmb_bx_rebar_grade -> ItemIndex = cmb_bx_rebar_grade -> Items -> IndexOf(rebar_temp_.get_grade());
 
 }
 

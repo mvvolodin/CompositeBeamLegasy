@@ -64,7 +64,7 @@ void TConcreteDefinitionForm::set_concrete()
 //---------------------------------------------------------------------------
  void TConcreteDefinitionForm::set_form_controls()
  {
-	cmb_bx_concrete_grade_list->Text = concrete_temp_.get_grade();
+	cmb_bx_concrete_grade_list -> ItemIndex = cmb_bx_concrete_grade_list -> Items -> IndexOf(concrete_temp_.get_grade());
 	edt_R_bn->Text = concrete_temp_.get_R_bn();
 	edt_R_btn->Text = concrete_temp_.get_R_btn();
 	edt_E_b->Text = concrete_temp_.get_E_b();

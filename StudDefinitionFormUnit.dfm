@@ -87,6 +87,7 @@ object StudDefinitionForm: TStudDefinitionForm
       Top = 113
       Width = 48
       Height = 21
+      Style = csDropDownList
       ItemIndex = 0
       TabOrder = 2
       Text = '1'
@@ -99,6 +100,7 @@ object StudDefinitionForm: TStudDefinitionForm
       Top = 57
       Width = 48
       Height = 21
+      Style = csDropDownList
       ItemIndex = 0
       TabOrder = 3
       Text = '1'
@@ -147,6 +149,7 @@ object StudDefinitionForm: TStudDefinitionForm
       Top = 127
       Width = 100
       Height = 21
+      ReadOnly = True
       TabOrder = 0
     end
     object edt_stud_safety_factor: TEdit
@@ -168,6 +171,7 @@ object StudDefinitionForm: TStudDefinitionForm
       Top = 100
       Width = 100
       Height = 21
+      ReadOnly = True
       TabOrder = 3
     end
     object pnl_stud_part_number: TPanel
@@ -188,6 +192,7 @@ object StudDefinitionForm: TStudDefinitionForm
         Top = 12
         Width = 100
         Height = 21
+        Style = csDropDownList
         TabOrder = 0
         OnChange = cmb_bx_stud_part_numberChange
       end

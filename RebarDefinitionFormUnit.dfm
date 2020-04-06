@@ -71,6 +71,7 @@ object RebarDefinitionForm: TRebarDefinitionForm
       Top = 76
       Width = 121
       Height = 21
+      ReadOnly = True
       TabOrder = 1
     end
     object edt_safety_factor: TEdit
@@ -98,6 +99,7 @@ object RebarDefinitionForm: TRebarDefinitionForm
         Top = 11
         Width = 121
         Height = 21
+        Style = csDropDownList
         TabOrder = 0
         OnChange = cmb_bx_rebar_gradeChange
       end

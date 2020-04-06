@@ -79,12 +79,12 @@ void TDefineSteelForm::set_form_controls()
 	Edit_dens -> Text = steel_temp_.get_density();
 	Edit_gamma_m -> Text = steel_temp_.get_gamma_m();
 
-	String str = steel_temp_.get_standard();
-	cmb_bx_standard -> Text = str;
-	cmb_bx_standard -> ItemIndex = cmb_bx_standard -> Items -> IndexOf(str);
+  //	String str = steel_temp_.get_standard();
+	//cmb_bx_standard -> Text = str;
+	cmb_bx_standard -> ItemIndex = cmb_bx_standard -> Items -> IndexOf(steel_temp_.get_standard());
 	set_steel_standard();
 
-	cmb_bx_steel_grades -> Text = steel_temp_.get_steel_grade();
+	cmb_bx_steel_grades -> ItemIndex = cmb_bx_steel_grades -> Items -> IndexOf(steel_temp_.get_steel_grade());
     fill_grd_steel_data();
 
 }

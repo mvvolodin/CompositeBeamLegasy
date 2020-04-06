@@ -61,6 +61,7 @@ object DefineSteelForm: TDefineSteelForm
       Top = 8
       Width = 65
       Height = 21
+      Style = csDropDownList
       ItemIndex = 2
       TabOrder = 0
       Text = 'C255'
@@ -85,6 +86,7 @@ object DefineSteelForm: TDefineSteelForm
       Top = 8
       Width = 291
       Height = 21
+      Style = csDropDownList
       TabOrder = 1
       OnChange = cmb_bx_standardChange
     end

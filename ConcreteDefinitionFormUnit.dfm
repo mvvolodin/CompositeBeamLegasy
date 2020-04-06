@@ -20,7 +20,7 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
   end
   object lbl_E_b: TLabel
     Left = 8
-    Top = 139
+    Top = 111
     Width = 199
     Height = 13
     Caption = #1053#1072#1095#1072#1083#1100#1085#1099#1081' '#1084#1086#1076#1091#1083#1100' '#1091#1087#1088#1091#1075#1086#1089#1090#1080' Eb, '#1052#1055#1072':'
@@ -55,7 +55,7 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
   end
   object lbl_phi_b_cr: TLabel
     Left = 8
-    Top = 112
+    Top = 138
     Width = 174
     Height = 13
     Caption = #1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090' '#1087#1086#1083#1079#1091#1095#1077#1089#1090#1080' '#1073#1077#1090#1086#1085#1072':'
@@ -65,13 +65,15 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Top = 55
     Width = 100
     Height = 21
+    ReadOnly = True
     TabOrder = 0
   end
   object edt_E_b: TEdit
     Left = 333
-    Top = 135
+    Top = 108
     Width = 100
     Height = 21
+    ReadOnly = True
     TabOrder = 1
   end
   object edt_R_btn: TEdit
@@ -79,6 +81,7 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Top = 81
     Width = 100
     Height = 21
+    ReadOnly = True
     TabOrder = 2
   end
   object BtBtnConcreteChoice: TBitBtn
@@ -129,13 +132,14 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
       Top = 11
       Width = 100
       Height = 21
+      Style = csDropDownList
       TabOrder = 0
       OnChange = cmb_bx_concrete_grade_listChange
     end
   end
   object edt_phi_b_cr: TEdit
     Left = 333
-    Top = 108
+    Top = 135
     Width = 100
     Height = 21
     TabOrder = 8

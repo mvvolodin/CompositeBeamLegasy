@@ -74,15 +74,15 @@ void TStudDefinitionForm::set_studs()
 //---------------------------------------------------------------------------
 void TStudDefinitionForm::set_form_controls()
 {
-	cmb_bx_stud_part_number -> Text = studs_temp_.get_name();
+	cmb_bx_stud_part_number -> ItemIndex =  cmb_bx_stud_part_number -> Items -> IndexOf(studs_temp_.get_name());
 	edt_stud_yield_strength -> Text = studs_temp_.get_R_y();
 	edt_stud_diameter -> Text = studs_temp_.get_d_an();
 	edt_stud_height -> Text = studs_temp_.get_l();
 	edt_stud_safety_factor -> Text = studs_temp_.get_gamma_c();
 	edt_edge_studs_dist -> Text = studs_temp_.get_edge_rows_dist();
-	cmb_bx_edge_studs_rows_num -> Text = studs_temp_.get_edge_rows_num();
+	cmb_bx_edge_studs_rows_num -> ItemIndex =cmb_bx_edge_studs_rows_num -> Items -> IndexOf(studs_temp_.get_edge_rows_num());
 	edt_middle_studs_dist -> Text = studs_temp_.get_middle_rows_dist();
-	cmb_bx_middle_studs_rows_num -> Text = studs_temp_.get_middle_rows_num();
+	cmb_bx_middle_studs_rows_num -> ItemIndex =cmb_bx_middle_studs_rows_num -> Items -> IndexOf(studs_temp_.get_middle_rows_num());
 
 }
 
