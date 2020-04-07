@@ -31,6 +31,7 @@
 #include "StudDefinitionFormUnit.h"
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
+#include "USteelSectionForm.h"
 #include "LoggerFormUnit.h"
 #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
 #include "Word_Automation.h"
@@ -157,6 +158,7 @@ __published:	// IDE-managed Components
 	TImage *Image2;
 	TBitBtn *BitBtn1;
 	TLabel *lbl_number_propping_supports;
+	TButton *Button1;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -184,6 +186,7 @@ __published:	// IDE-managed Components
 	void __fastcall cmb_bx_corrugated_sheeting_part_numberChange(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
 	void __fastcall N8Click(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);

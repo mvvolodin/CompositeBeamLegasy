@@ -928,3 +928,9 @@ void __fastcall TCompositeBeamMainForm::N8Click(TObject *Sender)
 
 
 
+void __fastcall TCompositeBeamMainForm::Button1Click(TObject *Sender)
+{
+    SteelSectionForm2 -> Show();
+}
+//---------------------------------------------------------------------------
+

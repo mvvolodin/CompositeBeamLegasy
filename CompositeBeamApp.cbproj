@@ -335,6 +335,12 @@
             <DependentOn>UnitStud.h</DependentOn>
             <BuildOrder>42</BuildOrder>
         </CppCompile>
+        <CppCompile Include="USteelSectionForm.cpp">
+            <Form>SteelSectionForm2</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>USteelSectionForm.h</DependentOn>
+            <BuildOrder>50</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Word_Automation.cpp">
             <DependentOn>Word_Automation.h</DependentOn>
             <BuildOrder>48</BuildOrder>
@@ -356,6 +362,7 @@
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>
         <FormResources Include="LoggerFormUnit.dfm"/>
+        <FormResources Include="USteelSectionForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

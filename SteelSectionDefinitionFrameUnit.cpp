@@ -33,15 +33,15 @@ static TStandartProfil StandartProfil;
 //Конструктор заполняет таблицы названиями отображаемых геометрических параметров
 //---------------------------------------------------------------------------
 __fastcall TSteelSectionDefinitionFrame::TSteelSectionDefinitionFrame(TComponent* Owner)
-        : TFrame(Owner)
+		: TFrame(Owner)
 {
 
 	 StringGrid_B->Cells[0][0]="h (мм)";     //Двутавр
-     StringGrid_B->Cells[0][1]="bf (мм)";
-     StringGrid_B->Cells[0][2]="tw (мм)";
+	 StringGrid_B->Cells[0][1]="bf (мм)";
+	 StringGrid_B->Cells[0][2]="tw (мм)";
 	 StringGrid_B->Cells[0][3]="tf (мм)";
 	 StringGrid_B->Cells[0][4]="A (cм2)";
-     StringGrid_B->Cells[0][5]="Iyy (cм4)";
+	 StringGrid_B->Cells[0][5]="Iyy (cм4)";
 	 StringGrid_B->Cells[0][6]="iy (мм)";
 
 
@@ -76,8 +76,8 @@ int __fastcall TSteelSectionDefinitionFrame::Read_sect() {
 		ParamProfil = StandartProfil.GetVectorParamProfil(common_sect_.dvutavr.n_profil);
 		common_sect_.dvutavr.b = ParamProfil[2];
 		common_sect_.dvutavr.h = ParamProfil[0] - 2*ParamProfil[3];
-        common_sect_.dvutavr.b1 = ParamProfil[1];
-        common_sect_.dvutavr.b2 = ParamProfil[1];
+		common_sect_.dvutavr.b1 = ParamProfil[1];
+		common_sect_.dvutavr.b2 = ParamProfil[1];
 		common_sect_.dvutavr.h1 = ParamProfil[3];
 		common_sect_.dvutavr.h2 = ParamProfil[3];
 		common_sect_.dvutavr.flag_concl=true;
@@ -424,12 +424,12 @@ void  __fastcall TSteelSectionDefinitionFrame::Check_Modify() {
 						   Image_stand->Height);
 
       Image_stand->Canvas->Brush->Color = clWhite;
-      Image_stand->Canvas->FillRect(NewRect);
-      Image_stand->Canvas->Rectangle(0, 0, Image_stand->Width,
-                           Image_stand->Height);
+	  Image_stand->Canvas->FillRect(NewRect);
+	  Image_stand->Canvas->Rectangle(0, 0, Image_stand->Width,
+						   Image_stand->Height);
 
 	  DrawSect();
-      flag_sect_change=true;
+	  flag_sect_change=true;
 
 }
 //---------------------------------------------------------------------------
@@ -441,12 +441,12 @@ void __fastcall TSteelSectionDefinitionFrame::CheckChangeSect()
 	TObject *Sender;
 
 	if (flag_sect_change==true) {
-        // запрос на сохранение
+		// запрос на сохранение
 		text="Параметры сечения были изменены. Применить ?";
 		header="";
 		i=Application->MessageBox(text.c_str(),
                   header.c_str(),
-                  MB_YESNO | MB_ICONQUESTION);
+				  MB_YESNO | MB_ICONQUESTION);
         if (i==IDYES) Button_ApplyClick(Sender);
 	}
 }
@@ -455,7 +455,7 @@ void __fastcall TSteelSectionDefinitionFrame::CheckChangeSect()
 void __fastcall TSteelSectionDefinitionFrame::CheckBox1MouseDown(TObject *Sender,
       TMouseButton Button, TShiftState Shift, int X, int Y)
 {
-       Check_Modify();
+	   Check_Modify();
 }
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionDefinitionFrame::Edit1_Change(TObject *Sender) {
@@ -515,17 +515,17 @@ void __fastcall TSteelSectionDefinitionFrame::Change_type_sect(int index_profil,
 
 void __fastcall TSteelSectionDefinitionFrame::ComboBox_profilChange(TObject *Sender)
 {
-       double * ParamProfil;
-       ParamProfil = StandartProfil.GetVectorParamProfil(ComboBox_profil->ItemIndex);          //ComboBox_profil->Items
+	   double * ParamProfil;
+	   ParamProfil = StandartProfil.GetVectorParamProfil(ComboBox_profil->ItemIndex);          //ComboBox_profil->Items
 	   StringGrid_B->Cells[1][0]=FloatToStr(ParamProfil[parHSECT]);
-       StringGrid_B->Cells[1][1]=FloatToStr(ParamProfil[parBF]);
-       StringGrid_B->Cells[1][2]=FloatToStr(ParamProfil[parTW]);
+	   StringGrid_B->Cells[1][1]=FloatToStr(ParamProfil[parBF]);
+	   StringGrid_B->Cells[1][2]=FloatToStr(ParamProfil[parTW]);
        StringGrid_B->Cells[1][3]=FloatToStr(ParamProfil[parTF]);
-       StringGrid_B->Cells[1][4]=FloatToStrF(ParamProfil[parAREA]/100, ffFixed, 6, 0);
+	   StringGrid_B->Cells[1][4]=FloatToStrF(ParamProfil[parAREA]/100, ffFixed, 6, 0);
        StringGrid_B->Cells[1][5]=FloatToStrF(ParamProfil[parIZZ]/10000, ffFixed, 6, 0);
-       StringGrid_B->Cells[1][6]=FloatToStrF(ParamProfil[parIRADZ], ffFixed, 6, 1);
+	   StringGrid_B->Cells[1][6]=FloatToStrF(ParamProfil[parIRADZ], ffFixed, 6, 1);
 
-       DrawSect();
+	   DrawSect();
 
 }
 //---------------------------------------------------------------------------
@@ -564,7 +564,7 @@ void __fastcall TSteelSectionDefinitionFrame::RadioGroupGOST57837Click(
 
    ComboBox_profil->Items->Clear();
    for (i=0; i<n_profil; i++) {
-      ComboBox_profil->Items->Add(NameProfil[i]);
+	  ComboBox_profil->Items->Add(NameProfil[i]);
    }
    ComboBox_profil->ItemIndex = StandartProfil.Get_NumberProfil(&(common_sect_.dvutavr), 0);
    ComboBox_profilChange(Sender);
@@ -581,6 +581,7 @@ void TSteelSectionDefinitionFrame::fill_I_section_data()
       StandartProfil.SetParamProfil(&(common_sect_.dvutavr), ComboBox_profil->ItemIndex);
 }
 //---------------------------------------------------------------------------
+
 
 
 
