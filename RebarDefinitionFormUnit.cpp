@@ -29,11 +29,11 @@ void __fastcall TRebarDefinitionForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRebarDefinitionForm::cmb_bx_rebar_gradeChange(TObject *Sender)
 {
-	String grade=cmb_bx_rebar_grade->Text;
-	edt_R_s_n->Text=FloatToStr(rebar_named_list.find(grade)->second.get_R_sn());
+	String grade = cmb_bx_rebar_grade->Text;
+	edt_R_s_n -> Text=FloatToStr(rebar_named_list.find(grade) -> second.get_R_sn());
 }
 //---------------------------------------------------------------------------
-//ѕрисваивение значений пол€м формы из данных класс типа Studs
+//ѕрисваивение значений элементам управлени€ из пол€ класса типа Rebar
 //---------------------------------------------------------------------------
 void TRebarDefinitionForm::set_form_controls()
 {

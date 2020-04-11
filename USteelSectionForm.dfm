@@ -2,7 +2,7 @@ object SteelSectionForm2: TSteelSectionForm2
   Left = 0
   Top = 0
   BorderStyle = bsDialog
-  Caption = #1042#1099#1073#1086#1088' '#1089#1090#1072#1083#1100#1085#1086#1075#1086' '#1089#1077#1095#1077#1085#1080#1103
+  Caption = #1042#1099#1073#1086#1088' '#1089#1090#1072#1083#1100#1085#1086#1075#1086' '#1089#1077#1095#1077#1085#1080#1103'2'
   ClientHeight = 296
   ClientWidth = 461
   Color = clBtnFace
@@ -12,6 +12,7 @@ object SteelSectionForm2: TSteelSectionForm2
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object PageControl2: TPageControl
@@ -24,8 +25,6 @@ object SteelSectionForm2: TSteelSectionForm2
     object TabSheet_Standart: TTabSheet
       Caption = #1055#1088#1086#1082#1072#1090#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088' '#1043#1054#1057#1058' '#1056' 57837'
       ImageIndex = 1
-      ExplicitLeft = 12
-      ExplicitTop = 72
       object Label10: TLabel
         Left = 328
         Top = 2
@@ -46,6 +45,7 @@ object SteelSectionForm2: TSteelSectionForm2
         Width = 113
         Height = 21
         TabOrder = 0
+        OnChange = ComboBox_profilChange
       end
       object StringGrid_B: TStringGrid
         Left = 328
@@ -75,7 +75,7 @@ object SteelSectionForm2: TSteelSectionForm2
         Top = 18
         Width = 169
         Height = 172
-        ItemIndex = 2
+        ItemIndex = 0
         Items.Strings = (
           #1041#1072#1083#1086#1095#1085#1099#1081' '#1085#1086#1088#1084#1072#1083#1100#1085#1099#1081' ('#1041') '
           #1064#1080#1088#1086#1082#1086#1087#1086#1083#1086#1095#1085#1099#1081' ('#1064') '
@@ -84,6 +84,7 @@ object SteelSectionForm2: TSteelSectionForm2
           #1041#1072#1083#1086#1095#1085#1099#1081' '#1076#1086#1087#1086#1083#1085#1080#1090'. ('#1044#1041') '
           #1050#1086#1083#1086#1085#1085#1099#1081' '#1076#1086#1087#1086#1083#1085#1080#1090'. ('#1044#1050') ')
         TabOrder = 2
+        OnClick = RadioGroupGOST57837Click
       end
     end
   end
@@ -94,6 +95,7 @@ object SteelSectionForm2: TSteelSectionForm2
     Height = 25
     Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
     TabOrder = 1
+    OnClick = btk_okClick
   end
   object btn_cancel: TButton
     Left = 302
@@ -102,6 +104,7 @@ object SteelSectionForm2: TSteelSectionForm2
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1080#1090#1100
     TabOrder = 2
+    OnClick = btn_cancelClick
   end
   object btn_close: TButton
     Left = 383
@@ -110,5 +113,6 @@ object SteelSectionForm2: TSteelSectionForm2
     Height = 25
     Caption = #1047#1072#1082#1088#1099#1090#1100
     TabOrder = 3
+    OnClick = btn_closeClick
   end
 end

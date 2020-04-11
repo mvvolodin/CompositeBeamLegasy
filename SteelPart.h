@@ -6,7 +6,6 @@
 #include <iostream>
 #include <ostream>
 //---------------------------------------------------------------------------
-#include "ISectionInitialDataUnit.h"
 #include "ISection.h"
 #include "Steel.h"
 

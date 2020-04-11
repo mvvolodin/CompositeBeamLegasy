@@ -3,7 +3,6 @@
 #ifndef CompositeSectionH
 #define CompositeSectionH
 #include <ostream>
-#include "ISectionInitialDataUnit.h"
 #include "ISection.h"
 #include "ConcretePartUnit.h"
 #include "Steel.h"

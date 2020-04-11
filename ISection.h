@@ -7,18 +7,44 @@
 #include <ostream>
 #include <istream>
 //---------------------------------------------------------------------------
-#include "ISectionInitialDataUnit.h"
 #include "Units.h"
+#include "System.hpp"
+
+enum class ProfileGroup{
+	B,
+	SH,
+	K,
+	C,
+	DB,
+	DK,
+};
 
 class ISection{
 
 public:
 	ISection();
-	ISection(TISectionInitialData i_section_initial_data);
+	ISection(String  profile_number,
+			ProfileGroup profile_group,
+			double b_uf,
+			double t_uf,
+			double b_lf,
+			double t_lf,
+			double h_w,
+			double t_w,
+			double h_st,
+			double r,
+			double weight,
+			double Z_f2_st,
+			double Z_f1_st,
+			double A_st,
+			double I_st,
+			double Wf2_st,
+			double Wf1_st);
 	void save(std::ostream& ostr)const;
 	void load(std::istream& istr);
 	void set_default_values();
 	String get_profile_number()const {return profile_number_;}
+	ProfileGroup get_profile_group()const {return profile_group_;}
 	double get_b_uf(LengthUnit length_unit=LengthUnit::mm) const {return b_uf_/static_cast<int>(length_unit);}
 	double get_t_uf(LengthUnit length_unit=LengthUnit::mm) const {return t_uf_/static_cast<int>(length_unit);}
 	double get_b_lf(LengthUnit length_unit=LengthUnit::mm) const {return b_lf_/static_cast<int>(length_unit);}
@@ -40,6 +66,7 @@ public:
 
 private:
 	String profile_number_;
+	ProfileGroup profile_group_;
 	double b_uf_ = 0.;
 	double t_uf_ = 0.;
 	double b_lf_ = 0.;

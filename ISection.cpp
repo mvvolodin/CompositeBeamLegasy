@@ -7,26 +7,42 @@
 #pragma package(smart_init)
 
 ISection::ISection(){};
+							// 0- h, 1-b, 2-s, 3-t, 4-A, 5-P, 6-Iy, 7-Wy, 8-Sy, 9-iy, 10-Iz, 11-Wz, 12-iz, 13-R
+ISection::ISection(String  profile_number,
+					ProfileGroup profile_group,
+					double b_uf,
+					double t_uf,
+					double b_lf,
+					double t_lf,
+					double h_w,
+					double t_w,
+					double h_st,
+					double r,
+					double weight,
+					double Z_f2_st,
+					double Z_f1_st,
+					double A_st,
+					double I_st,
+					double Wf2_st,
+					double Wf1_st):
+					profile_number_(profile_number),
+					profile_group_(profile_group),
+					b_uf_(b_uf),
+					t_uf_(t_uf),
+					b_lf_(b_lf),
+					t_lf_(t_lf),
+					h_w_(h_w),
+					t_w_(t_w),
+					h_st_(h_st),
+					r_(r),
+					weight_(weight),
+					Z_f2_st_(Z_f2_st),
+					Z_f1_st_(Z_f1_st),
+					A_st_(A_st),
+					I_st_(I_st),
+					Wf2_st_(Wf2_st),
+					Wf1_st_(Wf1_st){}
 
-ISection::ISection(TISectionInitialData i_section_initial_data)
-{
-	 profile_number_=i_section_initial_data.profile_number_;
-	 b_uf_= i_section_initial_data.b_uf_;
-	 t_uf_= i_section_initial_data.t_uf_;
-	 b_lf_= i_section_initial_data.b_lf_;
-	 t_lf_= i_section_initial_data.t_lf_;
-	 h_w_= i_section_initial_data.h_w_;
-	 t_w_= i_section_initial_data.t_w_;
-	 A_st_=i_section_initial_data.Ast;
-	 I_st_=i_section_initial_data.Ist;
-	 h_st_=i_section_initial_data.Hsect;
-	 r_= i_section_initial_data.r_;
-	 weight_=i_section_initial_data.weight_;
-	 Z_f2_st_=i_section_initial_data.Z_f2_st;
-	 Z_f1_st_=i_section_initial_data.Z_f1_st;
-	 Wf2_st_=i_section_initial_data.Wf2_st;
-	 Wf1_st_=i_section_initial_data.Wf2_st;
-}
 void ISection::save(std::ostream& ostr)const
 {
 	wchar_t* buf = profile_number_.w_str();

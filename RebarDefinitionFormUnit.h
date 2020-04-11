@@ -57,7 +57,7 @@ public:		// User declarations
 	__fastcall TRebarDefinitionForm(TComponent* Owner);
 	void set_form_controls(Rebar rebar);
 	Rebar get_rebar() const {return rebar_temp_;}
-	void register_observer(IObserver_* iobserver);
+	void register_observer(IObserver_* iobserver)override;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TRebarDefinitionForm *RebarDefinitionForm;

@@ -3205,6 +3205,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Height = 25
     Caption = #1051#1086#1075
     TabOrder = 6
+    Visible = False
     OnClick = btn_loggerClick
   end
   object BitBtn1: TBitBtn
@@ -3214,15 +3215,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Height = 1
     Caption = 'BitBtn1'
     TabOrder = 7
-  end
-  object Button1: TButton
-    Left = 394
-    Top = 559
-    Width = 127
-    Height = 25
-    Caption = 'SteelSectionForm2 run'
-    TabOrder = 8
-    OnClick = Button1Click
   end
   object MainMenu1: TMainMenu
     Images = ImageList1

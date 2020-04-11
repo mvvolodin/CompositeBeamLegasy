@@ -27,11 +27,11 @@
 
 
 #include "CompositeBeam.h"//Подключаем логику
-#include "DefineSteelFormUnit.h"
 #include "StudDefinitionFormUnit.h"
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
 #include "USteelSectionForm.h"
+#include "DefineSteelFormUnit.h"
 #include "LoggerFormUnit.h"
 #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
 #include "Word_Automation.h"
@@ -158,7 +158,6 @@ __published:	// IDE-managed Components
 	TImage *Image2;
 	TBitBtn *BitBtn1;
 	TLabel *lbl_number_propping_supports;
-	TButton *Button1;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -197,7 +196,7 @@ private:
 
 	TGeometry init_geomet();//Инициализация топологии
 	TLoads init_loads(); //Инициализация нагрузок
-	TISectionInitialData init_i_section();//Инициализация объекта геометрия двутавра
+	ISection init_i_section();//Инициализация объекта геометрия двутавра
 	Steel init_steel_i_section(); //Инициализация стали двутавра
 	TConcretePart init_concrete_part();//Инициализация бетонной части композитного сечения
 	SteelPart init_steel_part();

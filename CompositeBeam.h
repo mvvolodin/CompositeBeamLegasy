@@ -10,7 +10,6 @@
 #include "GeometryUnit.h"
 #include "LoadsUnit.h"
 
-#include "ISectionInitialDataUnit.h"
 #include "Steel.h"
 #include "CompositeSection.h"
 #include "InternalForces.h"

@@ -11,7 +11,6 @@
 
 #include "CompositeBeamMainFormUnit.h"
 #include "String_doubleUnit.h"  //Функции проверяющие правильность ввода данных в поля формы
-#include "SteelSectionFormUnit.h"
 #include "Report.h" //Подключаем генератор отчётов
 #include "Word_Automation.h"  // Вывод отчета в Word
 #include "AboutProg.h"
@@ -44,12 +43,12 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 
 	NNewClick(Sender);
 
-	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837->ItemIndex=0;
-	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837Click(Sender);
-	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame
-	->ComboBox_profil->Text;
-	DefineSteelForm->cmb_bx_steel_gradesChange(Sender);
-	pnl_steel->Caption = DefineSteelForm -> cmb_bx_steel_grades->Text;
+//	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837->ItemIndex=0;
+//	SteelSectionForm->SteelSectionDefinitionFrame->RadioGroupGOST57837Click(Sender);
+//	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame
+//	->ComboBox_profil->Text;
+   //	DefineSteelForm->cmb_bx_steel_gradesChange(Sender);
+   //	pnl_steel->Caption = DefineSteelForm -> cmb_bx_steel_grades->Text;
 	rdgrp_slab_typeClick(Sender);
 
 	calculate_composite_beam();
@@ -87,6 +86,7 @@ void TCompositeBeamMainForm::set_form_controls()
 	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> get_studs().get_name();
 	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> get_rebar().get_grade();
 	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> get_concrete().get_grade();
+	Pnl_SteelSectionViewer -> Caption = SteelSectionForm2 -> get_i_section().get_profile_number();
 
 //Данные для плиты
 
@@ -116,8 +116,8 @@ void TCompositeBeamMainForm::set_form_controls()
 
 //Данные типа Steel
 	DefineSteelForm -> set_form_controls(composite_beam_.get_composite_section().get_steel_part().get_steel());
-
-
+//Данные типа Section
+	SteelSectionForm2 -> set_form_controls(composite_beam_.get_composite_section().get_steel_part().get_section());
 
 }
 void TCompositeBeamMainForm::register_observers()
@@ -127,7 +127,7 @@ void TCompositeBeamMainForm::register_observers()
 	ipublishers.push_back(StudDefinitionForm);
 	ipublishers.push_back(ConcreteDefinitionForm);
 	ipublishers.push_back(DefineSteelForm);
-	ipublishers.push_back(SteelSectionForm);
+	ipublishers.push_back(SteelSectionForm2);
 	for(auto ip:ipublishers)
 	ip -> register_observer(this);
 
@@ -169,7 +169,7 @@ TLoads TCompositeBeamMainForm::init_loads()
 	if (rdgrp_slab_type->ItemIndex==1)
 		SW_sheets = corrugated_sheets_map[cmb_bx_corrugated_sheeting_part_number->Text].get_weight()* GRAV_ACCELERAT;
 
-	double SW = SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr.weight * GRAV_ACCELERAT;
+	double SW = SteelSectionForm2 -> get_i_section().get_weight() * GRAV_ACCELERAT;
 
 	double DL_I = 0.;
 	double DL_II = 0.;
@@ -192,9 +192,9 @@ TLoads TCompositeBeamMainForm::init_loads()
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
 //---------------------------------------------------------------------------
-TISectionInitialData TCompositeBeamMainForm::init_i_section()
+ISection TCompositeBeamMainForm::init_i_section()
 {
-	return TISectionInitialData (&(SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr));
+	return SteelSectionForm2 -> get_i_section();
 }
 //---------------------------------------------------------------------------
 //	Инициализация материала двутавра
@@ -209,8 +209,8 @@ Steel TCompositeBeamMainForm::init_steel_i_section()
 TConcretePart TCompositeBeamMainForm::init_concrete_part()
 {
 	TGeometry geometry = init_geomet();
-	TISectionInitialData init_i_section = &(SteelSectionForm->SteelSectionDefinitionFrame->common_sect_.dvutavr);
-	double b_uf = init_i_section.b_uf_;
+	ISection i_section = SteelSectionForm2 -> get_i_section();
+	double b_uf = i_section.get_b_uf();
 
 	if (rdgrp_slab_type->ItemIndex==0)
 	{
@@ -241,10 +241,10 @@ TConcretePart TCompositeBeamMainForm::init_concrete_part()
 SteelPart TCompositeBeamMainForm::init_steel_part()
 {
 
-   TISectionInitialData i_section_initial_data=init_i_section();
-   Steel steel_i_section=init_steel_i_section();
+   ISection i_section = init_i_section();
+   Steel steel_i_section = init_steel_i_section();
 
-	return SteelPart(ISection(i_section_initial_data), steel_i_section);
+	return SteelPart(i_section, steel_i_section);
 }
 //---------------------------------------------------------------------------
 //	Инициализация упоров
@@ -493,8 +493,7 @@ void __fastcall TCompositeBeamMainForm::BtBtnSteelChoiceClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::BtnSteelSectionChoiceClick(TObject *Sender)
 {
-	SteelSectionForm->ShowModal();
-	Pnl_SteelSectionViewer->Caption = SteelSectionForm->SteelSectionDefinitionFrame->ComboBox_profil->Text;
+	SteelSectionForm2 -> Show();
 }
 //---------------------------------------------------------------------------
 
@@ -895,7 +894,7 @@ void TCompositeBeamMainForm::update(IPublisher* ipublisher )
 			OnControlsChange(nullptr);
 			break;
 		case(Publisher_ID::SECTION_FORM):
-			pnl_steel -> Caption = ipublisher -> get_information();
+			Pnl_SteelSectionViewer -> Caption = ipublisher -> get_information();
 			OnControlsChange(nullptr);
 			break;
 	}
