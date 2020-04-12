@@ -542,6 +542,7 @@ void __fastcall TCompositeBeamMainForm::NExitClick(TObject *Sender)
 void TCompositeBeamMainForm::generate_report()
 {
 	TWord_Automation report_ = TWord_Automation("ReportCompositeBeam.docx");
+	//TWord_Automation report_ = TWord_Automation("ReportCompositeBeam.doc");
 	TGeometry geometry = composite_beam_.get_geometry();
 	TLoads loads = composite_beam_.get_loads();
 	CompositeSection composite_section = composite_beam_.get_composite_section();

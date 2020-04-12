@@ -42,7 +42,7 @@ void TWord_Automation::GetActiveWord()
           // -- не удается отыскать активный объект Word
           // -- сформировать новый объект
           try {
-              my_word = Variant::CreateObject("word.application");
+			  my_word = Variant::CreateObject("word.application");
 		  }
 		  catch (...) {
 			// -- не удается создать новый объект Word
