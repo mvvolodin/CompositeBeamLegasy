@@ -661,7 +661,7 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(FloatToStrF(composite_beam_.get_max_upper_flange_ratio(),ffFixed, 15, 2),"%ratio_uf%");
 	report_.PasteTextPattern(FloatToStrF(composite_beam_.get_max_lower_flange_ratio(),ffFixed, 15, 2),"%ratio_lf%");
 	report_.PasteTextPattern(FloatToStrF(composite_beam_.get_max_lower_flange_ratio(),ffFixed, 15, 2),"%ratio_lf%");
-//%ratio_shear%
+	report_.PasteTextPattern(FloatToStrF(composite_beam_.get_max_shear_ratio(),ffFixed, 15, 2),"%ratio_shear%");
 
 //[3] Результаты расчёта конструкций объединения
 
