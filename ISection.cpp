@@ -51,6 +51,7 @@ void ISection::save(std::ostream& ostr)const
 	ostr.write((char*)buf,l*sizeof(wchar_t));
     free(buf);
 
+	ostr.write((char*)&profile_group_ ,sizeof(profile_group_));
 	ostr.write((char*)&b_uf_ ,sizeof(b_uf_));
 	ostr.write((char*)&t_uf_ ,sizeof(t_uf_));
 	ostr.write((char*)&b_lf_ ,sizeof(b_lf_));
@@ -77,6 +78,7 @@ void ISection::load(std::istream& istr)
 	profile_number_ = String(buf);
 	free(buf);
 
+	istr.read((char*)&profile_group_ ,sizeof(profile_group_));
 	istr.read((char*)&b_uf_ ,sizeof(b_uf_));
 	istr.read((char*)&t_uf_ ,sizeof(t_uf_));
 	istr.read((char*)&b_lf_ ,sizeof(b_lf_));

@@ -455,23 +455,26 @@ void TCompositeBeamMainForm:: cotr_ratios_grid()
 	strng_grd_results->Cells [0][3]="Поперечная силы, раздел 6.2.2";
 	strng_grd_results->Cells [0][4]="Прочность упоров объединения, раздел 9.1.2";
 	strng_grd_results->Cells [0][5]="Прочность балки при жёскопластическом материале раздел 6.2.1.6";
-
-
 }
 //---------------------------------------------------------------------------
 //	Функция заполняющая ComboBox случаями загружений
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::fill_cmb_bx_impact()
 {
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_BEAM), "Собственный вес балки");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_SHEETS), "Собственный вес настила");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная нагрузка I стадия");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная нагрузка II стадия");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::LL), "Временная нагрузка II стадии");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::I_stage), "Расчётные нагрузки I стадии");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::II_stage), "Расчётные нагрузки II стадии");
-	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::Total), "Расчётные нагрузки");
-	cmb_bx_impact->ItemIndex = (int)Impact::SW_BEAM;
+//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_BEAM), "Собственный вес балки");
+//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_SHEETS), "Собственный вес настила");
+//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная нагрузка I стадия");
+//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная нагрузка II стадия");
+//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::LL), "Временная нагрузка II стадии");
+//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::I_stage), "Расчётные нагрузки I стадии");
+//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::II_stage), "Расчётные нагрузки II стадии");
+//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::Total), "Расчётные нагрузки");
+//	cmb_bx_impact->ItemIndex = (int)Impact::SW_BEAM;
+	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки I стадии");
+	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки II стадии");
+	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки полные");
+
+	cmb_bx_impact -> ItemIndex = 2;
 }
 //---------------------------------------------------------------------------
 //	Функция заполняющая ComboBox настилами
@@ -681,7 +684,22 @@ void TCompositeBeamMainForm::draw_diagram()
 	TImage *Image1=img_static_scheme;
 	//получаем вектор координат точек эпюры из объекта композитная балка
 	std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
-	InternalForces internal_forces = composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)];
+
+	InternalForces internal_forces;
+
+	switch (cmb_bx_impact->ItemIndex)
+	{
+	case(0): // Расчётные нагрузки I стадии
+		internal_forces = composite_beam_.get_internal_forces_LC()[Impact::I_stage];
+		break;
+	case(1): // Расчётные нагрузки II стадии
+		internal_forces = composite_beam_.get_internal_forces_LC()[Impact::II_stage];
+		break;
+	case(2): // Расчётные нагрузки полные
+        internal_forces = composite_beam_.get_internal_forces_LC()[Impact::Total];
+		break;
+	}
+	//InternalForces internal_forces = composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)];
 	//определим суммарное количество опор (временных и постоянных)
 	int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
 	internal_forces.get_num_temp_supports();
@@ -836,13 +854,28 @@ void __fastcall TCompositeBeamMainForm::NOpenClick(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-
+void TCompositeBeamMainForm::clean_static_scheme()
+{
+	img_static_scheme -> Canvas -> Brush -> Color = clWhite;
+	img_static_scheme -> Canvas->FillRect (img_static_scheme -> Canvas -> ClipRect);
+}
+void TCompositeBeamMainForm::clean_grid(TStringGrid* str_grd)
+{
+	for(int i =1; i < str_grd -> RowCount; ++i)
+	   str_grd -> Cells [1][i] = "";
+}
 void __fastcall TCompositeBeamMainForm::OnControlsChange(TObject *Sender)
 {
 	if (btn_report->Enabled)
 		btn_report->Enabled=false;
 	if(tb_results->TabVisible)
 		tb_results->TabVisible=false;
+	clean_static_scheme();
+	clean_grid(strng_grd_compos_sect_geom_character);
+	clean_grid(strng_grd_concrete_sect_geom_character);
+	clean_grid(strng_grd_steel_sect_geom_character);
+	clean_grid(strng_grd_results);
+
 }
 //---------------------------------------------------------------------------
 
@@ -921,15 +954,4 @@ void __fastcall TCompositeBeamMainForm::N8Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
-
-//---------------------------------------------------------------------------
-
-
-
-
-void __fastcall TCompositeBeamMainForm::Button1Click(TObject *Sender)
-{
-    SteelSectionForm2 -> Show();
-}
-//---------------------------------------------------------------------------
 

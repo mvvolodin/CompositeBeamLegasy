@@ -19,7 +19,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   TextHeight = 13
   object lbl_beam_division: TLabel
     Left = 543
-    Top = 567
+    Top = 557
     Width = 90
     Height = 13
     Caption = #1056#1072#1079#1073#1080#1077#1085#1080#1077' '#1073#1072#1083#1082#1080':'
@@ -86,7 +86,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   end
   object edt_beam_division: TEdit
     Left = 639
-    Top = 563
+    Top = 557
     Width = 42
     Height = 21
     Hint = #1042#1074#1077#1076#1080#1090#1077' '#1082#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1089#1077#1095#1077#1085#1080#1081' '#1073#1072#1083#1082#1080' '#1076#1083#1103' '#1087#1088#1086#1074#1077#1088#1082#1080
@@ -128,7 +128,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -3094,7 +3094,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 3
           Width = 426
           Height = 393
-          ActivePage = tb_sht_composite_geom_char
+          ActivePage = tb_sht_steel_geom_char
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1050#1086#1084#1087#1086#1079#1080#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
@@ -3207,14 +3207,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     TabOrder = 6
     Visible = False
     OnClick = btn_loggerClick
-  end
-  object BitBtn1: TBitBtn
-    Left = 584
-    Top = 576
-    Width = 49
-    Height = 1
-    Caption = 'BitBtn1'
-    TabOrder = 7
   end
   object MainMenu1: TMainMenu
     Images = ImageList1

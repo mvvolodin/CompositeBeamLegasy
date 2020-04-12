@@ -380,7 +380,7 @@ int Get_Mater_param(char *Msteel, MATER_PARAM* mater_param) {
 	  Fill_mater_param(Msteel, N_C355_K, steelC355_K, tC355_K, mater_param);
 	  rc = 0;
    }
-   if (strcmp(Msteel,"C355-Ï")==0) {
+   if (strcmp(Msteel,"C355Ï")==0) {
 	  Fill_mater_param(Msteel, N_C355_P, steelC355_P, tC355_P, mater_param);
 	  rc = 0;
    }

@@ -44,6 +44,7 @@ object SteelSectionForm2: TSteelSectionForm2
         Top = 18
         Width = 113
         Height = 21
+        Style = csDropDownList
         TabOrder = 0
         OnChange = ComboBox_profilChange
       end

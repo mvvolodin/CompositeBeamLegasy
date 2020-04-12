@@ -156,7 +156,6 @@ __published:	// IDE-managed Components
 	TLabel *lbl_h_f;
 	TLabel *lbl_corrugated_sheet_type;
 	TImage *Image2;
-	TBitBtn *BitBtn1;
 	TLabel *lbl_number_propping_supports;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
@@ -185,7 +184,6 @@ __published:	// IDE-managed Components
 	void __fastcall cmb_bx_corrugated_sheeting_part_numberChange(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
 	void __fastcall N8Click(TObject *Sender);
-	void __fastcall Button1Click(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner);
@@ -218,6 +216,8 @@ private:
 	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
 	void calculate_composite_beam();
+	void clean_static_scheme();
+	void clean_grid(TStringGrid* str_grd);
 	#define UNTITLED  "Без имени"
 	bool modify_project;  // признак изменения проекта после сохранения
 	char ModelFile[240]; //Это имя файла?

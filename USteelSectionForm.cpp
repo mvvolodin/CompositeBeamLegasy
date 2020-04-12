@@ -62,6 +62,7 @@ void TSteelSectionForm2::set_i_section()
 	double * ParamProfil;
 	ParamProfil = StandartProfil.GetVectorParamProfil(profile_number_index);
 //Создаём и присваиваем полю класса объект ISection;
+
 	i_section_temp_ = ISection( NameProfil[profile_number_index],
 								static_cast<ProfileGroup>(RadioGroupGOST57837 -> ItemIndex),
 								ParamProfil[parBSECT],
@@ -76,9 +77,9 @@ void TSteelSectionForm2::set_i_section()
 								ParamProfil[parHSECT] / 2.,
 								ParamProfil[parHSECT] / 2.,
 								ParamProfil[parAREA],
-								ParamProfil[parIYY],
-								ParamProfil[parWY],
-								ParamProfil[parWY]);
+								ParamProfil[parIZZ],
+								ParamProfil[parWZ],
+								ParamProfil[parWZ]);
 }
 
 
