@@ -60,7 +60,7 @@ private:
 		virtual Publisher_ID get_id()const override {return id_;}
 
 public:
-		__fastcall TDefineSteelForm(TComponent* Owner);
+		__fastcall TDefineSteelForm(TComponent* Owner)override;
 		Steel get_steel(){set_steel(); return steel_temp_;}
 		void register_observer(IObserver_* iobserver) override {iobserver_ = iobserver;}
 		void register_icopmosite_beam_user(ICompositeBeam* icomposite_beam)override {icomposite_beam_ = icomposite_beam;}

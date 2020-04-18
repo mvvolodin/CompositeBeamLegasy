@@ -67,7 +67,7 @@ private:	// User declarations
 
 
 public:		// User declarations
-	__fastcall TSteelSectionForm2(TComponent* Owner);
+	__fastcall TSteelSectionForm2(TComponent* Owner)override;
 	void set_form_controls(ISection i_section);
 	ISection get_i_section() const {return i_section_temp_;}
 	void register_observer(IObserver_* iobserver)override;

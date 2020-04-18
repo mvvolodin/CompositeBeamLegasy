@@ -54,9 +54,9 @@ private:  //User declaration
 	virtual Publisher_ID get_id()const override {return id_;}
 
 public:		// User declarations
-	__fastcall TConcreteDefinitionForm(TComponent* Owner);
+	__fastcall TConcreteDefinitionForm(TComponent* Owner)override;
 	Concrete get_concrete()const {return concrete_temp_;}
-	void register_observer(IObserver_* iobserver){iobserver_ = iobserver;}
+	void register_observer(IObserver_* iobserver)override{iobserver_ = iobserver;}
 	void set_form_controls(Concrete concrete);
 };
 //---------------------------------------------------------------------------

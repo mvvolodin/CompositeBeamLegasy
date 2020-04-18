@@ -97,6 +97,33 @@ private:
 	CompositeSection composite_section_;
 	CompositeSection composite_section2_;
 	Studs studs_;
+//---------------------------------------------------------------------------
+//Альтернативный расчёт упоров
+//---------------------------------------------------------------------------
+
+	std::vector<StudOnBeam> stud_on_beam_list;
+	double shear_force(StudOnBeam stud_on_beam);
+	double calculate_sigma_b(double x);
+	double calculate_sigma_s(double x);
+
+	double calculate_M_point_load(double x, double P, double x_P);
+	double calculate_M_uniform_load(double x, double q, SupportsNumber s_num);
+	std::array<double, 4> calculate_R(double q, SupportsNumber s_num);
+
+	double calculate_M_I_stage(double x);
+	double calculate_M_R_I_stage(double x);
+	double calculate_M_II_stage(double x);
+	double calculate_M_total(double x);
+
+	std::vector<double> calculate_M_I_stage();
+	std::vector<double> calculate_M_R_I_stage();
+	std::vector<double> calculate_M_II_stage();
+	std::vector<double> calculate_M_total();
+
+
+//---------------------------------------------------------------------------
+//Альтернативный расчёт упоров
+//---------------------------------------------------------------------------
 
 //Поля с результатами расчётов координат
 
@@ -129,6 +156,8 @@ private:
 
 	double get_max_abs_M_coordinate(Impact impact);//Получение координаты сечения с макисмальным моментом
 	double get_max_abs_Q_coordinate(Impact impact);//Получение координаты сечения с максимально поперечной силой
+
+
 
 //Расчёт эффективной ширины
 

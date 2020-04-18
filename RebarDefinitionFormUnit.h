@@ -54,7 +54,7 @@ private:	// User declarations
 	virtual String get_information()const override;
 	virtual Publisher_ID get_id()const override;
 public:		// User declarations
-	__fastcall TRebarDefinitionForm(TComponent* Owner);
+	__fastcall TRebarDefinitionForm(TComponent* Owner)override;
 	void set_form_controls(Rebar rebar);
 	Rebar get_rebar() const {return rebar_temp_;}
 	void register_observer(IObserver_* iobserver)override;

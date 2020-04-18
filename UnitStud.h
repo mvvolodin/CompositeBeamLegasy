@@ -10,6 +10,49 @@
 #include <ostream>
 #include "Units.h"
 
+
+
+class StudData{
+	String name_ = L"SDx10x100";
+	double d_an_ = 10.; //Диаметр стержня гибкого упора
+	double l_= 100. ;   //Длина круглого стержня гибкого упора
+
+	double P_rd_ = 0.;
+
+	double resistance(double R_b, double R_y, double gamma_c);
+
+	public:
+		StudData(String name, double d_an, double l);
+		void calculate(double R_b, double R_y, double gamma_c)
+		{
+			P_rd_ = resistance(R_b, R_y, gamma_c);
+		}
+};
+
+class StudOnBeam{
+	static StudData sd_;
+	double x_;
+	double x_l_;
+	double x_r_;
+
+	double id_;
+	double sigma_b_l_;
+    double sigma_b_r_;
+	double S_;
+
+public:
+	StudOnBeam(double id, double S, double x):
+		id_(id), S_(S), x_(x){}
+	void set_S(double S){S_ = S;}
+	double get_id()const{return id_;}
+	double get_location()const{return x_;}
+	double get_x_r()const{return x_r_;}
+	double get_x_l()const{return x_l_;}
+	double get_S()const{return S_;}
+};
+
+
+
 class TStudBasic{
 public:
 	TStudBasic();

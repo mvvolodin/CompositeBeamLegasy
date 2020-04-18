@@ -13,16 +13,13 @@ object FormLogger: TFormLogger
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object mmLogger: TMemo
+  object mm_logger: TMemo
     Left = 0
     Top = 0
     Width = 505
     Height = 231
     Align = alClient
+    ScrollBars = ssVertical
     TabOrder = 0
-    ExplicitLeft = 176
-    ExplicitTop = 96
-    ExplicitWidth = 185
-    ExplicitHeight = 89
   end
 end

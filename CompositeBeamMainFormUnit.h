@@ -186,7 +186,7 @@ __published:	// IDE-managed Components
 	void __fastcall N8Click(TObject *Sender);
 
 public:		// User declarations
-	__fastcall TCompositeBeamMainForm(TComponent* Owner);
+	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;
 
 private:
 

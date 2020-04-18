@@ -2,6 +2,7 @@
 #pragma hdrstop
 //---------------------------------------------------------------------------
 #include <cmath>
+#include <array>
 //---------------------------------------------------------------------------
 #include "CompositeBeam.h"
 #include "LoggerFormUnit.h"
@@ -69,8 +70,266 @@ void TCompositeBeam::load(std::istream& istr)
 //---------------------------------------------------------------------------
 //Расчёт композитной балки
 //---------------------------------------------------------------------------
+
+double TCompositeBeam::shear_force(StudOnBeam stud_on_beam)
+{
+	double A_s = composite_section2_.get_concrete_part().get_rebar().get_A_s();
+	double A_b = composite_section2_.get_concrete_part().get_A_b();
+
+	double sigma_b_r = calculate_sigma_b(stud_on_beam.get_x_r());
+	double sigma_s_r = calculate_sigma_s(stud_on_beam.get_x_r());
+	double sigma_b_l = calculate_sigma_b(stud_on_beam.get_x_l());
+	double sigma_s_l = calculate_sigma_s(stud_on_beam.get_x_l());
+
+	return (sigma_b_r * A_b + sigma_s_r * A_s) - (sigma_b_l * A_b + sigma_s_l * A_s);
+}
+
+double TCompositeBeam::calculate_sigma_b(double x)
+{
+	double W_b_red = composite_section2_.get_W_b_red();
+	double alfa_b = composite_section2_.get_alfa_b();
+
+	double M = calculate_M_II_stage(x);
+
+	return std::abs(M)/(alfa_b*W_b_red);
+}
+
+double TCompositeBeam::calculate_M_I_stage(double x)
+{
+	SupportsNumber s_num = static_cast<SupportsNumber>(geometry_.get_temporary_supports_number());
+
+	double bl = geometry_.get_trib_width_left();
+	double br = geometry_.get_trib_width_right();
+
+	double SW = loads_.get_self_weight();
+	double SW_sh = loads_.get_self_weight_sheets() * (bl + br);
+	double DL_I = loads_.get_dead_load_first_stage() * (bl + br);
+
+	double gamma_f_st_SW = loads_.get_gamma_f_st_SW();
+	double gamma_f_DL_I = loads_.get_gamma_f_DL_I();
+
+	double LC = gamma_f_st_SW * (SW + SW_sh) + gamma_f_DL_I * DL_I;
+
+	return calculate_M_uniform_load(x, LC, s_num);
+
+}
+double TCompositeBeam::calculate_M_R_I_stage(double x)
+{
+	SupportsNumber s_num = static_cast<SupportsNumber>(geometry_.get_temporary_supports_number());
+
+	double bl = geometry_.get_trib_width_left();
+	double br = geometry_.get_trib_width_right();
+
+	double SW = loads_.get_self_weight();
+	double SW_sh = loads_.get_self_weight_sheets() * (bl + br);
+	double DL_I = loads_.get_dead_load_first_stage() * (bl + br);
+
+	double gamma_f_st_SW = loads_.get_gamma_f_st_SW();
+	double gamma_f_DL_I = loads_.get_gamma_f_DL_I();
+
+	double LC = gamma_f_st_SW * (SW + SW_sh) + gamma_f_DL_I * DL_I;
+
+	std::array<double, 4> R_LC = calculate_R(LC, s_num);
+
+	double L = geometry_.get_span();
+	double L0 = 0.;
+
+	switch(s_num)
+	{
+		case(SupportsNumber::Zero):
+
+			return 0;
+
+		case(SupportsNumber::One):
+
+			L0 = L / 2;
+
+			return calculate_M_point_load(x, R_LC[1], L0);
+
+		case(SupportsNumber::Two):
+
+			L0 = L / 3;
+
+			return calculate_M_point_load(x, R_LC[1], L0) + calculate_M_point_load(x, R_LC[2], 2 * L0);
+
+		case(SupportsNumber::Three):
+
+			L0 = L / 4;
+
+			return calculate_M_point_load(x, R_LC[1], L0) + calculate_M_point_load(x, R_LC[2], 2 * L0) + calculate_M_point_load(x, R_LC[2], 3 * L0);
+	}
+}
+double TCompositeBeam::calculate_M_II_stage(double x)
+{
+	SupportsNumber s_num = static_cast<SupportsNumber>(geometry_.get_temporary_supports_number());
+
+	double bl = geometry_.get_trib_width_left();
+	double br = geometry_.get_trib_width_right();
+
+	double DL_II = loads_.get_dead_load_second_stage() * (bl + br);
+	double LL = loads_.get_live_load() * (bl + br);
+
+	double gamma_f_DL_II = loads_.get_gamma_f_DL_II();
+	double gamma_f_LL = loads_.get_gamma_f_LL();
+
+	double LC_II = gamma_f_DL_II * DL_II + gamma_f_LL * LL;
+
+	double M_LC_II = calculate_M_uniform_load(x, LC_II, SupportsNumber::Zero );
+	double M_R_I = calculate_M_R_I_stage(x);
+
+	return M_LC_II + M_R_I;
+}
+
+
+double TCompositeBeam::calculate_M_total(double x)
+{
+	return calculate_M_I_stage(x) + calculate_M_II_stage(x);
+}
+std::array<double, 4> TCompositeBeam::calculate_R(double q, SupportsNumber s_num)
+{
+	double L = geometry_.get_span();
+	double L0 = 0.;
+	std::array<double, 4> R {};
+
+	switch(s_num)
+	{
+		case(SupportsNumber::Zero):
+
+			L0 = L;
+			R[0]= 0.5 * q * L0;
+
+			return R;
+
+		case(SupportsNumber::One):
+
+			L0 = L / 2;
+
+			R[0] = 0.375 * q * L0;
+			R[1] = 1.25 * q * L0;
+
+			return R;
+
+		case(SupportsNumber::Two):
+
+			L0 = L / 3;
+
+			R[0] = 0.4 * q * L0;
+			R[1] = 1.1 * q * L0;
+			R[2] = 1.1 * q * L0;
+
+			return R;
+
+		case(SupportsNumber::Three):
+
+			L0 = L / 4;
+
+			R[0] = 0.393 * q * L0;
+			R[1] = 1.143 * q * L0;
+			R[2] = 0.929 * q * L0;
+			R[3] = 1.143 * q * L0;
+
+			return R;
+	}
+}
+std::vector<double> TCompositeBeam::calculate_M_I_stage()
+{
+	std::vector<double> M_I_stage;
+
+	for(auto cs:cs_coordinates_)
+	  M_I_stage.push_back(calculate_M_I_stage(cs));
+
+	return M_I_stage;
+}
+std::vector<double> TCompositeBeam::calculate_M_R_I_stage()
+{
+	std::vector<double> M_R_I_stage;
+
+	for(auto cs:cs_coordinates_)
+		M_R_I_stage.push_back(calculate_M_R_I_stage(cs));
+
+	return M_R_I_stage;
+}
+
+std::vector<double> TCompositeBeam::calculate_M_II_stage()
+{
+	std::vector<double> M_II_stage;
+
+	for(auto cs:cs_coordinates_)
+		M_II_stage.push_back(calculate_M_II_stage(cs));
+
+	return M_II_stage;
+
+}
+std::vector<double> TCompositeBeam::calculate_M_total()
+{
+	std::vector<double> M_total;
+
+	for(auto cs:cs_coordinates_)
+		M_total.push_back(calculate_M_total(cs));
+
+	return M_total;
+}
+
+
+double TCompositeBeam::calculate_M_uniform_load(double x, double q, SupportsNumber s_num)
+{
+	double L = geometry_.get_span();
+	double L0 = 0.;
+	std::array<double, 4> R = calculate_R(q, s_num);
+
+	switch(s_num)
+	{
+		case(SupportsNumber::Zero):
+
+			L0 = L;
+
+			return R[0] * x - q * x * x / 2;
+
+		case(SupportsNumber::One):
+
+			L0 = L / 2;
+
+			if(x <= L0)
+				return R[0] * x - q * x * x / 2;
+			return R[0] * (L0 + x) + R[1] * x - q * x * x / 2;
+
+		case(SupportsNumber::Two):
+
+			L0 = L / 3;
+
+			if(x <= L0)
+				return R[0] * x - q * x * x / 2;
+			if(L0 < x <= 2 * L0)
+				return R[0] * (L0 + x) + R[1] * x - q * x * x / 2;
+			return R[0] * (2* L0 + x) + R[1] * (L0 + x) + R[2] * x - q * x * x / 2;
+
+		case(SupportsNumber::Three):
+
+			L0 = L / 4;
+
+			if(x <= L0)
+				return R[0] * x - q * x * x / 2;
+			 if(L0 < x <= 2 * L0)
+				return R[0] * (L0 + x) + R[1] * x - q * x * x / 2;
+			 if(2 * L0 < x <= 3 * L0)
+				return R[0] * (2* L0 + x) + R[1] * (L0 + x) + R[2] * x - q * x * x / 2;
+			 return R[0] * (3 * L0 + x) + R[1] * (2 * L0 + x) + R[2] * (L0 + x) - q * x * x / 2;
+	}
+}
+double TCompositeBeam::calculate_M_point_load(double x, double P, double x_P)
+{
+	double L = geometry_.get_span();
+
+	return P * (L - x_P) / L * x_P;
+}
+
 void TCompositeBeam::calculate()
-{   //расчёт эффективной ширины
+{
+  //	for(auto stud_on_beam:stud_on_beam_list)
+   //		stud_on_beam.set_shear_force(shear_force(stud_on_beam.get_location()));
+
+
+ //расчёт эффективной ширины
 	calculate_effective_width();
 	//расчёт коодинат сечений
 	calc_cs_coordinates();
@@ -107,7 +366,7 @@ void TCompositeBeam::calculate()
 	calc_ratio_rigid_plastic();
 	calculate_shear_ratios();
 
-	log_stresses();
+	//log_stresses();
 
 	double max_uf_rat = get_max_upper_flange_ratio();
 	double max_lf_rat = get_max_lower_flange_ratio();
@@ -122,7 +381,21 @@ void TCompositeBeam::calculate()
 	double max_uf_rat_coord = get_upper_flange_ratio_coordinate(max_uf_rat);
 	double max_lf_rat_coord = get_lower_flange_ratio_coordinate(max_lf_rat);
 
+	std::vector<double> M_I_stage = calculate_M_I_stage();
+	std::vector<double> M_R_I_stage = calculate_M_R_I_stage();
+	std::vector<double> M_II_stage = calculate_M_II_stage();
+	std::vector<double> M_total = calculate_M_total();
 
+	FormLogger -> clean_logger();
+
+	FormLogger -> add_separator(L"I стадия");
+	FormLogger -> print_M_X(M_I_stage);
+	FormLogger -> add_separator(L"R I стадия");
+	FormLogger -> print_M_X(M_R_I_stage);
+	FormLogger -> add_separator(L"II стадия");
+	FormLogger -> print_M_X(M_II_stage);
+	FormLogger -> add_separator(L"I+II стадии");
+	FormLogger -> print_M_X(M_total);
 
 }
 //---------------------------------------------------------------------------
@@ -590,7 +863,7 @@ double TCompositeBeam::get_max_stud_ratio()
 }
 void TCompositeBeam::log_stresses()
 {
-	TStrings* mm_lines=FormLogger->mmLogger->Lines;
+	TStrings* mm_lines = FormLogger -> mm_logger->Lines;
 	mm_lines->Add(L"Напряжения");
 	for (auto stresses:stresses_list_) {
 		mm_lines->Add(L"sigma B="+FloatToStr(stresses.get_sigma_b()));
@@ -776,7 +1049,7 @@ double TCompositeBeam::get_max_abs_M(Impact impact)
 }
 double TCompositeBeam::get_max_abs_Q(Impact impact)
 {
-
+    return 0.;
 }
 void TCompositeBeam::calculate_shear_ratios()
 {

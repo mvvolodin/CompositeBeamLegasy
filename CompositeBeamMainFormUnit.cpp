@@ -808,10 +808,12 @@ void __fastcall TCompositeBeamMainForm::NSaveAsClick(TObject *Sender)
 void ModelName(char * str0, char* ModelFile)
 {
 	  char *ptr1, *ptr2;
-	  char i, str[240];
+	 // char i, str[240];
+	 char str[240]; //MV 15.04.2020
 
 	  if  (strcmp(ModelFile, UNTITLED)==0) {
-	   i= 240<strlen(str0) ? 240 : strlen(str0);
+	   //i= 240<strlen(str0) ? 240 : strlen(str0);
+	   240<strlen(str0) ? 240 : strlen(str0); //MV 15.04.2020
 	   strcpy(str,str0);
 	   ptr1 = strrchr(str,'\\');
 	   ptr2 = strrchr(ptr1,'.');
