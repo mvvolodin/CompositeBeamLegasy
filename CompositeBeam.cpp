@@ -10,6 +10,9 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
+//#define NDEBUG
+//---------------------------------------------------------------------------
+
 TCompositeBeam::TCompositeBeam():
 					geometry_(TGeometry()),
 					loads_(TLoads()),
@@ -68,22 +71,76 @@ void TCompositeBeam::load(std::istream& istr)
 	studs_.load(istr);
 }
 //---------------------------------------------------------------------------
-//–асчЄт композитной балки
+//–асчЄт гибких упоров композитной балки
 //---------------------------------------------------------------------------
+void TCompositeBeam::calculate_studs()
+{
+	studs_on_beam_.set_default_values();
 
-double TCompositeBeam::shear_force(StudOnBeam stud_on_beam)
+	double R_b = composite_section2_.get_concrete_part().get_concrete().get_R_b();
+	double R_y = composite_section2_.get_steel_part().get_steel().get_R_y();
+	double gamma_c = working_conditions_factors_.get_gamma_c();
+	Stud::set_resistance(R_b, R_y, gamma_c);
+
+
+	double L = geometry_.get_span();
+	studs_on_beam_.set_studs(L);
+
+	#ifndef NDEBUG
+	FormLogger -> add_separator(L" оординаты упоров");
+	for (auto stud:studs_on_beam_.stud_list())
+	FormLogger -> print_stud_coordinates(stud.get_id(),
+										 stud.get_x(),
+										 stud.get_x_l(),
+										 stud.get_x_r());
+
+
+	#endif
+	for (auto& stud:studs_on_beam_.stud_list())
+	  set_stud_shear_force(stud);
+
+	#ifndef NDEBUG
+	FormLogger -> add_separator(L"”сили€ в упорах");
+	for (auto stud:studs_on_beam_.stud_list())
+	FormLogger -> print_stud_shear_force(stud.get_id(),
+										  stud.get_S());
+
+
+	#endif
+
+	studs_on_beam_.verification();
+	#ifndef NDEBUG
+	FormLogger -> add_separator(L" оэффициенты использовани€");
+    for (auto stud:studs_on_beam_.stud_list())
+	FormLogger -> print_ratio(stud.get_id(),
+							  stud.get_ratio());
+
+	#endif
+
+}
+//---------------------------------------------------------------------------
+//¬ычисл€ет дл€ переданного по ссылке упора сдвигающее усилие
+//---------------------------------------------------------------------------
+void TCompositeBeam::set_stud_shear_force(Stud& stud)
 {
 	double A_s = composite_section2_.get_concrete_part().get_rebar().get_A_s();
 	double A_b = composite_section2_.get_concrete_part().get_A_b();
 
-	double sigma_b_r = calculate_sigma_b(stud_on_beam.get_x_r());
-	double sigma_s_r = calculate_sigma_s(stud_on_beam.get_x_r());
-	double sigma_b_l = calculate_sigma_b(stud_on_beam.get_x_l());
-	double sigma_s_l = calculate_sigma_s(stud_on_beam.get_x_l());
+	double R_s = composite_section2_.get_concrete_part().get_rebar().get_R_s();
+	double R_b = composite_section2_.get_concrete_part().get_concrete().get_R_b();
 
-	return (sigma_b_r * A_b + sigma_s_r * A_s) - (sigma_b_l * A_b + sigma_s_l * A_s);
+	double sigma_b_r = calculate_sigma_b(stud.get_x_r());
+	double sigma_s_r = calculate_sigma_s(stud.get_x_r());
+	double sigma_b_l = calculate_sigma_b(stud.get_x_l());
+	double sigma_s_l = calculate_sigma_s(stud.get_x_l());
+
+	stud.set_S((std::min(sigma_b_r, R_b) * A_b + std::min(sigma_s_r, R_s) * A_s)-
+			   ((std::min(sigma_b_l, R_b) * A_b + std::min(sigma_s_l, R_s) * A_s)));
 }
-
+//---------------------------------------------------------------------------
+//¬ычисл€ет напр€жение в центре т€жести железобетонной плиты в сечении
+//на рассто€нии x от левой опоры от полного момента
+//---------------------------------------------------------------------------
 double TCompositeBeam::calculate_sigma_b(double x)
 {
 	double W_b_red = composite_section2_.get_W_b_red();
@@ -93,7 +150,22 @@ double TCompositeBeam::calculate_sigma_b(double x)
 
 	return std::abs(M)/(alfa_b*W_b_red);
 }
+//---------------------------------------------------------------------------
+//¬ычисл€ет напр€жение в арматуре в сечении на рассто€нии x от левой опоры
+//от полного момента
+//---------------------------------------------------------------------------
+double TCompositeBeam::calculate_sigma_s(double x)
+{
+	double W_b_red = composite_section2_.get_W_b_red();
+	double alfa_s = composite_section2_.get_alfa_s();
 
+	double M = calculate_M_II_stage(x);
+
+	return std::abs(M)/(alfa_s*W_b_red);
+}
+//---------------------------------------------------------------------------
+//¬ычисл€ет изгибающий момент от нагрузок I стадии в сечении на рассто€нии x от левой опоры
+//---------------------------------------------------------------------------
 double TCompositeBeam::calculate_M_I_stage(double x)
 {
 	SupportsNumber s_num = static_cast<SupportsNumber>(geometry_.get_temporary_supports_number());
@@ -113,6 +185,9 @@ double TCompositeBeam::calculate_M_I_stage(double x)
 	return calculate_M_uniform_load(x, LC, s_num);
 
 }
+//---------------------------------------------------------------------------
+//¬ычисл€ет изгибающий момент при удалении опоры/опор сечении на рассто€нии x от левой опоры
+//---------------------------------------------------------------------------
 double TCompositeBeam::calculate_M_R_I_stage(double x)
 {
 	SupportsNumber s_num = static_cast<SupportsNumber>(geometry_.get_temporary_supports_number());
@@ -159,6 +234,9 @@ double TCompositeBeam::calculate_M_R_I_stage(double x)
 			return calculate_M_point_load(x, R_LC[1], L0) + calculate_M_point_load(x, R_LC[2], 2 * L0) + calculate_M_point_load(x, R_LC[2], 3 * L0);
 	}
 }
+//---------------------------------------------------------------------------
+//¬ычисл€ет изгибающий момент от нагрузок II стадии в сечении на рассто€нии x от левой опоры
+//---------------------------------------------------------------------------
 double TCompositeBeam::calculate_M_II_stage(double x)
 {
 	SupportsNumber s_num = static_cast<SupportsNumber>(geometry_.get_temporary_supports_number());
@@ -179,13 +257,18 @@ double TCompositeBeam::calculate_M_II_stage(double x)
 
 	return M_LC_II + M_R_I;
 }
-
-
+//---------------------------------------------------------------------------
+//¬ычисл€ет изгибающий момент от полной нагрузки на рассто€нии x от левой опоры
+//---------------------------------------------------------------------------
 double TCompositeBeam::calculate_M_total(double x)
 {
 	return calculate_M_I_stage(x) + calculate_M_II_stage(x);
 }
-std::array<double, 4> TCompositeBeam::calculate_R(double q, SupportsNumber s_num)
+//---------------------------------------------------------------------------
+//¬ычисл€ет реакции в заданном количестве опор от заданой нагрузки
+//---------------------------------------------------------------------------
+std::array<double, 4> TCompositeBeam::calculate_R(double q, //равномерно-распределЄнна€ нагрузка на балку
+												  SupportsNumber s_num)//количество опор
 {
 	double L = geometry_.get_span();
 	double L0 = 0.;
@@ -388,14 +471,16 @@ void TCompositeBeam::calculate()
 
 	FormLogger -> clean_logger();
 
-	FormLogger -> add_separator(L"I стади€");
-	FormLogger -> print_M_X(M_I_stage);
-	FormLogger -> add_separator(L"R I стади€");
-	FormLogger -> print_M_X(M_R_I_stage);
-	FormLogger -> add_separator(L"II стади€");
-	FormLogger -> print_M_X(M_II_stage);
-	FormLogger -> add_separator(L"I+II стадии");
-	FormLogger -> print_M_X(M_total);
+	calculate_studs();
+
+//	FormLogger -> add_separator(L"I стади€");
+//	FormLogger -> print_M_X(M_I_stage);
+//	FormLogger -> add_separator(L"R I стади€");
+//	FormLogger -> print_M_X(M_R_I_stage);
+//	FormLogger -> add_separator(L"II стади€");
+//	FormLogger -> print_M_X(M_II_stage);
+//	FormLogger -> add_separator(L"I+II стадии");
+//	FormLogger -> print_M_X(M_total);
 
 }
 //---------------------------------------------------------------------------

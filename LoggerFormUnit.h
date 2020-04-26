@@ -18,6 +18,9 @@ private:	// User declarations
 public:		// User declarations
 	__fastcall TFormLogger(TComponent* Owner);
 	void print_M_X(std::vector<double> M_list);
+	void print_stud_coordinates(double id, double x, double x_l, double x_r);
+	void print_stud_shear_force(double id, double S);
+	void print_ratio(double id, double ratio);
 	void clean_logger();
 	void add_separator(String str);
 };

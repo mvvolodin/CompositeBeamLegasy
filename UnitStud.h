@@ -10,46 +10,109 @@
 #include <ostream>
 #include "Units.h"
 
+/*
+	Класс Stud описывает (содержит данные (свойства) и методы работы с данными(поведение)) объект упор.
+	Свойства:
+	- идентификационный номер: id_
+	- положение на балке: x_
+	- сечения для определения усилий S_i: x_l_ и x_r_;
+	- флаг есть ли на упор воздействие: S_set_;
+	- флаг выполнена ли проверка:  stud_verified_
+	Поведение:
+	- тривиальные геттеры и сеттеры;
 
-
-class StudData{
-	String name_ = L"SDx10x100";
-	double d_an_ = 10.; //Диаметр стержня гибкого упора
-	double l_= 100. ;   //Длина круглого стержня гибкого упора
-
-	double P_rd_ = 0.;
-
-	double resistance(double R_b, double R_y, double gamma_c);
-
-	public:
-		StudData(String name, double d_an, double l);
-		void calculate(double R_b, double R_y, double gamma_c)
-		{
-			P_rd_ = resistance(R_b, R_y, gamma_c);
-		}
+*/
+enum class StudLocation{
+	EDGE,
+	MIDDLE,
 };
 
-class StudOnBeam{
-	static StudData sd_;
-	double x_;
-	double x_l_;
-	double x_r_;
-
-	double id_;
-	double sigma_b_l_;
-    double sigma_b_r_;
-	double S_;
+class Stud{
 
 public:
-	StudOnBeam(double id, double S, double x):
-		id_(id), S_(S), x_(x){}
-	void set_S(double S){S_ = S;}
-	double get_id()const{return id_;}
-	double get_location()const{return x_;}
+	Stud(int id, double x_l, double x, double x_r, StudLocation stud_location):
+		id_(id), x_l_(x_l), x_(x), x_r_(x_r), stud_location_(stud_location){}
+	void set_S(double S);
+	int get_id()const{return id_;}
+	double get_x()const{return x_;}
 	double get_x_r()const{return x_r_;}
 	double get_x_l()const{return x_l_;}
 	double get_S()const{return S_;}
+	double get_ratio()const{return ratio_;}
+
+	void calculate_ratio(double num_e, double num_m);
+
+	static void set_resistance(double R_b, double R_y, double gamma_c);
+	static double obtain_P_rd(){return P_rd_;}
+	static double obtain_l(){return l_;}
+	static double obtain_d_an(){return d_an_;}
+
+private:
+	bool stud_verified_ = false;
+	bool S_set_ = false;
+
+	int id_ = 0;
+	static String name_;
+	static double d_an_;
+	static double l_;
+	static double P_rd_;
+	static bool resistance_calculated_;
+
+	StudLocation stud_location_;
+	double x_l_ = 0.;
+	double x_ = 0.;
+	double x_r_ = 0.;
+
+    double S_ = 0.;
+
+	double sigma_b_l_ = 0.;
+	double sigma_b_r_ = 0.;
+	double ratio_ = 0.;
 };
+
+	String Stud::name_ = L"SDx10x100";
+	double Stud::d_an_ = 10.;
+	double Stud::l_= 100. ;
+	double Stud::P_rd_ = 0.;
+	bool   Stud::resistance_calculated_ = false;
+
+/*
+	Класс StudsOnBeam описывает объект упоры на балке
+	Класс создаёт и хранит список упоров, отнощение Композиция
+	Свойства:
+	-  Список упоров stud_list_;
+	-
+	Поведение:
+	- тривиальные геттеры и сеттеры;
+
+*/
+
+class StudsOnBeam{
+public:
+	StudsOnBeam(){};
+	void update(String name, double d_an, double l, double dist_e, double num_e,
+			 double dist_m, double num_m);
+	std::vector<Stud>& stud_list(){return stud_list_;}
+	const std::vector<Stud>& get_stud_list()const{return stud_list_;}
+
+	void set_default_values();
+	void set_studs(double L);
+	void set_resistances(double R_b, double R_y, double gamma_c);
+	void verification();
+
+private:
+
+	double dist_e_;
+	double dist_m_;
+	int num_e_;
+	int num_m_;
+
+	std::vector<Stud> stud_list_;
+
+	bool studs_placement_ = false;
+	bool studs_calculated_ = false;
+};
+
 
 
 

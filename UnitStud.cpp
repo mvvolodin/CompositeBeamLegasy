@@ -125,7 +125,118 @@ Studs::Studs(String name,
 
 }
 //-----------------------------------------------------------------------------
-//Присваение данным класса значений по умолчанию
+//Задаёт сдвигающее усилие действующее на упор
+//-----------------------------------------------------------------------------
+void Stud::set_S(double S)//сдвигающее усилие
+{
+	S_ = S;
+	S_set_ = true;
+}
+//-----------------------------------------------------------------------------
+//Вычисляет несущую способнось гибких упоров
+//-----------------------------------------------------------------------------
+void Stud::set_resistance(double R_b,//Расчётное сопротивление бетона осевому сжатию
+						  double R_y,//Расчётный предел текучести гибкого упора
+						  double gamma_c)//коэффициент условий работы балки по СП 16.13330
+{
+	double P_rd1 = 0.;
+	double P_rd2 = 0.;
+
+	if ((2.5 <= l_ / d_an_) && (l_ /d_an_ <= 4.2)){ //возможен ли вариант, когда отношение l_/d_an_ меньше 2.5. Надо ли выводить информационное сообщение?
+		P_rd1 = 0.24 * l_/10 * d_an_/10 * std::pow(10 * R_b , 0.5) * 1000; //1000 перевод в Н, так как в СП кН
+	}
+	else if (l_/d_an_ > 4.2){
+		P_rd1 = d_an_/10 * d_an_/10 * std::pow(10 * R_b, 0.5) * 1000;
+	}
+
+	P_rd2 = 0.063 * d_an_/10 * d_an_/10 * gamma_c * R_y *1000;
+
+	P_rd_ = std::min(P_rd1, P_rd2);
+	resistance_calculated_ = true;
+}
+void Stud::calculate_ratio(double num_e, double num_m)
+{
+	switch (stud_location_) {
+
+	case StudLocation::EDGE:
+		ratio_ = std::abs(S_) / (Stud::P_rd_ * num_e);
+		break;
+	case StudLocation::MIDDLE:
+		ratio_ = std::abs(S_) / (Stud::P_rd_ * num_m);
+		break;
+	}
+}
+void StudsOnBeam::update(String name, double d_an, double l, double dist_e, double num_e,
+						 double dist_m, double num_m)
+{
+
+}
+//-----------------------------------------------------------------------------
+//Вычисляет несущую способность для каждого из гибких упоров на балке
+//-----------------------------------------------------------------------------
+void StudsOnBeam::verification()
+{
+	for(auto& stud:stud_list_)
+		stud.calculate_ratio(num_e_, num_m_);
+}
+void StudsOnBeam::set_default_values()
+{
+	dist_e_ = 180.;
+	dist_m_ = 400.;
+	num_e_ = 1;
+	num_m_ = 1;
+
+}
+//-----------------------------------------------------------------------------
+//Размещает гибкие упоры на балке согласно данным пользователя
+//-----------------------------------------------------------------------------
+void StudsOnBeam::set_studs(double L)//пролёт балки
+{
+	const double L3 = L/3;
+	double d_e = dist_e_;
+	double d_m = dist_m_;
+
+	double eps = 0.01;
+
+	int n_e;
+
+	if (static_cast<int>(L3) % static_cast<int>(d_e))
+		n_e = L3 / d_e + 1 ;
+	else
+		n_e = L3 / d_e;
+
+	d_e = L3 / n_e;
+
+	int n_m;
+
+	if (static_cast<int>(L3) % static_cast<int>(d_m))
+		n_m = L3 / d_m + 1;
+	else
+		n_m = L3 / d_m;
+
+	d_m = L3 /n_m;
+
+	int id = 0;
+
+	stud_list_.emplace_back(Stud{++id, 0., 0., 0., StudLocation::EDGE});
+
+	for(int n = 1; n < n_e; ++n)
+		stud_list_.emplace_back(Stud{++id, n * d_e - d_e / 2, n * d_e, n * d_e + d_e / 2, StudLocation::EDGE});
+
+	stud_list_.emplace_back(Stud{++id, L3 - d_e / 2, L3, L3 + d_m / 2, StudLocation::EDGE});
+
+	for(int n = 1; n < n_m; ++n)
+		stud_list_.emplace_back(Stud{++id, L3 + n * d_m - d_m / 2, L3 + n * d_m, L3 + n * d_m + d_m / 2, StudLocation::MIDDLE});
+
+	stud_list_.emplace_back(Stud{++id, 2 * L3 - d_m / 2, 2 * L3,  2 * L3 + d_e / 2, StudLocation::MIDDLE});
+
+	for(int n = 1; n < n_e; ++n)
+		stud_list_.emplace_back(Stud{++id, 2 * L3 + n * d_e - d_e / 2, 2 * L3 + n * d_e, 2 * L3 + n * d_e + d_e / 2, StudLocation::EDGE});
+
+	stud_list_.emplace_back(Stud{++id, L, L, L, StudLocation::EDGE});
+}
+//-----------------------------------------------------------------------------
+//Присваивает данным класса значений по умолчанию
 //-----------------------------------------------------------------------------
 void Studs::set_default_values()
 {

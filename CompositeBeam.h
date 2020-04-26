@@ -101,8 +101,11 @@ private:
 //Альтернативный расчёт упоров
 //---------------------------------------------------------------------------
 
-	std::vector<StudOnBeam> stud_on_beam_list;
-	double shear_force(StudOnBeam stud_on_beam);
+	StudsOnBeam studs_on_beam_;
+
+	void calculate_studs();
+
+	void set_stud_shear_force(Stud& stud);
 	double calculate_sigma_b(double x);
 	double calculate_sigma_s(double x);
 
