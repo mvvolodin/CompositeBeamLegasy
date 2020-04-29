@@ -22,16 +22,12 @@
 	- тривиальные геттеры и сеттеры;
 
 */
-enum class StudLocation{
-	EDGE,
-	MIDDLE,
-};
 
-class Stud{
 
+class StudsRow{
 public:
-	Stud(int id, double x_l, double x, double x_r, StudLocation stud_location):
-		id_(id), x_l_(x_l), x_(x), x_r_(x_r), stud_location_(stud_location){}
+
+	StudsRow(int id, double x_l, double x, double x_r, int st_num);
 	void set_S(double S);
 	int get_id()const{return id_;}
 	double get_x()const{return x_;}
@@ -40,7 +36,7 @@ public:
 	double get_S()const{return S_;}
 	double get_ratio()const{return ratio_;}
 
-	void calculate_ratio(double num_e, double num_m);
+	void calculate_ratio();
 
 	static void set_resistance(double R_b, double R_y, double gamma_c);
 	static double obtain_P_rd(){return P_rd_;}
@@ -52,13 +48,13 @@ private:
 	bool S_set_ = false;
 
 	int id_ = 0;
+	int st_num_ = 0;
 	static String name_;
 	static double d_an_;
 	static double l_;
 	static double P_rd_;
 	static bool resistance_calculated_;
 
-	StudLocation stud_location_;
 	double x_l_ = 0.;
 	double x_ = 0.;
 	double x_r_ = 0.;
@@ -70,11 +66,11 @@ private:
 	double ratio_ = 0.;
 };
 
-	String Stud::name_ = L"SDx10x100";
-	double Stud::d_an_ = 10.;
-	double Stud::l_= 100. ;
-	double Stud::P_rd_ = 0.;
-	bool   Stud::resistance_calculated_ = false;
+	String StudsRow::name_ = L"SDx10x100";
+	double StudsRow::d_an_ = 10.;
+	double StudsRow::l_= 100. ;
+	double StudsRow::P_rd_ = 0.;
+	bool   StudsRow::resistance_calculated_ = false;
 
 /*
 	Класс StudsOnBeam описывает объект упоры на балке
@@ -92,8 +88,8 @@ public:
 	StudsOnBeam(){};
 	void update(String name, double d_an, double l, double dist_e, double num_e,
 			 double dist_m, double num_m);
-	std::vector<Stud>& stud_list(){return stud_list_;}
-	const std::vector<Stud>& get_stud_list()const{return stud_list_;}
+	std::vector<StudsRow>& stud_list(){return stud_list_;}
+	const std::vector<StudsRow>& get_stud_list()const{return stud_list_;}
 
 	void set_default_values();
 	void set_studs(double L);
@@ -106,8 +102,7 @@ private:
 	double dist_m_;
 	int num_e_;
 	int num_m_;
-
-	std::vector<Stud> stud_list_;
+	std::vector<StudsRow> stud_list_;
 
 	bool studs_placement_ = false;
 	bool studs_calculated_ = false;

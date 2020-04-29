@@ -51,6 +51,7 @@ private:
 	double gamma_bt_ = 0.;
 	double epsilon_b_lim_ = 0.;
 	double E_b_tau_ = 0.;//Модуль деформации бетона
+
 	void E_b_tau_calc();
 };
 

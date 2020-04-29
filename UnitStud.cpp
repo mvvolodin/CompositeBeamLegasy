@@ -124,10 +124,12 @@ Studs::Studs(String name,
 {
 
 }
+StudsRow::StudsRow(int id, double x_l, double x, double x_r, int st_num):
+		id_(id), x_l_(x_l), x_(x), x_r_(x_r), st_num_(st_num){}
 //-----------------------------------------------------------------------------
 //Задаёт сдвигающее усилие действующее на упор
 //-----------------------------------------------------------------------------
-void Stud::set_S(double S)//сдвигающее усилие
+void StudsRow::set_S(double S)//сдвигающее усилие
 {
 	S_ = S;
 	S_set_ = true;
@@ -135,7 +137,7 @@ void Stud::set_S(double S)//сдвигающее усилие
 //-----------------------------------------------------------------------------
 //Вычисляет несущую способнось гибких упоров
 //-----------------------------------------------------------------------------
-void Stud::set_resistance(double R_b,//Расчётное сопротивление бетона осевому сжатию
+void StudsRow::set_resistance(double R_b,//Расчётное сопротивление бетона осевому сжатию
 						  double R_y,//Расчётный предел текучести гибкого упора
 						  double gamma_c)//коэффициент условий работы балки по СП 16.13330
 {
@@ -154,17 +156,9 @@ void Stud::set_resistance(double R_b,//Расчётное сопротивление бетона осевому сж
 	P_rd_ = std::min(P_rd1, P_rd2);
 	resistance_calculated_ = true;
 }
-void Stud::calculate_ratio(double num_e, double num_m)
+void StudsRow::calculate_ratio()
 {
-	switch (stud_location_) {
-
-	case StudLocation::EDGE:
-		ratio_ = std::abs(S_) / (Stud::P_rd_ * num_e);
-		break;
-	case StudLocation::MIDDLE:
-		ratio_ = std::abs(S_) / (Stud::P_rd_ * num_m);
-		break;
-	}
+		ratio_ = std::abs(S_) / (StudsRow::P_rd_ * st_num_);
 }
 void StudsOnBeam::update(String name, double d_an, double l, double dist_e, double num_e,
 						 double dist_m, double num_m)
@@ -176,8 +170,8 @@ void StudsOnBeam::update(String name, double d_an, double l, double dist_e, doub
 //-----------------------------------------------------------------------------
 void StudsOnBeam::verification()
 {
-	for(auto& stud:stud_list_)
-		stud.calculate_ratio(num_e_, num_m_);
+	for(auto& stud_row:stud_list_)
+		stud_row.calculate_ratio();
 }
 void StudsOnBeam::set_default_values()
 {
@@ -218,22 +212,22 @@ void StudsOnBeam::set_studs(double L)//пролёт балки
 
 	int id = 0;
 
-	stud_list_.emplace_back(Stud{++id, 0., 0., 0., StudLocation::EDGE});
+	stud_list_.emplace_back(StudsRow{++id, 0., 0., 0., num_e_});
 
 	for(int n = 1; n < n_e; ++n)
-		stud_list_.emplace_back(Stud{++id, n * d_e - d_e / 2, n * d_e, n * d_e + d_e / 2, StudLocation::EDGE});
+		stud_list_.emplace_back(StudsRow{++id, n * d_e - d_e / 2, n * d_e, n * d_e + d_e / 2, num_e_});
 
-	stud_list_.emplace_back(Stud{++id, L3 - d_e / 2, L3, L3 + d_m / 2, StudLocation::EDGE});
+	stud_list_.emplace_back(StudsRow{++id, L3 - d_e / 2, L3, L3 + d_m / 2, num_e_});
 
 	for(int n = 1; n < n_m; ++n)
-		stud_list_.emplace_back(Stud{++id, L3 + n * d_m - d_m / 2, L3 + n * d_m, L3 + n * d_m + d_m / 2, StudLocation::MIDDLE});
+		stud_list_.emplace_back(StudsRow{++id, L3 + n * d_m - d_m / 2, L3 + n * d_m, L3 + n * d_m + d_m / 2, num_m_});
 
-	stud_list_.emplace_back(Stud{++id, 2 * L3 - d_m / 2, 2 * L3,  2 * L3 + d_e / 2, StudLocation::MIDDLE});
+	stud_list_.emplace_back(StudsRow{++id, 2 * L3 - d_m / 2, 2 * L3,  2 * L3 + d_e / 2, num_m_});
 
 	for(int n = 1; n < n_e; ++n)
-		stud_list_.emplace_back(Stud{++id, 2 * L3 + n * d_e - d_e / 2, 2 * L3 + n * d_e, 2 * L3 + n * d_e + d_e / 2, StudLocation::EDGE});
+		stud_list_.emplace_back(StudsRow{++id, 2 * L3 + n * d_e - d_e / 2, 2 * L3 + n * d_e, 2 * L3 + n * d_e + d_e / 2, num_e_});
 
-	stud_list_.emplace_back(Stud{++id, L, L, L, StudLocation::EDGE});
+	stud_list_.emplace_back(StudsRow{++id, L, L, L, num_e_});
 }
 //-----------------------------------------------------------------------------
 //Присваивает данным класса значений по умолчанию

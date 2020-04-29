@@ -26,6 +26,12 @@ void TConcretePart::set_default_values()
 	concrete_.set_default_values();
 	rebar_.set_default_values();
 }
+double TConcretePart::SW_concrete()
+{
+   // double concrete_density = concrete_.get_density();
+   //	q_b =
+   //	return q_b;
+}
 //---------------------------------------------------------------------------
 //Сохранение объекта в бинарный файл
 //---------------------------------------------------------------------------

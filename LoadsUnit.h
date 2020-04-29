@@ -34,6 +34,7 @@ public:
 private:
 	double SW_ = 0.;
 	double SW_sheets_ = 0.;
+    double SW_concrete_ = 0.;
 	double DL_I_ = 0.;
 	double DL_II_ = 0.;
 	double LL_ = 0.;

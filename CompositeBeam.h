@@ -105,7 +105,7 @@ private:
 
 	void calculate_studs();
 
-	void set_stud_shear_force(Stud& stud);
+	void set_stud_shear_force(StudsRow& stud);
 	double calculate_sigma_b(double x);
 	double calculate_sigma_s(double x);
 

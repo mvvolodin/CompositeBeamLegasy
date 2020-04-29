@@ -138,26 +138,26 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Left = 594
         Top = 3
         Width = 251
-        Height = 172
+        Height = 191
         Caption = '  '#1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090#1099' '#1085#1072#1076#1105#1078#1085#1086#1089#1090#1080' '#1087#1086' '#1085#1072#1075#1088#1091#1079#1082#1072#1084'  '
         TabOrder = 0
         object lbl_gamma_f_DL_I: TLabel
-          Left = 16
-          Top = 60
-          Width = 112
+          Left = 15
+          Top = 95
+          Width = 107
           Height = 13
-          Caption = #1055#1086#1089#1090#1086#1103#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072
+          Caption = #1052#1086#1085#1090#1072#1078#1085#1072#1103' '#1085#1072#1075#1088#1091#1079#1082#1072
         end
         object lbl_gamma_f_DL_II: TLabel
-          Left = 16
-          Top = 98
+          Left = 15
+          Top = 134
           Width = 112
           Height = 13
           Caption = #1055#1086#1089#1090#1086#1103#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072
         end
         object Label2: TLabel
-          Left = 16
-          Top = 41
+          Left = 15
+          Top = 22
           Width = 50
           Height = 13
           Caption = 'I '#1089#1090#1072#1076#1080#1103
@@ -169,8 +169,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           ParentFont = False
         end
         object Label6: TLabel
-          Left = 16
-          Top = 79
+          Left = 15
+          Top = 115
           Width = 55
           Height = 13
           Caption = 'II '#1089#1090#1072#1076#1080#1103
@@ -182,49 +182,65 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           ParentFont = False
         end
         object lbl_gamma_f_LL: TLabel
-          Left = 16
-          Top = 125
+          Left = 15
+          Top = 161
           Width = 106
           Height = 13
           Caption = #1042#1088#1077#1084#1077#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072
         end
         object lbl_gamma_f_st_SW: TLabel
-          Left = 16
-          Top = 22
+          Left = 15
+          Top = 41
           Width = 120
           Height = 13
           Caption = #1057#1086#1073#1089#1090#1074#1077#1085#1085#1099#1081' '#1074#1077#1089' '#1089#1090#1072#1083#1080
         end
+        object lbl_gamma_f_concrete: TLabel
+          Left = 15
+          Top = 68
+          Width = 124
+          Height = 13
+          Caption = #1057#1074#1077#1078#1077#1091#1083#1086#1078#1077#1085#1085#1099#1081' '#1073#1077#1090#1086#1085
+        end
         object edt_gamma_f_DL_I: TEdit
-          Left = 196
-          Top = 46
+          Left = 195
+          Top = 91
           Width = 45
           Height = 21
           TabOrder = 0
           OnChange = OnControlsChange
         end
         object edt_gamma_f_DL_II: TEdit
-          Left = 196
-          Top = 94
+          Left = 195
+          Top = 130
           Width = 45
           Height = 21
           TabOrder = 1
           OnChange = OnControlsChange
         end
         object edt_gamma_f_LL: TEdit
-          Left = 196
-          Top = 121
+          Left = 195
+          Top = 157
           Width = 45
           Height = 21
           TabOrder = 2
           OnChange = OnControlsChange
         end
         object edt_gamma_f_st_SW_: TEdit
-          Left = 196
-          Top = 19
+          Left = 195
+          Top = 37
           Width = 45
           Height = 21
           TabOrder = 3
+          OnChange = OnControlsChange
+        end
+        object edt_gamma_f_concrete: TEdit
+          Left = 195
+          Top = 64
+          Width = 45
+          Height = 21
+          TabOrder = 4
+          Text = '1,3'
           OnChange = OnControlsChange
         end
       end
@@ -232,15 +248,15 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Left = 314
         Top = 3
         Width = 274
-        Height = 174
+        Height = 191
         Caption = '  '#1047#1072#1075#1088#1091#1078#1077#1085#1080#1103'  '
         TabOrder = 1
         object lbl_dead_load_first_stage: TLabel
           Left = 16
           Top = 43
-          Width = 151
+          Width = 149
           Height = 13
-          Caption = #1055#1086#1089#1090#1086#1103#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072',  '#1082#1053'/'#1084'2'
+          Caption = #1052#1086#1085#1090#1072#1078#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072',  '#1082#1053'/'#1084'2'
         end
         object lbl_dead_load_second_stage: TLabel
           Left = 16
@@ -311,7 +327,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Left = 3
         Top = 3
         Width = 305
-        Height = 174
+        Height = 191
         Caption = '  '#1058#1086#1087#1086#1083#1086#1075#1080#1103'  '
         TabOrder = 2
         object lbl_span: TLabel
@@ -395,18 +411,19 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
       end
       object GrpBxStaticScheme: TGroupBox
-        Left = 15
-        Top = 181
-        Width = 1030
-        Height = 315
+        Left = 3
+        Top = 200
+        Width = 1042
+        Height = 296
         Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
         TabOrder = 3
         object img_static_scheme: TImage
           Left = 2
           Top = 51
-          Width = 1026
-          Height = 262
+          Width = 1038
+          Height = 243
           Align = alBottom
+          ExplicitWidth = 1039
         end
         object lblLoadCase: TLabel
           Left = 13
@@ -425,7 +442,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = cmb_bx_impactChange
         end
         object rd_grp_internal_forces_type: TRadioGroup
-          Left = 309
+          Left = 311
           Top = 8
           Width = 299
           Height = 37
@@ -443,7 +460,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Left = 851
         Top = 3
         Width = 201
-        Height = 172
+        Height = 191
         Caption = ' '#1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090#1099' '#1091#1089#1083#1086#1074#1080#1081' '#1088#1072#1073#1086#1090#1099' '
         TabOrder = 4
         object lbl_gamma_c: TLabel
@@ -3098,10 +3115,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1050#1086#1084#1087#1086#1079#1080#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_compos_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -3134,10 +3147,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_steel_geom_char: TTabSheet
             Caption = #1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 2
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_steel_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -3165,10 +3174,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_concrete_geom_char: TTabSheet
             Caption = #1046#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_concrete_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -3191,10 +3196,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object tb_results: TTabSheet
       Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1099' '#1088#1072#1089#1095#1105#1090#1072
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object strng_grd_results: TStringGrid
         Left = 0
         Top = 0

@@ -36,6 +36,8 @@ __published:	// IDE-managed Components
 	TEdit *edt_phi_b_cr;
 	TButton *btn_cancel;
 	TButton *btn_close;
+	TLabel *lbl_density;
+	TEdit *edt_density;
 	void __fastcall cmb_bx_concrete_grade_listChange(TObject *Sender);
 	void __fastcall BtBtnConcreteChoiceClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);

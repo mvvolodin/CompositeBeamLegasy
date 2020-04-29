@@ -25,6 +25,7 @@ public:
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
 	void set_default_values();
+	double SW_concrete();
 	void calculate();
 	String get_slab_type() const {return slab_type_;}
 	SlabType get_slab_type_enum() const {return slab_type_enum_;}

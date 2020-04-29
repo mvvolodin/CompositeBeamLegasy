@@ -80,7 +80,7 @@ void TCompositeBeam::calculate_studs()
 	double R_b = composite_section2_.get_concrete_part().get_concrete().get_R_b();
 	double R_y = composite_section2_.get_steel_part().get_steel().get_R_y();
 	double gamma_c = working_conditions_factors_.get_gamma_c();
-	Stud::set_resistance(R_b, R_y, gamma_c);
+	StudsRow::set_resistance(R_b, R_y, gamma_c);
 
 
 	double L = geometry_.get_span();
@@ -121,7 +121,7 @@ void TCompositeBeam::calculate_studs()
 //---------------------------------------------------------------------------
 //Вычисляет для переданного по ссылке упора сдвигающее усилие
 //---------------------------------------------------------------------------
-void TCompositeBeam::set_stud_shear_force(Stud& stud)
+void TCompositeBeam::set_stud_shear_force(StudsRow& stud)
 {
 	double A_s = composite_section2_.get_concrete_part().get_rebar().get_A_s();
 	double A_b = composite_section2_.get_concrete_part().get_A_b();

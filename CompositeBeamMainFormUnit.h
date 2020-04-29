@@ -157,6 +157,8 @@ __published:	// IDE-managed Components
 	TLabel *lbl_corrugated_sheet_type;
 	TImage *Image2;
 	TLabel *lbl_number_propping_supports;
+	TEdit *edt_gamma_f_concrete;
+	TLabel *lbl_gamma_f_concrete;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
