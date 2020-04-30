@@ -63,9 +63,9 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
   object lbl_density: TLabel
     Left = 8
     Top = 139
-    Width = 158
+    Width = 192
     Height = 13
-    Caption = #1059#1076#1077#1083#1100#1085#1099#1081' '#1074#1077#1089' '#1073#1077#1090#1086#1085#1085#1086#1081' '#1089#1084#1077#1089#1080':'
+    Caption = #1059#1076#1077#1083#1100#1085#1099#1081' '#1074#1077#1089' '#1073#1077#1090#1086#1085#1085#1086#1081' '#1089#1084#1077#1089#1080', '#1082#1075'/'#1084'3:'
   end
   object edt_R_bn: TEdit
     Left = 333
@@ -171,7 +171,7 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
   end
   object edt_density: TEdit
     Left = 333
-    Top = 135
+    Top = 139
     Width = 100
     Height = 21
     TabOrder = 11

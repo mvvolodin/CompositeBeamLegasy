@@ -6,7 +6,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-std::vector<CorrugatedSheet> CorrigatedSheetsData::corrugated_sheets_list_
+std::vector<CorrugatedSheet> CorrugatedSheetsData::corrugated_sheets_list_
 {
 //Данные из ГОСТ 24045-2016
 	{L"Н60-845-0.7", 60, 0.7, 89.5, 50, 211.2, 8.8 },
@@ -27,7 +27,7 @@ std::vector<CorrugatedSheet> CorrigatedSheetsData::corrugated_sheets_list_
 	{L"Н153-850-1.5", 153, 1.5, 164, 284 - 241, 284, 21.3},
 };
 
-CorrugatedSheet CorrigatedSheetsData::get_corrugated_sheet(const String& name)
+CorrugatedSheet CorrugatedSheetsData::get_corrugated_sheet(const String& name)
 {
 	auto corrugated_sheet = std::find_if(corrugated_sheets_list_.begin(),corrugated_sheets_list_.end(),
 	[name](CorrugatedSheet corrugated_sheet){return corrugated_sheet.get_name() == name;});

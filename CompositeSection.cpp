@@ -39,7 +39,6 @@ void CompositeSection::set_default_values()
 void CompositeSection::calculate()
 {
 	concrete_part_.calculate();
-	steel_part_.calculate();
 
 	alfa_to_rebar_steel_calc();
 	alfa_to_concrete_calc();
@@ -73,9 +72,9 @@ void CompositeSection::alfa_to_concrete_calc()
 
 void CompositeSection::compos_sect_height_calc()
 {
-	double h_b = concrete_part_.get_h_b(); //толщина железобетонной плиты. Для случая плиты по настилу сумма высоты настила и толщины бетона над ним
+	double h = concrete_part_.get_h(); //толщина железобетонной плиты. Для случая плиты по настилу сумма высоты настила и толщины бетона над ним
 	double h_st = steel_part_.get_section().get_h_st(); // Высота стальной балки
-	H_red_ = h_b + h_st;
+	H_red_ = h + h_st;
 }
 
 void CompositeSection::compos_sect_area_calc()
@@ -92,15 +91,15 @@ void CompositeSection::compos_sect_area_calc()
 
 void CompositeSection::dist_conc_to_steel_calc()
 {
-	double C_b_=concrete_part_.get_C_b();
-	double h_b=concrete_part_.get_h_b();
+	double C_b_ = concrete_part_.get_C_b();
+	double h = concrete_part_.get_h();
 	double Z_f2_st=steel_part_.get_section().get_Z_f2_st();
 	double a_u=concrete_part_.get_rebar().get_a_u();
 	double a_l=concrete_part_.get_rebar().get_a_l();
 
-	Z_b_st_=C_b_+Z_f2_st;
-	Z_st_r_u_= Z_f2_st+h_b-a_u;
-	Z_st_r_l_=Z_f2_st+a_l;
+	Z_b_st_ = C_b_ + Z_f2_st;
+	Z_st_r_u_ = Z_f2_st + h - a_u;
+	Z_st_r_l_ = Z_f2_st + a_l;
 }
 
 void CompositeSection::first_moment_of_area_comp_calc()

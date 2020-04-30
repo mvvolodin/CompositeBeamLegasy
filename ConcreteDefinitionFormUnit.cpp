@@ -40,24 +40,29 @@ void __fastcall TConcreteDefinitionForm::cmb_bx_concrete_grade_listChange(TObjec
 //---------------------------------------------------------------------------
 void TConcreteDefinitionForm::set_concrete()
  {
-	String grade="";
-	double R_bn=0.;
-	double R_btn=0.;
-	double E_b=0.;
-	double phi_b_cr=0.;
-	double gamma_b=0.;
-	double gamma_bt=0.;
-	double epsilon_b_lim=0.;
-	grade=cmb_bx_concrete_grade_list->Text;
-	R_bn=StrToFloat(edt_R_bn->Text);
-	R_btn=StrToFloat(edt_R_btn->Text);
-	E_b=StrToFloat(edt_E_b->Text);
-	String_double_plus(lbl_gamma_b->Caption, edt_phi_b_cr->Text, &phi_b_cr);
-	String_double_plus(lbl_gamma_b->Caption, edt_gamma_b->Text, &gamma_b);
-	String_double_plus(lbl_gamma_bt->Caption, edt_gamma_bt->Text, &gamma_bt);
-	String_double_plus(lbl_epsilon_b_lim->Caption, edt_epsilon_b_lim->Text, &epsilon_b_lim);
-	ConcreteBasic concrete_basic (grade, E_b, R_bn, R_btn);
-	concrete_temp_=Concrete(concrete_basic, phi_b_cr, gamma_b, gamma_bt, epsilon_b_lim);
+	String grade = "";
+	double R_bn = 0.;
+	double R_btn = 0.;
+	double E_b = 0.;
+	double density = 0.;
+	double phi_b_cr = 0.;
+	double gamma_b = 0.;
+	double gamma_bt = 0.;
+	double epsilon_b_lim = 0.;
+
+	grade=cmb_bx_concrete_grade_list -> Text;
+	R_bn=StrToFloat(edt_R_bn -> Text);
+	R_btn=StrToFloat(edt_R_btn -> Text);
+	E_b=StrToFloat(edt_E_b -> Text);
+
+	String_double_plus(lbl_phi_b_cr -> Caption, edt_phi_b_cr -> Text, &phi_b_cr);
+	String_double_zero_plus(lbl_density -> Caption, edt_density -> Text, &density);
+	String_double_plus(lbl_gamma_b -> Caption, edt_gamma_b -> Text, &gamma_b);
+	String_double_plus(lbl_gamma_bt -> Caption, edt_gamma_bt -> Text, &gamma_bt);
+	String_double_plus(lbl_epsilon_b_lim -> Caption, edt_epsilon_b_lim -> Text, &epsilon_b_lim);
+
+	ConcreteBasic concrete_basic {grade, E_b, R_bn, R_btn};
+	concrete_temp_ = Concrete{concrete_basic, density, phi_b_cr, gamma_b, gamma_bt, epsilon_b_lim};
 }
 //---------------------------------------------------------------------------
 //Присваивение значений полям формы из данных класс типа Concrete
@@ -69,10 +74,11 @@ void TConcreteDefinitionForm::set_concrete()
 	edt_R_btn->Text = concrete_temp_.get_R_btn();
 	edt_E_b->Text = concrete_temp_.get_E_b();
 
-	edt_phi_b_cr->Text = concrete_temp_.get_phi_b_cr();
-	edt_gamma_b->Text = concrete_temp_.get_gamma_b();
-	edt_gamma_bt->Text = concrete_temp_.get_gamma_bt();
-	edt_epsilon_b_lim->Text = concrete_temp_.get_epsilon_b_lim();
+	edt_density -> Text = concrete_temp_.get_density(LengthUnit::m);
+	edt_phi_b_cr -> Text = concrete_temp_.get_phi_b_cr();
+	edt_gamma_b -> Text = concrete_temp_.get_gamma_b();
+	edt_gamma_bt -> Text = concrete_temp_.get_gamma_bt();
+	edt_epsilon_b_lim -> Text = concrete_temp_.get_epsilon_b_lim();
 
  }
 //---------------------------------------------------------------------------

@@ -35,7 +35,7 @@ using CorrugatedSheetsMap=std::map<String, CorrugatedSheet> ;
 
 extern CorrugatedSheetsMap corrugated_sheets_map;
 
-class CorrigatedSheetsData{
+class CorrugatedSheetsData{
 public:
 	static CorrugatedSheet get_corrugated_sheet(const String& name);
 private:

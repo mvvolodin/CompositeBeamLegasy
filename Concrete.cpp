@@ -37,11 +37,13 @@ Concrete::Concrete()
 	:ConcreteBasic(){}
 //---------------------------------------------------------------------------
 Concrete::Concrete(ConcreteBasic concrete_basic,
+				   double        density,
 				   double        phi_b_cr,
 				   double        gamma_b,
 				   double        gamma_bt,
 				   double        epsilon_b_lim):
 						ConcreteBasic (concrete_basic),
+						density_      (density),
 						phi_b_cr_     (phi_b_cr),
 						gamma_b_      (gamma_b),
 						gamma_bt_     (gamma_bt),
@@ -74,6 +76,7 @@ void ConcreteBasic::load(istream& istr)
 	istr.read((char*)&R_bn_ ,sizeof(R_bn_));
 	istr.read((char*)&R_btn_ ,sizeof(R_btn_));
 }
+/* TODO 1 -oMV : Добавить в функцию сохранения в файл и в функцию восстановления из файла поле "density_" */
 void Concrete::save(ostream& ostr) const
 {
 	ConcreteBasic::save(ostr);
@@ -102,6 +105,7 @@ void Concrete::set_default_values()
 {
 	grade_ = L"B25";
 	E_b_ = 30000. ;
+	density_ = 2500e-9;
 	R_bn_ = 18.5;
 	R_btn_ = 1.55;
 	phi_b_cr_ = 3.2;

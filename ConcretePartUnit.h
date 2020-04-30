@@ -25,8 +25,10 @@ public:
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
 	void set_default_values();
-	double SW_concrete();
+
 	void calculate();
+	double calculate_SW_concrete();
+
 	String get_slab_type() const {return slab_type_;}
 	SlabType get_slab_type_enum() const {return slab_type_enum_;}
 	Concrete& get_concrete() {return concrete_;}
@@ -34,7 +36,7 @@ public:
 	Rebar get_rebar() const {return rebar_;}
 
 	double get_C_b(LengthUnit length_unit=LengthUnit::mm) const {return C_b_/static_cast<int>(length_unit);}
-	double get_h_b(LengthUnit length_unit=LengthUnit::mm) const {return h_b_/static_cast<int>(length_unit);}
+	double get_h(LengthUnit length_unit=LengthUnit::mm) const {return h_/static_cast<int>(length_unit);}
 	double get_h_f(LengthUnit length_unit=LengthUnit::mm) const {return h_f_/static_cast<int>(length_unit);}
 	void set_b_l(double b_l){b_l_ = b_l;}
 	void set_b_r(double b_r){b_r_ = b_r;}
@@ -53,14 +55,17 @@ private:
 
 	double b_l_ = 0.; // эффективная ширина слева
 	double b_r_ = 0.; // эффективная ширина справа
-	double h_b_ = 0.;// толщина железобетонной плиты. Для случая плиты по настилу сумма высоты настила и толщины бетона над ним
+	double h_ = 0.;// толщина железобетонной плиты. Для случая плиты по настилу сумма высоты настила и толщины бетона над ним
 	double C_b_ = 0.; 	// расстояние от нижней грани железобетонной плиты до её центр тяжести
 	double h_f_ = 0.; // расчётная толщина железобетонной плиты
+	double h_b_ = 0.; //приведённая толщина бетона
 	double A_b_ = 0.; // Площадь железобетона
 	double I_b_ = 0.;
 
 	double effective_width_calc(double t_sl, double a, double B, double l);
 	double effective_width_cantilever_calc(double t_slc, double a, double С, double l);
+
+	bool calculated_ = false;
 };
 
 

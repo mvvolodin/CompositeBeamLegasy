@@ -22,15 +22,14 @@ void TConcretePart::set_default_values()
 {
 	slab_type_ = L"Плоская плита";
 	slab_type_enum_ = SlabType::FLAT;
-    h_f_ = 200;
+	h_f_ = 200;
 	concrete_.set_default_values();
 	rebar_.set_default_values();
 }
-double TConcretePart::SW_concrete()
+double TConcretePart::calculate_SW_concrete()
 {
-   // double concrete_density = concrete_.get_density();
-   //	q_b =
-   //	return q_b;
+   double density = concrete_.get_density();
+   return density * GRAV_ACCELERAT * (h_f_ + h_b_);
 }
 //---------------------------------------------------------------------------
 //Сохранение объекта в бинарный файл
@@ -75,21 +74,25 @@ void TConcretePart::calculate()
 
 	switch (slab_type_enum_)
 	{
-
 	case SlabType::FLAT:
-		h_b_=h_f_;
-		C_b_=h_b_/2.;
-		A_b_=(b_l_+b_r_)*h_f_;
-		I_b_=(b_l_+b_r_)*std::pow(h_f_,3)/12;
+		h_ = h_f_;
+		C_b_ = h_b_/2.;
+		A_b_ = (b_l_ + b_r_) * h_f_;
+		I_b_ = (b_l_ + b_r_) * std::pow(h_f_,3) / 12;
 		break;
 	case SlabType::CORRUGATED:
-		CorrugatedSheet corrugated_sheet = corrugated_sheets_map[slab_type_];
-		h_b_=corrugated_sheet.get_height()+h_f_;
-		C_b_=corrugated_sheet.get_height()+h_f_/2.;
-		A_b_=(b_l_+b_r_)*h_f_;
-		I_b_=(b_l_+b_r_)*std::pow(h_f_,3)/12;
+		CorrugatedSheet cs = CorrugatedSheetsData::get_corrugated_sheet(slab_type_);
+		h_ = cs.get_height() + h_f_;
+		C_b_ = cs.get_height() + h_f_ / 2.;
+		h_b_ = cs.get_h_b();
+		A_b_=(b_l_ + b_r_) * h_f_;
+		I_b_=(b_l_ + b_r_) * std::pow(h_f_,3) / 12;
 		break;
 	}
+
+	calculate_SW_concrete();
+
+	calculated_ = true;
 }
 
 

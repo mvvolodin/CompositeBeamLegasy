@@ -590,7 +590,7 @@ void TCompositeBeamMainForm::generate_report()
 //[1.5] Железобетонное сечение
 //[1.5.1] Номинальные размеры плиты
 	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
-	report_.PasteTextPattern(concrete_part.get_h_b(),"%t_sl%");
+	report_.PasteTextPattern(concrete_part.get_h(),"%t_sl%");
 
 //[1.5.2] Характеристики бетона
 
