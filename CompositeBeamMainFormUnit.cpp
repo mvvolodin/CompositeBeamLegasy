@@ -72,6 +72,7 @@ void TCompositeBeamMainForm::set_form_controls()
 	edt_dead_load_second_stage -> Text = loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m);
 	edt_live_load -> Text = loads.get_live_load(LoadUnit::kN, LengthUnit::m);
 	edt_gamma_f_st_SW_-> Text = loads.get_gamma_f_st_SW();
+	edt_gamma_f_concrete -> Text = loads.get_gamma_f_concrete_SW();
 	edt_gamma_f_DL_I -> Text = loads.get_gamma_f_DL_I();
 	edt_gamma_f_DL_II -> Text = loads.get_gamma_f_DL_II();
 	edt_gamma_f_LL -> Text = loads.get_gamma_f_LL();
@@ -101,8 +102,9 @@ void TCompositeBeamMainForm::set_form_controls()
 			cmb_bx_corrugated_sheeting_part_number -> Items -> IndexOf(composite_beam_.get_composite_section().get_concrete_part().get_slab_type());
 		break;
 	}
-	edt_flat_slab_thickness -> Text = composite_beam_.get_composite_section().get_concrete_part().get_h_f();
+	edt_h_f_flat -> Text = composite_beam_.get_composite_section().get_concrete_part().get_h_f();
 	edt_h_f -> Text = composite_beam_.get_composite_section().get_concrete_part().get_h_f();
+	edt_h_n -> Text = composite_beam_.get_composite_section().get_concrete_part().get_h_n();
 
 //Данные типа Studs
 	StudDefinitionForm -> set_form_controls(composite_beam_.get_studs());
@@ -212,19 +214,22 @@ TConcretePart TCompositeBeamMainForm::init_concrete_part()
 	ISection i_section = SteelSectionForm2 -> get_i_section();
 	double b_uf = i_section.get_b_uf();
 
-	if (rdgrp_slab_type->ItemIndex==0)
+	if (rdgrp_slab_type -> ItemIndex ==0)
 	{
-		double t_sl= 0.;
-		String_double_plus(lbl_flat_slab_thickness->Caption, edt_flat_slab_thickness->Text, &t_sl);
+		double t_sl = 0.;
+		double h_n = 0.;
+		String_double_plus(lbl_h_f_flat -> Caption, edt_h_f_flat -> Text, &t_sl);
+		String_double_zero_plus(lbl_h_n -> Caption, edt_h_n -> Text, &h_n);
 		return TConcretePart (L"Плоская плита",
 							  SlabType::FLAT,
 							  ConcreteDefinitionForm->get_concrete(),
 							  RebarDefinitionForm->get_rebar(),
-							  t_sl);
+							  t_sl,
+							  h_n);
 	}
 	else
 	{
-	double h_f= 0.;
+	double h_f = 0.;
 
 	String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f);
 
@@ -232,7 +237,8 @@ TConcretePart TCompositeBeamMainForm::init_concrete_part()
 						  SlabType::CORRUGATED,
 						  ConcreteDefinitionForm->get_concrete(),
 						  RebarDefinitionForm->get_rebar(),
-						  h_f);
+						  h_f,
+						  0.);
 	}
 }
 //---------------------------------------------------------------------------
@@ -310,18 +316,18 @@ void __fastcall TCompositeBeamMainForm::btn_reportClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::rdgrp_slab_typeClick(TObject *Sender)
 {
-	switch(rdgrp_slab_type->ItemIndex)
+	switch(rdgrp_slab_type -> ItemIndex)
 	{
-		case 0: grp_bx_corrugated_slab->Visible=false;
-				grp_bx_flat_slab->Visible=true;
-				Image2->Visible=false;
-				Image1->Visible=true;
+		case 0: grp_bx_corrugated_slab -> Visible = false;
+				grp_bx_flat_slab -> Visible = true;
+				Image2 -> Visible = false;
+				Image1 -> Visible = true;
 				break;
 
-	   case 1:	grp_bx_corrugated_slab->Visible=true;
-				grp_bx_flat_slab->Visible=false;
-				Image2->Visible=true;
-				Image1->Visible=false;
+	   case 1:	grp_bx_corrugated_slab -> Visible = true;
+				grp_bx_flat_slab -> Visible = false;
+				Image2 -> Visible = true;
+				Image1 -> Visible = false;
 				break;
 	}
 		OnControlsChange(nullptr);

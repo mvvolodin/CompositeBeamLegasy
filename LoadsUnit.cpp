@@ -18,7 +18,10 @@ TLoads::TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL
 	gamma_f_DL_I_(gamma_f_DL_I),
 	gamma_f_DL_II_(gamma_f_DL_II),
 	gamma_f_LL_(gamma_f_LL){}
-
+/* TODO 1 -oMV :
+Добавить в функцию сохранения в файл и в функцию загрузки из файла
+"gamma_f_concrete_SW_" и "SW_concrete_"
+ */
 void TLoads::save(std::ostream& ostr) const
 {
 	ostr.write((char*)&SW_, sizeof(SW_ ));
@@ -56,7 +59,10 @@ void TLoads::set_default_values()
 	DL_II_ = 0.0015;
 	LL_ =  0.002;
 	gamma_f_st_SW_ = 1.05;
+	gamma_f_concrete_SW_ = 1.2;
 	gamma_f_DL_I_ = 1.35;
 	gamma_f_DL_II_ = 1.35;
 	gamma_f_LL_ = 1.35;
 }
+
+

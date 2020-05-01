@@ -448,6 +448,7 @@ void TCompositeBeam::calculate()
 	ratios_cs_list_ = calculate_ratios(cs_coordinates_, internal_forces_);
 	calc_ratio_rigid_plastic();
 	calculate_shear_ratios();
+	calculate_steel_beam_direct_stresses_I_stage_ratio();
 
 	//log_stresses();
 
@@ -641,8 +642,12 @@ std::vector<double> TCompositeBeam::internal_forces_for_studs(std::vector<Stress
 //---------------------------------------------------------------------------
 void TCompositeBeam::calc_inter_forces()
 {
+
+
+
 	double SW = loads_.get_self_weight();
 	double SW_sheets = loads_.get_self_weight_sheets();
+	double SW_concrete = composite_section_.get_concrete_part().get_SW_concrete();
 	double DL_I = loads_.get_dead_load_first_stage();
 	double DL_II = loads_.get_dead_load_second_stage();
 	double LL = loads_.get_live_load();
@@ -1136,6 +1141,26 @@ double TCompositeBeam::get_max_abs_Q(Impact impact)
 {
     return 0.;
 }
+//---------------------------------------------------------------------------
+//Расчёт КИ стальной балки по прочности по нормальным напряжениям
+//---------------------------------------------------------------------------
+void TCompositeBeam::calculate_steel_beam_direct_stresses_I_stage_ratio()
+{
+	std::vector<double> M_list {get_M_list(Impact::I_stage)};
+	double M_Rd = composite_section_.get_steel_part().get_M_Rd();
+	for (auto M_Ed: M_list)
+		steel_beam_direct_stresses_I_stage_ratio_.push_back(M_Ed / M_Rd);
+	double max_M = get_max_abs_M(Impact::I_stage);
+
+}
+double TCompositeBeam::get_max_steel_beam_direct_stresses_I_stage_ratio()const
+{
+	return *std::max_element(steel_beam_direct_stresses_I_stage_ratio_.begin(),
+							 steel_beam_direct_stresses_I_stage_ratio_.end());
+}
+//---------------------------------------------------------------------------
+//Расчёт КИ композитной балки на поперечную силу
+//---------------------------------------------------------------------------
 void TCompositeBeam::calculate_shear_ratios()
 {
 	std::vector<double> Q {get_Q_list(Impact::Total)};

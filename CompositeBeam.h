@@ -80,6 +80,7 @@ public:
 	double get_sigma_s_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
 
 	double get_max_shear_ratio() const {return *std::max_element(shear_ratios_.begin(),shear_ratios_.end());}
+	double get_max_steel_beam_direct_stresses_I_stage_ratio()const;
 	double get_max_stud_ratio();
 	double get_max_stud_ratio_coordinate();
 	double get_max_S_h(LoadUnit load_unit=LoadUnit::N);
@@ -156,6 +157,7 @@ private:
 	std::vector<Ratios> ratios_cs_list_;
 	double ratio_rigid_plastic_; //КИ при расчёте в предположении жёстко - пластического материала
 	std::vector<double> shear_ratios_;
+	std::vector<double> steel_beam_direct_stresses_I_stage_ratio_;//КИ стальной балки по прочности по нормальным напряжениям I стадия
 
 	double get_max_abs_M_coordinate(Impact impact);//Получение координаты сечения с макисмальным моментом
 	double get_max_abs_Q_coordinate(Impact impact);//Получение координаты сечения с максимально поперечной силой
@@ -187,11 +189,14 @@ private:
 
 	std::vector<Ratios> calculate_ratios(std::vector<double>& cs_coordinates, InternalForcesNamedList& intr_frcs);
 	Ratios calculate_ratios(double M, Stresses stresses);
+	void calculate_shear_ratios();
 
  // Расчёт коэффициентов использования упоров
 
 	void calculate_studs_ratios();
-	void calculate_shear_ratios();
+
+ //Расчёт стальной балки на I стадии
+	void calculate_steel_beam_direct_stresses_I_stage_ratio();
 
 // Расчёт коэффициентов использования жёстко-пластическая теория
 

@@ -14,8 +14,10 @@ public:
 	TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL,
 		double gamma_f_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL);
 	void set_default_values();
+	void calculate_loads(double SW_concrete);
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
+	bool get_status()const{return loads_calculated_;}
 	double get_self_weight(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		{return SW_/static_cast<int>(load_unit)*static_cast<int>(length_unit);}
 	double get_self_weight_sheets(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
@@ -27,6 +29,7 @@ public:
 	double get_live_load(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		{return LL_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
 	double get_gamma_f_st_SW() const {return gamma_f_st_SW_;}
+	double get_gamma_f_concrete_SW()const {return gamma_f_concrete_SW_;}
 	double get_gamma_f_DL_I() const {return gamma_f_DL_I_;}
 	double get_gamma_f_DL_II(){return gamma_f_DL_II_;}
 	double get_gamma_f_LL()const {return gamma_f_LL_;}
@@ -34,14 +37,16 @@ public:
 private:
 	double SW_ = 0.;
 	double SW_sheets_ = 0.;
-    double SW_concrete_ = 0.;
 	double DL_I_ = 0.;
 	double DL_II_ = 0.;
 	double LL_ = 0.;
 	double gamma_f_st_SW_ = 0.;
+	double gamma_f_concrete_SW_ = 0;
 	double gamma_f_DL_I_ = 0.;
 	double gamma_f_DL_II_ = 0.;
 	double gamma_f_LL_ = 0.;
+
+	bool loads_calculated_ = false;
 
 };
 #endif

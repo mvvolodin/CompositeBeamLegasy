@@ -121,8 +121,8 @@ __published:	// IDE-managed Components
 	TBitBtn *BtnSteelSectionChoice;
 	TRadioGroup *rdgrp_slab_type;
 	TGroupBox *grp_bx_flat_slab;
-	TLabel *lbl_flat_slab_thickness;
-	TEdit *edt_flat_slab_thickness;
+	TLabel *lbl_h_f_flat;
+	TEdit *edt_h_f_flat;
 	TGroupBox *grp_bx_corrugated_slab;
 	TComboBox *cmb_bx_corrugated_sheeting_part_number;
 	TGroupBox *GrpBxSteel;
@@ -159,6 +159,8 @@ __published:	// IDE-managed Components
 	TLabel *lbl_number_propping_supports;
 	TEdit *edt_gamma_f_concrete;
 	TLabel *lbl_gamma_f_concrete;
+	TEdit *edt_h_n;
+	TLabel *lbl_h_n;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);

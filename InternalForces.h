@@ -11,6 +11,7 @@
  enum class Impact{
 	SW_BEAM,
 	SW_SHEETS,
+    SW_CONCRETE,
 	DL_I,
 	DL_II,
 	LL,

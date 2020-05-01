@@ -128,7 +128,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -240,7 +240,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Width = 45
           Height = 21
           TabOrder = 4
-          Text = '1,3'
           OnChange = OnControlsChange
         end
       end
@@ -513,6 +512,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtSectionMaterials: TTabSheet
       Caption = #1057#1077#1095#1077#1085#1080#1077' '#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1099
       ImageIndex = 1
+      ExplicitLeft = 8
+      ExplicitTop = 28
       object GrpBxSteelSection: TGroupBox
         Left = -4
         Top = 283
@@ -554,37 +555,51 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       object grp_bx_flat_slab: TGroupBox
         Left = 3
         Top = 415
-        Width = 300
+        Width = 470
         Height = 60
         Caption = #1055#1083#1086#1089#1082#1072#1103' '#1087#1083#1080#1090#1072
         TabOrder = 2
         Visible = False
-        object lbl_flat_slab_thickness: TLabel
+        object lbl_h_f_flat: TLabel
           Left = 16
           Top = 29
           Width = 103
           Height = 13
           Caption = #1058#1086#1083#1097#1080#1085#1072' '#1087#1083#1080#1090#1099', '#1084#1084':'
         end
-        object edt_flat_slab_thickness: TEdit
-          Left = 167
+        object lbl_h_n: TLabel
+          Left = 205
+          Top = 27
+          Width = 175
+          Height = 13
+          Caption = #1047#1072#1079#1086#1088' '#1084#1077#1078#1076#1091' '#1087#1083#1080#1090#1086#1081' '#1080' '#1087#1086#1083#1082#1086#1081', '#1084#1084':'
+        end
+        object edt_h_f_flat: TEdit
+          Left = 141
           Top = 25
           Width = 41
           Height = 21
           TabOrder = 0
           OnChange = OnControlsChange
         end
+        object edt_h_n: TEdit
+          Left = 403
+          Top = 23
+          Width = 41
+          Height = 21
+          TabOrder = 1
+        end
       end
       object grp_bx_corrugated_slab: TGroupBox
         Left = 3
         Top = 414
-        Width = 462
+        Width = 470
         Height = 60
         Caption = '  '#1055#1083#1080#1090#1072' '#1087#1086' '#1085#1072#1089#1090#1080#1083#1091'  '
         TabOrder = 3
         Visible = False
         object lbl_h_f: TLabel
-          Left = 209
+          Left = 214
           Top = 27
           Width = 175
           Height = 13
@@ -607,7 +622,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = cmb_bx_corrugated_sheeting_part_numberChange
         end
         object edt_h_f: TEdit
-          Left = 398
+          Left = 409
           Top = 23
           Width = 41
           Height = 21

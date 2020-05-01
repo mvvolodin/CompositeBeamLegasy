@@ -12,8 +12,8 @@
 TConcretePart::TConcretePart()
 {
 }
-TConcretePart::TConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f)
-	:slab_type_(slab_type), slab_type_enum_(slab_type_enum),concrete_(concrete),rebar_(rebar), h_f_(h_f)
+TConcretePart::TConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, double h_n)
+	:slab_type_(slab_type), slab_type_enum_(slab_type_enum),concrete_(concrete),rebar_(rebar), h_f_(h_f), h_n_(h_n)
 {}
 //-----------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
@@ -22,7 +22,8 @@ void TConcretePart::set_default_values()
 {
 	slab_type_ = L"Плоская плита";
 	slab_type_enum_ = SlabType::FLAT;
-	h_f_ = 200;
+	h_f_ = 200.;
+	h_n_ = 0.;
 	concrete_.set_default_values();
 	rebar_.set_default_values();
 }
@@ -75,24 +76,25 @@ void TConcretePart::calculate()
 	switch (slab_type_enum_)
 	{
 	case SlabType::FLAT:
-		h_ = h_f_;
-		C_b_ = h_b_/2.;
+		h_ = h_n_ + h_f_;
+		C_b_ = h_n_ + h_f_/2.;
 		A_b_ = (b_l_ + b_r_) * h_f_;
 		I_b_ = (b_l_ + b_r_) * std::pow(h_f_,3) / 12;
 		break;
 	case SlabType::CORRUGATED:
 		CorrugatedSheet cs = CorrugatedSheetsData::get_corrugated_sheet(slab_type_);
-		h_ = cs.get_height() + h_f_;
-		C_b_ = cs.get_height() + h_f_ / 2.;
+		h_n_ = cs.get_height();
 		h_b_ = cs.get_h_b();
-		A_b_=(b_l_ + b_r_) * h_f_;
-		I_b_=(b_l_ + b_r_) * std::pow(h_f_,3) / 12;
+		h_ = h_n_ + h_f_;
+		C_b_ = h_n_ + h_f_ / 2.;
+		A_b_ = (b_l_ + b_r_) * h_f_;
+		I_b_ = (b_l_ + b_r_) * std::pow(h_f_,3) / 12;
 		break;
 	}
 
-	calculate_SW_concrete();
+	SW_concrete_ = calculate_SW_concrete();
 
-	calculated_ = true;
+	concrete_part_calculated_  = true;
 }
 
 
