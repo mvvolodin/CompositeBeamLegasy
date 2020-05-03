@@ -11,4 +11,8 @@ Ratios::Ratios()
 Ratios::Ratios(double ratio_upper_flange, double ratio_lower_flange):
 	ratio_upper_flange_(ratio_upper_flange),
 	ratio_lower_flange_(ratio_lower_flange){}
+Ratios::Ratios(double ratio_upper_flange, double ratio_lower_flange, double ratio_concrete):
+	ratio_upper_flange_(ratio_upper_flange),
+	ratio_lower_flange_(ratio_lower_flange),
+	ratio_concrete_(ratio_concrete){}
 

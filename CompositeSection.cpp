@@ -54,6 +54,7 @@ void CompositeSection::calculate()
 	sect_modulus_upper_fl();
 	sect_modulus_lower_fl();
 	sect_modulus_conc();
+	fictitious_modulus();
 }
 
 void CompositeSection::alfa_to_rebar_steel_calc()
@@ -169,5 +170,10 @@ void CompositeSection::sect_modulus_lower_fl()
 
 void CompositeSection::sect_modulus_conc()
 {
-	W_b_red_=I_red_/Z_b_red_;
+	W_b_red_ = I_red_ / Z_b_red_;
+}
+void CompositeSection::fictitious_modulus()
+{
+	double I_st = steel_part_.get_section().get_I_st();
+	W_b_st_ = I_st / Z_b_st_;
 }

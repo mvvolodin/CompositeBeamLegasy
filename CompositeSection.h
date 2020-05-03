@@ -33,6 +33,7 @@ private:
 	double W_f2_red_= 0.; //Момент сопротивления сталежелезобетонного сечения для верхней полки
 	double W_f1_red_= 0.; //Момент сопротивления сталежелезобетонного сечения для нижней полки
 	double W_b_red_= 0.;//Момент сопротивления сталежелезобетонного сечения для Ц.Т. железобетонной плиты
+	double W_b_st_ = 0.;//условный момент сопротивления на уровне центр тяжести сечения бетона
 
 	void alfa_to_rebar_steel_calc();
 	void alfa_to_concrete_calc();
@@ -48,6 +49,7 @@ private:
 	void sect_modulus_upper_fl();
 	void sect_modulus_lower_fl();
 	void sect_modulus_conc();
+	void fictitious_modulus();
 
 public:
 	CompositeSection();
@@ -74,6 +76,7 @@ public:
 	double get_Z_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f2_/static_cast<int>(length_unit);}
 	double get_Z_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f1_/static_cast<int>(length_unit);}
 	double get_Z_b_st(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_st_/static_cast<int>(length_unit);}
+	double get_W_b_st(LengthUnit length_unit=LengthUnit::mm) const {return W_b_st_/std::pow(static_cast<int>(length_unit),3);}
 
 	double get_b_s()const {return concrete_part_.get_rebar().get_b_s();}
 

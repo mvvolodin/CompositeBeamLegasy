@@ -126,7 +126,11 @@ private:
 
 
 //---------------------------------------------------------------------------
-//Альтернативный расчёт упоров
+//Альтернативный расчёт стальной балки I стадии
+//---------------------------------------------------------------------------
+	std::vector<double> calculate_M_I_stage_beam();
+	double calculate_M_I_stage_beam(double x);
+	std::vector<double> M_I_stage_beam_;
 //---------------------------------------------------------------------------
 
 //Поля с результатами расчётов координат
@@ -162,8 +166,6 @@ private:
 	double get_max_abs_M_coordinate(Impact impact);//Получение координаты сечения с макисмальным моментом
 	double get_max_abs_Q_coordinate(Impact impact);//Получение координаты сечения с максимально поперечной силой
 
-
-
 //Расчёт эффективной ширины
 
 	void calculate_effective_width();
@@ -188,7 +190,8 @@ private:
  // Расчёт коэффициентов использования сечений
 
 	std::vector<Ratios> calculate_ratios(std::vector<double>& cs_coordinates, InternalForcesNamedList& intr_frcs);
-	Ratios calculate_ratios(double M, Stresses stresses);
+	Ratios calculate_ratios(double M, double M_2, Stresses stresses);
+	double calculate_concrete_coefficient(double sigma_0, double N_br_sr);
 	void calculate_shear_ratios();
 
  // Расчёт коэффициентов использования упоров
