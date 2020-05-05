@@ -66,11 +66,6 @@ private:
 	double ratio_ = 0.;
 };
 
-	String StudsRow::name_ = L"SDx10x100";
-	double StudsRow::d_an_ = 10.;
-	double StudsRow::l_= 100. ;
-	double StudsRow::P_rd_ = 0.;
-	bool   StudsRow::resistance_calculated_ = false;
 
 /*
 	Класс StudsOnBeam описывает объект упоры на балке

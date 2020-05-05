@@ -20,6 +20,8 @@
 #include "Ratios.h"
 #include "CorrugatedSheet.h"
 
+#include "uSection.h"
+
 
 class TCompositeBeam{
 //---------------------------------------------------------------------------
@@ -98,6 +100,15 @@ private:
 	CompositeSection composite_section_;
 	CompositeSection composite_section2_;
 	Studs studs_;
+ //---------------------------------------------------------------------------
+//Альтернативный расчёт балки
+//---------------------------------------------------------------------------
+
+	std::vector<Section> sections_list_;
+
+	void calculate_composite_beam();
+	std::vector<Section> sections_list();
+
 //---------------------------------------------------------------------------
 //Альтернативный расчёт упоров
 //---------------------------------------------------------------------------

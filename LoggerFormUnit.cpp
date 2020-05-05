@@ -18,7 +18,7 @@ void TFormLogger::print_M_X(std::vector<double> M_list)
 {
 	for(auto M:M_list)
 	{
-		String str = L"M = " + FloatToStrF(M / 100000, ffFixed, 15, 2);
+		String str = L"M = " + FloatToStrF(M / 1000000, ffFixed, 15, 2);
 		mm_logger -> Lines -> Add(str);
 	}
 }

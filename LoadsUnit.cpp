@@ -7,10 +7,10 @@
 
 TLoads::TLoads(){}
 
-TLoads::TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL,
+TLoads::TLoads(double SW_steel_beam, double SW_corrugated_sheets, double DL_I, double DL_II, double LL,
 	double gamma_f_st_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL)
-	:SW_(SW/static_cast<int>(LengthUnit::m)),
-	SW_sheets_(SW_sheets/std::pow(static_cast<int>(LengthUnit::m),2)),
+	:SW_steel_beam_(SW_steel_beam/static_cast<int>(LengthUnit::m)),
+	SW_corrugated_sheets_(SW_corrugated_sheets/std::pow(static_cast<int>(LengthUnit::m),2)),
 	DL_I_(DL_I*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),  //Полезно сделать сеттеры!
 	DL_II_(DL_II*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	LL_(LL*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
@@ -20,12 +20,12 @@ TLoads::TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL
 	gamma_f_LL_(gamma_f_LL){}
 /* TODO 1 -oMV :
 Добавить в функцию сохранения в файл и в функцию загрузки из файла
-"gamma_f_concrete_SW_" и "SW_concrete_"
+"gamma_f_concrete_SW_", "b_" и "SW_concrete_"
  */
 void TLoads::save(std::ostream& ostr) const
 {
-	ostr.write((char*)&SW_, sizeof(SW_ ));
-	ostr.write((char*)&SW_sheets_, sizeof(SW_sheets_));
+	ostr.write((char*)&SW_steel_beam_, sizeof(SW_steel_beam_));
+	ostr.write((char*)&SW_corrugated_sheets_, sizeof(SW_corrugated_sheets_));
 	ostr.write((char*)&DL_I_, sizeof(DL_I_));
 	ostr.write((char*)&DL_II_, sizeof(DL_II_));
 	ostr.write((char*)&LL_, sizeof(LL_));
@@ -37,8 +37,8 @@ void TLoads::save(std::ostream& ostr) const
 }
 void TLoads::load(std::istream& istr)
 {
-	istr.read((char*)&SW_, sizeof(SW_ ));
-	istr.read((char*)&SW_sheets_, sizeof(SW_sheets_));
+	istr.read((char*)&SW_steel_beam_, sizeof(SW_steel_beam_ ));
+	istr.read((char*)&SW_corrugated_sheets_, sizeof(SW_corrugated_sheets_));
 	istr.read((char*)&DL_I_, sizeof(DL_I_));
 	istr.read((char*)&DL_II_, sizeof(DL_II_));
 	istr.read((char*)&LL_, sizeof(LL_));
@@ -49,12 +49,48 @@ void TLoads::load(std::istream& istr)
 
 }
 //-----------------------------------------------------------------------------
+//Расчёт значения нагрузки от комбинации загружений Ia
+//-----------------------------------------------------------------------------
+double TLoads::calculate_Ia_design_LCC()
+{
+	assert(fully_initialized_);
+	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * b_ +
+		gamma_f_concrete_SW_ * SW_concrete_ * b_+ gamma_f_DL_I_ * DL_I_ * b_;
+}
+//-----------------------------------------------------------------------------
+//Расчёт значения нагрузки от комбинации загружений Ib
+//-----------------------------------------------------------------------------
+double TLoads::calculate_Ib_design_LCC()
+{
+    assert(fully_initialized_);
+	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * b_ +
+		gamma_f_concrete_SW_ * SW_concrete_ * b_;
+}
+//-----------------------------------------------------------------------------
+//Расчёт значения нагрузки от комбинации загружений II
+//-----------------------------------------------------------------------------
+double TLoads::calculate_II_design_LCC()
+{
+	assert(fully_initialized_);
+	 return gamma_f_DL_II_ * DL_II_ * b_ + gamma_f_LL_ * LL_ * b_;
+}
+//-----------------------------------------------------------------------------
+//Расчёт значения нагрузки от полной комбинации загружений
+//-----------------------------------------------------------------------------
+double TLoads::calculate_total_design_LCC()
+{
+	assert(fully_initialized_);
+	 return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * b_ +
+		gamma_f_concrete_SW_ * SW_concrete_ * b_ + gamma_f_DL_II_ * DL_II_ * b_ + gamma_f_LL_ * LL_ * b_;
+}
+//-----------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
 //-----------------------------------------------------------------------------
 void TLoads::set_default_values()
 {
-	SW_ = 0.;
-	SW_sheets_ = 0.;
+	SW_steel_beam_ = 0.;
+	SW_corrugated_sheets_ = 0.;
+	SW_concrete_ = 0.;
 	DL_I_ = 0.0012;
 	DL_II_ = 0.0015;
 	LL_ =  0.002;
@@ -63,6 +99,17 @@ void TLoads::set_default_values()
 	gamma_f_DL_I_ = 1.35;
 	gamma_f_DL_II_ = 1.35;
 	gamma_f_LL_ = 1.35;
+    b_ = 6000;
+}
+
+void TLoads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double b)
+{
+	SW_steel_beam_ = SW_steel_beam;
+	SW_corrugated_sheets_ = SW_corrugated_sheets;
+	SW_concrete_ = SW_concrete;
+	b_ = b;
+
+	fully_initialized_ = true;
 }
 
 

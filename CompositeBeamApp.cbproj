@@ -310,8 +310,12 @@
         <None Include="TypeData.h">
             <BuildOrder>34</BuildOrder>
         </None>
-        <CppCompile Include="UInternalForcesCalculator.cpp">
-            <DependentOn>UInternalForcesCalculator.h</DependentOn>
+        <CppCompile Include="uCompositeSectionCalculator.cpp">
+            <DependentOn>uCompositeSectionCalculator.h</DependentOn>
+            <BuildOrder>49</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uInternalForcesCalculator.cpp">
+            <DependentOn>uInternalForcesCalculator.h</DependentOn>
             <BuildOrder>48</BuildOrder>
         </CppCompile>
         <None Include="Units.h">
@@ -320,6 +324,10 @@
         <CppCompile Include="UnitStud.cpp">
             <DependentOn>UnitStud.h</DependentOn>
             <BuildOrder>42</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uSection.cpp">
+            <DependentOn>uSection.h</DependentOn>
+            <BuildOrder>50</BuildOrder>
         </CppCompile>
         <CppCompile Include="USteelSectionForm.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
@@ -346,8 +354,8 @@
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
         <FormResources Include="AboutProg.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
-        <FormResources Include="LoggerFormUnit.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>
+        <FormResources Include="LoggerFormUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

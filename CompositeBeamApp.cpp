@@ -9,8 +9,8 @@ USEFORM("StudDefinitionFormUnit.cpp", StudDefinitionForm);
 USEFORM("ConcreteDefinitionFormUnit.cpp", ConcreteDefinitionForm);
 USEFORM("AboutProg.cpp", AboutProgForm);
 USEFORM("CompositeBeamMainFormUnit.cpp", CompositeBeamMainForm);
-USEFORM("LoggerFormUnit.cpp", FormLogger);
 USEFORM("DefineSteelFormUnit.cpp", DefineSteelForm);
+USEFORM("LoggerFormUnit.cpp", FormLogger);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
