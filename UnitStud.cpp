@@ -14,6 +14,9 @@ double StudsRow::d_an_ = 10.;
 double StudsRow::l_= 100. ;
 double StudsRow::P_rd_ = 0.;
 bool   StudsRow::resistance_calculated_ = false;
+
+InternalForcesCalculator StudsOnBeam::intr_frcs_calculator_{};
+CompositeSection StudsOnBeam::com_sect_{};
 //---------------------------------------------------------------------------
 TStudBasicNamedList stud_named_list  //Ассоциацивный массив подходит в моём случае лучше так как поиск
 										//выполняется только по одному из полей, если бы поиск был по нескольким полям то возможно вектор
@@ -171,6 +174,43 @@ void StudsOnBeam::update(String name, double d_an, double l, double dist_e, doub
 {
 
 }
+void StudsOnBeam::set_intr_frcs_calculator(InternalForcesCalculator& intr_frcs_calculator)
+{
+	intr_frcs_calculator_ = intr_frcs_calculator;
+}
+void StudsOnBeam::set_composite_section(CompositeSection& com_sect)
+{
+	com_sect_ = com_sect;
+}
+void StudsOnBeam::calculate_S()
+{
+	for (auto& stud_row:stud_list_)
+		stud_row.set_S(S(stud_row));
+}
+double StudsOnBeam::S(StudsRow& stud_row)
+{
+	double A_s = com_sect_.get_concrete_part().get_rebar().get_A_s();
+	double A_b = com_sect_.get_concrete_part().get_A_b();
+
+	double R_s = com_sect_.get_concrete_part().get_rebar().get_R_s();
+	double R_b = com_sect_.get_concrete_part().get_concrete().get_R_b();
+
+	double W_b_red = com_sect_.get_W_b_red();
+	double alfa_b = com_sect_.get_alfa_b();
+	double alfa_s = com_sect_.get_alfa_s();
+
+	double M_II_design_r = intr_frcs_calculator_.M_II_design(stud_row.get_x_r());
+	double M_II_design_l = intr_frcs_calculator_.M_II_design(stud_row.get_x_l());;
+
+	double sigma_b_r = std::abs(M_II_design_r)/(alfa_b*W_b_red);
+	double sigma_b_l = std::abs(M_II_design_l)/(alfa_b*W_b_red);
+
+	double sigma_s_r = std::abs(M_II_design_r)/(alfa_s*W_b_red);
+	double sigma_s_l = std::abs(M_II_design_l)/(alfa_s*W_b_red);
+
+	return ((std::min(sigma_b_r, R_b) * A_b + std::min(sigma_s_r, R_s) * A_s)-
+			   ((std::min(sigma_b_l, R_b) * A_b + std::min(sigma_s_l, R_s) * A_s)));
+}
 //-----------------------------------------------------------------------------
 //Вычисляет несущую способность для каждого из гибких упоров на балке
 //-----------------------------------------------------------------------------
@@ -252,6 +292,7 @@ void Studs::set_default_values()
 	gamma_c_ = 1.3; //Коэффициент условий работы
 
 }
+
 void Studs::save(ostream& ostr) const
 {
 	save_stud_basic(ostr);

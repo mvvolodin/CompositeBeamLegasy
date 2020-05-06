@@ -310,10 +310,6 @@
         <None Include="TypeData.h">
             <BuildOrder>34</BuildOrder>
         </None>
-        <CppCompile Include="uCompositeSectionCalculator.cpp">
-            <DependentOn>uCompositeSectionCalculator.h</DependentOn>
-            <BuildOrder>49</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uInternalForcesCalculator.cpp">
             <DependentOn>uInternalForcesCalculator.h</DependentOn>
             <BuildOrder>48</BuildOrder>

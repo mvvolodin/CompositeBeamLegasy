@@ -6,19 +6,22 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-InternalForcesCalculator Section::intr_frcs_calculator_;
-WorkingConditionsFactors Section::working_conditions_factors_;
+InternalForcesCalculator Section::intr_frcs_calculator_{};
+WorkingConditionsFactors Section::working_conditions_factors_{};
+CompositeSection Section::com_sect_ {};
 
 Section::Section()
 {
 
 }
-Section::Section(int id, double x, CompositeSection com_sect):
+Section::Section(int id, double x):
 	id_(id),
-	x_(x),
-	com_sect_(com_sect)
+	x_(x)
 {}
-
+void Section::set_composite_section (CompositeSection& com_sect)
+{
+	com_sect_ = com_sect;
+}
 void Section::set_intr_frcs_calculator(InternalForcesCalculator& intr_frcs_calculator)
 {
 	intr_frcs_calculator_ = intr_frcs_calculator;
@@ -38,10 +41,11 @@ void Section::calculate()
 
 void Section::calculate_internal_forces()
 {
-	M_I_ = intr_frcs_calculator_.calculate_M_I_stage(x_);
-	M_II_ = intr_frcs_calculator_.calculate_M_II_stage(x_);
-	M_total_ = intr_frcs_calculator_.calculate_M_total(x_);
-  //	Q_total_ = intr_frcs_calculator_.calculate_Q_total(x_);
+	M_Ia_design_ = intr_frcs_calculator_.M_Ia_design(x_);
+	M_Ib_design_ = intr_frcs_calculator_.M_Ib_design(x_);
+	M_II_design_ = intr_frcs_calculator_.M_II_design(x_);
+	M_total_design_ = intr_frcs_calculator_.M_total_design(x_);
+	//Q_total_design_ = intr_frcs_calculator_.calculate_Q_total(x_);
 
 }
 void Section::calculate_stresses()
@@ -57,18 +61,18 @@ void Section::calculate_stresses()
 	double gamma_si = working_conditions_factors_.get_gamma_si();
 	double gamma_c = working_conditions_factors_.get_gamma_c();
 
-	double sigma_b = std::abs(M_I_)/(alfa_b*W_b_red);
-	double sigma_s = std::abs(M_I_)/(alfa_s*W_b_red);
+	sigma_b_ = std::abs(M_II_design_)/(alfa_b*W_b_red);
+	sigma_s_ = std::abs(M_II_design_)/(alfa_s*W_b_red);
 
-	if((sigma_b<gamma_bi*R_b) && (sigma_s<gamma_si*R_s))
+	if((sigma_b_<gamma_bi*R_b) && (sigma_s_<gamma_si*R_s))
 
 		stress_state_ = StressStateCase2::CASE_I;
 
-	else if ((sigma_b>=gamma_bi*R_b) && (sigma_s<gamma_si*R_s))
+	else if ((sigma_b_>=gamma_bi*R_b) && (sigma_s_<gamma_si*R_s))
 
 		stress_state_ = StressStateCase2::CASE_II;
 
-	else if ((sigma_b>=gamma_bi*R_b) && (sigma_s>=gamma_si*R_s))
+	else if ((sigma_b_>=gamma_bi*R_b) && (sigma_s_>=gamma_si*R_s))
 
 		stress_state_ = StressStateCase2::CASE_III;
 
@@ -104,25 +108,25 @@ void Section::calculate_ratios()
 
 		gamma_1 = std::min(1+(gamma_bi*R_b-sigma_b_)/(gamma_c*R_y)*A_b/A_f2_st, 1.2);
 		N_b_s = A_b*sigma_b_+A_s*sigma_s_;
-		upper_fl_ratio_ = ((std::abs(M_total_)-Z_b_st*std::abs(N_b_s))/W_f2_st - std::abs(N_b_s)/A_st)/(gamma_1*gamma_c*R_y);
-		lower_fl_ratio_ = ((std::abs(M_total_)-Z_b_st*std::abs(N_b_s))/W_f1_st + std::abs(N_b_s)/A_st)/(gamma_c*R_y);
+		upper_fl_ratio_ = ((std::abs(M_total_design_)-Z_b_st*std::abs(N_b_s))/W_f2_st - std::abs(N_b_s)/A_st)/(gamma_1*gamma_c*R_y);
+		lower_fl_ratio_ = ((std::abs(M_total_design_)-Z_b_st*std::abs(N_b_s))/W_f1_st + std::abs(N_b_s)/A_st)/(gamma_c*R_y);
 
 	case(StressStateCase2::CASE_II):
 
 		N_bR_sR=A_b*R_b+A_s*R_s;
 		N_bR_s=A_b*R_b+A_s*sigma_s_;
-		upper_fl_ratio_ = ((std::abs(M_total_)-Z_b_st*std::abs(N_bR_sR))/W_f2_st - std::abs(N_bR_sR)/A_st)/(gamma_c*R_y);
-		lower_fl_ratio_ = ((std::abs(M_total_)-Z_b_st*std::abs(N_bR_s))/W_f1_st + std::abs(N_bR_s)/A_st)/(gamma_c*R_y);
+		upper_fl_ratio_ = ((std::abs(M_total_design_)-Z_b_st*std::abs(N_bR_sR))/W_f2_st - std::abs(N_bR_sR)/A_st)/(gamma_c*R_y);
+		lower_fl_ratio_ = ((std::abs(M_total_design_)-Z_b_st*std::abs(N_bR_s))/W_f1_st + std::abs(N_bR_s)/A_st)/(gamma_c*R_y);
 
 	case(StressStateCase2::CASE_III):
 
 		N_bR_sR = A_b * R_b + A_s * R_s;
-		sigma_0 = (M_total_ - Z_b_st * N_bR_sR) / W_f2_st;
+		sigma_0 = (M_total_design_ - Z_b_st * N_bR_sR) / W_f2_st;
 		k = calculate_concrete_coefficient(sigma_0, N_bR_sR);
 /* TODO 1 -oMV : Тестировать ratio_concrete */
-		upper_fl_ratio_ = ((std::abs(M_total_)-Z_b_st*std::abs(N_bR_sR))/W_f2_st - std::abs(N_bR_sR)/A_st)/(gamma_c*R_y);
-		lower_fl_ratio_ = ((std::abs(M_total_)-Z_b_st*std::abs(N_bR_sR))/W_f1_st + std::abs(N_bR_sR/A_st))/(gamma_c*R_y);
-		conc_ratio_ = k / E_st * ((M_II_ - Z_b_st * N_bR_sR) / W_b_st - N_bR_sR / A_st) / epsilon_b_lim;
+		upper_fl_ratio_ = ((std::abs(M_total_design_)-Z_b_st*std::abs(N_bR_sR))/W_f2_st - std::abs(N_bR_sR)/A_st)/(gamma_c*R_y);
+		lower_fl_ratio_ = ((std::abs(M_total_design_)-Z_b_st*std::abs(N_bR_sR))/W_f1_st + std::abs(N_bR_sR/A_st))/(gamma_c*R_y);
+		conc_ratio_ = k / E_st * ((M_II_design_ - Z_b_st * N_bR_sR) / W_b_st - N_bR_sR / A_st) / epsilon_b_lim;
 	}
     /* TODO 1 -oMV : Тестировать */
 

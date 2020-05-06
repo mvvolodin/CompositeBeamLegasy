@@ -15,8 +15,7 @@ CompositeSection::CompositeSection()
 
 }
 CompositeSection::CompositeSection(SteelPart    steel_part,
-								   TConcretePart concrete_part,
-								   TGeometry geometry):
+								   TConcretePart concrete_part):
 	steel_part_(steel_part),
 	concrete_part_(concrete_part)
 {}
@@ -35,6 +34,12 @@ void CompositeSection::set_default_values()
 {
 	steel_part_.set_default_values();
 	concrete_part_.set_default_values();
+}
+void CompositeSection::set_phi_b_cr(double phi_b_cr)
+{
+	composite_section_calculated = false;
+	concrete_part_.set_phi_b_cr(phi_b_cr);
+	calculate();
 }
 void CompositeSection::calculate()
 {
@@ -55,6 +60,8 @@ void CompositeSection::calculate()
 	sect_modulus_lower_fl();
 	sect_modulus_conc();
 	fictitious_modulus();
+
+    composite_section_calculated = true;
 }
 
 void CompositeSection::alfa_to_rebar_steel_calc()

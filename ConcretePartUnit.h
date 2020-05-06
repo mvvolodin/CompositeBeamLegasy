@@ -43,6 +43,7 @@ public:
 	double get_h_n(LengthUnit length_unit=LengthUnit::mm) const {return h_n_/static_cast<int>(length_unit);}
 	void set_b_l(double b_l){b_l_ = b_l;}
 	void set_b_r(double b_r){b_r_ = b_r;}
+	void set_phi_b_cr(double phi_b_cr){concrete_.set_phi_b_cr(phi_b_cr);}
 	double get_b_l(LengthUnit length_unit=LengthUnit::mm) const {return b_l_/static_cast<int>(length_unit);} //после добавления b_sl в этой функции нет необходимости. Удалить после изменения кода с вызовами
 	double get_b_r(LengthUnit length_unit=LengthUnit::mm) const {return b_r_/static_cast<int>(length_unit);} //после добавления b_sl в этой функции нет необходимости. Удалить после изменения кода с вызовами
 	double get_b_sl(LengthUnit length_unit=LengthUnit::mm) const {return (b_r_+ b_l_)/static_cast<int>(length_unit);}

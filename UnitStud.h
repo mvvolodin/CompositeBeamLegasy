@@ -9,6 +9,8 @@
 #include<vector>
 #include <ostream>
 #include "Units.h"
+#include "uInternalForcesCalculator.h"
+#include "CompositeSection.h"
 
 /*
 	Класс Stud описывает (содержит данные (свойства) и методы работы с данными(поведение)) объект упор.
@@ -22,8 +24,6 @@
 	- тривиальные геттеры и сеттеры;
 
 */
-
-
 class StudsRow{
 public:
 
@@ -49,6 +49,7 @@ private:
 
 	int id_ = 0;
 	int st_num_ = 0;
+
 	static String name_;
 	static double d_an_;
 	static double l_;
@@ -65,8 +66,6 @@ private:
 	double sigma_b_r_ = 0.;
 	double ratio_ = 0.;
 };
-
-
 /*
 	Класс StudsOnBeam описывает объект упоры на балке
 	Класс создаёт и хранит список упоров, отнощение Композиция
@@ -75,9 +74,7 @@ private:
 	-
 	Поведение:
 	- тривиальные геттеры и сеттеры;
-
 */
-
 class StudsOnBeam{
 public:
 	StudsOnBeam(){};
@@ -89,18 +86,27 @@ public:
 	void set_default_values();
 	void set_studs(double L);
 	void set_resistances(double R_b, double R_y, double gamma_c);
+	static void set_intr_frcs_calculator(InternalForcesCalculator& intr_frcs_calculator);
+	static void set_composite_section(CompositeSection& com_sect);
+
+	void calculate_S();
 	void verification();
 
 private:
 
-	double dist_e_;
-	double dist_m_;
-	int num_e_;
-	int num_m_;
+	static InternalForcesCalculator intr_frcs_calculator_;
+	static CompositeSection com_sect_;
+
+	double dist_e_ = 0.;
+	double dist_m_ = 0.;
+	int num_e_ = 0;
+	int num_m_ = 0;
 	std::vector<StudsRow> stud_list_;
 
 	bool studs_placement_ = false;
 	bool studs_calculated_ = false;
+
+	double S(StudsRow& stud_row);
 };
 
 

@@ -281,18 +281,19 @@ Studs TCompositeBeamMainForm::init_stud()
 void TCompositeBeamMainForm::update_composite_beam()
 {
 
-   TGeometry geometry = init_geomet();//поле содержащее топологию
-   TLoads loads = init_loads();//поле содержащее нагрузки и коэффициенты надёжности по нагрузкам
-   Studs stud = init_stud(); //поле соержащее упоры Нельсона
+   TGeometry geometry = init_geomet();
+   TLoads loads = init_loads();
+   Studs stud = init_stud();
    WorkingConditionsFactors working_conditions_factors = init_working_conditions_factors();
    SteelPart steel_part = init_steel_part();
-   TConcretePart concrete_part = init_concrete_part();//объект абстрактного класса, поэтому указатель!
-   CompositeSection composite_section = CompositeSection(steel_part, concrete_part, geometry);
+   TConcretePart concrete_part = init_concrete_part();
+   CompositeSection composite_section = CompositeSection(steel_part, concrete_part);
 
 	composite_beam_ = TCompositeBeam(geometry,
-								loads,
-								composite_section,stud,
-								working_conditions_factors);
+									 loads,
+									 composite_section,
+									 stud,
+									 working_conditions_factors);
 }
 //---------------------------------------------------------------------------
 //	Функция запускающая расчёт композитной балки

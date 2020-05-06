@@ -98,7 +98,6 @@ private:
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;
 	CompositeSection composite_section_;
-	CompositeSection composite_section2_;
 	Studs studs_;
  //---------------------------------------------------------------------------
 //Альтернативный расчёт балки
@@ -112,63 +111,27 @@ private:
 //---------------------------------------------------------------------------
 //Альтернативный расчёт упоров
 //---------------------------------------------------------------------------
-
 	StudsOnBeam studs_on_beam_;
-
 	void calculate_studs();
-
-	void set_stud_shear_force(StudsRow& stud);
-	double calculate_sigma_b(double x);
-	double calculate_sigma_s(double x);
-
-	double calculate_M_point_load(double x, double P, double x_P);
-	double calculate_M_uniform_load(double x, double q, SupportsNumber s_num);
-	std::array<double, 4> calculate_R(double q, SupportsNumber s_num);
-
-	double calculate_M_I_stage(double x);
-	double calculate_M_R_I_stage(double x);
-	double calculate_M_II_stage(double x);
-	double calculate_M_total(double x);
-
-	std::vector<double> calculate_M_I_stage();
-	std::vector<double> calculate_M_R_I_stage();
-	std::vector<double> calculate_M_II_stage();
-	std::vector<double> calculate_M_total();
-
-
-//---------------------------------------------------------------------------
-//Альтернативный расчёт стальной балки I стадии
-//---------------------------------------------------------------------------
-	std::vector<double> calculate_M_I_stage_beam();
-	double calculate_M_I_stage_beam(double x);
-	std::vector<double> M_I_stage_beam_;
-//---------------------------------------------------------------------------
 
 //Поля с результатами расчётов координат
 
 	std::vector<double> cs_coordinates_;
-	std::vector<double> stud_coordinates_;//координаты расположения упоров
-	std::vector<double> S_coordinates_;
+
 	int cs_num_;//количество расчётных сечений.ВСЕ ЦИКЛЫ ДОЛЖНЫ ЕГО ПРИМЕНЯТЬ!!!!
-	int studs_num_;//количество поперечных рядов упоров.ВСЕ ЦИКЛЫ ДОЛЖНЫ ЕГО ПРИМЕНЯТЬ!!!!
 
 //Поля с результатами расчётов внутренних усилия для проверки упоров
 
 	InternalForcesNamedList internal_forces_;
-	InternalForcesNamedList internal_forces_studs_;
+
 
 //Поля с результатами расчётов полей напряжений
 
 	std::vector<Stresses> stresses_list_;
-	std::vector<Stresses> stresses_list_studs_;
 
-//Сдвигающие усилия по шву объединения железобетонной плиты и стальной балки
-
-	std::vector<double> S_h_list_;
 
 //Поля с результатами расчётов полей коэффициенты использования
 
-	std::vector<double> ratios_studs_;
 	std::vector<Ratios> ratios_cs_list_;
 	double ratio_rigid_plastic_; //КИ при расчёте в предположении жёстко - пластического материала
 	std::vector<double> shear_ratios_;
@@ -191,7 +154,6 @@ private:
 //Расчёт усилий
 
 	void calc_inter_forces();
-	std::vector<double> internal_forces_for_studs(std::vector<Stresses>& stresses);
 
  //Расчёт напряжений
 
@@ -205,9 +167,6 @@ private:
 	double calculate_concrete_coefficient(double sigma_0, double N_br_sr);
 	void calculate_shear_ratios();
 
- // Расчёт коэффициентов использования упоров
-
-	void calculate_studs_ratios();
 
  //Расчёт стальной балки на I стадии
 	void calculate_steel_beam_direct_stresses_I_stage_ratio();
@@ -228,7 +187,6 @@ private:
 	double get_max_abs_M(Impact impact);
 	double get_max_abs_Q(Impact impact);
 	double get_Q(double cs_coordinate, Impact impact);
-	double get_stud_ratio_coordinate(double ratio);
 
 //Функции доступа к напряжениям
 

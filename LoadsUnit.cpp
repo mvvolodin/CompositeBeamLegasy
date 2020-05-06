@@ -51,7 +51,7 @@ void TLoads::load(std::istream& istr)
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений Ia
 //-----------------------------------------------------------------------------
-double TLoads::calculate_Ia_design_LCC()
+double TLoads::Ia_design_LCC()
 {
 	assert(fully_initialized_);
 	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * b_ +
@@ -60,7 +60,7 @@ double TLoads::calculate_Ia_design_LCC()
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений Ib
 //-----------------------------------------------------------------------------
-double TLoads::calculate_Ib_design_LCC()
+double TLoads::Ib_design_LCC()
 {
     assert(fully_initialized_);
 	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * b_ +
@@ -69,7 +69,7 @@ double TLoads::calculate_Ib_design_LCC()
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений II
 //-----------------------------------------------------------------------------
-double TLoads::calculate_II_design_LCC()
+double TLoads::II_design_LCC()
 {
 	assert(fully_initialized_);
 	 return gamma_f_DL_II_ * DL_II_ * b_ + gamma_f_LL_ * LL_ * b_;
@@ -77,7 +77,7 @@ double TLoads::calculate_II_design_LCC()
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от полной комбинации загружений
 //-----------------------------------------------------------------------------
-double TLoads::calculate_total_design_LCC()
+double TLoads::total_design_LCC()
 {
 	assert(fully_initialized_);
 	 return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * b_ +

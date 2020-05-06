@@ -15,6 +15,9 @@ private:
 	SteelPart steel_part_;
 	TConcretePart concrete_part_;
 
+	bool composite_section_calculated = false;
+
+	double b_ = 0.;//расчётная ширина плиты
 	double alfa_s_= 0.;//коэффициент приведения к стали
 	double alfa_b_= 0.;//коэффициент приведения к бетону
 	double H_red_= 0.; //высота композитного сечения
@@ -54,8 +57,7 @@ private:
 public:
 	CompositeSection();
 	CompositeSection(SteelPart    steel_part,
-					 TConcretePart concrete_part,
-					 TGeometry geometry);
+					 TConcretePart concrete_part);
 	void set_default_values();
 	void save(std::ostream& ostr)const;
 	void load(std::istream& istr);
@@ -65,6 +67,11 @@ public:
 	TConcretePart get_concrete_part() const {return concrete_part_;}
 	TConcretePart& get_concrete_part() {return concrete_part_;}
 	Steel get_steel_grade()const {return steel_part_.get_steel();}
+	double get_b() const {return b_;}
+
+	void set_b(double b){b_ = b;}
+	void set_phi_b_cr(double phi_b_cr);
+
 	double get_alfa_b() const {return alfa_b_;}
 	double get_alfa_s() const {return alfa_s_;}
 	double get_A_red(LengthUnit length_unit=LengthUnit::mm) const {return A_red_/std::pow(static_cast<int>(length_unit),2);}
