@@ -13,7 +13,7 @@
 #include "Steel.h"
 #include "CompositeSection.h"
 #include "InternalForces.h"
-#include "UnitStud.h"
+#include "uStud.h"
 #include "Rebar.h"
 #include "WorkingConditionsFactors.h"
 #include "Stresses.h"
@@ -44,7 +44,7 @@ public:
 	TCompositeBeam(TGeometry 				geometry,
 				   TLoads 					loads,
 				   CompositeSection         composite_section,
-				   Studs 					stud,
+				   StudsOnBeam              studs_on_beam,
 				   WorkingConditionsFactors working_conditions_factors);
 
 	void set_default_values();
@@ -60,7 +60,7 @@ public:
 	TLoads get_loads()const {return loads_;}
 	WorkingConditionsFactors get_working_conditions_factors() const {return working_conditions_factors_;}
 	CompositeSection get_composite_section()const{return composite_section_;}
-	Studs get_studs()const {return studs_;}
+    StudsOnBeam get_studs_on_beam()const{return studs_on_beam_;}
 
 //Функции построения эпюр
 
@@ -98,7 +98,7 @@ private:
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;
 	CompositeSection composite_section_;
-	Studs studs_;
+
  //---------------------------------------------------------------------------
 //Альтернативный расчёт балки
 //---------------------------------------------------------------------------
@@ -107,6 +107,7 @@ private:
 
 	void calculate_composite_beam();
 	std::vector<Section> sections_list();
+
 
 //---------------------------------------------------------------------------
 //Альтернативный расчёт упоров

@@ -202,7 +202,7 @@ private:
 	Steel init_steel_i_section(); //Инициализация стали двутавра
 	TConcretePart init_concrete_part();//Инициализация бетонной части композитного сечения
 	SteelPart init_steel_part();
-	Studs init_stud();//Инициализация упоров
+	StudsOnBeam init_studs_on_beam();//Инициализация упоров
 	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
 
 	void set_form_controls();

@@ -13,26 +13,22 @@
 //#define NDEBUG
 //---------------------------------------------------------------------------
 
-TCompositeBeam::TCompositeBeam():
-					geometry_(TGeometry()),
-					loads_(TLoads()),
-					working_conditions_factors_(WorkingConditionsFactors()),
-					composite_section_(CompositeSection()),
-					studs_(Studs()){}
+TCompositeBeam::TCompositeBeam(){}
 //---------------------------------------------------------------------------
 //Конструктор композитной балки
 //---------------------------------------------------------------------------
  TCompositeBeam::TCompositeBeam(TGeometry                geometry,
 								TLoads     				 loads,
 								CompositeSection         composite_section,
-								Studs					 stud,
-								WorkingConditionsFactors working_conditions_factors)
-   :geometry_(geometry),
-	composite_section_(composite_section),
-	studs_(stud),
+								StudsOnBeam              studs_on_beam,
+								WorkingConditionsFactors working_conditions_factors):
+    geometry_(geometry),
 	loads_(loads),
+	composite_section_(composite_section),
+	studs_on_beam_(studs_on_beam),
 	working_conditions_factors_(working_conditions_factors)
 {
+
 }
 //---------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
@@ -43,7 +39,7 @@ void TCompositeBeam::set_default_values()
 	loads_.set_default_values();
 	working_conditions_factors_.set_default_values();
 	composite_section_.set_default_values();
-	studs_.set_default_values();
+	studs_on_beam_.set_default_values();
 }
 //---------------------------------------------------------------------------
 //Сохраняем объект композитная балка в бинарный файл
@@ -53,9 +49,7 @@ void TCompositeBeam::save(std::ostream& ostr) const
 	geometry_.save(ostr);
 	loads_.save(ostr);
 	working_conditions_factors_.save(ostr);
-	composite_section_.save(ostr);
-	studs_.save(ostr);
-
+	composite_section_.save(ostr); /* TODO 1 -oMV : Добавить сохранение объекта StudsOnBeam */
 }
 //---------------------------------------------------------------------------
 //Загружаем объект композитная балка из бинарного файла
@@ -66,7 +60,6 @@ void TCompositeBeam::load(std::istream& istr)
 	loads_.load(istr);
 	working_conditions_factors_.load(istr);
 	composite_section_.load(istr);
-	studs_.load(istr);
 }
 
 void TCompositeBeam::calculate()
@@ -191,25 +184,21 @@ void TCompositeBeam::calculate_studs()
 	double h_f = composite_section_.get_concrete_part().get_h_f();
 	double b_uf = composite_section_.get_steel_part().get_section().get_b_uf();
 	double b = geometry_.get_effective_width(h_f, b_uf);
-	CompositeSection composite_section2 = composite_section_;
+	CompositeSection composite_section = composite_section_;
 	composite_section_.set_b(b);
-	composite_section2.set_phi_b_cr(0);
+	composite_section.set_phi_b_cr(0);
 	//подготовка калькулятора внутренних усилий
 	int tmp_sup_num = geometry_.get_temporary_supports_number();
 	double L = geometry_.get_span();
 	InternalForcesCalculator intr_frcs_calculator{static_cast<SupportsNumber>(tmp_sup_num), L, loads_ };
 //подготовка упоров для расчёта
-	StudsOnBeam::set_intr_frcs_calculator(intr_frcs_calculator);
-	StudsOnBeam::set_composite_section(composite_section2);
+	studs_on_beam_.set_intr_frcs_calculator(intr_frcs_calculator);
+	studs_on_beam_.set_composite_section(composite_section);
 //расчёт упоров
-	studs_on_beam_.set_default_values();
-	double R_b = composite_section2.get_concrete_part().get_concrete().get_R_b();
-	double R_y = composite_section2.get_steel_part().get_steel().get_R_y();
-	double gamma_c = working_conditions_factors_.get_gamma_c();
-	StudsRow::set_resistance(R_b, R_y, gamma_c);
+	studs_on_beam_.calculate_P_rd();
 	studs_on_beam_.set_studs(L);
 	studs_on_beam_.calculate_S();
-	studs_on_beam_.verification();
+	studs_on_beam_.calculate_ratio();
 
 	#ifndef NDEBUG
 

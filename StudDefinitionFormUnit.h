@@ -9,7 +9,7 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Buttons.hpp>
 //---------------------------------------------------------------------------
-#include "UnitStud.h"
+#include "uStud.h"
 #include <Vcl.ExtCtrls.hpp>
 
 #include "ObserverPatternInterfaces.h"
@@ -50,18 +50,18 @@ __published:	// IDE-managed Components
 private:
 	static const Publisher_ID id_ = Publisher_ID::STUDS_FORM;
 	IObserver_* iobserver_;
-	Studs studs_temp_;
+	StudsOnBeam studs_on_beam_temp_;
 
 	void fill_stud_data();
 	void set_studs();
 	void set_form_controls();
-	virtual String get_information()const override {return studs_temp_.get_name();}
+	virtual String get_information()const override {return studs_on_beam_temp_.get_name();}
 	virtual Publisher_ID get_id()const override {return id_;}
 public:
 	__fastcall TStudDefinitionForm(TComponent* Owner)override;
-	Studs get_studs()const{return studs_temp_;}
+	StudsOnBeam get_studs_on_beam()const{return studs_on_beam_temp_;}
 	void register_observer(IObserver_* iobserver) override {iobserver_ = iobserver;}
-	void set_form_controls(Studs studs);
+	void set_form_controls(StudsOnBeam studs_on_beam);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TStudDefinitionForm *StudDefinitionForm;

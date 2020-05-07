@@ -317,10 +317,6 @@
         <None Include="Units.h">
             <BuildOrder>47</BuildOrder>
         </None>
-        <CppCompile Include="UnitStud.cpp">
-            <DependentOn>UnitStud.h</DependentOn>
-            <BuildOrder>42</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uSection.cpp">
             <DependentOn>uSection.h</DependentOn>
             <BuildOrder>50</BuildOrder>
@@ -331,6 +327,10 @@
             <FormType>dfm</FormType>
             <DependentOn>USteelSectionForm.h</DependentOn>
             <BuildOrder>50</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uStud.cpp">
+            <DependentOn>uStud.h</DependentOn>
+            <BuildOrder>42</BuildOrder>
         </CppCompile>
         <CppCompile Include="Word_Automation.cpp">
             <DependentOn>Word_Automation.h</DependentOn>

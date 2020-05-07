@@ -38,35 +38,35 @@ void __fastcall TStudDefinitionForm::cmb_bx_stud_part_numberChange(TObject *Send
 //---------------------------------------------------------------------------
 void TStudDefinitionForm::set_studs()
 {
-	String name="";
-	double d_an=0.;
-	double l=0.;
-	double gamma_c=0.;
-	double R_y=0.;
+	String name = "";
+	double d_an = 0.;
+	double l = 0.;
+	double gamma_c = 0.;
+	double R_y = 0.;
 
-	double edge_studs_dist=0.;
-	double middle_studs_dist=0.;
-	double edge_studs_rows_num=0.;
-	double middle_studs_rows_num=0.;
+	double dist_e = 0.;
+	double dist_m = 0.;
+	double num_e = 0.;
+	double num_m = 0.;
 
-	name=cmb_bx_stud_part_number->Text;
-	d_an=StrToFloat(edt_stud_diameter->Text);
-	l=StrToFloat(edt_stud_height->Text);
-	R_y=StrToFloat(edt_stud_yield_strength->Text);
+	name = cmb_bx_stud_part_number->Text;
+	d_an = StrToFloat(edt_stud_diameter->Text);
+	l = StrToFloat(edt_stud_height->Text);
+	R_y = StrToFloat(edt_stud_yield_strength->Text);
 	String_double_plus(lbl_stud_safety_factor->Caption,
 						  edt_stud_safety_factor->Text,
 						  &gamma_c);
 
-	String_double_plus(lbl_edge_studs_dist->Caption, edt_edge_studs_dist->Text, &edge_studs_dist);
-	String_double_plus(lbl_middle_studs_dist->Caption, edt_middle_studs_dist->Text, &middle_studs_dist);
+	String_double_plus(lbl_edge_studs_dist->Caption, edt_edge_studs_dist->Text, &dist_e);
+	String_double_plus(lbl_middle_studs_dist->Caption, edt_middle_studs_dist->Text, &dist_m);
 
-	edge_studs_rows_num=StrToFloat(cmb_bx_edge_studs_rows_num->Text);
-	middle_studs_rows_num=StrToFloat(cmb_bx_middle_studs_rows_num->Text);
+	num_e = StrToFloat(cmb_bx_edge_studs_rows_num->Text);
+	num_m = StrToFloat(cmb_bx_middle_studs_rows_num->Text);
 
-	 studs_temp_ = Studs(name, d_an, l,
-				edge_studs_dist, middle_studs_dist,
-				edge_studs_rows_num, middle_studs_rows_num,
-				R_y, gamma_c);
+	 studs_on_beam_temp_ = 	StudsOnBeam(Stud{name, d_an, l, R_y},
+										dist_e, dist_m,
+										num_e, num_m,
+										gamma_c);
 }
 
 //---------------------------------------------------------------------------
@@ -74,24 +74,23 @@ void TStudDefinitionForm::set_studs()
 //---------------------------------------------------------------------------
 void TStudDefinitionForm::set_form_controls()
 {
-	cmb_bx_stud_part_number -> ItemIndex =  cmb_bx_stud_part_number -> Items -> IndexOf(studs_temp_.get_name());
-	edt_stud_yield_strength -> Text = studs_temp_.get_R_y();
-	edt_stud_diameter -> Text = studs_temp_.get_d_an();
-	edt_stud_height -> Text = studs_temp_.get_l();
-	edt_stud_safety_factor -> Text = studs_temp_.get_gamma_c();
-	edt_edge_studs_dist -> Text = studs_temp_.get_edge_rows_dist();
-	cmb_bx_edge_studs_rows_num -> ItemIndex =cmb_bx_edge_studs_rows_num -> Items -> IndexOf(studs_temp_.get_edge_rows_num());
-	edt_middle_studs_dist -> Text = studs_temp_.get_middle_rows_dist();
-	cmb_bx_middle_studs_rows_num -> ItemIndex =cmb_bx_middle_studs_rows_num -> Items -> IndexOf(studs_temp_.get_middle_rows_num());
-
+	cmb_bx_stud_part_number -> ItemIndex =  cmb_bx_stud_part_number -> Items -> IndexOf(studs_on_beam_temp_.get_name());
+	edt_stud_yield_strength -> Text = studs_on_beam_temp_.get_stud().get_R_y();
+	edt_stud_diameter -> Text = studs_on_beam_temp_.get_stud().get_d_an();
+	edt_stud_height -> Text = studs_on_beam_temp_.get_stud().get_l();
+	edt_stud_safety_factor -> Text = studs_on_beam_temp_.get_gamma_c();
+	edt_edge_studs_dist -> Text = studs_on_beam_temp_.get_dist_e();
+	cmb_bx_edge_studs_rows_num -> ItemIndex =cmb_bx_edge_studs_rows_num -> Items -> IndexOf(studs_on_beam_temp_.get_num_e());
+	edt_middle_studs_dist -> Text = studs_on_beam_temp_.get_dist_m();
+	cmb_bx_middle_studs_rows_num -> ItemIndex =cmb_bx_middle_studs_rows_num -> Items -> IndexOf(studs_on_beam_temp_.get_num_m());
 }
 
 //---------------------------------------------------------------------------
 //Присваивем значения полям формы из параметра функции типа Studs
 //---------------------------------------------------------------------------
-void TStudDefinitionForm::set_form_controls(Studs studs)
+void TStudDefinitionForm::set_form_controls(StudsOnBeam studs_on_beam)
 {
-	studs_temp_ = studs;
+	studs_on_beam_temp_ = studs_on_beam;
 	set_form_controls();
 	iobserver_ -> update(this);
 }

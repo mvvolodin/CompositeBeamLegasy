@@ -4,19 +4,12 @@
 
 #pragma hdrstop
 
-#include "UnitStud.h"
+#include "uStud.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
-String StudsRow::name_ = L"SDx10x100";
-double StudsRow::d_an_ = 10.;
-double StudsRow::l_= 100. ;
-double StudsRow::P_rd_ = 0.;
-bool   StudsRow::resistance_calculated_ = false;
 
-InternalForcesCalculator StudsOnBeam::intr_frcs_calculator_{};
-CompositeSection StudsOnBeam::com_sect_{};
 //---------------------------------------------------------------------------
 TStudBasicNamedList stud_named_list  //Ассоциацивный массив подходит в моём случае лучше так как поиск
 										//выполняется только по одному из полей, если бы поиск был по нескольким полям то возможно вектор
@@ -117,38 +110,27 @@ TStudBasic::TStudBasic(String name, double d_an, double l):
 						d_an_(d_an),
 						l_(l){}
 
-Studs::Studs(){}
-Studs::Studs(String name,
-			 double d_an, double l,
-			 double edge_rows_dist, double middle_rows_dist,
-			 double edge_rows_num, double middle_rows_num,
-			 double R_y, double gamma_c):
-	 TStudBasic(name, d_an, l),
-	 edge_rows_dist_(edge_rows_dist),
-	 middle_rows_dist_(middle_rows_dist),
-	 edge_rows_num_(edge_rows_num),
-	 middle_rows_num_(middle_rows_num),
-	 R_y_(R_y),
-	 gamma_c_(gamma_c)
-{
 
-}
 StudsRow::StudsRow(int id, double x_l, double x, double x_r, int st_num):
 		id_(id), x_l_(x_l), x_(x), x_r_(x_r), st_num_(st_num){}
-//-----------------------------------------------------------------------------
-//Задаёт сдвигающее усилие действующее на упор
-//-----------------------------------------------------------------------------
-void StudsRow::set_S(double S)//сдвигающее усилие
-{
-	S_ = S;
-	S_set_ = true;
-}
+
 //-----------------------------------------------------------------------------
 //Вычисляет несущую способнось гибких упоров
 //-----------------------------------------------------------------------------
-void StudsRow::set_resistance(double R_b,//Расчётное сопротивление бетона осевому сжатию
-						  double R_y,//Расчётный предел текучести гибкого упора
-						  double gamma_c)//коэффициент условий работы балки по СП 16.13330
+void StudsOnBeam::calculate_P_rd()
+{
+	double R_b = com_sect_.get_concrete_part().get_concrete().get_R_b();
+	stud_.calculate_P_rd(R_b ,gamma_c_);
+}
+Stud::Stud(){}
+
+Stud::Stud(String name, double d_an, double l, double R_y):
+	name_(name),
+	d_an_(d_an),
+	l_(l),
+	R_y_(R_y){}
+
+void Stud::calculate_P_rd(double R_b, double gamma_c)
 {
 	double P_rd1 = 0.;
 	double P_rd2 = 0.;
@@ -160,47 +142,57 @@ void StudsRow::set_resistance(double R_b,//Расчётное сопротивление бетона осевом
 		P_rd1 = d_an_/10 * d_an_/10 * std::pow(10 * R_b, 0.5) * 1000;
 	}
 
-	P_rd2 = 0.063 * d_an_/10 * d_an_/10 * gamma_c * R_y *1000;
+	P_rd2 = 0.063 * d_an_/10 * d_an_/10 * gamma_c * R_y_ *1000;
 
 	P_rd_ = std::min(P_rd1, P_rd2);
-	resistance_calculated_ = true;
 }
-void StudsRow::calculate_ratio()
+void StudsRow::calculate_ratio(double P_rd)
 {
-		ratio_ = std::abs(S_) / (StudsRow::P_rd_ * st_num_);
+	ratio_ = std::abs(S_) / (P_rd * st_num_);
 }
-void StudsOnBeam::update(String name, double d_an, double l, double dist_e, double num_e,
-						 double dist_m, double num_m)
+StudsOnBeam::StudsOnBeam()
 {
+}
+StudsOnBeam::StudsOnBeam(Stud 	 stud,
+						 double  dist_e,
+						 double  dist_m,
+						 int     num_e,
+						 int     num_m,
+						 double  gamma_c):
+	stud_(stud),
+	dist_e_(dist_e),
+	dist_m_(dist_m),
+	num_e_(num_e),
+	num_m_(num_m),
+	gamma_c_(gamma_c){}
 
-}
-void StudsOnBeam::set_intr_frcs_calculator(InternalForcesCalculator& intr_frcs_calculator)
+void StudsOnBeam::set_intr_frcs_calculator(InternalForcesCalculator intr_frcs_calculator)
 {
 	intr_frcs_calculator_ = intr_frcs_calculator;
 }
-void StudsOnBeam::set_composite_section(CompositeSection& com_sect)
+void StudsOnBeam::set_composite_section(CompositeSection com_sect)
 {
 	com_sect_ = com_sect;
 }
 void StudsOnBeam::calculate_S()
 {
 	for (auto& stud_row:stud_list_)
-		stud_row.set_S(S(stud_row));
+		stud_row.calculate_S(intr_frcs_calculator_, com_sect_);
 }
-double StudsOnBeam::S(StudsRow& stud_row)
+void StudsRow::calculate_S(InternalForcesCalculator& intr_frcs_calculator, CompositeSection& com_sect)
 {
-	double A_s = com_sect_.get_concrete_part().get_rebar().get_A_s();
-	double A_b = com_sect_.get_concrete_part().get_A_b();
+	double A_s = com_sect.get_concrete_part().get_rebar().get_A_s();
+	double A_b = com_sect.get_concrete_part().get_A_b();
 
-	double R_s = com_sect_.get_concrete_part().get_rebar().get_R_s();
-	double R_b = com_sect_.get_concrete_part().get_concrete().get_R_b();
+	double R_s = com_sect.get_concrete_part().get_rebar().get_R_s();
+	double R_b = com_sect.get_concrete_part().get_concrete().get_R_b();
 
-	double W_b_red = com_sect_.get_W_b_red();
-	double alfa_b = com_sect_.get_alfa_b();
-	double alfa_s = com_sect_.get_alfa_s();
+	double W_b_red = com_sect.get_W_b_red();
+	double alfa_b = com_sect.get_alfa_b();
+	double alfa_s = com_sect.get_alfa_s();
 
-	double M_II_design_r = intr_frcs_calculator_.M_II_design(stud_row.get_x_r());
-	double M_II_design_l = intr_frcs_calculator_.M_II_design(stud_row.get_x_l());;
+	double M_II_design_r = intr_frcs_calculator.M_II_design(x_r_);
+	double M_II_design_l = intr_frcs_calculator.M_II_design(x_l_);
 
 	double sigma_b_r = std::abs(M_II_design_r)/(alfa_b*W_b_red);
 	double sigma_b_l = std::abs(M_II_design_l)/(alfa_b*W_b_red);
@@ -208,23 +200,27 @@ double StudsOnBeam::S(StudsRow& stud_row)
 	double sigma_s_r = std::abs(M_II_design_r)/(alfa_s*W_b_red);
 	double sigma_s_l = std::abs(M_II_design_l)/(alfa_s*W_b_red);
 
-	return ((std::min(sigma_b_r, R_b) * A_b + std::min(sigma_s_r, R_s) * A_s)-
-			   ((std::min(sigma_b_l, R_b) * A_b + std::min(sigma_s_l, R_s) * A_s)));
+	S_ = ((std::min(sigma_b_r, R_b) * A_b + std::min(sigma_s_r, R_s) * A_s)-
+		 ((std::min(sigma_b_l, R_b) * A_b + std::min(sigma_s_l, R_s) * A_s)));
 }
 //-----------------------------------------------------------------------------
 //Вычисляет несущую способность для каждого из гибких упоров на балке
 //-----------------------------------------------------------------------------
-void StudsOnBeam::verification()
+void StudsOnBeam::calculate_ratio()
 {
+	calculate_P_rd();
+
 	for(auto& stud_row:stud_list_)
-		stud_row.calculate_ratio();
+		stud_row.calculate_ratio(stud_.get_P_rd());
 }
 void StudsOnBeam::set_default_values()
 {
+	stud_ = Stud {L"SDx10x100", 10., 100., 300.};
 	dist_e_ = 180.;
 	dist_m_ = 400.;
 	num_e_ = 1;
 	num_m_ = 1;
+	gamma_c_ = 1.3;
 
 }
 //-----------------------------------------------------------------------------
@@ -275,35 +271,8 @@ void StudsOnBeam::set_studs(double L)//пролёт балки
 
 	stud_list_.emplace_back(StudsRow{++id, L, L, L, num_e_});
 }
-//-----------------------------------------------------------------------------
-//Присваивает данным класса значений по умолчанию
-//-----------------------------------------------------------------------------
-void Studs::set_default_values()
-{
-	name_ = L"SDx10x100";
-	d_an_ = 10.; //Диаметр стержня гибкого упора
-	l_= 100. ;   //Длина круглого стержня гибкого упора
 
-	edge_rows_dist_ = 180.;//Шаг упоров в крайних третях
-	middle_rows_dist_ = 400.; //Шаг упоров в средней трети
-	edge_rows_num_= 1.; // Количество рядов упоров в крайних третях
-	middle_rows_num_ = 1.; //Количество рядов упоров в средней трети
-	R_y_= 300. ; //Предел текучести
-	gamma_c_ = 1.3; //Коэффициент условий работы
 
-}
-
-void Studs::save(ostream& ostr) const
-{
-	save_stud_basic(ostr);
-
-	ostr.write((char*)&edge_rows_dist_ ,sizeof(edge_rows_dist_));
-	ostr.write((char*)&middle_rows_dist_ ,sizeof(middle_rows_dist_));
-	ostr.write((char*)&edge_rows_num_ ,sizeof(edge_rows_num_));
-	ostr.write((char*)&middle_rows_num_ ,sizeof(middle_rows_num_));
-	ostr.write((char*)& R_y_ ,sizeof( R_y_));
-	ostr.write((char*)&gamma_c_ ,sizeof(gamma_c_));
-}
 void TStudBasic::save_stud_basic(ostream& ostr) const
 {
 	wchar_t* buf = name_.w_str();
@@ -315,18 +284,7 @@ void TStudBasic::save_stud_basic(ostream& ostr) const
 	ostr.write((char*)&d_an_,sizeof(d_an_));
 	ostr.write((char*)&l_,sizeof(l_));
 }
-void Studs::load(istream& istr)
-{
-	load_stud_basic(istr);
 
-	istr.read((char*)&edge_rows_dist_ ,sizeof(edge_rows_dist_));
-	istr.read((char*)&middle_rows_dist_ ,sizeof(middle_rows_dist_));
-	istr.read((char*)&edge_rows_num_ ,sizeof(edge_rows_num_));
-	istr.read((char*)&middle_rows_num_ ,sizeof(middle_rows_num_));
-	istr.read((char*)& R_y_ ,sizeof( R_y_));
-	istr.read((char*)&gamma_c_ ,sizeof(gamma_c_));
-
-}
 void TStudBasic::load_stud_basic(istream& istr)
 {
 	wchar_t* buf;
@@ -340,86 +298,6 @@ void TStudBasic::load_stud_basic(istream& istr)
 	istr.read((char*)&d_an_,sizeof(d_an_));
 	istr.read((char*)&l_,sizeof(l_));
 
-}
-void Studs::calculate(double L, double R_b, double R_y, double gamma_c)
-{
-	coordinates_list_ = calculate_coordinates(L);
-	P_rd_ = calculate_capacity(R_b, R_y, gamma_c);
-}
-//-----------------------------------------------------------------------------
-//Определение координат размещения стад-болтов
-//in:l-пролёт балки
-//out:лист с координатами расположения упоров
-//-----------------------------------------------------------------------------
-std::vector<double> Studs::calculate_coordinates(double L)
-{
-	std::vector<double> stud_coordinates;
-
-	const double L3 = L/3;
-	double d_e = edge_rows_dist_;
-	double d_m = middle_rows_dist_;
-
-	double eps = 0.01;
-
-	int n_e;
-
-	if (static_cast<int>(L3) % static_cast<int>(d_e))
-		n_e = L3 / d_e + 1 ;
-	else
-		n_e = L3 / d_e;
-
-	d_e = L3 / n_e;
-
-	int n_m;
-
-	if (static_cast<int>(L3) % static_cast<int>(d_m))
-		n_m = L3 / d_m +1 ;
-	else
-		n_m = L3 / d_m;
-
-	d_m = L3 /n_m;
-
-	double x;
-
-	for(x = 0; L3 - x > eps; x += d_e)
-		stud_coordinates.emplace_back(x);
-	for(x = L3; 2*L3 - x > eps; x += d_m)
-		stud_coordinates.emplace_back(x);
-	for(x = 2*L3; L - x > eps; x += d_e)
-		stud_coordinates.emplace_back(x);
-
-	stud_coordinates.emplace_back(L);
-
-	stud_coordinates.shrink_to_fit();
-
-	std::transform(stud_coordinates.begin(),stud_coordinates.end(),stud_coordinates.begin(),[](double coord){return std::round(coord);});
-
-	return stud_coordinates;
-}
-
-double Studs::calculate_capacity(double R_b, double R_y, double gamma_c)
-{
-	double P_rd1 = 0.;
-	double P_rd2 = 0.;
-
-	if ((2.5 <= l_ / d_an_) && (l_ /d_an_ <= 4.2)){ //возможен ли вариант, когда отношение l_/d_an_ меньше 2.5. Надо ли выводить информационное сообщение?
-		P_rd1 = 0.24 * l_/10 * d_an_/10 * std::pow(10 * R_b , 0.5) * 1000; //1000 перевод в Н, так как в СП кН
-	}
-	else if (l_/d_an_ > 4.2){
-		P_rd1 = d_an_/10 * d_an_/10 * std::pow(10 * R_b, 0.5) * 1000;
-	}
-
-	P_rd2 = 0.063 * d_an_/10 * d_an_/10 * gamma_c * R_y *1000;
-	return std::min(P_rd1, P_rd2);
-}
-
-
-std::vector<double> Studs::calc_ratios(std::vector<double> S)
-{
-	std::vector<double> ratios;
-	for(auto s:S)
-		ratios.emplace_back(s/P_rd_);
-	return ratios;
 }
 
 

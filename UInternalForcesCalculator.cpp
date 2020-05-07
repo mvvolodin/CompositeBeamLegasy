@@ -5,50 +5,30 @@
 #include <vector>
 #include <array>
 //---------------------------------------------------------------------------
-#include "UInternalForcesCalculator.h"
+#include "uInternalForcesCalculator.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
-
+InternalForcesCalculator::InternalForcesCalculator()
+{
+}
 InternalForcesCalculator::InternalForcesCalculator( SupportsNumber 	 s_num,
 													double 			 L,
-													double 			 bl,
-													double 			 br,
 													TLoads 			 loads):
-	ready_(true),
 	s_num_(s_num),
-	L_    (L),
-	bl_   (bl),
-	br_   (br),
+    L_(L),
 	loads_ (loads){}
-double InternalForcesCalculator::calculate_M_I_stage(double x)
+double InternalForcesCalculator::M_Ia_design(double x)
 {
-
-	double SW = loads_.get_self_weight();
-	double SW_sh = loads_.get_self_weight_sheets() * (bl_ + br_);
-	double DL_I = loads_.get_dead_load_first_stage() * (bl_ + br_);
-
-	double gamma_f_st_SW = loads_.get_gamma_f_st_SW();
-	double gamma_f_DL_I = loads_.get_gamma_f_DL_I();
-
-	double LC = gamma_f_st_SW * (SW + SW_sh) + gamma_f_DL_I * DL_I;
-
-	return calculate_M_uniform_load(x, LC, s_num_);
-
+	return calculate_M_uniform_load(x, loads_.Ia_design_LCC(), s_num_);
+}
+double InternalForcesCalculator::M_Ib_design(double x)
+{
+	return calculate_M_uniform_load(x, loads_.Ib_design_LCC(), s_num_);
 }
 double InternalForcesCalculator::calculate_M_R_I_stage(double x)
 {
-
-	double SW = loads_.get_self_weight();
-	double SW_sh = loads_.get_self_weight_sheets() * (bl_ + br_);
-	double DL_I = loads_.get_dead_load_first_stage() * (bl_ + br_);
-
-	double gamma_f_st_SW = loads_.get_gamma_f_st_SW();
-	double gamma_f_DL_I = loads_.get_gamma_f_DL_I();
-
-	double LC = gamma_f_st_SW * (SW + SW_sh) + gamma_f_DL_I * DL_I;
-
-	std::array<double, 4> R_LC = calculate_R(LC, s_num_);
+	std::array<double, 4> R_LC = calculate_R(loads_.Ib_design_LCC(), s_num_);
 
 	double L0 = 0.;
 
@@ -77,26 +57,18 @@ double InternalForcesCalculator::calculate_M_R_I_stage(double x)
 			return calculate_M_point_load(x, R_LC[1], L0) + calculate_M_point_load(x, R_LC[2], 2 * L0) + calculate_M_point_load(x, R_LC[2], 3 * L0);
 	}
 }
-double InternalForcesCalculator::calculate_M_II_stage(double x)
+double InternalForcesCalculator::M_II_design(double x)
 {
-	double DL_II = loads_.get_dead_load_second_stage() * (bl_ + br_);
-	double LL = loads_.get_live_load() * (bl_ + br_);
-
-	double gamma_f_DL_II = loads_.get_gamma_f_DL_II();
-	double gamma_f_LL = loads_.get_gamma_f_LL();
-
-	double LC_II = gamma_f_DL_II * DL_II + gamma_f_LL * LL;
-
-	double M_LC_II = calculate_M_uniform_load(x, LC_II, SupportsNumber::Zero );
+	double M_LC_II = calculate_M_uniform_load(x, loads_.II_design_LCC(), SupportsNumber::Zero );
 	double M_R_I = calculate_M_R_I_stage(x);
 
 	return M_LC_II + M_R_I;
 }
 
 
-double InternalForcesCalculator::calculate_M_total(double x)
+double InternalForcesCalculator::M_total_design(double x)
 {
-	return calculate_M_I_stage(x) + calculate_M_II_stage(x);
+	return M_Ib_design(x) + M_II_design(x);
 }
 std::array<double, 4> InternalForcesCalculator::calculate_R(double q, SupportsNumber s_num)
 {
@@ -143,12 +115,12 @@ std::array<double, 4> InternalForcesCalculator::calculate_R(double q, SupportsNu
 			return R;
 	}
 }
-std::vector<double> InternalForcesCalculator::calculate_M_I_stage(std::vector<double> X_list)
+std::vector<double> InternalForcesCalculator::M_Ib_design(std::vector<double> X_list)
 {
 	std::vector<double> M_I_stage;
 
 	for(auto cs:X_list)
-	  M_I_stage.push_back(calculate_M_I_stage(cs));
+	  M_I_stage.push_back(M_Ib_design(cs));
 
 	return M_I_stage;
 }
@@ -162,22 +134,22 @@ std::vector<double> InternalForcesCalculator::calculate_M_R_I_stage(std::vector<
 	return M_R_I_stage;
 }
 
-std::vector<double> InternalForcesCalculator::calculate_M_II_stage(std::vector<double> X_list)
+std::vector<double> InternalForcesCalculator::M_II_design(std::vector<double> X_list)
 {
 	std::vector<double> M_II_stage;
 
 	for(auto cs:X_list)
-		M_II_stage.push_back(calculate_M_II_stage(cs));
+		M_II_stage.push_back(M_II_design(cs));
 
 	return M_II_stage;
 
 }
-std::vector<double> InternalForcesCalculator::calculate_M_total(std::vector<double> X_list)
+std::vector<double> InternalForcesCalculator::M_total_design(std::vector<double> X_list)
 {
 	std::vector<double> M_total;
 
 	for(auto cs:X_list)
-		M_total.push_back(calculate_M_total(cs));
+		M_total.push_back(M_total_design(cs));
 
 	return M_total;
 }
