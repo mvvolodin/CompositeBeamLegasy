@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef CorrugatedSheetH
-#define CorrugatedSheetH
+#ifndef uCorrugatedSheetH
+#define uCorrugatedSheetH
 
 #include<System.hpp>
 #include<map>

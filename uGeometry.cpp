@@ -2,7 +2,7 @@
 
 #pragma hdrstop
 
-#include "GeometryUnit.h"
+#include "uGeometry.h"
 #include <algorithm>
 #include "MathFunction.h"
 //---------------------------------------------------------------------------

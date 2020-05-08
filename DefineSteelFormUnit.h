@@ -11,7 +11,7 @@
 #include <Vcl.Grids.hpp>
 //---------------------------------------------------------------------------
 #include "Steel_param_ARSS.h"
-#include "Steel.h"
+#include "uSteel.h"
 #include "ObserverPatternInterfaces.h"
 #include "ICompositeBeam.h"
 //---------------------------------------------------------------------------

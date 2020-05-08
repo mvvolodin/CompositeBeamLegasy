@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef ConcreteH
-#define ConcreteH
+#ifndef uConcreteH
+#define uConcreteH
 #include <System.hpp>
 #include <vector>
 #include <map>

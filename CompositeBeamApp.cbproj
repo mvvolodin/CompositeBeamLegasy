@@ -159,10 +159,6 @@
             <DependentOn>CompositeSection.h</DependentOn>
             <BuildOrder>11</BuildOrder>
         </CppCompile>
-        <CppCompile Include="Concrete.cpp">
-            <DependentOn>Concrete.h</DependentOn>
-            <BuildOrder>39</BuildOrder>
-        </CppCompile>
         <CppCompile Include="ConcreteDefinitionFormUnit.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>ConcreteDefinitionForm</Form>
@@ -173,10 +169,6 @@
         <CppCompile Include="ConcretePartUnit.cpp">
             <DependentOn>ConcretePartUnit.h</DependentOn>
             <BuildOrder>15</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="CorrugatedSheet.cpp">
-            <DependentOn>CorrugatedSheet.h</DependentOn>
-            <BuildOrder>47</BuildOrder>
         </CppCompile>
         <None Include="Data_Profil.h">
             <BuildOrder>23</BuildOrder>
@@ -197,10 +189,6 @@
             <VirtualFolder>{5FF06B42-F393-44F4-B2A7-3B7240E7B578}</VirtualFolder>
             <DependentOn>GArrow.h</DependentOn>
             <BuildOrder>22</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="GeometryUnit.cpp">
-            <DependentOn>GeometryUnit.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
         </CppCompile>
         <CppCompile Include="Get_param_sect_func.cpp">
             <DependentOn>Get_param_sect_func.h</DependentOn>
@@ -224,10 +212,6 @@
         <None Include="ListConst.H">
             <BuildOrder>25</BuildOrder>
         </None>
-        <CppCompile Include="LoadsUnit.cpp">
-            <DependentOn>LoadsUnit.h</DependentOn>
-            <BuildOrder>4</BuildOrder>
-        </CppCompile>
         <CppCompile Include="LoggerFormUnit.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>FormLogger</Form>
@@ -257,10 +241,6 @@
             <DependentOn>Ratios.h</DependentOn>
             <BuildOrder>40</BuildOrder>
         </CppCompile>
-        <CppCompile Include="Rebar.cpp">
-            <DependentOn>Rebar.h</DependentOn>
-            <BuildOrder>16</BuildOrder>
-        </CppCompile>
         <CppCompile Include="RebarDefinitionFormUnit.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>RebarDefinitionForm</Form>
@@ -278,10 +258,6 @@
         <CppCompile Include="StandartProfil.cpp">
             <DependentOn>StandartProfil.h</DependentOn>
             <BuildOrder>24</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="Steel.cpp">
-            <DependentOn>Steel.h</DependentOn>
-            <BuildOrder>38</BuildOrder>
         </CppCompile>
         <CppCompile Include="SteelPart.cpp">
             <DependentOn>SteelPart.h</DependentOn>
@@ -310,16 +286,40 @@
         <None Include="TypeData.h">
             <BuildOrder>34</BuildOrder>
         </None>
+        <CppCompile Include="uConcrete.cpp">
+            <DependentOn>uConcrete.h</DependentOn>
+            <BuildOrder>39</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCorrugatedSheet.cpp">
+            <DependentOn>uCorrugatedSheet.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uGeometry.cpp">
+            <DependentOn>uGeometry.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uInternalForcesCalculator.cpp">
             <DependentOn>uInternalForcesCalculator.h</DependentOn>
             <BuildOrder>48</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uLoads.cpp">
+            <DependentOn>uLoads.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
         <None Include="Units.h">
             <BuildOrder>47</BuildOrder>
         </None>
+        <CppCompile Include="uRebar.cpp">
+            <DependentOn>uRebar.h</DependentOn>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uSection.cpp">
             <DependentOn>uSection.h</DependentOn>
             <BuildOrder>50</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uSteel.cpp">
+            <DependentOn>uSteel.h</DependentOn>
+            <BuildOrder>38</BuildOrder>
         </CppCompile>
         <CppCompile Include="USteelSectionForm.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
@@ -332,13 +332,13 @@
             <DependentOn>uStud.h</DependentOn>
             <BuildOrder>42</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uWorkingConditionsFactors.cpp">
+            <DependentOn>uWorkingConditionsFactors.h</DependentOn>
+            <BuildOrder>41</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Word_Automation.cpp">
             <DependentOn>Word_Automation.h</DependentOn>
             <BuildOrder>48</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="WorkingConditionsFactors.cpp">
-            <DependentOn>WorkingConditionsFactors.h</DependentOn>
-            <BuildOrder>41</BuildOrder>
         </CppCompile>
         <CppCompile Include="WRData_Check.cpp">
             <DependentOn>WRData_Check.h</DependentOn>

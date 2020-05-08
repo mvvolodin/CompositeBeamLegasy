@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef GeometryUnitH
-#define GeometryUnitH
+#ifndef uGeometryH
+#define uGeometryH
 //---------------------------------------------------------------------------
 #include <vector>
 #include <ostream>

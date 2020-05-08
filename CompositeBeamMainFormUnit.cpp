@@ -411,8 +411,8 @@ void TCompositeBeamMainForm::fill_concrete_sect_geometr_grid()
 {
 	TConcretePart concrete_part=composite_beam_.get_composite_section().get_concrete_part();
 
-	strng_grd_concrete_sect_geom_character->Cells [1][1]=FloatToStrF(concrete_part.get_b_l(), ffFixed, 15, 0);
-	strng_grd_concrete_sect_geom_character->Cells [1][2]=FloatToStrF(concrete_part.get_b_r(), ffFixed, 15, 0);
+	//strng_grd_concrete_sect_geom_character->Cells [1][1]=FloatToStrF(concrete_part.get_b_l(), ffFixed, 15, 0);
+	strng_grd_concrete_sect_geom_character->Cells [1][2]=FloatToStrF(concrete_part.get_b(), ffFixed, 15, 0);
 	strng_grd_concrete_sect_geom_character->Cells [1][3]=FloatToStrF(concrete_part.get_C_b(), ffFixed, 15, 0);
 	strng_grd_concrete_sect_geom_character->Cells [1][4]=FloatToStrF(concrete_part.get_A_b(), ffFixed, 15, 0);
 	strng_grd_concrete_sect_geom_character->Cells [1][5]=FloatToStrF(concrete_part.get_I_b(), ffFixed, 15, 0);
@@ -644,8 +644,7 @@ void TCompositeBeamMainForm::generate_report()
 	report_.PasteTextPattern(FloatToStrF(i_section.get_Z_f1_st(LengthUnit::cm), ffFixed, 15, 2),"%Z_f1_st%");
 //[2.1.2] Железобетонного сечения
 	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
-	report_.PasteTextPattern(FloatToStrF(concrete_part.get_b_l(LengthUnit::cm), ffFixed, 15, 2),"%b_l%");
-	report_.PasteTextPattern(FloatToStrF(concrete_part.get_b_r(LengthUnit::cm), ffFixed, 15, 2),"%b_r%");
+	report_.PasteTextPattern(FloatToStrF(concrete_part.get_b(LengthUnit::cm), ffFixed, 15, 2),"%b_l%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_C_b(LengthUnit::cm), ffFixed, 15, 2),"%C_b%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_A_b(LengthUnit::cm), ffFixed, 15, 2),"%A_b%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_I_b(LengthUnit::cm), ffFixed, 15, 2),"%I_b%");
@@ -692,50 +691,50 @@ void TCompositeBeamMainForm::generate_report()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::draw_diagram()
 {
-	TImage *Image1=img_static_scheme;
-	//получаем вектор координат точек эпюры из объекта композитная балка
-	std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
-
-	InternalForces internal_forces;
-
-	switch (cmb_bx_impact->ItemIndex)
-	{
-	case(0): // Расчётные нагрузки I стадии
-		internal_forces = composite_beam_.get_internal_forces_LC()[Impact::I_stage];
-		break;
-	case(1): // Расчётные нагрузки II стадии
-		internal_forces = composite_beam_.get_internal_forces_LC()[Impact::II_stage];
-		break;
-	case(2): // Расчётные нагрузки полные
-        internal_forces = composite_beam_.get_internal_forces_LC()[Impact::Total];
-		break;
-	}
-	//InternalForces internal_forces = composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)];
-	//определим суммарное количество опор (временных и постоянных)
-	int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
-	internal_forces.get_num_temp_supports();
-	std::vector<double>	coor_supp = internal_forces.get_supports_coordinates();
-	//флаг отрисовки значений на эпюре
-	bool flag_sign=true;
-
-	if (rd_grp_internal_forces_type->ItemIndex==0)
-	{
-		//получаем вектор изгибающих моментов из объекта композитная балка
-		std::vector<double> M= internal_forces .get_M(LoadUnit::kN, LengthUnit::m);
-		//преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
-		std::transform(M.begin(),M.end(), M.begin(), [](double M) { return -1*std::round(M*1000)/1000;});
-		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
-	}
-	else
-	{
-		//получаем поперечные силы из объекта композитная балка
-		std::vector<double> Q=internal_forces .get_Q(LoadUnit::kN);
-		std::vector<double> Q_jump=internal_forces .get_Q_jump(LoadUnit::kN);
-		//преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
-		std::transform(Q.begin(),Q.end(), Q.begin(), [](double Q) { return -1*std::round(Q*1000)/1000;});
-		std::transform(Q_jump.begin(),Q_jump.end(), Q_jump.begin(), [](double Q_jump) { return -1*std::round(Q_jump*1000)/1000;});
-		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &Q_jump[0], n_supp, &coor_supp[0], flag_sign);
-	}
+//	TImage *Image1=img_static_scheme;
+//	//получаем вектор координат точек эпюры из объекта композитная балка
+//	std::vector<double> coor_epur=composite_beam_.get_CS_coordinates();
+//
+//	InternalForces internal_forces;
+//
+//	switch (cmb_bx_impact->ItemIndex)
+//	{
+//	case(0): // Расчётные нагрузки I стадии
+//		internal_forces = composite_beam_.get_internal_forces_LC()[Impact::I_stage];
+//		break;
+//	case(1): // Расчётные нагрузки II стадии
+//		internal_forces = composite_beam_.get_internal_forces_LC()[Impact::II_stage];
+//		break;
+//	case(2): // Расчётные нагрузки полные
+//        internal_forces = composite_beam_.get_internal_forces_LC()[Impact::Total];
+//		break;
+//	}
+//	//InternalForces internal_forces = composite_beam_.get_internal_forces_LC()[static_cast<Impact>(cmb_bx_impact->ItemIndex)];
+//	//определим суммарное количество опор (временных и постоянных)
+//	int n_supp=composite_beam_.get_geometry().get_permanent_supports_number()+
+//	internal_forces.get_num_temp_supports();
+//	std::vector<double>	coor_supp = internal_forces.get_supports_coordinates();
+//	//флаг отрисовки значений на эпюре
+//	bool flag_sign=true;
+//
+//	if (rd_grp_internal_forces_type->ItemIndex==0)
+//	{
+//		//получаем вектор изгибающих моментов из объекта композитная балка
+//		std::vector<double> M= internal_forces .get_M(LoadUnit::kN, LengthUnit::m);
+//		//преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
+//		std::transform(M.begin(),M.end(), M.begin(), [](double M) { return -1*std::round(M*1000)/1000;});
+//		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, n_supp, &coor_supp[0], flag_sign);
+//	}
+//	else
+//	{
+//		//получаем поперечные силы из объекта композитная балка
+//		std::vector<double> Q=internal_forces .get_Q(LoadUnit::kN);
+//		std::vector<double> Q_jump=internal_forces .get_Q_jump(LoadUnit::kN);
+//		//преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
+//		std::transform(Q.begin(),Q.end(), Q.begin(), [](double Q) { return -1*std::round(Q*1000)/1000;});
+//		std::transform(Q_jump.begin(),Q_jump.end(), Q_jump.begin(), [](double Q_jump) { return -1*std::round(Q_jump*1000)/1000;});
+//		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &Q_jump[0], n_supp, &coor_supp[0], flag_sign);
+//	}
 }
 
 void __fastcall TCompositeBeamMainForm::cmb_bx_impactChange(TObject *Sender)

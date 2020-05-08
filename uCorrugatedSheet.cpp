@@ -2,7 +2,7 @@
 
 #pragma hdrstop
 
-#include "CorrugatedSheet.h"
+#include "uCorrugatedSheet.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 

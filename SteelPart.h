@@ -7,7 +7,7 @@
 #include <ostream>
 //---------------------------------------------------------------------------
 #include "ISection.h"
-#include "Steel.h"
+#include "uSteel.h"
 
 
 class SteelPart{

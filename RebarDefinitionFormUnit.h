@@ -9,7 +9,7 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Buttons.hpp>
 //---------------------------------------------------------------------------
-#include "Rebar.h"
+#include "uRebar.h"
 #include <Vcl.ExtCtrls.hpp>
 
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель

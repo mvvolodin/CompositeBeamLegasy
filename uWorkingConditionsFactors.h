@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef WorkingConditionsFactorsH
-#define WorkingConditionsFactorsH
+#ifndef uWorkingConditionsFactorsH
+#define uWorkingConditionsFactorsH
 #include <ostream>
 #include <istream>
 //---------------------------------------------------------------------------

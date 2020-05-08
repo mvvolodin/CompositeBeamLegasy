@@ -5,11 +5,21 @@
 #include <ostream>
 #include "ISection.h"
 #include "ConcretePartUnit.h"
-#include "Steel.h"
-#include "Rebar.h"
+#include "uSteel.h"
+#include "uRebar.h"
 #include "SteelPart.h"
 
 class CompositeSection{
+	enum class NA_Location{
+		CONCRETE,
+		UPPER_FLANGE,
+		WEB,
+		NO_SOLUTION
+	};
+	struct NeutralAxis{
+		NA_Location na_location_;
+		double x_na_; //Расстояние от наружней грани сталежелезобетонной балки до нейтральной оси
+	};
 private:
 
 	SteelPart steel_part_;
@@ -38,6 +48,8 @@ private:
 	double W_b_red_= 0.;//Момент сопротивления сталежелезобетонного сечения для Ц.Т. железобетонной плиты
 	double W_b_st_ = 0.;//условный момент сопротивления на уровне центр тяжести сечения бетона
 
+	double M_Rd_ = 0.;
+
 	void alfa_to_rebar_steel_calc();
 	void alfa_to_concrete_calc();
 	void compos_sect_height_calc();
@@ -54,6 +66,9 @@ private:
 	void sect_modulus_conc();
 	void fictitious_modulus();
 
+	void calc_rigid_plastic_moment();
+	NeutralAxis calc_neutral_axis();
+
 public:
 	CompositeSection();
 	CompositeSection(SteelPart    steel_part,
@@ -67,10 +82,9 @@ public:
 	TConcretePart get_concrete_part() const {return concrete_part_;}
 	TConcretePart& get_concrete_part() {return concrete_part_;}
 	Steel get_steel_grade()const {return steel_part_.get_steel();}
-	double get_b() const {return b_;}
 
-	void set_b(double b){b_ = b;}
 	void set_phi_b_cr(double phi_b_cr);
+	void set_b(double b){concrete_part_.set_b(b);}
 
 	double get_alfa_b() const {return alfa_b_;}
 	double get_alfa_s() const {return alfa_s_;}
@@ -86,6 +100,8 @@ public:
 	double get_W_b_st(LengthUnit length_unit=LengthUnit::mm) const {return W_b_st_/std::pow(static_cast<int>(length_unit),3);}
 
 	double get_b_s()const {return concrete_part_.get_rebar().get_b_s();}
+	double get_M_Rd()const {return M_Rd_;}
+
 
 } ;
 //---------------------------------------------------------------------------

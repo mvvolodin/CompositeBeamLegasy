@@ -3,7 +3,7 @@
 #define uInternalForcesCalculatorH
 //---------------------------------------------------------------------------
 #include "InternalForces.h"
-#include "LoadsUnit.h"
+#include "uLoads.h"
 
  //---------------------------------------------------------------------------
 class InternalForcesCalculator

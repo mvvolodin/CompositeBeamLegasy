@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef LoadsUnitH
-#define LoadsUnitH
+#ifndef uLoadsH
+#define uLoadsH
 //---------------------------------------------------------------------------
 #include <cmath>
 #include <ostream>
@@ -24,7 +24,7 @@ public:
 	TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL,
 		double gamma_f_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL);
 	void set_default_values();
-	void set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double b);
+	void set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B);
 	void calculate_loads(double SW_concrete);
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
@@ -64,7 +64,7 @@ private:
 	double gamma_f_DL_II_ = 0.;
 	double gamma_f_LL_ = 0.;
 
-	double b_ = 0.;//грузовая площадь
+	double B_ = 0.;//грузовая площадь
 
 	bool fully_initialized_ = false;
 };

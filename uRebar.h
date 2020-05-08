@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef RebarH
-#define RebarH
+#ifndef uRebarH
+#define uRebarH
 #include<System.hpp> //Подключаем тип String
 #include<map>
 #include <iostream>

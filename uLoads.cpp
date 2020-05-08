@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
 #pragma hdrstop
-#include "LoadsUnit.h"
+#include "uLoads.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -54,17 +54,17 @@ void TLoads::load(std::istream& istr)
 double TLoads::Ia_design_LCC()
 {
 	assert(fully_initialized_);
-	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * b_ +
-		gamma_f_concrete_SW_ * SW_concrete_ * b_+ gamma_f_DL_I_ * DL_I_ * b_;
+	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
+		gamma_f_concrete_SW_ * SW_concrete_ * B_+ gamma_f_DL_I_ * DL_I_ * B_;
 }
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений Ib
 //-----------------------------------------------------------------------------
 double TLoads::Ib_design_LCC()
 {
-    assert(fully_initialized_);
-	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * b_ +
-		gamma_f_concrete_SW_ * SW_concrete_ * b_;
+	assert(fully_initialized_);
+	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
+		gamma_f_concrete_SW_ * SW_concrete_ * B_;
 }
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений II
@@ -72,7 +72,7 @@ double TLoads::Ib_design_LCC()
 double TLoads::II_design_LCC()
 {
 	assert(fully_initialized_);
-	 return gamma_f_DL_II_ * DL_II_ * b_ + gamma_f_LL_ * LL_ * b_;
+	 return gamma_f_DL_II_ * DL_II_ * B_ + gamma_f_LL_ * LL_ * B_;
 }
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от полной комбинации загружений
@@ -80,8 +80,8 @@ double TLoads::II_design_LCC()
 double TLoads::total_design_LCC()
 {
 	assert(fully_initialized_);
-	 return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * b_ +
-		gamma_f_concrete_SW_ * SW_concrete_ * b_ + gamma_f_DL_II_ * DL_II_ * b_ + gamma_f_LL_ * LL_ * b_;
+	 return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
+		gamma_f_concrete_SW_ * SW_concrete_ * B_ + gamma_f_DL_II_ * DL_II_ * B_ + gamma_f_LL_ * LL_ * B_;
 }
 //-----------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
@@ -99,15 +99,15 @@ void TLoads::set_default_values()
 	gamma_f_DL_I_ = 1.35;
 	gamma_f_DL_II_ = 1.35;
 	gamma_f_LL_ = 1.35;
-    b_ = 6000;
+	B_ = 6000;
 }
 
-void TLoads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double b)
+void TLoads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B)
 {
 	SW_steel_beam_ = SW_steel_beam;
 	SW_corrugated_sheets_ = SW_corrugated_sheets;
 	SW_concrete_ = SW_concrete;
-	b_ = b;
+	B_ = B;
 
 	fully_initialized_ = true;
 }

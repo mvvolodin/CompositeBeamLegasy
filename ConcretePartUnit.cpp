@@ -78,8 +78,8 @@ void TConcretePart::calculate()
 	case SlabType::FLAT:
 		h_ = h_n_ + h_f_;
 		C_b_ = h_n_ + h_f_/2.;
-		A_b_ = (b_l_ + b_r_) * h_f_;
-		I_b_ = (b_l_ + b_r_) * std::pow(h_f_,3) / 12;
+		A_b_ = b_ * h_f_;
+		I_b_ = b_ * std::pow(h_f_,3) / 12;
 		break;
 	case SlabType::CORRUGATED:
 		CorrugatedSheet cs = CorrugatedSheetsData::get_corrugated_sheet(slab_type_);
@@ -87,8 +87,8 @@ void TConcretePart::calculate()
 		h_b_ = cs.get_h_b();
 		h_ = h_n_ + h_f_;
 		C_b_ = h_n_ + h_f_ / 2.;
-		A_b_ = (b_l_ + b_r_) * h_f_;
-		I_b_ = (b_l_ + b_r_) * std::pow(h_f_,3) / 12;
+		A_b_ = b_ * h_f_;
+		I_b_ = b_ * std::pow(h_f_,3) / 12;
 		break;
 	}
 

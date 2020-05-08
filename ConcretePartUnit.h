@@ -5,10 +5,10 @@
 #include <ostream>
 #include <istream>
 // ---------------------------------------------------------------------------
-#include "GeometryUnit.h"
-#include "Concrete.h"
-#include "Rebar.h"
-#include "CorrugatedSheet.h"
+#include "uGeometry.h"
+#include "uConcrete.h"
+#include "uRebar.h"
+#include "uCorrugatedSheet.h"
 #include "Units.h"
 // ---------------------------------------------------------------------------
 enum class SlabType{
@@ -41,12 +41,9 @@ public:
 	double get_h(LengthUnit length_unit=LengthUnit::mm) const {return h_/static_cast<int>(length_unit);}
 	double get_h_f(LengthUnit length_unit=LengthUnit::mm) const {return h_f_/static_cast<int>(length_unit);}
 	double get_h_n(LengthUnit length_unit=LengthUnit::mm) const {return h_n_/static_cast<int>(length_unit);}
-	void set_b_l(double b_l){b_l_ = b_l;}
-	void set_b_r(double b_r){b_r_ = b_r;}
+	void set_b(double b){b_ = b;}
 	void set_phi_b_cr(double phi_b_cr){concrete_.set_phi_b_cr(phi_b_cr);}
-	double get_b_l(LengthUnit length_unit=LengthUnit::mm) const {return b_l_/static_cast<int>(length_unit);} //после добавления b_sl в этой функции нет необходимости. Удалить после изменения кода с вызовами
-	double get_b_r(LengthUnit length_unit=LengthUnit::mm) const {return b_r_/static_cast<int>(length_unit);} //после добавления b_sl в этой функции нет необходимости. Удалить после изменения кода с вызовами
-	double get_b_sl(LengthUnit length_unit=LengthUnit::mm) const {return (b_r_+ b_l_)/static_cast<int>(length_unit);}
+	double get_b(LengthUnit length_unit=LengthUnit::mm) const {return b_/static_cast<int>(length_unit);}
 	double get_A_b(LengthUnit length_unit=LengthUnit::mm) const {return A_b_/std::pow(static_cast<int>(length_unit),2);}
 	double get_I_b(LengthUnit length_unit=LengthUnit::mm) const {return I_b_/std::pow(static_cast<int>(length_unit),4);}
 
@@ -60,8 +57,7 @@ private:
 	double h_n_ = 0.; // расстояние от наружней грани верхней полки двутавра до внутренней грани расчётной железобетонной плиты
 
 	double SW_concrete_ = 0.;//собственный вес железобетонной плиты
-	double b_l_ = 0.; // эффективная ширина слева
-	double b_r_ = 0.; // эффективная ширина справа
+	double b_ = 0.; // эффективная ширина
 	double h_ = 0.;// высота железобетонной плиты
 	double C_b_ = 0.; 	// расстояние от наружней грани верхней полки двутавра до центр тяжести расчётной железобетонной плиты
    	double h_b_ = 0.; //приведённая толщина бетона

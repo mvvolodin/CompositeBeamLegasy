@@ -5,7 +5,7 @@
 
 #include "CompositeSection.h"
 #include "InternalForces.h"
-#include "WorkingConditionsFactors.h"
+#include "uWorkingConditionsFactors.h"
 
 
 enum StressStateCase{ //придумать содержательные названия
