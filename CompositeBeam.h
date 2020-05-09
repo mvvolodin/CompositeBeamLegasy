@@ -12,7 +12,6 @@
 
 #include "uSteel.h"
 #include "CompositeSection.h"
-#include "InternalForces.h"
 #include "uStud.h"
 #include "uRebar.h"
 #include "uWorkingConditionsFactors.h"
@@ -45,7 +44,9 @@ public:
 	TLoads get_loads()const {return loads_;}
 	WorkingConditionsFactors get_working_conditions_factors() const {return working_conditions_factors_;}
 	CompositeSection get_composite_section()const{return composite_section_;}
-	StudsOnBeam get_studs_on_beam()const{return studs_on_beam_;}
+
+	const SectionsBeam& get_sections_beam()const{return sections_beam_;}
+	const StudsOnBeam& get_studs_on_beam()const{return studs_on_beam_;}
 
 //Функции получения результатов расчёта для вывода в отчёт
 

@@ -4,7 +4,6 @@
 #define StressesH
 
 #include "CompositeSection.h"
-#include "InternalForces.h"
 #include "uWorkingConditionsFactors.h"
 
 
