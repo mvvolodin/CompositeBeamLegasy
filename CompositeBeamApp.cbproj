@@ -197,10 +197,6 @@
         <None Include="ICompositeBeam.h">
             <BuildOrder>49</BuildOrder>
         </None>
-        <CppCompile Include="InternalForcesBeam.cpp">
-            <DependentOn>InternalForcesBeam.h</DependentOn>
-            <BuildOrder>46</BuildOrder>
-        </CppCompile>
         <CppCompile Include="ISection.cpp">
             <DependentOn>ISection.h</DependentOn>
             <BuildOrder>11</BuildOrder>

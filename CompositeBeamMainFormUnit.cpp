@@ -483,6 +483,7 @@ void TCompositeBeamMainForm::fill_cmb_bx_impact()
 	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки I стадии");
 	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки II стадии");
 	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки полные");
+	cmb_bx_impact -> Items -> Append(L"Опоры");
 
 	cmb_bx_impact -> ItemIndex = 2;
 }
@@ -711,6 +712,10 @@ void TCompositeBeamMainForm::draw_diagram()
 	case(2): // Расчётные нагрузки полные
 		M = composite_beam_.get_sections_beam().get_M_total_design_list();
 		Q = composite_beam_.get_sections_beam().get_Q_total_design_list();
+		break;
+	case(3): // Расчётные нагрузки полные
+		M = composite_beam_.get_sections_beam().get_M_R_Ib_design();
+	   //	Q = composite_beam_.get_sections_beam().get_Q_total_design_list();
 		break;
 	}
 
