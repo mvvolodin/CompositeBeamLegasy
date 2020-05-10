@@ -32,7 +32,7 @@ public:
 
 	double Ia_design_LCC();
 	double Ib_design_LCC();
-	double II_design_LCC();
+	double IIb_design_LCC();
 	double total_design_LCC();
 
 	double get_self_weight(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const

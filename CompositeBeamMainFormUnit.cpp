@@ -471,19 +471,11 @@ void TCompositeBeamMainForm:: cotr_ratios_grid()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::fill_cmb_bx_impact()
 {
-//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_BEAM), "Собственный вес балки");
-//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::SW_SHEETS), "Собственный вес настила");
-//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_I) , "Постоянная нагрузка I стадия");
-//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::DL_II), "Постоянная нагрузка II стадия");
-//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::LL), "Временная нагрузка II стадии");
-//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::I_stage), "Расчётные нагрузки I стадии");
-//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::II_stage), "Расчётные нагрузки II стадии");
-//	cmb_bx_impact->Items->Insert(static_cast<int>(Impact::Total), "Расчётные нагрузки");
-//	cmb_bx_impact->ItemIndex = (int)Impact::SW_BEAM;
-	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки I стадии");
-	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки II стадии");
+	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки Ia стадии");
+	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки Ib стадии");
+	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки IIa стадии");
+	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки IIb стадии");
 	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки полные");
-	cmb_bx_impact -> Items -> Append(L"Опоры");
 
 	cmb_bx_impact -> ItemIndex = 2;
 }
@@ -701,21 +693,25 @@ void TCompositeBeamMainForm::draw_diagram()
 
 	switch (cmb_bx_impact->ItemIndex)
 	{
-	case(0): // Расчётные нагрузки I стадии
+	case(0): // Расчётные нагрузки Ia стадии
 		M = composite_beam_.get_sections_beam().get_M_Ia_design_list();
 		Q = composite_beam_.get_sections_beam().get_Q_Ia_design_list();
 		break;
-	case(1): // Расчётные нагрузки II стадии
-		M = composite_beam_.get_sections_beam().get_M_II_design_list();
-		Q = composite_beam_.get_sections_beam().get_Q_II_design_list();
+	case(1): // Расчётные нагрузки Ib стадии
+		M = composite_beam_.get_sections_beam().get_M_Ib_design_list();
+		Q = composite_beam_.get_sections_beam().get_Q_Ib_design_list();
 		break;
-	case(2): // Расчётные нагрузки полные
+	case(2): // Расчётные нагрузки IIa стадии
+		M = composite_beam_.get_sections_beam().get_M_IIa_design_list();
+	   //	Q = composite_beam_.get_sections_beam().get_Q_R_Ib_design_list();
+		break;
+	case(3): // Расчётные нагрузки IIb стадии
+		M = composite_beam_.get_sections_beam().get_M_IIb_design_list();
+		Q = composite_beam_.get_sections_beam().get_Q_IIb_design_list();
+		break;
+	case(4)://Расчётные нагрузки полные
 		M = composite_beam_.get_sections_beam().get_M_total_design_list();
 		Q = composite_beam_.get_sections_beam().get_Q_total_design_list();
-		break;
-	case(3): // Расчётные нагрузки полные
-		M = composite_beam_.get_sections_beam().get_M_R_Ib_design();
-	   //	Q = composite_beam_.get_sections_beam().get_Q_total_design_list();
 		break;
 	}
 

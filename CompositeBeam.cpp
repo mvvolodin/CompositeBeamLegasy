@@ -114,9 +114,12 @@ void TCompositeBeam::calculate_composite_beam()
 	FormLogger -> add_separator(L"Расчётный момент M_Ib");
 	for (const auto& section:sections_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_Ib_design());
-	FormLogger -> add_separator(L"Расчётный момент M_II");
+	FormLogger -> add_separator(L"Расчётный момент M_IIa");
 	for (const auto& section:sections_beam_.get_section_list())
-		FormLogger -> print_M_X(section.get_x(), section.get_M_II_design());
+		FormLogger -> print_M_X(section.get_x(), section.get_M_IIa_design());
+	FormLogger -> add_separator(L"Расчётный момент M_IIb");
+	for (const auto& section:sections_beam_.get_section_list())
+		FormLogger -> print_M_X(section.get_x(), section.get_M_IIb_design());
 	FormLogger -> add_separator(L"Расчётный момент полный M_total");
 	for (const auto& section:sections_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_total_design());

@@ -67,9 +67,9 @@ double TLoads::Ib_design_LCC()
 		gamma_f_concrete_SW_ * SW_concrete_ * B_;
 }
 //-----------------------------------------------------------------------------
-//Расчёт значения нагрузки от комбинации загружений II
+//Расчёт значения нагрузки от комбинации загружений IIb
 //-----------------------------------------------------------------------------
-double TLoads::II_design_LCC()
+double TLoads::IIb_design_LCC()
 {
 	assert(fully_initialized_);
 	 return gamma_f_DL_II_ * DL_II_ * B_ + gamma_f_LL_ * LL_ * B_;

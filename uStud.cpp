@@ -191,8 +191,10 @@ void StudsRow::calculate_S(InternalForcesCalculator& intr_frcs_calculator, Compo
 	double alfa_b = com_sect.get_alfa_b();
 	double alfa_s = com_sect.get_alfa_s();
 
-	double M_II_design_r = intr_frcs_calculator.M_II_design(x_r_);
-	double M_II_design_l = intr_frcs_calculator.M_II_design(x_l_);
+	double M_II_design_r = intr_frcs_calculator.M_IIa_design(x_r_) +
+		intr_frcs_calculator.M_IIb_design(x_r_);
+	double M_II_design_l = intr_frcs_calculator.M_IIa_design(x_l_) +
+		intr_frcs_calculator.M_IIb_design(x_l_);
 
 	double sigma_b_r = std::abs(M_II_design_r)/(alfa_b*W_b_red);
 	double sigma_b_l = std::abs(M_II_design_l)/(alfa_b*W_b_red);
