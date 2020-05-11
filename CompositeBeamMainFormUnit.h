@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 
 
-#include "CompositeBeam.h"//Подключаем логику
+#include "uCompositeBeamCalculator.h"//Подключаем логику
 #include "StudDefinitionFormUnit.h"
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
@@ -194,7 +194,7 @@ public:		// User declarations
 
 private:
 
-	TCompositeBeam composite_beam_; //Основной объект в программе
+	CompositeBeamCalculator composite_beam_calculator_; //Основной объект в программе
 
 	TGeometry init_geomet();//Инициализация топологии
 	TLoads init_loads(); //Инициализация нагрузок
@@ -230,7 +230,7 @@ private:
 	virtual void update(IPublisher* ipublisher) override;
 	void register_observers();
 	void register_I_composite_beam();
-	virtual double get_t_max()const{return composite_beam_.get_composite_section().get_steel_part().get_section().get_t_uf();};
+	virtual double get_t_max()const{return composite_beam_calculator_.get_composite_section().get_steel_part().get_section().get_t_uf();};
 
 };
 //---------------------------------------------------------------------------

@@ -4,7 +4,7 @@
 #include <cmath>
 #include <array>
 //---------------------------------------------------------------------------
-#include "CompositeBeam.h"
+#include "uCompositeBeamCalculator.h"
 #include "LoggerFormUnit.h"
 #include "MathFunction.h"
 //---------------------------------------------------------------------------
@@ -13,16 +13,16 @@
 //#define NDEBUG
 //---------------------------------------------------------------------------
 
-TCompositeBeam::TCompositeBeam(){}
+CompositeBeamCalculator::CompositeBeamCalculator(){}
 //---------------------------------------------------------------------------
 //Конструктор композитной балки
 //---------------------------------------------------------------------------
- TCompositeBeam::TCompositeBeam(TGeometry                geometry,
-								TLoads     				 loads,
-								CompositeSection         composite_section,
-								StudsOnBeam              studs_on_beam,
-								WorkingConditionsFactors working_conditions_factors):
-    geometry_(geometry),
+ CompositeBeamCalculator::CompositeBeamCalculator(TGeometry   			   geometry,
+												  TLoads     			   loads,
+												  CompositeSection         composite_section,
+												  StudsOnBeam              studs_on_beam,
+												  WorkingConditionsFactors working_conditions_factors):
+	geometry_(geometry),
 	loads_(loads),
 	composite_section_(composite_section),
 	studs_on_beam_(studs_on_beam),
@@ -33,7 +33,7 @@ TCompositeBeam::TCompositeBeam(){}
 //---------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
 //---------------------------------------------------------------------------
-void TCompositeBeam::set_default_values()
+void CompositeBeamCalculator::set_default_values()
 {
 	geometry_.set_default_values();
 	loads_.set_default_values();
@@ -44,7 +44,7 @@ void TCompositeBeam::set_default_values()
 //---------------------------------------------------------------------------
 //Сохраняем объект композитная балка в бинарный файл
 //---------------------------------------------------------------------------
-void TCompositeBeam::save(std::ostream& ostr) const
+void CompositeBeamCalculator::save(std::ostream& ostr) const
 {
 	geometry_.save(ostr);
 	loads_.save(ostr);
@@ -54,7 +54,7 @@ void TCompositeBeam::save(std::ostream& ostr) const
 //---------------------------------------------------------------------------
 //Загружаем объект композитная балка из бинарного файла
 //---------------------------------------------------------------------------
-void TCompositeBeam::load(std::istream& istr)
+void CompositeBeamCalculator::load(std::istream& istr)
 {
 	geometry_.load(istr);
 	loads_.load(istr);
@@ -62,7 +62,7 @@ void TCompositeBeam::load(std::istream& istr)
 	composite_section_.load(istr);
 }
 
-void TCompositeBeam::calculate()
+void CompositeBeamCalculator::calculate()
 {
 	calculate_composite_beam();
 	calculate_studs();
@@ -70,7 +70,7 @@ void TCompositeBeam::calculate()
 //---------------------------------------------------------------------------
 //Расчёт композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeam::calculate_composite_beam()
+void CompositeBeamCalculator::calculate_composite_beam()
 {
 
 //расчёт эффективной ширины плиты и подготовка композитного сечения
@@ -96,41 +96,41 @@ void TCompositeBeam::calculate_composite_beam()
 	double L = geometry_.get_span();
 	InternalForcesCalculator intr_frcs_calculator{static_cast<SupportsNumber>(tmp_sup_num), L, loads_ };
 //подготовка сечений для расчёта
-	sections_beam_.set_composite_section(composite_section_);
-	sections_beam_.set_intr_frcs_calculator(intr_frcs_calculator);
-	sections_beam_.set_working_conditions_factors(working_conditions_factors_);
-	sections_beam_.initialize_section_list(L, tmp_sup_num) ;
+	composite_beam_.set_composite_section(composite_section_);
+	composite_beam_.set_intr_frcs_calculator(intr_frcs_calculator);
+	composite_beam_.set_working_conditions_factors(working_conditions_factors_);
+	composite_beam_.initialize_section_list(L, tmp_sup_num) ;
 //расчёт сечений
-	sections_beam_.calculate();
+	composite_beam_.calculate();
 
 	#ifndef NDEBUG
 	FormLogger -> add_separator(L"Проверка сечений");
 	FormLogger -> add_separator(L"Координаты сечений");
-	for (const auto& section:sections_beam_.get_section_list())
+	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_sections_coordinates(section.get_id(), section.get_x());
 	FormLogger -> add_separator(L"Расчётный момент M_Ia");
-	for (const auto& section:sections_beam_.get_section_list())
+	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_Ia_design());
 	FormLogger -> add_separator(L"Расчётный момент M_Ib");
-	for (const auto& section:sections_beam_.get_section_list())
+	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_Ib_design());
 	FormLogger -> add_separator(L"Расчётный момент M_IIa");
-	for (const auto& section:sections_beam_.get_section_list())
+	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_IIa_design());
 	FormLogger -> add_separator(L"Расчётный момент M_IIb");
-	for (const auto& section:sections_beam_.get_section_list())
+	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_IIb_design());
 	FormLogger -> add_separator(L"Расчётный момент полный M_total");
-	for (const auto& section:sections_beam_.get_section_list())
+	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_total_design());
 	FormLogger -> add_separator(L"Расчётная полная поперечная сила Q_total");
-	for (const auto& section:sections_beam_.get_section_list())
+	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_Q_total_design());
 	FormLogger -> add_separator(L"Напряжения");
-	for (const auto& section:sections_beam_.get_section_list())
+	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_sigma_b_sigma_s_X(section.get_x(), section.get_sigma_b(), section.get_sigma_s());
 	FormLogger -> add_separator(L"Коэффициенты использования");
-	for (const auto& section:sections_beam_.get_section_list())
+	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_ratios(section.get_x(),
 								   section.get_upper_fl_ratio(),
 								   section.get_lower_fl_ratio(),
@@ -141,7 +141,7 @@ void TCompositeBeam::calculate_composite_beam()
 //---------------------------------------------------------------------------
 //Расчёт гибких упоров композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeam::calculate_studs()
+void CompositeBeamCalculator::calculate_studs()
 {
 	//расчёт эффективной ширины плиты и подготовка композитного сечения
 	double h_f = composite_section_.get_concrete_part().get_h_f();
@@ -191,65 +191,65 @@ void TCompositeBeam::calculate_studs()
 }
 
 
-double TCompositeBeam::get_max_upper_flange_ratio()const
+double CompositeBeamCalculator::get_max_upper_flange_ratio()const
 {
 	return 0.;
 }
-double TCompositeBeam::get_max_lower_flange_ratio()const
+double CompositeBeamCalculator::get_max_lower_flange_ratio()const
 {
 	return 0.;
 }
-double TCompositeBeam::get_max_upper_flange_ratio_coordinate()const
+double CompositeBeamCalculator::get_max_upper_flange_ratio_coordinate()const
 {
 	return 0.;
 }
-double TCompositeBeam::get_max_lower_flange_ratio_coordinate()const
+double CompositeBeamCalculator::get_max_lower_flange_ratio_coordinate()const
 {
 	return 0.;
 }
-double TCompositeBeam::get_M_I_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
-{
-	return 0.;
-}
-
-double TCompositeBeam::get_M_II_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
+double CompositeBeamCalculator::get_M_I_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
 {
 	return 0.;
 }
 
-double TCompositeBeam::get_M_total_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
+double CompositeBeamCalculator::get_M_II_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
 {
 	return 0.;
 }
-double TCompositeBeam::get_sigma_b_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
+
+double CompositeBeamCalculator::get_M_total_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
 {
 	return 0.;
 }
-double TCompositeBeam::get_sigma_s_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
+double CompositeBeamCalculator::get_sigma_b_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
 {
 	return 0.;
 }
-double TCompositeBeam::get_max_shear_ratio()const
+double CompositeBeamCalculator::get_sigma_s_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
 {
 	return 0.;
 }
-double TCompositeBeam::get_max_steel_beam_direct_stresses_I_stage_ratio()const
+double CompositeBeamCalculator::get_max_shear_ratio()const
 {
 	return 0.;
 }
-double TCompositeBeam::get_max_stud_ratio()
+double CompositeBeamCalculator::get_max_steel_beam_direct_stresses_I_stage_ratio()const
+{
+	return 0.;
+}
+double CompositeBeamCalculator::get_max_stud_ratio()
 {
    return 0;
 }
-double TCompositeBeam::get_max_stud_ratio_coordinate()
+double CompositeBeamCalculator::get_max_stud_ratio_coordinate()
 {
 	return 0.;
 }
-double TCompositeBeam::get_max_S_h(LoadUnit load_unit)
+double CompositeBeamCalculator::get_max_S_h(LoadUnit load_unit)
 {
 	return 0.;
 }
-double TCompositeBeam::get_ratio_rigid_plastic()const
+double CompositeBeamCalculator::get_ratio_rigid_plastic()const
 {
 	return 0.;
 }

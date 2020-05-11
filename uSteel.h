@@ -19,6 +19,7 @@ public:
 	String get_steel_grade () const {return steel_grade_;}
 	String get_standard() const {return standard_;}
 	double get_R_y() const {return R_yn_ / gamma_m_;}
+	double get_R_s()const {return 0.58 * R_yn_ / gamma_m_; }
 	double get_R_yn() const {return R_yn_;}
 	double get_R_un() const {return R_un_;}
 	double get_E_st() const {return E_st_;}

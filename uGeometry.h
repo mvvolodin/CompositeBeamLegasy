@@ -9,6 +9,13 @@
 #include "Units.h"
 #include <system.hpp>
 
+enum class SupportsNumber{
+	ZERO,
+	ONE,
+	TWO,
+	THREE
+};
+
 class TGeometry{
 
 public:
@@ -38,6 +45,7 @@ private:
 	double L_ = 0.;
 	double B_l_ = 0.;
 	double B_r_ = 0.;
+	SupportsNumber num_tmp_supp = SupportsNumber::ZERO;
 	int temporary_supports_number_ = 0;
 	static const int permanent_supports_number_ = 2;//при удаление ключевого слова static и применение member initializer list получаю ошибку "copy assignment operator is implicitly delete"
 	int beam_division_ = 0;

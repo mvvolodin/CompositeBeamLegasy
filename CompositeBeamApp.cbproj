@@ -136,10 +136,6 @@
             <DependentOn>AboutProg.h</DependentOn>
             <BuildOrder>47</BuildOrder>
         </CppCompile>
-        <CppCompile Include="CompositeBeam.cpp">
-            <DependentOn>CompositeBeam.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
         <CppCompile Include="CompositeBeamApp.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -278,6 +274,14 @@
         <None Include="TypeData.h">
             <BuildOrder>34</BuildOrder>
         </None>
+        <CppCompile Include="uCompositeBeam.cpp">
+            <DependentOn>uCompositeBeam.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompositeBeamCalculator.cpp">
+            <DependentOn>uCompositeBeamCalculator.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uConcrete.cpp">
             <DependentOn>uConcrete.h</DependentOn>
             <BuildOrder>39</BuildOrder>

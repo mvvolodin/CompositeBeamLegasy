@@ -30,10 +30,10 @@ public:
 	void load(std::istream& istr);
 	bool get_status()const{return fully_initialized_;}
 
-	double Ia_design_LCC();
-	double Ib_design_LCC();
-	double IIb_design_LCC();
-	double total_design_LCC();
+	double Ia_design_LCC()const;
+	double Ib_design_LCC()const;
+	double IIb_design_LCC()const;
+	double total_design_LCC()const;
 
 	double get_self_weight(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		{return SW_steel_beam_/static_cast<int>(load_unit)*static_cast<int>(length_unit);}

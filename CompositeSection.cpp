@@ -286,3 +286,11 @@ void CompositeSection::calc_rigid_plastic_moment()
 			break;
 	}
 }
+
+double CompositeSection::get_Q_Rd()const
+{
+	double A_w_st = steel_part_.get_section().get_A_w_st();
+	double R_s = steel_part_.get_steel().get_R_s();
+
+	return A_w_st * R_s;
+}

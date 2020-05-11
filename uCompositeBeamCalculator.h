@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef CompositeBeamH
-#define CompositeBeamH
+#ifndef uCompositeBeamCalculatorH
+#define uCompositeBeamCalculatorH
 
 
 #include <vector>
@@ -19,15 +19,15 @@
 #include "Ratios.h"
 #include "uCorrugatedSheet.h"
 
-#include "uSection.h"
+#include "uCompositeBeam.h"
 
 
-class TCompositeBeam{
+class CompositeBeamCalculator{
 //---------------------------------------------------------------------------
 public:
 //---------------------------------------------------------------------------
-	TCompositeBeam();
-	TCompositeBeam(TGeometry 				geometry,
+	CompositeBeamCalculator();
+	CompositeBeamCalculator(TGeometry 				geometry,
 				   TLoads 					loads,
 				   CompositeSection         composite_section,
 				   StudsOnBeam              studs_on_beam,
@@ -45,7 +45,7 @@ public:
 	WorkingConditionsFactors get_working_conditions_factors() const {return working_conditions_factors_;}
 	CompositeSection get_composite_section()const{return composite_section_;}
 
-	const SectionsBeam& get_sections_beam()const{return sections_beam_;}
+	const CompositeBeam& get_sections_beam()const{return composite_beam_;}
 	const StudsOnBeam& get_studs_on_beam()const{return studs_on_beam_;}
 
 //Функции получения результатов расчёта для вывода в отчёт
@@ -78,7 +78,7 @@ private:
 	WorkingConditionsFactors working_conditions_factors_;
 	CompositeSection composite_section_;
 
-	SectionsBeam sections_beam_;
+	CompositeBeam composite_beam_;
 	StudsOnBeam studs_on_beam_;
 
 	void calculate_composite_beam();

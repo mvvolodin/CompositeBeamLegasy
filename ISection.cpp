@@ -108,7 +108,7 @@ void ISection::set_default_values()
 	 I_st_ = 1996800000.;
 	 h_st_ = 710.;
 	 r_= 24.;
-	 weight_ = 248.14;
+	 weight_ = 194.8;
 	 Z_f2_st_= 355.;
 	 Z_f1_st_ = 355.;
 	 Wf2_st_ = 5624800;

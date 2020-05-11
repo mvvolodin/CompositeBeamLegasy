@@ -101,6 +101,7 @@ public:
 
 	double get_b_s()const {return concrete_part_.get_rebar().get_b_s();}
 	double get_M_Rd()const {return M_Rd_;}
+	double get_Q_Rd()const;
 
 
 } ;
