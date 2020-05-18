@@ -25,7 +25,6 @@ public:
 	Rebar();
 	Rebar(String grade, double R_sn, double E_s, double d_s, double b, double a_u,
 	double a_l, double gamma_s_);
-	void calculate();
 	void save(ostream& ostr) const;
 	void load(istream& istr);
 	void set_default_values();
@@ -36,7 +35,7 @@ public:
 	double get_a_u() const {return a_u_;}
 	double get_a_l() const {return a_l_;}
 	double get_gamma_s_() const {return gamma_s_;}
-	double get_A_s() const {return A_s_;}
+	double get_A_s() const {return 3.14159 * d_s_ * d_s_ / (4. * b_);}
 	double get_num_rows(){return num_rows_;}
 
 private:
@@ -48,9 +47,6 @@ private:
 	static const int num_rows_ = 2;
 	double gamma_s_ = 0.;
 
-	double A_s_ = 0.;// Площадь арматуры на единицу длины
-
-	void calc_A_s();
 };
 
 using RebarPair=std::pair<String, RebarBasic>;

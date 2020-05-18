@@ -27,11 +27,6 @@ void TConcretePart::set_default_values()
 	concrete_.set_default_values();
 	rebar_.set_default_values();
 }
-double TConcretePart::calculate_SW_concrete()
-{
-   double density = concrete_.get_density();
-   return density * GRAV_ACCELERAT * (h_f_ + h_b_);
-}
 //---------------------------------------------------------------------------
 //Сохранение объекта в бинарный файл
 //---------------------------------------------------------------------------
@@ -68,33 +63,57 @@ void TConcretePart::load(std::istream& istr)
 	istr.read((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 	istr.read((char*)&h_f_,sizeof(h_f_));
 }
-void TConcretePart::calculate()
+double TConcretePart::get_h(LengthUnit length_unit) const
 {
-	rebar_.calculate();
-	concrete_.calculate();
+	double h = 0.;
 
-	switch (slab_type_enum_)
-	{
-	case SlabType::FLAT:
-		h_ = h_n_ + h_f_;
-		C_b_ = h_n_ + h_f_/2.;
-		A_b_ = b_ * h_f_;
-		I_b_ = b_ * std::pow(h_f_,3) / 12;
-		break;
-	case SlabType::CORRUGATED:
-		CorrugatedSheet cs = CorrugatedSheetsData::get_corrugated_sheet(slab_type_);
-		h_n_ = cs.get_height();
-		h_b_ = cs.get_h_b();
-		h_ = h_n_ + h_f_;
-		C_b_ = h_n_ + h_f_ / 2.;
-		A_b_ = b_ * h_f_;
-		I_b_ = b_ * std::pow(h_f_,3) / 12;
-		break;
-	}
+	if (slab_type_enum_ == SlabType::CORRUGATED)
+		h = CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_height() + h_f_;
 
-	SW_concrete_ = calculate_SW_concrete();
+	h = h_n_ + h_f_ ;
 
-	concrete_part_calculated_  = true;
+	return h/static_cast<int>(length_unit);
+}
+double TConcretePart::get_C_b(LengthUnit length_unit) const
+{
+	double C_b = 0.;
+
+	if (slab_type_enum_ == SlabType::CORRUGATED)
+		C_b = CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_height() + h_f_ / 2.;
+
+	C_b = h_n_ + h_f_ / 2.;
+
+	return C_b/static_cast<int>(length_unit);
+}
+
+double TConcretePart::get_A_b(LengthUnit length_unit) const
+{
+	double A_b = 0.;
+
+	A_b = b_ * h_f_;
+
+	return A_b/std::pow(static_cast<int>(length_unit),2);
+}
+double TConcretePart::get_I_b(LengthUnit length_unit) const
+{
+	double I_b = 0.;
+
+	I_b = b_ * std::pow(h_f_,3) / 12;
+
+	return I_b/std::pow(static_cast<int>(length_unit),4);
+}
+double TConcretePart::get_SW_concrete(LoadUnit load_unit, LengthUnit length_unit) const
+{
+	double SW_concrete = 0.;
+
+	double density = concrete_.get_density();
+
+	if (slab_type_enum_ == SlabType::CORRUGATED)
+		SW_concrete = density * GRAV_ACCELERAT * (h_f_ + CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_h_b());
+
+	SW_concrete = density * GRAV_ACCELERAT * h_f_;
+
+	return SW_concrete/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);
 }
 
 

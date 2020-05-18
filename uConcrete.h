@@ -38,14 +38,13 @@ public:
 	void save(ostream& ostr) const;
 	void load(istream& istr);
 	void set_default_values();
-	void calculate();
 	double get_gamma_b()const {return gamma_b_;}
 	double get_gamma_bt()const {return gamma_bt_;}
 	double get_density(LengthUnit length_unit = LengthUnit::mm)const {return density_ * std::pow(static_cast<int>(length_unit),3);}
 	double get_phi_b_cr()const {return phi_b_cr_;}
 	double get_epsilon_b_lim()const {return epsilon_b_lim_;}
 	void set_phi_b_cr(double phi_b_cr){phi_b_cr_ = phi_b_cr;}
-	double get_E_b_tau()const {return E_b_tau_;}
+	double get_E_b_tau()const {return E_b_ / (1 + phi_b_cr_);}
 	double get_R_b()const {return R_bn_ / gamma_b_;}
 private:
 	double density_ = 0.;
@@ -53,9 +52,7 @@ private:
 	double gamma_b_ =  0.;
 	double gamma_bt_ = 0.;
 	double epsilon_b_lim_ = 0.;
-	double E_b_tau_ = 0.;//Модуль деформации бетона
 
-	void E_b_tau_calc();
 };
 
 extern std::vector <ConcreteBasic> concrete_basic;

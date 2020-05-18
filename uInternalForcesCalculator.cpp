@@ -130,13 +130,132 @@ double InternalForcesCalculator::Q_IIa_design(double x)const
 }
 double InternalForcesCalculator::Q_IIb_design(double x)const
 {
-	return Q_uniform_load(x, loads_.IIb_design_LCC(), SupportsNumber::ZERO);;
+	return Q_uniform_load(x, loads_.IIb_design_LCC(), SupportsNumber::ZERO);
 }
 
 double InternalForcesCalculator::Q_total_design(double x)const
 {
 	return Q_Ib_design(x) + Q_IIa_design(x) + Q_IIb_design(x);
 }
+
+double InternalForcesCalculator::f_Ia_design(double x)const
+{
+	std::map<double, double> R_Ia_design_named_list = R_uniform_load(loads_.Ia_design_LCC(), s_num_);
+
+	double L0 = 0.;
+
+    	switch(s_num_)
+	{
+		case(SupportsNumber::ZERO):
+
+		return f_uniform_load(x, loads_.Ia_design_LCC());
+
+		case(SupportsNumber::ONE):
+
+			L0 = L_ / 2;
+
+			return f_uniform_load(x, loads_.Ia_design_LCC()) +
+				f_point_load(x, -1 * R_Ia_design_named_list.at(L0), L0);
+
+		case(SupportsNumber::TWO):
+
+			L0 = L_ / 3;
+
+			return f_uniform_load(x, loads_.Ia_design_LCC()) +
+				f_point_load(x, -1 * R_Ia_design_named_list.at(L0), L0) +
+				f_point_load(x, -1 * R_Ia_design_named_list.at(2 * L0), 2 * L0);
+
+		case(SupportsNumber::THREE):
+
+			L0 = L_ / 4;
+
+			return f_uniform_load(x, loads_.Ia_design_LCC()) +
+				f_point_load(x, -1 * R_Ia_design_named_list.at(L0), L0) +
+				f_point_load(x, -1 * R_Ia_design_named_list.at(2 * L0), 2 * L0) +
+				f_point_load(x, -1 * R_Ia_design_named_list.at(3 * L0), 3 * L0);
+	}
+
+}
+double InternalForcesCalculator::f_Ib_design(double x)const
+{
+	std::map<double, double> R_Ib_design_named_list = R_uniform_load(loads_.Ib_design_LCC(), s_num_);
+
+	double L0 = 0.;
+
+		switch(s_num_)
+	{
+		case(SupportsNumber::ZERO):
+
+		return f_uniform_load(x, loads_.Ib_design_LCC());
+
+		case(SupportsNumber::ONE):
+
+			L0 = L_ / 2;
+
+			return f_uniform_load(x, loads_.Ib_design_LCC()) +
+				f_point_load(x, -1 * R_Ib_design_named_list.at(L0), L0);
+
+		case(SupportsNumber::TWO):
+
+			L0 = L_ / 3;
+
+			return f_uniform_load(x, loads_.Ib_design_LCC()) +
+				f_point_load(x, -1 * R_Ib_design_named_list.at(L0), L0) +
+				f_point_load(x, -1 * R_Ib_design_named_list.at(2 * L0), 2 * L0);
+
+		case(SupportsNumber::THREE):
+
+			L0 = L_ / 4;
+
+			return f_uniform_load(x, loads_.Ib_design_LCC()) +
+				f_point_load(x, -1 * R_Ib_design_named_list.at(L0), L0) +
+				f_point_load(x, -1 * R_Ib_design_named_list.at(2 * L0), 2 * L0) +
+				f_point_load(x, -1 * R_Ib_design_named_list.at(3 * L0), 3 * L0);
+	}
+}
+double InternalForcesCalculator::f_IIa_design(double x)const
+{
+	std::map<double, double> R_Ib_design_named_list = R_uniform_load(loads_.Ib_design_LCC(), s_num_);
+
+	double L0 = 0.;
+
+		switch(s_num_)
+	{
+		case(SupportsNumber::ZERO):
+
+		return 0;
+
+		case(SupportsNumber::ONE):
+
+			L0 = L_ / 2;
+
+			return f_point_load(x, R_Ib_design_named_list.at(L0), L0);
+
+		case(SupportsNumber::TWO):
+
+			L0 = L_ / 3;
+
+			return f_point_load(x, R_Ib_design_named_list.at(L0), L0) +
+				f_point_load(x, R_Ib_design_named_list.at(2 * L0), 2 * L0);
+
+		case(SupportsNumber::THREE):
+
+			L0 = L_ / 4;
+
+			return f_point_load(x, R_Ib_design_named_list.at(L0), L0) +
+				f_point_load(x, R_Ib_design_named_list.at(2 * L0), 2 * L0) +
+				f_point_load(x, R_Ib_design_named_list.at(3 * L0), 3 * L0);
+	}
+}
+double InternalForcesCalculator::f_IIb_design(double x)const
+{
+	return f_uniform_load(x, loads_.IIb_design_LCC());
+}
+double InternalForcesCalculator::f_total_design(double x)const
+{
+	return f_Ib_design(x) + f_IIa_design(x) + f_IIb_design(x);;
+}
+
 std::map<double, double> InternalForcesCalculator::R_uniform_load(double q, SupportsNumber s_num)const
 {
 	std::map<double, double> R_named_list{};
@@ -284,5 +403,21 @@ double InternalForcesCalculator::Q_uniform_load(double x, double q, SupportsNumb
 }
 double InternalForcesCalculator::Q_point_load(double x, double P, double x_P)const
 {
-	return (x < x_P) ? P: -P;
+	return (x <= x_P) ? P: -P;
+}
+double InternalForcesCalculator::f_uniform_load(double x, double q)const
+{
+	//https://en.wikipedia.org/wiki/Deflection_(engineering)
+    // множитель -1 введён для гармонизации знаков с Феодосьевым
+	return -1 * q * x * (L_ * L_ * L_ - 2 * L_ * x * x + x * x * x) / 24;
+}
+double InternalForcesCalculator::f_point_load(double x, double P, double x_P)const
+{
+	//Феодосьев, 7е издание, пример 4.8, стр. 146
+	if(x <= x_P)
+		return P * (L_ - x_P) / (6 * L_) * (x * x * x - x * x_P * (2 * L_ - x_P));
+	return
+		P * x_P / (6 * L_) * (-1 * x * x * x + 3 * x * x * L_ - x * (2 * L_ * L_ + x_P * x_P) + x_P * x_P * L_) ;
+
+	return 0.;
 }

@@ -170,7 +170,7 @@ void StudsOnBeam::set_intr_frcs_calculator(InternalForcesCalculator intr_frcs_ca
 {
 	intr_frcs_calculator_ = intr_frcs_calculator;
 }
-void StudsOnBeam::set_composite_section(CompositeSection com_sect)
+void StudsOnBeam::set_composite_section(CompositeSectionGeometry com_sect)
 {
 	com_sect_ = com_sect;
 }
@@ -179,7 +179,7 @@ void StudsOnBeam::calculate_S()
 	for (auto& stud_row:stud_list_)
 		stud_row.calculate_S(intr_frcs_calculator_, com_sect_);
 }
-void StudsRow::calculate_S(InternalForcesCalculator& intr_frcs_calculator, CompositeSection& com_sect)
+void StudsRow::calculate_S(InternalForcesCalculator& intr_frcs_calculator, CompositeSectionGeometry& com_sect)
 {
 	double A_s = com_sect.get_concrete_part().get_rebar().get_A_s();
 	double A_b = com_sect.get_concrete_part().get_A_b();

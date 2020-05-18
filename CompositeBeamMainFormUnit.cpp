@@ -286,7 +286,7 @@ void TCompositeBeamMainForm::update_composite_beam()
 
    SteelPart steel_part = init_steel_part();
    TConcretePart concrete_part = init_concrete_part();
-   CompositeSection composite_section = CompositeSection(steel_part, concrete_part);
+   CompositeSectionGeometry composite_section = CompositeSectionGeometry(steel_part, concrete_part);
 
    StudsOnBeam studs_on_beam = init_studs_on_beam();
 
@@ -552,7 +552,7 @@ void TCompositeBeamMainForm::generate_report()
 	//TWord_Automation report_ = TWord_Automation("ReportCompositeBeam.doc");
 	TGeometry geometry = composite_beam_calculator_.get_geometry();
 	TLoads loads = composite_beam_calculator_.get_loads();
-	CompositeSection composite_section = composite_beam_calculator_.get_composite_section();
+	CompositeSectionGeometry composite_section = composite_beam_calculator_.get_composite_section();
 	ISection i_section = composite_beam_calculator_.get_composite_section().get_steel_part().get_section();
 	TConcretePart concrete_part = composite_beam_calculator_.get_composite_section().get_concrete_part();
 	Concrete concrete = concrete_part.get_concrete();
@@ -691,6 +691,7 @@ void TCompositeBeamMainForm::draw_diagram()
 	std::vector<double> M;
 	std::vector<double> Q;
 	std::vector<double> R;
+	std::vector<double> f;
 
 	std::vector<double>	coor_supp {};
 
@@ -701,6 +702,7 @@ void TCompositeBeamMainForm::draw_diagram()
 		M = composite_beam_calculator_.get_sections_beam().get_M_Ia_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_sections_beam().get_Q_Ia_design_list(LoadUnit::kN);
 		R = composite_beam_calculator_.get_sections_beam().get_R_Ia_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_sections_beam().get_f_Ia_design_list(LengthUnit::mm);
 
 		coor_supp = composite_beam_calculator_.get_sections_beam().get_support_x_list();
 
@@ -710,6 +712,7 @@ void TCompositeBeamMainForm::draw_diagram()
 		M = composite_beam_calculator_.get_sections_beam().get_M_Ib_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_sections_beam().get_Q_Ib_design_list(LoadUnit::kN);
 		R = composite_beam_calculator_.get_sections_beam().get_R_Ib_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_sections_beam().get_f_Ib_design_list(LengthUnit::mm);
 
 		coor_supp = composite_beam_calculator_.get_sections_beam().get_support_x_list();
 
@@ -718,8 +721,8 @@ void TCompositeBeamMainForm::draw_diagram()
 
 		M = composite_beam_calculator_.get_sections_beam().get_M_IIa_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_sections_beam().get_Q_IIa_design_list(LoadUnit::kN);
-
 		R = composite_beam_calculator_.get_sections_beam().get_R_IIa_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_sections_beam().get_f_IIa_design_list(LengthUnit::mm);
 
 		coor_supp.push_back(composite_beam_calculator_.get_sections_beam().get_support_x_list().front());
 		coor_supp.push_back(composite_beam_calculator_.get_sections_beam().get_support_x_list().back());
@@ -730,8 +733,8 @@ void TCompositeBeamMainForm::draw_diagram()
 
 		M = composite_beam_calculator_.get_sections_beam().get_M_IIb_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_sections_beam().get_Q_IIb_design_list(LoadUnit::kN);
-
 		R = composite_beam_calculator_.get_sections_beam().get_R_IIb_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_sections_beam().get_f_IIb_design_list(LengthUnit::mm);
 
 		coor_supp.push_back(composite_beam_calculator_.get_sections_beam().get_support_x_list().front());
 		coor_supp.push_back(composite_beam_calculator_.get_sections_beam().get_support_x_list().back());
@@ -742,8 +745,8 @@ void TCompositeBeamMainForm::draw_diagram()
 
 		M = composite_beam_calculator_.get_sections_beam().get_M_total_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_sections_beam().get_Q_total_design_list(LoadUnit::kN);
-
 		R = composite_beam_calculator_.get_sections_beam().get_R_total_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_sections_beam().get_f_total_design_list(LengthUnit::mm);
 
 		coor_supp.push_back(composite_beam_calculator_.get_sections_beam().get_support_x_list().front());
 		coor_supp.push_back(composite_beam_calculator_.get_sections_beam().get_support_x_list().back());
@@ -757,18 +760,29 @@ void TCompositeBeamMainForm::draw_diagram()
 //	//флаг отрисовки значений на эпюре
 	bool flag_sign=true;
 
-	if (rd_grp_internal_forces_type->ItemIndex==0)
+	switch (rd_grp_internal_forces_type->ItemIndex)
 	{
+	case(0):
+
 		std::transform(M.begin(),M.end(), M.begin(), [](double M) { return -1*std::round(M*1000)/1000;});
 		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, coor_supp.size(), &coor_supp[0], flag_sign);
-	}
-	else
-	{
-		//получаем поперечные силы из объекта композитная балка
-		//преобразуем вектор для вывода. Измениим знак элементов на противоположный и округлим до третьего знака после запятой
+
+		break;
+
+	case(1):
+
 		std::transform(Q.begin(),Q.end(), Q.begin(), [](double Q) { return -1*std::round(Q*1000)/1000;});
-		std::transform(R.begin(),R.end(), R.begin(), [](double Q_jump) { return -1*std::round(Q_jump*1000)/1000;});
+		std::transform(R.begin(),R.end(), R.begin(), [](double R) { return -1*std::round(R*1000)/1000;});
 		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R[0], coor_supp.size(), &coor_supp[0], flag_sign);
+
+		break;
+
+	case(2):
+
+		std::transform(f.begin(),f.end(), f.begin(), [](double f) { return std::round(f*1000000)/1000000;});
+		DrawEpur(Image1, f.size(), &coor_epur[0], &f[0], nullptr, coor_supp.size(), &coor_supp[0], flag_sign);
+
+		break;
 	}
 }
 

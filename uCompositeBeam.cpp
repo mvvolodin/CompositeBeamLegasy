@@ -15,7 +15,7 @@ void CompositeBeam::initialize_section_list(double L, int temporary_supports_num
 {
 	int num_temp_spans = temporary_supports_number + 1;
 	/* TODO -oMV : Добавить определение max_elem_length_ через GUI */
-	double max_elem_length = 300;
+	double max_elem_length = 25;
 
 	int num_elements = 0.;
 
@@ -43,7 +43,7 @@ void CompositeBeam::set_intr_frcs_calculator(InternalForcesCalculator& intr_frcs
 {
 	intr_frcs_calculator_ = intr_frcs_calculator;
 }
-void CompositeBeam::set_composite_section(CompositeSection& com_sect)
+void CompositeBeam::set_composite_section(CompositeSectionGeometry& com_sect)
 {
 	com_sect_ = com_sect;
 }
@@ -271,4 +271,74 @@ std::vector<double> CompositeBeam::make_R_list(std::map<double, double> R_LCC_li
 std::vector<double> CompositeBeam::get_support_x_list()const
 {
 	return support_list_;
+}
+std::vector<double> CompositeBeam::get_f_Ia_design_list(LengthUnit length_unit)const
+{
+	std::vector<double> f_Ia_design_list{};
+
+	double E_st_I_s = com_sect_.get_E_st_I_st();
+
+	for (auto section:section_list_)
+		f_Ia_design_list.push_back(section.get_f_Ia_design() / E_st_I_s / static_cast<int>(length_unit));
+
+	f_Ia_design_list.shrink_to_fit();
+
+	return f_Ia_design_list;
+}
+std::vector<double> CompositeBeam::get_f_Ib_design_list(LengthUnit length_unit)const
+{
+	std::vector<double> f_Ib_design_list{};
+
+	double E_st_I_s = com_sect_.get_E_st_I_st();
+
+	for (auto section:section_list_)
+		f_Ib_design_list.push_back(section.get_f_Ib_design() / E_st_I_s / static_cast<int>(length_unit));
+
+	f_Ib_design_list.shrink_to_fit();
+
+	return f_Ib_design_list;
+}
+std::vector<double> CompositeBeam::get_f_IIa_design_list(LengthUnit length_unit)const
+{
+	std::vector<double> f_IIa_design_list{};
+
+	double E_st_I_red = com_sect_.get_E_st_I_red();
+
+	for (auto section:section_list_)
+		f_IIa_design_list.push_back(section.get_f_IIa_design() / E_st_I_red / static_cast<int>(length_unit));
+
+	f_IIa_design_list.shrink_to_fit();
+
+	return f_IIa_design_list;
+}
+
+std::vector<double> CompositeBeam::get_f_IIb_design_list(LengthUnit length_unit)const
+{
+	std::vector<double> f_IIb_design_list{};
+
+	double E_st_I_red = com_sect_.get_E_st_I_red();
+
+	for (auto section:section_list_)
+		f_IIb_design_list.push_back(section.get_f_IIb_design() / E_st_I_red / static_cast<int>(length_unit));
+
+	f_IIb_design_list.shrink_to_fit();
+
+	return f_IIb_design_list;
+}
+std::vector<double> CompositeBeam::get_f_total_design_list(LengthUnit length_unit)const
+{
+	std::vector<double> f_total_design_list{};
+
+	double E_st_I_s = com_sect_.get_E_st_I_st();
+	double E_st_I_red = com_sect_.get_E_st_I_red();
+
+	for (auto section:section_list_)
+		f_total_design_list.push_back(section.get_f_Ib_design() / E_st_I_s / static_cast<int>(length_unit) +
+			section.get_f_IIa_design() / E_st_I_red / static_cast<int>(length_unit) +
+			section.get_f_IIb_design() / E_st_I_red / static_cast<int>(length_unit));
+
+	f_total_design_list.shrink_to_fit();
+
+	return f_total_design_list;
+
 }

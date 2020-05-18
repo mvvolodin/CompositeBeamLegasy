@@ -85,7 +85,6 @@ void Concrete::save(ostream& ostr) const
 	ostr.write((char*)&gamma_b_ ,sizeof(gamma_b_));
 	ostr.write((char*)&gamma_bt_ ,sizeof(gamma_bt_));
 	ostr.write((char*)&epsilon_b_lim_ ,sizeof(epsilon_b_lim_));
-	ostr.write((char*)&E_b_tau_ ,sizeof(E_b_tau_));
 }
 void Concrete::load(istream& istr)
 {
@@ -95,8 +94,6 @@ void Concrete::load(istream& istr)
 	istr.read((char*)&gamma_b_ ,sizeof(gamma_b_));
 	istr.read((char*)&gamma_bt_ ,sizeof(gamma_bt_));
 	istr.read((char*)&epsilon_b_lim_ ,sizeof(epsilon_b_lim_));
-	istr.read((char*)&E_b_tau_ ,sizeof(E_b_tau_));
-
 }
 //-----------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
@@ -112,19 +109,8 @@ void Concrete::set_default_values()
 	gamma_b_ =  1.3;
 	gamma_bt_ = 1.5;
 	epsilon_b_lim_ = 0.0016;
-	E_b_tau_calc();
 }
-//-----------------------------------------------------------------------------
-//Расчёт модуля деформации бетона
-//-----------------------------------------------------------------------------
-void Concrete::calculate()
-{
-	E_b_tau_calc();
-}
-void Concrete::E_b_tau_calc()
-{
-   E_b_tau_ = E_b_/(1+phi_b_cr_);
-}
+
 
 
 

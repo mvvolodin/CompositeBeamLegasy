@@ -41,10 +41,6 @@ Rebar::Rebar(String grade, double R_sn, double E_s, double d_s, double b, double
 	gamma_s_(gamma_s)
 {
 }
-void Rebar::calculate()
-{
-	calc_A_s();
-}
 void Rebar::save(ostream& ostr) const
 {
 	RebarBasic::save(ostr);
@@ -100,10 +96,5 @@ void Rebar::set_default_values()
 	a_l_ = 50.;
 	gamma_s_ = 1.15;
 
-	calc_A_s();
 }
 
-void Rebar::calc_A_s()
-{
-	A_s_ = 3.14159*d_s_*d_s_ / (4. * b_);
-}

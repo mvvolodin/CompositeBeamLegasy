@@ -3,7 +3,7 @@
 #ifndef uCompositeBeamH
 #define uCompositeBeamH
 
-#include "CompositeSection.h"
+#include "uCompositeSectionGeometry.h"
 #include "uWorkingConditionsFactors.h"
 #include "uInternalForcesCalculator.h"
 #include "uSection.h"
@@ -15,7 +15,7 @@ class CompositeBeam{
 public:
 	CompositeBeam();
 	void set_intr_frcs_calculator(InternalForcesCalculator& intr_frcs_calculator);
-	void set_composite_section(CompositeSection& com_sect);
+	void set_composite_section(CompositeSectionGeometry& com_sect);
 	void set_working_conditions_factors(WorkingConditionsFactors& working_conditions_factors);
 	void initialize_section_list(double L, int temporary_supports_number);
 
@@ -44,16 +44,22 @@ public:
 	std::vector<double> get_R_IIb_design_list(LoadUnit load_unit=LoadUnit::N)const;
 	std::vector<double> get_R_total_design_list(LoadUnit load_unit=LoadUnit::N)const;
 
+	std::vector<double> get_f_Ia_design_list(LengthUnit length_unit=LengthUnit::mm)const;
+	std::vector<double> get_f_Ib_design_list(LengthUnit length_unit=LengthUnit::mm)const;
+	std::vector<double> get_f_IIa_design_list(LengthUnit length_unit=LengthUnit::mm)const;
+	std::vector<double> get_f_IIb_design_list(LengthUnit length_unit=LengthUnit::mm)const;
+	std::vector<double> get_f_total_design_list(LengthUnit length_unit=LengthUnit::mm)const;
+
 	const Section& get_max_direct_stress_ratio_section()const;
 	const Section& get_max_shear_stress_ratio_section()const;
 	const Section& get_max_rigid_plastic_ratio_section()const;
 
-	const CompositeSection& get_composite_section()const {return com_sect_;};
+	const CompositeSectionGeometry& get_composite_section()const {return com_sect_;};
 
 private:
 	InternalForcesCalculator intr_frcs_calculator_;
 	WorkingConditionsFactors working_conditions_factors_;
-	CompositeSection com_sect_;
+	CompositeSectionGeometry com_sect_;
 
 	std::vector<Section> section_list_;
     std::vector<double> support_list_;

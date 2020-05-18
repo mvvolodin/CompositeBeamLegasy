@@ -11,7 +11,7 @@
 #include "uLoads.h"
 
 #include "uSteel.h"
-#include "CompositeSection.h"
+#include "uCompositeSectionGeometry.h"
 #include "uStud.h"
 #include "uRebar.h"
 #include "uWorkingConditionsFactors.h"
@@ -27,9 +27,9 @@ class CompositeBeamCalculator{
 public:
 //---------------------------------------------------------------------------
 	CompositeBeamCalculator();
-	CompositeBeamCalculator(TGeometry 				geometry,
+	CompositeBeamCalculator(TGeometry 		geometry,
 				   TLoads 					loads,
-				   CompositeSection         composite_section,
+				   CompositeSectionGeometry composite_section,
 				   StudsOnBeam              studs_on_beam,
 				   WorkingConditionsFactors working_conditions_factors);
 
@@ -43,7 +43,7 @@ public:
 	TGeometry get_geometry()const {return geometry_;}
 	TLoads get_loads()const {return loads_;}
 	WorkingConditionsFactors get_working_conditions_factors() const {return working_conditions_factors_;}
-	CompositeSection get_composite_section()const{return composite_section_;}
+	CompositeSectionGeometry get_composite_section()const{return composite_section_;}
 
 	const CompositeBeam& get_sections_beam()const{return composite_beam_;}
 	const StudsOnBeam& get_studs_on_beam()const{return studs_on_beam_;}
@@ -76,7 +76,7 @@ private:
 	TGeometry geometry_;
 	TLoads loads_;
 	WorkingConditionsFactors working_conditions_factors_;
-	CompositeSection composite_section_;
+	CompositeSectionGeometry composite_section_;
 
 	CompositeBeam composite_beam_;
 	StudsOnBeam studs_on_beam_;

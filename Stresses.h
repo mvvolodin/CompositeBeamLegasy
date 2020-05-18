@@ -3,7 +3,7 @@
 #ifndef StressesH
 #define StressesH
 
-#include "CompositeSection.h"
+#include "uCompositeSectionGeometry.h"
 #include "uWorkingConditionsFactors.h"
 
 

@@ -19,7 +19,7 @@ CompositeBeamCalculator::CompositeBeamCalculator(){}
 //---------------------------------------------------------------------------
  CompositeBeamCalculator::CompositeBeamCalculator(TGeometry   			   geometry,
 												  TLoads     			   loads,
-												  CompositeSection         composite_section,
+												  CompositeSectionGeometry composite_section,
 												  StudsOnBeam              studs_on_beam,
 												  WorkingConditionsFactors working_conditions_factors):
 	geometry_(geometry),
@@ -78,7 +78,6 @@ void CompositeBeamCalculator::calculate_composite_beam()
 	double b_uf = composite_section_.get_steel_part().get_section().get_b_uf();
 	double b = geometry_.get_effective_width(h_f, b_uf);
 	composite_section_.set_b(b);
-	composite_section_.calculate();
 //полная инициализация нагрузок
 	double SW_steel_beam = composite_section_.get_steel_part().get_section().get_weight();
 	double SW_corrugated_sheets = 0.;
@@ -147,7 +146,7 @@ void CompositeBeamCalculator::calculate_studs()
 	double h_f = composite_section_.get_concrete_part().get_h_f();
 	double b_uf = composite_section_.get_steel_part().get_section().get_b_uf();
 	double b = geometry_.get_effective_width(h_f, b_uf);
-	CompositeSection composite_section = composite_section_;
+	CompositeSectionGeometry composite_section = composite_section_;
 	composite_section_.set_b(b);
 	composite_section.set_phi_b_cr(0);
 	//подготовка калькулятора внутренних усилий

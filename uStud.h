@@ -10,7 +10,7 @@
 #include <ostream>
 #include "Units.h"
 #include "uInternalForcesCalculator.h"
-#include "CompositeSection.h"
+#include "uCompositeSectionGeometry.h"
 
 
 class Stud{
@@ -49,7 +49,7 @@ public:
 	double get_S()const{return S_;}
 	double get_ratio()const{return ratio_;}
 
-	void calculate_S(InternalForcesCalculator& intr_frcs_calculator, CompositeSection& com_sect);
+	void calculate_S(InternalForcesCalculator& intr_frcs_calculator, CompositeSectionGeometry& com_sect);
 	void calculate_ratio(double P_rd_);
 
 private:
@@ -83,7 +83,7 @@ public:
 	void set_studs(double L);
 
 	void set_intr_frcs_calculator(InternalForcesCalculator intr_frcs_calculator);
-	void set_composite_section(CompositeSection com_sect);
+	void set_composite_section(CompositeSectionGeometry com_sect);
 
 	void calculate_P_rd();
 	void calculate_S();
@@ -101,7 +101,7 @@ private:
 
 	Stud stud_;
 	InternalForcesCalculator intr_frcs_calculator_;
-	CompositeSection com_sect_;
+	CompositeSectionGeometry com_sect_;
 
 	double dist_e_ = 0.;
 	double dist_m_ = 0.;

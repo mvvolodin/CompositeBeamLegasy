@@ -443,14 +443,15 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object rd_grp_internal_forces_type: TRadioGroup
           Left = 311
           Top = 8
-          Width = 299
+          Width = 434
           Height = 37
-          Caption = #1057#1080#1083#1086#1074#1086#1081' '#1092#1072#1082#1090#1086#1088
-          Columns = 2
+          Caption = #1060#1072#1082#1090#1086#1088
+          Columns = 3
           ItemIndex = 0
           Items.Strings = (
             #1048#1079#1075#1080#1073#1072#1102#1097#1080#1081' '#1084#1086#1084#1077#1085#1090
-            #1055#1086#1087#1077#1088#1077#1095#1085#1072#1103' '#1089#1080#1083#1072)
+            #1055#1086#1087#1077#1088#1077#1095#1085#1072#1103' '#1089#1080#1083#1072
+            #1055#1077#1088#1077#1084#1077#1097#1077#1085#1080#1103)
           TabOrder = 1
           OnClick = rd_grp_internal_forces_typeClick
         end
@@ -3187,10 +3188,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_concrete_geom_char: TTabSheet
             Caption = #1046#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_concrete_sect_geom_character: TStringGrid
               Left = 0
               Top = 0

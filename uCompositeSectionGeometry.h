@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef CompositeSectionH
-#define CompositeSectionH
+#ifndef uCompositeSectionGeometryH
+#define uCompositeSectionGeometryH
 #include <ostream>
 #include "ISection.h"
 #include "ConcretePartUnit.h"
@@ -9,7 +9,7 @@
 #include "uRebar.h"
 #include "SteelPart.h"
 
-class CompositeSection{
+class CompositeSectionGeometry{
 	enum class NA_Location{
 		CONCRETE,
 		UPPER_FLANGE,
@@ -25,6 +25,7 @@ private:
 	SteelPart steel_part_;
 	TConcretePart concrete_part_;
 
+    void calculate();
 	bool composite_section_calculated = false;
 
 	double b_ = 0.;//расчётная ширина плиты
@@ -70,13 +71,13 @@ private:
 	NeutralAxis calc_neutral_axis();
 
 public:
-	CompositeSection();
-	CompositeSection(SteelPart    steel_part,
+	CompositeSectionGeometry();
+	CompositeSectionGeometry(SteelPart    steel_part,
 					 TConcretePart concrete_part);
 	void set_default_values();
 	void save(std::ostream& ostr)const;
 	void load(std::istream& istr);
-	void calculate();
+
 	SteelPart get_steel_part()const {return steel_part_;}
 	ISection get_I_section()const {return steel_part_.get_section();}
 	TConcretePart get_concrete_part() const {return concrete_part_;}
@@ -86,22 +87,25 @@ public:
 	void set_phi_b_cr(double phi_b_cr);
 	void set_b(double b){concrete_part_.set_b(b);}
 
-	double get_alfa_b() const {return alfa_b_;}
-	double get_alfa_s() const {return alfa_s_;}
-	double get_A_red(LengthUnit length_unit=LengthUnit::mm) const {return A_red_/std::pow(static_cast<int>(length_unit),2);}
-	double get_I_red(LengthUnit length_unit=LengthUnit::mm) const {return I_red_/std::pow(static_cast<int>(length_unit),4);}
-	double get_W_b_red(LengthUnit length_unit=LengthUnit::mm) const {return W_b_red_/std::pow(static_cast<int>(length_unit),3);}
-	double get_W_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return W_f2_red_/std::pow(static_cast<int>(length_unit),3);}
-	double get_W_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return W_f1_red_/std::pow(static_cast<int>(length_unit),3);}
-	double get_Z_b_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_red_/static_cast<int>(length_unit);}
-	double get_Z_f2_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f2_/static_cast<int>(length_unit);}
-	double get_Z_f1_red(LengthUnit length_unit=LengthUnit::mm) const {return Z_red_f1_/static_cast<int>(length_unit);}
-	double get_Z_b_st(LengthUnit length_unit=LengthUnit::mm) const {return Z_b_st_/static_cast<int>(length_unit);}
-	double get_W_b_st(LengthUnit length_unit=LengthUnit::mm) const {return W_b_st_/std::pow(static_cast<int>(length_unit),3);}
+	double get_alfa_b();
+	double get_alfa_s();
+	double get_A_red(LengthUnit length_unit=LengthUnit::mm);
+	double get_I_red(LengthUnit length_unit=LengthUnit::mm);
+	double get_W_b_red(LengthUnit length_unit=LengthUnit::mm);
+	double get_W_f2_red(LengthUnit length_unit=LengthUnit::mm);
+	double get_W_f1_red(LengthUnit length_unit=LengthUnit::mm);
+	double get_Z_b_red(LengthUnit length_unit=LengthUnit::mm);
+	double get_Z_f2_red(LengthUnit length_unit=LengthUnit::mm);
+	double get_Z_f1_red(LengthUnit length_unit=LengthUnit::mm);
+	double get_Z_b_st(LengthUnit length_unit=LengthUnit::mm);
+	double get_W_b_st(LengthUnit length_unit=LengthUnit::mm);
 
 	double get_b_s()const {return concrete_part_.get_rebar().get_b_s();}
 	double get_M_Rd()const {return M_Rd_;}
 	double get_Q_Rd()const;
+
+	double get_E_st_I_red()const;
+	double get_E_st_I_st()const;
 
 
 } ;

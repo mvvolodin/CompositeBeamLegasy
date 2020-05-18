@@ -35,6 +35,12 @@ public:
 	double Q_IIb_design(double x)const;
 	double Q_total_design(double x)const;
 
+	double f_Ia_design(double x)const;
+	double f_Ib_design(double x)const;
+	double f_IIa_design(double )const;
+	double f_IIb_design(double x)const;
+	double f_total_design(double x)const;
+
 private:
 
 	SupportsNumber s_num_;
@@ -45,6 +51,8 @@ private:
 	double M_uniform_load(double x, double q, SupportsNumber s_num)const;
 	double Q_point_load(double x, double P, double x_P)const;
 	double Q_uniform_load(double x, double q, SupportsNumber s_num)const;
+	double f_point_load(double x, double P, double x_P)const;
+	double f_uniform_load(double x, double q)const;
 
 	std::map<double, double> R_uniform_load(double q, SupportsNumber s_num)const;
 };
