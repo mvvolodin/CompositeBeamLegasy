@@ -23,6 +23,8 @@ public:
 	std::map<double, double> R_IIb_design()const;
 	std::map<double, double> R_total_design()const;
 
+	std::map<double, double> P_IIa_design()const;
+
 	double M_Ia_design(double x)const;
 	double M_Ib_design(double x)const;
 	double M_IIa_design(double x)const;

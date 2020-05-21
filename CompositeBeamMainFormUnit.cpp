@@ -721,7 +721,7 @@ void TCompositeBeamMainForm::draw_diagram()
 
 		M = composite_beam_calculator_.get_sections_beam().get_M_IIa_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_sections_beam().get_Q_IIa_design_list(LoadUnit::kN);
-		R = composite_beam_calculator_.get_sections_beam().get_R_IIa_design_list(LoadUnit::kN);
+		R = composite_beam_calculator_.get_sections_beam().get_P_IIa_design_list(LoadUnit::kN);
 		f = composite_beam_calculator_.get_sections_beam().get_f_IIa_design_list(LengthUnit::mm);
 
 		coor_supp.push_back(composite_beam_calculator_.get_sections_beam().get_support_x_list().front());

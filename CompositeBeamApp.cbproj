@@ -342,9 +342,9 @@
         </CppCompile>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="USteelSectionForm.dfm"/>
-        <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>
         <FormResources Include="AboutProg.dfm"/>
+        <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
         <FormResources Include="LoggerFormUnit.dfm"/>

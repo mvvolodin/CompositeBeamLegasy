@@ -15,7 +15,7 @@ void CompositeBeam::initialize_section_list(double L, int temporary_supports_num
 {
 	int num_temp_spans = temporary_supports_number + 1;
 	/* TODO -oMV : Добавить определение max_elem_length_ через GUI */
-	double max_elem_length = 25;
+	double max_elem_length = 500;
 
 	int num_elements = 0.;
 
@@ -251,6 +251,21 @@ std::vector<double> CompositeBeam::get_R_total_design_list(LoadUnit load_unit)co
 
 	return R_total_design_list;
 }
+std::vector<double> CompositeBeam::get_P_IIa_design_list(LoadUnit load_unit)const
+{
+	std::map<double, double> PX_named_list = intr_frcs_calculator_.R_Ib_design();
+
+	double L = section_list_.back().get_x();
+
+	PX_named_list.at(0) = 0;
+	PX_named_list.at(L) = 0;
+
+	std::vector<double> PX_list = make_R_list(PX_named_list);
+
+	std::transform(PX_list.begin(), PX_list.end(), PX_list.begin(),[load_unit](double R) { return -1 * R / static_cast<int>(load_unit);});
+
+	return PX_list;
+}
 
 std::vector<double> CompositeBeam::make_R_list(std::map<double, double> R_LCC_list)const
 {
@@ -340,5 +355,4 @@ std::vector<double> CompositeBeam::get_f_total_design_list(LengthUnit length_uni
 	f_total_design_list.shrink_to_fit();
 
 	return f_total_design_list;
-
 }

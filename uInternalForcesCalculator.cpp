@@ -1,5 +1,4 @@
 //---------------------------------------------------------------------------
-
 #pragma hdrstop
 //---------------------------------------------------------------------------
 #include "uInternalForcesCalculator.h"
@@ -26,6 +25,16 @@ std::map<double, double> InternalForcesCalculator::R_Ib_design()const
 std::map<double, double> InternalForcesCalculator::R_IIa_design()const
 {
 	return R_uniform_load(loads_.Ib_design_LCC(), SupportsNumber::ZERO);
+}
+
+std::map<double, double> InternalForcesCalculator::P_IIa_design()const
+{
+	std::map<double, double> PX = R_uniform_load(loads_.Ib_design_LCC(), s_num_);
+
+	PX.at(0) = 0;
+	PX.at(L_) = 0;
+
+	return PX;
 }
 std::map<double, double> InternalForcesCalculator::R_IIb_design()const
 {
@@ -96,8 +105,6 @@ double InternalForcesCalculator::Q_Ib_design(double x)const
 }
 double InternalForcesCalculator::Q_IIa_design(double x)const
 {
-	std::map<double, double> R_Ib_design_named_list = R_uniform_load(loads_.Ib_design_LCC(), s_num_);
-
 	double L0 = 0.;
 
 	switch(s_num_)
@@ -110,22 +117,22 @@ double InternalForcesCalculator::Q_IIa_design(double x)const
 
 			L0 = L_ / 2;
 
-			return Q_point_load(x, R_Ib_design_named_list.at(L0), L0);
+			return Q_point_load(x, P_IIa_design().at(L0), L0);
 
 		case(SupportsNumber::TWO):
 
 			L0 = L_ / 3;
 
-			return Q_point_load(x, R_Ib_design_named_list.at(L0), L0) +
-				Q_point_load(x, R_Ib_design_named_list.at(2 * L0), 2 * L0);
+			return Q_point_load(x, P_IIa_design().at(L0), L0) +
+				Q_point_load(x, P_IIa_design().at(2 * L0), 2 * L0);
 
 		case(SupportsNumber::THREE):
 
 			L0 = L_ / 4;
 
-			return Q_point_load(x, R_Ib_design_named_list.at(L0), L0) +
-				Q_point_load(x, R_Ib_design_named_list.at(2 * L0), 2 * L0) +
-				Q_point_load(x, R_Ib_design_named_list.at(3 * L0), 3 * L0);
+			return Q_point_load(x, P_IIa_design().at(L0), L0) +
+				Q_point_load(x, P_IIa_design().at(2 * L0), 2 * L0) +
+				Q_point_load(x, P_IIa_design().at(3 * L0), 3 * L0);
 	}
 }
 double InternalForcesCalculator::Q_IIb_design(double x)const
@@ -255,7 +262,6 @@ double InternalForcesCalculator::f_total_design(double x)const
 {
 	return f_Ib_design(x) + f_IIa_design(x) + f_IIb_design(x);;
 }
-
 std::map<double, double> InternalForcesCalculator::R_uniform_load(double q, SupportsNumber s_num)const
 {
 	std::map<double, double> R_named_list{};
@@ -403,7 +409,8 @@ double InternalForcesCalculator::Q_uniform_load(double x, double q, SupportsNumb
 }
 double InternalForcesCalculator::Q_point_load(double x, double P, double x_P)const
 {
-	return (x <= x_P) ? P: -P;
+	double R = P * (L_ - x_P) / L_;
+	return (x <= x_P) ? 1 * R : (R - P);
 }
 double InternalForcesCalculator::f_uniform_load(double x, double q)const
 {

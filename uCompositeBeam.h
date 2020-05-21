@@ -38,6 +38,8 @@ public:
 	std::vector<double> get_Q_IIb_design_list(LoadUnit load_unit=LoadUnit::N)const;
 	std::vector<double> get_Q_total_design_list(LoadUnit load_unit=LoadUnit::N)const;
 
+	std::vector<double> get_P_IIa_design_list(LoadUnit load_unit=LoadUnit::N)const;
+
 	std::vector<double> get_R_Ia_design_list(LoadUnit load_unit=LoadUnit::N)const;
 	std::vector<double> get_R_Ib_design_list(LoadUnit load_unit=LoadUnit::N)const;
 	std::vector<double> get_R_IIa_design_list(LoadUnit load_unit=LoadUnit::N)const;

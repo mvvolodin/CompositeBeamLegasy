@@ -45,7 +45,7 @@ void pFont_Size(TImage *Image1, int size) {
 //---------------------------------------------------------------------
 void pBrush_Color(TImage *Image1, TColor color) {
       if (flag_image) {
-         Image1->Canvas->Brush->Color = color;
+		 Image1->Canvas->Brush->Color = color;
       }
       else {
          //pCanvas->Brush->Color = InversColor(color);
@@ -212,12 +212,12 @@ void pCanvas_Polyline_rW(TImage *Image1, TPoint *points, int n, int Width) {
 }
 //----------------------------------------------------------------------
 void pCanvas_Polyline(TImage *Image1, TPoint *points, int n) {
-      int i,k;
-      for (i=0; i<n; i++) {
-        if (points[i].x==0) {
-          k=0;
-        }
-      }
+	  int i,k;
+	  for (i=0; i<n; i++) {
+		if (points[i].x==0) {
+		  k=0;
+		}
+	  }
       if (flag_image) {
          Image1->Canvas->Polyline(points, n);
       }

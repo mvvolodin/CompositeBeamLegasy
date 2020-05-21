@@ -8,6 +8,7 @@
 #include <istream>
 #include <cassert>
 #include "Units.h"
+#include <map>
 //-----------------------------------------------------------------------------
 // ласс предоставл€ющий значени€ нагрузок от комбинаций загружений
 //ѕеред использованием необходимо вызвать метод
@@ -28,7 +29,7 @@ public:
 	void calculate_loads(double SW_concrete);
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
-	bool get_status()const{return fully_initialized_;}
+  	bool get_status()const{return fully_initialized_;}
 
 	double Ia_design_LCC()const;
 	double Ib_design_LCC()const;
@@ -45,6 +46,7 @@ public:
 		{return DL_II_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
 	double get_live_load(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		{return LL_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
+
 	double get_gamma_f_st_SW() const {return gamma_f_st_SW_;}
 	double get_gamma_f_concrete_SW()const {return gamma_f_concrete_SW_;}
 	double get_gamma_f_DL_I() const {return gamma_f_DL_I_;}
@@ -58,6 +60,8 @@ private:
 	double DL_I_ = 0.;
 	double DL_II_ = 0.;
 	double LL_ = 0.;
+    std::map<double,double> P_x_;
+
 	double gamma_f_st_SW_ = 0.;
 	double gamma_f_concrete_SW_ = 0;
 	double gamma_f_DL_I_ = 0.;
