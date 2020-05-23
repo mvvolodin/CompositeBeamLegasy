@@ -15,7 +15,7 @@ CompositeSectionGeometry::CompositeSectionGeometry()
 
 }
 CompositeSectionGeometry::CompositeSectionGeometry(SteelPart    steel_part,
-								   TConcretePart concrete_part):
+												   ConcretePart concrete_part):
 	steel_part_(steel_part),
 	concrete_part_(concrete_part)
 {}

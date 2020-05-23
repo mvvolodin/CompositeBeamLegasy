@@ -22,11 +22,11 @@ public:
 	void calculate_P_rd(double R_b, double gamma_c);
 
 	String get_name()const{return name_;}
-	double get_d_an()const{return d_an_;}
-	double get_l()const{return l_;}
+	double get_d_an(LengthUnit__ lenght_unit = mm)const{return d_an_ / lenght_unit;}
+	double get_l(LengthUnit__ lenght_unit = mm)const{return l_ / lenght_unit;}
 	double get_R_y()const{return R_y_;}
 
-	double get_P_rd()const{return P_rd_;}
+	double get_P_rd(LoadUnit__ load_unit = N)const{return P_rd_ / load_unit;}
 
 private:
 	String name_;
@@ -90,10 +90,10 @@ public:
 	void calculate_ratio();
 
 	String get_name()const{return stud_.get_name();}
-	Stud get_stud()const{return stud_;};
+	const Stud& get_stud()const{return stud_;};
 	double get_gamma_c()const{return gamma_c_;}
-	double get_dist_e()const{return dist_e_;}
-	double get_dist_m()const{return dist_m_;}
+	double get_dist_e(LengthUnit__ lenght_unit = mm)const{return dist_e_ / lenght_unit;}
+	double get_dist_m(LengthUnit__ lenght_unit = mm)const{return dist_m_ / lenght_unit;}
 	int get_num_e()const{return num_e_;}
 	int get_num_m()const{return num_m_;}
 

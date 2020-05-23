@@ -4,21 +4,21 @@
     #pragma hdrstop
 
 	#include<cmath>
-	#include "ConcretePartUnit.h"
+	#include "uConcretePart.h"
 	//---------------------------------------------------------------------------
 	#pragma package(smart_init)
 
 //---------------------------------------------------------------------------
-TConcretePart::TConcretePart()
+ConcretePart::ConcretePart()
 {
 }
-TConcretePart::TConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, double h_n)
+ConcretePart::ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, double h_n)
 	:slab_type_(slab_type), slab_type_enum_(slab_type_enum),concrete_(concrete),rebar_(rebar), h_f_(h_f), h_n_(h_n)
 {}
 //-----------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
 //-----------------------------------------------------------------------------
-void TConcretePart::set_default_values()
+void ConcretePart::set_default_values()
 {
 	slab_type_ = L"Плоская плита";
 	slab_type_enum_ = SlabType::FLAT;
@@ -30,7 +30,7 @@ void TConcretePart::set_default_values()
 //---------------------------------------------------------------------------
 //Сохранение объекта в бинарный файл
 //---------------------------------------------------------------------------
-void TConcretePart::save(std::ostream& ostr) const
+void ConcretePart::save(std::ostream& ostr) const
 {
 	concrete_.save(ostr);
 	rebar_.save(ostr);
@@ -47,7 +47,7 @@ void TConcretePart::save(std::ostream& ostr) const
 //---------------------------------------------------------------------------
 //Загрузка объекта из бинарного файла
 //---------------------------------------------------------------------------
-void TConcretePart::load(std::istream& istr)
+void ConcretePart::load(std::istream& istr)
 {
 	concrete_.load(istr);
 	rebar_.load(istr);
@@ -63,7 +63,7 @@ void TConcretePart::load(std::istream& istr)
 	istr.read((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 	istr.read((char*)&h_f_,sizeof(h_f_));
 }
-double TConcretePart::get_h(LengthUnit length_unit) const
+double ConcretePart::get_h(LengthUnit length_unit) const
 {
 	double h = 0.;
 
@@ -74,7 +74,7 @@ double TConcretePart::get_h(LengthUnit length_unit) const
 
 	return h/static_cast<int>(length_unit);
 }
-double TConcretePart::get_C_b(LengthUnit length_unit) const
+double ConcretePart::get_C_b(LengthUnit length_unit) const
 {
 	double C_b = 0.;
 
@@ -86,7 +86,7 @@ double TConcretePart::get_C_b(LengthUnit length_unit) const
 	return C_b/static_cast<int>(length_unit);
 }
 
-double TConcretePart::get_A_b(LengthUnit length_unit) const
+double ConcretePart::get_A_b(LengthUnit length_unit) const
 {
 	double A_b = 0.;
 
@@ -94,7 +94,7 @@ double TConcretePart::get_A_b(LengthUnit length_unit) const
 
 	return A_b/std::pow(static_cast<int>(length_unit),2);
 }
-double TConcretePart::get_I_b(LengthUnit length_unit) const
+double ConcretePart::get_I_b(LengthUnit length_unit) const
 {
 	double I_b = 0.;
 
@@ -102,7 +102,7 @@ double TConcretePart::get_I_b(LengthUnit length_unit) const
 
 	return I_b/std::pow(static_cast<int>(length_unit),4);
 }
-double TConcretePart::get_SW_concrete(LoadUnit load_unit, LengthUnit length_unit) const
+double ConcretePart::get_SW_concrete(LoadUnit load_unit, LengthUnit length_unit) const
 {
 	double SW_concrete = 0.;
 

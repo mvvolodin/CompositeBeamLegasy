@@ -1,12 +1,12 @@
 //---------------------------------------------------------------------------
 
-#ifndef SteelPartH
-#define SteelPartH
+#ifndef uSteelPartH
+#define uSteelPartH
 //---------------------------------------------------------------------------
 #include <iostream>
 #include <ostream>
 //---------------------------------------------------------------------------
-#include "ISection.h"
+#include "uISection.h"
 #include "uSteel.h"
 
 

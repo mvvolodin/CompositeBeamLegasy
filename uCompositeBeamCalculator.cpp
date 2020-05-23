@@ -17,16 +17,18 @@ CompositeBeamCalculator::CompositeBeamCalculator(){}
 //---------------------------------------------------------------------------
 //Конструктор композитной балки
 //---------------------------------------------------------------------------
- CompositeBeamCalculator::CompositeBeamCalculator(TGeometry   			   geometry,
-												  TLoads     			   loads,
+ CompositeBeamCalculator::CompositeBeamCalculator(Geometry   			   geometry,
+												  Loads     			   loads,
 												  CompositeSectionGeometry composite_section,
 												  StudsOnBeam              studs_on_beam,
-												  WorkingConditionsFactors working_conditions_factors):
+												  WorkingConditionsFactors working_conditions_factors,
+												  double 				   max_elem_length):
 	geometry_(geometry),
 	loads_(loads),
 	composite_section_(composite_section),
 	studs_on_beam_(studs_on_beam),
-	working_conditions_factors_(working_conditions_factors)
+	working_conditions_factors_(working_conditions_factors),
+	max_elem_length_(max_elem_length)
 {
 
 }
@@ -40,6 +42,8 @@ void CompositeBeamCalculator::set_default_values()
 	working_conditions_factors_.set_default_values();
 	composite_section_.set_default_values();
 	studs_on_beam_.set_default_values();
+
+	max_elem_length_ = 100;
 }
 //---------------------------------------------------------------------------
 //Сохраняем объект композитная балка в бинарный файл
@@ -91,14 +95,14 @@ void CompositeBeamCalculator::calculate_composite_beam()
 	double B = geometry_.get_trib_width_left() + geometry_.get_trib_width_right();
 	loads_.set_data(SW_steel_beam, SW_corrugated_sheets, SW_concrete, B);
 //подготовка калькулятора внутренних усилий
-	int tmp_sup_num = geometry_.get_temporary_supports_number();
+	SupportsNumber tmp_sup_num = geometry_.get_temporary_supports_number();
 	double L = geometry_.get_span();
-	InternalForcesCalculator intr_frcs_calculator{static_cast<SupportsNumber>(tmp_sup_num), L, loads_ };
+	InternalForcesCalculator intr_frcs_calculator{tmp_sup_num, L, loads_ };
 //подготовка сечений для расчёта
 	composite_beam_.set_composite_section(composite_section_);
 	composite_beam_.set_intr_frcs_calculator(intr_frcs_calculator);
 	composite_beam_.set_working_conditions_factors(working_conditions_factors_);
-	composite_beam_.initialize_section_list(L, tmp_sup_num) ;
+	composite_beam_.initialize_section_list(L, tmp_sup_num, max_elem_length_) ;
 //расчёт сечений
 	composite_beam_.calculate();
 
@@ -150,9 +154,9 @@ void CompositeBeamCalculator::calculate_studs()
 	composite_section_.set_b(b);
 	composite_section.set_phi_b_cr(0);
 	//подготовка калькулятора внутренних усилий
-	int tmp_sup_num = geometry_.get_temporary_supports_number();
+	SupportsNumber tmp_sup_num = geometry_.get_temporary_supports_number();
 	double L = geometry_.get_span();
-	InternalForcesCalculator intr_frcs_calculator{static_cast<SupportsNumber>(tmp_sup_num), L, loads_ };
+	InternalForcesCalculator intr_frcs_calculator{tmp_sup_num, L, loads_ };
 //подготовка упоров для расчёта
 	studs_on_beam_.set_intr_frcs_calculator(intr_frcs_calculator);
 	studs_on_beam_.set_composite_section(composite_section);
@@ -188,71 +192,6 @@ void CompositeBeamCalculator::calculate_studs()
 							  stud.get_ratio());
 	#endif
 }
-
-
-double CompositeBeamCalculator::get_max_upper_flange_ratio()const
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_max_lower_flange_ratio()const
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_max_upper_flange_ratio_coordinate()const
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_max_lower_flange_ratio_coordinate()const
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_M_I_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
-{
-	return 0.;
-}
-
-double CompositeBeamCalculator::get_M_II_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
-{
-	return 0.;
-}
-
-double CompositeBeamCalculator::get_M_total_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_sigma_b_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_sigma_s_for_cs_with_max_lower_flange_ratio(LoadUnit load_unit, LengthUnit length_unit)
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_max_shear_ratio()const
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_max_steel_beam_direct_stresses_I_stage_ratio()const
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_max_stud_ratio()
-{
-   return 0;
-}
-double CompositeBeamCalculator::get_max_stud_ratio_coordinate()
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_max_S_h(LoadUnit load_unit)
-{
-	return 0.;
-}
-double CompositeBeamCalculator::get_ratio_rigid_plastic()const
-{
-	return 0.;
-}
-
 
 
 

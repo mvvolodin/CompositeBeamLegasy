@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
-#ifndef ConcretePartUnitH
-#define ConcretePartUnitH
+#ifndef uConcretePartH
+#define uConcretePartH
 // ---------------------------------------------------------------------------
 #include <ostream>
 #include <istream>
@@ -16,12 +16,12 @@ enum class SlabType{
 	CORRUGATED,
 };
 // ---------------------------------------------------------------------------
-class TConcretePart {
+class ConcretePart {
 
 public:
 
-	TConcretePart();
-	TConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, double h_n);
+	ConcretePart();
+	ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, double h_n);
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
 	void set_default_values();

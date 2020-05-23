@@ -2,7 +2,7 @@
 
 #pragma hdrstop
 
-#include "SteelPart.h"
+#include "uSteelPart.h"
 #include <algorithm>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

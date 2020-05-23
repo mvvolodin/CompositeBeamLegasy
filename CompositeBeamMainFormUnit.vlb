@@ -86,12 +86,6 @@ Coordinates=351,305,40,36
 [ToolButtonOpen]
 Coordinates=1022,496,108,36
 
-[edt_beam_division]
-Coordinates=668,540,122,58
-
-[lbl_beam_division]
-Coordinates=120,1,117,58
-
 [SaveDialog_Model]
 Coordinates=844,155,122,36
 
@@ -305,4 +299,10 @@ Coordinates=537,155,149,58
 
 [lbl_h_f_flat]
 Coordinates=1502,78,144,58
+
+[edt_max_elem_length]
+Coordinates=668,540,122,58
+
+[lbl_max_elem_length]
+Coordinates=120,1,117,58
 

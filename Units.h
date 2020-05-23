@@ -14,4 +14,14 @@ enum class LengthUnit{
 	m = 1000,
 };
 
+enum LoadUnit__{
+	N = 1,
+	kN = 1000,
+};
+enum LengthUnit__{
+	mm = 1,
+	cm = 10,
+	m = 1000,
+};
+
 #endif

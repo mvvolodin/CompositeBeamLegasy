@@ -15,7 +15,7 @@ public:
 	InternalForcesCalculator();
 	InternalForcesCalculator(const SupportsNumber 	 s_num,
 							 const double 			 L,
-							 const TLoads 			 loads);
+							 const Loads 			 loads);
 
 	std::map<double, double> R_Ia_design()const;
 	std::map<double, double> R_Ib_design()const;
@@ -47,7 +47,7 @@ private:
 
 	SupportsNumber s_num_;
 	double L_ = 0.;
-	TLoads loads_ {};
+	Loads loads_ {};
 
 	double M_point_load(double x, double P, double x_P)const;
 	double M_uniform_load(double x, double q, SupportsNumber s_num)const;

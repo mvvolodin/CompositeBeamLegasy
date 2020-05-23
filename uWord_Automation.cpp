@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "Word_Automation.h"
+#include "uWord_Automation.h"
 
 #define  wdAutoFitFixed     0
 #define  wdAutoFitContent   1

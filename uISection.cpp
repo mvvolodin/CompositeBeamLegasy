@@ -2,7 +2,7 @@
 
 #pragma hdrstop
 
-#include "ISection.h"
+#include "uISection.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef ISectionH
-#define ISectionH
+#ifndef uISectionH
+#define uISectionH
 //---------------------------------------------------------------------------
 #include <math.h>
 #include <ostream>

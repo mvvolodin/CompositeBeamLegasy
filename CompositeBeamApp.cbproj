@@ -158,10 +158,6 @@
             <DependentOn>ConcreteDefinitionFormUnit.h</DependentOn>
             <BuildOrder>33</BuildOrder>
         </CppCompile>
-        <CppCompile Include="ConcretePartUnit.cpp">
-            <DependentOn>ConcretePartUnit.h</DependentOn>
-            <BuildOrder>15</BuildOrder>
-        </CppCompile>
         <None Include="Data_Profil.h">
             <BuildOrder>23</BuildOrder>
         </None>
@@ -189,10 +185,6 @@
         <None Include="ICompositeBeam.h">
             <BuildOrder>49</BuildOrder>
         </None>
-        <CppCompile Include="ISection.cpp">
-            <DependentOn>ISection.h</DependentOn>
-            <BuildOrder>11</BuildOrder>
-        </CppCompile>
         <None Include="ListConst.H">
             <BuildOrder>25</BuildOrder>
         </None>
@@ -221,20 +213,12 @@
         <None Include="ProcExt.h">
             <BuildOrder>26</BuildOrder>
         </None>
-        <CppCompile Include="Ratios.cpp">
-            <DependentOn>Ratios.h</DependentOn>
-            <BuildOrder>40</BuildOrder>
-        </CppCompile>
         <CppCompile Include="RebarDefinitionFormUnit.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>RebarDefinitionForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>RebarDefinitionFormUnit.h</DependentOn>
             <BuildOrder>39</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="Report.cpp">
-            <DependentOn>Report.h</DependentOn>
-            <BuildOrder>44</BuildOrder>
         </CppCompile>
         <CppCompile Include="Round_func.cpp">
             <BuildOrder>33</BuildOrder>
@@ -243,17 +227,9 @@
             <DependentOn>StandartProfil.h</DependentOn>
             <BuildOrder>24</BuildOrder>
         </CppCompile>
-        <CppCompile Include="SteelPart.cpp">
-            <DependentOn>SteelPart.h</DependentOn>
-            <BuildOrder>44</BuildOrder>
-        </CppCompile>
         <CppCompile Include="Steel_param_ARSS.cpp">
             <DependentOn>Steel_param_ARSS.h</DependentOn>
             <BuildOrder>21</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="Stresses.cpp">
-            <DependentOn>Stresses.h</DependentOn>
-            <BuildOrder>39</BuildOrder>
         </CppCompile>
         <CppCompile Include="String_doubleUnit.cpp">
             <VirtualFolder>{180C2F3E-0915-4A09-9C20-078BD4F933E8}</VirtualFolder>
@@ -286,6 +262,10 @@
             <DependentOn>uConcrete.h</DependentOn>
             <BuildOrder>39</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uConcretePart.cpp">
+            <DependentOn>uConcretePart.h</DependentOn>
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uCorrugatedSheet.cpp">
             <DependentOn>uCorrugatedSheet.h</DependentOn>
             <BuildOrder>47</BuildOrder>
@@ -297,6 +277,10 @@
         <CppCompile Include="uInternalForcesCalculator.cpp">
             <DependentOn>uInternalForcesCalculator.h</DependentOn>
             <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uISection.cpp">
+            <DependentOn>uISection.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
         </CppCompile>
         <CppCompile Include="uLoads.cpp">
             <DependentOn>uLoads.h</DependentOn>
@@ -317,6 +301,10 @@
             <DependentOn>uSteel.h</DependentOn>
             <BuildOrder>38</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uSteelPart.cpp">
+            <DependentOn>uSteelPart.h</DependentOn>
+            <BuildOrder>44</BuildOrder>
+        </CppCompile>
         <CppCompile Include="USteelSectionForm.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>SteelSectionForm2</Form>
@@ -328,13 +316,13 @@
             <DependentOn>uStud.h</DependentOn>
             <BuildOrder>42</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uWord_Automation.cpp">
+            <DependentOn>uWord_Automation.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uWorkingConditionsFactors.cpp">
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="Word_Automation.cpp">
-            <DependentOn>Word_Automation.h</DependentOn>
-            <BuildOrder>48</BuildOrder>
         </CppCompile>
         <CppCompile Include="WRData_Check.cpp">
             <DependentOn>WRData_Check.h</DependentOn>
@@ -343,8 +331,8 @@
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="USteelSectionForm.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>
-        <FormResources Include="AboutProg.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
+        <FormResources Include="AboutProg.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
         <FormResources Include="LoggerFormUnit.dfm"/>

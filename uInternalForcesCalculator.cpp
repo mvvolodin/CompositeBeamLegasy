@@ -10,7 +10,7 @@ InternalForcesCalculator::InternalForcesCalculator()
 }
 InternalForcesCalculator::InternalForcesCalculator( const SupportsNumber 	 s_num,
 													const double 			 L,
-													const TLoads 			 loads):
+													const Loads 			 loads):
 	s_num_(s_num),
 	L_(L),
 	loads_ (loads){}

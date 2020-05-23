@@ -19,10 +19,10 @@
 //	b_ ;
 // и устанавливающий флаг fully initialized в true
 //-----------------------------------------------------------------------------
-class TLoads {
+class Loads {
 public:
-	TLoads();
-	TLoads(double SW, double SW_sheets, double DL_I, double DL_II, double LL,
+	Loads();
+	Loads(double SW, double SW_sheets, double DL_I, double DL_II, double LL,
 		double gamma_f_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL);
 	void set_default_values();
 	void set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B);

@@ -11,11 +11,9 @@
 CompositeBeam::CompositeBeam()
 {
 }
-void CompositeBeam::initialize_section_list(double L, int temporary_supports_number)
+void CompositeBeam::initialize_section_list(double L, SupportsNumber temporary_supports_number, double max_elem_length)
 {
-	int num_temp_spans = temporary_supports_number + 1;
-	/* TODO -oMV : Добавить определение max_elem_length_ через GUI */
-	double max_elem_length = 500;
+	int num_temp_spans = static_cast<int>(temporary_supports_number) + 1;
 
 	int num_elements = 0.;
 
@@ -32,9 +30,9 @@ void CompositeBeam::initialize_section_list(double L, int temporary_supports_num
 
 	initialize_support_list(L, temporary_supports_number);
 }
-void CompositeBeam::initialize_support_list(double L, int temporary_supports_number)
+void CompositeBeam::initialize_support_list(double L, SupportsNumber temporary_supports_number)
 {
-	int num_tmp_span = temporary_supports_number + 1;
+	int num_tmp_span = static_cast<int>(temporary_supports_number) + 1;
 
 	for(int n = 0; n <= num_tmp_span; ++n)
 		support_list_.push_back(n * L / num_tmp_span);

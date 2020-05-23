@@ -17,13 +17,12 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object lbl_beam_division: TLabel
-    Left = 543
-    Top = 557
-    Width = 90
+  object lbl_max_elem_length: TLabel
+    Left = 699
+    Top = 565
+    Width = 294
     Height = 13
-    Caption = #1056#1072#1079#1073#1080#1077#1085#1080#1077' '#1073#1072#1083#1082#1080':'
-    Visible = False
+    Caption = #1052#1072#1082#1089#1080#1084#1072#1083#1100#1085#1086#1077' '#1088#1072#1089#1089#1090#1086#1103#1085#1080#1077' '#1084#1077#1078#1076#1091' '#1088#1072#1089#1095#1105#1090#1085#1099#1084#1080' '#1089#1077#1095#1077#1085#1080#1103#1084#1080':'
   end
   object ToolBar1: TToolBar
     Left = 0
@@ -84,21 +83,18 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       ShowHint = True
     end
   end
-  object edt_beam_division: TEdit
-    Left = 639
-    Top = 557
+  object edt_max_elem_length: TEdit
+    Left = 999
+    Top = 561
     Width = 42
     Height = 21
-    Hint = #1042#1074#1077#1076#1080#1090#1077' '#1082#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1089#1077#1095#1077#1085#1080#1081' '#1073#1072#1083#1082#1080' '#1076#1083#1103' '#1087#1088#1086#1074#1077#1088#1082#1080
-    NumbersOnly = True
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
-    Visible = False
   end
   object BtnCalculate: TButton
-    Left = 17
-    Top = 561
+    Left = 8
+    Top = 559
     Width = 75
     Height = 25
     Caption = #1056#1072#1089#1095#1105#1090
@@ -106,8 +102,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     OnClick = BtnCalculateClick
   end
   object btn_report: TButton
-    Left = 97
-    Top = 561
+    Left = 88
+    Top = 559
     Width = 75
     Height = 25
     Caption = #1054#1090#1095#1105#1090
@@ -115,8 +111,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     OnClick = btn_reportClick
   end
   object BtBtnExit: TBitBtn
-    Left = 178
-    Top = 561
+    Left = 169
+    Top = 559
     Width = 75
     Height = 25
     Caption = #1042#1099#1093#1086#1076
@@ -3129,10 +3125,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1050#1086#1084#1087#1086#1079#1080#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_compos_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -3165,10 +3157,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_steel_geom_char: TTabSheet
             Caption = #1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 2
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_steel_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -3196,10 +3184,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_concrete_geom_char: TTabSheet
             Caption = #1046#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_concrete_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -3222,10 +3206,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object tb_results: TTabSheet
       Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1099' '#1088#1072#1089#1095#1105#1090#1072
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object strng_grd_results: TStringGrid
         Left = 0
         Top = 0
@@ -3246,7 +3226,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     end
   end
   object btn_logger: TButton
-    Left = 259
+    Left = 250
     Top = 559
     Width = 75
     Height = 25
@@ -3256,8 +3236,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
-    Left = 744
-    Top = 560
+    Left = 416
+    Top = 552
     object NFile: TMenuItem
       Caption = #1060#1072#1081#1083
       object NNew: TMenuItem
@@ -3313,17 +3293,17 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     DefaultExt = 'arcC'
     Filter = #1060#1072#1081#1083' '#1087#1088#1086#1077#1082#1090#1072' (*.arsC)|*.arsC'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
-    Left = 788
-    Top = 560
+    Left = 460
+    Top = 552
   end
   object OpenDialog_Model: TOpenDialog
     Filter = #1060#1072#1081#1083#1099' '#1087#1088#1086#1077#1082#1090#1086#1074' (*.arsC)|*.arsC|'#1042#1089#1077' '#1092#1072#1081#1083#1099' |*.*'
-    Left = 844
-    Top = 560
+    Left = 500
+    Top = 552
   end
   object ImageList1: TImageList
-    Left = 904
-    Top = 560
+    Left = 536
+    Top = 552
     Bitmap = {
       494C010106000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
@@ -3599,7 +3579,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   object OpenDialog1: TOpenDialog
     Filter = 'arcC|arcC'
     InitialDir = 'arcC'
-    Left = 688
-    Top = 560
+    Left = 368
+    Top = 552
   end
 end

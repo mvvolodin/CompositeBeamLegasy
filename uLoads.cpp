@@ -5,9 +5,9 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-TLoads::TLoads(){}
+Loads::Loads(){}
 
-TLoads::TLoads(double SW_steel_beam, double SW_corrugated_sheets, double DL_I, double DL_II, double LL,
+Loads::Loads(double SW_steel_beam, double SW_corrugated_sheets, double DL_I, double DL_II, double LL,
 	double gamma_f_st_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL)
 	:SW_steel_beam_(SW_steel_beam/static_cast<int>(LengthUnit::m)),
 	SW_corrugated_sheets_(SW_corrugated_sheets/std::pow(static_cast<int>(LengthUnit::m),2)),
@@ -22,7 +22,7 @@ TLoads::TLoads(double SW_steel_beam, double SW_corrugated_sheets, double DL_I, d
 Добавить в функцию сохранения в файл и в функцию загрузки из файла
 "gamma_f_concrete_SW_", "b_" и "SW_concrete_"
  */
-void TLoads::save(std::ostream& ostr) const
+void Loads::save(std::ostream& ostr) const
 {
 	ostr.write((char*)&SW_steel_beam_, sizeof(SW_steel_beam_));
 	ostr.write((char*)&SW_corrugated_sheets_, sizeof(SW_corrugated_sheets_));
@@ -35,7 +35,7 @@ void TLoads::save(std::ostream& ostr) const
 	ostr.write((char*)&gamma_f_LL_, sizeof(gamma_f_LL_));
 
 }
-void TLoads::load(std::istream& istr)
+void Loads::load(std::istream& istr)
 {
 	istr.read((char*)&SW_steel_beam_, sizeof(SW_steel_beam_ ));
 	istr.read((char*)&SW_corrugated_sheets_, sizeof(SW_corrugated_sheets_));
@@ -51,7 +51,7 @@ void TLoads::load(std::istream& istr)
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений Ia
 //-----------------------------------------------------------------------------
-double TLoads::Ia_design_LCC()const
+double Loads::Ia_design_LCC()const
 {
 	assert(fully_initialized_);
 	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
@@ -60,7 +60,7 @@ double TLoads::Ia_design_LCC()const
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений Ib
 //-----------------------------------------------------------------------------
-double TLoads::Ib_design_LCC()const
+double Loads::Ib_design_LCC()const
 {
 	assert(fully_initialized_);
 	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
@@ -69,7 +69,7 @@ double TLoads::Ib_design_LCC()const
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений IIb
 //-----------------------------------------------------------------------------
-double TLoads::IIb_design_LCC()const
+double Loads::IIb_design_LCC()const
 {
 	assert(fully_initialized_);
 	 return gamma_f_DL_II_ * DL_II_ * B_ + gamma_f_LL_ * LL_ * B_;
@@ -77,7 +77,7 @@ double TLoads::IIb_design_LCC()const
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от полной комбинации загружений
 //-----------------------------------------------------------------------------
-double TLoads::total_design_LCC()const
+double Loads::total_design_LCC()const
 {
 	assert(fully_initialized_);
 	 return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
@@ -86,7 +86,7 @@ double TLoads::total_design_LCC()const
 //-----------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
 //-----------------------------------------------------------------------------
-void TLoads::set_default_values()
+void Loads::set_default_values()
 {
 	SW_steel_beam_ = 0.;
 	SW_corrugated_sheets_ = 0.;
@@ -102,7 +102,7 @@ void TLoads::set_default_values()
 	B_ = 6000;
 }
 
-void TLoads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B)
+void Loads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B)
 {
 	SW_steel_beam_ = SW_steel_beam;
 	SW_corrugated_sheets_ = SW_corrugated_sheets;

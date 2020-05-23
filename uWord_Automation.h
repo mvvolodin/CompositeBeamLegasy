@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
-#ifndef Word_AutomationH
-#define Word_AutomationH
+#ifndef uWord_AutomationH
+#define uWord_AutomationH
 //---------------------------------------------------------------------------
 //Надо над классом поработать
 class TWord_Automation

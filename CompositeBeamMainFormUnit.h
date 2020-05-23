@@ -34,7 +34,7 @@
 #include "DefineSteelFormUnit.h"
 #include "LoggerFormUnit.h"
 #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
-#include "Word_Automation.h"
+#include "uWord_Automation.h"
 
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
@@ -54,8 +54,8 @@ __published:	// IDE-managed Components
 	TMenuItem *N3;
 	TButton *BtnCalculate;
 	TButton *btn_report;
-	TLabel *lbl_beam_division;
-	TEdit *edt_beam_division;
+	TLabel *lbl_max_elem_length;
+	TEdit *edt_max_elem_length;
 	TMenuItem *NOpen;
 	TMenuItem *NSave;
 	TMenuItem *NSaveAs;
@@ -196,11 +196,11 @@ private:
 
 	CompositeBeamCalculator composite_beam_calculator_; //Основной объект в программе
 
-	TGeometry init_geomet();//Инициализация топологии
-	TLoads init_loads(); //Инициализация нагрузок
+	Geometry init_geomet();//Инициализация топологии
+	Loads init_loads(); //Инициализация нагрузок
 	ISection init_i_section();//Инициализация объекта геометрия двутавра
 	Steel init_steel_i_section(); //Инициализация стали двутавра
-	TConcretePart init_concrete_part();//Инициализация бетонной части композитного сечения
+	ConcretePart init_concrete_part();//Инициализация бетонной части композитного сечения
 	SteelPart init_steel_part();
 	StudsOnBeam init_studs_on_beam();//Инициализация упоров
 	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы

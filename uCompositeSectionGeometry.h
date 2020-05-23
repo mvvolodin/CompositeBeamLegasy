@@ -3,11 +3,10 @@
 #ifndef uCompositeSectionGeometryH
 #define uCompositeSectionGeometryH
 #include <ostream>
-#include "ISection.h"
-#include "ConcretePartUnit.h"
-#include "uSteel.h"
+#include "uSteelPart.h"
+#include "uConcretePart.h"
 #include "uRebar.h"
-#include "SteelPart.h"
+
 
 class CompositeSectionGeometry{
 	enum class NA_Location{
@@ -23,7 +22,7 @@ class CompositeSectionGeometry{
 private:
 
 	SteelPart steel_part_;
-	TConcretePart concrete_part_;
+	ConcretePart concrete_part_;
 
     void calculate();
 	bool composite_section_calculated = false;
@@ -73,16 +72,13 @@ private:
 public:
 	CompositeSectionGeometry();
 	CompositeSectionGeometry(SteelPart    steel_part,
-					 TConcretePart concrete_part);
+							 ConcretePart concrete_part);
 	void set_default_values();
 	void save(std::ostream& ostr)const;
 	void load(std::istream& istr);
 
-	SteelPart get_steel_part()const {return steel_part_;}
-	ISection get_I_section()const {return steel_part_.get_section();}
-	TConcretePart get_concrete_part() const {return concrete_part_;}
-	TConcretePart& get_concrete_part() {return concrete_part_;}
-	Steel get_steel_grade()const {return steel_part_.get_steel();}
+	const SteelPart& get_steel_part()const {return steel_part_;}
+	const ConcretePart& get_concrete_part() {return concrete_part_;}
 
 	void set_phi_b_cr(double phi_b_cr);
 	void set_b(double b){concrete_part_.set_b(b);}

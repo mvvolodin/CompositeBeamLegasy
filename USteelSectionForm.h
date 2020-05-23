@@ -20,7 +20,7 @@
 #include "String_doubleUnit.h"
 #include "GArrow.h"
 
-#include "ISection.h"
+#include "uISection.h"
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
 //---------------------------------------------------------------------------
 class TSteelSectionForm2 : public TForm, public IPublisher
