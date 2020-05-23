@@ -165,7 +165,7 @@ __published:	// IDE-managed Components
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
 	void __fastcall rdgrp_slab_typeClick(TObject *Sender);
-	void __fastcall strng_grd_rendering(TObject *Sender, int ACol, int ARow, TRect &Rect,
+	void __fastcall strng_grd_results_rendering(TObject *Sender, int ACol, int ARow, TRect &Rect,
 		  TGridDrawState State);
 	void __fastcall BtBtnSteelChoiceClick(TObject *Sender);
 	void __fastcall BtnSteelSectionChoiceClick(TObject *Sender);
@@ -188,6 +188,8 @@ __published:	// IDE-managed Components
 	void __fastcall cmb_bx_corrugated_sheeting_part_numberChange(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
 	void __fastcall N8Click(TObject *Sender);
+	void __fastcall strng_grd_first_raw_bold(TObject *Sender, int ACol,
+          int ARow, TRect &Rect, TGridDrawState State);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;

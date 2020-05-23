@@ -124,7 +124,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = tb_results
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -3121,7 +3121,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 3
           Width = 426
           Height = 393
-          ActivePage = tb_sht_composite_geom_char
+          ActivePage = tb_sht_concrete_geom_char
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1050#1086#1084#1087#1086#1079#1080#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
@@ -3138,7 +3138,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
               RowCount = 9
               ScrollBars = ssNone
               TabOrder = 0
-              OnDrawCell = strng_grd_rendering
+              OnDrawCell = strng_grd_first_raw_bold
               ColWidths = (
                 304
                 254)
@@ -3167,7 +3167,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
               DrawingStyle = gdsClassic
               RowCount = 7
               TabOrder = 0
-              OnDrawCell = strng_grd_rendering
+              OnDrawCell = strng_grd_first_raw_bold
               ColWidths = (
                 307
                 366)
@@ -3194,7 +3194,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
               DrawingStyle = gdsClassic
               RowCount = 6
               TabOrder = 0
-              OnDrawCell = strng_grd_rendering
+              OnDrawCell = strng_grd_first_raw_bold
               ColWidths = (
                 305
                 361)
@@ -3215,10 +3215,10 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         ColCount = 2
         DefaultColWidth = 200
         DrawingStyle = gdsClassic
-        RowCount = 6
+        RowCount = 15
         ScrollBars = ssNone
         TabOrder = 0
-        OnDrawCell = strng_grd_rendering
+        OnDrawCell = strng_grd_results_rendering
         ColWidths = (
           513
           349)

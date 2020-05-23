@@ -335,21 +335,38 @@ void __fastcall TCompositeBeamMainForm ::rdgrp_slab_typeClick(TObject *Sender)
 	}
 		OnControlsChange(nullptr);
 }
-//---------------------------------------------------------------------------
-//Обработчик события обеспечивающий заполнение первой строки жирным шрифтом
-//---------------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm ::strng_grd_rendering(TObject *Sender,
+
+void __fastcall TCompositeBeamMainForm ::strng_grd_results_rendering(TObject *Sender,
 																int ACol, int ARow,
 																TRect &Rect, TGridDrawState State)
 {
 	TStringGrid* str_grid=static_cast<TStringGrid*>(Sender);
-	if (ARow ==0)
+	if (ARow == 0)
 	{
-		str_grid->Canvas->Font->Style=TFontStyles()<< fsBold;
-		str_grid->Canvas->Font->Style<<fsBold;
-		str_grid->Canvas->FillRect(Rect);
-		str_grid->Canvas->TextOut(Rect.Left+3, Rect.Top+5, str_grid->Cells[ACol][ARow]);
+		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold;
+		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
 	}
+	if (ARow == 1 && ACol == 0)
+	{
+		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
+	}
+	if (ARow == 6 && ACol == 0)
+	{
+		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
+	}
+		if (ARow == 9 && ACol == 0)
+	{
+		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
+	}
+		if (ARow == 12 && ACol == 0)
+	{
+		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
+	}
+
 }
 //---------------------------------------------------------------------------
 //	Функция заполняющая TStringGrid выводящий результаты расчёта геометрических характеристик композитного сечения
@@ -443,11 +460,17 @@ void TCompositeBeamMainForm ::fill_results_grid()
 	Section max_rigid_plastic_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_rigid_plastic_ratio_section();
 	Section max_shear_stress_section = composite_beam_calculator_.get_composite_beam().get_max_shear_stress_ratio_section();
 
+	double x_dir_stress_sect = max_direct_stress_ratio_section.get_x();
 	double max_upper_flange_ratio = max_direct_stress_ratio_section.get_upper_fl_ratio();
 	double max_lower_flange_ratio = max_direct_stress_ratio_section.get_lower_fl_ratio();
-	double ratio_rigid_plastic =  max_rigid_plastic_ratio_section.get_rigid_plastic_ratio();
-//	double max_ratio_studs = composite_beam_calculator_.get_max_stud_ratio();
+
+	double x_shear_stress_sect = max_direct_stress_ratio_section.get_x();
 	double max_shear_ratio = max_shear_stress_section.get_shear_ratio();
+
+	double x_rigid_plastic_sect = max_rigid_plastic_ratio_section.get_x();
+	double ratio_rigid_plastic =  max_rigid_plastic_ratio_section.get_rigid_plastic_ratio();
+
+	//	double max_ratio_studs = composite_beam_calculator_.get_max_stud_ratio();
 
 	strng_grd_results->Cells [1][1]=FloatToStrF(std::abs(max_upper_flange_ratio), ffFixed, 15, 2);
 	strng_grd_results->Cells [1][2]=FloatToStrF(std::abs(max_lower_flange_ratio), ffFixed, 15, 2);
@@ -461,13 +484,23 @@ void TCompositeBeamMainForm ::fill_results_grid()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm :: cotr_ratios_grid()
 {
-	strng_grd_results->Cells [0][0]="Проверка";
-	strng_grd_results->Cells [1][0]="Коэффициенты Использования (КИ) ";
-	strng_grd_results->Cells [0][1]="Верхний пояс стального сечения, раздел 6.2.1";
-	strng_grd_results->Cells [0][2]="Нижний пояс стального сеченния, раздел 6.2.1";
-	strng_grd_results->Cells [0][3]="Поперечная силы, раздел 6.2.2";
-	strng_grd_results->Cells [0][4]="Прочность упоров объединения, раздел 9.1.2";
-	strng_grd_results->Cells [0][5]="Прочность балки при жёскопластическом материале раздел 6.2.1.6";
+	strng_grd_results -> Cells [0][0] = L"Проверка";
+	strng_grd_results -> Cells [0][1] = L"На действие изгибающих моментов, раздел 6.2.1:";
+	strng_grd_results -> Cells [0][2] = L"      Координата критического сечения";
+	strng_grd_results -> Cells [0][3] = L"      Прочность верхнего пояса стального сечения";
+	strng_grd_results -> Cells [0][4] = L"      Прочность нижнего пояса стального сеченния";
+	strng_grd_results -> Cells [0][5] = L"      Прочность железобетона";
+	strng_grd_results -> Cells [0][6] = L"На действие изгибающих моментов (жёсткопластический материал), пункт 6.2.1.6:";
+	strng_grd_results -> Cells [0][7] = L"      Координата критического сечения";
+	strng_grd_results -> Cells [0][8] = L"      Прочность балки";
+	strng_grd_results -> Cells [0][9] = L"Прочности на действие поперечной силы:";
+	strng_grd_results -> Cells [0][10] = L"      Координата критического сечения";
+	strng_grd_results -> Cells [0][11] = L"      Прочность сечения, раздел 6.2.2";
+	strng_grd_results -> Cells [0][12] = L"Упоров объединения, раздел 9.1.2";
+	strng_grd_results -> Cells [0][13] = L"      Координата критического упора:";
+	strng_grd_results -> Cells [0][14] = L"      Прочность упора:";
+
+	strng_grd_results -> Cells [1][0] = L"Коэффициенты Использования (КИ) ";
 }
 //---------------------------------------------------------------------------
 //	Функция заполняющая ComboBox случаями загружений
@@ -770,7 +803,7 @@ void TCompositeBeamMainForm ::draw_diagram()
 	TImage *Image1=img_static_scheme;
 	std::vector<double> coor_epur = composite_beam_calculator_.get_composite_beam().get_x_list();
 
-//	//флаг отрисовки значений на эпюре
+//флаг отрисовки значений на эпюре
 	bool flag_sign=true;
 
 	switch (rd_grp_internal_forces_type->ItemIndex)
@@ -1028,4 +1061,19 @@ void __fastcall TCompositeBeamMainForm ::N8Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+//---------------------------------------------------------------------------
+//Обработчик события обеспечивающий заполнение первой строки жирным шрифтом
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::strng_grd_first_raw_bold(TObject *Sender,
+          int ACol, int ARow, TRect &Rect, TGridDrawState State)
+{
+	TStringGrid* str_grid=static_cast<TStringGrid*>(Sender);
+	if (ARow == 0)
+	{
+		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold;
+		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
+	}
+}
+//---------------------------------------------------------------------------
 
