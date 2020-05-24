@@ -12,7 +12,6 @@
 #include "uInternalForcesCalculator.h"
 #include "uCompositeSectionGeometry.h"
 
-
 class Stud{
 public:
 
@@ -75,6 +74,8 @@ public:
 				int num_e, int num_m,
 				double gamma_c);
 
+	void save(ostream& ostr) const;
+	void load(istream& istr);
 	std::vector<StudsRow>& stud_list(){return stud_list_;}
 	const std::vector<StudsRow>& get_stud_list()const{return stud_list_;}
 

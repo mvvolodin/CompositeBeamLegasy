@@ -124,7 +124,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = tb_results
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -608,9 +608,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Caption = #1052#1072#1088#1082#1072':'
         end
         object cmb_bx_corrugated_sheeting_part_number: TComboBox
-          Left = 87
+          Left = 78
           Top = 23
-          Width = 100
+          Width = 121
           Height = 21
           Style = csDropDownList
           TabOrder = 0

@@ -165,7 +165,28 @@ StudsOnBeam::StudsOnBeam(Stud 	 stud,
 	num_e_(num_e),
 	num_m_(num_m),
 	gamma_c_(gamma_c){}
-
+void StudsOnBeam::save(ostream& ostr) const
+{
+//	wchar_t* buf = grade_.w_str();
+//	unsigned short l = grade_.Length()+1;
+//	ostr.write((char*)&l,sizeof(l));
+//	ostr.write((char*)buf,l*sizeof(wchar_t));
+//	free(buf);
+//
+//	ostr.write((char*)&E_b_ ,sizeof(E_b_));
+}
+void StudsOnBeam::load(istream& istr)
+{
+//	wchar_t* buf;
+//	unsigned short l;
+//	istr.read((char*)&l,sizeof(l));
+//	buf =(wchar_t*) malloc(l*sizeof(wchar_t));
+//	istr.read((char*)buf,l*sizeof(wchar_t));
+//	grade_ = String(buf);
+//	free(buf);
+//
+//	istr.read((char*)&E_b_ ,sizeof(E_b_));
+}
 void StudsOnBeam::set_intr_frcs_calculator(InternalForcesCalculator intr_frcs_calculator)
 {
 	intr_frcs_calculator_ = intr_frcs_calculator;
@@ -273,8 +294,6 @@ void StudsOnBeam::set_studs(double L)//пролёт балки
 
 	stud_list_.emplace_back(StudsRow{++id, L, L, L, num_e_});
 }
-
-
 void TStudBasic::save_stud_basic(ostream& ostr) const
 {
 	wchar_t* buf = name_.w_str();

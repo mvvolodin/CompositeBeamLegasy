@@ -18,18 +18,16 @@ Loads::Loads(double SW_steel_beam, double SW_corrugated_sheets, double DL_I, dou
 	gamma_f_DL_I_(gamma_f_DL_I),
 	gamma_f_DL_II_(gamma_f_DL_II),
 	gamma_f_LL_(gamma_f_LL){}
-/* TODO 1 -oMV :
-Добавить в функцию сохранения в файл и в функцию загрузки из файла
-"gamma_f_concrete_SW_", "b_" и "SW_concrete_"
- */
 void Loads::save(std::ostream& ostr) const
 {
 	ostr.write((char*)&SW_steel_beam_, sizeof(SW_steel_beam_));
 	ostr.write((char*)&SW_corrugated_sheets_, sizeof(SW_corrugated_sheets_));
+	ostr.write((char*)&SW_concrete_, sizeof(SW_concrete_));
 	ostr.write((char*)&DL_I_, sizeof(DL_I_));
 	ostr.write((char*)&DL_II_, sizeof(DL_II_));
 	ostr.write((char*)&LL_, sizeof(LL_));
 	ostr.write((char*)&gamma_f_st_SW_, sizeof(gamma_f_st_SW_));
+	ostr.write((char*)&gamma_f_concrete_SW_, sizeof(gamma_f_concrete_SW_));
 	ostr.write((char*)&gamma_f_DL_I_, sizeof(gamma_f_DL_I_));
 	ostr.write((char*)&gamma_f_DL_II_, sizeof(gamma_f_DL_II_));
 	ostr.write((char*)&gamma_f_LL_, sizeof(gamma_f_LL_));
@@ -39,10 +37,12 @@ void Loads::load(std::istream& istr)
 {
 	istr.read((char*)&SW_steel_beam_, sizeof(SW_steel_beam_ ));
 	istr.read((char*)&SW_corrugated_sheets_, sizeof(SW_corrugated_sheets_));
+	istr.read((char*)&SW_concrete_, sizeof(SW_concrete_));
 	istr.read((char*)&DL_I_, sizeof(DL_I_));
 	istr.read((char*)&DL_II_, sizeof(DL_II_));
 	istr.read((char*)&LL_, sizeof(LL_));
 	istr.read((char*)&gamma_f_st_SW_, sizeof(gamma_f_st_SW_));
+	istr.read((char*)&gamma_f_concrete_SW_, sizeof(gamma_f_concrete_SW_));
 	istr.read((char*)&gamma_f_DL_I_, sizeof(gamma_f_DL_I_));
 	istr.read((char*)&gamma_f_DL_II_, sizeof(gamma_f_DL_II_));
 	istr.read((char*)&gamma_f_LL_, sizeof(gamma_f_LL_));
@@ -99,7 +99,6 @@ void Loads::set_default_values()
 	gamma_f_DL_I_ = 1.35;
 	gamma_f_DL_II_ = 1.35;
 	gamma_f_LL_ = 1.35;
-	B_ = 6000;
 }
 
 void Loads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B)

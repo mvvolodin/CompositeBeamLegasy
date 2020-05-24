@@ -76,11 +76,12 @@ void ConcreteBasic::load(istream& istr)
 	istr.read((char*)&R_bn_ ,sizeof(R_bn_));
 	istr.read((char*)&R_btn_ ,sizeof(R_btn_));
 }
-/* TODO 1 -oMV : Добавить в функцию сохранения в файл и в функцию восстановления из файла поле "density_" */
+
 void Concrete::save(ostream& ostr) const
 {
 	ConcreteBasic::save(ostr);
 
+	ostr.write((char*)&density_ ,sizeof(density_));
 	ostr.write((char*)&phi_b_cr_ ,sizeof(phi_b_cr_));
 	ostr.write((char*)&gamma_b_ ,sizeof(gamma_b_));
 	ostr.write((char*)&gamma_bt_ ,sizeof(gamma_bt_));
@@ -90,6 +91,7 @@ void Concrete::load(istream& istr)
 {
 	ConcreteBasic::load(istr);
 
+	istr.read((char*)&density_ ,sizeof(density_));
 	istr.read((char*)&phi_b_cr_ ,sizeof(phi_b_cr_));
 	istr.read((char*)&gamma_b_ ,sizeof(gamma_b_));
 	istr.read((char*)&gamma_bt_ ,sizeof(gamma_bt_));
