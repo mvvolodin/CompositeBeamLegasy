@@ -163,9 +163,6 @@ Loads TCompositeBeamMainForm ::init_loads()
 {
 	double SW_sheets = 0.;
 
-	if (rdgrp_slab_type->ItemIndex==1)
-		SW_sheets = corrugated_sheets_map[cmb_bx_corrugated_sheeting_part_number->Text].get_weight()* GRAV_ACCELERAT;
-
 	double SW = SteelSectionForm2 -> get_i_section().get_weight() * GRAV_ACCELERAT;
 
 	double DL_I = 0.;
@@ -351,20 +348,50 @@ void __fastcall TCompositeBeamMainForm ::strng_grd_results_rendering(TObject *Se
 		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
 		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
 	}
-	if (ARow == 6 && ACol == 0)
+	if (ARow == 4 && ACol == 0)
 	{
 		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
 		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
 	}
-		if (ARow == 9 && ACol == 0)
+	if (ARow == 9 && ACol == 0)
 	{
 		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
 		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
 	}
-		if (ARow == 12 && ACol == 0)
+	if (ARow == 12 && ACol == 0)
 	{
 		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
 		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
+	}
+	if (ARow == 15 && ACol == 0)
+	{
+		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
+	}
+	if (ARow == 1 && ACol == 1)
+	{
+		str_grid -> Canvas -> Brush -> Color = clBtnFace;
+		str_grid -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 4 && ACol == 1)
+	{
+		str_grid -> Canvas -> Brush -> Color = clBtnFace;
+		str_grid -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 9 && ACol == 1)
+	{
+		str_grid -> Canvas -> Brush -> Color = clBtnFace;
+		str_grid -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 12 && ACol == 1)
+	{
+		str_grid -> Canvas -> Brush -> Color = clBtnFace;
+		str_grid -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 15 && ACol == 1)
+	{
+		str_grid -> Canvas -> Brush -> Color = clBtnFace;
+		str_grid -> Canvas -> FillRect(Rect);
 	}
 
 }
@@ -456,49 +483,55 @@ void TCompositeBeamMainForm ::fill_composite_sect_geometr_grid()
 
 void TCompositeBeamMainForm ::fill_results_grid()
 {
+	Section max_i_section_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_i_section_ratio_section();
+
+	strng_grd_results -> Cells [1][2] = FloatToStrF(std::abs(max_i_section_ratio_section.get_x()), ffFixed, 15, 0);
+	strng_grd_results -> Cells [1][3] = FloatToStrF(std::abs(max_i_section_ratio_section.get_i_section_ratio()), ffFixed, 15, 2);
 	Section max_direct_stress_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_direct_stress_ratio_section();
+
+	strng_grd_results -> Cells [1][5] = FloatToStrF(std::abs(max_direct_stress_ratio_section.get_x()), ffFixed, 15, 0);
+	strng_grd_results -> Cells [1][6] = FloatToStrF(std::abs(max_direct_stress_ratio_section.get_upper_fl_ratio()), ffFixed, 15, 2);
+	strng_grd_results -> Cells [1][7] = FloatToStrF(std::abs(max_direct_stress_ratio_section.get_lower_fl_ratio()), ffFixed, 15, 2);
+	strng_grd_results -> Cells [1][8] = FloatToStrF(std::abs(max_direct_stress_ratio_section.get_conc_ratio()), ffFixed, 15, 2);
+
 	Section max_rigid_plastic_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_rigid_plastic_ratio_section();
+
+	strng_grd_results -> Cells [1][10] = FloatToStrF(std::abs(max_rigid_plastic_ratio_section.get_x()), ffFixed, 15, 0);
+	strng_grd_results -> Cells [1][11] = FloatToStrF(std::abs(max_rigid_plastic_ratio_section.get_shear_ratio()), ffFixed, 15, 2);
+
 	Section max_shear_stress_section = composite_beam_calculator_.get_composite_beam().get_max_shear_stress_ratio_section();
 
-	double x_dir_stress_sect = max_direct_stress_ratio_section.get_x();
-	double max_upper_flange_ratio = max_direct_stress_ratio_section.get_upper_fl_ratio();
-	double max_lower_flange_ratio = max_direct_stress_ratio_section.get_lower_fl_ratio();
+	strng_grd_results -> Cells [1][13] = FloatToStrF(std::abs(max_shear_stress_section .get_x()), ffFixed, 15, 0);
+	strng_grd_results -> Cells [1][14] = FloatToStrF(std::abs(max_shear_stress_section.get_shear_ratio()), ffFixed, 15, 2);
 
-	double x_shear_stress_sect = max_direct_stress_ratio_section.get_x();
-	double max_shear_ratio = max_shear_stress_section.get_shear_ratio();
+	StudsRow max_ratio_studs_row = composite_beam_calculator_.get_studs_on_beam().get_max_ratio_studs_row();
 
-	double x_rigid_plastic_sect = max_rigid_plastic_ratio_section.get_x();
-	double ratio_rigid_plastic =  max_rigid_plastic_ratio_section.get_rigid_plastic_ratio();
-
-	//	double max_ratio_studs = composite_beam_calculator_.get_max_stud_ratio();
-
-	strng_grd_results->Cells [1][1]=FloatToStrF(std::abs(max_upper_flange_ratio), ffFixed, 15, 2);
-	strng_grd_results->Cells [1][2]=FloatToStrF(std::abs(max_lower_flange_ratio), ffFixed, 15, 2);
-	strng_grd_results->Cells [1][3]=FloatToStrF(std::abs(max_shear_ratio), ffFixed, 15, 2);
-   //	strng_grd_results->Cells [1][4]=FloatToStrF(std::abs(max_ratio_studs), ffFixed, 15, 2);
-	strng_grd_results->Cells [1][5]=FloatToStrF(ratio_rigid_plastic, ffFixed, 15, 2);
-
+	strng_grd_results -> Cells [1][16] = FloatToStrF(std::abs(max_ratio_studs_row.get_x()), ffFixed, 15, 0);
+	strng_grd_results -> Cells [1][17] = FloatToStrF(std::abs(max_ratio_studs_row.get_ratio()), ffFixed, 15, 2);
 }
 //---------------------------------------------------------------------------
 //	Функция заполняющая Grid выводящий результаты расчёта композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm :: cotr_ratios_grid()
+void TCompositeBeamMainForm::cotr_ratios_grid()
 {
 	strng_grd_results -> Cells [0][0] = L"Проверка";
-	strng_grd_results -> Cells [0][1] = L"На действие изгибающих моментов, раздел 6.2.1:";
-	strng_grd_results -> Cells [0][2] = L"      Координата критического сечения";
-	strng_grd_results -> Cells [0][3] = L"      Прочность верхнего пояса стального сечения";
-	strng_grd_results -> Cells [0][4] = L"      Прочность нижнего пояса стального сеченния";
-	strng_grd_results -> Cells [0][5] = L"      Прочность железобетона";
-	strng_grd_results -> Cells [0][6] = L"На действие изгибающих моментов (жёсткопластический материал), пункт 6.2.1.6:";
-	strng_grd_results -> Cells [0][7] = L"      Координата критического сечения";
-	strng_grd_results -> Cells [0][8] = L"      Прочность балки";
-	strng_grd_results -> Cells [0][9] = L"Прочности на действие поперечной силы:";
-	strng_grd_results -> Cells [0][10] = L"      Координата критического сечения";
-	strng_grd_results -> Cells [0][11] = L"      Прочность сечения, раздел 6.2.2";
-	strng_grd_results -> Cells [0][12] = L"Упоров объединения, раздел 9.1.2";
-	strng_grd_results -> Cells [0][13] = L"      Координата критического упора:";
-	strng_grd_results -> Cells [0][14] = L"      Прочность упора:";
+	strng_grd_results -> Cells [0][1] = L"На действие изгибающих моментов при монтаже";
+	strng_grd_results -> Cells [0][2] = L"      Координата критического сечения, мм";
+	strng_grd_results -> Cells [0][3] = L"      Прочность";
+	strng_grd_results -> Cells [0][4] = L"На действие изгибающих моментов, раздел 6.2.1:";
+	strng_grd_results -> Cells [0][5] = L"      Координата критического сечения, мм";
+	strng_grd_results -> Cells [0][6] = L"      Прочность верхнего пояса стального сечения";
+	strng_grd_results -> Cells [0][7] = L"      Прочность нижнего пояса стального сеченния";
+	strng_grd_results -> Cells [0][8] = L"      Прочность железобетона";
+	strng_grd_results -> Cells [0][9] = L"На действие изгибающих моментов (жёсткопластический материал), пункт 6.2.1.6:";
+	strng_grd_results -> Cells [0][10] = L"      Координата критического сечения, мм";
+	strng_grd_results -> Cells [0][11] = L"      Прочность балки";
+	strng_grd_results -> Cells [0][12] = L"Прочности на действие поперечной силы:";
+	strng_grd_results -> Cells [0][13] = L"      Координата критического сечения, мм";
+	strng_grd_results -> Cells [0][14] = L"      Прочность сечения, раздел 6.2.2";
+	strng_grd_results -> Cells [0][15] = L"Упоров объединения, раздел 9.1.2";
+	strng_grd_results -> Cells [0][16] = L"      Координата критического упора, мм";
+	strng_grd_results -> Cells [0][17] = L"      Прочность упора";
 
 	strng_grd_results -> Cells [1][0] = L"Коэффициенты Использования (КИ) ";
 }
@@ -520,10 +553,10 @@ void TCompositeBeamMainForm ::fill_cmb_bx_impact()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::fill_cmb_bx_corrugated_sheets()
 {
-	for(auto corrugated_sheet: corrugated_sheets_map)
-	cmb_bx_corrugated_sheeting_part_number->Items->Add(corrugated_sheet.first);
-	cmb_bx_corrugated_sheeting_part_number->ItemIndex = 0;
+	for(auto corrugated_sheet:CorrugatedSheetsData::get_corrugated_sheet_names())
+		cmb_bx_corrugated_sheeting_part_number->Items->Add(corrugated_sheet);
 
+	cmb_bx_corrugated_sheeting_part_number->ItemIndex = 0;
 }
 //---------------------------------------------------------------------------
 

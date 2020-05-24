@@ -52,6 +52,7 @@ public:
 	std::vector<double> get_f_IIb_design_list(LengthUnit length_unit=LengthUnit::mm)const;
 	std::vector<double> get_f_total_design_list(LengthUnit length_unit=LengthUnit::mm)const;
 
+	const Section& get_max_i_section_ratio_section()const;
 	const Section& get_max_direct_stress_ratio_section()const;
 	const Section& get_max_shear_stress_ratio_section()const;
 	const Section& get_max_rigid_plastic_ratio_section()const;

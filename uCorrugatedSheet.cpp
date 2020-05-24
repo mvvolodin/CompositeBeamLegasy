@@ -8,6 +8,8 @@
 
 std::vector<CorrugatedSheet> CorrugatedSheetsData::corrugated_sheets_list_
 {
+// (1)Марка - (2)Высота - (3)Толщина - (4)Расстояние между внутренними краями наружних полок -
+// (5)Ширина нижней полки - (6) Шаг нижних полок - (7) Масса квадратного метра
 //Данные из ГОСТ 24045-2016
 	{L"Н60-845-0.7", 60, 0.7, 89.5, 50, 211.2, 8.8 },
 	{L"Н60-845-0.8", 60, 0.8, 89.5, 50, 211.2, 9.9},
@@ -25,8 +27,25 @@ std::vector<CorrugatedSheet> CorrugatedSheetsData::corrugated_sheets_list_
 	{L"Н153-850-1.0", 153, 1.0, 164, 284 - 241, 284, 14.4},
 	{L"Н153-850-1.2", 153, 1.2, 164, 284 - 241, 284, 17.1},
 	{L"Н153-850-1.5", 153, 1.5, 164, 284 - 241, 284, 21.3},
-};
 
+//Данные из ГОСТ Р 58389-2019
+
+	{L"HA50Z-600-0,6", 50, 0.6, 150 - 40, 136, 136 + 15, 9.4},
+	{L"HA50Z-600-0,65", 50, 0.6, 150 - 40, 136, 136 + 15, 10.12},
+	{L"HA50Z-600-0,7", 50, 0.6, 150 - 40, 136, 136 + 15, 10.83},
+	{L"HA50Z-600-0,8", 50, 0.6, 150 - 40, 136, 136 + 15, 12.27},
+};
+std::vector<String> CorrugatedSheetsData::get_corrugated_sheet_names()
+{
+	std::vector<String> corrugated_sheet_names_list{};
+
+	for(auto corrugated_sheet:corrugated_sheets_list_)
+		corrugated_sheet_names_list.push_back(corrugated_sheet.get_name());
+
+	corrugated_sheet_names_list.shrink_to_fit();
+
+	return corrugated_sheet_names_list;
+}
 CorrugatedSheet CorrugatedSheetsData::get_corrugated_sheet(const String& name)
 {
 	auto corrugated_sheet = std::find_if(corrugated_sheets_list_.begin(),corrugated_sheets_list_.end(),
@@ -45,26 +64,6 @@ double CorrugatedSheet::get_h_b()
 	return h_b_;
 }
 
-CorrugatedSheetsMap corrugated_sheets_map
-//Данные из ГОСТ 24045-2016
-{
-{{L"Н60-845-0.7"},		{L"Н60-845-0.7", 60, 0.7, 8.8}},
-{{L"Н60-845-0.8"},		{L"Н60-845-0.8", 60, 0.8, 9.9}},
-{{L"Н60-845-0.9"},		{L"Н60-845-0.9", 60, 0.9, 11.1}},
-{{L"Н75-750-0.7"},		{L"Н75-750-0.7", 75, 0.7, 9.8}},
-{{L"Н75-750-0.8"},		{L"Н75-750-0.8", 75, 0.8, 11.2}},
-{{L"Н75-750-0.9"},		{L"Н75-750-0.9", 75, 0.9, 12.5}},
-{{L"Н114-600-0.8"},		{L"Н114-600-0.8", 114, 0.8, 14.0}},
-{{L"Н114-600-0.9"},		{L"Н114-600-0.9", 114, 0.9, 15.6}},
-{{L"Н114-600-1.0"},		{L"Н114-600-1.0", 114, 1.0, 17.2}},
-{{L"Н114-750-0.8"},		{L"Н114-750-0.8", 114, 0.8, 12.5}},
-{{L"Н114-750-0.9"},		{L"Н114-750-0.9", 114, 0.9, 14.0}},
-{{L"Н114-750-1.0"},		{L"Н114-750-1.0", 114, 1.0, 15.4}},
-{{L"Н153-850-0.8"},		{L"Н153-850-0.8", 153, 0.8, 11.5}},
-{{L"Н153-850-1.0"},		{L"Н153-850-1.0", 153, 1.0, 14.4}},
-{{L"Н153-850-1.2"},		{L"Н153-850-1.2", 153, 1.2, 17.1}},
-{{L"Н153-850-1.5"},		{L"Н153-850-1.5", 153, 1.5, 21.3}},
-};
 
 CorrugatedSheet::CorrugatedSheet()
 {

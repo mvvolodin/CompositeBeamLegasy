@@ -89,7 +89,7 @@ void CompositeBeamCalculator::calculate_composite_beam()
 	{
 		String name = composite_section_.get_concrete_part().get_slab_type();
 		CorrugatedSheet corrugated_sheet = CorrugatedSheetsData::get_corrugated_sheet(name);
-		SW_corrugated_sheets = corrugated_sheet.get_weight();
+		SW_corrugated_sheets = corrugated_sheet.get_weight()* GRAV_ACCELERAT;
 	}
 	double SW_concrete = composite_section_.get_concrete_part().get_SW_concrete();
 	double B = geometry_.get_trib_width_left() + geometry_.get_trib_width_right();

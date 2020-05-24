@@ -85,6 +85,8 @@ public:
 	void set_intr_frcs_calculator(InternalForcesCalculator intr_frcs_calculator);
 	void set_composite_section(CompositeSectionGeometry com_sect);
 
+	const StudsRow& get_max_ratio_studs_row()const;
+
 	void calculate_P_rd();
 	void calculate_S();
 	void calculate_ratio();

@@ -105,7 +105,7 @@ void Loads::set_default_values()
 void Loads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B)
 {
 	SW_steel_beam_ = SW_steel_beam;
-	SW_corrugated_sheets_ = SW_corrugated_sheets;
+	SW_corrugated_sheets_ = SW_corrugated_sheets / 1000000;
 	SW_concrete_ = SW_concrete;
 	B_ = B;
 

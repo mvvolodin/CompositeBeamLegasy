@@ -3210,12 +3210,12 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Left = 0
         Top = 0
         Width = 1054
-        Height = 442
+        Height = 506
         Align = alTop
         ColCount = 2
         DefaultColWidth = 200
         DrawingStyle = gdsClassic
-        RowCount = 15
+        RowCount = 18
         ScrollBars = ssNone
         TabOrder = 0
         OnDrawCell = strng_grd_results_rendering

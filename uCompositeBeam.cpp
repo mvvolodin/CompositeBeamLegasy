@@ -165,6 +165,14 @@ std::vector<double> CompositeBeam::get_Q_total_design_list(LoadUnit load_unit)co
 
 	return Q_total_design_list;
 }
+const Section& CompositeBeam::get_max_i_section_ratio_section()const
+{
+	auto it_i_section_ratio_section = std::max_element(section_list_.begin(), section_list_.end(),
+		[](const Section& sect1, const Section& sect2)
+		{return sect1.get_i_section_ratio() < sect2.get_i_section_ratio();});
+
+	return *it_i_section_ratio_section;
+}
 const Section& CompositeBeam::get_max_direct_stress_ratio_section()const
 {
 	auto it_max_ratio_section = std::max_element(section_list_.begin(), section_list_.end(),

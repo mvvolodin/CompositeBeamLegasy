@@ -299,7 +299,15 @@ void TStudBasic::load_stud_basic(istream& istr)
 
 	istr.read((char*)&d_an_,sizeof(d_an_));
 	istr.read((char*)&l_,sizeof(l_));
+}
 
+const StudsRow& StudsOnBeam::get_max_ratio_studs_row()const
+{
+	auto it_max_ratio_studs_row = std::max_element(stud_list_.begin(), stud_list_.end(),
+		[](const StudsRow& stud_row1, const StudsRow& stud_row2)
+		{return stud_row1.get_ratio() < stud_row2.get_ratio();});
+
+	return *it_max_ratio_studs_row;
 }
 
 
