@@ -124,7 +124,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1062
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -292,6 +292,16 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Width = 142
           Height = 13
           Caption = #1042#1088#1077#1084#1077#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072', '#1082#1053'/'#1084'2'
+        end
+        object Label1: TLabel
+          Left = 16
+          Top = 132
+          Width = 231
+          Height = 39
+          Caption = 
+            #1057#1086#1073#1089#1090#1074#1077#1085#1085#1099#1081' '#1074#1077#1089' '#1089#1090#1072#1083#1100#1085#1086#1081' '#1073#1072#1083#1082#1080', '#1085#1072#1089#1090#1080#1083#1072' '#1080' '#1078#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1081' '#1087#1083#1080#1090#1099' '#1091 +
+            #1095#1080#1090#1099#1074#1072#1102#1090#1089#1103' '#1072#1074#1090#1086#1084#1072#1090#1080#1095#1077#1089#1082#1080'.'
+          WordWrap = True
         end
         object edt_dead_load_first_stage: TEdit
           Left = 181

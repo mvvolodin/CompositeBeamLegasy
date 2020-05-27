@@ -161,6 +161,7 @@ __published:	// IDE-managed Components
 	TLabel *lbl_gamma_f_concrete;
 	TEdit *edt_h_n;
 	TLabel *lbl_h_n;
+	TLabel *Label1;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
