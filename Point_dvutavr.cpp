@@ -3,9 +3,11 @@
 #include "Data_Profil.h"
 #include "ProcExt.h"
 
-extern int    N_macro_hex;
+//extern int    N_macro_hex;
+ int    N_macro_hex;  //MV изменено для платформы 64 бита
 void CalcNorm(float *normal, float ax, float ay, float az, float bx, float by, float bz);
-extern float  **Coor_vertex1, **Coor_vertex2;   // Вершины гексаэдров
+//extern float  **Coor_vertex1, **Coor_vertex2;   // Вершины гексаэдров
+float  **Coor_vertex1, **Coor_vertex2;   //MV изменено для платформы 64 бита
 void NormalHex(int *point_m, float **Coor_vertex1, float **Coor_vertex2, float *normal);
 
 
@@ -107,7 +109,7 @@ void HexMacro(int *point_m, double coor_m[4][3], double thick, float *norm_v) {
      n0 = N_macro_hex*4;
      for (j=0; j<4; j++) {
        i = n0 + j;
-       Coor_vertex1[i][0] = coor_m[j][0] - normal[0]*th;
+	   Coor_vertex1[i][0] = coor_m[j][0] - normal[0]*th;
        Coor_vertex1[i][1] = coor_m[j][1] - normal[1]*th;
        Coor_vertex1[i][2] = coor_m[j][2] - normal[2]*th;
        Coor_vertex2[i][0] = coor_m[j][0] + normal[0]*th;

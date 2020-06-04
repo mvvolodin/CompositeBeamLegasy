@@ -79,7 +79,7 @@ double ConcretePart::get_C_b(LengthUnit length_unit) const
 	double C_b = 0.;
 
 	if (slab_type_enum_ == SlabType::CORRUGATED)
-		C_b = CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_height() + h_f_ / 2.;
+		return C_b = CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_height() + h_f_ / 2.;
 
 	C_b = h_n_ + h_f_ / 2.;
 

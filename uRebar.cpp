@@ -59,7 +59,6 @@ void RebarBasic::save(ostream& ostr) const
 	unsigned short l = grade_.Length()+1;
 	ostr.write((char*)&l,sizeof(l));
 	ostr.write((char*)buf,l*sizeof(wchar_t));
-	free(buf);
 
 	ostr.write((char*)&R_sn_ ,sizeof(R_sn_));
 }

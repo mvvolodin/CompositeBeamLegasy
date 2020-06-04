@@ -9,7 +9,7 @@
 TColor  InversColor(TColor color);
 void drawLineWu(float x1, float y1, float x2, float y2, TCanvas *Canvas, TColor color, TColor color_b1, TColor color_b2);
 
-TColor ChangeBright(TColor color_a, TColor color_b, float bright);
+//TColor ChangeBright(TColor color_a, TColor color_b, float bright); //MV изменено для платформы 64 бита
 
 static bool flag_image = true; //Если false, то отрисовка идёт в мета файле .Картинку можно потом вставить, к примеру, в Word
 static TMetafileCanvas *pCanvas;
@@ -156,27 +156,27 @@ void pCanvas_Polygon_rW(TImage *Image1, TPoint *points, int n, int Width) {
    pCanvas_Polygon(Image1, point_n, k-1);
 }
 //----------------------------------------------------------------------
-void pCanvas_Polygon_Wu(TImage *Image1, TPoint *points, int n) {
-    TColor color_l = get_pPen_Color(Image1);
-    TColor color_b1 = clWhite;
-    //TColor color_b1 = ViewOptionsForm->OptColor(0, colorWINDOW);;
-    TColor color_b2 = get_pBrush_Color(Image1);
-    TColor color_l0 = ChangeBright(color_l, color_b1, 0.75);;
-    int i;
-      if (flag_image) {
-        Image1->Canvas->Polygon(points, n);
-        for (i=0; i<n; i++) {
-          drawLineWu((float)points[i].x, (float)points[i].y, (float)points[i+1].x, (float)points[i+1].y, Image1->Canvas,
-                      color_l0, color_b1, color_b2);
-        }
-      }
-      else {
-        pCanvas->Polygon(points, n);
-        for (i=0; i<n; i++) {
-          drawLineWu((float)points[i].x, (float)points[i].y, (float)points[i+1].x, (float)points[i+1].y, pCanvas,
-                      color_l0, color_b1, color_b2);
-        }
-      }
+void pCanvas_Polygon_Wu(TImage *Image1, TPoint *points, int n) { //MV изменено для платформы 64 бита
+//	TColor color_l = get_pPen_Color(Image1);
+//	TColor color_b1 = clWhite;
+//    //TColor color_b1 = ViewOptionsForm->OptColor(0, colorWINDOW);;
+//	TColor color_b2 = get_pBrush_Color(Image1);
+//	TColor color_l0 = ChangeBright(color_l, color_b1, 0.75);;
+//	int i;
+//	  if (flag_image) {
+//        Image1->Canvas->Polygon(points, n);
+//        for (i=0; i<n; i++) {
+//          drawLineWu((float)points[i].x, (float)points[i].y, (float)points[i+1].x, (float)points[i+1].y, Image1->Canvas,
+//					  color_l0, color_b1, color_b2);
+//        }
+//	  }
+//	  else {
+//		pCanvas->Polygon(points, n);
+//		for (i=0; i<n; i++) {
+//		  drawLineWu((float)points[i].x, (float)points[i].y, (float)points[i+1].x, (float)points[i+1].y, pCanvas,
+//					  color_l0, color_b1, color_b2);
+//		}
+//	  }
 }
 //----------------------------------------------------------------------
 void pCanvas_Polygon(TImage *Image1, TPoint *points, int n) {

@@ -56,7 +56,6 @@ void ConcreteBasic::save(ostream& ostr) const
 	unsigned short l = grade_.Length()+1;
 	ostr.write((char*)&l,sizeof(l));
 	ostr.write((char*)buf,l*sizeof(wchar_t));
-	free(buf);
 
 	ostr.write((char*)&E_b_ ,sizeof(E_b_));
 	ostr.write((char*)&R_bn_ ,sizeof(R_bn_));

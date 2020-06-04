@@ -60,7 +60,6 @@ private:
 	double DL_I_ = 0.;
 	double DL_II_ = 0.;
 	double LL_ = 0.;
-    std::map<double,double> P_x_;
 
 	double gamma_f_st_SW_ = 0.;
 	double gamma_f_concrete_SW_ = 0;

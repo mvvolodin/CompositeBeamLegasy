@@ -49,7 +49,6 @@ void ISection::save(std::ostream& ostr)const
 	unsigned short l = profile_number_.Length()+1;
 	ostr.write((char*)&l,sizeof(l));
 	ostr.write((char*)buf,l*sizeof(wchar_t));
-    free(buf);
 
 	ostr.write((char*)&profile_group_ ,sizeof(profile_group_));
 	ostr.write((char*)&b_uf_ ,sizeof(b_uf_));

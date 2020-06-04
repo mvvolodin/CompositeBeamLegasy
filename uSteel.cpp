@@ -24,13 +24,11 @@ void Steel::save(std::ostream& ostr)const
 	unsigned short l1 = standard_.Length()+1;
 	ostr.write((char*)&l1,sizeof(l1));
 	ostr.write((char*)buf1,l1*sizeof(wchar_t));
-    free(buf1);
 
 	wchar_t* buf2 = steel_grade_.w_str();
 	unsigned short l2 = steel_grade_.Length()+1;
 	ostr.write((char*)&l2,sizeof(l2));
 	ostr.write((char*)buf2,l2*sizeof(wchar_t));
-	free(buf2);
 
 	ostr.write((char*)&E_st_ ,sizeof(E_st_));
 	ostr.write((char*)&G_st_ ,sizeof(G_st_));

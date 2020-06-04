@@ -165,6 +165,8 @@ StudsOnBeam::StudsOnBeam(Stud 	 stud,
 	num_e_(num_e),
 	num_m_(num_m),
 	gamma_c_(gamma_c){}
+
+ /* TODO 1 -oMV : Написать определение функций StudsOnBeam::save(ostream& ostr) */
 void StudsOnBeam::save(ostream& ostr) const
 {
 //	wchar_t* buf = grade_.w_str();
