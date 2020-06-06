@@ -80,8 +80,8 @@ void CompositeBeamCalculator::calculate_composite_beam()
 //расчёт эффективной ширины плиты и подготовка композитного сечения
 	double h_f = composite_section_.get_concrete_part().get_h_f();
 	double b_uf = composite_section_.get_steel_part().get_section().get_b_uf();
-	double b = geometry_.get_effective_width(h_f, b_uf);
-	composite_section_.set_b(b);
+	double b_sl = geometry_.get_effective_width(h_f, b_uf);
+	composite_section_.set_b_sl(b_sl);
 //полная инициализация нагрузок
 	double SW_steel_beam = composite_section_.get_steel_part().get_section().get_weight();
 	double SW_corrugated_sheets = 0.;
@@ -149,9 +149,9 @@ void CompositeBeamCalculator::calculate_studs()
 	//расчёт эффективной ширины плиты и подготовка композитного сечения
 	double h_f = composite_section_.get_concrete_part().get_h_f();
 	double b_uf = composite_section_.get_steel_part().get_section().get_b_uf();
-	double b = geometry_.get_effective_width(h_f, b_uf);
+	double b_sl = geometry_.get_effective_width(h_f, b_uf);
 	CompositeSectionGeometry composite_section = composite_section_;
-	composite_section_.set_b(b);
+	composite_section_.set_b_sl(b_sl);
 	composite_section.set_phi_b_cr(0);
 	//подготовка калькулятора внутренних усилий
 	SupportsNumber tmp_sup_num = geometry_.get_temporary_supports_number();

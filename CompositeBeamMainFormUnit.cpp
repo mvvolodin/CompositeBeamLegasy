@@ -420,12 +420,12 @@ void TCompositeBeamMainForm ::cotr_steel_sect_geometr_grid()
 {
 	strng_grd_steel_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
 	strng_grd_steel_sect_geom_character->Cells [1][0]=L"Значения";
-	strng_grd_steel_sect_geom_character->Cells [0][1]=L"Площадь";
-	strng_grd_steel_sect_geom_character->Cells [0][2]=L"Момент инерции";
-	strng_grd_steel_sect_geom_character->Cells [0][3]=L"Момент сопротивления крайних волокон верхней полки";
-	strng_grd_steel_sect_geom_character->Cells [0][4]=L"Момент сопротивления крайних волокон нижней полки";
-	strng_grd_steel_sect_geom_character->Cells [0][5]=L"Расстояние от Ц.Т. до наружной грани верхней полки";
-	strng_grd_steel_sect_geom_character->Cells [0][6]=L"Расстояние от Ц.Т. до наружной грани нижней полки";
+	strng_grd_steel_sect_geom_character->Cells [0][1]=L"Площадь, мм2";
+	strng_grd_steel_sect_geom_character->Cells [0][2]=L"Момент инерции, мм4";
+	strng_grd_steel_sect_geom_character->Cells [0][3]=L"Момент сопротивления крайних волокон в.полки, мм3";
+	strng_grd_steel_sect_geom_character->Cells [0][4]=L"Момент сопротивления крайних волокон н.полки, мм3";
+	strng_grd_steel_sect_geom_character->Cells [0][5]=L"Расстояние от Ц.Т. до наружной грани в.полки, мм";
+	strng_grd_steel_sect_geom_character->Cells [0][6]=L"Расстояние от Ц.Т. до наружной грани н.полки, мм";
 }
 //---------------------------------------------------------------------------
 //Функция заполняющая объект TStringGrid геометрическими характеристиками железобетонного сечения
@@ -434,11 +434,10 @@ void TCompositeBeamMainForm ::ctor_concrete_sect_geometr_grid()
 {
 	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
 	strng_grd_concrete_sect_geom_character->Cells [1][0]=L"Значения";
-	strng_grd_concrete_sect_geom_character->Cells [0][1]=L"Расчётная величина свеса слева";
-	strng_grd_concrete_sect_geom_character->Cells [0][2]=L"Расчётная величина свеса справа";
-	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Расстояние от нижней грани до центра тяжести";
-	strng_grd_concrete_sect_geom_character->Cells [0][4]=L"Площадь";
-	strng_grd_concrete_sect_geom_character->Cells [0][5]=L"Момент инерции";
+	strng_grd_concrete_sect_geom_character->Cells [0][1]=L"Расчётная ширина, мм";
+	strng_grd_concrete_sect_geom_character->Cells [0][2]=L"Расстояние от нижней грани до центра тяжести, мм";
+	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Площадь, мм2";
+	strng_grd_concrete_sect_geom_character->Cells [0][4]=L"Момент инерции, мм4";
    //	strng_grd_concrete_sect_geom_character->Cells [0][6]=L"Момент сопротивления";
 }
 void TCompositeBeamMainForm ::fill_steel_sect_geometr_grid()
@@ -456,11 +455,10 @@ void TCompositeBeamMainForm ::fill_concrete_sect_geometr_grid()
 {
 	ConcretePart concrete_part=composite_beam_calculator_.get_composite_section().get_concrete_part();
 
-	//strng_grd_concrete_sect_geom_character->Cells [1][1]=FloatToStrF(concrete_part.get_b_l(), ffFixed, 15, 0);
-	strng_grd_concrete_sect_geom_character->Cells [1][2]=FloatToStrF(concrete_part.get_b(), ffFixed, 15, 0);
-	strng_grd_concrete_sect_geom_character->Cells [1][3]=FloatToStrF(concrete_part.get_C_b(), ffFixed, 15, 0);
-	strng_grd_concrete_sect_geom_character->Cells [1][4]=FloatToStrF(concrete_part.get_A_b(), ffFixed, 15, 0);
-	strng_grd_concrete_sect_geom_character->Cells [1][5]=FloatToStrF(concrete_part.get_I_b(), ffFixed, 15, 0);
+	strng_grd_concrete_sect_geom_character->Cells [1][1]=FloatToStrF(concrete_part.get_b_sl(), ffFixed, 15, 0);
+	strng_grd_concrete_sect_geom_character->Cells [1][2]=FloatToStrF(concrete_part.get_C_b(), ffFixed, 15, 0);
+	strng_grd_concrete_sect_geom_character->Cells [1][3]=FloatToStrF(concrete_part.get_A_b(), ffFixed, 15, 0);
+	strng_grd_concrete_sect_geom_character->Cells [1][4]=FloatToStrF(concrete_part.get_I_b(), ffFixed, 15, 0);
 }
 void TCompositeBeamMainForm ::fill_composite_sect_geometr_grid()
 {
@@ -724,7 +722,7 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(i_section.get_Z_f1_st(LengthUnit::cm), ffFixed, 15, 2),"%Z_f1_st%");
 //[2.1.2] Железобетонного сечения
 	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
-	report_.PasteTextPattern(FloatToStrF(concrete_part.get_b(LengthUnit::cm), ffFixed, 15, 2),"%b_l%");
+	report_.PasteTextPattern(FloatToStrF(concrete_part.get_b_sl(LengthUnit::cm), ffFixed, 15, 2),"%b_l%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_C_b(LengthUnit::cm), ffFixed, 15, 2),"%C_b%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_A_b(LengthUnit::cm), ffFixed, 15, 2),"%A_b%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_I_b(LengthUnit::cm), ffFixed, 15, 2),"%I_b%");

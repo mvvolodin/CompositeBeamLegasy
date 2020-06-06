@@ -27,7 +27,7 @@ private:
     void calculate();
 	bool composite_section_calculated = false;
 
-	double b_ = 0.;//расчётная ширина плиты
+   //	double b_ = 0.;//расчётная ширина плиты
 	double alfa_s_= 0.;//коэффициент приведения к стали
 	double alfa_b_= 0.;//коэффициент приведения к бетону
 	double H_red_= 0.; //высота композитного сечения
@@ -82,7 +82,7 @@ public:
 	const ConcretePart& get_concrete_part() {return concrete_part_;}
 
 	void set_phi_b_cr(double phi_b_cr);
-	void set_b(double b){concrete_part_.set_b(b);}
+	void set_b_sl(double b_sl){concrete_part_.set_b_sl(b_sl);}
 
 	double get_alfa_b();
 	double get_alfa_s();

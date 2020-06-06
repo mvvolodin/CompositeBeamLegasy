@@ -26,7 +26,7 @@ public:
 	void load(std::istream& istr);
 	void set_default_values();
 
-	void set_b(double b){b_ = b;}
+	void set_b_sl(double b_sl){b_sl_ = b_sl;}
 	void set_phi_b_cr(double phi_b_cr){concrete_.set_phi_b_cr(phi_b_cr);}
 
 	String get_slab_type() const {return slab_type_;}
@@ -40,7 +40,7 @@ public:
 	double get_h_f(LengthUnit length_unit=LengthUnit::mm) const {return h_f_/static_cast<int>(length_unit);}
 	double get_h_n(LengthUnit length_unit=LengthUnit::mm) const {return h_n_/static_cast<int>(length_unit);}
 
-	double get_b(LengthUnit length_unit=LengthUnit::mm) const {return b_/static_cast<int>(length_unit);}
+	double get_b_sl(LengthUnit length_unit=LengthUnit::mm) const {return b_sl_/static_cast<int>(length_unit);}
 	double get_A_b(LengthUnit length_unit=LengthUnit::mm) const;
 	double get_I_b(LengthUnit length_unit=LengthUnit::mm) const;
 
@@ -53,7 +53,7 @@ private:
 	double h_f_ = 0.; // расчётная толщина железобетонной плиты
 	double h_n_ = 0.; // расстояние от наружней грани верхней полки двутавра до внутренней грани расчётной железобетонной плиты
 
-	double b_ = 0.; // эффективная ширина
+	double b_sl_ = 0.; // эффективная ширина
 
 };
 

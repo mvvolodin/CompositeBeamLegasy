@@ -86,13 +86,13 @@ void CompositeSectionGeometry::compos_sect_height_calc()
 
 void CompositeSectionGeometry::compos_sect_area_calc()
 {
-	double A_b=concrete_part_.get_A_b();
-	double A_st=steel_part_.get_section().get_A_st();
-	double A_s=concrete_part_.get_rebar().get_A_s();
+	double A_b = concrete_part_.get_A_b();
+	double A_st = steel_part_.get_section().get_A_st();
+	double A_s = concrete_part_.get_rebar().get_A_s();
 	int num_rows = concrete_part_.get_rebar().get_num_rows();
-	double b_l=concrete_part_.get_b();
+	double b_sl = concrete_part_.get_b_sl();
 
-	A_red_= A_st + A_b/ alfa_b_+num_rows*1./alfa_s_*A_s * b_;
+	A_red_= A_st + A_b/ alfa_b_+num_rows*1./alfa_s_*A_s * b_sl;
 }
 
 void CompositeSectionGeometry::dist_conc_to_steel_calc()
@@ -111,29 +111,30 @@ void CompositeSectionGeometry::dist_conc_to_steel_calc()
 void CompositeSectionGeometry::first_moment_of_area_comp_calc()
 {
 	double A_b = concrete_part_.get_A_b();
-	double b_r=concrete_part_.get_b();
-	double b=concrete_part_.get_rebar().get_b_s();
-	double A_s=concrete_part_.get_rebar().get_A_s();
+	double b_r = concrete_part_.get_b_sl();
+	double b = concrete_part_.get_rebar().get_b_s();
+	double A_s = concrete_part_.get_rebar().get_A_s();
+	double b_sl = concrete_part_.get_b_sl();
 
-	S_red_= A_b*Z_b_st_/alfa_b_+1/alfa_s_*A_s * b_ * (Z_st_r_u_+Z_st_r_l_);
+	S_red_= A_b * Z_b_st_ / alfa_b_ + 1 / alfa_s_ * A_s * b_sl * (Z_st_r_u_+Z_st_r_l_);
 }
 
 void CompositeSectionGeometry::dist_steel_to_compos_calc()
 {
-	Z_st_red_=S_red_/A_red_;
+	Z_st_red_ = S_red_/A_red_;
 
 }
 
 void CompositeSectionGeometry::dist_conc_to_compos_calc()
 {
-	const double C_b=concrete_part_.get_C_b();
-	const double h_f=concrete_part_.get_h_f();
-	const double a_u=concrete_part_.get_rebar().get_a_u();
-	const double a_l=concrete_part_.get_rebar().get_a_l();
+	const double C_b = concrete_part_.get_C_b();
+	const double h_f = concrete_part_.get_h_f();
+	const double a_u = concrete_part_.get_rebar().get_a_u();
+	const double a_l = concrete_part_.get_rebar().get_a_l();
 
-	Z_b_red_=Z_b_st_-Z_st_red_;
-	Z_red_r_u_=Z_b_red_+h_f/2-a_u;
-	Z_red_r_l_=Z_b_red_-h_f/2+a_l;
+	Z_b_red_ = Z_b_st_ - Z_st_red_;
+	Z_red_r_u_= Z_b_red_ + h_f / 2 - a_u;
+	Z_red_r_l_ = Z_b_red_ - h_f / 2+ a_l;
 }
 
 void CompositeSectionGeometry::inertia_compos_calc()
@@ -143,10 +144,13 @@ void CompositeSectionGeometry::inertia_compos_calc()
 	double A_b = concrete_part_.get_A_b();
 	double A_s = concrete_part_.get_rebar().get_A_s();
 	double b = concrete_part_.get_rebar().get_b_s();
-	double b_r = concrete_part_.get_b();
+	double b_r = concrete_part_.get_b_sl();
 	double I_b = concrete_part_.get_I_b();
+	double b_sl = concrete_part_.get_b_sl();
+
 	I_red_=I_st + A_st * pow(Z_st_red_,2) + 1/alfa_b_ *I_b + 1/alfa_b_ *A_b * pow(Z_b_red_,2)
-		+1/alfa_s_*A_s * b_ * (pow(Z_red_r_u_,2)+pow(Z_red_r_l_,2));
+		+1/alfa_s_*A_s * b_sl * (pow(Z_red_r_u_,2)+pow(Z_red_r_l_,2));
+
 }
 
 void CompositeSectionGeometry::dist_compos_to_upper_fl_calc()
@@ -186,7 +190,7 @@ CompositeSectionGeometry::NeutralAxis CompositeSectionGeometry::calc_neutral_axi
 	double x_f2 = 0.;
 	double x_w = 0.;
 
-	const double b_sl = get_concrete_part().get_b();
+	const double b_sl = get_concrete_part().get_b_sl();
 	const double R_b = get_concrete_part().get_concrete().get_R_b();
 	const double R_y = get_steel_part().get_steel().get_R_y();
 	const double A_st = get_steel_part().get_section().get_A_st();
@@ -231,7 +235,7 @@ void CompositeSectionGeometry::calc_rigid_plastic_moment()
 	auto [na_location, x_na] {calc_neutral_axis()};
 	const double R_b = get_concrete_part().get_concrete().get_R_b();
 	const double C_b = get_concrete_part().get_C_b();
-	const double b_sl = get_concrete_part().get_b();
+	const double b_sl = get_concrete_part().get_b_sl();
 	const double h = get_concrete_part().get_h();
 	const double R_y = get_steel_part().get_steel().get_R_y();
 	const double t_f2 = get_steel_part().get_section().get_t_uf();
@@ -246,11 +250,13 @@ void CompositeSectionGeometry::calc_rigid_plastic_moment()
 
 	const double h_f = 2* (h - C_b);
 
+	double x_na__ = x_na;
+
 	switch(na_location)
 	{
 		case NA_Location::CONCRETE:
 
-			M_Rd_ = -1. * R_b * b_sl * x_na * x_na / 2. +
+			M_Rd_ = -1. * R_b * b_sl * x_na__ * x_na__ / 2. +
 			R_y * A_f2_st * (h + t_f2/2.) +
 			R_y * A_w_st * (h + t_f2 + h_w/2.) +
 			R_y * A_f1_st * (h + t_f2 + h_w + t_f1 / 2.);

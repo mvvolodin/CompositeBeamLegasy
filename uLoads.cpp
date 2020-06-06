@@ -55,6 +55,8 @@ void Loads::load(std::istream& istr)
 double Loads::Ia_design_LCC()const
 {
 	assert(fully_initialized_);
+	double d = gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
+		gamma_f_concrete_SW_ * SW_concrete_ * B_+ gamma_f_DL_I_ * DL_I_ * B_;
 	return gamma_f_st_SW_ * SW_steel_beam_ + gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
 		gamma_f_concrete_SW_ * SW_concrete_ * B_+ gamma_f_DL_I_ * DL_I_ * B_;
 }

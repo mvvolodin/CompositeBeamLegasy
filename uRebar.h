@@ -35,7 +35,7 @@ public:
 	double get_a_u() const {return a_u_;}
 	double get_a_l() const {return a_l_;}
 	double get_gamma_s_() const {return gamma_s_;}
-	double get_A_s() const {return 3.14159 * d_s_ * d_s_ / (4. * b_);}
+	double get_A_s() const {return 3.14159265 * d_s_ * d_s_ / (4. * b_);}
 	double get_num_rows(){return num_rows_;}
 
 private:

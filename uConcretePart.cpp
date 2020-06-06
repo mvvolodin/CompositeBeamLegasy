@@ -20,8 +20,8 @@ ConcretePart::ConcretePart(String slab_type, SlabType slab_type_enum, Concrete c
 //-----------------------------------------------------------------------------
 void ConcretePart::set_default_values()
 {
-	slab_type_ = L"Плоская плита";
-	slab_type_enum_ = SlabType::FLAT;
+	slab_type_ = L"Н75-750-0.8";
+	slab_type_enum_ = SlabType::CORRUGATED;
 	h_f_ = 200.;
 	h_n_ = 0.;
 	concrete_.set_default_values();
@@ -65,14 +65,10 @@ void ConcretePart::load(std::istream& istr)
 }
 double ConcretePart::get_h(LengthUnit length_unit) const
 {
-	double h = 0.;
-
 	if (slab_type_enum_ == SlabType::CORRUGATED)
-		h = CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_height() + h_f_;
+		return (CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_height() + h_f_) / static_cast<int>(length_unit);
 
-	h = h_n_ + h_f_ ;
-
-	return h/static_cast<int>(length_unit);
+	return (h_n_ + h_f_) / static_cast<int>(length_unit);
 }
 double ConcretePart::get_C_b(LengthUnit length_unit) const
 {
@@ -90,7 +86,7 @@ double ConcretePart::get_A_b(LengthUnit length_unit) const
 {
 	double A_b = 0.;
 
-	A_b = b_ * h_f_;
+	A_b = b_sl_ * h_f_;
 
 	return A_b/std::pow(static_cast<int>(length_unit),2);
 }
@@ -98,7 +94,7 @@ double ConcretePart::get_I_b(LengthUnit length_unit) const
 {
 	double I_b = 0.;
 
-	I_b = b_ * std::pow(h_f_,3) / 12;
+	I_b = b_sl_ * std::pow(h_f_,3) / 12;
 
 	return I_b/std::pow(static_cast<int>(length_unit),4);
 }
