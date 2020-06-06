@@ -43,7 +43,7 @@ Concrete::Concrete(ConcreteBasic concrete_basic,
 				   double        gamma_bt,
 				   double        epsilon_b_lim):
 						ConcreteBasic (concrete_basic),
-						density_      (density),
+						density_      (density / std::pow(static_cast<int>(LengthUnit::m),3)),
 						phi_b_cr_     (phi_b_cr),
 						gamma_b_      (gamma_b),
 						gamma_bt_     (gamma_bt),

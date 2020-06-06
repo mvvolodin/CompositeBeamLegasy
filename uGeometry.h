@@ -29,8 +29,9 @@ public:
 	inline bool is_end_beam()const {return end_beam_;}
 	String is_end_beam_to_str()const;
 	double get_span(LengthUnit length_units=LengthUnit::mm)const {return L_/static_cast<int>(length_units);}
-	double get_trib_width_left(LengthUnit length_units=LengthUnit::mm) const {return B_l_/static_cast<int>(length_units);}
-	double get_trib_width_right(LengthUnit length_units=LengthUnit::mm)const {return B_r_/static_cast<int>(length_units);}
+	double get_spacing_left(LengthUnit length_units=LengthUnit::mm) const {return B_l_/static_cast<int>(length_units);}
+	double get_spacing_right(LengthUnit length_units=LengthUnit::mm)const {return B_r_/static_cast<int>(length_units);}
+	double get_trib_width(LengthUnit length_units=LengthUnit::mm)const;
 	double get_effective_width(double h_f, double b_uf);
 
 	SupportsNumber get_temporary_supports_number()const{return temp_supports_num_;}

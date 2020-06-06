@@ -65,6 +65,6 @@ double SteelPart::calculate_M_Rd()
 	const double Wf2 = I_section_.get_Wf2_st();
 	const double R_y = I_steel_.get_R_y();
 
-	return R_y / std::min(Wf1, Wf2);
+	return R_y * std::min(Wf1, Wf2);
 
 }

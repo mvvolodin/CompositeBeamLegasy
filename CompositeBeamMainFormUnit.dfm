@@ -193,7 +193,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 13
           Caption = #1057#1086#1073#1089#1090#1074#1077#1085#1085#1099#1081' '#1074#1077#1089' '#1089#1090#1072#1083#1080
         end
-        object lbl_gamma_f_concrete: TLabel
+        object lbl_gamma_f_concrete_SW: TLabel
           Left = 15
           Top = 68
           Width = 124
@@ -224,7 +224,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           TabOrder = 2
           OnChange = OnControlsChange
         end
-        object edt_gamma_f_st_SW_: TEdit
+        object edt_gamma_f_st_SW: TEdit
           Left = 195
           Top = 37
           Width = 45
@@ -232,7 +232,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           TabOrder = 3
           OnChange = OnControlsChange
         end
-        object edt_gamma_f_concrete: TEdit
+        object edt_gamma_f_concrete_SW: TEdit
           Left = 195
           Top = 64
           Width = 45
@@ -521,10 +521,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtSectionMaterials: TTabSheet
       Caption = #1057#1077#1095#1077#1085#1080#1077' '#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1099
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 1054
-      ExplicitHeight = 0
       object GrpBxSteelSection: TGroupBox
         Left = -4
         Top = 283
@@ -3241,7 +3237,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       object strng_grd_results: TStringGrid
         Left = 0
         Top = 0
-        Width = 1054
+        Width = 1064
         Height = 506
         Align = alTop
         ColCount = 2

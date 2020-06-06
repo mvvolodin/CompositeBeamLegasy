@@ -119,3 +119,10 @@ double Geometry::get_effective_width(double h_f, double b_uf)
 
 	return b_l_ + b_r_ ;
 }
+double Geometry::get_trib_width(LengthUnit length_units)const
+{
+	if (end_beam_)
+		return  (B_l_ + B_r_ / 2) / static_cast<int>(length_units);
+	return (B_l_ / 2 + B_r_ / 2) / static_cast<int>(length_units);
+
+}

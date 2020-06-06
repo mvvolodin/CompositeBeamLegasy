@@ -77,6 +77,7 @@ public:
 	void save(std::ostream& ostr)const;
 	void load(std::istream& istr);
 
+	SteelPart& get_steel_part(){return steel_part_;}
 	const SteelPart& get_steel_part()const {return steel_part_;}
 	const ConcretePart& get_concrete_part() {return concrete_part_;}
 

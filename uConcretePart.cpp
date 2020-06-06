@@ -105,15 +105,14 @@ double ConcretePart::get_I_b(LengthUnit length_unit) const
 double ConcretePart::get_SW_concrete(LoadUnit load_unit, LengthUnit length_unit) const
 {
 	double SW_concrete = 0.;
-
 	double density = concrete_.get_density();
 
 	if (slab_type_enum_ == SlabType::CORRUGATED)
 		SW_concrete = density * GRAV_ACCELERAT * (h_f_ + CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_h_b());
+	else
+		SW_concrete = density * GRAV_ACCELERAT * h_f_;
 
-	SW_concrete = density * GRAV_ACCELERAT * h_f_;
-
-	return SW_concrete/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);
+	return SW_concrete / static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);
 }
 
 

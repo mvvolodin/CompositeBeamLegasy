@@ -149,7 +149,7 @@ __published:	// IDE-managed Components
 	TTabSheet *tb_sht_steel_geom_char;
 	TStringGrid *strng_grd_concrete_sect_geom_character;
 	TStringGrid *strng_grd_steel_sect_geom_character;
-	TEdit *edt_gamma_f_st_SW_;
+	TEdit *edt_gamma_f_st_SW;
 	TLabel *lbl_gamma_f_st_SW;
 	TButton *btn_logger;
 	TEdit *edt_h_f;
@@ -157,8 +157,8 @@ __published:	// IDE-managed Components
 	TLabel *lbl_corrugated_sheet_type;
 	TImage *Image2;
 	TLabel *lbl_number_propping_supports;
-	TEdit *edt_gamma_f_concrete;
-	TLabel *lbl_gamma_f_concrete;
+	TEdit *edt_gamma_f_concrete_SW;
+	TLabel *lbl_gamma_f_concrete_SW;
 	TEdit *edt_h_n;
 	TLabel *lbl_h_n;
 	TLabel *Label1;

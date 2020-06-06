@@ -8,13 +8,14 @@
 Loads::Loads(){}
 
 Loads::Loads(double SW_steel_beam, double SW_corrugated_sheets, double DL_I, double DL_II, double LL,
-	double gamma_f_st_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL)
+	double gamma_f_st_SW, double gamma_f_concrete_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL)
 	:SW_steel_beam_(SW_steel_beam/static_cast<int>(LengthUnit::m)),
 	SW_corrugated_sheets_(SW_corrugated_sheets/std::pow(static_cast<int>(LengthUnit::m),2)),
 	DL_I_(DL_I*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),  //Полезно сделать сеттеры!
 	DL_II_(DL_II*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	LL_(LL*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	gamma_f_st_SW_(gamma_f_st_SW),
+    gamma_f_concrete_SW_(gamma_f_concrete_SW),
 	gamma_f_DL_I_(gamma_f_DL_I),
 	gamma_f_DL_II_(gamma_f_DL_II),
 	gamma_f_LL_(gamma_f_LL){}
@@ -91,12 +92,12 @@ void Loads::set_default_values()
 	SW_steel_beam_ = 0.;
 	SW_corrugated_sheets_ = 0.;
 	SW_concrete_ = 0.;
-	DL_I_ = 0.0012;
+	DL_I_ = 0.0025;
 	DL_II_ = 0.0015;
 	LL_ =  0.002;
 	gamma_f_st_SW_ = 1.05;
-	gamma_f_concrete_SW_ = 1.2;
-	gamma_f_DL_I_ = 1.35;
+	gamma_f_concrete_SW_ = 1.3;
+	gamma_f_DL_I_ = 1.3;
 	gamma_f_DL_II_ = 1.35;
 	gamma_f_LL_ = 1.35;
 }

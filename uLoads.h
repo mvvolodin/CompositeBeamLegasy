@@ -23,7 +23,7 @@ class Loads {
 public:
 	Loads();
 	Loads(double SW, double SW_sheets, double DL_I, double DL_II, double LL,
-		double gamma_f_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL);
+		double gamma_f_SW, double gamma_f_concrete_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL);
 	void set_default_values();
 	void set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B);
 	void calculate_loads(double SW_concrete);
@@ -40,6 +40,8 @@ public:
 		{return SW_steel_beam_/static_cast<int>(load_unit)*static_cast<int>(length_unit);}
 	double get_self_weight_sheets(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		 {return SW_corrugated_sheets_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
+	double get_SW_concrete(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
+		 {return SW_concrete_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
 	double get_dead_load_first_stage(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		{return DL_I_/static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);}
 	double get_dead_load_second_stage(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
@@ -56,7 +58,7 @@ public:
 private:
 	double SW_steel_beam_ = 0.;
 	double SW_corrugated_sheets_ = 0.;
-    double SW_concrete_ = 0.;
+	double SW_concrete_ = 0.;
 	double DL_I_ = 0.;
 	double DL_II_ = 0.;
 	double LL_ = 0.;

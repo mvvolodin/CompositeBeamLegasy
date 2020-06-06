@@ -92,7 +92,7 @@ void CompositeBeamCalculator::calculate_composite_beam()
 		SW_corrugated_sheets = corrugated_sheet.get_weight()* GRAV_ACCELERAT;
 	}
 	double SW_concrete = composite_section_.get_concrete_part().get_SW_concrete();
-	double B = geometry_.get_trib_width_left() + geometry_.get_trib_width_right();
+	double B = geometry_.get_trib_width();
 	loads_.set_data(SW_steel_beam, SW_corrugated_sheets, SW_concrete, B);
 //подготовка калькул€тора внутренних усилий
 	SupportsNumber tmp_sup_num = geometry_.get_temporary_supports_number();

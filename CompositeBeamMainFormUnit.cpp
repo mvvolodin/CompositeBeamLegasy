@@ -56,8 +56,8 @@ void TCompositeBeamMainForm ::set_form_controls()
 	Geometry geom = composite_beam_calculator_.get_geometry();
 	edt_max_elem_length -> Text = composite_beam_calculator_.get_max_elem_length();
 	edt_span -> Text = geom.get_span();
-	edt_width_left -> Text = geom.get_trib_width_left();
-	edt_width_right -> Text = geom.get_trib_width_right();
+	edt_width_left -> Text = geom.get_spacing_left();
+	edt_width_right -> Text = geom.get_spacing_right();
 	cmb_bx_number_propping_supports -> ItemIndex =
 		cmb_bx_number_propping_supports -> Items -> IndexOf(static_cast<int>(geom.get_temporary_supports_number()));
 //Данные типа Loads
@@ -65,8 +65,8 @@ void TCompositeBeamMainForm ::set_form_controls()
 	edt_dead_load_first_stage -> Text = loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m);
 	edt_dead_load_second_stage -> Text = loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m);
 	edt_live_load -> Text = loads.get_live_load(LoadUnit::kN, LengthUnit::m);
-	edt_gamma_f_st_SW_-> Text = loads.get_gamma_f_st_SW();
-	edt_gamma_f_concrete -> Text = loads.get_gamma_f_concrete_SW();
+	edt_gamma_f_st_SW -> Text = loads.get_gamma_f_st_SW();
+	edt_gamma_f_concrete_SW -> Text = loads.get_gamma_f_concrete_SW();
 	edt_gamma_f_DL_I -> Text = loads.get_gamma_f_DL_I();
 	edt_gamma_f_DL_II -> Text = loads.get_gamma_f_DL_II();
 	edt_gamma_f_LL -> Text = loads.get_gamma_f_LL();
@@ -169,19 +169,21 @@ Loads TCompositeBeamMainForm ::init_loads()
 	double DL_II = 0.;
 	double LL = 0.;
 	double gamma_f_st_SW = 0.;
+	double gamma_f_concrete_SW = 0.;
 	double gamma_f_DL_I = 0.;
 	double gamma_f_DL_II= 0.;
 	double gamma_f_LL = 0.;
 
-	String_double_zero_plus(lbl_dead_load_first_stage->Caption, edt_dead_load_first_stage->Text, &DL_I);
-	String_double_zero_plus(lbl_dead_load_second_stage->Caption, edt_dead_load_second_stage->Text, &DL_II);
-	String_double_zero_plus(lbl_live_load->Caption, edt_live_load->Text, &LL);
-	String_double_zero_plus(lbl_gamma_f_st_SW->Caption, edt_gamma_f_st_SW_->Text, &gamma_f_st_SW);
-	String_double_zero_plus(lbl_gamma_f_DL_I->Caption, edt_gamma_f_DL_I->Text, &gamma_f_DL_I);
-	String_double_zero_plus(lbl_gamma_f_DL_II->Caption, edt_gamma_f_DL_II->Text, &gamma_f_DL_II);
-	String_double_zero_plus(lbl_gamma_f_LL->Caption, edt_gamma_f_LL->Text, &gamma_f_LL);
+	String_double_zero_plus(lbl_dead_load_first_stage -> Caption, edt_dead_load_first_stage -> Text, &DL_I);
+	String_double_zero_plus(lbl_dead_load_second_stage -> Caption, edt_dead_load_second_stage -> Text, &DL_II);
+	String_double_zero_plus(lbl_live_load -> Caption, edt_live_load -> Text, &LL);
+	String_double_zero_plus(lbl_gamma_f_st_SW -> Caption, edt_gamma_f_st_SW -> Text, &gamma_f_st_SW);
+	String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption, edt_gamma_f_concrete_SW -> Text, &gamma_f_concrete_SW);
+	String_double_zero_plus(lbl_gamma_f_DL_I -> Caption, edt_gamma_f_DL_I -> Text, &gamma_f_DL_I);
+	String_double_zero_plus(lbl_gamma_f_DL_II -> Caption, edt_gamma_f_DL_II -> Text, &gamma_f_DL_II);
+	String_double_zero_plus(lbl_gamma_f_LL -> Caption, edt_gamma_f_LL -> Text, &gamma_f_LL);
 
-	return Loads (SW, SW_sheets, DL_I, DL_II, LL, gamma_f_st_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
+	return Loads (SW, SW_sheets, DL_I, DL_II, LL, gamma_f_st_SW, gamma_f_concrete_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
 }
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
@@ -521,7 +523,7 @@ void TCompositeBeamMainForm::cotr_ratios_grid()
 	strng_grd_results -> Cells [0][4] = L"На действие изгибающих моментов, раздел 6.2.1:";
 	strng_grd_results -> Cells [0][5] = L"      Координата критического сечения, мм";
 	strng_grd_results -> Cells [0][6] = L"      Прочность верхнего пояса стального сечения";
-	strng_grd_results -> Cells [0][7] = L"      Прочность нижнего пояса стального сеченния";
+	strng_grd_results -> Cells [0][7] = L"      Прочность нижнего пояса стального сечения";
 	strng_grd_results -> Cells [0][8] = L"      Прочность железобетона";
 	strng_grd_results -> Cells [0][9] = L"На действие изгибающих моментов (жёсткопластический материал), пункт 6.2.1.6:";
 	strng_grd_results -> Cells [0][10] = L"      Координата критического сечения, мм";
@@ -627,19 +629,22 @@ void TCompositeBeamMainForm ::generate_report()
 
 	report_.PasteTextPattern(geometry.is_end_beam_to_str(), "%end_beam%");
 	report_.PasteTextPattern(FloatToStrF(geometry.get_span(LengthUnit::mm), ffFixed, 15, 2), "%span%");
-	report_.PasteTextPattern(FloatToStrF(geometry.get_trib_width_left(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_left% ");
-	report_.PasteTextPattern(FloatToStrF(geometry.get_trib_width_right(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_right% ");
+	report_.PasteTextPattern(FloatToStrF(geometry.get_spacing_left(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_left% ");
+	report_.PasteTextPattern(FloatToStrF(geometry.get_spacing_right(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_right% ");
 //[1.2] Загружения
 	Loads loads = composite_beam_calculator_.get_loads();
 
+	report_.PasteTextPattern(FloatToStrF(loads.get_self_weight(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%steel_beam%");
+	report_.PasteTextPattern(FloatToStrF(loads.get_self_weight_sheets(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_sheets%");
+	report_.PasteTextPattern(FloatToStrF(loads.get_SW_concrete(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_concrete%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_I%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_II%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_live_load(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%LL%");
 
 //[1.3] Коэффициенты надёжности по нагрузке
-	WorkingConditionsFactors working_conditions_factors = composite_beam.get_working_conditions_factors();
 
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_st_SW(), ffFixed, 15, 2), "%gamma_f_st_SW%");
+	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_concrete_SW(), ffFixed, 15, 2), "%gamma_f_concrete_SW%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_DL_I(), ffFixed, 15, 2), "%gamma_f_DL_I%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_DL_II(), ffFixed, 15, 2), "%gamma_f_DL_II%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_LL(), ffFixed, 15, 2), "%gamma_f_LL%");
@@ -699,6 +704,9 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(studs_on_beam.get_num_m(), ffFixed, 15, 2),"%mid_rw_num%");
 
 //[1.8] Коэффициенты
+
+	WorkingConditionsFactors working_conditions_factors = composite_beam.get_working_conditions_factors();
+
 	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_c(), ffFixed, 15, 2),"%gamma_c%");
 	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_bi(), ffFixed, 15, 2),"%gamma_bi%");
 	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_si(), ffFixed, 15, 2),"%gamma_si%");
@@ -743,10 +751,33 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_sigma_b(), ffFixed, 15, 2),"%sigma_b%");
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_sigma_s(), ffFixed, 15, 2),"%sigma_s%");
 //[2.4] Коэффициенты использования
+//[2.4.1] По изгибающим моментам при монтаже
+
+	Section max_i_section_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_i_section_ratio_section();
+
+	report_.PasteTextPattern(FloatToStrF(max_i_section_ratio_section.get_x(),ffFixed, 15, 2),"%x_M_I%");
+	report_.PasteTextPattern(FloatToStrF(max_i_section_ratio_section.get_i_section_ratio(),ffFixed, 15, 2),"%i_section_ratio%");
+
+//[2.4.2] По изгибающим моментам, раздел 6.2.1
+
+	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_x(),ffFixed, 15, 2),"%x_M%");
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_upper_fl_ratio(),ffFixed, 15, 2),"%ratio_uf%");
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_lower_fl_ratio(),ffFixed, 15, 2),"%ratio_lf%");
-	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_shear_ratio(),ffFixed, 15, 2),"%ratio_shear%");
+	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_conc_ratio(),ffFixed, 15, 2),"%conc_ratio%");
 
+//[2.4.3] По изгибающим моментам (жёсткопластический материал), пункт 6.2.1.6
+
+	Section max_rigid_plastic_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_rigid_plastic_ratio_section();
+
+	report_.PasteTextPattern(FloatToStrF(max_rigid_plastic_ratio_section.get_x(),ffFixed, 15, 2),"%x_rigid_plastic%");
+	report_.PasteTextPattern(FloatToStrF(max_rigid_plastic_ratio_section.get_rigid_plastic_ratio(),ffFixed, 15, 2),"%ratio_rigid_plastic%");
+
+//[2.4.4] По поперечным силам, пункт 6.2.2
+
+	Section max_shear_stress_section = composite_beam_calculator_.get_composite_beam().get_max_shear_stress_ratio_section();
+
+	report_.PasteTextPattern(FloatToStrF(max_shear_stress_section.get_x(),ffFixed, 15, 2),"%x_Q%");
+	report_.PasteTextPattern(FloatToStrF(max_shear_stress_section.get_shear_ratio(),ffFixed, 15, 2),"%ratio_shear%");
 
 //[3] Результаты расчёта конструкций объединения
 
