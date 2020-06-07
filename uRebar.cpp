@@ -86,8 +86,8 @@ void RebarBasic::load(istream& istr)
 }
 void Rebar::set_default_values()
 {
-	grade_ = L"A1000";
-	R_sn_ = 1000.;
+	grade_ = L"A500";
+	R_sn_ = 500.;
 	E_s_ = 200000.;
 	d_s_ = 12.;
 	b_  = 200.;

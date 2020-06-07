@@ -187,44 +187,50 @@ void CompositeSectionGeometry::fictitious_modulus()
 CompositeSectionGeometry::NeutralAxis CompositeSectionGeometry::calc_neutral_axis()
 {
 	double x_b = 0.;
+	double x_btw = 0.;
 	double x_f2 = 0.;
 	double x_w = 0.;
 
-	const double b_sl = get_concrete_part().get_b_sl();
-	const double R_b = get_concrete_part().get_concrete().get_R_b();
-	const double R_y = get_steel_part().get_steel().get_R_y();
-	const double A_st = get_steel_part().get_section().get_A_st();
-	const double A_f1_st = get_steel_part().get_section().get_A_f1_st();
-	const double A_f2_st = get_steel_part().get_section().get_A_f2_st();
-	const double R_s = get_concrete_part().get_rebar().get_R_s();
-	const double A_s = get_concrete_part().get_rebar().get_A_s();
-	const double b_s = get_b_s();
-	const double h = get_concrete_part().get_h();
-	const double t_f2 = get_steel_part().get_section().get_t_uf();
-	const double b_f2 = get_steel_part().get_section().get_b_uf();
-	const double A_w_st = get_steel_part().get_section().get_A_w_st();
-	const double h_w = get_steel_part().get_section().get_h_w();
-	const double t_w = get_steel_part().get_section().get_t_w();
-	const double A_b = get_concrete_part().get_A_b();
-	const double C_b = get_concrete_part().get_C_b();
+	const double b_sl = concrete_part_.get_b_sl();
+	const double R_b = concrete_part_.get_concrete().get_R_b();
+	const double R_y = steel_part_.get_steel().get_R_y();
+	const double A_st = steel_part_.get_section().get_A_st();
+	const double A_f1_st = steel_part_.get_section().get_A_f1_st();
+	const double A_f2_st = steel_part_.get_section().get_A_f2_st();
+	const double R_s = concrete_part_.get_rebar().get_R_s();
+	const double A_s = concrete_part_.get_rebar().get_A_s();
+	const double h_f = concrete_part_.get_h_f();
+	const double h = concrete_part_.get_h();
+	const double t_f2 = steel_part_.get_section().get_t_uf();
+	const double b_f2 = steel_part_.get_section().get_b_uf();
+	const double A_w_st = steel_part_.get_section().get_A_w_st();
+	const double h_w = steel_part_.get_section().get_h_w();
+	const double t_w = steel_part_.get_section().get_t_w();
+	const double h_st = steel_part_.get_section().get_h_st();
+	const double A_b = concrete_part_.get_A_b();
+	const double C_b = concrete_part_.get_C_b();
 
-	const double h_f = 2* (h - C_b);
+	x_b = (R_y * A_st + R_s * A_s * b_sl)/(R_b * b_sl);
 
-	x_b = (R_y * A_st + R_s * A_s * b_s)/(R_b * b_sl);
+	x_btw = ((R_b * b_sl * h_f + R_s * A_s * b_sl) * h_f / 2 + A_st * R_y * (h_st / 2 + h)) /
+		(R_b * b_sl * h_f + R_s * A_s * b_sl + A_st * R_y);
 
-	x_f2 = (A_f1_st * R_y + (h + t_f2) * b_f2 * R_y + A_w_st*R_y + h * b_f2 * R_y
-		- R_b * A_b - R_s * A_s * b_s) / ( 2 * b_f2 * R_y);
+	x_f2 = (A_f1_st * R_y + (h_f + t_f2) * b_f2 * R_y + A_w_st*R_y + h_f * b_f2 * R_y
+		- R_b * A_b - R_s * A_s * b_sl) / ( 2 * b_f2 * R_y);
 
-	x_w = (A_f1_st * R_y + (h + t_f2 + h_w) * t_w * R_y + (h + t_f2) * t_w * R_y
-		 - R_b * A_b - A_f2_st * R_y - R_s * A_s  * b_s ) / ( 2 * t_w * R_y);
+	x_w = (A_f1_st * R_y + (h_f + t_f2 + h_w) * t_w * R_y + (h_f + t_f2) * t_w * R_y
+		 - R_b * A_b - A_f2_st * R_y - R_s * A_s  * b_sl ) / ( 2 * t_w * R_y);
 
-	if (x_b <= h_f)
+	if (x_b >= 0 && x_b < h_f)
 		return NeutralAxis {NA_Location::CONCRETE, x_b};
 
-	if ((x_f2 <= (h + t_f2)) && (x_f2 >= h))
+	if(x_btw >= h_f && x_btw < h)
+		return  NeutralAxis{NA_Location::BTW_CONCRETE_AND_UPPER_FLANGE, x_btw};
+
+	if ( x_f2 >= h && x_f2 < (h + t_f2))
 		return NeutralAxis {NA_Location::UPPER_FLANGE, x_f2};
 
-	if ((x_w <= (h + t_f2 + h_w)) && (x_w >= (h + t_f2)))
+	if (x_w >= (h + t_f2) && x_w <= (h_f + t_f2 + h_w))
 		return NeutralAxis {NA_Location::WEB, x_w};
 
 	return NeutralAxis {NA_Location::NO_SOLUTION, 0.};
@@ -237,7 +243,10 @@ void CompositeSectionGeometry::calc_rigid_plastic_moment()
 	const double C_b = get_concrete_part().get_C_b();
 	const double b_sl = get_concrete_part().get_b_sl();
 	const double h = get_concrete_part().get_h();
+	const double h_f = concrete_part_.get_h_f();
 	const double R_y = get_steel_part().get_steel().get_R_y();
+
+	const double h_st = steel_part_.get_section().get_h_st();
 	const double t_f2 = get_steel_part().get_section().get_t_uf();
 	const double b_f2 = get_steel_part().get_section().get_b_uf();
 	const double t_f1 = get_steel_part().get_section().get_t_lf();
@@ -248,38 +257,41 @@ void CompositeSectionGeometry::calc_rigid_plastic_moment()
 	const double A_f1_st = get_steel_part().get_section().get_A_f1_st();
 	const double A_f2_st = get_steel_part().get_section().get_A_f2_st();
 
-	const double h_f = 2* (h - C_b);
-
-	double x_na__ = x_na;
-
 	switch(na_location)
 	{
 		case NA_Location::CONCRETE:
 
-			M_Rd_ = -1. * R_b * b_sl * x_na__ * x_na__ / 2. +
-			R_y * A_f2_st * (h + t_f2/2.) +
-			R_y * A_w_st * (h + t_f2 + h_w/2.) +
-			R_y * A_f1_st * (h + t_f2 + h_w + t_f1 / 2.);
+			M_Rd_ = -1. * R_b * b_sl * x_na * x_na / 2. +
+				R_y * A_f2_st * (h + t_f2/2. - x_na) +
+				R_y * A_w_st * (h + t_f2 + h_w/2. - x_na) +
+				R_y * A_f1_st * (h + t_f2 + h_w + t_f1 / 2.- x_na);
+
+			break;
+
+		case NA_Location::BTW_CONCRETE_AND_UPPER_FLANGE:
+
+			M_Rd_ = -1 * R_b * b_sl * h_f * (x_na - h_f / 2) +
+				R_y * A_w_st * (h + h_st / 2 - x_na);
 
 			break;
 
 		case NA_Location::UPPER_FLANGE:
 
-			M_Rd_ = -1. * R_b * b_sl * h_f * h_f / 2. +
-			-1. * R_y * (x_na - h) * b_f2 * ((x_na - h) / 2. + h) +
-			R_y * (h + t_f2 - x_na) * b_f2 * ((h + t_f2 - x_na) / 2. + x_na) +
-			R_y * t_w * h_w * (h + t_f2 + h_w / 2.) +
-			R_y * A_f1_st * (h + t_f2 + h_w + t_f1 / 2.);
+			M_Rd_ = -1. * R_b * b_sl * h_f * (x_na - h_f / 2) +
+				-1. * R_y * (x_na - h) * b_f2 * (x_na - h) / 2  +
+				R_y * (h + t_f2 - x_na) * b_f2 * (h + t_f2 - x_na) / 2. +
+				R_y * t_w * h_w * (h + t_f2 + h_w / 2. - x_na) / 2. +
+				R_y * A_f1_st * (h + t_f2 + h_w + t_f1 / 2. - x_na);
 
 			break;
 
 		case NA_Location::WEB:
 
-			M_Rd_ = -1. * R_b * b_sl * h_f * h_f/2. +
-			-1. * R_y * A_f2_st * (h + t_f2 / 2) +
-			-1. * R_y * t_w * (x_na - h - t_f1) * ((x_na - h - t_f1) / 2. + h + t_f2) +
-			R_y * t_w * (h + t_f2 + h_w - x_na) * ((h + t_f2 + h_w - x_na) / 2. + h + t_f2 + h_w / 2.) +
-			R_y * A_f1_st * (h + t_f2 + h_w + t_f1 / 2);
+			M_Rd_ = -1. * R_b * b_sl * h_f * (x_na - h_f/2) +
+				-1. * R_y * A_f2_st * (x_na - h - t_f2 / 2) +
+				-1. * R_y * t_w * (x_na - h - t_f2) * (x_na - h - t_f2) / 2. +
+				R_y * t_w * (h + t_f2 + h_w - x_na) * (h + t_f2 + h_w - x_na) / 2. +
+				R_y * A_f1_st * (h + t_f2 + h_w + t_f1 / 2 - x_na);
 
 			break;
 
@@ -403,5 +415,13 @@ double CompositeSectionGeometry::get_E_st_I_st()const
 {
 	return steel_part_.get_steel().get_E_st() *
 		steel_part_.get_section().get_I_st();
+}
+double CompositeSectionGeometry::get_M_Rd(LoadUnit load_unit, LengthUnit length_unit)
+{
+	if(composite_section_calculated) return M_Rd_;
+
+	calculate();
+
+	return M_Rd_ / (static_cast<int>(load_unit) * static_cast<int>(length_unit));
 }
 

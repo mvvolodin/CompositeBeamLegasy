@@ -11,6 +11,7 @@
 class CompositeSectionGeometry{
 	enum class NA_Location{
 		CONCRETE,
+		BTW_CONCRETE_AND_UPPER_FLANGE,
 		UPPER_FLANGE,
 		WEB,
 		NO_SOLUTION
@@ -27,7 +28,6 @@ private:
     void calculate();
 	bool composite_section_calculated = false;
 
-   //	double b_ = 0.;//расчётная ширина плиты
 	double alfa_s_= 0.;//коэффициент приведения к стали
 	double alfa_b_= 0.;//коэффициент приведения к бетону
 	double H_red_= 0.; //высота композитного сечения
@@ -98,7 +98,7 @@ public:
 	double get_W_b_st(LengthUnit length_unit=LengthUnit::mm);
 
 	double get_b_s()const {return concrete_part_.get_rebar().get_b_s();}
-	double get_M_Rd()const {return M_Rd_;}
+	double get_M_Rd(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm);
 	double get_Q_Rd()const;
 
 	double get_E_st_I_red()const;
