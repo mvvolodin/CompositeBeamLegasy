@@ -297,6 +297,12 @@
             <DependentOn>uCorrugatedSheet.h</DependentOn>
             <BuildOrder>47</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uFrmAddImacts.cpp">
+            <Form>FrmAddImpacts</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmAddImacts.h</DependentOn>
+            <BuildOrder>46</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uGeometry.cpp">
             <DependentOn>uGeometry.h</DependentOn>
             <BuildOrder>5</BuildOrder>
@@ -355,6 +361,7 @@
             <DependentOn>WRData_Check.h</DependentOn>
             <BuildOrder>32</BuildOrder>
         </CppCompile>
+        <FormResources Include="uFrmAddImacts.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="USteelSectionForm.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>

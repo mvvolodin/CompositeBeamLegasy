@@ -161,9 +161,6 @@ Coordinates=993,644,118,58
 [BtBtnShearStudsChoice]
 Coordinates=537,78,153,58
 
-[GrpBxLoadCases]
-Coordinates=755,644,116,58
-
 [rdgrp_slab_type]
 Coordinates=92,77,107,58
 
@@ -305,4 +302,7 @@ Coordinates=668,540,122,58
 
 [lbl_max_elem_length]
 Coordinates=120,1,117,58
+
+[grp_bx_load_cases]
+Coordinates=755,644,116,58
 

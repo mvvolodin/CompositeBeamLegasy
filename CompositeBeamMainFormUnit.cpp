@@ -62,11 +62,15 @@ void TCompositeBeamMainForm ::set_form_controls()
 		cmb_bx_number_propping_supports -> Items -> IndexOf(static_cast<int>(geom.get_temporary_supports_number()));
 //Данные типа Loads
 	Loads loads = composite_beam_calculator_.get_loads();
+
+	edt_SW_add_concrete -> Text = loads.get_SW_add_concrete(LoadUnit::kN, LengthUnit::m);
 	edt_dead_load_first_stage -> Text = loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m);
 	edt_dead_load_second_stage -> Text = loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m);
 	edt_live_load -> Text = loads.get_live_load(LoadUnit::kN, LengthUnit::m);
+
 	edt_gamma_f_st_SW -> Text = loads.get_gamma_f_st_SW();
 	edt_gamma_f_concrete_SW -> Text = loads.get_gamma_f_concrete_SW();
+    edt_gamma_f_add_concrete_SW -> Text = loads.get_gamma_f_add_concrete_SW();
 	edt_gamma_f_DL_I -> Text = loads.get_gamma_f_DL_I();
 	edt_gamma_f_DL_II -> Text = loads.get_gamma_f_DL_II();
 	edt_gamma_f_LL -> Text = loads.get_gamma_f_LL();
@@ -165,25 +169,31 @@ Loads TCompositeBeamMainForm ::init_loads()
 
 	double SW = SteelSectionForm2 -> get_i_section().get_weight() * GRAV_ACCELERAT;
 
+	double SW_add_concrete = 0.;
 	double DL_I = 0.;
 	double DL_II = 0.;
 	double LL = 0.;
 	double gamma_f_st_SW = 0.;
 	double gamma_f_concrete_SW = 0.;
+	double gamma_f_add_concrete_SW = 0.;
 	double gamma_f_DL_I = 0.;
 	double gamma_f_DL_II= 0.;
 	double gamma_f_LL = 0.;
 
 	String_double_zero_plus(lbl_dead_load_first_stage -> Caption, edt_dead_load_first_stage -> Text, &DL_I);
+	String_double_zero_plus(lbl_SW_add_concrete -> Caption, edt_SW_add_concrete -> Text, &SW_add_concrete);
 	String_double_zero_plus(lbl_dead_load_second_stage -> Caption, edt_dead_load_second_stage -> Text, &DL_II);
 	String_double_zero_plus(lbl_live_load -> Caption, edt_live_load -> Text, &LL);
+
 	String_double_zero_plus(lbl_gamma_f_st_SW -> Caption, edt_gamma_f_st_SW -> Text, &gamma_f_st_SW);
 	String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption, edt_gamma_f_concrete_SW -> Text, &gamma_f_concrete_SW);
 	String_double_zero_plus(lbl_gamma_f_DL_I -> Caption, edt_gamma_f_DL_I -> Text, &gamma_f_DL_I);
+	String_double_zero_plus(lbl_gamma_f_add_concrete_SW -> Caption, edt_gamma_f_add_concrete_SW -> Text, &gamma_f_add_concrete_SW);
 	String_double_zero_plus(lbl_gamma_f_DL_II -> Caption, edt_gamma_f_DL_II -> Text, &gamma_f_DL_II);
 	String_double_zero_plus(lbl_gamma_f_LL -> Caption, edt_gamma_f_LL -> Text, &gamma_f_LL);
 
-	return Loads (SW, SW_sheets, DL_I, DL_II, LL, gamma_f_st_SW, gamma_f_concrete_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL);
+	return Loads {SW, SW_sheets, SW_add_concrete, DL_I, DL_II, LL,
+		gamma_f_st_SW, gamma_f_concrete_SW, gamma_f_add_concrete_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL};
 }
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
@@ -1136,6 +1146,12 @@ void __fastcall TCompositeBeamMainForm::strng_grd_first_raw_bold(TObject *Sender
 		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold;
 		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::btn_add_impactsClick(TObject *Sender)
+{
+	FrmAddImpacts -> Show();
 }
 //---------------------------------------------------------------------------
 

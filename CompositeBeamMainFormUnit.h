@@ -32,6 +32,7 @@
 #include "RebarDefinitionFormUnit.h"
 #include "USteelSectionForm.h"
 #include "DefineSteelFormUnit.h"
+#include "uFrmAddImacts.h"
 #include "LoggerFormUnit.h"
 #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
 #include "uWord_Automation.h"
@@ -85,7 +86,7 @@ __published:	// IDE-managed Components
 	TEdit *edt_gamma_f_DL_I;
 	TEdit *edt_gamma_f_DL_II;
 	TEdit *edt_gamma_f_LL;
-	TGroupBox *GrpBxLoadCases;
+	TGroupBox *grp_bx_load_cases;
 	TLabel *lbl_dead_load_first_stage;
 	TLabel *lbl_dead_load_second_stage;
 	TLabel *Label9;
@@ -161,7 +162,11 @@ __published:	// IDE-managed Components
 	TLabel *lbl_gamma_f_concrete_SW;
 	TEdit *edt_h_n;
 	TLabel *lbl_h_n;
-	TLabel *Label1;
+	TLabel *lbl_SW_add_concrete;
+	TEdit *edt_SW_add_concrete;
+	TLabel *lbl_gamma_f_add_concrete_SW;
+	TEdit *edt_gamma_f_add_concrete_SW;
+	TButton *btn_add_impacts;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -191,6 +196,7 @@ __published:	// IDE-managed Components
 	void __fastcall N8Click(TObject *Sender);
 	void __fastcall strng_grd_first_raw_bold(TObject *Sender, int ACol,
           int ARow, TRect &Rect, TGridDrawState State);
+	void __fastcall btn_add_impactsClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;

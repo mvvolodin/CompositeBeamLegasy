@@ -3,6 +3,7 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
+USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
 USEFORM("StudDefinitionFormUnit.cpp", StudDefinitionForm);
 USEFORM("USteelSectionForm.cpp", SteelSectionForm2);
 USEFORM("DefineSteelFormUnit.cpp", DefineSteelForm);
@@ -26,6 +27,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TAboutProgForm), &AboutProgForm);
 		Application->CreateForm(__classid(TSteelSectionForm2), &SteelSectionForm2);
 		Application->CreateForm(__classid(TDefineSteelForm), &DefineSteelForm);
+		Application->CreateForm(__classid(TFrmAddImpacts), &FrmAddImpacts);
 		Application->Run();
 	}
 	catch (Exception &exception)
