@@ -126,7 +126,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -319,6 +319,13 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Caption = #1044#1086#1087'. '#1085#1072#1075#1088'. '#1086#1090' '#1074#1077#1089#1072' '#1073#1077#1090#1086#1085#1072',  '#1082#1053'/'#1084'2'
           WordWrap = True
         end
+        object lbl_sheeting_continuity_coefficient: TLabel
+          Left = 16
+          Top = 167
+          Width = 147
+          Height = 13
+          Caption = #1059#1095#1105#1090' '#1085#1077#1088#1072#1079#1088#1077#1079#1085#1086#1089#1090#1080' '#1085#1072#1089#1090#1080#1083#1072
+        end
         object edt_dead_load_first_stage: TEdit
           Left = 204
           Top = 64
@@ -352,13 +359,21 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object btn_add_impacts: TButton
-          Left = 17
-          Top = 167
+          Left = 16
+          Top = 190
           Width = 241
           Height = 25
           Caption = #1044#1086#1087#1086#1083#1085#1080#1090#1077#1083#1100#1085#1099#1077' '#1074#1086#1079#1076#1077#1081#1089#1090#1074#1080#1103
           TabOrder = 4
           OnClick = btn_add_impactsClick
+        end
+        object edt_sheeting_continuity_coefficient: TEdit
+          Left = 205
+          Top = 164
+          Width = 52
+          Height = 21
+          TabOrder = 5
+          OnChange = OnControlsChange
         end
       end
       object GrpBxTopology: TGroupBox
@@ -457,15 +472,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         TabOrder = 3
         object img_static_scheme: TImage
           Left = 2
-          Top = 48
+          Top = 56
           Width = 1038
-          Height = 222
+          Height = 214
           Align = alBottom
-          ExplicitTop = 72
         end
         object lblLoadCase: TLabel
           Left = 17
-          Top = 29
+          Top = 25
           Width = 62
           Height = 13
           Caption = #1053#1072#1075#1088#1091#1078#1077#1085#1080#1077
@@ -481,10 +495,10 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
         object rd_grp_internal_forces_type: TRadioGroup
           Left = 311
-          Top = 5
+          Top = 13
           Width = 434
           Height = 37
-          Caption = #1060#1072#1082#1090#1086#1088
+          Caption = ' '#1060#1072#1082#1090#1086#1088' '
           Columns = 3
           ItemIndex = 0
           Items.Strings = (
@@ -3168,10 +3182,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1050#1086#1084#1087#1086#1079#1080#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_compos_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -3204,10 +3214,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_steel_geom_char: TTabSheet
             Caption = #1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 2
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_steel_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -3235,10 +3241,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_concrete_geom_char: TTabSheet
             Caption = #1046#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_concrete_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -3260,10 +3262,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object tb_results: TTabSheet
       Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1099' '#1088#1072#1089#1095#1105#1090#1072
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object strng_grd_results: TStringGrid
         Left = 0
         Top = 0

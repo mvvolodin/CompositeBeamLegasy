@@ -10,10 +10,11 @@ Loads::Loads(){}
 Loads::Loads(double SW_steel_beam, double SW_corrugated_sheets, double SW_add_concrete,
 			 double DL_I, double DL_II, double LL,
 			 double gamma_f_SW, double gamma_f_concrete_SW, double gamma_f_add_concrete_SW,
-			 double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL)
+			 double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL,
+			 double sheeting_continuity_coefficient)
 	:SW_steel_beam_(SW_steel_beam/static_cast<int>(LengthUnit::m)),
-	SW_corrugated_sheets_(SW_corrugated_sheets/std::pow(static_cast<int>(LengthUnit::m),2)),
-	SW_add_concrete_(SW_add_concrete/std::pow(static_cast<int>(LengthUnit::m),2)),
+	SW_corrugated_sheets_(SW_corrugated_sheets*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
+	SW_add_concrete_(SW_add_concrete*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	DL_I_(DL_I*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),  //Полезно сделать сеттеры!
 	DL_II_(DL_II*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	LL_(LL*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
@@ -22,36 +23,45 @@ Loads::Loads(double SW_steel_beam, double SW_corrugated_sheets, double SW_add_co
 	gamma_f_add_concrete_SW_(gamma_f_add_concrete_SW),
 	gamma_f_DL_I_(gamma_f_DL_I),
 	gamma_f_DL_II_(gamma_f_DL_II),
-	gamma_f_LL_(gamma_f_LL){}
+	gamma_f_LL_(gamma_f_LL),
+	sheeting_continuity_coefficient_(sheeting_continuity_coefficient){}
 void Loads::save(std::ostream& ostr) const
 {
 	ostr.write((char*)&SW_steel_beam_, sizeof(SW_steel_beam_));
 	ostr.write((char*)&SW_corrugated_sheets_, sizeof(SW_corrugated_sheets_));
 	ostr.write((char*)&SW_concrete_, sizeof(SW_concrete_));
+	ostr.write((char*)&SW_add_concrete_, sizeof(SW_add_concrete_));
 	ostr.write((char*)&DL_I_, sizeof(DL_I_));
 	ostr.write((char*)&DL_II_, sizeof(DL_II_));
 	ostr.write((char*)&LL_, sizeof(LL_));
+
 	ostr.write((char*)&gamma_f_st_SW_, sizeof(gamma_f_st_SW_));
 	ostr.write((char*)&gamma_f_concrete_SW_, sizeof(gamma_f_concrete_SW_));
+	ostr.write((char*)&gamma_f_add_concrete_SW_, sizeof(gamma_f_add_concrete_SW_));
 	ostr.write((char*)&gamma_f_DL_I_, sizeof(gamma_f_DL_I_));
 	ostr.write((char*)&gamma_f_DL_II_, sizeof(gamma_f_DL_II_));
 	ostr.write((char*)&gamma_f_LL_, sizeof(gamma_f_LL_));
 
+	ostr.write((char*)&sheeting_continuity_coefficient_, sizeof(sheeting_continuity_coefficient_));
 }
 void Loads::load(std::istream& istr)
 {
 	istr.read((char*)&SW_steel_beam_, sizeof(SW_steel_beam_ ));
 	istr.read((char*)&SW_corrugated_sheets_, sizeof(SW_corrugated_sheets_));
 	istr.read((char*)&SW_concrete_, sizeof(SW_concrete_));
+	istr.read((char*)&SW_add_concrete_, sizeof(SW_add_concrete_));
 	istr.read((char*)&DL_I_, sizeof(DL_I_));
 	istr.read((char*)&DL_II_, sizeof(DL_II_));
 	istr.read((char*)&LL_, sizeof(LL_));
+
 	istr.read((char*)&gamma_f_st_SW_, sizeof(gamma_f_st_SW_));
 	istr.read((char*)&gamma_f_concrete_SW_, sizeof(gamma_f_concrete_SW_));
+	istr.read((char*)&gamma_f_add_concrete_SW_, sizeof(gamma_f_add_concrete_SW_));
 	istr.read((char*)&gamma_f_DL_I_, sizeof(gamma_f_DL_I_));
 	istr.read((char*)&gamma_f_DL_II_, sizeof(gamma_f_DL_II_));
 	istr.read((char*)&gamma_f_LL_, sizeof(gamma_f_LL_));
 
+	istr.read((char*)&sheeting_continuity_coefficient_, sizeof(sheeting_continuity_coefficient_));
 }
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений Ia
@@ -60,10 +70,10 @@ double Loads::Ia_design_LCC()const
 {
 	assert(fully_initialized_);
 	return gamma_f_st_SW_ * SW_steel_beam_ +
-		gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
-		gamma_f_concrete_SW_ * SW_concrete_ * B_ +
-		gamma_f_add_concrete_SW_ * SW_add_concrete_ * B_ +
-		gamma_f_DL_I_ * DL_I_ * B_;
+		gamma_f_st_SW_ * sheeting_continuity_coefficient_ * SW_corrugated_sheets_ * B_ +
+		gamma_f_concrete_SW_ * sheeting_continuity_coefficient_ * SW_concrete_ * B_ +
+		gamma_f_add_concrete_SW_ * sheeting_continuity_coefficient_ * SW_add_concrete_ * B_ +
+		gamma_f_DL_I_ * sheeting_continuity_coefficient_ * DL_I_ * B_;
 }
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений Ib
@@ -72,9 +82,9 @@ double Loads::Ib_design_LCC()const
 {
 	assert(fully_initialized_);
 	return gamma_f_st_SW_ * SW_steel_beam_ +
-		gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
-		gamma_f_add_concrete_SW_ * SW_add_concrete_ * B_ +
-		gamma_f_concrete_SW_ * SW_concrete_ * B_;
+		gamma_f_st_SW_ * sheeting_continuity_coefficient_ * SW_corrugated_sheets_ * B_ +
+		gamma_f_concrete_SW_ * sheeting_continuity_coefficient_ * SW_concrete_ * B_ +
+		gamma_f_add_concrete_SW_ * sheeting_continuity_coefficient_ * SW_add_concrete_ * B_;
 }
 //-----------------------------------------------------------------------------
 //Расчёт значения нагрузки от комбинации загружений IIb
@@ -108,12 +118,15 @@ void Loads::set_default_values()
 	DL_I_ = 0.0025;
 	DL_II_ = 0.0015;
 	LL_ =  0.002;
+
 	gamma_f_st_SW_ = 1.05;
 	gamma_f_concrete_SW_ = 1.3;
 	gamma_f_add_concrete_SW_ = 1.1;
 	gamma_f_DL_I_ = 1.3;
 	gamma_f_DL_II_ = 1.35;
 	gamma_f_LL_ = 1.35;
+
+	sheeting_continuity_coefficient_ = 1.25;
 }
 
 void Loads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B)

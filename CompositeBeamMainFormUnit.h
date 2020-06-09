@@ -167,6 +167,8 @@ __published:	// IDE-managed Components
 	TLabel *lbl_gamma_f_add_concrete_SW;
 	TEdit *edt_gamma_f_add_concrete_SW;
 	TButton *btn_add_impacts;
+	TEdit *edt_sheeting_continuity_coefficient;
+	TLabel *lbl_sheeting_continuity_coefficient;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);

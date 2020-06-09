@@ -23,7 +23,8 @@ class Loads {
 public:
 	Loads();
 	Loads(double SW_steel_beam, double SW_corrugated_sheets, double SW_add_concrete, double DL_I, double DL_II, double LL,
-		double gamma_f_SW, double gamma_f_concrete_SW, double gamma_f_add_concrete_SW, double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL);
+		double gamma_f_SW, double gamma_f_concrete_SW, double gamma_f_add_concrete_SW, double gamma_f_DL_I,
+		double gamma_f_DL_II, double gamma_f_LL, double sheeting_continuity_coefficient);
 	void set_default_values();
 	void set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B);
 	void calculate_loads(double SW_concrete);
@@ -58,6 +59,8 @@ public:
 	double get_gamma_f_DL_II(){return gamma_f_DL_II_;}
 	double get_gamma_f_LL()const {return gamma_f_LL_;}
 
+	double get_sheeting_continuity_coefficient(){return sheeting_continuity_coefficient_;}
+
 private:
 	double SW_steel_beam_ = 0.;
 	double SW_corrugated_sheets_ = 0.;
@@ -73,6 +76,8 @@ private:
 	double gamma_f_DL_I_ = 0.;
 	double gamma_f_DL_II_ = 0.;
 	double gamma_f_LL_ = 0.;
+
+	double sheeting_continuity_coefficient_ = 0.;
 
 	double B_ = 0.;//грузовая площадь
 

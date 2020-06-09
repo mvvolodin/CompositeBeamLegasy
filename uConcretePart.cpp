@@ -103,6 +103,8 @@ double ConcretePart::get_SW_concrete(LoadUnit load_unit, LengthUnit length_unit)
 	double SW_concrete = 0.;
 	double density = concrete_.get_density();
 
+	double d = CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_h_b();
+
 	if (slab_type_enum_ == SlabType::CORRUGATED)
 		SW_concrete = density * GRAV_ACCELERAT * (h_f_ + CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_h_b());
 	else

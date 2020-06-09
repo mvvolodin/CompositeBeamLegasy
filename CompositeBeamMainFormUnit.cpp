@@ -70,10 +70,12 @@ void TCompositeBeamMainForm ::set_form_controls()
 
 	edt_gamma_f_st_SW -> Text = loads.get_gamma_f_st_SW();
 	edt_gamma_f_concrete_SW -> Text = loads.get_gamma_f_concrete_SW();
-    edt_gamma_f_add_concrete_SW -> Text = loads.get_gamma_f_add_concrete_SW();
+	edt_gamma_f_add_concrete_SW -> Text = loads.get_gamma_f_add_concrete_SW();
 	edt_gamma_f_DL_I -> Text = loads.get_gamma_f_DL_I();
 	edt_gamma_f_DL_II -> Text = loads.get_gamma_f_DL_II();
 	edt_gamma_f_LL -> Text = loads.get_gamma_f_LL();
+
+	edt_sheeting_continuity_coefficient -> Text = loads.get_sheeting_continuity_coefficient();
 
 //Данные типа WorkingConditionsFactors
 	WorkingConditionsFactors wcf = composite_beam_calculator_.get_working_conditions_factors();
@@ -173,12 +175,15 @@ Loads TCompositeBeamMainForm ::init_loads()
 	double DL_I = 0.;
 	double DL_II = 0.;
 	double LL = 0.;
+
 	double gamma_f_st_SW = 0.;
 	double gamma_f_concrete_SW = 0.;
 	double gamma_f_add_concrete_SW = 0.;
 	double gamma_f_DL_I = 0.;
-	double gamma_f_DL_II= 0.;
+	double gamma_f_DL_II = 0.;
 	double gamma_f_LL = 0.;
+
+	double sheeting_continuity_coefficient = 0.;
 
 	String_double_zero_plus(lbl_dead_load_first_stage -> Caption, edt_dead_load_first_stage -> Text, &DL_I);
 	String_double_zero_plus(lbl_SW_add_concrete -> Caption, edt_SW_add_concrete -> Text, &SW_add_concrete);
@@ -192,8 +197,11 @@ Loads TCompositeBeamMainForm ::init_loads()
 	String_double_zero_plus(lbl_gamma_f_DL_II -> Caption, edt_gamma_f_DL_II -> Text, &gamma_f_DL_II);
 	String_double_zero_plus(lbl_gamma_f_LL -> Caption, edt_gamma_f_LL -> Text, &gamma_f_LL);
 
+	String_double_zero_plus(lbl_sheeting_continuity_coefficient -> Caption, edt_sheeting_continuity_coefficient -> Text, &sheeting_continuity_coefficient);
+
 	return Loads {SW, SW_sheets, SW_add_concrete, DL_I, DL_II, LL,
-		gamma_f_st_SW, gamma_f_concrete_SW, gamma_f_add_concrete_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL};
+		gamma_f_st_SW, gamma_f_concrete_SW, gamma_f_add_concrete_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL,
+		sheeting_continuity_coefficient};
 }
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
