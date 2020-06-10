@@ -644,8 +644,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       end
       object grp_bx_corrugated_slab: TGroupBox
         Left = 3
-        Top = 414
-        Width = 470
+        Top = 415
+        Width = 622
         Height = 60
         Caption = '  '#1055#1083#1080#1090#1072' '#1087#1086' '#1085#1072#1089#1090#1080#1083#1091'  '
         TabOrder = 3
@@ -679,6 +679,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Width = 41
           Height = 21
           TabOrder = 1
+        end
+        object chck_bx_wider_flange_up: TCheckBox
+          Left = 476
+          Top = 25
+          Width = 133
+          Height = 17
+          Caption = #1064#1080#1088#1086#1082#1080#1077' '#1087#1086#1083#1082#1080' '#1074#1074#1077#1088#1093#1091
+          TabOrder = 2
         end
       end
       object GrpBxSteel: TGroupBox

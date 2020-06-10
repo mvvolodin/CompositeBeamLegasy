@@ -241,16 +241,16 @@ ConcretePart TCompositeBeamMainForm ::init_concrete_part()
 	}
 	else
 	{
-	double h_f = 0.;
+		double h_f = 0.;
 
-	String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f);
+		String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f);
 
-	return ConcretePart (cmb_bx_corrugated_sheeting_part_number->Text,
-						  SlabType::CORRUGATED,
-						  ConcreteDefinitionForm->get_concrete(),
-						  RebarDefinitionForm->get_rebar(),
-						  h_f,
-						  0.);
+		return ConcretePart (cmb_bx_corrugated_sheeting_part_number->Text,
+							  SlabType::CORRUGATED,
+							  ConcreteDefinitionForm->get_concrete(),
+							  RebarDefinitionForm->get_rebar(),
+							  h_f,
+							  0.);
 	}
 }
 //---------------------------------------------------------------------------

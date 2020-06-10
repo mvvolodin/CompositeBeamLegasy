@@ -169,6 +169,7 @@ __published:	// IDE-managed Components
 	TButton *btn_add_impacts;
 	TEdit *edt_sheeting_continuity_coefficient;
 	TLabel *lbl_sheeting_continuity_coefficient;
+	TCheckBox *chck_bx_wider_flange_up;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
