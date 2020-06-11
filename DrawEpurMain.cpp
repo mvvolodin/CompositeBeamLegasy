@@ -11,7 +11,8 @@
 #define SIGN(x)  (((x)==0) ? 0 : ((x)>0) ? 1:-1)
 //-------------------------------------------------------------
 int DrawEpur(TImage *Image1, int n_point, double *coor_epur, double *LoadA, double *LoadB,
-			  int n_supp, double *coor_supp, bool flag_sign)
+			  int n_supp, double *coor_supp, bool flag_sign,
+			  int num_digits, bool con_sign_practice)
 // Image1 - Контейнер изображения
 // n_point - число точек эпюры
 // coord_epur - вектор координат эпюры
@@ -20,6 +21,8 @@ int DrawEpur(TImage *Image1, int n_point, double *coor_epur, double *LoadA, doub
 // n_supp - число опор
 // coord_supp - вектор координат опор
 // flag_sign - флаг вывода значений эпюры
+// num_digits -  количество знаков после запятой значений, отображаемых на эпюре
+// con_sign_practice - (true - правило знаков согласно строительной практики)
 {
   float scale, scale_force, scale_kp, scale_q, scale_m, scale_N, Value;
   int i;
@@ -154,28 +157,28 @@ int DrawEpur(TImage *Image1, int n_point, double *coor_epur, double *LoadA, doub
 
 	if (load_max!=1e-9 && load_max!=0) {
 		points[1] = Point(zero_px + coor_epur[i_max]*scale, zero_py - LoadA[i_max]*scale_force);
-		pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStr(LoadA[i_max]));
+		pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStrF(LoadA[i_max], ffFixed, 10, num_digits));
 		pCanvas_Ellipse(Image1, points[1].x - 3, points[1].y - 3, points[1].x + 3, points[1].y + 3);
 
 		if (LoadB!=nullptr) {
 		  points[1] = Point(zero_px + coor_epur[i_max]*scale, zero_py -
 					  (LoadA[i_max] + LoadB[i_max])*scale_force);
 		  pCanvas_Ellipse(Image1, points[1].x - 3, points[1].y - 3, points[1].x + 3, points[1].y + 3);
-		  pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStr(LoadA[i_max] + LoadB[i_max]));
+		  pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStrF(LoadA[i_max] + LoadB[i_max], ffFixed, 10, num_digits));
 		}
 
 	}
   }
   if (load_min!=1e9 && load_min!=0) {
 		points[1] = Point(zero_px + coor_epur[i_min]*scale, zero_py - LoadA[i_min]*scale_force);
-		pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStr(LoadA[i_min]));
+		pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStrF(LoadA[i_min], ffFixed, 10, num_digits));
 		pCanvas_Ellipse(Image1, points[1].x - 3, points[1].y - 3, points[1].x + 3, points[1].y + 3);
 
 		if (LoadB!=nullptr) {
 		  points[1] = Point(zero_px + coor_epur[i_min]*scale, zero_py -
 					  (LoadA[i_min] + LoadB[i_min])*scale_force);
 		  pCanvas_Ellipse(Image1, points[1].x - 3, points[1].y - 3, points[1].x + 3, points[1].y + 3);
-		  pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStr(LoadA[i_min] + LoadB[i_min]));
+		  pCanvas_TextOut(Image1, points[1].x+2, points[1].y+2, FloatToStrF(LoadA[i_min] + LoadB[i_min], ffFixed, 10, num_digits));
 		}
 
 
