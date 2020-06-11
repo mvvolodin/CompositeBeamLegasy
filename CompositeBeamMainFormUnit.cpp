@@ -896,29 +896,31 @@ void TCompositeBeamMainForm ::draw_diagram()
 	std::vector<double> coor_epur = composite_beam_calculator_.get_composite_beam().get_x_list();
 
 //флаг отрисовки значений на эпюре
-	bool flag_sign=true;
+	bool flag_sign = true;
+	int num_digits = 2;
+	bool con_sign_practice = false;
 
 	switch (rd_grp_internal_forces_type->ItemIndex)
 	{
 	case(0):
 
-		std::transform(M.begin(),M.end(), M.begin(), [](double M) { return -1*std::round(M*1000)/1000;});
-		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, coor_supp.size(), &coor_supp[0], flag_sign);
+		//std::transform(M.begin(),M.end(), M.begin(), [](double M) { return -1*M;});
+		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, coor_supp.size(), &coor_supp[0], flag_sign, num_digits, con_sign_practice);
 
 		break;
 
 	case(1):
 
-		std::transform(Q.begin(),Q.end(), Q.begin(), [](double Q) { return -1*std::round(Q*1000)/1000;});
-		std::transform(R.begin(),R.end(), R.begin(), [](double R) { return -1*std::round(R*1000)/1000;});
-		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R[0], coor_supp.size(), &coor_supp[0], flag_sign);
+	   //	std::transform(Q.begin(),Q.end(), Q.begin(), [](double Q) { return -1*std::round(Q*1000)/1000;});
+	   //	std::transform(R.begin(),R.end(), R.begin(), [](double R) { return -1*std::round(R*1000)/1000;});
+		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R[0], coor_supp.size(), &coor_supp[0], flag_sign, num_digits, con_sign_practice);
 
 		break;
 
 	case(2):
 
-		std::transform(f.begin(),f.end(), f.begin(), [](double f) { return std::round(f*1000000)/1000000;});
-		DrawEpur(Image1, f.size(), &coor_epur[0], &f[0], nullptr, coor_supp.size(), &coor_supp[0], flag_sign);
+		//std::transform(f.begin(),f.end(), f.begin(), [](double f) { return std::round(f*1000000)/1000000;});
+		DrawEpur(Image1, f.size(), &coor_epur[0], &f[0], nullptr, coor_supp.size(), &coor_supp[0], flag_sign, num_digits, con_sign_practice);
 
 		break;
 	}

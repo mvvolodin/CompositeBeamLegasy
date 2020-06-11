@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef USteelSectionFormH
-#define USteelSectionFormH
+#ifndef uSteelSectionFormH
+#define uSteelSectionFormH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
