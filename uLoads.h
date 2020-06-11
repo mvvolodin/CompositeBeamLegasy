@@ -22,9 +22,21 @@
 class Loads {
 public:
 	Loads();
-	Loads(double SW_steel_beam, double SW_corrugated_sheets, double SW_add_concrete, double DL_I, double DL_II, double LL,
-		double gamma_f_SW, double gamma_f_concrete_SW, double gamma_f_add_concrete_SW, double gamma_f_DL_I,
-		double gamma_f_DL_II, double gamma_f_LL, double sheeting_continuity_coefficient);
+	Loads(double SW_steel_beam,
+		  double SW_corrugated_sheets,
+		  double SW_add_concrete,
+		  double DL_I,
+		  double DL_II,
+		  double LL,
+		  double gamma_f_SW,
+		  double gamma_f_concrete_SW,
+		  double gamma_f_add_concrete_SW,
+		  double gamma_f_DL_I,
+		  double gamma_f_DL_II,
+		  double gamma_f_LL,
+		  double sheeting_continuity_coefficient,
+		  double sigma_bi,
+		  double sigma_si);
 	void set_default_values();
 	void set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B);
 	void calculate_loads(double SW_concrete);
@@ -55,6 +67,10 @@ public:
 	double get_gamma_f_st_SW() const {return gamma_f_st_SW_;}
 	double get_gamma_f_concrete_SW()const {return gamma_f_concrete_SW_;}
 	double get_gamma_f_add_concrete_SW()const {return gamma_f_add_concrete_SW_;}
+
+	double get_sigma_bi()const{return sigma_bi_;}
+	double get_sigma_si()const{return sigma_si_;}
+
 	double get_gamma_f_DL_I() const {return gamma_f_DL_I_;}
 	double get_gamma_f_DL_II(){return gamma_f_DL_II_;}
 	double get_gamma_f_LL()const {return gamma_f_LL_;}
@@ -69,6 +85,9 @@ private:
 	double DL_I_ = 0.;
 	double DL_II_ = 0.;
 	double LL_ = 0.;
+
+	double sigma_bi_ = 0.;
+	double sigma_si_ = 0.;
 
 	double gamma_f_st_SW_ = 0.;
 	double gamma_f_concrete_SW_ = 0;

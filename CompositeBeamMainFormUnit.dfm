@@ -126,7 +126,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -203,7 +203,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_gamma_f_add_concrete_SW: TLabel
           Left = 12
           Top = 95
-          Width = 134
+          Width = 157
           Height = 13
           Caption = #1044#1086#1087'. '#1085#1072#1075#1088'. '#1086#1090' '#1074#1077#1089#1072' '#1073#1077#1090#1086#1085#1072
           WordWrap = True
@@ -312,9 +312,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Caption = #1042#1088#1077#1084#1077#1085#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072', '#1082#1053'/'#1084'2'
         end
         object lbl_SW_add_concrete: TLabel
-          Left = 18
+          Left = 16
           Top = 41
-          Width = 173
+          Width = 185
           Height = 13
           Caption = #1044#1086#1087'. '#1085#1072#1075#1088'. '#1086#1090' '#1074#1077#1089#1072' '#1073#1077#1090#1086#1085#1072',  '#1082#1053'/'#1084'2'
           WordWrap = True
@@ -683,9 +683,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object chck_bx_wider_flange_up: TCheckBox
           Left = 476
           Top = 25
-          Width = 133
+          Width = 149
           Height = 17
-          Caption = #1064#1080#1088#1086#1082#1080#1077' '#1087#1086#1083#1082#1080' '#1074#1074#1077#1088#1093#1091
+          Caption = #1064#1080#1088#1086#1082#1080#1077' '#1087#1086#1083#1082#1080' '#1089#1074#1077#1088#1093#1091
           TabOrder = 2
         end
       end

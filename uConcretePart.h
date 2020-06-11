@@ -21,7 +21,7 @@ class ConcretePart {
 public:
 
 	ConcretePart();
-	ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, double h_n);
+	ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, double h_n, bool wider_flange_up);
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
 	void set_default_values();
@@ -43,6 +43,7 @@ public:
 	double get_b_sl(LengthUnit length_unit=LengthUnit::mm) const {return b_sl_/static_cast<int>(length_unit);}
 	double get_A_b(LengthUnit length_unit=LengthUnit::mm) const;
 	double get_I_b(LengthUnit length_unit=LengthUnit::mm) const;
+	bool get_wider_flange_up()const{return wider_flange_up_;}
 
 private:
 
@@ -52,7 +53,7 @@ private:
 	Rebar rebar_;
 	double h_f_ = 0.; // расчётная толщина железобетонной плиты
 	double h_n_ = 0.; // расстояние от наружней грани верхней полки двутавра до внутренней грани расчётной железобетонной плиты
-    bool wider_flange_up_ = false; //ориентация широкой полки
+	bool wider_flange_up_ = false; //ориентация широкой полки
 	double b_sl_ = 0.; // эффективная ширина
 
 };

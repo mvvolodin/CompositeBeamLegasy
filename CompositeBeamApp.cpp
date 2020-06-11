@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
 USEFORM("StudDefinitionFormUnit.cpp", StudDefinitionForm);
-USEFORM("USteelSectionForm.cpp", SteelSectionForm2);
+USEFORM("uSteelSectionForm.cpp", SteelSectionForm2);
 USEFORM("DefineSteelFormUnit.cpp", DefineSteelForm);
 USEFORM("ConcreteDefinitionFormUnit.cpp", ConcreteDefinitionForm);
 USEFORM("AboutProg.cpp", AboutProgForm);

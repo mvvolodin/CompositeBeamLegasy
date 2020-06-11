@@ -428,3 +428,12 @@ double InternalForcesCalculator::f_point_load(double x, double P, double x_P)con
 
 	return 0.;
 }
+double InternalForcesCalculator::M_IIb_sigma_bi(double x)const
+{
+	return loads_.get_sigma_bi();
+}
+double InternalForcesCalculator::M_IIb_sigma_si(double x)const
+{
+	return loads_.get_sigma_si();
+}
+

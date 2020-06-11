@@ -77,6 +77,9 @@ void TCompositeBeamMainForm ::set_form_controls()
 
 	edt_sheeting_continuity_coefficient -> Text = loads.get_sheeting_continuity_coefficient();
 
+	FrmAddImpacts -> edt_sigma_bi -> Text = loads.get_sigma_bi();
+	FrmAddImpacts -> edt_sigma_si -> Text = loads.get_sigma_si();
+
 //Данные типа WorkingConditionsFactors
 	WorkingConditionsFactors wcf = composite_beam_calculator_.get_working_conditions_factors();
 	edt_gamma_bi -> Text = wcf.get_gamma_bi();
@@ -103,6 +106,7 @@ void TCompositeBeamMainForm ::set_form_controls()
 		rdgrp_slab_type -> ItemIndex = 1;
 		cmb_bx_corrugated_sheeting_part_number -> ItemIndex =
 			cmb_bx_corrugated_sheeting_part_number -> Items -> IndexOf(composite_beam_calculator_.get_composite_section().get_concrete_part().get_slab_type());
+		chck_bx_wider_flange_up -> Checked = composite_beam_calculator_.get_composite_section().get_concrete_part().get_wider_flange_up();
 		break;
 	}
 	edt_h_f_flat -> Text = composite_beam_calculator_.get_composite_section().get_concrete_part().get_h_f();
@@ -176,6 +180,9 @@ Loads TCompositeBeamMainForm ::init_loads()
 	double DL_II = 0.;
 	double LL = 0.;
 
+	double sigma_bi = 0.;
+	double sigma_si = 0.;
+
 	double gamma_f_st_SW = 0.;
 	double gamma_f_concrete_SW = 0.;
 	double gamma_f_add_concrete_SW = 0.;
@@ -190,6 +197,9 @@ Loads TCompositeBeamMainForm ::init_loads()
 	String_double_zero_plus(lbl_dead_load_second_stage -> Caption, edt_dead_load_second_stage -> Text, &DL_II);
 	String_double_zero_plus(lbl_live_load -> Caption, edt_live_load -> Text, &LL);
 
+	String_double_zero_plus(FrmAddImpacts -> lbl_sigma_bi -> Caption, FrmAddImpacts -> edt_sigma_bi -> Text, &sigma_bi);
+	String_double_zero_plus(FrmAddImpacts -> lbl_sigma_si -> Caption, FrmAddImpacts -> edt_sigma_si -> Text, &sigma_si);
+
 	String_double_zero_plus(lbl_gamma_f_st_SW -> Caption, edt_gamma_f_st_SW -> Text, &gamma_f_st_SW);
 	String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption, edt_gamma_f_concrete_SW -> Text, &gamma_f_concrete_SW);
 	String_double_zero_plus(lbl_gamma_f_DL_I -> Caption, edt_gamma_f_DL_I -> Text, &gamma_f_DL_I);
@@ -201,7 +211,7 @@ Loads TCompositeBeamMainForm ::init_loads()
 
 	return Loads {SW, SW_sheets, SW_add_concrete, DL_I, DL_II, LL,
 		gamma_f_st_SW, gamma_f_concrete_SW, gamma_f_add_concrete_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL,
-		sheeting_continuity_coefficient};
+		sheeting_continuity_coefficient, sigma_bi, sigma_si};
 }
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
@@ -237,7 +247,8 @@ ConcretePart TCompositeBeamMainForm ::init_concrete_part()
 							  ConcreteDefinitionForm->get_concrete(),
 							  RebarDefinitionForm->get_rebar(),
 							  t_sl,
-							  h_n);
+							  h_n,
+							  false);
 	}
 	else
 	{
@@ -250,7 +261,8 @@ ConcretePart TCompositeBeamMainForm ::init_concrete_part()
 							  ConcreteDefinitionForm->get_concrete(),
 							  RebarDefinitionForm->get_rebar(),
 							  h_f,
-							  0.);
+							  0.,
+							  chck_bx_wider_flange_up -> Checked);
 	}
 }
 //---------------------------------------------------------------------------

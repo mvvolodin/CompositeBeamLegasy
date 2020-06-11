@@ -7,11 +7,21 @@
 
 Loads::Loads(){}
 
-Loads::Loads(double SW_steel_beam, double SW_corrugated_sheets, double SW_add_concrete,
-			 double DL_I, double DL_II, double LL,
-			 double gamma_f_SW, double gamma_f_concrete_SW, double gamma_f_add_concrete_SW,
-			 double gamma_f_DL_I, double gamma_f_DL_II, double gamma_f_LL,
-			 double sheeting_continuity_coefficient)
+Loads::Loads(double SW_steel_beam,
+			 double SW_corrugated_sheets,
+			 double SW_add_concrete,
+			 double DL_I,
+			 double DL_II,
+			 double LL,
+			 double gamma_f_SW,
+			 double gamma_f_concrete_SW,
+			 double gamma_f_add_concrete_SW,
+			 double gamma_f_DL_I,
+			 double gamma_f_DL_II,
+			 double gamma_f_LL,
+			 double sheeting_continuity_coefficient,
+			 double sigma_bi,
+			 double sigma_si)
 	:SW_steel_beam_(SW_steel_beam/static_cast<int>(LengthUnit::m)),
 	SW_corrugated_sheets_(SW_corrugated_sheets*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	SW_add_concrete_(SW_add_concrete*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
@@ -24,7 +34,9 @@ Loads::Loads(double SW_steel_beam, double SW_corrugated_sheets, double SW_add_co
 	gamma_f_DL_I_(gamma_f_DL_I),
 	gamma_f_DL_II_(gamma_f_DL_II),
 	gamma_f_LL_(gamma_f_LL),
-	sheeting_continuity_coefficient_(sheeting_continuity_coefficient){}
+	sheeting_continuity_coefficient_(sheeting_continuity_coefficient),
+	sigma_bi_(sigma_bi),
+	sigma_si_(sigma_si){}
 void Loads::save(std::ostream& ostr) const
 {
 	ostr.write((char*)&SW_steel_beam_, sizeof(SW_steel_beam_));
@@ -34,6 +46,9 @@ void Loads::save(std::ostream& ostr) const
 	ostr.write((char*)&DL_I_, sizeof(DL_I_));
 	ostr.write((char*)&DL_II_, sizeof(DL_II_));
 	ostr.write((char*)&LL_, sizeof(LL_));
+
+	ostr.write((char*)&sigma_bi_, sizeof(sigma_bi_));
+	ostr.write((char*)&sigma_si_, sizeof(sigma_si_));
 
 	ostr.write((char*)&gamma_f_st_SW_, sizeof(gamma_f_st_SW_));
 	ostr.write((char*)&gamma_f_concrete_SW_, sizeof(gamma_f_concrete_SW_));
@@ -53,6 +68,9 @@ void Loads::load(std::istream& istr)
 	istr.read((char*)&DL_I_, sizeof(DL_I_));
 	istr.read((char*)&DL_II_, sizeof(DL_II_));
 	istr.read((char*)&LL_, sizeof(LL_));
+
+	istr.read((char*)&sigma_bi_, sizeof(sigma_bi_));
+	istr.read((char*)&sigma_si_, sizeof(sigma_si_));
 
 	istr.read((char*)&gamma_f_st_SW_, sizeof(gamma_f_st_SW_));
 	istr.read((char*)&gamma_f_concrete_SW_, sizeof(gamma_f_concrete_SW_));
@@ -118,6 +136,9 @@ void Loads::set_default_values()
 	DL_I_ = 0.0025;
 	DL_II_ = 0.0015;
 	LL_ =  0.002;
+
+	sigma_bi_ = 0.;
+	sigma_si_ = 0.;
 
 	gamma_f_st_SW_ = 1.05;
 	gamma_f_concrete_SW_ = 1.3;

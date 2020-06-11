@@ -2,7 +2,7 @@ object FrmAddImpacts: TFrmAddImpacts
   Left = 0
   Top = 0
   BorderStyle = bsDialog
-  Caption = #1044#1086#1087#1086#1083#1085#1080#1090#1077#1083#1100#1085#1099#1077' '#1074#1086#1079#1076#1077#1081#1089#1090#1074#1080#1103
+  Caption = ' '#1044#1086#1087#1086#1083#1085#1080#1090#1077#1083#1100#1085#1099#1077' '#1074#1086#1079#1076#1077#1081#1089#1090#1074#1080#1103
   ClientHeight = 138
   ClientWidth = 285
   Color = clBtnFace
@@ -45,28 +45,28 @@ object FrmAddImpacts: TFrmAddImpacts
     Height = 89
     Caption = #1052#1072#1082#1089#1080#1084#1072#1083#1100#1085#1099#1077' '#1091#1088#1072#1074#1085#1086#1074#1077#1096#1077#1085#1085#1099#1077' '#1085#1072#1087#1088#1103#1078#1077#1085#1080#1103
     TabOrder = 3
-    object lbl_concrete_internal_stress: TLabel
+    object lbl_sigma_bi: TLabel
       Left = 8
       Top = 28
       Width = 58
       Height = 13
       Caption = #1041#1077#1090#1086#1085', '#1052#1055#1072
     end
-    object lbl_rebar_internal_stress: TLabel
+    object lbl_sigma_si: TLabel
       Left = 8
       Top = 55
       Width = 77
       Height = 13
       Caption = #1040#1088#1084#1072#1090#1091#1088#1072', '#1052#1055#1072
     end
-    object edt_concrete_internal_stress: TEdit
+    object edt_sigma_bi: TEdit
       Left = 205
       Top = 24
       Width = 52
       Height = 21
       TabOrder = 0
     end
-    object edt_rebar_internal_stress: TEdit
+    object edt_sigma_si: TEdit
       Left = 205
       Top = 52
       Width = 52

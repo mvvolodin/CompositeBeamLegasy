@@ -43,6 +43,9 @@ public:
 	double f_IIb_design(double x)const;
 	double f_total_design(double x)const;
 
+	double M_IIb_sigma_bi(double x)const;
+	double M_IIb_sigma_si(double x)const;
+
 private:
 
 	SupportsNumber s_num_;

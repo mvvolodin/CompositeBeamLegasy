@@ -12,10 +12,10 @@ class TFrmAddImpacts : public TForm
 {
 __published:	// IDE-managed Components
 	TButton *btn_close;
-	TLabel *lbl_concrete_internal_stress;
-	TLabel *lbl_rebar_internal_stress;
-	TEdit *edt_concrete_internal_stress;
-	TEdit *edt_rebar_internal_stress;
+	TLabel *lbl_sigma_bi;
+	TLabel *lbl_sigma_si;
+	TEdit *edt_sigma_bi;
+	TEdit *edt_sigma_si;
 	TButton *btn_cancel;
 	TButton *btn_ok;
 	TGroupBox *GroupBox1;
