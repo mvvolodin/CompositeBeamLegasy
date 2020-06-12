@@ -374,6 +374,22 @@ double CompositeSectionGeometry::get_Z_b_red(LengthUnit length_unit)
 
 	return Z_b_red_/static_cast<int>(length_unit);
 }
+double CompositeSectionGeometry::get_Z_st_red(LengthUnit length_unit)
+{
+	if(composite_section_calculated) return Z_st_red_;
+
+	calculate();
+
+	return Z_st_red_/static_cast<int>(length_unit);
+}
+double CompositeSectionGeometry::get_Z_b_st(LengthUnit length_unit)
+{
+	if(composite_section_calculated) return Z_b_st_;
+
+	calculate();
+
+	return Z_b_st_/static_cast<int>(length_unit);
+}
 double CompositeSectionGeometry::get_Z_f2_red(LengthUnit length_unit)
 {
 	if(composite_section_calculated) return Z_red_f2_;
@@ -389,14 +405,6 @@ double CompositeSectionGeometry::get_Z_f1_red(LengthUnit length_unit)
 	calculate();
 
 	return Z_red_f1_/static_cast<int>(length_unit);
-}
-double CompositeSectionGeometry::get_Z_b_st(LengthUnit length_unit)
-{
-	if(composite_section_calculated) return Z_b_st_;
-
-	calculate();
-
-	return Z_b_st_/static_cast<int>(length_unit);
 }
 double CompositeSectionGeometry::get_W_b_st(LengthUnit length_unit)
 {

@@ -208,7 +208,7 @@ private:
 
 	CompositeBeamCalculator composite_beam_calculator_; //Основной объект в программе
 
-	Geometry init_geomet();//Инициализация топологии
+	std::pair<Geometry, int> update_geometry();//Инициализация топологии
 	Loads init_loads(); //Инициализация нагрузок
 	ISection init_i_section();//Инициализация объекта геометрия двутавра
 	Steel init_steel_i_section(); //Инициализация стали двутавра

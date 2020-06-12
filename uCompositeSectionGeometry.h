@@ -92,6 +92,7 @@ public:
 	double get_W_f2_red(LengthUnit length_unit=LengthUnit::mm);
 	double get_W_f1_red(LengthUnit length_unit=LengthUnit::mm);
 	double get_Z_b_red(LengthUnit length_unit=LengthUnit::mm);
+	double get_Z_st_red(LengthUnit length_unit=LengthUnit::mm);
 	double get_Z_f2_red(LengthUnit length_unit=LengthUnit::mm);
 	double get_Z_f1_red(LengthUnit length_unit=LengthUnit::mm);
 	double get_Z_b_st(LengthUnit length_unit=LengthUnit::mm);

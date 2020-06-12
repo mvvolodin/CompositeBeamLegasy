@@ -209,49 +209,49 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           WordWrap = True
         end
         object edt_gamma_f_DL_I: TEdit
-          Left = 195
+          Left = 187
           Top = 118
-          Width = 45
+          Width = 52
           Height = 21
           TabOrder = 0
           OnChange = OnControlsChange
         end
         object edt_gamma_f_DL_II: TEdit
-          Left = 195
+          Left = 187
           Top = 156
-          Width = 45
+          Width = 52
           Height = 21
           TabOrder = 1
           OnChange = OnControlsChange
         end
         object edt_gamma_f_LL: TEdit
-          Left = 195
+          Left = 187
           Top = 183
-          Width = 45
+          Width = 52
           Height = 21
           TabOrder = 2
           OnChange = OnControlsChange
         end
         object edt_gamma_f_st_SW: TEdit
-          Left = 195
+          Left = 187
           Top = 37
-          Width = 45
+          Width = 52
           Height = 21
           TabOrder = 3
           OnChange = OnControlsChange
         end
         object edt_gamma_f_concrete_SW: TEdit
-          Left = 195
+          Left = 187
           Top = 64
-          Width = 45
+          Width = 52
           Height = 21
           TabOrder = 4
           OnChange = OnControlsChange
         end
         object edt_gamma_f_add_concrete_SW: TEdit
-          Left = 195
+          Left = 187
           Top = 91
-          Width = 45
+          Width = 52
           Height = 21
           TabOrder = 5
           OnChange = OnControlsChange
@@ -3190,7 +3190,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 3
           Width = 426
           Height = 393
-          ActivePage = tb_sht_concrete_geom_char
+          ActivePage = tb_sht_composite_geom_char
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1050#1086#1084#1087#1086#1079#1080#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
@@ -3208,7 +3208,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
               ColCount = 2
               DefaultColWidth = 100
               DrawingStyle = gdsClassic
-              RowCount = 9
+              RowCount = 7
               ScrollBars = ssNone
               TabOrder = 0
               OnDrawCell = strng_grd_first_raw_bold
@@ -3216,8 +3216,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
                 304
                 254)
               RowHeights = (
-                24
-                24
                 24
                 24
                 24
@@ -3316,6 +3314,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Height = 25
     Caption = #1051#1086#1075
     TabOrder = 6
+    Visible = False
     OnClick = btn_loggerClick
   end
   object MainMenu1: TMainMenu

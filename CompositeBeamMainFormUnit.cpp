@@ -4,6 +4,7 @@
 #include <ostream>
 #include <fstream>
 #pragma hdrstop
+#include<vector>
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -146,23 +147,32 @@ void TCompositeBeamMainForm ::register_I_composite_beam()
 	DefineSteelForm -> register_icopmosite_beam_user(this);
 }
 
+
 //---------------------------------------------------------------------------
 //Инициализация топологии
 //---------------------------------------------------------------------------
-Geometry TCompositeBeamMainForm ::init_geomet()
+std::pair<Geometry, int> TCompositeBeamMainForm ::update_geometry()
 {
+	int rc = 0.;
+
 	double span = 0.;
 	double trib_width_left = 0.;
 	double trib_width_right = 0.;
 
-	String_double_plus(lbl_span->Caption, edt_span->Text, &span);
-	String_double_plus(lbl_trib_width_left->Caption, edt_width_left->Text, &trib_width_left);
-	String_double_plus(lbl_trib_width_right->Caption, edt_width_right->Text, &trib_width_right);
+	rc = String_double_plus(lbl_span->Caption, edt_span->Text, &span);
+	if(rc > 0) return {Geometry{}, rc};
+	rc = String_double_plus(lbl_trib_width_left->Caption, edt_width_left->Text, &trib_width_left);
 
-	return Geometry(chck_bx_end_beam->Checked,
+	if(rc > 0) return {Geometry{}, rc};
+
+	rc = String_double_plus(lbl_trib_width_right->Caption, edt_width_right->Text, &trib_width_right);
+	if(rc > 0) return {Geometry{}, rc};
+
+
+	return {Geometry{chck_bx_end_beam->Checked,
 					 span, trib_width_left,
 					 trib_width_right,
-					 static_cast<SupportsNumber>(StrToFloat(cmb_bx_number_propping_supports -> Text)));
+					 static_cast<SupportsNumber>(StrToFloat(cmb_bx_number_propping_supports -> Text))}, rc};
 
 }
 //---------------------------------------------------------------------------
@@ -232,7 +242,10 @@ Steel TCompositeBeamMainForm ::init_steel_i_section()
 //---------------------------------------------------------------------------
 ConcretePart TCompositeBeamMainForm ::init_concrete_part()
 {
-	Geometry geometry = init_geomet();
+	if(std::get<1>(update_geometry()) > 0)
+		;
+	Geometry geometry = std::get<0>(update_geometry());
+
 	ISection i_section = SteelSectionForm2 -> get_i_section();
 	double b_uf = i_section.get_b_uf();
 
@@ -302,9 +315,14 @@ StudsOnBeam TCompositeBeamMainForm ::init_studs_on_beam()
 // ---------------------------------------------------------------------------
 // Инициализация композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm ::update_composite_beam()
+void TCompositeBeamMainForm::update_composite_beam()
 {
-   Geometry geometry = init_geomet();
+	int rc;
+
+	if((rc = std::get<1>(update_geometry())) > 0)
+		return;
+	Geometry geometry = std::get<0>(update_geometry());
+
    Loads loads = init_loads();
 
    SteelPart steel_part = init_steel_part();
@@ -437,11 +455,9 @@ void TCompositeBeamMainForm ::cotr_comp_sect_geometr_grid()
 	strng_grd_compos_sect_geom_character->Cells [0][1]=L"Площадь Ared, мм2";
 	strng_grd_compos_sect_geom_character->Cells [0][2]=L"Момент инерции Ired, мм4 ";
 	strng_grd_compos_sect_geom_character->Cells [0][3]=L"Момент сопротивления, Ц.Т. ж.б. плиты Wb,red, мм3";
-	strng_grd_compos_sect_geom_character->Cells [0][4]=L"Момент сопротивления, верхн. полка Wf2,red, мм3";
-	strng_grd_compos_sect_geom_character->Cells [0][5]=L"Момент сопротивления, нижн. полка Wf1,red, мм3";
-	strng_grd_compos_sect_geom_character->Cells [0][6]=L"Расстояние Zb,red, мм";
-	strng_grd_compos_sect_geom_character->Cells [0][7]=L"Расстояние Zf2,red мм";
-	strng_grd_compos_sect_geom_character->Cells [0][8]=L"Расстояние Zf1,red мм";
+	strng_grd_compos_sect_geom_character->Cells [0][4]=L"Расстояние Zb,red, мм";
+	strng_grd_compos_sect_geom_character->Cells [0][5]=L"Расстояние Zst,red мм";
+	strng_grd_compos_sect_geom_character->Cells [0][6]=L"Расстояние Zb,st мм";
 }
 //---------------------------------------------------------------------------
 //Функция заполняющая объект TStringGrid геометрическими характеристиками стального сечения
@@ -454,8 +470,8 @@ void TCompositeBeamMainForm ::cotr_steel_sect_geometr_grid()
 	strng_grd_steel_sect_geom_character->Cells [0][2]=L"Момент инерции, мм4";
 	strng_grd_steel_sect_geom_character->Cells [0][3]=L"Момент сопротивления крайних волокон в.полки, мм3";
 	strng_grd_steel_sect_geom_character->Cells [0][4]=L"Момент сопротивления крайних волокон н.полки, мм3";
-	strng_grd_steel_sect_geom_character->Cells [0][5]=L"Расстояние от Ц.Т. до наружной грани в.полки, мм";
-	strng_grd_steel_sect_geom_character->Cells [0][6]=L"Расстояние от Ц.Т. до наружной грани н.полки, мм";
+	strng_grd_steel_sect_geom_character->Cells [0][5]=L"Расстояние Zf2,st, мм";
+	strng_grd_steel_sect_geom_character->Cells [0][6]=L"Расстояние Zf1,st, мм";
 }
 //---------------------------------------------------------------------------
 //Функция заполняющая объект TStringGrid геометрическими характеристиками железобетонного сечения
@@ -495,20 +511,16 @@ void TCompositeBeamMainForm ::fill_composite_sect_geometr_grid()
 	double A_red=composite_beam_calculator_.get_composite_section().get_A_red();
 	double I_red=composite_beam_calculator_.get_composite_section().get_I_red();
 	double W_b_red=composite_beam_calculator_.get_composite_section().get_W_b_red();
-	double W_f2_red=composite_beam_calculator_.get_composite_section().get_W_f2_red();
-	double W_f1_red=composite_beam_calculator_.get_composite_section().get_W_f1_red();
 	double Z_b_red=composite_beam_calculator_.get_composite_section().get_Z_b_red();
-	double Z_f2_red=composite_beam_calculator_.get_composite_section().get_Z_f2_red();
-	double Z_f1_red=composite_beam_calculator_.get_composite_section().get_Z_f1_red();
+	double Z_f2_red=composite_beam_calculator_.get_composite_section().get_Z_st_red();
+	double Z_f1_red=composite_beam_calculator_.get_composite_section().get_Z_b_st();
 
 	strng_grd_compos_sect_geom_character->Cells [1][1]=FloatToStrF(A_red, ffFixed, 15, 0); //Предельно значение точность для
 	strng_grd_compos_sect_geom_character->Cells [1][2]=FloatToStrF(I_red, ffFixed, 15, 0); //типа double 15
 	strng_grd_compos_sect_geom_character->Cells [1][3]=FloatToStrF(W_b_red, ffFixed, 15, 0);
-	strng_grd_compos_sect_geom_character->Cells [1][4]=FloatToStrF(std::abs(W_f2_red), ffFixed, 15, 0);
-	strng_grd_compos_sect_geom_character->Cells [1][5]=FloatToStrF(W_f1_red, ffFixed, 15, 0);
-	strng_grd_compos_sect_geom_character->Cells [1][6]=FloatToStrF(Z_b_red, ffFixed, 15, 0);
-	strng_grd_compos_sect_geom_character->Cells [1][7]=FloatToStrF(std::abs(Z_f2_red), ffFixed, 15, 0);
-	strng_grd_compos_sect_geom_character->Cells [1][8]=FloatToStrF(Z_f1_red, ffFixed, 15, 0);
+	strng_grd_compos_sect_geom_character->Cells [1][4]=FloatToStrF(Z_b_red, ffFixed, 15, 0);
+	strng_grd_compos_sect_geom_character->Cells [1][5]=FloatToStrF(std::abs(Z_f2_red), ffFixed, 15, 0);
+	strng_grd_compos_sect_geom_character->Cells [1][6]=FloatToStrF(Z_f1_red, ffFixed, 15, 0);
 }
 
 void TCompositeBeamMainForm ::fill_results_grid()
@@ -898,29 +910,28 @@ void TCompositeBeamMainForm ::draw_diagram()
 //флаг отрисовки значений на эпюре
 	bool flag_sign = true;
 	int num_digits = 2;
-	bool con_sign_practice = false;
+	bool con_sign_practice = true;
 
 	switch (rd_grp_internal_forces_type->ItemIndex)
 	{
 	case(0):
 
-		//std::transform(M.begin(),M.end(), M.begin(), [](double M) { return -1*M;});
-		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, coor_supp.size(), &coor_supp[0], flag_sign, num_digits, con_sign_practice);
+		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, coor_supp.size(), &coor_supp[0],
+			flag_sign, num_digits, con_sign_practice);
 
 		break;
 
 	case(1):
 
-	   //	std::transform(Q.begin(),Q.end(), Q.begin(), [](double Q) { return -1*std::round(Q*1000)/1000;});
-	   //	std::transform(R.begin(),R.end(), R.begin(), [](double R) { return -1*std::round(R*1000)/1000;});
-		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R[0], coor_supp.size(), &coor_supp[0], flag_sign, num_digits, con_sign_practice);
+		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R[0], coor_supp.size(), &coor_supp[0],
+			flag_sign, num_digits, con_sign_practice);
 
 		break;
 
 	case(2):
 
-		//std::transform(f.begin(),f.end(), f.begin(), [](double f) { return std::round(f*1000000)/1000000;});
-		DrawEpur(Image1, f.size(), &coor_epur[0], &f[0], nullptr, coor_supp.size(), &coor_supp[0], flag_sign, num_digits, con_sign_practice);
+		DrawEpur(Image1, f.size(), &coor_epur[0], &f[0], nullptr, coor_supp.size(), &coor_supp[0],
+			flag_sign, num_digits, false);
 
 		break;
 	}
