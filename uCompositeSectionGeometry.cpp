@@ -312,109 +312,82 @@ double CompositeSectionGeometry::get_Q_Rd()const
 }
 double CompositeSectionGeometry::get_alfa_b()
 {
-	if(composite_section_calculated) return alfa_b_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return alfa_b_;
 }
 double CompositeSectionGeometry::get_alfa_s()
 {
-	if(composite_section_calculated) return alfa_s_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return alfa_s_;
 }
 double CompositeSectionGeometry::get_A_red(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return A_red_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return A_red_/std::pow(static_cast<int>(length_unit),2);
 }
 double CompositeSectionGeometry::get_I_red(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return I_red_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return I_red_/std::pow(static_cast<int>(length_unit),4);
 }
 double CompositeSectionGeometry::get_W_b_red(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return W_b_red_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return W_b_red_/std::pow(static_cast<int>(length_unit),3);
 }
 double CompositeSectionGeometry::get_W_f2_red(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return W_f2_red_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return W_f2_red_/std::pow(static_cast<int>(length_unit),3);
 }
 double CompositeSectionGeometry::get_W_f1_red(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return W_f1_red_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return W_f1_red_/std::pow(static_cast<int>(length_unit),3);
 }
 double CompositeSectionGeometry::get_Z_b_red(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return Z_b_red_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return Z_b_red_/static_cast<int>(length_unit);
 }
 double CompositeSectionGeometry::get_Z_st_red(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return Z_st_red_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return Z_st_red_/static_cast<int>(length_unit);
 }
 double CompositeSectionGeometry::get_Z_b_st(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return Z_b_st_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return Z_b_st_/static_cast<int>(length_unit);
 }
 double CompositeSectionGeometry::get_Z_f2_red(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return Z_red_f2_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return Z_red_f2_/static_cast<int>(length_unit);
 }
 double CompositeSectionGeometry::get_Z_f1_red(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return Z_red_f1_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return Z_red_f1_/static_cast<int>(length_unit);
 }
 double CompositeSectionGeometry::get_W_b_st(LengthUnit length_unit)
 {
-	if(composite_section_calculated) return W_b_st_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return W_b_st_/std::pow(static_cast<int>(length_unit),3);
 }
-
 double CompositeSectionGeometry::get_E_st_I_red()const
 {
 	return steel_part_.get_steel().get_E_st() * I_red_;
@@ -426,9 +399,7 @@ double CompositeSectionGeometry::get_E_st_I_st()const
 }
 double CompositeSectionGeometry::get_M_Rd(LoadUnit load_unit, LengthUnit length_unit)
 {
-	if(composite_section_calculated) return M_Rd_;
-
-	calculate();
+	if(!composite_section_calculated) calculate();
 
 	return M_Rd_ / (static_cast<int>(load_unit) * static_cast<int>(length_unit));
 }

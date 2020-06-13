@@ -32,6 +32,7 @@ CompositeBeamCalculator::CompositeBeamCalculator(){}
 {
 
 }
+
 //---------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
 //---------------------------------------------------------------------------
@@ -107,6 +108,7 @@ void CompositeBeamCalculator::calculate_composite_beam()
 	composite_beam_.calculate();
 
 	#ifndef NDEBUG
+	FormLogger -> clean_logger();
 	FormLogger -> add_separator(L"Проверка сечений");
 	FormLogger -> add_separator(L"Координаты сечений");
 	for (const auto& section:composite_beam_.get_section_list())
@@ -182,7 +184,7 @@ void CompositeBeamCalculator::calculate_studs()
 	for (auto stud:studs_on_beam_.stud_list())
 
 		FormLogger -> print_stud_shear_force(stud.get_id(),
-										  stud.get_S());
+										  stud.get_S(LoadUnit::kN));
 
 	FormLogger -> add_separator(L"Коэффициенты использования");
 

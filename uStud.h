@@ -45,7 +45,7 @@ public:
 	double get_x()const{return x_;}
 	double get_x_r()const{return x_r_;}
 	double get_x_l()const{return x_l_;}
-	double get_S()const{return S_;}
+	double get_S(LoadUnit load_unit=LoadUnit::N)const{return S_ / static_cast<int>(load_unit);}
 	double get_ratio()const{return ratio_;}
 
 	void calculate_S(InternalForcesCalculator& intr_frcs_calculator, CompositeSectionGeometry& com_sect);

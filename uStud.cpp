@@ -214,6 +214,8 @@ void StudsRow::calculate_S(InternalForcesCalculator& intr_frcs_calculator, Compo
 	double alfa_b = com_sect.get_alfa_b();
 	double alfa_s = com_sect.get_alfa_s();
 
+	double b_sl = com_sect.get_concrete_part().get_b_sl();
+
 	double M_II_design_r = intr_frcs_calculator.M_IIa_design(x_r_) +
 		intr_frcs_calculator.M_IIb_design(x_r_);
 	double M_II_design_l = intr_frcs_calculator.M_IIa_design(x_l_) +
@@ -225,8 +227,8 @@ void StudsRow::calculate_S(InternalForcesCalculator& intr_frcs_calculator, Compo
 	double sigma_s_r = std::abs(M_II_design_r)/(alfa_s*W_b_red);
 	double sigma_s_l = std::abs(M_II_design_l)/(alfa_s*W_b_red);
 
-	S_ = ((std::min(sigma_b_r, R_b) * A_b + std::min(sigma_s_r, R_s) * A_s)-
-		 ((std::min(sigma_b_l, R_b) * A_b + std::min(sigma_s_l, R_s) * A_s)));
+	S_ = ((std::min(sigma_b_r, R_b) * A_b + std::min(sigma_s_r, R_s) * A_s * b_sl)-
+		 ((std::min(sigma_b_l, R_b) * A_b + std::min(sigma_s_l, R_s) * A_s * b_sl)));
 }
 //-----------------------------------------------------------------------------
 //Вычисляет несущую способность для каждого из гибких упоров на балке
@@ -253,6 +255,8 @@ void StudsOnBeam::set_default_values()
 //-----------------------------------------------------------------------------
 void StudsOnBeam::set_studs(double L)//пролёт балки
 {
+	stud_list_.clear();
+
 	const double L3 = L/3;
 	double d_e = dist_e_;
 	double d_m = dist_m_;
@@ -295,6 +299,7 @@ void StudsOnBeam::set_studs(double L)//пролёт балки
 		stud_list_.emplace_back(StudsRow{++id, 2 * L3 + n * d_e - d_e / 2, 2 * L3 + n * d_e, 2 * L3 + n * d_e + d_e / 2, num_e_});
 
 	stud_list_.emplace_back(StudsRow{++id, L, L, L, num_e_});
+
 }
 void TStudBasic::save_stud_basic(ostream& ostr) const
 {

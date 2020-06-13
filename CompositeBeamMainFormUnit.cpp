@@ -43,7 +43,7 @@ void __fastcall TCompositeBeamMainForm ::FormShow(TObject *Sender)
 
 	NNewClick(Sender);
 
-	rdgrp_slab_typeClick(Sender);
+  //	rdgrp_slab_typeClick(Sender);
 
 	calculate_composite_beam();
 
@@ -153,7 +153,7 @@ void TCompositeBeamMainForm ::register_I_composite_beam()
 //---------------------------------------------------------------------------
 std::pair<Geometry, int> TCompositeBeamMainForm ::update_geometry()
 {
-	int rc = 0.;
+	int rc = 0;
 
 	double span = 0.;
 	double trib_width_left = 0.;
@@ -179,11 +179,11 @@ std::pair<Geometry, int> TCompositeBeamMainForm ::update_geometry()
 //Инициализация нагрузок и коэффициентов надёжности по нагрузкам
 //(для инициализации SW (собственного веса) необходима инициализация структуры I сечения- предусловие)
 //---------------------------------------------------------------------------
-Loads TCompositeBeamMainForm ::init_loads()
+Loads TCompositeBeamMainForm ::update_loads()
 {
 	double SW_sheets = 0.;
 
-	double SW = SteelSectionForm2 -> get_i_section().get_weight() * GRAV_ACCELERAT;
+	double SW = SteelSectionForm2 -> get_i_section().get_weight();
 
 	double SW_add_concrete = 0.;
 	double DL_I = 0.;
@@ -226,21 +226,21 @@ Loads TCompositeBeamMainForm ::init_loads()
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
 //---------------------------------------------------------------------------
-ISection TCompositeBeamMainForm ::init_i_section()
+ISection TCompositeBeamMainForm ::update_i_section()
 {
 	return SteelSectionForm2 -> get_i_section();
 }
 //---------------------------------------------------------------------------
 //	Инициализация материала двутавра
 //---------------------------------------------------------------------------
-Steel TCompositeBeamMainForm ::init_steel_i_section()
+Steel TCompositeBeamMainForm ::update_steel_i_section()
 {
 	return DefineSteelForm -> get_steel();
 }
 //---------------------------------------------------------------------------
 //Инициализация железобетонной части сечения
 //---------------------------------------------------------------------------
-ConcretePart TCompositeBeamMainForm ::init_concrete_part()
+ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 {
 	if(std::get<1>(update_geometry()) > 0)
 		;
@@ -281,57 +281,68 @@ ConcretePart TCompositeBeamMainForm ::init_concrete_part()
 //---------------------------------------------------------------------------
 //Инициализация стальной части сечения
 //---------------------------------------------------------------------------
-SteelPart TCompositeBeamMainForm ::init_steel_part()
+SteelPart TCompositeBeamMainForm ::update_steel_part()
 {
 
-   ISection i_section = init_i_section();
-   Steel steel_i_section = init_steel_i_section();
+   ISection i_section = update_i_section();
+   Steel steel_i_section = update_steel_i_section();
 
 	return SteelPart(i_section, steel_i_section);
 }
 //---------------------------------------------------------------------------
 //	Инициализация упоров
 //---------------------------------------------------------------------------
-StudsOnBeam TCompositeBeamMainForm ::init_studs_on_beam()
+StudsOnBeam TCompositeBeamMainForm ::update_studs_on_beam()
 {
 	return StudDefinitionForm -> get_studs_on_beam();
 }
 //---------------------------------------------------------------------------
 //	Инициализация коэффициентов условий работы
 //---------------------------------------------------------------------------
- WorkingConditionsFactors TCompositeBeamMainForm ::init_working_conditions_factors()
+ std::optional<WorkingConditionsFactors> TCompositeBeamMainForm ::update_working_conditions_factors()
  {
+	int rc = 0;
 	double gamma_bi=0.;
 	double gamma_si=0.;
 	double gamma_c=0.;
 
-	String_double_plus(lbl_gamma_bi->Caption, edt_gamma_bi->Text, &gamma_bi);
-	String_double_plus(lbl_gamma_si->Caption, edt_gamma_si->Text, &gamma_si);
-	String_double_plus(lbl_gamma_c->Caption, edt_gamma_c->Text, &gamma_c);
+	rc = String_double_plus(lbl_gamma_bi->Caption, edt_gamma_bi->Text, &gamma_bi);
+	if(rc > 0)
+		return std::nullopt;
 
-	return WorkingConditionsFactors(gamma_bi,gamma_si,gamma_c);
+	rc = String_double_plus(lbl_gamma_si->Caption, edt_gamma_si->Text, &gamma_si);
+	if(rc > 0)
+		return std::nullopt;
+
+	rc = String_double_plus(lbl_gamma_c->Caption, edt_gamma_c->Text, &gamma_c);
+	if(rc > 0)
+		return std::nullopt;
+
+	return std::optional<WorkingConditionsFactors>{{gamma_bi,gamma_si,gamma_c}};
  }
 
 // ---------------------------------------------------------------------------
 // Инициализация композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::update_composite_beam()
+int TCompositeBeamMainForm::update_composite_beam()
 {
-	int rc;
+	auto geometry_pair = update_geometry();
 
-	if((rc = std::get<1>(update_geometry())) > 0)
-		return;
-	Geometry geometry = std::get<0>(update_geometry());
+	if(geometry_pair.second > 0)
+		return geometry_pair.second;
+	Geometry geometry = geometry_pair.first;
 
-   Loads loads = init_loads();
+   Loads loads = update_loads();
 
-   SteelPart steel_part = init_steel_part();
-   ConcretePart concrete_part = init_concrete_part();
+   SteelPart steel_part = update_steel_part();
+   ConcretePart concrete_part = update_concrete_part();
    CompositeSectionGeometry composite_section = CompositeSectionGeometry(steel_part, concrete_part);
 
-   StudsOnBeam studs_on_beam = init_studs_on_beam();
+   StudsOnBeam studs_on_beam = update_studs_on_beam();
 
-   WorkingConditionsFactors working_conditions_factors = init_working_conditions_factors();
+   auto working_conditions_factors = update_working_conditions_factors();
+	if(!working_conditions_factors)
+		return 1;
 
    double max_elem_length = 0.;
 
@@ -341,8 +352,9 @@ void TCompositeBeamMainForm::update_composite_beam()
 											  loads,
 											  composite_section,
 											  studs_on_beam,
-											  working_conditions_factors,
+											  working_conditions_factors.value(),
 											  max_elem_length);
+    return 0;
 }
 //---------------------------------------------------------------------------
 //	Функция запускающая расчёт композитной балки
@@ -949,9 +961,11 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 	draw_diagram();
 }
 
-void TCompositeBeamMainForm ::calculate_composite_beam()
+void TCompositeBeamMainForm::calculate_composite_beam()
 {
-   update_composite_beam();
+
+	if (auto b = update_composite_beam())
+		return;
    composite_beam_calculator_.calculate();
    //Вывод результатов расчёта в GUI
 	draw_diagram();
@@ -1055,6 +1069,8 @@ void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 	  ifstr.close();
 
 	  set_form_controls();
+
+      calculate_composite_beam();
 
 	  ModelName(FileDir_Name.c_str(), ModelFile);
 

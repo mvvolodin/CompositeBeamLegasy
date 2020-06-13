@@ -23,7 +23,7 @@ void CompositeBeam::initialize_section_list(double L, SupportsNumber temporary_s
 
 	num_elements = num_temp_spans * num_elements;
 
-	std::vector<Section> sections_list;
+   //	std::vector<Section> sections_list;
 
 	for (int n = 0; n <= num_elements; ++n)
 		section_list_.push_back(Section{n, L / num_elements * n});

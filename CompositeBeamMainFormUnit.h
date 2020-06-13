@@ -209,16 +209,16 @@ private:
 	CompositeBeamCalculator composite_beam_calculator_; //Основной объект в программе
 
 	std::pair<Geometry, int> update_geometry();//Инициализация топологии
-	Loads init_loads(); //Инициализация нагрузок
-	ISection init_i_section();//Инициализация объекта геометрия двутавра
-	Steel init_steel_i_section(); //Инициализация стали двутавра
-	ConcretePart init_concrete_part();//Инициализация бетонной части композитного сечения
-	SteelPart init_steel_part();
-	StudsOnBeam init_studs_on_beam();//Инициализация упоров
-	WorkingConditionsFactors init_working_conditions_factors();//Инициализация коэффициентов условий работы
+	Loads update_loads(); //Инициализация нагрузок
+	ISection update_i_section();//Инициализация объекта геометрия двутавра
+	Steel update_steel_i_section(); //Инициализация стали двутавра
+	ConcretePart update_concrete_part();//Инициализация бетонной части композитного сечения
+	SteelPart update_steel_part();
+	StudsOnBeam update_studs_on_beam();//Инициализация упоров
+	std::optional<WorkingConditionsFactors> update_working_conditions_factors();//Инициализация коэффициентов условий работы
 
 	void set_form_controls();
-	void update_composite_beam();
+	int update_composite_beam();
 	void generate_report();
 	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
 	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения
