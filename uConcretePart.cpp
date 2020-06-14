@@ -12,8 +12,25 @@
 ConcretePart::ConcretePart()
 {
 }
-ConcretePart::ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, double h_n, bool wider_flange_up)
-	:slab_type_(slab_type), slab_type_enum_(slab_type_enum),concrete_(concrete),rebar_(rebar), h_f_(h_f), h_n_(h_n), wider_flange_up_(wider_flange_up)
+ConcretePart::ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete,
+	Rebar rebar, double h_f, double h_n)
+	:slab_type_(slab_type),
+	 slab_type_enum_(slab_type_enum),
+	 concrete_(concrete),
+	 rebar_(rebar),
+	 h_f_(h_f),
+	 h_n_(h_n)
+{}
+ConcretePart::ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete,
+	Rebar rebar, double h_f, double h_n, bool wider_flange_up, SheetOrient sheet_orient)
+	:slab_type_(slab_type),
+	 slab_type_enum_(slab_type_enum),
+	 concrete_(concrete),
+	 rebar_(rebar),
+	 h_f_(h_f),
+	 h_n_(h_n),
+	 wider_flange_up_(wider_flange_up),
+	 sheet_orient_(sheet_orient)
 {}
 //-----------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
@@ -46,6 +63,7 @@ void ConcretePart::save(std::ostream& ostr) const
 	ostr.write((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 	ostr.write((char*)&h_f_,sizeof(h_f_));
 	ostr.write((char*)&wider_flange_up_,sizeof(wider_flange_up_));
+	ostr.write((char*)&sheet_orient_,sizeof(sheet_orient_));
 }
 //---------------------------------------------------------------------------
 //Загрузка объекта из бинарного файла
@@ -66,6 +84,7 @@ void ConcretePart::load(std::istream& istr)
 	istr.read((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 	istr.read((char*)&h_f_,sizeof(h_f_));
 	istr.read((char*)&wider_flange_up_,sizeof(wider_flange_up_));
+	istr.read((char*)&sheet_orient_,sizeof(sheet_orient_));
 }
 double ConcretePart::get_h(LengthUnit length_unit) const
 {
@@ -113,6 +132,10 @@ double ConcretePart::get_SW_concrete(LoadUnit load_unit, LengthUnit length_unit)
 		SW_concrete = density * GRAV_ACCELERAT * h_f_;
 
 	return SW_concrete / static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);
+}
+CorrugatedSheet ConcretePart::get_corrugated_sheet()const
+{
+	return CorrugatedSheetsData::get_corrugated_sheet(slab_type_);
 }
 
 

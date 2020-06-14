@@ -15,13 +15,20 @@ enum class SlabType{
 	FLAT,
 	CORRUGATED,
 };
+enum class SheetOrient{
+	ALONG,
+	TRANSVERSE,
+};
 // ---------------------------------------------------------------------------
 class ConcretePart {
 
 public:
 
 	ConcretePart();
-	ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete, Rebar rebar, double h_f, double h_n, bool wider_flange_up);
+    ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete,
+	Rebar rebar, double h_f, double h_n);
+	ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete,
+		Rebar rebar, double h_f, double h_n, bool wider_flange_up, SheetOrient sheet_orient);
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
 	void set_default_values();
@@ -44,6 +51,8 @@ public:
 	double get_A_b(LengthUnit length_unit=LengthUnit::mm) const;
 	double get_I_b(LengthUnit length_unit=LengthUnit::mm) const;
 	bool get_wider_flange_up()const{return wider_flange_up_;}
+	SheetOrient get_sheet_orient()const {return sheet_orient_;}
+	CorrugatedSheet get_corrugated_sheet()const;
 
 private:
 
@@ -55,6 +64,7 @@ private:
 	double h_n_ = 0.; // рассто€ние от наружней грани верхней полки двутавра до внутренней грани расчЄтной железобетонной плиты
 	bool wider_flange_up_ = false; //ориентаци€ широкой полки
 	double b_sl_ = 0.; // эффективна€ ширина
+	SheetOrient sheet_orient_;//ќриентаци€ настила относитльно балки
 
 };
 

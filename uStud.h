@@ -12,28 +12,43 @@
 #include "uInternalForcesCalculator.h"
 #include "uCompositeSectionGeometry.h"
 
+enum class SheetOrient;
+
 class Stud{
 public:
 
 	Stud();
 	Stud(String name, double d_an, double l, double R_y);
 
-	void calculate_P_rd(double R_b, double gamma_c);
+	void set_R_b(double R_b){R_b_ = R_b;};
+	void set_gamma_c(double gamma_c){gamma_c_ = gamma_c;};
 
 	String get_name()const{return name_;}
 	double get_d_an(LengthUnit__ lenght_unit = mm)const{return d_an_ / lenght_unit;}
 	double get_l(LengthUnit__ lenght_unit = mm)const{return l_ / lenght_unit;}
 	double get_R_y()const{return R_y_;}
 
-	double get_P_rd(LoadUnit__ load_unit = N)const{return P_rd_ / load_unit;}
+	double get_P_rd(LoadUnit__ load_unit = N);
+	double get_S_h(LoadUnit__ load_unit = N);
 
 private:
-	String name_;
-	double d_an_;
-	double l_;
-	double R_y_;
+	String name_ = "";
+	double d_an_ = 0.;
+	double l_ = 0.;
+	double R_y_ = 0.;
 
-	double P_rd_;
+	double R_b_ = 0.;
+	double gamma_c_ = 0.;
+
+	mutable double P_rd_ = 0.;
+	bool P_rd_calculated = false;
+
+	double S_h_ = 0.;
+	bool S_h_calculated = false;
+
+	void calculate_P_rd();
+	void calculate_S_h();
+
 };
 
 class StudsRow{
@@ -47,14 +62,18 @@ public:
 	double get_x_l()const{return x_l_;}
 	double get_S(LoadUnit load_unit=LoadUnit::N)const{return S_ / static_cast<int>(load_unit);}
 	double get_ratio()const{return ratio_;}
+	bool more_than_one_stud_per_corrugation()const {return more_than_one_stud_per_corrugation_;}
 
 	void calculate_S(InternalForcesCalculator& intr_frcs_calculator, CompositeSectionGeometry& com_sect);
-	void calculate_ratio(double P_rd_);
+
+	void calculate_ratio(double P_rd, double S_h, double b_0, double h_n, double l, SheetOrient sheet_orient);
+	void calculate_ratio(double P_rd, double S_h);
 
 private:
 
 	int id_ = 0;
 	int st_num_ = 0;
+	bool more_than_one_stud_per_corrugation_ = false;
 
 	double x_l_ = 0.;
 	double x_ = 0.;
@@ -63,6 +82,9 @@ private:
 	double S_ = 0.;
 
 	double ratio_ = 0.;
+
+	double calculate_k(double b_0, double h_n, double l, SheetOrient sheet_orient);
+
 };
 
 class StudsOnBeam{
@@ -88,7 +110,6 @@ public:
 
 	const StudsRow& get_max_ratio_studs_row()const;
 
-	void calculate_P_rd();
 	void calculate_S();
 	void calculate_ratio();
 

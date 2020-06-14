@@ -126,7 +126,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -645,7 +645,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       object grp_bx_corrugated_slab: TGroupBox
         Left = 3
         Top = 415
-        Width = 622
+        Width = 798
         Height = 60
         Caption = '  '#1055#1083#1080#1090#1072' '#1087#1086' '#1085#1072#1089#1090#1080#1083#1091'  '
         TabOrder = 3
@@ -685,8 +685,16 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 25
           Width = 149
           Height = 17
-          Caption = #1064#1080#1088#1086#1082#1080#1077' '#1087#1086#1083#1082#1080' '#1089#1074#1077#1088#1093#1091
+          Caption = ' '#1064#1080#1088#1086#1082#1080#1077' '#1087#1086#1083#1082#1080' '#1089#1074#1077#1088#1093#1091
           TabOrder = 2
+        end
+        object chck_bx_sheet_orient: TCheckBox
+          Left = 631
+          Top = 25
+          Width = 154
+          Height = 17
+          Caption = ' '#1053#1072#1089#1090#1080#1083' '#1087#1086#1087#1077#1088#1105#1082' '#1073#1072#1083#1082#1080
+          TabOrder = 3
         end
       end
       object GrpBxSteel: TGroupBox

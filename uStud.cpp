@@ -117,11 +117,7 @@ StudsRow::StudsRow(int id, double x_l, double x, double x_r, int st_num):
 //-----------------------------------------------------------------------------
 //Вычисляет несущую способнось гибких упоров
 //-----------------------------------------------------------------------------
-void StudsOnBeam::calculate_P_rd()
-{
-	double R_b = com_sect_.get_concrete_part().get_concrete().get_R_b();
-	stud_.calculate_P_rd(R_b ,gamma_c_);
-}
+
 Stud::Stud(){}
 
 Stud::Stud(String name, double d_an, double l, double R_y):
@@ -130,25 +126,58 @@ Stud::Stud(String name, double d_an, double l, double R_y):
 	l_(l),
 	R_y_(R_y){}
 
-void Stud::calculate_P_rd(double R_b, double gamma_c)
+void Stud::calculate_S_h()
 {
-	double P_rd1 = 0.;
-	double P_rd2 = 0.;
+	S_h_ = 0.063 * d_an_/10 * d_an_/10 * gamma_c_ * R_y_ *1000;
+}
+void Stud::calculate_P_rd()
+{
 
 	if ((2.5 <= l_ / d_an_) && (l_ /d_an_ <= 4.2)){ //возможен ли вариант, когда отношение l_/d_an_ меньше 2.5. Надо ли выводить информационное сообщение?
-		P_rd1 = 0.24 * l_/10 * d_an_/10 * std::pow(10 * R_b , 0.5) * 1000; //1000 перевод в Н, так как в СП кН
+		P_rd_ = 0.24 * l_/10 * d_an_/10 * std::pow(10 * R_b_ , 0.5) * 1000; //1000 перевод в Н, так как в СП кН
 	}
 	else if (l_/d_an_ > 4.2){
-		P_rd1 = d_an_/10 * d_an_/10 * std::pow(10 * R_b, 0.5) * 1000;
+		P_rd_ = d_an_/10 * d_an_/10 * std::pow(10 * R_b_, 0.5) * 1000;
 	}
-
-	P_rd2 = 0.063 * d_an_/10 * d_an_/10 * gamma_c * R_y_ *1000;
-
-	P_rd_ = std::min(P_rd1, P_rd2);
 }
-void StudsRow::calculate_ratio(double P_rd)
+double Stud::get_P_rd(LoadUnit__ load_unit)
 {
-	ratio_ = std::abs(S_) / (P_rd * st_num_);
+	if(!P_rd_calculated) calculate_P_rd();
+
+	return P_rd_ / load_unit;
+}
+double Stud::get_S_h(LoadUnit__ load_unit)
+{
+	if(!S_h_calculated) calculate_S_h();
+
+	return P_rd_ / load_unit;
+}
+
+double StudsRow::calculate_k(double b_0, double h_n, double l, SheetOrient sheet_orient)
+{
+	double h_an = std::min(h_n + 75, l);
+
+	double n_r = (more_than_one_stud_per_corrugation_)? 2: 1;
+
+	switch (sheet_orient) {
+
+	case(SheetOrient::ALONG):
+
+		return (0.6 * b_0 * (h_an - h_n)) / std::pow(h_n, 2);
+
+	case(SheetOrient::TRANSVERSE):
+
+		return (0.7 * b_0 * (h_an - h_n)) / (std::pow(h_n, 2) * std::pow(n_r, 0.5));
+	}
+}
+void StudsRow::calculate_ratio(double P_rd, double S_h)
+{
+	ratio_ = std::abs(S_) / (std::min(P_rd, S_h) * st_num_);
+}
+void StudsRow::calculate_ratio(double P_rd, double S_h, double b_0, double h_n, double l, SheetOrient sheet_orient)
+{
+	double k = calculate_k(b_0, h_n, l, sheet_orient);
+	ratio_ = std::abs(S_) / (std::min(k * P_rd, S_h) * st_num_);
 }
 StudsOnBeam::StudsOnBeam()
 {
@@ -235,10 +264,33 @@ void StudsRow::calculate_S(InternalForcesCalculator& intr_frcs_calculator, Compo
 //-----------------------------------------------------------------------------
 void StudsOnBeam::calculate_ratio()
 {
-	calculate_P_rd();
+	stud_.set_R_b(com_sect_.get_concrete_part().get_concrete().get_R_b());
+	stud_.set_gamma_c(gamma_c_);
 
-	for(auto& stud_row:stud_list_)
-		stud_row.calculate_ratio(stud_.get_P_rd());
+	double P_rd = stud_.get_P_rd();
+	double S_h = stud_.get_S_h();
+
+   SlabType slab_type_enum = com_sect_.get_concrete_part().get_slab_type_enum();
+
+   if (slab_type_enum!=SlabType::CORRUGATED){
+		String slab_type = com_sect_.get_concrete_part().get_slab_type();
+		CorrugatedSheet cs = com_sect_.get_concrete_part().get_corrugated_sheet();
+
+		double b_0 = cs.get_b_0(com_sect_.get_concrete_part().get_wider_flange_up());
+		double h_n = cs.get_height();
+
+		SheetOrient sheet_orient = com_sect_.get_concrete_part().get_sheet_orient();
+
+		double l = stud_.get_l();
+
+		for(auto& stud_row:stud_list_)
+			stud_row.calculate_ratio(P_rd, S_h, b_0, h_n, l, sheet_orient);
+   }
+   else
+   {
+		for(auto& stud_row:stud_list_)
+			stud_row.calculate_ratio(P_rd, S_h);
+   }
 }
 void StudsOnBeam::set_default_values()
 {

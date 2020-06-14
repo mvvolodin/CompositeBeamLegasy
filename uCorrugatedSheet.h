@@ -19,6 +19,7 @@ public:
 	double get_thickness() const {return t_;}
 	double get_weight() const {return w_;}
 	double get_h_b(bool wider_flange_up);
+	double get_b_0(bool wider_flange_up);
 private:
 	String name_ = "";
 	double h_n_ = 0.;// высота настила
@@ -29,11 +30,6 @@ private:
 	double b_narrower_fl_ = 0.;// ширина узкой полки
 	double S_n_ = 0.;// шаг нижних полок
 	double w_ {0.}; //масса 1м2
-
-	double h_b_;
-	bool fully_initialized = false;
-
-
 };
 
 class CorrugatedSheetsData{

@@ -163,7 +163,6 @@ void CompositeBeamCalculator::calculate_studs()
 	studs_on_beam_.set_intr_frcs_calculator(intr_frcs_calculator);
 	studs_on_beam_.set_composite_section(composite_section);
 //расчёт упоров
-	studs_on_beam_.calculate_P_rd();
 	studs_on_beam_.set_studs(L);
 	studs_on_beam_.calculate_S();
 	studs_on_beam_.calculate_ratio();

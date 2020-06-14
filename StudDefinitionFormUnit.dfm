@@ -108,6 +108,14 @@ object StudDefinitionForm: TStudDefinitionForm
         '1'
         '2')
     end
+    object chck_bx_n_r: TCheckBox
+      Left = 16
+      Top = 144
+      Width = 209
+      Height = 17
+      Caption = ' '#1041#1086#1083#1077#1077' '#1086#1076#1085#1086#1075#1086' '#1091#1087#1086#1088#1072' '#1074' '#1086#1076#1085#1086#1081' '#1075#1086#1092#1088#1077
+      TabOrder = 4
+    end
   end
   object grp_bx_characteristics: TGroupBox
     Left = 8

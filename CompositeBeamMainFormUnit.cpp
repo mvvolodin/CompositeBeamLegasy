@@ -108,6 +108,8 @@ void TCompositeBeamMainForm ::set_form_controls()
 		cmb_bx_corrugated_sheeting_part_number -> ItemIndex =
 			cmb_bx_corrugated_sheeting_part_number -> Items -> IndexOf(composite_beam_calculator_.get_composite_section().get_concrete_part().get_slab_type());
 		chck_bx_wider_flange_up -> Checked = composite_beam_calculator_.get_composite_section().get_concrete_part().get_wider_flange_up();
+		chck_bx_sheet_orient -> Checked = static_cast<int>(composite_beam_calculator_.get_composite_section().
+			get_concrete_part().get_sheet_orient());
 		break;
 	}
 	edt_h_f_flat -> Text = composite_beam_calculator_.get_composite_section().get_concrete_part().get_h_f();
@@ -260,8 +262,7 @@ ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 							  ConcreteDefinitionForm->get_concrete(),
 							  RebarDefinitionForm->get_rebar(),
 							  t_sl,
-							  h_n,
-							  false);
+							  h_n);
 	}
 	else
 	{
@@ -275,7 +276,8 @@ ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 							  RebarDefinitionForm->get_rebar(),
 							  h_f,
 							  0.,
-							  chck_bx_wider_flange_up -> Checked);
+							  chck_bx_wider_flange_up -> Checked,
+							  static_cast<SheetOrient>(chck_bx_sheet_orient -> Checked));
 	}
 }
 //---------------------------------------------------------------------------

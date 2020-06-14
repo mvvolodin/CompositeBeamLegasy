@@ -99,19 +99,19 @@ CorrugatedSheet CorrugatedSheetsData::get_corrugated_sheet(const String& name)
 
 	return *corrugated_sheet;
 }
-
 double CorrugatedSheet::get_h_b(bool wider_flange_up)
 {
-	if(fully_initialized) return h_b_;
-
 	if (wider_flange_up)
-		h_b_ = (b_narrower_fl_ + b_ap_wider_fl_) / (2 * S_n_) * h_n_;
-	else
-		h_b_ = (b_wider_fl_ + b_ap_narrower_fl_) / (2 * S_n_) * h_n_;
+		return(b_narrower_fl_ + b_ap_wider_fl_) / (2 * S_n_) * h_n_;
 
-	fully_initialized = true;
+	return (b_wider_fl_ + b_ap_narrower_fl_) / (2 * S_n_) * h_n_;
+}
+double CorrugatedSheet::get_b_0(bool wider_flange_up)
+{
+	if (wider_flange_up)
+		return (b_ap_wider_fl_ - b_narrower_fl_) / 2;
 
-	return h_b_;
+	return (b_ap_narrower_fl_ - b_wider_fl_) / 2;
 }
 
 
