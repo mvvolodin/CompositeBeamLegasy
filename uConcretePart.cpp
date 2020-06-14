@@ -22,7 +22,7 @@ ConcretePart::ConcretePart(String slab_type, SlabType slab_type_enum, Concrete c
 	 h_n_(h_n)
 {}
 ConcretePart::ConcretePart(String slab_type, SlabType slab_type_enum, Concrete concrete,
-	Rebar rebar, double h_f, double h_n, bool wider_flange_up, SheetOrient sheet_orient)
+	Rebar rebar, double h_f, double h_n, bool wider_flange_up, bool sheet_orient_along)
 	:slab_type_(slab_type),
 	 slab_type_enum_(slab_type_enum),
 	 concrete_(concrete),
@@ -30,7 +30,7 @@ ConcretePart::ConcretePart(String slab_type, SlabType slab_type_enum, Concrete c
 	 h_f_(h_f),
 	 h_n_(h_n),
 	 wider_flange_up_(wider_flange_up),
-	 sheet_orient_(sheet_orient)
+	 sheet_orient_along_(sheet_orient_along)
 {}
 //-----------------------------------------------------------------------------
 //Присваение данным класса значений по умолчанию
@@ -58,12 +58,11 @@ void ConcretePart::save(std::ostream& ostr) const
 	unsigned short l = slab_type_.Length()+1;
 	ostr.write((char*)&l,sizeof(l));
 	ostr.write((char*)buf,l*sizeof(wchar_t));
-	free(buf);
 
 	ostr.write((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 	ostr.write((char*)&h_f_,sizeof(h_f_));
 	ostr.write((char*)&wider_flange_up_,sizeof(wider_flange_up_));
-	ostr.write((char*)&sheet_orient_,sizeof(sheet_orient_));
+	ostr.write((char*)&sheet_orient_along_,sizeof(sheet_orient_along_));
 }
 //---------------------------------------------------------------------------
 //Загрузка объекта из бинарного файла
@@ -84,7 +83,7 @@ void ConcretePart::load(std::istream& istr)
 	istr.read((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 	istr.read((char*)&h_f_,sizeof(h_f_));
 	istr.read((char*)&wider_flange_up_,sizeof(wider_flange_up_));
-	istr.read((char*)&sheet_orient_,sizeof(sheet_orient_));
+	istr.read((char*)&sheet_orient_along_,sizeof(sheet_orient_along_));
 }
 double ConcretePart::get_h(LengthUnit length_unit) const
 {

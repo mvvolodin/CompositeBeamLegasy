@@ -42,7 +42,8 @@ __published:	// IDE-managed Components
 	TComboBox *cmb_bx_edge_studs_rows_num;
 	TGroupBox *grp_bx_characteristics;
 	TButton *btn_close;
-	TCheckBox *chck_bx_n_r;
+	TCheckBox *chck_bx_more_than_one_stud_per_corrugation_edge;
+	TCheckBox *chck_bx_more_than_one_stud_per_corrugation_middle;
 	void __fastcall btn_okClick(TObject *Sender);
 	void __fastcall cmb_bx_stud_part_numberChange(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);

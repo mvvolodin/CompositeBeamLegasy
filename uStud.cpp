@@ -111,8 +111,19 @@ TStudBasic::TStudBasic(String name, double d_an, double l):
 						l_(l){}
 
 
-StudsRow::StudsRow(int id, double x_l, double x, double x_r, int st_num):
-		id_(id), x_l_(x_l), x_(x), x_r_(x_r), st_num_(st_num){}
+StudsRow::StudsRow(int id,
+				   double x_l,
+				   double x,
+				   double x_r,
+				   int st_num,
+				   bool more_than_one_stud_per_corrugation):
+						id_(id),
+						x_l_(x_l),
+						x_(x),
+						x_r_(x_r),
+						st_num_(st_num),
+						more_than_one_stud_per_corrugation_(more_than_one_stud_per_corrugation)
+						{}
 
 //-----------------------------------------------------------------------------
 //Вычисляет несущую способнось гибких упоров
@@ -125,6 +136,32 @@ Stud::Stud(String name, double d_an, double l, double R_y):
 	d_an_(d_an),
 	l_(l),
 	R_y_(R_y){}
+void Stud::save(ostream& ostr) const
+{
+	wchar_t* buf = name_.w_str();
+	unsigned short l = name_.Length()+1;
+	ostr.write((char*)&l,sizeof(l));
+	ostr.write((char*)buf,l*sizeof(wchar_t));
+
+//	ostr.write((char*)&d_an_,sizeof(d_an_));
+//	ostr.write((char*)&l_,sizeof(l_));
+	ostr.write((char*)&R_y_,sizeof(R_y_));
+
+}
+void Stud::load(istream& istr)
+{
+	wchar_t* buf;
+	unsigned short l;
+	istr.read((char*)&l,sizeof(l));
+	buf =(wchar_t*) malloc(l*sizeof(wchar_t));
+	istr.read((char*)buf,l*sizeof(wchar_t));
+	name_ = String(buf);
+	free(buf);
+
+//	istr.read((char*)&d_an_,sizeof(d_an_));
+//	istr.read((char*)&l_,sizeof(l_));
+	istr.read((char*)&R_y_,sizeof(R_y_));
+}
 
 void Stud::calculate_S_h()
 {
@@ -150,33 +187,27 @@ double Stud::get_S_h(LoadUnit__ load_unit)
 {
 	if(!S_h_calculated) calculate_S_h();
 
-	return P_rd_ / load_unit;
+	return S_h_ / load_unit;
 }
 
-double StudsRow::calculate_k(double b_0, double h_n, double l, SheetOrient sheet_orient)
+double StudsRow::calculate_k(double b_0, double h_n, double l, bool sheet_orient_along)
 {
 	double h_an = std::min(h_n + 75, l);
 
 	double n_r = (more_than_one_stud_per_corrugation_)? 2: 1;
 
-	switch (sheet_orient) {
-
-	case(SheetOrient::ALONG):
-
+	if(sheet_orient_along)
 		return (0.6 * b_0 * (h_an - h_n)) / std::pow(h_n, 2);
-
-	case(SheetOrient::TRANSVERSE):
-
+	else
 		return (0.7 * b_0 * (h_an - h_n)) / (std::pow(h_n, 2) * std::pow(n_r, 0.5));
-	}
 }
 void StudsRow::calculate_ratio(double P_rd, double S_h)
 {
 	ratio_ = std::abs(S_) / (std::min(P_rd, S_h) * st_num_);
 }
-void StudsRow::calculate_ratio(double P_rd, double S_h, double b_0, double h_n, double l, SheetOrient sheet_orient)
+void StudsRow::calculate_ratio(double P_rd, double S_h, double b_0, double h_n, double l, bool sheet_orient_along)
 {
-	double k = calculate_k(b_0, h_n, l, sheet_orient);
+	double k = calculate_k(b_0, h_n, l, sheet_orient_along);
 	ratio_ = std::abs(S_) / (std::min(k * P_rd, S_h) * st_num_);
 }
 StudsOnBeam::StudsOnBeam()
@@ -187,36 +218,43 @@ StudsOnBeam::StudsOnBeam(Stud 	 stud,
 						 double  dist_m,
 						 int     num_e,
 						 int     num_m,
-						 double  gamma_c):
+						 double  gamma_c,
+						 bool more_than_one_stud_per_corrugation_edge,
+						 bool more_than_one_stud_per_corrugation_middle):
 	stud_(stud),
 	dist_e_(dist_e),
 	dist_m_(dist_m),
 	num_e_(num_e),
 	num_m_(num_m),
-	gamma_c_(gamma_c){}
+	gamma_c_(gamma_c),
+	more_than_one_stud_per_corrugation_edge_(more_than_one_stud_per_corrugation_edge),
+	more_than_one_stud_per_corrugation_middle_(more_than_one_stud_per_corrugation_middle)
+	{}
 
  /* TODO 1 -oMV : Написать определение функций StudsOnBeam::save(ostream& ostr) */
 void StudsOnBeam::save(ostream& ostr) const
 {
-//	wchar_t* buf = grade_.w_str();
-//	unsigned short l = grade_.Length()+1;
-//	ostr.write((char*)&l,sizeof(l));
-//	ostr.write((char*)buf,l*sizeof(wchar_t));
-//	free(buf);
-//
-//	ostr.write((char*)&E_b_ ,sizeof(E_b_));
+	stud_.save(ostr);
+
+	ostr.write((char*)&dist_e_,sizeof(dist_e_));
+	ostr.write((char*)&dist_m_,sizeof(dist_m_));
+	ostr.write((char*)&num_e_,sizeof(num_e_));
+	ostr.write((char*)&num_m_,sizeof(num_m_));
+	ostr.write((char*)&gamma_c_,sizeof(gamma_c_));
+	ostr.write((char*)&more_than_one_stud_per_corrugation_edge_,sizeof(more_than_one_stud_per_corrugation_edge_));
+	ostr.write((char*)&more_than_one_stud_per_corrugation_middle_,sizeof(more_than_one_stud_per_corrugation_middle_));
 }
 void StudsOnBeam::load(istream& istr)
 {
-//	wchar_t* buf;
-//	unsigned short l;
-//	istr.read((char*)&l,sizeof(l));
-//	buf =(wchar_t*) malloc(l*sizeof(wchar_t));
-//	istr.read((char*)buf,l*sizeof(wchar_t));
-//	grade_ = String(buf);
-//	free(buf);
-//
-//	istr.read((char*)&E_b_ ,sizeof(E_b_));
+	stud_.load(istr);
+
+	istr.read((char*)&dist_e_,sizeof(dist_e_));
+	istr.read((char*)&dist_m_,sizeof(dist_m_));
+	istr.read((char*)&num_e_,sizeof(num_e_));
+	istr.read((char*)&num_m_,sizeof(num_m_));
+	istr.read((char*)&gamma_c_,sizeof(gamma_c_));
+	istr.read((char*)&more_than_one_stud_per_corrugation_edge_,sizeof(more_than_one_stud_per_corrugation_edge_));
+	istr.read((char*)&more_than_one_stud_per_corrugation_middle_,sizeof(more_than_one_stud_per_corrugation_middle_));
 }
 void StudsOnBeam::set_intr_frcs_calculator(InternalForcesCalculator intr_frcs_calculator)
 {
@@ -262,7 +300,7 @@ void StudsRow::calculate_S(InternalForcesCalculator& intr_frcs_calculator, Compo
 //-----------------------------------------------------------------------------
 //Вычисляет несущую способность для каждого из гибких упоров на балке
 //-----------------------------------------------------------------------------
-void StudsOnBeam::calculate_ratio()
+void StudsOnBeam::calculate_ratios()
 {
 	stud_.set_R_b(com_sect_.get_concrete_part().get_concrete().get_R_b());
 	stud_.set_gamma_c(gamma_c_);
@@ -272,19 +310,19 @@ void StudsOnBeam::calculate_ratio()
 
    SlabType slab_type_enum = com_sect_.get_concrete_part().get_slab_type_enum();
 
-   if (slab_type_enum!=SlabType::CORRUGATED){
+   if (slab_type_enum!=SlabType::FLAT){
 		String slab_type = com_sect_.get_concrete_part().get_slab_type();
 		CorrugatedSheet cs = com_sect_.get_concrete_part().get_corrugated_sheet();
 
 		double b_0 = cs.get_b_0(com_sect_.get_concrete_part().get_wider_flange_up());
 		double h_n = cs.get_height();
 
-		SheetOrient sheet_orient = com_sect_.get_concrete_part().get_sheet_orient();
+		bool sheet_orient_along = com_sect_.get_concrete_part().get_sheet_orient_along();
 
 		double l = stud_.get_l();
 
 		for(auto& stud_row:stud_list_)
-			stud_row.calculate_ratio(P_rd, S_h, b_0, h_n, l, sheet_orient);
+			stud_row.calculate_ratio(P_rd, S_h, b_0, h_n, l, sheet_orient_along);
    }
    else
    {
@@ -300,6 +338,8 @@ void StudsOnBeam::set_default_values()
 	num_e_ = 1;
 	num_m_ = 1;
 	gamma_c_ = 1.3;
+	more_than_one_stud_per_corrugation_edge_ = false;
+	more_than_one_stud_per_corrugation_middle_ = false;
 
 }
 //-----------------------------------------------------------------------------
@@ -335,50 +375,59 @@ void StudsOnBeam::set_studs(double L)//пролёт балки
 
 	int id = 0;
 
-	stud_list_.emplace_back(StudsRow{++id, 0., 0., 0., num_e_});
+	stud_list_.emplace_back(StudsRow{++id,
+									 0.,
+									 0.,
+									 0.,
+									 num_e_,
+									 more_than_one_stud_per_corrugation_edge_});
 
 	for(int n = 1; n < n_e; ++n)
-		stud_list_.emplace_back(StudsRow{++id, n * d_e - d_e / 2, n * d_e, n * d_e + d_e / 2, num_e_});
+		stud_list_.emplace_back(StudsRow{++id,
+										 n * d_e - d_e / 2,
+										 n * d_e,
+										 n * d_e + d_e / 2,
+										 num_e_,
+										 more_than_one_stud_per_corrugation_edge_});
 
-	stud_list_.emplace_back(StudsRow{++id, L3 - d_e / 2, L3, L3 + d_m / 2, num_e_});
+	stud_list_.emplace_back(StudsRow{++id,
+									 L3 - d_e / 2,
+									 L3,
+									 L3 + d_m / 2,
+									 num_e_,
+									 more_than_one_stud_per_corrugation_edge_});
 
 	for(int n = 1; n < n_m; ++n)
-		stud_list_.emplace_back(StudsRow{++id, L3 + n * d_m - d_m / 2, L3 + n * d_m, L3 + n * d_m + d_m / 2, num_m_});
+		stud_list_.emplace_back(StudsRow{++id,
+										 L3 + n * d_m - d_m / 2,
+										 L3 + n * d_m,
+										 L3 + n * d_m + d_m / 2,
+										 num_m_,
+										 more_than_one_stud_per_corrugation_middle_});
 
-	stud_list_.emplace_back(StudsRow{++id, 2 * L3 - d_m / 2, 2 * L3,  2 * L3 + d_e / 2, num_m_});
+	stud_list_.emplace_back(StudsRow{++id,
+									 2 * L3 - d_m / 2,
+									 2 * L3,
+									 2 * L3 + d_e / 2,
+									 num_m_,
+									 more_than_one_stud_per_corrugation_middle_});
 
 	for(int n = 1; n < n_e; ++n)
-		stud_list_.emplace_back(StudsRow{++id, 2 * L3 + n * d_e - d_e / 2, 2 * L3 + n * d_e, 2 * L3 + n * d_e + d_e / 2, num_e_});
+		stud_list_.emplace_back(StudsRow{++id,
+										 2 * L3 + n * d_e - d_e / 2,
+										 2 * L3 + n * d_e,
+										 2 * L3 + n * d_e + d_e / 2,
+										 num_e_,
+										 more_than_one_stud_per_corrugation_edge_});
 
-	stud_list_.emplace_back(StudsRow{++id, L, L, L, num_e_});
+	stud_list_.emplace_back(StudsRow{++id,
+									 L,
+									 L,
+									 L,
+									 num_e_,
+									 more_than_one_stud_per_corrugation_edge_});
 
 }
-void TStudBasic::save_stud_basic(ostream& ostr) const
-{
-	wchar_t* buf = name_.w_str();
-	unsigned short l = name_.Length()+1;
-	ostr.write((char*)&l,sizeof(l));
-	ostr.write((char*)buf,l*sizeof(wchar_t));
-	free(buf);
-
-	ostr.write((char*)&d_an_,sizeof(d_an_));
-	ostr.write((char*)&l_,sizeof(l_));
-}
-
-void TStudBasic::load_stud_basic(istream& istr)
-{
-	wchar_t* buf;
-	unsigned short l;
-	istr.read((char*)&l,sizeof(l));
-	buf =(wchar_t*) malloc(l*sizeof(wchar_t));
-	istr.read((char*)buf,l*sizeof(wchar_t));
-	name_ = String(buf);
-	free(buf);
-
-	istr.read((char*)&d_an_,sizeof(d_an_));
-	istr.read((char*)&l_,sizeof(l_));
-}
-
 const StudsRow& StudsOnBeam::get_max_ratio_studs_row()const
 {
 	auto it_max_ratio_studs_row = std::max_element(stud_list_.begin(), stud_list_.end(),

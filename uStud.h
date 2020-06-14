@@ -12,13 +12,14 @@
 #include "uInternalForcesCalculator.h"
 #include "uCompositeSectionGeometry.h"
 
-enum class SheetOrient;
-
 class Stud{
 public:
 
 	Stud();
 	Stud(String name, double d_an, double l, double R_y);
+
+	void save(ostream& ostr) const;
+	void load(istream& istr);
 
 	void set_R_b(double R_b){R_b_ = R_b;};
 	void set_gamma_c(double gamma_c){gamma_c_ = gamma_c;};
@@ -54,7 +55,12 @@ private:
 class StudsRow{
 public:
 
-	StudsRow(int id, double x_l, double x, double x_r, int st_num);
+	StudsRow(int id,
+			 double x_l,
+			 double x,
+			 double x_r,
+			 int st_num,
+			 bool more_than_one_stud_per_corrugation);
 
 	int get_id()const{return id_;}
 	double get_x()const{return x_;}
@@ -66,7 +72,7 @@ public:
 
 	void calculate_S(InternalForcesCalculator& intr_frcs_calculator, CompositeSectionGeometry& com_sect);
 
-	void calculate_ratio(double P_rd, double S_h, double b_0, double h_n, double l, SheetOrient sheet_orient);
+	void calculate_ratio(double P_rd, double S_h, double b_0, double h_n, double l, bool sheet_orient_along);
 	void calculate_ratio(double P_rd, double S_h);
 
 private:
@@ -83,7 +89,7 @@ private:
 
 	double ratio_ = 0.;
 
-	double calculate_k(double b_0, double h_n, double l, SheetOrient sheet_orient);
+	double calculate_k(double b_0, double h_n, double l, bool sheet_orient_along);
 
 };
 
@@ -92,9 +98,13 @@ public:
 
 	StudsOnBeam();
 	StudsOnBeam(Stud stud,
-				double dist_e, double dist_m,
-				int num_e, int num_m,
-				double gamma_c);
+				double dist_e,
+				double dist_m,
+				int num_e,
+				int num_m,
+				double gamma_c,
+				bool more_than_one_stud_per_corrugation_edge,
+				bool more_than_one_stud_per_corrugation_middle);
 
 	void save(ostream& ostr) const;
 	void load(istream& istr);
@@ -111,7 +121,7 @@ public:
 	const StudsRow& get_max_ratio_studs_row()const;
 
 	void calculate_S();
-	void calculate_ratio();
+	void calculate_ratios();
 
 	String get_name()const{return stud_.get_name();}
 	const Stud& get_stud()const{return stud_;};
@@ -120,18 +130,22 @@ public:
 	double get_dist_m(LengthUnit__ lenght_unit = mm)const{return dist_m_ / lenght_unit;}
 	int get_num_e()const{return num_e_;}
 	int get_num_m()const{return num_m_;}
+	bool get_more_than_one_stud_per_corrugation_edge()const{return more_than_one_stud_per_corrugation_edge_;}
+	bool get_more_than_one_stud_per_corrugation_middle()const{return more_than_one_stud_per_corrugation_middle_;}
 
 private:
 
 	Stud stud_;
-	InternalForcesCalculator intr_frcs_calculator_;
-	CompositeSectionGeometry com_sect_;
-
 	double dist_e_ = 0.;
 	double dist_m_ = 0.;
 	int num_e_ = 0;
 	int num_m_ = 0;
 	double gamma_c_ = 0.;
+	bool more_than_one_stud_per_corrugation_edge_ = false;
+	bool more_than_one_stud_per_corrugation_middle_ = false;
+
+	InternalForcesCalculator intr_frcs_calculator_;
+	CompositeSectionGeometry com_sect_;
 
 	std::vector<StudsRow> stud_list_;
 };
@@ -151,8 +165,6 @@ protected:
 	double d_an_ = 10.; //Диаметр стержня гибкого упора
 	double l_= 100. ;   //Длина круглого стержня гибкого упора
 
-	void save_stud_basic(std::ostream& ostr)const;
-	void load_stud_basic(std::istream& istr);
 };
 
 

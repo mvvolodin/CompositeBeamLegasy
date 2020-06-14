@@ -109,9 +109,9 @@ double CorrugatedSheet::get_h_b(bool wider_flange_up)
 double CorrugatedSheet::get_b_0(bool wider_flange_up)
 {
 	if (wider_flange_up)
-		return (b_ap_wider_fl_ - b_narrower_fl_) / 2;
+		return (b_ap_wider_fl_ + b_narrower_fl_) / 2;
 
-	return (b_ap_narrower_fl_ - b_wider_fl_) / 2;
+	return (b_ap_narrower_fl_ + b_wider_fl_) / 2;
 }
 
 

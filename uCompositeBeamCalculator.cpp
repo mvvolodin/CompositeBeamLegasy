@@ -54,7 +54,8 @@ void CompositeBeamCalculator::save(std::ostream& ostr) const
 	geometry_.save(ostr);
 	loads_.save(ostr);
 	working_conditions_factors_.save(ostr);
-	composite_section_.save(ostr); /* TODO 1 -oMV : Добавить сохранение объекта StudsOnBeam */
+	composite_section_.save(ostr);
+	studs_on_beam_.save(ostr);
 }
 //---------------------------------------------------------------------------
 //Загружаем объект композитная балка из бинарного файла
@@ -65,6 +66,7 @@ void CompositeBeamCalculator::load(std::istream& istr)
 	loads_.load(istr);
 	working_conditions_factors_.load(istr);
 	composite_section_.load(istr);
+	studs_on_beam_.load(istr);
 }
 
 void CompositeBeamCalculator::calculate()
@@ -165,7 +167,7 @@ void CompositeBeamCalculator::calculate_studs()
 //расчёт упоров
 	studs_on_beam_.set_studs(L);
 	studs_on_beam_.calculate_S();
-	studs_on_beam_.calculate_ratio();
+	studs_on_beam_.calculate_ratios();
 
 	#ifndef NDEBUG
 

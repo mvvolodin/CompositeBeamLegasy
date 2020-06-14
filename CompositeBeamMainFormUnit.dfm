@@ -688,12 +688,12 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Caption = ' '#1064#1080#1088#1086#1082#1080#1077' '#1087#1086#1083#1082#1080' '#1089#1074#1077#1088#1093#1091
           TabOrder = 2
         end
-        object chck_bx_sheet_orient: TCheckBox
+        object chck_bx_sheet_orient_along: TCheckBox
           Left = 631
           Top = 25
           Width = 154
           Height = 17
-          Caption = ' '#1053#1072#1089#1090#1080#1083' '#1087#1086#1087#1077#1088#1105#1082' '#1073#1072#1083#1082#1080
+          Caption = ' '#1053#1072#1089#1090#1080#1083' '#1074#1076#1086#1083#1100' '#1073#1072#1083#1082#1080
           TabOrder = 3
         end
       end

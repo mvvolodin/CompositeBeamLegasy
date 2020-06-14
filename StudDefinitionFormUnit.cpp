@@ -66,7 +66,9 @@ void TStudDefinitionForm::set_studs()
 	 studs_on_beam_temp_ = 	StudsOnBeam(Stud{name, d_an, l, R_y},
 										dist_e, dist_m,
 										num_e, num_m,
-										gamma_c);
+										gamma_c,
+										chck_bx_more_than_one_stud_per_corrugation_edge -> Checked,
+										chck_bx_more_than_one_stud_per_corrugation_middle -> Checked);
 }
 
 //---------------------------------------------------------------------------
@@ -83,6 +85,8 @@ void TStudDefinitionForm::set_form_controls()
 	cmb_bx_edge_studs_rows_num -> ItemIndex =cmb_bx_edge_studs_rows_num -> Items -> IndexOf(studs_on_beam_temp_.get_num_e());
 	edt_middle_studs_dist -> Text = studs_on_beam_temp_.get_dist_m();
 	cmb_bx_middle_studs_rows_num -> ItemIndex =cmb_bx_middle_studs_rows_num -> Items -> IndexOf(studs_on_beam_temp_.get_num_m());
+	chck_bx_more_than_one_stud_per_corrugation_edge -> Checked = studs_on_beam_temp_.get_more_than_one_stud_per_corrugation_edge();
+	chck_bx_more_than_one_stud_per_corrugation_middle -> Checked = studs_on_beam_temp_.get_more_than_one_stud_per_corrugation_middle();
 }
 
 //---------------------------------------------------------------------------
