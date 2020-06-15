@@ -597,11 +597,11 @@ void TCompositeBeamMainForm::cotr_ratios_grid()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::fill_cmb_bx_impact()
 {
-	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки Ia стадии");
-	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки Ib стадии");
-	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки IIa стадии");
-	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки IIb стадии");
-	cmb_bx_impact -> Items -> Append(L"Расчётные нагрузки полные");
+	cmb_bx_impact -> Items -> Append(L"Нагрузки Ia");
+	cmb_bx_impact -> Items -> Append(L"Hагрузки Ib");
+	cmb_bx_impact -> Items -> Append(L"Нагрузки IIa");
+	cmb_bx_impact -> Items -> Append(L"Нагрузки IIb");
+	cmb_bx_impact -> Items -> Append(L"Нагрузки полные");
 
 	cmb_bx_impact -> ItemIndex = 4;
 }
@@ -843,7 +843,7 @@ void TCompositeBeamMainForm ::generate_report()
 
   //[3.2] Усилия
 	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_x(),ffFixed, 15, 2),"%cs_stud%");
-	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_S(LoadUnit::kN),ffFixed, 15, 2),"%S%");
+	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_S(LoadUnit::kN),ffFixed, 15, 2),"%S_stud%");
 
  //  [3.3] Коэффициенты использования
 	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_ratio(),ffFixed, 15, 2),"%ratio_stud%");

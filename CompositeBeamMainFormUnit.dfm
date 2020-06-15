@@ -477,6 +477,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Width = 1038
           Height = 214
           Align = alBottom
+          ExplicitLeft = 1
         end
         object lblLoadCase: TLabel
           Left = 17
@@ -495,9 +496,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = cmb_bx_impactChange
         end
         object rd_grp_internal_forces_type: TRadioGroup
-          Left = 311
+          Left = 295
           Top = 13
-          Width = 434
+          Width = 525
           Height = 37
           Caption = ' '#1060#1072#1082#1090#1086#1088' '
           Columns = 3
@@ -505,7 +506,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Items.Strings = (
             #1048#1079#1075#1080#1073#1072#1102#1097#1080#1081' '#1084#1086#1084#1077#1085#1090
             #1055#1086#1087#1077#1088#1077#1095#1085#1072#1103' '#1089#1080#1083#1072
-            #1055#1077#1088#1077#1084#1077#1097#1077#1085#1080#1103)
+            #1055#1077#1088#1077#1084#1077#1097#1077#1085#1080#1103' ('#1085#1086#1088#1084#1072#1090#1080#1074#1085#1099#1077')')
           TabOrder = 1
           OnClick = rd_grp_internal_forces_typeClick
         end
