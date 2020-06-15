@@ -93,6 +93,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
+    OnClick = OnControlsChange
   end
   object BtnCalculate: TButton
     Left = 8
@@ -126,7 +127,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -679,6 +680,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Width = 41
           Height = 21
           TabOrder = 1
+          OnChange = OnControlsChange
         end
         object chck_bx_wider_flange_up: TCheckBox
           Left = 476
@@ -687,6 +689,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 17
           Caption = ' '#1064#1080#1088#1086#1082#1080#1077' '#1087#1086#1083#1082#1080' '#1089#1074#1077#1088#1093#1091
           TabOrder = 2
+          OnClick = OnControlsChange
         end
         object chck_bx_sheet_orient_along: TCheckBox
           Left = 631
@@ -695,6 +698,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Height = 17
           Caption = ' '#1053#1072#1089#1090#1080#1083' '#1074#1076#1086#1083#1100' '#1073#1072#1083#1082#1080
           TabOrder = 3
+          OnClick = OnControlsChange
         end
       end
       object GrpBxSteel: TGroupBox
@@ -3197,7 +3201,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           ActivePage = tb_sht_composite_geom_char
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
-            Caption = #1050#1086#1084#1087#1086#1079#1080#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
+            Caption = #1057#1090#1072#1083#1077#1078#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             object strng_grd_compos_sect_geom_character: TStringGrid
               Left = 0
               Top = 0

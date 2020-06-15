@@ -143,8 +143,8 @@ void Stud::save(ostream& ostr) const
 	ostr.write((char*)&l,sizeof(l));
 	ostr.write((char*)buf,l*sizeof(wchar_t));
 
-//	ostr.write((char*)&d_an_,sizeof(d_an_));
-//	ostr.write((char*)&l_,sizeof(l_));
+	ostr.write((char*)&d_an_,sizeof(d_an_));
+	ostr.write((char*)&l_,sizeof(l_));
 	ostr.write((char*)&R_y_,sizeof(R_y_));
 
 }
@@ -158,8 +158,8 @@ void Stud::load(istream& istr)
 	name_ = String(buf);
 	free(buf);
 
-//	istr.read((char*)&d_an_,sizeof(d_an_));
-//	istr.read((char*)&l_,sizeof(l_));
+	istr.read((char*)&d_an_,sizeof(d_an_));
+	istr.read((char*)&l_,sizeof(l_));
 	istr.read((char*)&R_y_,sizeof(R_y_));
 }
 
