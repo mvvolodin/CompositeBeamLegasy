@@ -197,9 +197,19 @@ double StudsRow::calculate_k(double b_0, double h_n, double l, bool sheet_orient
 	double n_r = (more_than_one_stud_per_corrugation_)? 2: 1;
 
 	if(sheet_orient_along)
-		return (0.6 * b_0 * (h_an - h_n)) / std::pow(h_n, 2);
+	{
+		if(b_0 / h_n >= 1.8)
+			return 1.0;
+		else
+			return (0.6 * b_0 * (h_an - h_n)) / std::pow(h_n, 2);
+	}
 	else
-		return (0.7 * b_0 * (h_an - h_n)) / (std::pow(h_n, 2) * std::pow(n_r, 0.5));
+	{
+		if(h_n >= 85. && b_0 >= h_n)
+			return 1.0;
+		else
+			return (0.7 * b_0 * (h_an - h_n)) / (std::pow(h_n, 2) * std::pow(n_r, 0.5));
+	}
 }
 void StudsRow::calculate_ratio(double P_rd, double S_h)
 {
@@ -207,8 +217,8 @@ void StudsRow::calculate_ratio(double P_rd, double S_h)
 }
 void StudsRow::calculate_ratio(double P_rd, double S_h, double b_0, double h_n, double l, bool sheet_orient_along)
 {
-	double k = calculate_k(b_0, h_n, l, sheet_orient_along);
-	ratio_ = std::abs(S_) / (std::min(k * P_rd, S_h) * st_num_);
+	k_ = calculate_k(b_0, h_n, l, sheet_orient_along);
+	ratio_ = std::abs(S_) / (std::min(k_ * P_rd, S_h) * st_num_);
 }
 StudsOnBeam::StudsOnBeam()
 {

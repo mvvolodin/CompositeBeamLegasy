@@ -685,6 +685,7 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(loads.get_self_weight(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%steel_beam%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_self_weight_sheets(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_sheets%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_SW_concrete(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_concrete%");
+	report_.PasteTextPattern(FloatToStrF(loads.get_SW_add_concrete(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_add_concrete%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_I%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_II%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_live_load(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%LL%");
@@ -693,6 +694,7 @@ void TCompositeBeamMainForm ::generate_report()
 
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_st_SW(), ffFixed, 15, 2), "%gamma_f_st_SW%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_concrete_SW(), ffFixed, 15, 2), "%gamma_f_concrete_SW%");
+	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_add_concrete_SW(), ffFixed, 15, 2), "%SW gamma_f_add_concr%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_DL_I(), ffFixed, 15, 2), "%gamma_f_DL_I%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_DL_II(), ffFixed, 15, 2), "%gamma_f_DL_II%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_LL(), ffFixed, 15, 2), "%gamma_f_LL%");
@@ -723,7 +725,8 @@ void TCompositeBeamMainForm ::generate_report()
 	ConcretePart concrete_part = composite_beam_calculator_.get_composite_section().get_concrete_part();
 
 	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
-	report_.PasteTextPattern(concrete_part.get_h_f(),"%t_sl%");
+	report_.PasteTextPattern(concrete_part.get_h_n(LengthUnit::cm),"%h_n%");
+	report_.PasteTextPattern(concrete_part.get_h_f(LengthUnit::cm),"%t_sl%");
 
 //[1.5.2] Характеристики бетона
 	Concrete concrete = concrete_part.get_concrete();
@@ -839,6 +842,7 @@ void TCompositeBeamMainForm ::generate_report()
 	StudsRow max_ratio_studs_row = composite_beam_calculator_.get_studs_on_beam().get_max_ratio_studs_row();
 
 	report_.PasteTextPattern(FloatToStrF(stud.get_P_rd(kN),ffFixed, 15, 2),"%P_rd%");
+	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_k(),ffFixed, 15, 2),"%k%");
 	report_.PasteTextPattern(FloatToStrF(stud.get_S_h(kN),ffFixed, 15, 2),"%S_h%");
 
   //[3.2] Усилия

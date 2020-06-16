@@ -171,6 +171,7 @@ __published:	// IDE-managed Components
 	TLabel *lbl_sheeting_continuity_coefficient;
 	TCheckBox *chck_bx_wider_flange_up;
 	TCheckBox *chck_bx_sheet_orient_along;
+	TGroupBox *GroupBox1;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);

@@ -68,6 +68,7 @@ public:
 	double get_x_l()const{return x_l_;}
 	double get_S(LoadUnit load_unit=LoadUnit::N)const{return S_ / static_cast<int>(load_unit);}
 	double get_ratio()const{return ratio_;}
+	double get_k()const{return k_;}
 	bool more_than_one_stud_per_corrugation()const {return more_than_one_stud_per_corrugation_;}
 
 	void calculate_S(InternalForcesCalculator& intr_frcs_calculator, CompositeSectionGeometry& com_sect);
@@ -86,6 +87,8 @@ private:
 	double x_r_ = 0.;
 
 	double S_ = 0.;
+
+	double k_ = 1.;
 
 	double ratio_ = 0.;
 

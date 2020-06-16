@@ -41,7 +41,7 @@ public:
 	double get_C_b(LengthUnit length_unit=LengthUnit::mm) const;
 	double get_h(LengthUnit length_unit=LengthUnit::mm) const;
 	double get_h_f(LengthUnit length_unit=LengthUnit::mm) const {return h_f_/static_cast<int>(length_unit);}
-	double get_h_n(LengthUnit length_unit=LengthUnit::mm) const {return h_n_/static_cast<int>(length_unit);}
+	double get_h_n(LengthUnit length_unit=LengthUnit::mm) const;
 
 	double get_b_sl(LengthUnit length_unit=LengthUnit::mm) const {return b_sl_/static_cast<int>(length_unit);}
 	double get_A_b(LengthUnit length_unit=LengthUnit::mm) const;

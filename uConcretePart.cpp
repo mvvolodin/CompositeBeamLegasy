@@ -87,21 +87,11 @@ void ConcretePart::load(std::istream& istr)
 }
 double ConcretePart::get_h(LengthUnit length_unit) const
 {
-	if (slab_type_enum_ == SlabType::CORRUGATED)
-		return (CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_height() + h_f_) / static_cast<int>(length_unit);
-
-	return (h_n_ + h_f_) / static_cast<int>(length_unit);
+	return (get_h_n() + h_f_) / static_cast<int>(length_unit);;
 }
 double ConcretePart::get_C_b(LengthUnit length_unit) const
 {
-	double C_b = 0.;
-
-	if (slab_type_enum_ == SlabType::CORRUGATED)
-		return C_b = CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_height() + h_f_ / 2.;
-
-	C_b = h_n_ + h_f_ / 2.;
-
-	return C_b/static_cast<int>(length_unit);
+	return (get_h_n() + h_f_ / 2.) / static_cast<int>(length_unit);
 }
 
 double ConcretePart::get_A_b(LengthUnit length_unit) const
@@ -135,6 +125,14 @@ double ConcretePart::get_SW_concrete(LoadUnit load_unit, LengthUnit length_unit)
 CorrugatedSheet ConcretePart::get_corrugated_sheet()const
 {
 	return CorrugatedSheetsData::get_corrugated_sheet(slab_type_);
+}
+double ConcretePart::get_h_n(LengthUnit length_unit) const
+{
+	if (slab_type_enum_ == SlabType::CORRUGATED)
+		return CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_height() / static_cast<int>(length_unit);
+
+	return h_n_ / static_cast<int>(length_unit);
+
 }
 
 
