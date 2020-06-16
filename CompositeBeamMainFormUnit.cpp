@@ -723,7 +723,7 @@ void TCompositeBeamMainForm ::generate_report()
 	ConcretePart concrete_part = composite_beam_calculator_.get_composite_section().get_concrete_part();
 
 	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
-	report_.PasteTextPattern(concrete_part.get_h(),"%t_sl%");
+	report_.PasteTextPattern(concrete_part.get_h_f(),"%t_sl%");
 
 //[1.5.2] Характеристики бетона
 	Concrete concrete = concrete_part.get_concrete();
