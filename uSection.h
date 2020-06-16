@@ -40,11 +40,11 @@ public:
 	double get_Q_IIb_design()const{return Q_IIb_design_;}
 	double get_Q_total_design()const{return Q_total_design_;}
 
-	double get_f_Ia_design()const{return f_Ia_design_;}
-	double get_f_Ib_design()const{return f_Ib_design_;}
-	double get_f_IIa_design()const{return f_IIa_design_;}
-	double get_f_IIb_design()const{return f_IIb_design_;}
-	double get_f_total_design()const{return f_total_design_;}
+	double get_f_Ia()const{return f_Ia_;}
+	double get_f_Ib()const{return f_Ib_;}
+	double get_f_IIa()const{return f_IIa_;}
+	double get_f_IIb()const{return f_IIb_;}
+	double get_f_total()const{return f_total_;}
 
 	double get_sigma_b()const{return sigma_b_;}
 	double get_sigma_s()const{return sigma_s_;}
@@ -75,11 +75,11 @@ private:
 	double Q_IIb_design_ = 0.;
 	double Q_total_design_ = 0.;
 
-	double f_Ia_design_ = 0.;
-	double f_Ib_design_ = 0.;
-	double f_IIa_design_ = 0.;
-	double f_IIb_design_ = 0.;
-	double f_total_design_ = 0.;
+	double f_Ia_ = 0.;
+	double f_Ib_ = 0.;
+	double f_IIa_ = 0.;
+	double f_IIb_ = 0.;
+	double f_total_ = 0.;
 
 	double sigma_b_ = 0.;
 	double sigma_s_ = 0.;

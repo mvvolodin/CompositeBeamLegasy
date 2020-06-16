@@ -113,11 +113,9 @@ double Geometry::cantilever_effective_width(double h_f, double a,  double C, dou
 }
 double Geometry::get_effective_width(double h_f, double b_uf)
 {
-	if (effective_width_calculated_) return b_l_ + b_r_ ;
+	if (!effective_width_calculated_) calculate_effective_width(h_f, b_uf);
 
-	calculate_effective_width(h_f, b_uf);
-
-	return b_l_ + b_r_ ;
+	return 2 * std::min(b_l_, b_r_);
 }
 double Geometry::get_trib_width(LengthUnit length_units)const
 {

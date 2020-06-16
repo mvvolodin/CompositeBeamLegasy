@@ -46,11 +46,11 @@ public:
 	std::vector<double> get_R_IIb_design_list(LoadUnit load_unit=LoadUnit::N)const;
 	std::vector<double> get_R_total_design_list(LoadUnit load_unit=LoadUnit::N)const;
 
-	std::vector<double> get_f_Ia_design_list(LengthUnit length_unit=LengthUnit::mm)const;
-	std::vector<double> get_f_Ib_design_list(LengthUnit length_unit=LengthUnit::mm)const;
-	std::vector<double> get_f_IIa_design_list(LengthUnit length_unit=LengthUnit::mm)const;
-	std::vector<double> get_f_IIb_design_list(LengthUnit length_unit=LengthUnit::mm)const;
-	std::vector<double> get_f_total_design_list(LengthUnit length_unit=LengthUnit::mm)const;
+	std::vector<double> get_f_Ia_list(LengthUnit length_unit=LengthUnit::mm)const;
+	std::vector<double> get_f_Ib_list(LengthUnit length_unit=LengthUnit::mm)const;
+	std::vector<double> get_f_IIa_list(LengthUnit length_unit=LengthUnit::mm)const;
+	std::vector<double> get_f_IIb_list(LengthUnit length_unit=LengthUnit::mm)const;
+	std::vector<double> get_f_total_list(LengthUnit length_unit=LengthUnit::mm)const;
 
 	const Section& get_max_i_section_ratio_section()const;
 	const Section& get_max_direct_stress_ratio_section()const;

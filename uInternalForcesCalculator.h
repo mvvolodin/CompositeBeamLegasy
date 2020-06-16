@@ -23,7 +23,14 @@ public:
 	std::map<double, double> R_IIb_design()const;
 	std::map<double, double> R_total_design()const;
 
+	std::map<double, double> R_Ia()const;
+	std::map<double, double> R_Ib()const;
+	std::map<double, double> R_IIa()const;
+	std::map<double, double> R_IIb()const;
+	std::map<double, double> R_total()const;
+
 	std::map<double, double> P_IIa_design()const;
+	std::map<double, double> P_IIa()const;
 
 	double M_Ia_design(double x)const;
 	double M_Ib_design(double x)const;
@@ -37,11 +44,11 @@ public:
 	double Q_IIb_design(double x)const;
 	double Q_total_design(double x)const;
 
-	double f_Ia_design(double x)const;
-	double f_Ib_design(double x)const;
-	double f_IIa_design(double )const;
-	double f_IIb_design(double x)const;
-	double f_total_design(double x)const;
+	double f_Ia(double x)const;
+	double f_Ib(double x)const;
+	double f_IIa(double )const;
+	double f_IIb(double x)const;
+	double f_total(double x)const;
 
 	double M_IIb_sigma_bi(double x)const;
 	double M_IIb_sigma_si(double x)const;

@@ -863,56 +863,56 @@ void TCompositeBeamMainForm ::draw_diagram()
 
 	switch (cmb_bx_impact->ItemIndex)
 	{
-	case(0): // Расчётные нагрузки Ia стадии
+	case(0): // Нагрузки Ia стадии
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_Ia_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_Ia_design_list(LoadUnit::kN);
 		R = composite_beam_calculator_.get_composite_beam().get_R_Ia_design_list(LoadUnit::kN);
-		f = composite_beam_calculator_.get_composite_beam().get_f_Ia_design_list(LengthUnit::mm);
+		f = composite_beam_calculator_.get_composite_beam().get_f_Ia_list(LengthUnit::mm);
 
 		coor_supp = composite_beam_calculator_.get_composite_beam().get_support_x_list();
 
 		break;
-	case(1): // Расчётные нагрузки Ib стадии
+	case(1): // Нагрузки Ib стадии
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_Ib_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_Ib_design_list(LoadUnit::kN);
 		R = composite_beam_calculator_.get_composite_beam().get_R_Ib_design_list(LoadUnit::kN);
-		f = composite_beam_calculator_.get_composite_beam().get_f_Ib_design_list(LengthUnit::mm);
+		f = composite_beam_calculator_.get_composite_beam().get_f_Ib_list(LengthUnit::mm);
 
 		coor_supp = composite_beam_calculator_.get_composite_beam().get_support_x_list();
 
 		break;
-	case(2): // Расчётные нагрузки IIa стадии
+	case(2): // Нагрузки IIa стадии
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_IIa_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_IIa_design_list(LoadUnit::kN);
 		R = composite_beam_calculator_.get_composite_beam().get_P_IIa_design_list(LoadUnit::kN);
-		f = composite_beam_calculator_.get_composite_beam().get_f_IIa_design_list(LengthUnit::mm);
+		f = composite_beam_calculator_.get_composite_beam().get_f_IIa_list(LengthUnit::mm);
 
 		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().front());
 		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().back());
 
 		break;
 
-	case(3): // Расчётные нагрузки IIb стадии
+	case(3): // Нагрузки IIb стадии
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_IIb_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_IIb_design_list(LoadUnit::kN);
 		R = composite_beam_calculator_.get_composite_beam().get_R_IIb_design_list(LoadUnit::kN);
-		f = composite_beam_calculator_.get_composite_beam().get_f_IIb_design_list(LengthUnit::mm);
+		f = composite_beam_calculator_.get_composite_beam().get_f_IIb_list(LengthUnit::mm);
 
 		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().front());
 		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().back());
 
 		break;
 
-	case(4)://Расчётные нагрузки полные
+	case(4)://Нагрузки полные
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_total_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_total_design_list(LoadUnit::kN);
 		R = composite_beam_calculator_.get_composite_beam().get_R_total_design_list(LoadUnit::kN);
-		f = composite_beam_calculator_.get_composite_beam().get_f_total_design_list(LengthUnit::mm);
+		f = composite_beam_calculator_.get_composite_beam().get_f_total_list(LengthUnit::mm);
 
 		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().front());
 		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().back());

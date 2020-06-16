@@ -293,72 +293,72 @@ std::vector<double> CompositeBeam::get_support_x_list()const
 {
 	return support_list_;
 }
-std::vector<double> CompositeBeam::get_f_Ia_design_list(LengthUnit length_unit)const
+std::vector<double> CompositeBeam::get_f_Ia_list(LengthUnit length_unit)const
 {
-	std::vector<double> f_Ia_design_list{};
+	std::vector<double> f_Ia_list{};
 
 	double E_st_I_s = com_sect_.get_E_st_I_st();
 
 	for (auto section:section_list_)
-		f_Ia_design_list.push_back(section.get_f_Ia_design() / E_st_I_s / static_cast<int>(length_unit));
+		f_Ia_list.push_back(section.get_f_Ia() / E_st_I_s / static_cast<int>(length_unit));
 
-	f_Ia_design_list.shrink_to_fit();
+	f_Ia_list.shrink_to_fit();
 
-	return f_Ia_design_list;
+	return f_Ia_list;
 }
-std::vector<double> CompositeBeam::get_f_Ib_design_list(LengthUnit length_unit)const
+std::vector<double> CompositeBeam::get_f_Ib_list(LengthUnit length_unit)const
 {
-	std::vector<double> f_Ib_design_list{};
+	std::vector<double> f_Ib_list{};
 
 	double E_st_I_s = com_sect_.get_E_st_I_st();
 
 	for (auto section:section_list_)
-		f_Ib_design_list.push_back(section.get_f_Ib_design() / E_st_I_s / static_cast<int>(length_unit));
+		f_Ib_list.push_back(section.get_f_Ib() / E_st_I_s / static_cast<int>(length_unit));
 
-	f_Ib_design_list.shrink_to_fit();
+	f_Ib_list.shrink_to_fit();
 
-	return f_Ib_design_list;
+	return f_Ib_list;
 }
-std::vector<double> CompositeBeam::get_f_IIa_design_list(LengthUnit length_unit)const
+std::vector<double> CompositeBeam::get_f_IIa_list(LengthUnit length_unit)const
 {
-	std::vector<double> f_IIa_design_list{};
+	std::vector<double> f_IIa_list{};
 
 	double E_st_I_red = com_sect_.get_E_st_I_red();
 
 	for (auto section:section_list_)
-		f_IIa_design_list.push_back(section.get_f_IIa_design() / E_st_I_red / static_cast<int>(length_unit));
+		f_IIa_list.push_back(section.get_f_IIa() / E_st_I_red / static_cast<int>(length_unit));
 
-	f_IIa_design_list.shrink_to_fit();
+	f_IIa_list.shrink_to_fit();
 
-	return f_IIa_design_list;
+	return f_IIa_list;
 }
 
-std::vector<double> CompositeBeam::get_f_IIb_design_list(LengthUnit length_unit)const
+std::vector<double> CompositeBeam::get_f_IIb_list(LengthUnit length_unit)const
 {
-	std::vector<double> f_IIb_design_list{};
+	std::vector<double> f_IIb_list{};
 
 	double E_st_I_red = com_sect_.get_E_st_I_red();
 
 	for (auto section:section_list_)
-		f_IIb_design_list.push_back(section.get_f_IIb_design() / E_st_I_red / static_cast<int>(length_unit));
+		f_IIb_list.push_back(section.get_f_IIb() / E_st_I_red / static_cast<int>(length_unit));
 
-	f_IIb_design_list.shrink_to_fit();
+	f_IIb_list.shrink_to_fit();
 
-	return f_IIb_design_list;
+	return f_IIb_list;
 }
-std::vector<double> CompositeBeam::get_f_total_design_list(LengthUnit length_unit)const
+std::vector<double> CompositeBeam::get_f_total_list(LengthUnit length_unit)const
 {
-	std::vector<double> f_total_design_list{};
+	std::vector<double> f_total_list{};
 
 	double E_st_I_s = com_sect_.get_E_st_I_st();
 	double E_st_I_red = com_sect_.get_E_st_I_red();
 
 	for (auto section:section_list_)
-		f_total_design_list.push_back(section.get_f_Ib_design() / E_st_I_s / static_cast<int>(length_unit) +
-			section.get_f_IIa_design() / E_st_I_red / static_cast<int>(length_unit) +
-			section.get_f_IIb_design() / E_st_I_red / static_cast<int>(length_unit));
+		f_total_list.push_back(section.get_f_Ib() / E_st_I_s / static_cast<int>(length_unit) +
+			section.get_f_IIa() / E_st_I_red / static_cast<int>(length_unit) +
+			section.get_f_IIb() / E_st_I_red / static_cast<int>(length_unit));
 
-	f_total_design_list.shrink_to_fit();
+	f_total_list.shrink_to_fit();
 
-	return f_total_design_list;
+	return f_total_list;
 }

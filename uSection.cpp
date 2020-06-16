@@ -39,11 +39,11 @@ void Section::calculate_internal_forces(InternalForcesCalculator& intr_frcs_calc
 	Q_IIb_design_ = intr_frcs_calculator.Q_IIb_design(x_);
 	Q_total_design_ = intr_frcs_calculator.Q_total_design(x_);
 
-	f_Ia_design_ = intr_frcs_calculator.f_Ia_design(x_);
-	f_Ib_design_ = intr_frcs_calculator.f_Ib_design(x_);
-	f_IIa_design_ = intr_frcs_calculator.f_IIa_design(x_);
-	f_IIb_design_ = intr_frcs_calculator.f_IIb_design(x_);
-	f_total_design_ = intr_frcs_calculator.f_total_design(x_);
+	f_Ia_ = intr_frcs_calculator.f_Ia(x_);
+	f_Ib_ = intr_frcs_calculator.f_Ib(x_);
+	f_IIa_ = intr_frcs_calculator.f_IIa(x_);
+	f_IIb_ = intr_frcs_calculator.f_IIb(x_);
+	f_total_ = intr_frcs_calculator.f_total(x_);
 
 	sigma_bi_ = intr_frcs_calculator.M_IIb_sigma_bi(x_);
 	sigma_si_ = intr_frcs_calculator.M_IIb_sigma_si(x_);

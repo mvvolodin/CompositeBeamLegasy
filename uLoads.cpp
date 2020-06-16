@@ -119,10 +119,43 @@ double Loads::IIb_design_LCC()const
 double Loads::total_design_LCC()const
 {
 	assert(fully_initialized_);
+	return gamma_f_st_SW_ * SW_steel_beam_ +
+		gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
+		gamma_f_concrete_SW_ * SW_concrete_ * B_ +
+		gamma_f_DL_II_ * DL_II_ * B_ + gamma_f_LL_ * LL_ * B_;
+}
+double Loads::Ia_LCC()const
+{
+	assert(fully_initialized_);
+	return SW_steel_beam_ +
+		sheeting_continuity_coefficient_ * SW_corrugated_sheets_ * B_ +
+		sheeting_continuity_coefficient_ * SW_concrete_ * B_ +
+		sheeting_continuity_coefficient_ * SW_add_concrete_ * B_ +
+		sheeting_continuity_coefficient_ * DL_I_ * B_;
+}
+double Loads::Ib_LCC()const
+{
+	assert(fully_initialized_);
+	return SW_steel_beam_ +
+		sheeting_continuity_coefficient_ * SW_corrugated_sheets_ * B_ +
+		sheeting_continuity_coefficient_ * SW_concrete_ * B_ +
+		sheeting_continuity_coefficient_ * SW_add_concrete_ * B_;
+
+}
+double Loads::IIb_LCC()const
+{
+	assert(fully_initialized_);
+	return DL_II_ * B_ +
+		LL_ * B_;
+}
+double Loads::total_LCC()const
+{
+	assert(fully_initialized_);
 	 return gamma_f_st_SW_ * SW_steel_beam_ +
 		gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
 		gamma_f_concrete_SW_ * SW_concrete_ * B_ +
 		gamma_f_DL_II_ * DL_II_ * B_ + gamma_f_LL_ * LL_ * B_;
+
 }
 //-----------------------------------------------------------------------------
 //ѕрисваение данным класса значений по умолчанию

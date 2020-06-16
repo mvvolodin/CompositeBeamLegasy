@@ -49,6 +49,11 @@ public:
 	double IIb_design_LCC()const;
 	double total_design_LCC()const;
 
+	double Ia_LCC()const;
+	double Ib_LCC()const;
+	double IIb_LCC()const;
+	double total_LCC()const;
+
 	double get_self_weight(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		{return SW_steel_beam_/static_cast<int>(load_unit)*static_cast<int>(length_unit);}
 	double get_self_weight_sheets(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
