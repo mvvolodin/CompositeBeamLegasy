@@ -127,9 +127,10 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 528
-    ActivePage = TbShtSectionMaterials
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
+    ExplicitTop = 25
     object TbShtStaticScheme: TTabSheet
       AlignWithMargins = True
       Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
@@ -190,14 +191,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_gamma_f_st_SW: TLabel
           Left = 15
           Top = 41
-          Width = 138
+          Width = 120
           Height = 13
           Caption = #1057#1086#1073#1089#1090#1074#1077#1085#1085#1099#1081' '#1074#1077#1089' '#1089#1090#1072#1083#1080
         end
         object lbl_gamma_f_concrete_SW: TLabel
           Left = 15
           Top = 68
-          Width = 146
+          Width = 124
           Height = 13
           Caption = #1057#1074#1077#1078#1077#1091#1083#1086#1078#1077#1085#1085#1099#1081' '#1073#1077#1090#1086#1085
         end
@@ -268,7 +269,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_dead_load_first_stage: TLabel
           Left = 16
           Top = 66
-          Width = 149
+          Width = 169
           Height = 13
           Caption = #1052#1086#1085#1090#1072#1078#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072',  '#1082#1053'/'#1084'2'
         end
@@ -315,7 +316,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_SW_add_concrete: TLabel
           Left = 16
           Top = 41
-          Width = 189
+          Width = 191
           Height = 13
           Caption = #1044#1086#1087'. '#1085#1072#1075#1088'. '#1086#1090' '#1074#1077#1089#1072' '#1073#1077#1090#1086#1085#1072',  '#1082#1053'/'#1084'2'
           WordWrap = True
@@ -467,12 +468,12 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lblLoadCase: TLabel
           Left = 17
           Top = 25
-          Width = 62
+          Width = 65
           Height = 13
-          Caption = #1053#1072#1075#1088#1091#1078#1077#1085#1080#1077
+          Caption = #1042#1086#1079#1076#1077#1081#1089#1090#1074#1080#1077
         end
         object cmb_bx_impact: TComboBox
-          Left = 85
+          Left = 88
           Top = 21
           Width = 181
           Height = 21
@@ -560,7 +561,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Left = 16
           Top = 19
           Width = 92
-          Height = 54
+          Height = 26
           Caption = #1059#1095#1105#1090' '#1085#1077#1088#1072#1079#1088#1077#1079#1085#1086#1081' '#1088#1072#1073#1086#1090#1099' '#1085#1072#1089#1090#1080#1083#1072
           WordWrap = True
         end
@@ -3316,6 +3317,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Height = 25
     Caption = #1051#1086#1075
     TabOrder = 6
+    Visible = False
     OnClick = btn_loggerClick
   end
   object MainMenu1: TMainMenu

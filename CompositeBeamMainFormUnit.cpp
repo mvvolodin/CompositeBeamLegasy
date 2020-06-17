@@ -154,7 +154,7 @@ void TCompositeBeamMainForm ::register_I_composite_beam()
 //---------------------------------------------------------------------------
 //Инициализация топологии
 //---------------------------------------------------------------------------
-std::pair<Geometry, int> TCompositeBeamMainForm ::update_geometry()
+Geometry TCompositeBeamMainForm ::update_geometry()
 {
 	int rc = 0;
 
@@ -163,19 +163,22 @@ std::pair<Geometry, int> TCompositeBeamMainForm ::update_geometry()
 	double trib_width_right = 0.;
 
 	rc = String_double_plus(lbl_span->Caption, edt_span->Text, &span);
-	if(rc > 0) return {Geometry{}, rc};
+	if(rc > 0)
+		throw(rc);
+		
 	rc = String_double_plus(lbl_trib_width_left->Caption, edt_width_left->Text, &trib_width_left);
-
-	if(rc > 0) return {Geometry{}, rc};
+	if(rc > 0)
+		throw(rc);
 
 	rc = String_double_plus(lbl_trib_width_right->Caption, edt_width_right->Text, &trib_width_right);
-	if(rc > 0) return {Geometry{}, rc};
+	if(rc > 0)
+		throw(rc);	
 
 
-	return {Geometry{chck_bx_end_beam->Checked,
+	return Geometry{chck_bx_end_beam->Checked,
 					 span, trib_width_left,
 					 trib_width_right,
-					 static_cast<SupportsNumber>(StrToFloat(cmb_bx_number_propping_supports -> Text))}, rc};
+					 static_cast<SupportsNumber>(StrToFloat(cmb_bx_number_propping_supports -> Text))};
 
 }
 //---------------------------------------------------------------------------
@@ -205,23 +208,51 @@ Loads TCompositeBeamMainForm ::update_loads()
 
 	double sheeting_continuity_coefficient = 0.;
 
-	String_double_zero_plus(lbl_dead_load_first_stage -> Caption, edt_dead_load_first_stage -> Text, &DL_I);
-	String_double_zero_plus(lbl_SW_add_concrete -> Caption, edt_SW_add_concrete -> Text, &SW_add_concrete);
-	String_double_zero_plus(lbl_dead_load_second_stage -> Caption, edt_dead_load_second_stage -> Text, &DL_II);
-	String_double_zero_plus(lbl_live_load -> Caption, edt_live_load -> Text, &LL);
+	int rc = 0;
 
-	String_double_zero_plus(FrmAddImpacts -> lbl_sigma_bi -> Caption, FrmAddImpacts -> edt_sigma_bi -> Text, &sigma_bi);
-	String_double_zero_plus(FrmAddImpacts -> lbl_sigma_si -> Caption, FrmAddImpacts -> edt_sigma_si -> Text, &sigma_si);
+	rc = String_double_zero_plus(lbl_dead_load_first_stage -> Caption, edt_dead_load_first_stage -> Text, &DL_I);
+	if(rc > 0)
+		throw(rc);
+	rc = String_double_zero_plus(lbl_SW_add_concrete -> Caption, edt_SW_add_concrete -> Text, &SW_add_concrete);
+	if(rc > 0)
+		throw(rc);
+	rc = String_double_zero_plus(lbl_dead_load_second_stage -> Caption, edt_dead_load_second_stage -> Text, &DL_II);
+	if(rc > 0)
+		throw(rc);
+	rc = String_double_zero_plus(lbl_live_load -> Caption, edt_live_load -> Text, &LL);
+	if(rc > 0) 
+		throw(rc);
 
-	String_double_zero_plus(lbl_gamma_f_st_SW -> Caption, edt_gamma_f_st_SW -> Text, &gamma_f_st_SW);
-	String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption, edt_gamma_f_concrete_SW -> Text, &gamma_f_concrete_SW);
-	String_double_zero_plus(lbl_gamma_f_DL_I -> Caption, edt_gamma_f_DL_I -> Text, &gamma_f_DL_I);
-	String_double_zero_plus(lbl_gamma_f_add_concrete_SW -> Caption, edt_gamma_f_add_concrete_SW -> Text, &gamma_f_add_concrete_SW);
-	String_double_zero_plus(lbl_gamma_f_DL_II -> Caption, edt_gamma_f_DL_II -> Text, &gamma_f_DL_II);
-	String_double_zero_plus(lbl_gamma_f_LL -> Caption, edt_gamma_f_LL -> Text, &gamma_f_LL);
+	rc = String_double_zero_plus(FrmAddImpacts -> lbl_sigma_bi -> Caption, FrmAddImpacts -> edt_sigma_bi -> Text, &sigma_bi);
+	if(rc > 0) 
+		throw(rc);
+	rc = String_double_zero_plus(FrmAddImpacts -> lbl_sigma_si -> Caption, FrmAddImpacts -> edt_sigma_si -> Text, &sigma_si);
+	if(rc > 0) 
+		throw(rc);
 
-	String_double_zero_plus(lbl_sheeting_continuity_coefficient -> Caption, edt_sheeting_continuity_coefficient -> Text, &sheeting_continuity_coefficient);
+	rc = String_double_zero_plus(lbl_gamma_f_st_SW -> Caption, edt_gamma_f_st_SW -> Text, &gamma_f_st_SW);
+	if(rc > 0) 
+		throw(rc);
+	rc = String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption, edt_gamma_f_concrete_SW -> Text, &gamma_f_concrete_SW);
+	if(rc > 0) 
+		throw(rc);
+	rc = String_double_zero_plus(lbl_gamma_f_DL_I -> Caption, edt_gamma_f_DL_I -> Text, &gamma_f_DL_I);
+	if(rc > 0) 
+		throw(rc);
+	rc = String_double_zero_plus(lbl_gamma_f_add_concrete_SW -> Caption, edt_gamma_f_add_concrete_SW -> Text, &gamma_f_add_concrete_SW);
+	if(rc > 0) 
+		throw(rc);
+	rc = String_double_zero_plus(lbl_gamma_f_DL_II -> Caption, edt_gamma_f_DL_II -> Text, &gamma_f_DL_II);
+	if(rc > 0) 
+		throw(rc);
+	rc = String_double_zero_plus(lbl_gamma_f_LL -> Caption, edt_gamma_f_LL -> Text, &gamma_f_LL);
+	if(rc > 0) 
+		throw(rc);
 
+	rc = String_double_zero_plus(lbl_sheeting_continuity_coefficient -> Caption, edt_sheeting_continuity_coefficient -> Text, &sheeting_continuity_coefficient);
+	if(rc > 0) 
+		throw(rc);
+	
 	return Loads {SW, SW_sheets, SW_add_concrete, DL_I, DL_II, LL,
 		gamma_f_st_SW, gamma_f_concrete_SW, gamma_f_add_concrete_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL,
 		sheeting_continuity_coefficient, sigma_bi, sigma_si};
@@ -245,9 +276,7 @@ Steel TCompositeBeamMainForm ::update_steel_i_section()
 //---------------------------------------------------------------------------
 ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 {
-	if(std::get<1>(update_geometry()) > 0)
-		;
-	Geometry geometry = std::get<0>(update_geometry());
+	Geometry geometry = update_geometry();
 
 	ISection i_section = SteelSectionForm2 -> get_i_section();
 	double b_uf = i_section.get_b_uf();
@@ -302,7 +331,7 @@ StudsOnBeam TCompositeBeamMainForm ::update_studs_on_beam()
 //---------------------------------------------------------------------------
 //	Инициализация коэффициентов условий работы
 //---------------------------------------------------------------------------
- std::optional<WorkingConditionsFactors> TCompositeBeamMainForm ::update_working_conditions_factors()
+ WorkingConditionsFactors TCompositeBeamMainForm ::update_working_conditions_factors()
  {
 	int rc = 0;
 	double gamma_bi=0.;
@@ -311,31 +340,27 @@ StudsOnBeam TCompositeBeamMainForm ::update_studs_on_beam()
 
 	rc = String_double_plus(lbl_gamma_bi->Caption, edt_gamma_bi->Text, &gamma_bi);
 	if(rc > 0)
-		return std::nullopt;
+		throw(rc);
 
 	rc = String_double_plus(lbl_gamma_si->Caption, edt_gamma_si->Text, &gamma_si);
 	if(rc > 0)
-		return std::nullopt;
+		throw(rc);
 
 	rc = String_double_plus(lbl_gamma_c->Caption, edt_gamma_c->Text, &gamma_c);
 	if(rc > 0)
-		return std::nullopt;
+		throw(rc);
 
-	return std::optional<WorkingConditionsFactors>{{gamma_bi,gamma_si,gamma_c}};
+	return WorkingConditionsFactors{gamma_bi,gamma_si,gamma_c};
  }
 
 // ---------------------------------------------------------------------------
 // Инициализация композитной балки
 //---------------------------------------------------------------------------
-int TCompositeBeamMainForm::update_composite_beam()
+void TCompositeBeamMainForm::update_composite_beam()
 {
-	auto geometry_pair = update_geometry();
+	Geometry geometry = update_geometry();
 
-	if(geometry_pair.second > 0)
-		return geometry_pair.second;
-	Geometry geometry = geometry_pair.first;
-
-   Loads loads = update_loads();
+	Loads loads = update_loads();
 
    SteelPart steel_part = update_steel_part();
    ConcretePart concrete_part = update_concrete_part();
@@ -343,9 +368,7 @@ int TCompositeBeamMainForm::update_composite_beam()
 
    StudsOnBeam studs_on_beam = update_studs_on_beam();
 
-   auto working_conditions_factors = update_working_conditions_factors();
-	if(!working_conditions_factors)
-		return 1;
+   WorkingConditionsFactors working_conditions_factors = update_working_conditions_factors();
 
    double max_elem_length = 0.;
 
@@ -355,9 +378,8 @@ int TCompositeBeamMainForm::update_composite_beam()
 											  loads,
 											  composite_section,
 											  studs_on_beam,
-											  working_conditions_factors.value(),
+											  working_conditions_factors,
 											  max_elem_length);
-    return 0;
 }
 //---------------------------------------------------------------------------
 //	Функция запускающая расчёт композитной балки
@@ -597,11 +619,11 @@ void TCompositeBeamMainForm::cotr_ratios_grid()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::fill_cmb_bx_impact()
 {
-	cmb_bx_impact -> Items -> Append(L"Нагрузки Ia");
-	cmb_bx_impact -> Items -> Append(L"Hагрузки Ib");
-	cmb_bx_impact -> Items -> Append(L"Нагрузки IIa");
-	cmb_bx_impact -> Items -> Append(L"Нагрузки IIb");
-	cmb_bx_impact -> Items -> Append(L"Нагрузки полные");
+	cmb_bx_impact -> Items -> Append(L"Воздействие 1a");
+	cmb_bx_impact -> Items -> Append(L"Воздействие 1b");
+	cmb_bx_impact -> Items -> Append(L"Воздействие 2c");
+	cmb_bx_impact -> Items -> Append(L"Воздействие 2d");
+	cmb_bx_impact -> Items -> Append(L"Воздействие: 1b + 2c + 2d");
 
 	cmb_bx_impact -> ItemIndex = 4;
 }
@@ -964,27 +986,37 @@ void __fastcall TCompositeBeamMainForm ::cmb_bx_impactChange(TObject *Sender)
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObject *Sender)
-
 {
 	draw_diagram();
 }
 
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
-
-	if (auto b = update_composite_beam())
+	try
+	{
+		update_composite_beam();
+	}
+	catch (int rc)
+	{
 		return;
+	}
+
+
+
    composite_beam_calculator_.calculate();
-   //Вывод результатов расчёта в GUI
+
 	draw_diagram();
 	fill_steel_sect_geometr_grid();
 	fill_concrete_sect_geometr_grid();
 	fill_composite_sect_geometr_grid();
 	fill_results_grid();
 
-//Вывод результатов расчёта в отчёт
 	btn_report->Enabled=true;
 	tb_results->TabVisible=true;
+
+	PgCntrlCompositeBeam -> ActivePage = TbShtStaticScheme;
+
+	
 }
 //---------------------------------------------------------------------------
 

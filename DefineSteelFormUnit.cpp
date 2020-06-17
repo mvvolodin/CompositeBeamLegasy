@@ -15,7 +15,7 @@ TDefineSteelForm *DefineSteelForm;
 
 //---------------------------------------------------------------------------
 __fastcall TDefineSteelForm::TDefineSteelForm(TComponent* Owner)
-        : TForm(Owner)
+		: TForm(Owner)
 {
 	Caption=L"Выбор стали";
 	StringGrid_Prop->ColCount = 3;
@@ -25,6 +25,7 @@ __fastcall TDefineSteelForm::TDefineSteelForm(TComponent* Owner)
 	cmb_bx_standard->Items->Clear();
 	cmb_bx_standard -> Items -> Add(L"СП 16.13330.2017, Таблица В.4, двутавры");
 	cmb_bx_standard -> Items -> Add(L"ГОСТ 27772-2015, Таблица 5, фасонный прокат");
+
 }
 void __fastcall TDefineSteelForm::FormShow(TObject *Sender)
 {
@@ -79,8 +80,6 @@ void TDefineSteelForm::set_form_controls()
 	Edit_dens -> Text = steel_temp_.get_density();
 	Edit_gamma_m -> Text = steel_temp_.get_gamma_m();
 
-  //	String str = steel_temp_.get_standard();
-	//cmb_bx_standard -> Text = str;
 	cmb_bx_standard -> ItemIndex = cmb_bx_standard -> Items -> IndexOf(steel_temp_.get_standard());
 	set_steel_standard();
 
@@ -106,14 +105,14 @@ void __fastcall TDefineSteelForm::set_steel_standard() {
    cmb_bx_steel_grades -> Items -> Clear();
    switch (cmb_bx_standard -> ItemIndex) {
    case 0:
-	 for (i=0; i<N_STEEL_HOT; i++) {
-	   cmb_bx_steel_grades -> Items -> Add(Steel_Hot[i]);
-	 }
-   break;
-   case 1:
 	 for (i=0; i<N_STEEL_HOTB; i++) {
 	   cmb_bx_steel_grades -> Items->Add(Steel_HotB[i]);
      }
+   break;
+   case 1:
+	 for (i=0; i<N_STEEL_HOT; i++) {
+	   cmb_bx_steel_grades -> Items -> Add(Steel_Hot[i]);
+	 }
    break;
    }
 
@@ -131,6 +130,7 @@ void __fastcall TDefineSteelForm::cmb_bx_steel_gradesChange(
 void __fastcall TDefineSteelForm::cmb_bx_standardChange(TObject *Sender)
 {
 	set_steel_standard();
+    fill_grd_steel_data();
 
 }
 //---------------------------------------------------------------------------
