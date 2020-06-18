@@ -197,8 +197,6 @@ CompositeSectionGeometry::NeutralAxis CompositeSectionGeometry::calc_neutral_axi
 	const double A_st = steel_part_.get_section().get_A_st();
 	const double A_f1_st = steel_part_.get_section().get_A_f1_st();
 	const double A_f2_st = steel_part_.get_section().get_A_f2_st();
-	const double R_s = concrete_part_.get_rebar().get_R_s();
-	const double A_s = concrete_part_.get_rebar().get_A_s();
 	const double h_f = concrete_part_.get_h_f();
 	const double h = concrete_part_.get_h();
 	const double t_f2 = steel_part_.get_section().get_t_uf();
@@ -210,28 +208,39 @@ CompositeSectionGeometry::NeutralAxis CompositeSectionGeometry::calc_neutral_axi
 	const double A_b = concrete_part_.get_A_b();
 	const double C_b = concrete_part_.get_C_b();
 
-	x_b = (R_y * A_st + R_s * A_s * b_sl)/(R_b * b_sl);
+	x_b = (R_y * (A_w_st + A_f1_st + A_f2_st))/(R_b * b_sl);
 
-	x_btw = ((R_b * b_sl * h_f + R_s * A_s * b_sl) * h_f / 2 + A_st * R_y * (h_st / 2 + h)) /
-		(R_b * b_sl * h_f + R_s * A_s * b_sl + A_st * R_y);
+//	x_btw = ((R_b * b_sl * h_f) * h_f / 2 + A_st * R_y * (h_st / 2 + h)) /
+//		(R_b * b_sl * h_f + A_st * R_y);
 
-	x_f2 = (A_f1_st * R_y + (h_f + t_f2) * b_f2 * R_y + A_w_st*R_y + h_f * b_f2 * R_y
-		- R_b * A_b - R_s * A_s * b_sl) / ( 2 * b_f2 * R_y);
+	x_f2 = (A_f1_st * R_y + (h + t_f2) * b_f2 * R_y + A_w_st * R_y + h * b_f2 * R_y
+		- R_b * A_b) / ( 2 * b_f2 * R_y);
 
-	x_w = (A_f1_st * R_y + (h_f + t_f2 + h_w) * t_w * R_y + (h_f + t_f2) * t_w * R_y
-		 - R_b * A_b - A_f2_st * R_y - R_s * A_s  * b_sl ) / ( 2 * t_w * R_y);
+	x_w = (A_f1_st * R_y + (h + t_f2 + h_w) * t_w * R_y + (h + t_f2) * t_w * R_y
+		 - R_b * A_b - A_f2_st * R_y) / ( 2 * t_w * R_y);
 
-	if (x_b >= 0 && x_b < h_f)
+	if (x_b >= 0 && x_b <= h_f)
 		return NeutralAxis {NA_Location::CONCRETE, x_b};
 
-	if(x_btw >= h_f && x_btw < h)
-		return  NeutralAxis{NA_Location::BTW_CONCRETE_AND_UPPER_FLANGE, x_btw};
+//	if(x_btw >= h_f && x_btw < h)
+//		return  NeutralAxis{NA_Location::BTW_CONCRETE_AND_UPPER_FLANGE, x_btw};
 
 	if ( x_f2 >= h && x_f2 < (h + t_f2))
 		return NeutralAxis {NA_Location::UPPER_FLANGE, x_f2};
 
 	if (x_w >= (h + t_f2) && x_w <= (h_f + t_f2 + h_w))
 		return NeutralAxis {NA_Location::WEB, x_w};
+
+//	if (x_b >= 0 && x_b < h_f)
+//		return NeutralAxis {NA_Location::CONCRETE, x_b};
+//
+//	if((R_y * A_st) / (R_b * b_sl * h_f) > 1 &&
+//		(R_y * A_st - R_b * b_sl * h_f) / (2 * R_y * A_st) <= (b_f2 * t_f2) / A_st)
+//			return NeutralAxis {NA_Location::UPPER_FLANGE, x_f2};
+//
+//	if((R_y * A_st) / (R_b * b_sl * h_f) > 1 &&
+//		(R_y * A_st - R_b * b_sl * h_f) / (2 * R_y * A_st) > (b_f2 * t_f2) / A_st)
+//			return NeutralAxis {NA_Location::WEB, x_w};
 
 	return NeutralAxis {NA_Location::NO_SOLUTION, 0.};
 }
@@ -268,12 +277,12 @@ void CompositeSectionGeometry::calc_rigid_plastic_moment()
 
 			break;
 
-		case NA_Location::BTW_CONCRETE_AND_UPPER_FLANGE:
-
-			M_Rd_ = -1 * R_b * b_sl * h_f * (x_na - h_f / 2) +
-				R_y * A_w_st * (h + h_st / 2 - x_na);
-
-			break;
+//		case NA_Location::BTW_CONCRETE_AND_UPPER_FLANGE:
+//
+//			M_Rd_ = -1 * R_b * b_sl * h_f * (x_na - h_f / 2) +
+//				R_y * A_w_st * (h + h_st / 2 - x_na);
+//
+//			break;
 
 		case NA_Location::UPPER_FLANGE:
 

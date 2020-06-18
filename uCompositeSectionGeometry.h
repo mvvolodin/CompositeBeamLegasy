@@ -11,7 +11,7 @@
 class CompositeSectionGeometry{
 	enum class NA_Location{
 		CONCRETE,
-		BTW_CONCRETE_AND_UPPER_FLANGE,
+	  //	BTW_CONCRETE_AND_UPPER_FLANGE,
 		UPPER_FLANGE,
 		WEB,
 		NO_SOLUTION

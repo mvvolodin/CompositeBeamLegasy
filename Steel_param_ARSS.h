@@ -106,7 +106,7 @@ typedef struct _steel_param {  // данные о параметрах стали дл€ данной толщины
 } STEEL_PARAM;
 
 typedef struct _mater_param {  // данные о параметрах стали
-    char   title[8];
+	char   title[10];
     int    n_row;
     double thick_row[10];
 	double Ryn_row[10];  // ѕредел текучести

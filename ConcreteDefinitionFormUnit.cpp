@@ -40,6 +40,8 @@ void __fastcall TConcreteDefinitionForm::cmb_bx_concrete_grade_listChange(TObjec
 //---------------------------------------------------------------------------
 void TConcreteDefinitionForm::set_concrete()
  {
+	int rc = 0;
+
 	String grade = "";
 	double R_bn = 0.;
 	double R_btn = 0.;
@@ -55,14 +57,23 @@ void TConcreteDefinitionForm::set_concrete()
 	R_btn=StrToFloat(edt_R_btn -> Text);
 	E_b=StrToFloat(edt_E_b -> Text);
 
-	String_double_plus(lbl_phi_b_cr -> Caption, edt_phi_b_cr -> Text, &phi_b_cr);
-	String_double_zero_plus(lbl_density -> Caption, edt_density -> Text, &density);
-	String_double_plus(lbl_gamma_b -> Caption, edt_gamma_b -> Text, &gamma_b);
-	String_double_plus(lbl_gamma_bt -> Caption, edt_gamma_bt -> Text, &gamma_bt);
-	String_double_plus(lbl_epsilon_b_lim -> Caption, edt_epsilon_b_lim -> Text, &epsilon_b_lim);
+	rc = String_double_zero_plus(lbl_phi_b_cr -> Caption, edt_phi_b_cr -> Text, &phi_b_cr);
+	if (rc>0)
+		throw(rc);
+	rc = String_double_zero_plus(lbl_density -> Caption, edt_density -> Text, &density);
+	if (rc>0)
+		throw(rc);
+	rc = String_double_plus(lbl_gamma_b -> Caption, edt_gamma_b -> Text, &gamma_b);
+ 	if (rc>0)
+		throw(rc);
+	rc = String_double_plus(lbl_gamma_bt -> Caption, edt_gamma_bt -> Text, &gamma_bt);
+	if (rc>0)
+		throw(rc);
+	rc = String_double_plus(lbl_epsilon_b_lim -> Caption, edt_epsilon_b_lim -> Text, &epsilon_b_lim);
+	if (rc>0)
+		throw(rc);
 
-	ConcreteBasic concrete_basic {grade, E_b, R_bn, R_btn};
-	concrete_temp_ = Concrete{concrete_basic, density, phi_b_cr, gamma_b, gamma_bt, epsilon_b_lim};
+	concrete_temp_ = Concrete{{grade, E_b, R_bn, R_btn}, density, phi_b_cr, gamma_b, gamma_bt, epsilon_b_lim};
 }
 //---------------------------------------------------------------------------
 //Присваивение значений полям формы из данных класс типа Concrete
@@ -93,7 +104,14 @@ void TConcreteDefinitionForm::set_form_controls(Concrete concrete)
 //---------------------------------------------------------------------------
 void __fastcall TConcreteDefinitionForm::BtBtnConcreteChoiceClick(TObject *Sender)
 {
-	set_concrete();
+	 try
+	 {
+		set_concrete();
+	 }
+	 catch (int rc)
+	 {
+		return;
+	 }
 	iobserver_ -> update(this);
     Close();
 }

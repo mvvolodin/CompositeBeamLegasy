@@ -130,7 +130,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
-    ExplicitTop = 25
     object TbShtStaticScheme: TTabSheet
       AlignWithMargins = True
       Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
@@ -205,7 +204,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_gamma_f_add_concrete_SW: TLabel
           Left = 12
           Top = 95
-          Width = 157
+          Width = 134
           Height = 13
           Caption = #1044#1086#1087'. '#1085#1072#1075#1088'. '#1086#1090' '#1074#1077#1089#1072' '#1073#1077#1090#1086#1085#1072
           WordWrap = True
@@ -269,7 +268,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_dead_load_first_stage: TLabel
           Left = 16
           Top = 66
-          Width = 169
+          Width = 149
           Height = 13
           Caption = #1052#1086#1085#1090#1072#1078#1085#1072#1103'  '#1085#1072#1075#1088#1091#1079#1082#1072',  '#1082#1053'/'#1084'2'
         end
@@ -316,7 +315,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_SW_add_concrete: TLabel
           Left = 16
           Top = 41
-          Width = 191
+          Width = 173
           Height = 13
           Caption = #1044#1086#1087'. '#1085#1072#1075#1088'. '#1086#1090' '#1074#1077#1089#1072' '#1073#1077#1090#1086#1085#1072',  '#1082#1053'/'#1084'2'
           WordWrap = True
@@ -484,15 +483,15 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object rd_grp_internal_forces_type: TRadioGroup
           Left = 295
           Top = 13
-          Width = 525
+          Width = 586
           Height = 37
           Caption = ' '#1060#1072#1082#1090#1086#1088' '
           Columns = 3
           ItemIndex = 0
           Items.Strings = (
-            #1048#1079#1075#1080#1073#1072#1102#1097#1080#1081' '#1084#1086#1084#1077#1085#1090
-            #1055#1086#1087#1077#1088#1077#1095#1085#1072#1103' '#1089#1080#1083#1072
-            #1055#1077#1088#1077#1084#1077#1097#1077#1085#1080#1103' ('#1085#1086#1088#1084#1072#1090#1080#1074#1085#1099#1077')')
+            #1048#1079#1075#1080#1073#1072#1102#1097#1080#1081' '#1084#1086#1084#1077#1085#1090', '#1082#1053#1084
+            #1055#1086#1087#1077#1088#1077#1095#1085#1072#1103' '#1089#1080#1083#1072', '#1082#1053
+            #1055#1077#1088#1077#1084#1077#1097#1077#1085#1080#1103' ('#1085#1086#1088#1084#1072#1090#1080#1074#1085#1099#1077'), '#1084#1084)
           TabOrder = 1
           OnClick = rd_grp_internal_forces_typeClick
         end

@@ -294,7 +294,7 @@
             <BuildOrder>15</BuildOrder>
         </CppCompile>
         <CppCompile Include="uCorrugatedSheet.cpp">
-            <DependentOn>uCorrugatedSheet.h</DependentOn>
+            <DependentOn>uCorrtgatedSheet.h</DependentOn>
             <BuildOrder>47</BuildOrder>
         </CppCompile>
         <CppCompile Include="uFrmAddImacts.cpp">
