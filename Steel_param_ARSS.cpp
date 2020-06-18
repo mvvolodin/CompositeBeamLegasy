@@ -130,12 +130,12 @@ static double steelC355B_1[N_C355B_1][4]={ 355,470,345,460,
 static double tC355B_1[N_C355B_1+1]={1, 20, 40, 60};
 
 static double steelC390B[N_C390B][4]={390,520,380,505,
-									  380,500,370,490,
-									  370,490,360,480,
-									  360,480,350,470,
-									  350,480,340,470,
-									  330,470,320,460};
-static double tC390B[N_C390B+1]={1, 10, 30, 60, 80, 100, 1000};
+                                      370,490,360,480,
+                                      360,480,350,470,
+                                      350,480,340,470,
+                                      330,470,320,460};
+
+static double tC390B[N_C390B+1]={1, 30, 60, 80, 100, 1000};
 
 static double steelC440B[N_C440B][4]={440,600,430,585,
 									430,560,420,545,
@@ -501,7 +501,7 @@ int Get_Mater_param(char *Msteel, MATER_PARAM* mater_param) {
 	  rc = 0;
    }
    if (strcmp(Msteel,"C345Á")==0) {
-	  Fill_mater_param(Msteel, N_C345, steelC345, tC345, mater_param);
+	  Fill_mater_param(Msteel, N_C345B, steelC345B, tC345B, mater_param);
 	  rc = 0;
    }
    if (strcmp(Msteel,"C345Á-1")==0) {

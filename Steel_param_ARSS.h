@@ -58,7 +58,7 @@
 #define N_C345B_1  4
 #define N_C355B    6
 #define N_C355B_1  3
-#define N_C390B    6
+#define N_C390B    5
 #define N_C440B    5
 //--------------------------------
 #define N_C245BG    2

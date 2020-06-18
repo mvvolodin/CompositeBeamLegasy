@@ -159,7 +159,13 @@ object DefineSteelForm: TDefineSteelForm
       ColCount = 3
       DefaultRowHeight = 18
       FixedCols = 0
+      Font.Charset = RUSSIAN_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial Narrow'
+      Font.Style = []
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine]
+      ParentFont = False
       TabOrder = 0
       ColWidths = (
         129

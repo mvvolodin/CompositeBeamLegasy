@@ -151,10 +151,15 @@ void __fastcall TDefineSteelForm::fill_grd_steel_data()
 
 	   GroupBox_Prop->Caption = " Нормативные сопротивления стали "+ cmb_bx_steel_grades -> Text + ", МПа";
 	   StringGrid_Prop->RowCount = mater_param.n_row + 1;
-	   for (i=0; i<mater_param.n_row; i++) {
-		 if (i==0)
-		   StringGrid_Prop->Cells[0][i+1] = "От " + FloatToStr(mater_param.thick_row[i]) + " до " +
+       	   for (i=0; i<mater_param.n_row; i++) {
+		 if (i==0) {
+		   if  (mater_param.thick_row[i] == 1.0)
+			 StringGrid_Prop->Cells[0][i+1] = u" \u2264 " + FloatToStr(mater_param.thick_row[i+1]);
+		   else
+			 StringGrid_Prop->Cells[0][i+1] = "От " + FloatToStr(mater_param.thick_row[i]) + " до " +
 												  FloatToStr(mater_param.thick_row[i+1]);
+
+		 }
 		 else {
 		   if (mater_param.thick_row[i+1] < 1000)
 			 StringGrid_Prop->Cells[0][i+1] = "Св. " + FloatToStr(mater_param.thick_row[i]) + " до " +
@@ -165,6 +170,20 @@ void __fastcall TDefineSteelForm::fill_grd_steel_data()
 		 StringGrid_Prop->Cells[1][i+1] = mater_param.Ryn_row[i];
 		 StringGrid_Prop->Cells[2][i+1] = mater_param.Run_row[i];
 	   }
+//	   for (i=0; i<mater_param.n_row; i++) {
+//		 if (i==0)
+//		   StringGrid_Prop->Cells[0][i+1] = "От " + FloatToStr(mater_param.thick_row[i]) + " до " +
+//												  FloatToStr(mater_param.thick_row[i+1]);
+//		 else {
+//		   if (mater_param.thick_row[i+1] < 1000)
+//			 StringGrid_Prop->Cells[0][i+1] = "Св. " + FloatToStr(mater_param.thick_row[i]) + " до " +
+//												  FloatToStr(mater_param.thick_row[i+1]);
+//		   else
+//			 StringGrid_Prop->Cells[0][i+1] = "Св. " + FloatToStr(mater_param.thick_row[i]);
+//		 }
+//		 StringGrid_Prop->Cells[1][i+1] = mater_param.Ryn_row[i];
+//		 StringGrid_Prop->Cells[2][i+1] = mater_param.Run_row[i];
+//	   }
 }
 //---------------------------------------------------------------------------
 void __fastcall TDefineSteelForm::btn_okClick(TObject *Sender)
