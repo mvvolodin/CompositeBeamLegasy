@@ -78,8 +78,8 @@ void TCompositeBeamMainForm ::set_form_controls()
 
 	edt_sheeting_continuity_coefficient -> Text = loads.get_sheeting_continuity_coefficient();
 
-	FrmAddImpacts -> edt_sigma_bi -> Text = loads.get_sigma_bi();
-	FrmAddImpacts -> edt_sigma_si -> Text = loads.get_sigma_si();
+	FrmAddImpacts -> set_sigma_bi(loads.get_sigma_bi());
+	FrmAddImpacts -> set_sigma_si(loads.get_sigma_si());
 
 //Данные типа WorkingConditionsFactors
 	WorkingConditionsFactors wcf = composite_beam_calculator_.get_working_conditions_factors();
@@ -196,9 +196,6 @@ Loads TCompositeBeamMainForm ::update_loads()
 	double DL_II = 0.;
 	double LL = 0.;
 
-	double sigma_bi = 0.;
-	double sigma_si = 0.;
-
 	double gamma_f_st_SW = 0.;
 	double gamma_f_concrete_SW = 0.;
 	double gamma_f_add_concrete_SW = 0.;
@@ -220,13 +217,6 @@ Loads TCompositeBeamMainForm ::update_loads()
 	if(rc > 0)
 		throw(rc);
 	rc = String_double_zero_plus(lbl_live_load -> Caption, edt_live_load -> Text, &LL);
-	if(rc > 0) 
-		throw(rc);
-
-	rc = String_double_zero_plus(FrmAddImpacts -> lbl_sigma_bi -> Caption, FrmAddImpacts -> edt_sigma_bi -> Text, &sigma_bi);
-	if(rc > 0) 
-		throw(rc);
-	rc = String_double_zero_plus(FrmAddImpacts -> lbl_sigma_si -> Caption, FrmAddImpacts -> edt_sigma_si -> Text, &sigma_si);
 	if(rc > 0) 
 		throw(rc);
 
@@ -255,7 +245,9 @@ Loads TCompositeBeamMainForm ::update_loads()
 	
 	return Loads {SW, SW_sheets, SW_add_concrete, DL_I, DL_II, LL,
 		gamma_f_st_SW, gamma_f_concrete_SW, gamma_f_add_concrete_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL,
-		sheeting_continuity_coefficient, sigma_bi, sigma_si};
+		sheeting_continuity_coefficient,
+		FrmAddImpacts -> get_sigma_bi(),
+		FrmAddImpacts -> get_sigma_si()};
 }
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
@@ -756,9 +748,12 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(concrete.get_grade(),"%conc_grade%");
 	report_.PasteTextPattern(FloatToStrF(concrete.get_R_bn(), ffFixed, 15, 2),"%R_bn%");
 	report_.PasteTextPattern(FloatToStrF(concrete.get_R_btn(), ffFixed, 15, 2),"%R_btn%");
+	report_.PasteTextPattern(FloatToStrF(concrete.get_density(LengthUnit::m), ffFixed, 15, 2),"%density%");
+	report_.PasteTextPattern(FloatToStrF(concrete.get_phi_b_cr(), ffFixed, 15, 2),"%phi_b_cr%");
 	report_.PasteTextPattern(FloatToStrF(concrete.get_E_b(), ffFixed, 15, 2),"%E_b%");
 	report_.PasteTextPattern(FloatToStrF(concrete.get_gamma_b(), ffFixed, 15, 2),"%gamma_b%");
 	report_.PasteTextPattern(FloatToStrF(concrete.get_gamma_bt(), ffFixed, 15, 2),"%gamma_bt%");
+	report_.PasteTextPattern(FloatToStrF(concrete.get_epsilon_b_lim(), ffFixed, 15, 4),"%epsilon_b_lim%");
 
 //[1.6] Арматура
 	Rebar rebar = concrete_part.get_rebar();

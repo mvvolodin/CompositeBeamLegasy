@@ -12,6 +12,7 @@ object FrmAddImpacts: TFrmAddImpacts
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object btn_close: TButton
@@ -21,6 +22,7 @@ object FrmAddImpacts: TFrmAddImpacts
     Height = 25
     Caption = #1047#1072#1082#1088#1099#1090#1100
     TabOrder = 0
+    OnClick = btn_closeClick
   end
   object btn_cancel: TButton
     Left = 121
@@ -29,6 +31,7 @@ object FrmAddImpacts: TFrmAddImpacts
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1080#1090#1100
     TabOrder = 1
+    OnClick = btn_cancelClick
   end
   object btn_ok: TButton
     Left = 40
@@ -37,6 +40,7 @@ object FrmAddImpacts: TFrmAddImpacts
     Height = 25
     Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
     TabOrder = 2
+    OnClick = btn_okClick
   end
   object GroupBox1: TGroupBox
     Left = 8

@@ -61,6 +61,7 @@ void ConcretePart::save(std::ostream& ostr) const
 
 	ostr.write((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 	ostr.write((char*)&h_f_,sizeof(h_f_));
+	ostr.write((char*)&h_n_,sizeof(h_n_));
 	ostr.write((char*)&wider_flange_up_,sizeof(wider_flange_up_));
 	ostr.write((char*)&sheet_orient_along_,sizeof(sheet_orient_along_));
 }
@@ -82,6 +83,7 @@ void ConcretePart::load(std::istream& istr)
 
 	istr.read((char*)&slab_type_enum_ ,sizeof(slab_type_enum_));
 	istr.read((char*)&h_f_,sizeof(h_f_));
+	istr.read((char*)&h_n_,sizeof(h_n_));
 	istr.read((char*)&wider_flange_up_,sizeof(wider_flange_up_));
 	istr.read((char*)&sheet_orient_along_,sizeof(sheet_orient_along_));
 }
