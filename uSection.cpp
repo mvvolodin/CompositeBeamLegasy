@@ -161,7 +161,10 @@ void Section::calculate_shear_ratio(CompositeSectionGeometry& com_sect,
 void Section::calculate_i_sect_ratio(CompositeSectionGeometry& com_sect,
 									 WorkingConditionsFactors& working_conditions_factors)
 {
-	i_section_ratio_ = std::abs(M_Ia_design_) / com_sect.get_steel_part().get_M_Rd();
+	const double M_Rd = com_sect.get_steel_part().get_M_Rd();
+	const double gamma_c = working_conditions_factors.get_gamma_c();
+
+	i_section_ratio_ = std::abs(M_Ia_design_) / (M_Rd * gamma_c);
 }
 void Section::calculate_rigid_plastic_ratio(CompositeSectionGeometry& com_sect,
 											WorkingConditionsFactors& working_conditions_factors)
