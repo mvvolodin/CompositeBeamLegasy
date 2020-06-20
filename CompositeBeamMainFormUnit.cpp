@@ -1241,3 +1241,13 @@ void __fastcall TCompositeBeamMainForm::btn_add_impactsClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TCompositeBeamMainForm::HelpClick(TObject *Sender)
+{
+	WideString path = ExtractFilePath(Application->ExeName) + "Руководство Пользователя.pdf";
+
+	HelpForm -> CppWebBrowser1 -> Navigate((BSTR)path);
+
+	HelpForm->ShowModal();
+}
+//---------------------------------------------------------------------------
+

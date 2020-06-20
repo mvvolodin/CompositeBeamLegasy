@@ -31,6 +31,7 @@
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
 #include "USteelSectionForm.h"
+#include "uHelpForm.h"
 #include "DefineSteelFormUnit.h"
 #include "uFrmAddImacts.h"
 #include "LoggerFormUnit.h"
@@ -172,6 +173,7 @@ __published:	// IDE-managed Components
 	TCheckBox *chck_bx_wider_flange_up;
 	TCheckBox *chck_bx_sheet_orient_along;
 	TGroupBox *GroupBox1;
+	TMenuItem *Help;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -202,6 +204,7 @@ __published:	// IDE-managed Components
 	void __fastcall strng_grd_first_raw_bold(TObject *Sender, int ACol,
           int ARow, TRect &Rect, TGridDrawState State);
 	void __fastcall btn_add_impactsClick(TObject *Sender);
+	void __fastcall HelpClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;

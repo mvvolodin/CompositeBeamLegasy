@@ -162,7 +162,7 @@ object DefineSteelForm: TDefineSteelForm
       Font.Charset = RUSSIAN_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
-      Font.Name = 'Arial Narrow'
+      Font.Name = 'MS Sans Serif'
       Font.Style = []
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine]
       ParentFont = False

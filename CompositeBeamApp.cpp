@@ -12,6 +12,7 @@ USEFORM("AboutProg.cpp", AboutProgForm);
 USEFORM("CompositeBeamMainFormUnit.cpp", CompositeBeamMainForm);
 USEFORM("RebarDefinitionFormUnit.cpp", RebarDefinitionForm);
 USEFORM("LoggerFormUnit.cpp", FormLogger);
+USEFORM("uHelpForm.cpp", HelpForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -28,6 +29,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TSteelSectionForm2), &SteelSectionForm2);
 		Application->CreateForm(__classid(TDefineSteelForm), &DefineSteelForm);
 		Application->CreateForm(__classid(TFrmAddImpacts), &FrmAddImpacts);
+		Application->CreateForm(__classid(THelpForm), &HelpForm);
 		Application->Run();
 	}
 	catch (Exception &exception)

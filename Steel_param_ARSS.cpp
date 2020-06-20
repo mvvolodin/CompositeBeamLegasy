@@ -535,7 +535,7 @@ int Get_Mater_param(char *Msteel, MATER_PARAM* mater_param) {
 	  rc = 0;
    }
    if (strcmp(Msteel,"C345")==0) {
-	  Fill_mater_param(Msteel, N_C345, steelC345, tC345, mater_param);
+	  Fill_mater_param(Msteel, N_C345BG, steelC345, tC345, mater_param);
 	  rc = 0;
    }
    if (strcmp(Msteel,"C345K")==0) {

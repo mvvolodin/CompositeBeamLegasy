@@ -28,7 +28,6 @@ void __fastcall TFrmAddImpacts::btn_okClick(TObject *Sender)
 	 }
 
 	Close();
-
 }
 void TFrmAddImpacts::check_input()
 {
@@ -65,9 +64,9 @@ void TFrmAddImpacts::update_controls()
 {
 	edt_sigma_bi -> Text = sigma_bi_;
 	edt_sigma_si -> Text = sigma_si_;
-
 }
 
 
 //---------------------------------------------------------------------------
+
 

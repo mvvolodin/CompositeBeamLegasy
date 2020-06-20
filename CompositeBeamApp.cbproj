@@ -69,7 +69,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
         <ProjectType>CppVCLApplication</ProjectType>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;xmlrtl.lib;vclimg.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;xmlrtl.lib;vclimg.lib;bcbie.lib</AllPackageLibs>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -134,7 +134,7 @@
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <UsePackages>false</UsePackages>
-        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;xmlrtl.lib;vclimg.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;xmlrtl.lib;vclimg.lib;bcbie.lib</LinkPackageStatics>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -157,7 +157,7 @@
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="AboutProg.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382D}</VirtualFolder>
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>AboutProgForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>AboutProg.h</DependentOn>
@@ -308,6 +308,13 @@
             <DependentOn>uGeometry.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uHelpForm.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>HelpForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uHelpForm.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uInternalForcesCalculator.cpp">
             <DependentOn>uInternalForcesCalculator.h</DependentOn>
             <BuildOrder>48</BuildOrder>
@@ -363,11 +370,12 @@
             <BuildOrder>32</BuildOrder>
         </CppCompile>
         <FormResources Include="uFrmAddImacts.dfm"/>
+        <FormResources Include="uHelpForm.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="uSteelSectionForm.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>
-        <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
         <FormResources Include="AboutProg.dfm"/>
+        <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
         <FormResources Include="LoggerFormUnit.dfm"/>

@@ -577,8 +577,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtSectionMaterials: TTabSheet
       Caption = #1057#1077#1095#1077#1085#1080#1077' '#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1099
       ImageIndex = 1
-      ExplicitLeft = 8
-      ExplicitTop = 30
       object GrpBxSteelSection: TGroupBox
         Left = -4
         Top = 283
@@ -3374,22 +3372,26 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Caption = #1054' '#1087#1088#1086#1075#1088#1072#1084#1084#1077
         OnClick = N8Click
       end
+      object Help: TMenuItem
+        Caption = #1057#1087#1088#1072#1074#1082#1072
+        OnClick = HelpClick
+      end
     end
   end
   object SaveDialog_Model: TSaveDialog
     DefaultExt = 'arcC'
     Filter = #1060#1072#1081#1083' '#1087#1088#1086#1077#1082#1090#1072' (*.arsC)|*.arsC'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
-    Left = 460
+    Left = 468
     Top = 552
   end
   object OpenDialog_Model: TOpenDialog
     Filter = #1060#1072#1081#1083#1099' '#1087#1088#1086#1077#1082#1090#1086#1074' (*.arsC)|*.arsC|'#1042#1089#1077' '#1092#1072#1081#1083#1099' |*.*'
-    Left = 500
+    Left = 524
     Top = 552
   end
   object ImageList1: TImageList
-    Left = 536
+    Left = 584
     Top = 552
     Bitmap = {
       494C010106000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
