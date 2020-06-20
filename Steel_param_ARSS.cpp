@@ -492,65 +492,65 @@ int Get_Mater_param(char *Msteel, MATER_PARAM* mater_param) {
    }
    //-----------------------------------------------------------------------------
    // Сталь для проката с параллельными гранями полок в соответствии с ГОСТ H 57837
-   if (strcmp(Msteel,"C255Б")==0) {
-	  Fill_mater_param(Msteel, N_C255B, steelC255B, tC255B, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C255Б-1")==0) {
-	  Fill_mater_param(Msteel, N_C255B, steelC255B, tC255B, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C345Б")==0) {
-	  Fill_mater_param(Msteel, N_C345B, steelC345B, tC345B, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C345Б-1")==0) {
-	  Fill_mater_param(Msteel, N_C345B_1, steelC345B_1, tC345B_1, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355Б")==0) {
-	  Fill_mater_param(Msteel, N_C355B, steelC355B, tC355B, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355Б-1")==0) {
-	  Fill_mater_param(Msteel, N_C355B_1, steelC355B_1, tC355B_1, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C390Б")==0) {
-	  Fill_mater_param(Msteel, N_C390B, steelC390B, tC390B, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C440Б")==0) {
-	  Fill_mater_param(Msteel, N_C440B, steelC440B, tC440B, mater_param);
-	  rc = 0;
-   }
+//   if (strcmp(Msteel,"C255Б")==0) {
+//	  Fill_mater_param(Msteel, N_C255B, steelC255B, tC255B, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C255Б-1")==0) {
+//	  Fill_mater_param(Msteel, N_C255B, steelC255B, tC255B, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C345Б")==0) {
+//	  Fill_mater_param(Msteel, N_C345B, steelC345B, tC345B, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C345Б-1")==0) {
+//	  Fill_mater_param(Msteel, N_C345B_1, steelC345B_1, tC345B_1, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355Б")==0) {
+//	  Fill_mater_param(Msteel, N_C355B, steelC355B, tC355B, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355Б-1")==0) {
+//	  Fill_mater_param(Msteel, N_C355B_1, steelC355B_1, tC355B_1, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C390Б")==0) {
+//	  Fill_mater_param(Msteel, N_C390B, steelC390B, tC390B, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C440Б")==0) {
+//	  Fill_mater_param(Msteel, N_C440B, steelC440B, tC440B, mater_param);
+//	  rc = 0;
+//   }
    //-----------------------------------------------------------------------------
    // Сталь для проката с параллельными гранями полок в соответствии с ГОСТ 27772-15
-   if (strcmp(Msteel,"C245BG")==0) {
+   if (strcmp(Msteel,"C245")==0) {
 	  Fill_mater_param(Msteel, N_C245BG, steelC245BG, tC245BG, mater_param);
 	  rc = 0;
    }
-   if (strcmp(Msteel,"C255BG")==0) {
+   if (strcmp(Msteel,"C255")==0) {
 	  Fill_mater_param(Msteel, N_C255BG, steelC255BG, tC255BG, mater_param);
 	  rc = 0;
    }
-   if (strcmp(Msteel,"C345BG")==0) {
+   if (strcmp(Msteel,"C345")==0) {
 	  Fill_mater_param(Msteel, N_C345, steelC345, tC345, mater_param);
 	  rc = 0;
    }
-   if (strcmp(Msteel,"C345KBG")==0) {
+   if (strcmp(Msteel,"C345K")==0) {
 	  Fill_mater_param(Msteel, N_C345KBG, steelC345KBG, tC345KBG, mater_param);
 	  rc = 0;
    }
-   if (strcmp(Msteel,"C355BG")==0) {
+   if (strcmp(Msteel,"C355")==0) {
 	  Fill_mater_param(Msteel, N_C355BG, steelC355BG, tC355BG, mater_param);
 	  rc = 0;
    }
-   if (strcmp(Msteel,"C355-1BG")==0) {
+   if (strcmp(Msteel,"C355-1")==0) {
 	  Fill_mater_param(Msteel, N_C355_1BG, steelC355_1BG, tC355_1BG, mater_param);
 	  rc = 0;
    }
-   if (strcmp(Msteel,"C390BG")==0) {
+   if (strcmp(Msteel,"C390")==0) {
 	  Fill_mater_param(Msteel, N_C390BG, steelC390BG, tC390BG, mater_param);
 	  rc = 0;
    }
