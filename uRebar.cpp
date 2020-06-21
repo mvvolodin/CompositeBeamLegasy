@@ -89,7 +89,7 @@ void Rebar::set_default_values()
 	grade_ = L"A500";
 	R_sn_ = 500.;
 	E_s_ = 200000.;
-	d_s_ = 12.;
+	d_s_ = 0.;
 	b_  = 200.;
 	a_u_ = 50.;
 	a_l_ = 50.;

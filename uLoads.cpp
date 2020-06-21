@@ -165,20 +165,20 @@ void Loads::set_default_values()
 	SW_steel_beam_ = 0.;
 	SW_corrugated_sheets_ = 0.;
 	SW_concrete_ = 0.;
-	SW_add_concrete_ = 0;
-	DL_I_ = 0.0025;
-	DL_II_ = 0.0015;
-	LL_ =  0.002;
+	SW_add_concrete_ = 0.00026;
+	DL_I_ = 0.0005;
+	DL_II_ = 0.002;
+	LL_ =  0.004;
 
 	sigma_bi_ = 0.;
 	sigma_si_ = 0.;
 
 	gamma_f_st_SW_ = 1.05;
-	gamma_f_concrete_SW_ = 1.3;
+	gamma_f_concrete_SW_ = 1.2;
 	gamma_f_add_concrete_SW_ = 1.1;
 	gamma_f_DL_I_ = 1.3;
-	gamma_f_DL_II_ = 1.35;
-	gamma_f_LL_ = 1.35;
+	gamma_f_DL_II_ = 1.2;
+	gamma_f_LL_ = 1.2;
 
 	sheeting_continuity_coefficient_ = 1.25;
 }

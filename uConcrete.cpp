@@ -101,12 +101,12 @@ void Concrete::load(istream& istr)
 //-----------------------------------------------------------------------------
 void Concrete::set_default_values()
 {
-	grade_ = L"B25";
-	E_b_ = 30000. ;
+	grade_ = L"B30";
+	E_b_ = 32500. ;
 	density_ = 2500e-9;
-	R_bn_ = 18.5;
-	R_btn_ = 1.55;
-	phi_b_cr_ = 3.2;
+	R_bn_ = 22;
+	R_btn_ = 1.75;
+	phi_b_cr_ = 2.3;
 	gamma_b_ =  1.3;
 	gamma_bt_ = 1.5;
 	epsilon_b_lim_ = 0.0016;

@@ -46,8 +46,8 @@ object AboutProgForm: TAboutProgForm
   object Label_Prog: TLabel
     Left = 16
     Top = 35
-    Width = 54
+    Width = 73
     Height = 13
-    Caption = #1042#1077#1088#1089#1080#1103' 1.0'
+    Caption = #1042#1077#1088#1089#1080#1103' 1.0.0'
   end
 end

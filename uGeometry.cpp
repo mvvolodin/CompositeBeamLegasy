@@ -21,9 +21,9 @@ Geometry::Geometry(bool end_beam, double L, double B_l, double B_r, SupportsNumb
 void Geometry::set_default_values()
 {
 	end_beam_ = false;
-	L_ = 18000;
-	B_l_ = 6000;
-	B_r_ = 6000;
+	L_ = 8000;
+	B_l_ = 3000;
+	B_r_ = 3000;
 	temp_supports_num_ = SupportsNumber::ZERO;
 }
 //---------------------------------------------------------------------------

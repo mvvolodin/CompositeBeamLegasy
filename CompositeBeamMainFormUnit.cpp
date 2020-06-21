@@ -684,7 +684,7 @@ void __fastcall TCompositeBeamMainForm ::NExitClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::generate_report()
 {
-	TWord_Automation report_ = TWord_Automation("ReportCompositeBeam.docx");
+	TWord_Automation report_ = TWord_Automation("ReportCompositeBeam.dotx");
 
 //[1.1] Топология
 	Geometry geometry = composite_beam_calculator_.get_geometry();
@@ -774,6 +774,8 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(studs_on_beam.get_dist_m(cm), ffFixed, 15, 2),"%z_m%");
 	report_.PasteTextPattern(FloatToStrF(studs_on_beam.get_num_e(), ffFixed, 15, 2),"%ed_rw_num%");
 	report_.PasteTextPattern(FloatToStrF(studs_on_beam.get_num_m(), ffFixed, 15, 2),"%mid_rw_num%");
+	report_.PasteTextPattern(studs_on_beam.get_more_than_one_stud_per_corrugation_edge_string(),"%ed_more_than_one_stud%");
+	report_.PasteTextPattern(studs_on_beam.get_more_than_one_stud_per_corrugation_middle_string(),"%mid_more_than_one_stud%");
 
 //[1.8] Коэффициенты
 
@@ -782,8 +784,10 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_c(), ffFixed, 15, 2),"%gamma_c%");
 	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_bi(), ffFixed, 15, 2),"%gamma_bi%");
 	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_si(), ffFixed, 15, 2),"%gamma_si%");
-//[1.9] Прочее
-	report_.PasteTextPattern(FloatToStrF(static_cast<int>(geometry.get_temporary_supports_number()), ffFixed, 15, 2),"%temp_supp%");
+//[1.9] Учёт условий монтажа
+
+	report_.PasteTextPattern(FloatToStrF(static_cast<int>(geometry.get_temporary_supports_number()), ffFixed, 15, 0),"%temp_supp%");
+	report_.PasteTextPattern(FloatToStrF(loads.get_sheeting_continuity_coefficient(), ffFixed, 15, 2),"%sheeting_continuity_coeff%");
 
 //[2] Результаты расчёта балки
 //[2.1] Геометрические параметры
@@ -1243,11 +1247,11 @@ void __fastcall TCompositeBeamMainForm::btn_add_impactsClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::HelpClick(TObject *Sender)
 {
-	WideString path = ExtractFilePath(Application->ExeName) + "Руководство Пользователя.pdf";
+	WideString path = ExtractFilePath(Application -> ExeName) + "Руководство Пользователя Комбинированная Балка v.1.0.0.pdf";
 
 	HelpForm -> CppWebBrowser1 -> Navigate((BSTR)path);
 
-	HelpForm->ShowModal();
+	HelpForm -> ShowModal();
 }
 //---------------------------------------------------------------------------
 

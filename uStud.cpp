@@ -342,8 +342,8 @@ void StudsOnBeam::calculate_ratios()
 }
 void StudsOnBeam::set_default_values()
 {
-	stud_ = Stud {L"SDx10x100", 10., 100., 300.};
-	dist_e_ = 180.;
+	stud_ = Stud {L"SDx22x125", 22., 125., 350.};
+	dist_e_ = 195.;
 	dist_m_ = 400.;
 	num_e_ = 1;
 	num_m_ = 1;

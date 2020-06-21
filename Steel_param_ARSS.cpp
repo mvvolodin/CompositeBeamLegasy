@@ -347,183 +347,159 @@ int Get_Mater_param(char *Msteel, MATER_PARAM* mater_param) {
    int i, rc;
 
    rc = steel_NO_STEEL;
-   // Горячий прокат, трубы СП
-   if (strcmp(Msteel,"C235")==0) {
-	  Fill_mater_param(Msteel, N_C235, steelC235, tC235, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C245")==0) {
-	  Fill_mater_param(Msteel, N_C245, steelC245, tC245, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C255")==0) {
-	  Fill_mater_param(Msteel, N_C255, steelC255, tC255, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C345")==0) {
-	  Fill_mater_param(Msteel, N_C345, steelC345, tC345, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C345K")==0) {
-	  Fill_mater_param(Msteel, N_C345K, steelC345K, tC345K, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355")==0) {
-	  Fill_mater_param(Msteel, N_C355, steelC355, tC355, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355-1")==0) {
-	  Fill_mater_param(Msteel, N_C355_1, steelC355_1, tC355_1, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355-K")==0) {
-	  Fill_mater_param(Msteel, N_C355_K, steelC355_K, tC355_K, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355П")==0) {
-	  Fill_mater_param(Msteel, N_C355_P, steelC355_P, tC355_P, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C390")==0) {
-	  Fill_mater_param(Msteel, N_C390, steelC390, tC390, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C390-1")==0) {
-	  Fill_mater_param(Msteel, N_C390_1, steelC390_1, tC390_1, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C440")==0) {
-	  Fill_mater_param(Msteel, N_C440, steelC440, tC440, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C550")==0) {
-	  Fill_mater_param(Msteel, N_C550, steelC550, tC550, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C590")==0) {
-	  Fill_mater_param(Msteel, N_C590, steelC590, tC590, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C690")==0) {
-	  Fill_mater_param(Msteel, N_C690, steelC690, tC690, mater_param);
-	  rc = 0;
-   }
+//   // Горячий прокат, трубы СП
+//   if (strcmp(Msteel,"C235")==0) {
+//	  Fill_mater_param(Msteel, N_C235, steelC235, tC235, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C245")==0) {
+//	  Fill_mater_param(Msteel, N_C245, steelC245, tC245, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C255")==0) {
+//	  Fill_mater_param(Msteel, N_C255, steelC255, tC255, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C345")==0) {
+//	  Fill_mater_param(Msteel, N_C345, steelC345, tC345, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C345K")==0) {
+//	  Fill_mater_param(Msteel, N_C345K, steelC345K, tC345K, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355")==0) {
+//	  Fill_mater_param(Msteel, N_C355, steelC355, tC355, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355-1")==0) {
+//	  Fill_mater_param(Msteel, N_C355_1, steelC355_1, tC355_1, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355-K")==0) {
+//	  Fill_mater_param(Msteel, N_C355_K, steelC355_K, tC355_K, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355П")==0) {
+//	  Fill_mater_param(Msteel, N_C355_P, steelC355_P, tC355_P, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C390")==0) {
+//	  Fill_mater_param(Msteel, N_C390, steelC390, tC390, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C390-1")==0) {
+//	  Fill_mater_param(Msteel, N_C390_1, steelC390_1, tC390_1, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C440")==0) {
+//	  Fill_mater_param(Msteel, N_C440, steelC440, tC440, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C550")==0) {
+//	  Fill_mater_param(Msteel, N_C550, steelC550, tC550, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C590")==0) {
+//	  Fill_mater_param(Msteel, N_C590, steelC590, tC590, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C690")==0) {
+//	  Fill_mater_param(Msteel, N_C690, steelC690, tC690, mater_param);
+//	  rc = 0;
+//   }
    // Горячий прокат, трубы ГОСТ
-   if (strcmp(Msteel,"C235G")==0) {
-	  Fill_mater_param(Msteel, N_C235G, steelC235G, tC235G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C245G")==0) {
-	  Fill_mater_param(Msteel, N_C245G, steelC245G, tC245G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C255G")==0) {
-	  Fill_mater_param(Msteel, N_C255G, steelC255G, tC255G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C345G")==0) {
-	  Fill_mater_param(Msteel, N_C345G, steelC345G, tC345G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C345KG")==0) {
-	  Fill_mater_param(Msteel, N_C345KG, steelC345KG, tC345KG, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355G")==0) {
-	  Fill_mater_param(Msteel, N_C355G, steelC355G, tC355G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355-1G")==0) {
-	  Fill_mater_param(Msteel, N_C355_1G, steelC355_1G, tC355_1G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355KG")==0) {
-	  Fill_mater_param(Msteel, N_C355KG, steelC355KG, tC355KG, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C355ПG")==0) {
-	  Fill_mater_param(Msteel, N_C355PG, steelC355PG, tC355PG, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C390G")==0) {
-	  Fill_mater_param(Msteel, N_C390G, steelC390G, tC390G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C390-1G")==0) {
-	  Fill_mater_param(Msteel, N_C390_1G, steelC390_1G, tC390_1G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C440G")==0) {
-	  Fill_mater_param(Msteel, N_C440G, steelC440G, tC440G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C550G")==0) {
-	  Fill_mater_param(Msteel, N_C550G, steelC550G, tC550G, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"C590G")==0) {
-	  Fill_mater_param(Msteel, N_C590G, steelC590G, tC590G, mater_param);
-	  rc = 0;
-   }
-   // Холоднокатанная сталь
-   if (strcmp(Msteel,"220")==0) {
-	  Fill_mater_param(Msteel, 2, steelC_220, tCold, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"ХП,ПК")==0) {
-	  Fill_mater_param(Msteel, 2, steelC_HPPK, tCold, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"250")==0) {
-	  Fill_mater_param(Msteel, 2, steelC_250, tCold, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"280")==0) {
-	  Fill_mater_param(Msteel, 2, steelC_280, tCold, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"320")==0) {
-	  Fill_mater_param(Msteel, 2, steelC_320, tCold, mater_param);
-	  rc = 0;
-   }
-   if (strcmp(Msteel,"350")==0) {
-	  Fill_mater_param(Msteel, 2, steelC_350, tCold, mater_param);
-	  rc = 0;
-   }
+//   if (strcmp(Msteel,"C235G")==0) {
+//	  Fill_mater_param(Msteel, N_C235G, steelC235G, tC235G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C245G")==0) {
+//	  Fill_mater_param(Msteel, N_C245G, steelC245G, tC245G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C255G")==0) {
+//	  Fill_mater_param(Msteel, N_C255G, steelC255G, tC255G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C345G")==0) {
+//	  Fill_mater_param(Msteel, N_C345G, steelC345G, tC345G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C345KG")==0) {
+//	  Fill_mater_param(Msteel, N_C345KG, steelC345KG, tC345KG, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355G")==0) {
+//	  Fill_mater_param(Msteel, N_C355G, steelC355G, tC355G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355-1G")==0) {
+//	  Fill_mater_param(Msteel, N_C355_1G, steelC355_1G, tC355_1G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355KG")==0) {
+//	  Fill_mater_param(Msteel, N_C355KG, steelC355KG, tC355KG, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C355ПG")==0) {
+//	  Fill_mater_param(Msteel, N_C355PG, steelC355PG, tC355PG, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C390G")==0) {
+//	  Fill_mater_param(Msteel, N_C390G, steelC390G, tC390G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C390-1G")==0) {
+//	  Fill_mater_param(Msteel, N_C390_1G, steelC390_1G, tC390_1G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C440G")==0) {
+//	  Fill_mater_param(Msteel, N_C440G, steelC440G, tC440G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C550G")==0) {
+//	  Fill_mater_param(Msteel, N_C550G, steelC550G, tC550G, mater_param);
+//	  rc = 0;
+//   }
+//   if (strcmp(Msteel,"C590G")==0) {
+//	  Fill_mater_param(Msteel, N_C590G, steelC590G, tC590G, mater_param);
+//	  rc = 0;
+//   }
+
    //-----------------------------------------------------------------------------
-   // Сталь для проката с параллельными гранями полок в соответствии с ГОСТ H 57837
-//   if (strcmp(Msteel,"C255Б")==0) {
-//	  Fill_mater_param(Msteel, N_C255B, steelC255B, tC255B, mater_param);
-//	  rc = 0;
-//   }
-//   if (strcmp(Msteel,"C255Б-1")==0) {
-//	  Fill_mater_param(Msteel, N_C255B, steelC255B, tC255B, mater_param);
-//	  rc = 0;
-//   }
-//   if (strcmp(Msteel,"C345Б")==0) {
-//	  Fill_mater_param(Msteel, N_C345B, steelC345B, tC345B, mater_param);
-//	  rc = 0;
-//   }
-//   if (strcmp(Msteel,"C345Б-1")==0) {
-//	  Fill_mater_param(Msteel, N_C345B_1, steelC345B_1, tC345B_1, mater_param);
-//	  rc = 0;
-//   }
-//   if (strcmp(Msteel,"C355Б")==0) {
-//	  Fill_mater_param(Msteel, N_C355B, steelC355B, tC355B, mater_param);
-//	  rc = 0;
-//   }
-//   if (strcmp(Msteel,"C355Б-1")==0) {
-//	  Fill_mater_param(Msteel, N_C355B_1, steelC355B_1, tC355B_1, mater_param);
-//	  rc = 0;
-//   }
-//   if (strcmp(Msteel,"C390Б")==0) {
-//	  Fill_mater_param(Msteel, N_C390B, steelC390B, tC390B, mater_param);
-//	  rc = 0;
-//   }
-//   if (strcmp(Msteel,"C440Б")==0) {
-//	  Fill_mater_param(Msteel, N_C440B, steelC440B, tC440B, mater_param);
-//	  rc = 0;
-//   }
+   // Сталь для проката с параллельными гранями полок в соответствии с СП 16.13330.2017 фасон
+   if (strcmp(Msteel,"C255Б")==0) {
+	  Fill_mater_param(Msteel, N_C255B, steelC255B, tC255B, mater_param);
+	  rc = 0;
+   }
+   if (strcmp(Msteel,"C255Б-1")==0) {
+	  Fill_mater_param(Msteel, N_C255B, steelC255B, tC255B, mater_param);
+	  rc = 0;
+   }
+   if (strcmp(Msteel,"C345Б")==0) {
+	  Fill_mater_param(Msteel, N_C345B, steelC345B, tC345B, mater_param);
+	  rc = 0;
+   }
+   if (strcmp(Msteel,"C345Б-1")==0) {
+	  Fill_mater_param(Msteel, N_C345B_1, steelC345B_1, tC345B_1, mater_param);
+	  rc = 0;
+   }
+   if (strcmp(Msteel,"C355Б")==0) {
+	  Fill_mater_param(Msteel, N_C355B, steelC355B, tC355B, mater_param);
+	  rc = 0;
+   }
+   if (strcmp(Msteel,"C355Б-1")==0) {
+	  Fill_mater_param(Msteel, N_C355B_1, steelC355B_1, tC355B_1, mater_param);
+	  rc = 0;
+   }
+   if (strcmp(Msteel,"C390Б")==0) {
+	  Fill_mater_param(Msteel, N_C390B, steelC390B, tC390B, mater_param);
+	  rc = 0;
+   }
+   if (strcmp(Msteel,"C440Б")==0) {
+	  Fill_mater_param(Msteel, N_C440B, steelC440B, tC440B, mater_param);
+	  rc = 0;
+   }
    //-----------------------------------------------------------------------------
    // Сталь для проката с параллельными гранями полок в соответствии с ГОСТ 27772-15
    if (strcmp(Msteel,"C245")==0) {
@@ -535,7 +511,7 @@ int Get_Mater_param(char *Msteel, MATER_PARAM* mater_param) {
 	  rc = 0;
    }
    if (strcmp(Msteel,"C345")==0) {
-	  Fill_mater_param(Msteel, N_C345BG, steelC345, tC345, mater_param);
+	  Fill_mater_param(Msteel, N_C345BG, steelC345BG, tC345BG, mater_param);
 	  rc = 0;
    }
    if (strcmp(Msteel,"C345K")==0) {

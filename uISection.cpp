@@ -96,22 +96,22 @@ void ISection::load(std::istream& istr)
 }
 void ISection::set_default_values()
 {
-	 profile_number_ = L"70Á4";
-	 b_uf_= 262.;
-	 t_uf_= 25.;
-	 b_lf_= 262.;
-	 t_lf_= 25.;
-	 h_w_= 660.;
-	 t_w_= 17.;
-	 A_st_ = 24814.;
-	 I_st_ = 1996800000.;
-	 h_st_ = 710.;
-	 r_= 24.;
-	 weight_ = 194.8;
-	 Z_f2_st_= 355.;
-	 Z_f1_st_ = 355.;
-	 Wf2_st_ = 5624800;
-	 Wf1_st_ = 5624800;
+	 profile_number_ = L"35Á2";
+	 b_uf_= 175.;
+	 t_uf_= 11.;
+	 b_lf_= 175.;
+	 t_lf_= 11.;
+	 h_w_= 328.;
+	 t_w_= 7.;
+	 A_st_ = 6314.;
+	 I_st_ = 135590100;
+	 h_st_ = 350.;
+	 r_= 14.;
+	 weight_ = 49.6;
+	 Z_f2_st_= 175.;
+	 Z_f1_st_ = 175.;
+	 Wf2_st_ = 774800;
+	 Wf1_st_ = 774800;
 }
 
 

@@ -69,16 +69,16 @@ void Steel::load(std::istream& istr)
 }
 void Steel::set_default_values()
 {
-	steel_grade_ = L"C345";
-	standard_ = L"ГОСТ 27772-2015, Таблица 5, фасонный прокат";
+	steel_grade_ = L"C355Б";
+	standard_ = L"СП 16.13330.2017, Таблица В.4, двутавры";
 	E_st_ = 206000.;
 	G_st_ = 79200.;
 	nu_st_ = 0.3;
-	R_yn_ = 305.;
-	R_un_ = 460.;
+	R_yn_ = 355.;
+	R_un_ = 470.;
 	gamma_m_ = 1.025;
 	density_ = 7850;
-	t_max_ = 25.;
+	t_max_ = 11.;
 
 }
 

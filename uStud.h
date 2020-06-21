@@ -135,6 +135,10 @@ public:
 	int get_num_m()const{return num_m_;}
 	bool get_more_than_one_stud_per_corrugation_edge()const{return more_than_one_stud_per_corrugation_edge_;}
 	bool get_more_than_one_stud_per_corrugation_middle()const{return more_than_one_stud_per_corrugation_middle_;}
+	String get_more_than_one_stud_per_corrugation_edge_string()const
+		{return (more_than_one_stud_per_corrugation_edge_)? L"Да": L"Нет";}
+	String get_more_than_one_stud_per_corrugation_middle_string()const
+		{return (more_than_one_stud_per_corrugation_middle_)? L"Да": L"Нет";}
 
 private:
 

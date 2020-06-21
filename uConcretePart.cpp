@@ -39,9 +39,9 @@ void ConcretePart::set_default_values()
 {
 	slab_type_ = L"Í75-750-0.8";
 	slab_type_enum_ = SlabType::CORRUGATED;
-	h_f_ = 200.;
+	h_f_ = 95.;
 	h_n_ = 0.;
-    wider_flange_up_ = true;
+	wider_flange_up_ = false;
 
 	concrete_.set_default_values();
 	rebar_.set_default_values();
