@@ -211,6 +211,19 @@ int DrawEpur(TImage *Image1, int n_point, double *coor_epur, double *LoadA, doub
 	 Shtrih(Image1, vert, 4.0, 1.0, 1.0);
 
   }
+    //отрисовка левой горизонтальной опоры
+	points[0] = Point(zero_px - 3, zero_py + H_beam*scale/2);
+	points[1] = Point(points[0].x - 20, points[0].y);
+	pPen_Width(Image1, 2);
+	pCanvas_Polyline(Image1, points, 1);
+	pPen_Width(Image1, 1);
+	pCanvas_Ellipse(Image1, points[1].x - 3, points[1].y - 3, points[1].x + 3, points[1].y + 3);
+	vert[0] = Point(points[1].x - 3, points[1].y - 10);
+	vert[1] = Point(points[1].x - 3, points[1].y + 10);
+	pCanvas_Polyline(Image1, vert, 1);
+	Shtrih(Image1, vert, 4.0, -1.0, 1.0);
+
+
   return 0;
 }
 //---------------------------------------------------------------------------------
