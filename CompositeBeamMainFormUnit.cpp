@@ -1151,12 +1151,12 @@ void __fastcall TCompositeBeamMainForm ::OnControlsChange(TObject *Sender)
 void __fastcall TCompositeBeamMainForm ::chck_bx_end_beamClick(TObject *Sender)
 {
 	if (chck_bx_end_beam->Checked){
-		lbl_trib_width_left->Caption="Свес плиты [мм]:";
-		lbl_trib_width_right->Caption="Расстояние между балками [мм]:";
+		lbl_trib_width_left->Caption="Свес плиты, мм:";
+		lbl_trib_width_right->Caption="Расстояние до балки справа, мм:";
 		}
 	else{
-		lbl_trib_width_left->Caption="Расстояние между балками слева [мм]:";
-		lbl_trib_width_right->Caption="Расстояние между балками справа [мм]:";
+		lbl_trib_width_left->Caption="Расстояние до балки слева, мм:";
+		lbl_trib_width_right->Caption="Расстояние до балки справа, мм:";
 	}
 	OnControlsChange(Sender);
 }
