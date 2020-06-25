@@ -194,6 +194,9 @@ double StudsRow::calculate_k(double b_0, double h_n, double l, bool sheet_orient
 {
 	double h_an = std::min(h_n + 75, l);
 
+	if(h_an == h_n)
+		throw String {L"При равенстве высоты упора и настила, коэффициент k ф.(9.7а) или ф.(9.7б) равен нулю."};
+
 	double n_r = (more_than_one_stud_per_corrugation_)? 2: 1;
 
 	if(sheet_orient_along)
@@ -201,24 +204,24 @@ double StudsRow::calculate_k(double b_0, double h_n, double l, bool sheet_orient
 		if(b_0 / h_n >= 1.8)
 			return 1.0;
 		else
-			return (0.6 * b_0 * (h_an - h_n)) / std::pow(h_n, 2);
+			return std::abs((0.6 * b_0 * (h_an - h_n)) / std::pow(h_n, 2));
 	}
 	else
 	{
 		if(h_n >= 85. && b_0 >= h_n)
 			return 1.0;
 		else
-			return (0.7 * b_0 * (h_an - h_n)) / (std::pow(h_n, 2) * std::pow(n_r, 0.5));
+			return std::abs((0.7 * b_0 * (h_an - h_n)) / (std::pow(h_n, 2) * std::pow(n_r, 0.5)));
 	}
 }
 void StudsRow::calculate_ratio(double P_rd, double S_h)
 {
-	ratio_ = std::abs(S_) / (std::min(P_rd, S_h) * st_num_);
+	ratio_ = std::abs(S_ / (std::min(P_rd, S_h) * st_num_));
 }
 void StudsRow::calculate_ratio(double P_rd, double S_h, double b_0, double h_n, double l, bool sheet_orient_along)
 {
 	k_ = calculate_k(b_0, h_n, l, sheet_orient_along);
-	ratio_ = std::abs(S_) / (std::min(k_ * P_rd, S_h) * st_num_);
+	ratio_ = std::abs(S_ / (std::min(k_ * P_rd, S_h) * st_num_));
 }
 StudsOnBeam::StudsOnBeam()
 {

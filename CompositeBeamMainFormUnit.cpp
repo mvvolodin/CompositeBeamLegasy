@@ -1000,9 +1000,18 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 		return;
 	}
 
+	try
+	{
+		composite_beam_calculator_.calculate();
+	}
+	catch (String str)
+	{
+		Application -> MessageBox(str.w_str(),
+								  L"Расчёт невозможен",
+								  MB_OK | MB_ICONERROR);
+		return;
+	}
 
-
-   composite_beam_calculator_.calculate();
 
 	draw_diagram();
 	fill_steel_sect_geometr_grid();
@@ -1125,8 +1134,9 @@ void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::clean_static_scheme()
 {
-	img_static_scheme -> Canvas -> Brush -> Color = clWhite;
-	img_static_scheme -> Canvas->FillRect (img_static_scheme -> Canvas -> ClipRect);
+   	img_static_scheme -> Canvas -> Brush -> Color = clWhite;
+	img_static_scheme -> Canvas -> FillRect (img_static_scheme -> Canvas -> ClipRect);
+   //img_static_scheme -> Picture = nullptr;  нет ли утечки памяти?
 }
 void TCompositeBeamMainForm ::clean_grid(TStringGrid* str_grd)
 {
