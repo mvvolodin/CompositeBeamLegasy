@@ -213,8 +213,8 @@ double str_exp(char *str, int *rc) {
   bool mult, exp;
   char *endptr;
   int i_left;
-  char str_left[48];
-  double member_0[N_MEMBER];
+  char str_left[48];  //дл€ чего используетс€? ѕочему 48?
+  double member_0[N_MEMBER];//ѕочему не используетс€ MAX_NUM. ќграничение размера считываемой и анализируемой строк отличаютс€
   char operand_0[N_MEMBER];
   double member_1[N_MEMBER];
   char operand_1[N_MEMBER];
@@ -227,37 +227,37 @@ double str_exp(char *str, int *rc) {
   i_left=0;
   operand_0[0]=opNULL;
   for (i=0; i<len; i++) {
-     if (i_left==N_MEMBER) {
-       text="¬ыражение (" +AnsiString(str) + ") слишком длинное ";
+	 if (i_left==N_MEMBER) {
+	   text="¬ыражение (" +AnsiString(str) + ") слишком длинное ";
        header=" ";
        i=Application->MessageBox(text.c_str(),
                   header.c_str(),
                   MB_OK | MB_ICONERROR);
-       return 1;
-     }
+	   return 1;
+	 }
         switch (str[i]) {
           case ' ':
           break;
           case '0': case '1': case '2': case '3': case '4':
           case '5': case '6': case '7': case '8': case '9':
           case 'E': case 'e': case '.':
-            str_left[i_left] = str[i];
+			str_left[i_left] = str[i];
             if (str[i]=='E' || str[i]=='e') exp=true;
-            i_left++;
-          break;
-          case '-': case '+':
-          case '*': case '/':
-          if (exp) {
-            str_left[i_left] = str[i];
-            exp=false;
-            i_left++;
-          }
-          else {
-             str_left[i_left]='\0';
-             member_0[n_memb]=strtod(str_left, &endptr);
+			i_left++;
+		  break;
+		  case '-': case '+':
+		  case '*': case '/':
+		  if (exp) {
+			str_left[i_left] = str[i];
+			exp=false;
+			i_left++;
+		  }
+		  else {
+			 str_left[i_left]='\0';
+			 member_0[n_memb]=strtod(str_left, &endptr);//преобразует первое значение в строке в число и возвращает его. ¬ переданный указатель записываетс€ адрес следующего числа
              if (*endptr!=NULL && endptr[0]!=' ') {
                 *rc=1;
-                return 0.0;
+				return 0.0;
              }
              i_left=0;
              operand_0[n_memb]=str[i];
