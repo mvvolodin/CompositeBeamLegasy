@@ -334,6 +334,10 @@
             <DependentOn>uRebar.h</DependentOn>
             <BuildOrder>16</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uRolledSection.cpp">
+            <DependentOn>uRolledSection.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uSection.cpp">
             <DependentOn>uSection.h</DependentOn>
             <BuildOrder>50</BuildOrder>
@@ -356,6 +360,10 @@
         <CppCompile Include="uStud.cpp">
             <DependentOn>uStud.h</DependentOn>
             <BuildOrder>42</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uWeldedSection.cpp">
+            <DependentOn>uWeldedSection.h</DependentOn>
+            <BuildOrder>49</BuildOrder>
         </CppCompile>
         <CppCompile Include="uWord_Automation.cpp">
             <DependentOn>uWord_Automation.h</DependentOn>
@@ -462,6 +470,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="CompositeBeamApp.todo" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName=".\Win32\Debug\CompositeBeamApp.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CompositeBeamApp.exe</RemoteName>
@@ -484,9 +498,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\CompositeBeamApp.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName=".\Win32\Release\CompositeBeamApp.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>CompositeBeamApp.tds</RemoteName>
+                        <RemoteName>CompositeBeamApp.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
