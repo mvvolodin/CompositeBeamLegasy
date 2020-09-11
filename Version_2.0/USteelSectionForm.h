@@ -36,6 +36,16 @@ __published:	// IDE-managed Components
 	TButton *btk_ok;
 	TButton *btn_cancel;
 	TButton *btn_close;
+	TTabSheet *TabSheet1;
+	TStringGrid *StringGrid1;
+	TImage *Image1;
+	TLabeledEdit *led_h_w;
+	TLabeledEdit *led_t_w;
+	TLabeledEdit *led_b_uf;
+	TLabeledEdit *led_t_uf;
+	TLabeledEdit *led_b_lf;
+	TLabeledEdit *led_t_lf;
+	TGroupBox *GroupBox1;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall ComboBox_profilChange(TObject *Sender);
 	void __fastcall RadioGroupGOST57837Click(TObject *Sender);
