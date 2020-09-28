@@ -413,3 +413,72 @@ double CompositeSectionGeometry::get_M_Rd(LoadUnit load_unit, LengthUnit length_
 	return M_Rd_ / (static_cast<int>(load_unit) * static_cast<int>(length_unit));
 }
 
+//============================================================================
+//============================================================================
+
+ CompositeSectionGeometry2::CompositeSectionGeometry2(Steel& steel,
+							  std::unique_ptr<const ISection>& st_sect,
+							  Concrete& concrete,
+							  std::unique_ptr<const ISection>& conc_sect,
+							  Rebar& rebar)
+								:steel_{std::move(steel)},
+								 st_sect_{std::move(st_sect)},
+								 concrete_{std::move(concrete)},
+								 conc_sect_{std::move(conc_sect)},
+								 rebar_{std::move(rebar)}
+ {
+	calculate();
+ }
+
+ void CompositeSectionGeometry2::calculate()
+ {
+	alfa_s_ = alfa_s_calc();
+	alfa_b_ = alfa_b_calc();
+	H_red_ = compos_sect_height_calc();
+	A_red_= compos_sect_area_calc();
+
+
+
+ }
+
+  void CompositeSectionGeometry2::calculate()
+ {
+	alfa_s_ = steel_.get_E_st() / rebar_.get_E_s();
+
+	alfa_b_ = steel_.get_E_st()/concrete_.get_E_b_tau();
+
+	H_red_ = cconc_sect_-> get_height() + steel_sect -> get_height();
+
+	A_red_= steel_sect -> get_area() +
+		   conc_sect -> get_area()/ alfa_b_ +
+		   rebar_.get_num_rows() * 1. / alfa_s_ * rebar_.get_A_s() * conc_sect.get_width();;
+
+
+
+ }
+
+
+
+ double CompositeSectionGeometry2::alfa_s_calc()
+{
+	return steel_.get_E_st() / rebar_.get_E_s();
+}
+
+double CompositeSectionGeometry2::alfa_b_calc()
+{
+	return steel_.get_E_st()/concrete_.get_E_b_tau();
+}
+double CompositeSectionGeometry2::compos_sect_height_calc()
+{
+	return conc_sect_-> get_height() + steel_sect -> get_height();
+}
+
+double CompositeSectionGeometry2::compos_sect_area_calc()
+{
+
+	return steel_sect -> get_area() +
+		   conc_sect -> get_area()/ alfa_b_ +
+		   rebar_.get_num_rows() * 1. / alfa_s_ * rebar_.get_A_s() * conc_sect.get_width();
+}
+
+

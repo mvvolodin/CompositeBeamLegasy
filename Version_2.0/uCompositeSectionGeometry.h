@@ -2,11 +2,84 @@
 
 #ifndef uCompositeSectionGeometryH
 #define uCompositeSectionGeometryH
+
 #include <ostream>
+#include <memory>
+
 #include "uSteelPart.h"
 #include "uConcretePart.h"
 #include "uRebar.h"
 
+
+
+
+//class Steel
+//{
+//	int a;
+//	int b;
+//public:
+//	Steel(const Steel &that)
+//	: a(that.a), b(that.b)
+//
+//	Steel(Steel&& that)
+//	: a(std::move(that.a)), b(std::move(that.b))
+//	{}
+//}
+
+class CompositeSectionGeometry2{
+	enum class NA_Location{
+		CONCRETE,
+		UPPER_FLANGE,
+		WEB,
+		NO_SOLUTION
+	};
+	struct NeutralAxis{
+		NA_Location na_location_;
+		double x_na_; //Расстояние от наружней грани сталежелезобетонной балки до нейтральной оси
+	};
+private:
+	const Steel steel_; // идельным решением, на мой взгляд, является перемещение объекта
+	const std::unique_ptr<const ISection> st_sect_;
+	const Concrete concrete_;
+	const std::unique_ptr<const ISection> conc_sect_;
+	const Rebar rebar_;
+
+	void calculate();
+	double alfa_s_calc();
+	double alfa_b_calc();
+
+	double alfa_s_= 0.;//коэффициент приведения к стали
+	double alfa_b_= 0.;//коэффициент приведения к бетону
+	double H_red_= 0.; //высота композитного сечения
+	double A_red_= 0.; //площадь сталежелезобетонного сечения
+	double Z_st_r_u_= 0.;//расстояние между Ц.Т. стальной балки и верхней арматурой
+	double Z_st_r_l_= 0.;//расстояние между Ц.Т. стальной балки и нижней арматурой
+	double Z_b_st_= 0.; //Расстояние между центрами тяжести плиты и стальной балки
+	double S_red_= 0.;//Статический момент инерции сталежелезобетонного сечения относительно Ц.Т. стального сечения
+	double I_red_= 0.;  //Момент инерции сталежелезобетонного сечения приведённого к металлу
+	double Z_st_red_= 0.;//Расстояние между центром тяжести стального и сталежелезобетонного сечения
+	double Z_red_f2_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и наружней гранью верхней полки
+	double Z_red_f1_= 0.; //Расстояние между Ц.Т. сталежелезобетонного сечения и наружней гранью нижней полки
+	double Z_b_red_= 0.;  //Расстояние между Ц.Т. бетонного и сталежелезобетонного сечения
+	double Z_red_r_u_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и верхней арматурой
+	double Z_red_r_l_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и нижней арматурой
+	double W_f2_red_= 0.; //Момент сопротивления сталежелезобетонного сечения для верхней полки
+	double W_f1_red_= 0.; //Момент сопротивления сталежелезобетонного сечения для нижней полки
+	double W_b_red_= 0.;//Момент сопротивления сталежелезобетонного сечения для Ц.Т. железобетонной плиты
+	double W_b_st_ = 0.;//условный момент сопротивления на уровне центр тяжести сечения бетона
+
+	double M_Rd_ = 0.;
+public:
+	CompositeSectionGeometry2(Steel& steel,
+							  std::unique_ptr<const ISection>& st_sect,
+							  Concrete& concrete,
+							  std::unique_ptr<const ISection>& conc_sect,
+							  Rebar& rebar);
+
+
+
+
+};
 
 class CompositeSectionGeometry{
 	enum class NA_Location{
@@ -25,7 +98,7 @@ private:
 	SteelPart steel_part_;
 	ConcretePart concrete_part_;
 
-    void calculate();
+	void calculate();
 	bool composite_section_calculated = false;
 
 	double alfa_s_= 0.;//коэффициент приведения к стали
