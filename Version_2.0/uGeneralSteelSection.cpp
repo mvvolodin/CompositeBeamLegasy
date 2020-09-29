@@ -2,16 +2,16 @@
 
 #pragma hdrstop
 
-#include "uIISection.h"
+#include "uGeneralSteelSection.h"
 #include <iostream>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-IISection::IISection()
+GeneralSteelSection::GeneralSteelSection()
 {
 	std::cout << "ISection::ISection()" << std::endl;
 }
-IISection:: ~ IISection()
+GeneralSteelSection:: ~ GeneralSteelSection()
 {
 	std::cout << "ISection:: ~ ISection()" << std::endl;
 }

@@ -308,6 +308,14 @@
             <DependentOn>uFrmAddImacts.h</DependentOn>
             <BuildOrder>46</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uGeneralConcreteSection.cpp">
+            <DependentOn>uGeneralConcreteSection.h</DependentOn>
+            <BuildOrder>52</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uGeneralSteelSection.cpp">
+            <DependentOn>uGeneralSteelSection.h</DependentOn>
+            <BuildOrder>52</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uGeometry.cpp">
             <DependentOn>uGeometry.h</DependentOn>
             <BuildOrder>5</BuildOrder>
@@ -318,10 +326,6 @@
             <FormType>dfm</FormType>
             <DependentOn>uHelpForm.h</DependentOn>
             <BuildOrder>47</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uIISection.cpp">
-            <DependentOn>uIISection.h</DependentOn>
-            <BuildOrder>52</BuildOrder>
         </CppCompile>
         <CppCompile Include="uInternalForcesCalculator.cpp">
             <DependentOn>uInternalForcesCalculator.h</DependentOn>
@@ -349,6 +353,10 @@
         <CppCompile Include="uSection.cpp">
             <DependentOn>uSection.h</DependentOn>
             <BuildOrder>50</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uSlabConcreteSection.cpp">
+            <DependentOn>uSlabConcreteSection.h</DependentOn>
+            <BuildOrder>53</BuildOrder>
         </CppCompile>
         <CppCompile Include="uSteel.cpp">
             <DependentOn>uSteel.h</DependentOn>

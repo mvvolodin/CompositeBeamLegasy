@@ -1,18 +1,19 @@
 //---------------------------------------------------------------------------
 
-#ifndef uIISectionH
-#define uIISectionH
+#ifndef uGeneralSteelSectionH
+#define uGeneralSteelSectionH
 
-class IISection{
+class GeneralSteelSection{
 public:
-	IISection();
-	virtual ~ IISection();
+	GeneralSteelSection();
+	virtual ~ GeneralSteelSection();
 	virtual double b_f1() = 0;
 	virtual double t_f1() = 0;
 	virtual double b_f2() = 0;
 	virtual double t_f2() = 0;
 	virtual double h_w() = 0;
 	virtual double t_w() = 0;
+	virtual double h() = 0;
 
 	virtual double centroid() = 0;
 	virtual double area() = 0;

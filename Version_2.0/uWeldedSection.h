@@ -23,6 +23,7 @@ public:
 	double t_f2()override;
 	double h_w()override;
 	double t_w()override;
+	double h() override;
 
 	double centroid() override;
 	double area() override;
