@@ -417,7 +417,7 @@ double CompositeSectionGeometry::get_M_Rd(LoadUnit load_unit, LengthUnit length_
 //============================================================================
 
  CompositeSectionGeometry2::CompositeSectionGeometry2(Steel& steel,
-							  std::unique_ptr<const ISection> st_sect,
+							  std::unique_ptr<const GeneralSteelSection> st_sect,
 							  Concrete& concrete,
 							  std::unique_ptr<const GeneralConcreteSection> conc_sect)
 								:steel_{std::move(steel)},
@@ -434,26 +434,50 @@ double CompositeSectionGeometry::get_M_Rd(LoadUnit load_unit, LengthUnit length_
 	alfa_b_ = alfa_b();
 	H_red_ = H_red();
 	A_red_= A_red();
+	Z_b_st_ = Z_b_st();
+	Z_st_r_u_ = Z_st_r_u();
+	Z_st_r_l_ = Z_st_r_l();
+	S_red_ = S_red();
+	Z_st_red_ = Z_st_red();
+	I_red_ = I_red();
+
+}
 
 
 
- }
 
-//  void CompositeSectionGeometry2::calculate()
-// {
-//	alfa_s_ = steel_.get_E_st() / rebar_.get_E_s();
-//
-//	alfa_b_ = steel_.get_E_st()/concrete_.get_E_b_tau();
-//
-//	H_red_ = cconc_sect_-> get_height() + steel_sect -> get_height();
-//
-//	A_red_= steel_sect -> get_area() +
-//		   conc_sect -> get_area()/ alfa_b_ +
-//		   rebar_.get_num_rows() * 1. / alfa_s_ * rebar_.get_A_s() * conc_sect.get_width();;
-//
-//
-//
-// }
+
+void CompositeSectionGeometry2::calculate2()
+{
+
+	const double E_st = steel_.get_E_st();
+	alfa_s_ = E_st / conc_sect_->rebar().get_E_s();
+	alfa_b_ = E_st / concrete_.get_E_b_tau();
+
+	H_red_ = conc_sect_-> h_b() + st_sect_ -> h_st();
+
+	const double A_st = st_sect_ -> A_st();
+	const double A_b = conc_sect_ -> A_b();
+	const double b_sl = conc_sect_ -> b_sl();
+	A_red_= A_st +
+			A_b / alfa_b_ +
+			conc_sect_-> num_rebar_rows() * 1. / alfa_s_ * conc_sect_->rebar().get_A_s() *  b_sl;
+	Z_b_st_ = conc_sect_ -> C_b() + st_sect_ -> Z_f2_st();
+	Z_st_r_u_ = st_sect_ -> Z_f2_st() + conc_sect_ -> h_b() - conc_sect_ -> a_u();
+	Z_st_r_l_ = st_sect_ -> Z_f2_st() + conc_sect_ -> a_l();
+	S_red_ = conc_sect_ -> A_b() * Z_b_st_ / alfa_b_ +
+			 1 / alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl() * (Z_st_r_u_+Z_st_r_l_);
+	Z_st_red_ = Z_st_red();
+	I_red_ = st_sect_ -> I_st() +
+			st_sect_ ->  A_st() * Z_st_red_ * Z_st_red_ +
+			1/alfa_b_ * conc_sect_ -> I_b() +
+			1/alfa_b_ * conc_sect_ ->A_b() * Z_b_red_ * Z_b_red_ +
+			1/alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl() * (Z_red_r_u_ * Z_red_r_u_ + Z_red_r_l_ * Z_red_r_l_);
+
+
+
+
+}
 
 
 
@@ -461,22 +485,50 @@ double CompositeSectionGeometry::get_M_Rd(LoadUnit load_unit, LengthUnit length_
 {
 	return steel_.get_E_st() / conc_sect_->rebar().get_E_s();
 }
-
 double CompositeSectionGeometry2::alfa_b()
 {
 	return steel_.get_E_st()/concrete_.get_E_b_tau();
 }
 double CompositeSectionGeometry2::H_red()
 {
-	return conc_sect_-> h() + steel_sect -> get_height();
+	return conc_sect_-> h_b() + st_sect_ -> h_st();
 }
-
 double CompositeSectionGeometry2::A_red()
 {
-
-	return steel_sect -> get_area() +
-		   conc_sect -> get_area()/ alfa_b_ +
-		   rebar_.get_num_rows() * 1. / alfa_s_ * rebar_.get_A_s() * conc_sect.get_width();
+	return st_sect_ -> A_st() +
+		   conc_sect_ -> A_b()/ alfa_b_ +
+		   conc_sect_-> num_rebar_rows() * 1. / alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl();
 }
+double CompositeSectionGeometry2::Z_b_st()
+{
+	return conc_sect_ -> C_b() + st_sect_ -> Z_f2_st();
+}
+double CompositeSectionGeometry2::Z_st_r_u()
+{
+	return st_sect_ -> Z_f2_st() + conc_sect_ -> h_b() - conc_sect_ -> a_u();
+}
+double CompositeSectionGeometry2::Z_st_r_l()
+{
+	return st_sect_ -> Z_f2_st() + conc_sect_ -> a_l();
+}
+double CompositeSectionGeometry2::S_red()
+{
+	return conc_sect_ -> A_b() * Z_b_st_ / alfa_b_ +
+		   1 / alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl() * (Z_st_r_u_+Z_st_r_l_);
+}
+double CompositeSectionGeometry2::Z_st_red()
+{
+	return S_red_/A_red_;
+}
+double CompositeSectionGeometry2::I_red()
+{
+	return 	st_sect_ -> I_st() +
+			st_sect_ ->  A_st() * Z_st_red_ * Z_st_red_ +
+			1/alfa_b_ * conc_sect_ -> I_b() +
+			1/alfa_b_ * conc_sect_ ->A_b() * Z_b_red_ * Z_b_red_ +
+			1/alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl() * (Z_red_r_u_ * Z_red_r_u_ + Z_red_r_l_ * Z_red_r_l_);
+}
+
+
 
 

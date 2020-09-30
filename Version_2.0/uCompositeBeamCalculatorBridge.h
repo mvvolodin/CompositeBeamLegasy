@@ -72,7 +72,7 @@ CompositeBeamOutput calculate_composite_beam( const Geometry& geom,
 {
 	CompositeBeamOutput cb_output{};
 
-	CompositeSectionGeometry com_sect{st_sect, steel,
+	CompositeSectionGeometry2 com_sect{st_sect, steel,
 									  conc_sect, concrete,
 									  rebar};
 	CompositeBeam com_beam;

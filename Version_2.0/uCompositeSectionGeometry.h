@@ -10,6 +10,7 @@
 #include "uConcretePart.h"
 #include "uRebar.h"
 #include "uGeneralConcreteSection.h"
+#include "uGeneralSteelSection.h"
 
 
 
@@ -40,15 +41,22 @@ class CompositeSectionGeometry2{
 	};
 private:
 	const Steel steel_; // идельным решением, на мой взгляд, является перемещение объекта
-	const std::unique_ptr<const ISection> st_sect_;
+	const std::unique_ptr<const GeneralSteelSection> st_sect_;
 	const Concrete concrete_;
 	const std::unique_ptr<const GeneralConcreteSection> conc_sect_;
 
 	void calculate();
+    void calculate2();
 	double alfa_s();
 	double alfa_b();
 	double H_red();
 	double A_red();
+	double Z_b_st();
+	double Z_st_r_u();
+	double Z_st_r_l();
+	double S_red();
+	double Z_st_red();
+    double I_red();
 
 	double alfa_s_= 0.;//коэффициент приведения к стали
 	double alfa_b_= 0.;//коэффициент приведения к бетону
@@ -73,7 +81,7 @@ private:
 	double M_Rd_ = 0.;
 public:
 	CompositeSectionGeometry2(Steel& steel,
-							  std::unique_ptr<const ISection> st_sect,
+							  std::unique_ptr<const GeneralSteelSection> st_sect,
 							  Concrete& concrete,
 							  std::unique_ptr<const GeneralConcreteSection> conc_sect);
 
