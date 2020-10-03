@@ -18,33 +18,37 @@
 class CompositeBeamSection; //class CBSection::class CSGeometry;
 
 class CompositeBeamInput{
-	private:
-		const Geometry geom_;
-		const Loads loads_;
-		const WorkingConditionsFactors wc_factors_;
-		const Steel steel_;
-		const ISection st_sect_;
-		const Concrete concrete_;
-		const ISection conc_sect_;
-		const Rebar rebar_;
+public:
 	CompositeBeamInput(const Geometry&& geom,
-					   const Loads&& loads,
-					   const WorkingConditionsFactors&& wc_factors,
-					   const Steel&& steel,
-					   const ISection&& st_sect,
-					   const Concrete&& concrete,
-					   const ISection&& conc_sect,
-					   const Rebar&& rebar):
-						geom_(std::move(geom)),
-						loads_(std::move(loads)),
-						wc_factors_(std::move(wc_factors)),
-						steel_(std::move(steel)),
-						concrete_(std::move(concrete)),
-						rebar_(std::move(rebar))
+				   const Loads&& loads,
+				   const WorkingConditionsFactors&& wc_factors,
+				   const Steel&& steel,
+				   const ISection&& st_sect,
+				   const Concrete&& concrete,
+				   const ISection&& conc_sect,
+				   const Rebar&& rebar):
+					geom_(std::move(geom)),
+					loads_(std::move(loads)),
+					wc_factors_(std::move(wc_factors)),
+					steel_(std::move(steel)),
+					concrete_(std::move(concrete)),
+					rebar_(std::move(rebar))
 	{
-		 //st_sect deep copy required
-         // conc_sect deep copy required
-    }
+	 //st_sect deep copy required
+	 // conc_sect deep copy required
+	}
+private:
+	const Geometry geom_;
+	const Loads loads_;
+	const WorkingConditionsFactors wc_factors_;
+	const Steel steel_;
+	const ISection st_sect_;
+	const Concrete concrete_;
+	const ISection conc_sect_;
+	const Rebar rebar_;
+
+
+
 
 
 };

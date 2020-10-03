@@ -20,42 +20,42 @@ RolledSection::RolledSection(double b_f1, double t_f1,
 								 A_(A),
 								 I_(I){}
 
-double RolledSection::b_f1()
+double RolledSection::b_f1()const
 {
 	return b_f1_;
 }
-double RolledSection::t_f1()
+double RolledSection::t_f1()const
 {
 	return t_f1_;
 }
-double RolledSection::b_f2()
+double RolledSection::b_f2()const
 {
 	return b_f2_;
 }
-double RolledSection::t_f2()
+double RolledSection::t_f2()const
 {
 	return t_f2_;
 }
-double RolledSection::h_w()
+double RolledSection::h_w()const
 {
 	return h_w_;
 }
-double RolledSection::t_w()
+double RolledSection::t_w()const
 {
 	return t_w_;
 }
 
-double RolledSection::centroid()
+double RolledSection::C_st()const
 {
 	return C_;
 }
 
-double RolledSection::area()
+double RolledSection::A_st()const
 {
 	return A_;
 }
 
-double RolledSection::inertia()
+double RolledSection::I_st()const
 {
 	return I_;
 }

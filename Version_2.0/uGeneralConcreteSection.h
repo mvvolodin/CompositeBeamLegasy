@@ -7,18 +7,44 @@
 
 class GeneralConcreteSection{
 public:
+	GeneralConcreteSection(const double h_f,
+						   const Rebar rebar,
+						   const double b,
+						   const double a_u,
+						   const double a_l,
+						   const double L,
+						   const double B_l,
+						   const double B_r,
+						   const double b_uf,
+						   const bool end_beam);
 	virtual ~ GeneralConcreteSection();
-	virtual double h_f() const  = 0; // расчётная толщина железобетонной плиты
+	double h_f() const; // расчётная толщина железобетонной плиты
+	double h_b() const;
+	double b_sl() const; // расчётная ширина бетона
+	Rebar rebar()const;
+	double a_u() const;// расстояние от верхней грани расчётной железобетонной плиты до центр арматуры
+	double a_l() const;// расстояние от нижней грани расчётной железобетонной плиты до центра арматуры
+	double num_rebar_rows() const;
+	double A_b() const;// площадь бетона
+	double I_b() const;// момент инерции бетона
+
+	virtual double h() const = 0; //высота железобетонной плиты
 	virtual double h_n() const = 0; // расстояние от наружней грани верхней полки двутавра до внутренней грани расчётной железобетонной плиты
-	virtual double h_b() const = 0;
-	virtual double b_sl() const = 0; // расчётная ширина бетона
-	virtual const Rebar& rebar()const = 0;
-	virtual double a_u() const = 0;// расстояние от верхней грани расчётной железобетонной плиты до центр арматуры
-	virtual double a_l() const = 0;// расстояние от нижней грани расчётной железобетонной плиты до центра арматуры
-	virtual double num_rebar_rows() const = 0;
 	virtual double C_b() const = 0; // центр тяжести бетона
-	virtual double A_b() const = 0;// площадь бетона
-	virtual double I_b() const = 0;// момент инерции бетона
+
+protected:
+	const double h_f_;
+
+private:
+	const double b_sl_;
+	const Rebar rebar_;
+	const double b_;
+	const double a_u_;
+	const double a_l_;
+	double calc_b_sl(const double L, const double B_l, const double B_r,
+					 const double h_f, const double b_uf, const bool end_beam) const;
+	double calc_b(const double h_f, const double a,  const double B, const double l)const;
+	double calc_b_c(const double h_f, const double a,  const double C, const double l)const;
 };
 
 

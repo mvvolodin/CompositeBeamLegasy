@@ -20,12 +20,11 @@ object SteelSectionForm2: TSteelSectionForm2
     Top = 4
     Width = 512
     Height = 250
-    ActivePage = TabSheet1
+    ActivePage = tb_sheet_welded_profile
     TabOrder = 0
     object TabSheet_Standart: TTabSheet
       Caption = #1055#1088#1086#1082#1072#1090#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088' '#1043#1054#1057#1058' '#1056' 57837'
       ImageIndex = 1
-      ExplicitWidth = 447
       object Label10: TLabel
         Left = 360
         Top = 3
@@ -89,10 +88,9 @@ object SteelSectionForm2: TSteelSectionForm2
         OnClick = RadioGroupGOST57837Click
       end
     end
-    object TabSheet1: TTabSheet
+    object tb_sheet_welded_profile: TTabSheet
       Caption = #1057#1074#1072#1088#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088
       ImageIndex = 1
-      ExplicitWidth = 509
       object Image1: TImage
         Left = 237
         Top = 3

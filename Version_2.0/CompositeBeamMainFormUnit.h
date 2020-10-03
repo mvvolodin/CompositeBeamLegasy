@@ -37,9 +37,13 @@
 #include "LoggerFormUnit.h"
 #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
 #include "uWord_Automation.h"
+#include "uGeneralConcreteSection.h"
+#include "uSlabConcreteSection.h"
+#include "uCorrugatedConcreteSection.h"
 
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
+#include <memory>
 
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
 #include "ICompositeBeam.h"
@@ -218,6 +222,8 @@ private:
 	ISection update_i_section();//Инициализация объекта геометрия двутавра
 	Steel update_steel_i_section(); //Инициализация стали двутавра
 	ConcretePart update_concrete_part();//Инициализация бетонной части композитного сечения
+	std::unique_ptr<GeneralConcreteSection> update_concrete_section();
+	std::unique_ptr<GeneralSteelSection> update_steel_section();
 	SteelPart update_steel_part();
 	StudsOnBeam update_studs_on_beam();//Инициализация упоров
 	WorkingConditionsFactors update_working_conditions_factors();//Инициализация коэффициентов условий работы

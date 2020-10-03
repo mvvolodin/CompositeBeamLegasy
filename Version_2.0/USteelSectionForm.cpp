@@ -34,7 +34,7 @@ void TSteelSectionForm2::set_form_controls(ISection i_section)
 {
 	i_section_temp_ = i_section;
 	set_form_controls();
-    iobserver_ -> update(this);
+	iobserver_ -> update(this);
 }
 //---------------------------------------------------------------------------
 //Присваивение значений элементам управления из поля класса типа ISection
@@ -42,6 +42,36 @@ void TSteelSectionForm2::set_form_controls(ISection i_section)
 void TSteelSectionForm2::set_form_controls()
 {
 	RadioGroupGOST57837Click(nullptr);
+}
+//---------------------------------------------------------------------------
+//Обновляет данные стального сечения значениями элементов управления формы
+//---------------------------------------------------------------------------
+std::unique_ptr<GeneralSteelSection> TSteelSectionForm2::update_steel_section()
+{
+	double b_f1 = 0.;
+	double t_f1 = 0.;
+	double b_f2 = 0.;
+	double t_f2 = 0.;
+	double h_w = 0.;
+	double t_w = 0.;
+
+	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
+	{
+		return std::unique_ptr<GeneralSteelSection>(new WeldedSection(
+							b_f1, t_f1,
+							 b_f2, t_f2,
+							 h_w, t_w));
+	}
+	else
+	{
+
+	}
+			return std::unique_ptr<GeneralSteelSection>(new RolledSection(
+							b_f1, t_f1,
+							 b_f2, t_f2,
+							 h_w, t_w));
+
+
 }
 void TSteelSectionForm2::set_i_section()
 {

@@ -18,7 +18,7 @@ public:
 	virtual double C_st() const = 0;
 	virtual double A_st() const = 0;
 	virtual double I_st() const = 0;
-    virtual double Z_f2_st() const = 0;
+   // virtual double Z_f2_st() const = 0;
 
 	virtual void print_coord() = 0;
 	virtual void print_b_f1() = 0;

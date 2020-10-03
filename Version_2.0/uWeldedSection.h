@@ -3,10 +3,10 @@
 #ifndef uWeldedSectionH
 #define uWeldedSectionH
 
-#include "uIISection.h"
+#include "uGeneralSteelSection.h"
 #include <vector>
 
-class WeldedSection:public IISection{
+class WeldedSection:public GeneralSteelSection{
 struct Vertex{
 	double X;
 	double Y;
@@ -17,17 +17,17 @@ public:
 				  double b_f2, double t_f2,
 				  double h_w, double t_w);
 
-	double b_f1()override;
-	double t_f1()override;
-	double b_f2()override;
-	double t_f2()override;
-	double h_w()override;
-	double t_w()override;
-	double h() override;
+	double b_f1()const override;
+	double t_f1()const override;
+	double b_f2()const override;
+	double t_f2()const override;
+	double h_w()const override;
+	double t_w()const override;
+	double h_st() const override;
 
-	double centroid() override;
-	double area() override;
-	double inertia() override;
+	double C_st() const override;
+	double A_st()const override;
+	double I_st() const override;
 
 	void print_coord() override;
 	void print_b_f1()override;

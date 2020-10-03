@@ -297,6 +297,10 @@
             <DependentOn>uConcretePart.h</DependentOn>
             <BuildOrder>15</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uCorrugatedConcreteSection.cpp">
+            <DependentOn>uCorrugatedConcreteSection.h</DependentOn>
+            <BuildOrder>55</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uCorrugatedSheet.cpp">
             <DependentOn>uCorrtgatedSheet.h</DependentOn>
             <BuildOrder>47</BuildOrder>
@@ -311,6 +315,10 @@
         <CppCompile Include="uGeneralConcreteSection.cpp">
             <DependentOn>uGeneralConcreteSection.h</DependentOn>
             <BuildOrder>52</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uGeneralGeometry.cpp">
+            <DependentOn>uGeneralGeometry.h</DependentOn>
+            <BuildOrder>54</BuildOrder>
         </CppCompile>
         <CppCompile Include="uGeneralSteelSection.cpp">
             <DependentOn>uGeneralSteelSection.h</DependentOn>
@@ -400,9 +408,9 @@
         <FormResources Include="AboutProg.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
+        <FormResources Include="LoggerFormUnit.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
-        <FormResources Include="LoggerFormUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

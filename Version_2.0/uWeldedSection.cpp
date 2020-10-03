@@ -27,37 +27,37 @@ WeldedSection::WeldedSection(double b_f1, double t_f1,
 	vertexes_.emplace_back(-1 * b_f1 / 2, 0);//coord #0
 }
 
-double WeldedSection::b_f1()
+double WeldedSection::b_f1()const
 {
 	return vertexes_[1].X - vertexes_[0].X;
 }
 
-double WeldedSection::t_f1()
+double WeldedSection::t_f1() const
 {
 	return vertexes_[2].Y - vertexes_[1].Y;
 }
 
-double WeldedSection::b_f2()
+double WeldedSection::b_f2()const
 {
 	return vertexes_[6].X - vertexes_[7].X;
 }
 
-double WeldedSection::t_f2()
+double WeldedSection::t_f2()const
 {
 	return vertexes_[6].Y - vertexes_[5].Y;
 }
 
-double WeldedSection::h_w()
+double WeldedSection::h_w()const
 {
 	return vertexes_[4].Y - vertexes_[3].Y;
 }
 
-double WeldedSection::t_w()
+double WeldedSection::t_w()const
 {
 	return vertexes_[3].X - vertexes_[10].X;
 }
 
-double WeldedSection::centroid()
+double WeldedSection::C_st()const
 {
 	double C = 0.;
 
@@ -68,11 +68,10 @@ double WeldedSection::centroid()
 			  vertexes_[i + 1].X * vertexes_[i].Y);
 	}
 
-	double A = area();
-	return C /(6 * A);
+	return C /(6 * A_st());
 }
 
-double WeldedSection::area()
+double WeldedSection::A_st()const
 {
 	double A = 0.;
 
@@ -84,7 +83,7 @@ double WeldedSection::area()
 	return A / 2;
 }
 
-double WeldedSection::inertia()
+double WeldedSection::I_st()const
 {
 	double I = 0.;
 
@@ -97,10 +96,8 @@ double WeldedSection::inertia()
 			  vertexes_[i + 1].X * vertexes_[i].Y);
 	}
 
-	double A = area();
-	double C = centroid();
 
-	return I / 12 - C * C * A;
+	return I / 12 - C_st() * C_st() * A_st();
 }
 
 void WeldedSection::print_coord()
@@ -147,16 +144,16 @@ void WeldedSection::print_t_w()
 
 void WeldedSection::print_centroid()
 {
-	std::cout << "C = " << centroid() << std::endl;
+	std::cout << "C = " << C_st() << std::endl;
 }
 
 void WeldedSection::print_area()
 {
-	std::cout << "A = " << area() << std::endl;
+	std::cout << "A = " << A_st() << std::endl;
 }
 
 void WeldedSection::print_inertia()
 {
-	std::cout << "I = " << std::fixed << inertia() << std::endl;
+	std::cout << "I = " << std::fixed << I_st() << std::endl;
 }
 

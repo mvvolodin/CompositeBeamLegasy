@@ -10,6 +10,10 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Grids.hpp>
+#include <memory>
+#include "uGeneralSteelSection.h"
+#include "uWeldedSection.h"
+#include "uRolledSection.h"
 #include "StandartProfil.h"
 #include "pCanvas_func.h"
 #include "Data_Profil.h"
@@ -36,7 +40,7 @@ __published:	// IDE-managed Components
 	TButton *btk_ok;
 	TButton *btn_cancel;
 	TButton *btn_close;
-	TTabSheet *TabSheet1;
+	TTabSheet *tb_sheet_welded_profile;
 	TStringGrid *StringGrid1;
 	TImage *Image1;
 	TLabeledEdit *led_h_w;
@@ -68,6 +72,7 @@ private:	// User declarations
 
 	void set_form_controls();
 	void set_i_section();
+	std::unique_ptr<GeneralSteelSection> update_steel_section();
 	void form_controls_changed();
 
 	void Point_stand_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, double rad, float scale, TPoint *vertices);
