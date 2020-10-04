@@ -69,19 +69,22 @@ CompositeBeamOutput calculate_composite_beam( const Geometry& geom,
 											  const Loads& loads,
 											  const WorkingConditionsFactors& wc_factors,
 											  const Steel& steel,
-											  const ISection& st_sect,
+											  std::unique_ptr<const GeneralSteelSection> st_sect,
 											  const Concrete& concrete,
-											  const ISection& conc_sect,
+											  std::unique_ptr<const GeneralConcreteSection> conc_sect,
 											  const Rebar& rebar)
 {
 	CompositeBeamOutput cb_output{};
 
-	CompositeSectionGeometry2 com_sect{st_sect, steel,
-									  conc_sect, concrete,
-									  rebar};
-	CompositeBeam com_beam;
+//	CompositeSectionGeometry2(const Steel& steel,
+//							  std::unique_ptr<const GeneralSteelSection> st_sect,
+//							  const Concrete& concrete,
+//							  std::unique_ptr<const GeneralConcreteSection> conc_sect)
 
-    void set_intr_frcs_calculator(InternalForcesCalculator& intr_frcs_calculator);
+	CompositeSectionGeometry2 com_sect{steel, std::move(st_sect),
+									   concrete, std::move(conc_sect)};
+
+	void set_intr_frcs_calculator(InternalForcesCalculator& intr_frcs_calculator);
 	void set_composite_section(CompositeSectionGeometry& com_sect);
 	void set_working_conditions_factors(WorkingConditionsFactors& working_conditions_factors);
 	void initialize_section_list(double L, SupportsNumber temporary_supports_number, double max_elem_length);
@@ -105,7 +108,7 @@ public:
 								  const Concrete& concrete,
 								  const ISection& conc_sect,
 								  const Rebar& rebar);
-	CompositeBeamCalculatorBridge(const InputData& input_data);
+	//CompositeBeamCalculatorBridge(const InputData& input_data);
 
 
 

@@ -4,15 +4,16 @@
 #pragma hdrstop
 
 #include "uSteelSectionForm.h"
+#include "uFrmLogger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 
 bool flag_image = true;
 
-TSteelSectionForm2 *SteelSectionForm2;
+TSteelSectionForm *SteelSectionForm;
 //---------------------------------------------------------------------------
-__fastcall TSteelSectionForm2::TSteelSectionForm2(TComponent* Owner)
+__fastcall TSteelSectionForm::TSteelSectionForm(TComponent* Owner)
 	: TForm(Owner)
 {
 	StringGrid_B->Cells[0][0]="h (мм)";
@@ -23,14 +24,14 @@ __fastcall TSteelSectionForm2::TSteelSectionForm2(TComponent* Owner)
 	StringGrid_B->Cells[0][5]="Iyy (cм4)";
 	StringGrid_B->Cells[0][6]="iy (мм)";
 }
-void __fastcall TSteelSectionForm2::FormShow(TObject *Sender)
+void __fastcall TSteelSectionForm::FormShow(TObject *Sender)
 {
 	set_form_controls();
 }
 //---------------------------------------------------------------------------
 //Присваивение значений элементам управления из параметра функции типа ISection
 //---------------------------------------------------------------------------
-void TSteelSectionForm2::set_form_controls(ISection i_section)
+void TSteelSectionForm::set_form_controls(ISection i_section)
 {
 	i_section_temp_ = i_section;
 	set_form_controls();
@@ -39,14 +40,40 @@ void TSteelSectionForm2::set_form_controls(ISection i_section)
 //---------------------------------------------------------------------------
 //Присваивение значений элементам управления из поля класса типа ISection
 //---------------------------------------------------------------------------
-void TSteelSectionForm2::set_form_controls()
+void TSteelSectionForm::set_form_controls()
 {
 	RadioGroupGOST57837Click(nullptr);
+	update_weld_sect_ctrls();
+}
+//---------------------------------------------------------------------------
+//Обновляет значения элементов управления формы из поля класса типа WeldedSection
+//---------------------------------------------------------------------------
+void TSteelSectionForm::update_weld_sect_ctrls()
+{
+	double b_f2 = weld_sect_temp_.b_f2();
+	double t_f2 = weld_sect_temp_.t_f2();
+	double b_f1 = weld_sect_temp_.b_f1();
+	double t_f1 = weld_sect_temp_.t_f1();
+	double h_w = weld_sect_temp_.h_w();
+	double t_w = weld_sect_temp_.t_w();
+
+	edt_b_uf -> Text = b_f2;
+	edt_t_uf -> Text = t_f2;
+	edt_b_lf -> Text = b_f1;
+	edt_t_lf -> Text = t_f1;
+	edt_h_w -> Text = h_w;
+	edt_t_w -> Text = t_w;
+
+	SECT_DVUTAVR weld_sect = {t_w, h_w, b_f2, t_f2, b_f1, t_f1};
+
+
+	draw_dvutavr(img_weld_sect, &weld_sect);
+
 }
 //---------------------------------------------------------------------------
 //Обновляет данные стального сечения значениями элементов управления формы
 //---------------------------------------------------------------------------
-std::unique_ptr<GeneralSteelSection> TSteelSectionForm2::update_steel_section()
+std::unique_ptr<GeneralSteelSection> TSteelSectionForm::update_steel_section()
 {
 	double b_f1 = 0.;
 	double t_f1 = 0.;
@@ -57,23 +84,23 @@ std::unique_ptr<GeneralSteelSection> TSteelSectionForm2::update_steel_section()
 
 	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
 	{
-		return std::unique_ptr<GeneralSteelSection>(new WeldedSection(
+		return std::unique_ptr<GeneralSteelSection>{new WeldedSection{
 							b_f1, t_f1,
 							 b_f2, t_f2,
-							 h_w, t_w));
+							 h_w, t_w}};
 	}
 	else
 	{
 
 	}
-			return std::unique_ptr<GeneralSteelSection>(new RolledSection(
-							b_f1, t_f1,
-							 b_f2, t_f2,
-							 h_w, t_w));
+//			return std::unique_ptr<GeneralSteelSection>(new RolledSection(
+//							b_f1, t_f1,
+//							 b_f2, t_f2,
+//							 h_w, t_w));
 
 
 }
-void TSteelSectionForm2::set_i_section()
+void TSteelSectionForm::set_i_section()
 {
 //Получение из элемента управления индека группы профилей
 	int profile_group_index = RadioGroupGOST57837 -> ItemIndex + typeGOST_G57837_B;
@@ -116,7 +143,7 @@ void TSteelSectionForm2::set_i_section()
 //----------------------------------------------------------------------
 // рисование двутавра
 //----------------------------------------------------------------------
-void  TSteelSectionForm2::draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect)
+void  TSteelSectionForm::draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect)
 {
   TPoint vertices[30];
   int zero, zero1, zero2;
@@ -138,7 +165,7 @@ void  TSteelSectionForm2::draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect)
 	zero1=(Image_stand->Width - sect->b2*scale)/2;
 	zero2=(Image_stand->Width - sect->b1*scale)/2;
 
-    Point_dvutavr(zero, zero1, zero2, sect, scale, vertices); // получить точки контура двутавра
+	Point_dvutavr(zero, zero1, zero2, sect, scale, vertices); // получить точки контура двутавра
 
 	Image_stand->Canvas->Brush->Color = clMedGray;
 	Image_stand->Canvas->Polygon(vertices, 12);
@@ -207,13 +234,13 @@ void  TSteelSectionForm2::draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect)
 
 //---------------------------------------------------------------------------
 // Рисование системы координат
-void   TSteelSectionForm2::draw_axes(TImage *Image_Ax) {
+void   TSteelSectionForm::draw_axes(TImage *Image_Ax) {
 
   draw_axes_zero(Image_Ax, Image_Ax->Width/2, Image_Ax->Height/2);
 }
 //---------------------------------------------------------------------------
 // Рисование системы координат
-void   TSteelSectionForm2::draw_axes_zero(TImage *Image_Ax, int x0, int y0) {
+void   TSteelSectionForm::draw_axes_zero(TImage *Image_Ax, int x0, int y0) {
   TPoint points[10];
   //int zero, zero1,zero2;
   //float scale_1, scale;
@@ -253,7 +280,7 @@ void   TSteelSectionForm2::draw_axes_zero(TImage *Image_Ax, int x0, int y0) {
 //---------------------------------------------------------------------------
 // получить точки контура прокатного двутавра
 //---------------------------------------------------------------------------
-void  TSteelSectionForm2::Point_stand_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, double rad, float scale, TPoint *vertices)
+void  TSteelSectionForm::Point_stand_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, double rad, float scale, TPoint *vertices)
 {
   double r_c = rad*scale;
   double r2_c = Round(r_c - r_c*cos(45/57.3), 0);
@@ -289,7 +316,7 @@ void  TSteelSectionForm2::Point_stand_dvutavr(int zero, int zero1, int zero2, SE
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-void __fastcall TSteelSectionForm2::ComboBox_profilChange(TObject *Sender)
+void __fastcall TSteelSectionForm::ComboBox_profilChange(TObject *Sender)
 {
 //Заполняем данные профиля по индексу профиля
 	int profile_number_index = 0;
@@ -329,7 +356,7 @@ void __fastcall TSteelSectionForm2::ComboBox_profilChange(TObject *Sender)
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-void __fastcall TSteelSectionForm2::RadioGroupGOST57837Click(TObject *Sender)
+void __fastcall TSteelSectionForm::RadioGroupGOST57837Click(TObject *Sender)
 {
 //Получение из элемента управления индекса группы профилей
 	int profile_group_index = 0;
@@ -359,14 +386,14 @@ void __fastcall TSteelSectionForm2::RadioGroupGOST57837Click(TObject *Sender)
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-void TSteelSectionForm2::register_observer(IObserver_* iobserver)
+void TSteelSectionForm::register_observer(IObserver_* iobserver)
 {
 	iobserver_ = iobserver;
 }
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-String TSteelSectionForm2::get_information()const
+String TSteelSectionForm::get_information()const
 {
    return i_section_temp_.get_profile_number();
 
@@ -374,14 +401,14 @@ String TSteelSectionForm2::get_information()const
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-Publisher_ID TSteelSectionForm2::get_id()const
+Publisher_ID TSteelSectionForm::get_id()const
 {
    return id_;
 }
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-void __fastcall TSteelSectionForm2::btk_okClick(TObject *Sender)
+void __fastcall TSteelSectionForm::btk_okClick(TObject *Sender)
 {
 	set_i_section();
 	iobserver_ -> update(this);
@@ -390,17 +417,29 @@ void __fastcall TSteelSectionForm2::btk_okClick(TObject *Sender)
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-void __fastcall TSteelSectionForm2::btn_cancelClick(TObject *Sender)
+void __fastcall TSteelSectionForm::btn_cancelClick(TObject *Sender)
 {
 	set_form_controls();
 }
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-void __fastcall TSteelSectionForm2::btn_closeClick(TObject *Sender)
+void __fastcall TSteelSectionForm::btn_closeClick(TObject *Sender)
 {
 	Close();
 }
 //---------------------------------------------------------------------------
 
+
+
+
+void __fastcall TSteelSectionForm::btn_launch_loggerClick(TObject *Sender)
+{
+
+	log_.reset(new TFormLogger(this));
+	log_.get() -> Show();
+	weld_sect_temp_.print_data_to_logger(log_.get());
+
+}
+//---------------------------------------------------------------------------
 

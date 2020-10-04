@@ -127,7 +127,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -583,14 +583,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Caption = '  '#1055#1088#1086#1082#1072#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077'  '
         TabOrder = 0
         object Pnl_SteelSectionViewer: TPanel
-          Left = 28
+          Left = 195
           Top = 17
           Width = 90
           Height = 30
           TabOrder = 0
         end
         object BtnSteelSectionChoice: TBitBtn
-          Left = 133
+          Left = 22
           Top = 17
           Width = 167
           Height = 30
@@ -717,14 +717,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Caption = '  '#1057#1090#1072#1083#1100'  '
         TabOrder = 4
         object pnl_steel: TPanel
-          Left = 24
+          Left = 189
           Top = 18
           Width = 90
           Height = 30
           TabOrder = 0
         end
         object BtBtnSteelChoice: TBitBtn
-          Left = 126
+          Left = 16
           Top = 18
           Width = 167
           Height = 30
@@ -741,15 +741,15 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Caption = '  '#1041#1077#1090#1086#1085'  '
         TabOrder = 5
         object pnl_concrete_grade: TPanel
-          Left = 21
-          Top = 16
+          Left = 189
+          Top = 20
           Width = 90
           Height = 30
           TabOrder = 0
         end
         object BtnConcreteChoice: TBitBtn
-          Left = 126
-          Top = 16
+          Left = 16
+          Top = 20
           Width = 167
           Height = 30
           Caption = #1042#1099#1073#1088#1072#1090#1100'/'#1080#1079#1084#1077#1085#1080#1090#1100' '#1073#1077#1090#1086#1085
@@ -765,14 +765,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Caption = '  '#1040#1088#1084#1072#1090#1091#1088#1072'  '
         TabOrder = 6
         object pnl_rebar_viewer: TPanel
-          Left = 21
+          Left = 189
           Top = 19
           Width = 90
           Height = 30
           TabOrder = 0
         end
         object BtBtnRebarsChoice: TBitBtn
-          Left = 126
+          Left = 16
           Top = 19
           Width = 167
           Height = 30
@@ -789,15 +789,15 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Caption = '  '#1043#1080#1073#1082#1080#1077' '#1091#1087#1086#1088#1099'  '
         TabOrder = 7
         object pnl_shear_stud_viewer: TPanel
-          Left = 24
-          Top = 16
+          Left = 194
+          Top = 19
           Width = 90
           Height = 30
           TabOrder = 0
         end
         object BtBtnShearStudsChoice: TBitBtn
-          Left = 129
-          Top = 16
+          Left = 21
+          Top = 19
           Width = 167
           Height = 30
           Caption = #1042#1099#1073#1088#1072#1090#1100'/'#1080#1079#1084#1077#1085#1080#1090#1100' '#1091#1087#1086#1088#1099
@@ -2906,10 +2906,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1057#1090#1072#1083#1077#1078#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_compos_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -2940,10 +2936,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_steel_geom_char: TTabSheet
             Caption = #1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 2
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_steel_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -2971,10 +2963,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           object tb_sht_concrete_geom_char: TTabSheet
             Caption = #1046#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object strng_grd_concrete_sect_geom_character: TStringGrid
               Left = 0
               Top = 0
@@ -2996,10 +2984,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object tb_results: TTabSheet
       Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1099' '#1088#1072#1089#1095#1105#1090#1072
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object strng_grd_results: TStringGrid
         Left = 0
         Top = 0

@@ -5,10 +5,15 @@
 
 #include "uRebar.h"
 
+
 class GeneralConcreteSection{
+private:
+
+	int data[10];
+
 public:
 	GeneralConcreteSection(const double h_f,
-						   const Rebar rebar,
+						   const Rebar& rebar,
 						   const double b,
 						   const double a_u,
 						   const double a_l,

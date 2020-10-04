@@ -12,22 +12,6 @@
 #include "uGeneralConcreteSection.h"
 #include "uGeneralSteelSection.h"
 
-
-
-
-//class Steel
-//{
-//	int a;
-//	int b;
-//public:
-//	Steel(const Steel &that)
-//	: a(that.a), b(that.b)
-//
-//	Steel(Steel&& that)
-//	: a(std::move(that.a)), b(std::move(that.b))
-//	{}
-//}
-
 class CompositeSectionGeometry2{
 	enum class NA_Location{
 		CONCRETE,
@@ -80,9 +64,9 @@ private:
 
 	double M_Rd_ = 0.;
 public:
-	CompositeSectionGeometry2(Steel& steel,
+	CompositeSectionGeometry2(const Steel& steel,
 							  std::unique_ptr<const GeneralSteelSection> st_sect,
-							  Concrete& concrete,
+							  const Concrete& concrete,
 							  std::unique_ptr<const GeneralConcreteSection> conc_sect);
 
 

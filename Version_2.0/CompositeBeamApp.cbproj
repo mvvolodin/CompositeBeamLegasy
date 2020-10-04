@@ -6,7 +6,7 @@
         <AppType>Application</AppType>
         <MainSource>CompositeBeamApp.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
     </PropertyGroup>
@@ -215,13 +215,6 @@
         <None Include="ListConst.H">
             <BuildOrder>25</BuildOrder>
         </None>
-        <CppCompile Include="LoggerFormUnit.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>FormLogger</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>LoggerFormUnit.h</DependentOn>
-            <BuildOrder>47</BuildOrder>
-        </CppCompile>
         <CppCompile Include="MathFunction.cpp">
             <DependentOn>MathFunction.h</DependentOn>
             <BuildOrder>43</BuildOrder>
@@ -312,6 +305,13 @@
             <DependentOn>uFrmAddImacts.h</DependentOn>
             <BuildOrder>46</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uFrmLogger.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>FormLogger</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmLogger.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uGeneralConcreteSection.cpp">
             <DependentOn>uGeneralConcreteSection.h</DependentOn>
             <BuildOrder>52</BuildOrder>
@@ -374,12 +374,12 @@
             <DependentOn>uSteelPart.h</DependentOn>
             <BuildOrder>44</BuildOrder>
         </CppCompile>
-        <CppCompile Include="USteelSectionForm.cpp">
+        <CppCompile Include="uSteelSectionForm.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>SteelSectionForm2</Form>
+            <Form>SteelSectionForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>uSteelSectionForm.h</DependentOn>
-            <BuildOrder>50</BuildOrder>
+            <BuildOrder>55</BuildOrder>
         </CppCompile>
         <CppCompile Include="uStud.cpp">
             <DependentOn>uStud.h</DependentOn>
@@ -403,14 +403,14 @@
         </CppCompile>
         <FormResources Include="uHelpForm.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="USteelSectionForm.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>
+        <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="AboutProg.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
-        <FormResources Include="LoggerFormUnit.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
+        <FormResources Include="uSteelSectionForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -94,7 +94,7 @@ void TCompositeBeamMainForm ::set_form_controls()
 	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> get_studs_on_beam().get_name();
 	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> get_rebar().get_grade();
 	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> get_concrete().get_grade();
-	Pnl_SteelSectionViewer -> Caption = SteelSectionForm2 -> get_i_section().get_profile_number();
+	Pnl_SteelSectionViewer -> Caption = SteelSectionForm -> get_i_section().get_profile_number();
 
 //Данные для плиты
 
@@ -130,7 +130,7 @@ void TCompositeBeamMainForm ::set_form_controls()
 //Данные типа Steel
 	DefineSteelForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_steel());
 //Данные типа Section
-	SteelSectionForm2 -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_section());
+	SteelSectionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_section());
 
 }
 void TCompositeBeamMainForm ::register_observers()
@@ -140,7 +140,7 @@ void TCompositeBeamMainForm ::register_observers()
 	ipublishers.push_back(StudDefinitionForm);
 	ipublishers.push_back(ConcreteDefinitionForm);
 	ipublishers.push_back(DefineSteelForm);
-	ipublishers.push_back(SteelSectionForm2);
+	ipublishers.push_back(SteelSectionForm);
 	for(auto ip:ipublishers)
 	ip -> register_observer(this);
 
@@ -189,7 +189,7 @@ Loads TCompositeBeamMainForm ::update_loads()
 {
 	double SW_sheets = 0.;
 
-	double SW = SteelSectionForm2 -> get_i_section().get_weight();
+	double SW = SteelSectionForm -> get_i_section().get_weight();
 
 	double SW_add_concrete = 0.;
 	double DL_I = 0.;
@@ -254,7 +254,7 @@ Loads TCompositeBeamMainForm ::update_loads()
 //---------------------------------------------------------------------------
 ISection TCompositeBeamMainForm ::update_i_section()
 {
-	return SteelSectionForm2 -> get_i_section();
+	return SteelSectionForm -> get_i_section();
 }
 std::unique_ptr<GeneralConcreteSection> update_steel_section()
 {
@@ -283,7 +283,7 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 
 	if (rdgrp_slab_type -> ItemIndex == 0)
 	{
-		return std::unique_ptr<GeneralConcreteSection>(new SlabConcreteSection(
+		return std::unique_ptr<GeneralConcreteSection>{new SlabConcreteSection{
 				h_f,
 				rebar,
 				b,
@@ -293,12 +293,12 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 				B_l,
 				B_r,
 				b_uf,
-				end_beam));
+				end_beam}};
 	}
 	else
 	{
 
-		return std::unique_ptr<GeneralConcreteSection>(new CorrugatedConcreteSection(
+		return std::unique_ptr<GeneralConcreteSection>{new CorrugatedConcreteSection{
 			CorrugatedSheetsData::get_corrugated_sheet(cmb_bx_corrugated_sheeting_part_number -> Text),
 			h_f,
 			rebar,
@@ -309,8 +309,8 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 			B_l,
 			B_r,
 			b_uf,
-			end_beam));
-    }
+			end_beam}};
+	}
 
 }
 //---------------------------------------------------------------------------
@@ -320,7 +320,7 @@ ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 {
 	Geometry geometry = update_geometry();
 
-	ISection i_section = SteelSectionForm2 -> get_i_section();
+	ISection i_section = SteelSectionForm -> get_i_section();
 	double b_uf = i_section.get_b_uf();
 
 	if (rdgrp_slab_type -> ItemIndex ==0)
@@ -689,7 +689,7 @@ void __fastcall TCompositeBeamMainForm ::BtBtnSteelChoiceClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm ::BtnSteelSectionChoiceClick(TObject *Sender)
 {
-	SteelSectionForm2 -> Show();
+	SteelSectionForm -> Show();
 }
 //---------------------------------------------------------------------------
 

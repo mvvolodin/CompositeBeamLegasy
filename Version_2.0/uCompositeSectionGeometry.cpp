@@ -416,9 +416,9 @@ double CompositeSectionGeometry::get_M_Rd(LoadUnit load_unit, LengthUnit length_
 //============================================================================
 //============================================================================
 
- CompositeSectionGeometry2::CompositeSectionGeometry2(Steel& steel,
+ CompositeSectionGeometry2::CompositeSectionGeometry2(const Steel& steel,
 							  std::unique_ptr<const GeneralSteelSection> st_sect,
-							  Concrete& concrete,
+							  const Concrete& concrete,
 							  std::unique_ptr<const GeneralConcreteSection> conc_sect)
 								:steel_{std::move(steel)},
 								 st_sect_{std::move(st_sect)},

@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "LoggerFormUnit.h"
+#include "uFrmLogger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -88,3 +88,20 @@ void TFormLogger::print_ratio(double id, double ratio)
 	mm_logger -> Lines -> Add(str);
 
 }
+void __fastcall TFormLogger::btn_cleanClick(TObject *Sender)
+{
+	mm_logger -> Clear();
+}
+void TFormLogger::print_double(String name, double val, String unit)
+{
+  //	mm_logger -> Lines -> Add(name + String{val}+String{unit});
+  mm_logger -> Lines -> Add(name + val + unit);
+}
+void TFormLogger::print_2_doubles(String name1, double val1, String unit1,
+						 String name2, double val2, String unit2)
+{
+	mm_logger -> Lines -> Add(name1 + String{val1}+String{unit1}+L"    "+
+		name2 + String{val2}+String{unit2});
+}
+//---------------------------------------------------------------------------
+

@@ -26,8 +26,7 @@ public:
 					double L,
 					double B_l,
 					double B_r,
-					SupportsNumber temp_supports_num,
-					);
+					SupportsNumber temp_supports_num);
 
 	void set_default_values();
 	void save(ostream& ostr) const;

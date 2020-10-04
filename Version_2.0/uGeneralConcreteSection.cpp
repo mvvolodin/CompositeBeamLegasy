@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 GeneralConcreteSection::GeneralConcreteSection(const double h_f,
-											   const Rebar rebar,
+											   const Rebar& rebar,
 											   const double b,
 											   const double a_u,
 											   const double a_l,

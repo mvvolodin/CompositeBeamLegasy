@@ -5,7 +5,7 @@
 #include <array>
 //---------------------------------------------------------------------------
 #include "uCompositeBeamCalculator.h"
-#include "LoggerFormUnit.h"
+#include "uFrmLogger.h"
 #include "MathFunction.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

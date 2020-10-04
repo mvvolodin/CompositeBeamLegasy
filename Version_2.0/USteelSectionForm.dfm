@@ -1,4 +1,4 @@
-object SteelSectionForm2: TSteelSectionForm2
+object SteelSectionForm: TSteelSectionForm
   Left = 0
   Top = 0
   BorderStyle = bsDialog
@@ -91,7 +91,7 @@ object SteelSectionForm2: TSteelSectionForm2
     object tb_sheet_welded_profile: TTabSheet
       Caption = #1057#1074#1072#1088#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088
       ImageIndex = 1
-      object Image1: TImage
+      object img_weld_sect: TImage
         Left = 237
         Top = 3
         Width = 148
@@ -118,76 +118,88 @@ object SteelSectionForm2: TSteelSectionForm2
         Height = 216
         Caption = ' '#1043#1077#1086#1084#1077#1090#1088#1080#1103' '#1089#1077#1095#1077#1085#1080#1103' '
         TabOrder = 1
-        object led_b_lf: TLabeledEdit
-          Left = 162
-          Top = 75
-          Width = 51
+        object lbl_b_uf: TLabel
+          Left = 3
+          Top = 30
+          Width = 141
+          Height = 13
+          Caption = #1064#1080#1088#1080#1085#1072' '#1074#1077#1088#1093#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
+        end
+        object lbl_t_uf: TLabel
+          Left = 3
+          Top = 55
+          Width = 146
+          Height = 13
+          Caption = #1058#1086#1083#1097#1080#1085#1072' '#1074#1077#1088#1093#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
+        end
+        object lbl_b_lf: TLabel
+          Left = 3
+          Top = 81
+          Width = 140
+          Height = 13
+          Caption = #1064#1080#1088#1080#1085#1072' '#1085#1080#1078#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084': '
+        end
+        object lbl_t_lf: TLabel
+          Left = 3
+          Top = 107
+          Width = 145
+          Height = 13
+          Caption = #1058#1086#1083#1097#1080#1085#1072' '#1085#1080#1078#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084': '
+        end
+        object lbl_h_w: TLabel
+          Left = 3
+          Top = 133
+          Width = 98
+          Height = 13
+          Caption = #1042#1099#1089#1086#1090#1072' '#1089#1090#1077#1085#1082#1080', '#1084#1084':'
+        end
+        object lbl_t_w: TLabel
+          Left = 3
+          Top = 159
+          Width = 106
+          Height = 13
+          Caption = #1058#1086#1083#1097#1080#1085#1072' '#1089#1090#1077#1085#1082#1080', '#1084#1084':'
+        end
+        object edt_b_uf: TEdit
+          Left = 158
+          Top = 25
+          Width = 57
           Height = 21
-          EditLabel.Width = 137
-          EditLabel.Height = 13
-          EditLabel.Caption = #1064#1080#1088#1080#1085#1072' '#1085#1080#1078#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
-          LabelPosition = lpLeft
-          LabelSpacing = 15
           TabOrder = 0
         end
-        object led_t_uf: TLabeledEdit
-          Left = 162
-          Top = 48
-          Width = 51
+        object edt_t_uf: TEdit
+          Left = 158
+          Top = 52
+          Width = 57
           Height = 21
-          EditLabel.Width = 146
-          EditLabel.Height = 13
-          EditLabel.Caption = #1058#1086#1083#1097#1080#1085#1072' '#1074#1077#1088#1093#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
-          LabelPosition = lpLeft
-          LabelSpacing = 7
           TabOrder = 1
         end
-        object led_b_uf: TLabeledEdit
-          Left = 162
-          Top = 21
-          Width = 51
+        object edt_b_lf: TEdit
+          Left = 158
+          Top = 78
+          Width = 57
           Height = 21
-          EditLabel.Width = 141
-          EditLabel.Height = 13
-          EditLabel.Caption = #1064#1080#1088#1080#1085#1072' '#1074#1077#1088#1093#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
-          LabelPosition = lpLeft
-          LabelSpacing = 10
           TabOrder = 2
         end
-        object led_t_lf: TLabeledEdit
-          Left = 162
-          Top = 102
-          Width = 51
+        object edt_t_lf: TEdit
+          Left = 158
+          Top = 104
+          Width = 57
           Height = 21
-          EditLabel.Width = 142
-          EditLabel.Height = 13
-          EditLabel.Caption = #1058#1086#1083#1097#1080#1085#1072' '#1085#1080#1078#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
-          LabelPosition = lpLeft
-          LabelSpacing = 10
           TabOrder = 3
         end
-        object led_h_w: TLabeledEdit
-          Left = 162
-          Top = 129
-          Width = 51
+        object edt_h_w: TEdit
+          Left = 158
+          Top = 130
+          Width = 57
           Height = 21
-          EditLabel.Width = 98
-          EditLabel.Height = 13
-          EditLabel.Caption = #1042#1099#1089#1086#1090#1072' '#1089#1090#1077#1085#1082#1080', '#1084#1084':'
-          LabelPosition = lpLeft
-          LabelSpacing = 65
           TabOrder = 4
         end
-        object led_t_w: TLabeledEdit
-          Left = 162
+        object edt_t_w: TEdit
+          Left = 158
           Top = 156
-          Width = 51
+          Width = 57
           Height = 21
-          EditLabel.Width = 106
-          EditLabel.Height = 13
-          EditLabel.Caption = #1058#1086#1083#1097#1080#1085#1072' '#1089#1090#1077#1085#1082#1080', '#1084#1084':'
-          LabelPosition = lpLeft
-          LabelSpacing = 60
           TabOrder = 5
         end
       end
@@ -219,5 +231,14 @@ object SteelSectionForm2: TSteelSectionForm2
     Caption = #1047#1072#1082#1088#1099#1090#1100
     TabOrder = 3
     OnClick = btn_closeClick
+  end
+  object btn_launch_logger: TButton
+    Left = 18
+    Top = 263
+    Width = 75
+    Height = 25
+    Caption = #1051#1086#1075
+    TabOrder = 4
+    OnClick = btn_launch_loggerClick
   end
 end

@@ -30,11 +30,11 @@
 #include "StudDefinitionFormUnit.h"
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
-#include "USteelSectionForm.h"
+#include "uSteelSectionForm.h"
 #include "uHelpForm.h"
 #include "DefineSteelFormUnit.h"
 #include "uFrmAddImacts.h"
-#include "LoggerFormUnit.h"
+#include "uFrmLogger.h"
 #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
 #include "uWord_Automation.h"
 #include "uGeneralConcreteSection.h"

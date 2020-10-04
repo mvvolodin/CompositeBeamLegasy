@@ -56,6 +56,14 @@ double WeldedSection::t_w()const
 {
 	return vertexes_[3].X - vertexes_[10].X;
 }
+double WeldedSection::h_st()const
+{
+	return vertexes_[7].Y - vertexes_[0].Y;
+}
+double WeldedSection::Z_f2_st() const
+{
+	return vertexes_[7].Y - C_st();
+}
 
 double WeldedSection::C_st()const
 {
@@ -155,5 +163,22 @@ void WeldedSection::print_area()
 void WeldedSection::print_inertia()
 {
 	std::cout << "I = " << std::fixed << I_st() << std::endl;
+}
+
+void WeldedSection::print_data_to_logger(TFormLogger* log)const
+{
+	log -> add_separator(L"Геометрические размеры");
+	log -> print_2_doubles(L"bf2 = ", b_f2(), L" мм",L"tf2 = ", t_f2(), L" мм");
+	log -> print_2_doubles(L"bf1 = ", b_f1(), L" мм",L"tf1 = ", t_f1(), L" мм");
+	log -> print_2_doubles(L"hw = ", h_w(), L" мм",L"tw = ", t_w(), L" мм");
+	log -> add_separator(L"Координаты вершин сварного двутавра");
+	for(auto v:vertexes_)
+		log -> print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
+	log -> add_separator(L"Геометрические характеристики");
+	log -> print_double(L"C = ", C_st(), L" мм");
+	log -> print_double(L"A = ", A_st(), L" мм2");
+	log -> print_double(L"I = ", I_st(), L" мм4");
+
+
 }
 

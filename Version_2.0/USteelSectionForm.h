@@ -27,7 +27,7 @@
 #include "uISection.h"
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
 //---------------------------------------------------------------------------
-class TSteelSectionForm2 : public TForm, public IPublisher
+class TSteelSectionForm : public TForm, public IPublisher
 {
 __published:	// IDE-managed Components
 	TPageControl *PageControl2;
@@ -42,23 +42,38 @@ __published:	// IDE-managed Components
 	TButton *btn_close;
 	TTabSheet *tb_sheet_welded_profile;
 	TStringGrid *StringGrid1;
-	TImage *Image1;
-	TLabeledEdit *led_h_w;
-	TLabeledEdit *led_t_w;
-	TLabeledEdit *led_b_uf;
-	TLabeledEdit *led_t_uf;
-	TLabeledEdit *led_b_lf;
-	TLabeledEdit *led_t_lf;
+	TImage *img_weld_sect;
 	TGroupBox *GroupBox1;
+	TEdit *edt_b_uf;
+	TEdit *edt_t_uf;
+	TEdit *edt_b_lf;
+	TEdit *edt_t_lf;
+	TEdit *edt_h_w;
+	TEdit *edt_t_w;
+	TLabel *lbl_b_uf;
+	TLabel *lbl_t_uf;
+	TLabel *lbl_b_lf;
+	TLabel *lbl_t_lf;
+	TLabel *lbl_h_w;
+	TLabel *lbl_t_w;
+	TButton *btn_launch_logger;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall ComboBox_profilChange(TObject *Sender);
 	void __fastcall RadioGroupGOST57837Click(TObject *Sender);
 	void __fastcall btk_okClick(TObject *Sender);
 	void __fastcall btn_cancelClick(TObject *Sender);
 	void __fastcall btn_closeClick(TObject *Sender);
+	void __fastcall btn_launch_loggerClick(TObject *Sender);
 private:	// User declarations
 	TStandartProfil StandartProfil_; //база данных
 	ISection i_section_temp_; //
+	WeldedSection weld_sect_temp_{300,24,200,12,1200,8};
+
+    std::unique_ptr<TFormLogger> log_;
+
+//	WeldedSection(double b_f1, double t_f1,
+//				  double b_f2, double t_f2,
+//				  double h_w, double t_w);
 
 	static const Publisher_ID id_ = Publisher_ID::SECTION_FORM;
 	IObserver_* iobserver_;
@@ -72,6 +87,7 @@ private:	// User declarations
 
 	void set_form_controls();
 	void set_i_section();
+	void update_weld_sect_ctrls();
 	std::unique_ptr<GeneralSteelSection> update_steel_section();
 	void form_controls_changed();
 
@@ -82,12 +98,12 @@ private:	// User declarations
 
 
 public:		// User declarations
-	__fastcall TSteelSectionForm2(TComponent* Owner)override;
+	__fastcall TSteelSectionForm(TComponent* Owner)override;
 	void set_form_controls(ISection i_section);
 	ISection get_i_section() const {return i_section_temp_;}
 	void register_observer(IObserver_* iobserver)override;
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TSteelSectionForm2 *SteelSectionForm2;
+extern PACKAGE TSteelSectionForm *SteelSectionForm;
 //---------------------------------------------------------------------------
 #endif
