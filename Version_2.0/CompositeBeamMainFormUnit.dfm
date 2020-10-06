@@ -3013,6 +3013,19 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Visible = False
     OnClick = btn_loggerClick
   end
+  object rd_grp_code: TRadioGroup
+    Left = 355
+    Top = 557
+    Width = 326
+    Height = 39
+    Caption = ' '#1057#1074#1086#1076' '#1055#1088#1072#1074#1080#1083' '
+    Columns = 2
+    ItemIndex = 1
+    Items.Strings = (
+      #1057#1055' 266.1325800.2016'
+      #1057#1055' 35.13330.2011')
+    TabOrder = 7
+  end
   object MainMenu1: TMainMenu
     Images = ImageList1
     Left = 416

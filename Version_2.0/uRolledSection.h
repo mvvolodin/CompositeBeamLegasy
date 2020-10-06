@@ -17,7 +17,9 @@ public:
 	double t_f2()const override;
 	double h_w()const override;
 	double t_w()const override;
+	double h_st()const override;
 
+	double Z_f2_st() const override;
 	double C_st()const override;
 	double A_st()const override;
 	double I_st()const override;

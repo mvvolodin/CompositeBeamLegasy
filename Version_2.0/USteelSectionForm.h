@@ -44,16 +44,16 @@ __published:	// IDE-managed Components
 	TStringGrid *StringGrid1;
 	TImage *img_weld_sect;
 	TGroupBox *GroupBox1;
-	TEdit *edt_b_uf;
-	TEdit *edt_t_uf;
-	TEdit *edt_b_lf;
-	TEdit *edt_t_lf;
+	TEdit *edt_b_f2;
+	TEdit *edt_t_f2;
+	TEdit *edt_b_f1;
+	TEdit *edt_t_f1;
 	TEdit *edt_h_w;
 	TEdit *edt_t_w;
-	TLabel *lbl_b_uf;
-	TLabel *lbl_t_uf;
-	TLabel *lbl_b_lf;
-	TLabel *lbl_t_lf;
+	TLabel *lbl_b_f2;
+	TLabel *lbl_t_f2;
+	TLabel *lbl_b_f1;
+	TLabel *lbl_t_f1;
 	TLabel *lbl_h_w;
 	TLabel *lbl_t_w;
 	TButton *btn_launch_logger;
@@ -68,12 +68,10 @@ private:	// User declarations
 	TStandartProfil StandartProfil_; //база данных
 	ISection i_section_temp_; //
 	WeldedSection weld_sect_temp_{300,24,200,12,1200,8};
+   // RolledSection rolled_sect_temp_;
+    std::unique_ptr<GeneralSteelSection> sect_;
 
     std::unique_ptr<TFormLogger> log_;
-
-//	WeldedSection(double b_f1, double t_f1,
-//				  double b_f2, double t_f2,
-//				  double h_w, double t_w);
 
 	static const Publisher_ID id_ = Publisher_ID::SECTION_FORM;
 	IObserver_* iobserver_;
@@ -81,9 +79,6 @@ private:	// User declarations
 	virtual Publisher_ID get_id()const override;
 
 	TArrow CoorAx;
-
-   //	void fill_cmb_bx_pofiles(int n_group);
-   //	void fill_grid_and_draw();
 
 	void set_form_controls();
 	void set_i_section();
@@ -101,6 +96,7 @@ public:		// User declarations
 	__fastcall TSteelSectionForm(TComponent* Owner)override;
 	void set_form_controls(ISection i_section);
 	ISection get_i_section() const {return i_section_temp_;}
+	std::unique_ptr<GeneralSteelSection> get_section() {return sect_;}
 	void register_observer(IObserver_* iobserver)override;
 };
 //---------------------------------------------------------------------------

@@ -118,28 +118,28 @@ object SteelSectionForm: TSteelSectionForm
         Height = 216
         Caption = ' '#1043#1077#1086#1084#1077#1090#1088#1080#1103' '#1089#1077#1095#1077#1085#1080#1103' '
         TabOrder = 1
-        object lbl_b_uf: TLabel
+        object lbl_b_f2: TLabel
           Left = 3
           Top = 30
           Width = 141
           Height = 13
           Caption = #1064#1080#1088#1080#1085#1072' '#1074#1077#1088#1093#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
         end
-        object lbl_t_uf: TLabel
+        object lbl_t_f2: TLabel
           Left = 3
           Top = 55
           Width = 146
           Height = 13
           Caption = #1058#1086#1083#1097#1080#1085#1072' '#1074#1077#1088#1093#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
         end
-        object lbl_b_lf: TLabel
+        object lbl_b_f1: TLabel
           Left = 3
           Top = 81
           Width = 140
           Height = 13
           Caption = #1064#1080#1088#1080#1085#1072' '#1085#1080#1078#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084': '
         end
-        object lbl_t_lf: TLabel
+        object lbl_t_f1: TLabel
           Left = 3
           Top = 107
           Width = 145
@@ -160,43 +160,43 @@ object SteelSectionForm: TSteelSectionForm
           Height = 13
           Caption = #1058#1086#1083#1097#1080#1085#1072' '#1089#1090#1077#1085#1082#1080', '#1084#1084':'
         end
-        object edt_b_uf: TEdit
-          Left = 158
+        object edt_b_f2: TEdit
+          Left = 155
           Top = 25
           Width = 57
           Height = 21
           TabOrder = 0
         end
-        object edt_t_uf: TEdit
-          Left = 158
-          Top = 52
+        object edt_t_f2: TEdit
+          Left = 155
+          Top = 51
           Width = 57
           Height = 21
           TabOrder = 1
         end
-        object edt_b_lf: TEdit
-          Left = 158
-          Top = 78
+        object edt_b_f1: TEdit
+          Left = 155
+          Top = 77
           Width = 57
           Height = 21
           TabOrder = 2
         end
-        object edt_t_lf: TEdit
-          Left = 158
-          Top = 104
+        object edt_t_f1: TEdit
+          Left = 155
+          Top = 103
           Width = 57
           Height = 21
           TabOrder = 3
         end
         object edt_h_w: TEdit
-          Left = 158
-          Top = 130
+          Left = 155
+          Top = 129
           Width = 57
           Height = 21
           TabOrder = 4
         end
         object edt_t_w: TEdit
-          Left = 158
+          Left = 155
           Top = 156
           Width = 57
           Height = 21

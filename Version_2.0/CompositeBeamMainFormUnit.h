@@ -178,6 +178,7 @@ __published:	// IDE-managed Components
 	TCheckBox *chck_bx_sheet_orient_along;
 	TGroupBox *GroupBox1;
 	TMenuItem *Help;
+	TRadioGroup *rd_grp_code;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -243,6 +244,7 @@ private:
 	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
 	void calculate_composite_beam();
+    void calculate_composite_beam_bridge();
 	void clean_static_scheme();
 	void clean_grid(TStringGrid* str_grd);
 	#define UNTITLED  "Без имени"

@@ -428,7 +428,15 @@ void TCompositeBeamMainForm::update_composite_beam()
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 {
-	calculate_composite_beam();
+	switch(rd_grp_code-> ItemIndex)
+	{
+		case 0:
+			calculate_composite_beam();
+			break;
+		case 1:
+			calculate_composite_beam_bridge();
+			break;
+	}
 }
 //---------------------------------------------------------------------------
 //Сформировать и открыть отчёт
@@ -1037,6 +1045,10 @@ void __fastcall TCompositeBeamMainForm ::cmb_bx_impactChange(TObject *Sender)
 void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObject *Sender)
 {
 	draw_diagram();
+}
+void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
+{
+	ShowMessage("В стадии реализации!");
 }
 
 void TCompositeBeamMainForm::calculate_composite_beam()

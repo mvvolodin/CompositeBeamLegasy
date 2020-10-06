@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "uSteelSectionForm.h"
+#include "String_doubleUnit.h"
 #include "uFrmLogger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -57,10 +58,10 @@ void TSteelSectionForm::update_weld_sect_ctrls()
 	double h_w = weld_sect_temp_.h_w();
 	double t_w = weld_sect_temp_.t_w();
 
-	edt_b_uf -> Text = b_f2;
-	edt_t_uf -> Text = t_f2;
-	edt_b_lf -> Text = b_f1;
-	edt_t_lf -> Text = t_f1;
+	edt_b_f2 -> Text = b_f2;
+	edt_t_f2 -> Text = t_f2;
+	edt_b_f1 -> Text = b_f1;
+	edt_t_f1 -> Text = t_f1;
 	edt_h_w -> Text = h_w;
 	edt_t_w -> Text = t_w;
 
@@ -75,15 +76,34 @@ void TSteelSectionForm::update_weld_sect_ctrls()
 //---------------------------------------------------------------------------
 std::unique_ptr<GeneralSteelSection> TSteelSectionForm::update_steel_section()
 {
-	double b_f1 = 0.;
-	double t_f1 = 0.;
-	double b_f2 = 0.;
-	double t_f2 = 0.;
-	double h_w = 0.;
-	double t_w = 0.;
-
 	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
 	{
+		int rc = 0;
+		double b_f1 = 0.;
+		double t_f1 = 0.;
+		double b_f2 = 0.;
+		double t_f2 = 0.;
+		double h_w = 0.;
+		double t_w = 0.;
+
+		rc = String_double_plus(lbl_b_f2 -> Caption, edt_b_f2 -> Text, &b_f2);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_t_f2 -> Caption, edt_t_f2 -> Text, &t_f2);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_b_f1 -> Caption, edt_b_f1 -> Text, &b_f1);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_t_f1 -> Caption, edt_t_f1 -> Text, &t_f1);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_h_w -> Caption, edt_h_w -> Text, &h_w);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_t_w -> Caption, edt_t_w -> Text, &t_w);
+		if(rc > 0)throw(rc);
+
 		return std::unique_ptr<GeneralSteelSection>{new WeldedSection{
 							b_f1, t_f1,
 							 b_f2, t_f2,
@@ -91,13 +111,26 @@ std::unique_ptr<GeneralSteelSection> TSteelSectionForm::update_steel_section()
 	}
 	else
 	{
-
-	}
-//			return std::unique_ptr<GeneralSteelSection>(new RolledSection(
-//							b_f1, t_f1,
-//							 b_f2, t_f2,
-//							 h_w, t_w));
-
+		//Получение из элемента управления индека группы профилей
+		int profile_group_index = RadioGroupGOST57837 -> ItemIndex + typeGOST_G57837_B;
+		//Заполнение данных группы профилей по индексу группы профилей
+		TStandartProfil StandartProfil;
+		StandartProfil.SetProfil(profile_group_index);
+		//Получаем вектор имён профилей по индексу группы профилей
+		int n_profil;
+		AnsiString *NameProfil;
+		NameProfil = StandartProfil.GetVectorNameProfil(&n_profil);
+		//Получение из элемента управления индека профиля
+		int profile_number_index = ComboBox_profil -> ItemIndex;
+		//Заполняем данные профиля по индексу профиля
+		double * ParamProfil;
+		ParamProfil = StandartProfil.GetVectorParamProfil(profile_number_index);
+				return std::unique_ptr<GeneralSteelSection>{new RolledSection{
+							ParamProfil[parBSECT], ParamProfil[parTF],
+							 ParamProfil[parBSECT], ParamProfil[parTF],
+							 ParamProfil[parHSECT] - 2 * ParamProfil[parTF], ParamProfil[parTW],
+							 ParamProfil[parAREA], ParamProfil[parWZ]}};
+    }
 
 }
 void TSteelSectionForm::set_i_section()

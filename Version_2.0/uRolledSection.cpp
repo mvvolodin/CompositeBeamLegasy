@@ -44,6 +44,15 @@ double RolledSection::t_w()const
 {
 	return t_w_;
 }
+double RolledSection::h_st()const
+{
+	return t_f1_ + h_w_ + t_f1_;
+}
+
+double RolledSection::Z_f2_st() const
+{
+	return h_st() - C_st();
+}
 
 double RolledSection::C_st()const
 {
