@@ -31,18 +31,7 @@ public:
 	double A_st()const override;
 	double I_st() const override;
 
-	void print_data_to_logger(TFormLogger* log)const;
-
-	void print_coord() override;
-	void print_b_f1()override;
-	void print_t_f1()override;
-	void print_b_f2()override;
-	void print_t_f2()override;
-	void print_h_w()override;
-	void print_t_w()override;
-	void print_centroid() override;
-	void print_area()override;
-	void print_inertia()override;
+	void print_data_to_logger(TFormLogger* log)const override;
 
 private:
 	std::vector<Vertex> vertexes_;

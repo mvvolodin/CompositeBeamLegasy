@@ -108,63 +108,6 @@ double WeldedSection::I_st()const
 	return I / 12 - C_st() * C_st() * A_st();
 }
 
-void WeldedSection::print_coord()
-{
-	int i = 0;
-
-	for (auto v:vertexes_){
-		std::cout << i << "   ";
-		std::cout << "X = " << v.X;
-		std::cout << "  Y = " << v.Y <<std::endl;
-		++i;
-	}
-}
-
-void WeldedSection::print_b_f1()
-{
-	std::cout << "b_f1 = " << b_f1() << std::endl;
-}
-
-void WeldedSection::print_t_f1()
-{
-	std::cout << "t_f1 = " << t_f1() << std::endl;
-}
-
-void WeldedSection::print_b_f2()
-{
-	std::cout << "b_f2 = " << b_f2() << std::endl;
-}
-
-void WeldedSection::print_t_f2()
-{
-	std::cout << "t_f2 = " << t_f2() << std::endl;
-}
-
-void WeldedSection::print_h_w()
-{
-	std::cout << "h_w = " << h_w() << std::endl;
-}
-
-void WeldedSection::print_t_w()
-{
-	std::cout << "t_w = " << t_w() << std::endl;
-}
-
-void WeldedSection::print_centroid()
-{
-	std::cout << "C = " << C_st() << std::endl;
-}
-
-void WeldedSection::print_area()
-{
-	std::cout << "A = " << A_st() << std::endl;
-}
-
-void WeldedSection::print_inertia()
-{
-	std::cout << "I = " << std::fixed << I_st() << std::endl;
-}
-
 void WeldedSection::print_data_to_logger(TFormLogger* log)const
 {
 	log -> add_separator(L"Геометрические размеры");

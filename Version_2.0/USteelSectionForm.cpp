@@ -15,7 +15,13 @@ bool flag_image = true;
 TSteelSectionForm *SteelSectionForm;
 //---------------------------------------------------------------------------
 __fastcall TSteelSectionForm::TSteelSectionForm(TComponent* Owner)
-	: TForm(Owner)
+	: TForm{Owner},
+	weld_sect_temp_{WeldedSection{300,24,200,12,1200,8}},
+	rolled_sect_temp_{RolledSection {std::wstring{L"35Б2"},
+									 175., 11.,
+									 175., 11.,
+									 328., 7.,
+									 175., 6314.,135590100.}}
 {
 	StringGrid_B->Cells[0][0]="h (мм)";
 	StringGrid_B->Cells[0][1]="bf (мм)";
@@ -74,7 +80,7 @@ void TSteelSectionForm::update_weld_sect_ctrls()
 //---------------------------------------------------------------------------
 //Обновляет данные стального сечения значениями элементов управления формы
 //---------------------------------------------------------------------------
-std::unique_ptr<GeneralSteelSection> TSteelSectionForm::update_steel_section()
+void TSteelSectionForm::update_steel_section()
 {
 	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
 	{
@@ -104,10 +110,7 @@ std::unique_ptr<GeneralSteelSection> TSteelSectionForm::update_steel_section()
 		rc = String_double_plus(lbl_t_w -> Caption, edt_t_w -> Text, &t_w);
 		if(rc > 0)throw(rc);
 
-		return std::unique_ptr<GeneralSteelSection>{new WeldedSection{
-							b_f1, t_f1,
-							 b_f2, t_f2,
-							 h_w, t_w}};
+	   //	weld_sect_temp_ .reset(new WeldedSection{b_f1, t_f1, b_f2, t_f2, h_w, t_w});
 	}
 	else
 	{
@@ -125,12 +128,32 @@ std::unique_ptr<GeneralSteelSection> TSteelSectionForm::update_steel_section()
 		//Заполняем данные профиля по индексу профиля
 		double * ParamProfil;
 		ParamProfil = StandartProfil.GetVectorParamProfil(profile_number_index);
-				return std::unique_ptr<GeneralSteelSection>{new RolledSection{
+			RolledSection{
+							std::wstring{L"Б"},
 							ParamProfil[parBSECT], ParamProfil[parTF],
 							 ParamProfil[parBSECT], ParamProfil[parTF],
+							 2,
 							 ParamProfil[parHSECT] - 2 * ParamProfil[parTF], ParamProfil[parTW],
-							 ParamProfil[parAREA], ParamProfil[parWZ]}};
+							 ParamProfil[parAREA], ParamProfil[parWZ]};
     }
+
+}
+std::unique_ptr<GeneralSteelSection> TSteelSectionForm::get_section() const
+{
+	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
+		 return std::unique_ptr<GeneralSteelSection>(new WeldedSection(weld_sect_temp_));
+
+//			int a = 2;
+//			int* p_a = &a;
+//
+//			double* p_d = &d_;
+
+		//std::make_unique<WeldedSection>(new WeldedSection(weld_sect_temp_));
+//		return std::move(weld_sect_temp_);
+//	return std::moved(rolled_sect_temp_);
+  // return std::unique_ptr<GeneralSteelSection>();
+  // return std::move(weld_sect_temp_);
+
 
 }
 void TSteelSectionForm::set_i_section()
@@ -463,9 +486,6 @@ void __fastcall TSteelSectionForm::btn_closeClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-
-
-
 void __fastcall TSteelSectionForm::btn_launch_loggerClick(TObject *Sender)
 {
 
@@ -474,5 +494,6 @@ void __fastcall TSteelSectionForm::btn_launch_loggerClick(TObject *Sender)
 	weld_sect_temp_.print_data_to_logger(log_.get());
 
 }
+
 //---------------------------------------------------------------------------
 

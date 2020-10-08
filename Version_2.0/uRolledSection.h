@@ -4,13 +4,15 @@
 #define uRolledSectionH
 
 #include "uGeneralSteelSection.h"
+#include <string>
 
 class RolledSection:public GeneralSteelSection{
 public:
-	RolledSection(double b_f1, double t_f1,
-				  double b_f2, double t_f2,
-				  double h_w, double t_w,
-				  double A, double I);
+	RolledSection(std::wstring const & prof_num,
+				  double const  b_f1, double const  t_f1,
+				  double const  b_f2, double const  t_f2,
+				  double const  h_w, double const  t_w,
+				  double const  C, double const  A, double const I);
 	double b_f1()const override;
 	double t_f1()const override;
 	double b_f2()const override;
@@ -24,26 +26,19 @@ public:
 	double A_st()const override;
 	double I_st()const override;
 
-	void print_coord() override;
-	void print_b_f1()override;
-	void print_t_f1()override;
-	void print_b_f2()override;
-	void print_t_f2()override;
-	void print_h_w()override;
-	void print_t_w()override;
-	void print_centroid()override;
-	void print_area()override;
-	void print_inertia()override;
+	void print_data_to_logger(TFormLogger* log)const;
+
 private:
-	double b_f1_;
-	double t_f1_;
-	double b_f2_;
-	double t_f2_;
-	double h_w_;
-	double t_w_;
-	double C_;
-	double A_;
-	double I_;
+	std::wstring const prof_num_;
+	double const b_f1_;
+	double const t_f1_;
+	double const  b_f2_;
+	double const t_f2_;
+	double const h_w_;
+	double const t_w_;
+	double const C_;
+	double const A_;
+	double const I_;
 };
 //---------------------------------------------------------------------------
 #endif

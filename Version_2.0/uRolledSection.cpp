@@ -7,18 +7,21 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-RolledSection::RolledSection(double b_f1, double t_f1,
-							 double b_f2, double t_f2,
-							 double h_w, double t_w,
-							 double A, double I):
-								 b_f1_(b_f1),
-								 t_f1_(t_f1),
-								 b_f2_(b_f1),
-								 t_f2_(t_f1),
-								 h_w_(h_w),
-								 t_w_(t_w),
-								 A_(A),
-								 I_(I){}
+RolledSection::RolledSection(std::wstring const & prof_num,
+							 double const  b_f1, double const  t_f1,
+							 double const  b_f2, double const  t_f2,
+							 double const  h_w, double const  t_w,
+							 double const  C, double const  A, double const  I):
+								 prof_num_{prof_num},
+								 b_f1_{b_f1},
+								 t_f1_{t_f1},
+								 b_f2_{b_f1},
+								 t_f2_{t_f1},
+								 h_w_{h_w},
+								 t_w_{t_w},
+								 C_{C},
+								 A_{A},
+								 I_{I}{}
 
 double RolledSection::b_f1()const
 {
@@ -67,4 +70,9 @@ double RolledSection::A_st()const
 double RolledSection::I_st()const
 {
 	return I_;
+}
+
+void RolledSection::print_data_to_logger(TFormLogger* log)const
+{
+
 }

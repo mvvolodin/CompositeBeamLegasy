@@ -67,9 +67,15 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	TStandartProfil StandartProfil_; //база данных
 	ISection i_section_temp_; //
-	WeldedSection weld_sect_temp_{300,24,200,12,1200,8};
-   // RolledSection rolled_sect_temp_;
-    std::unique_ptr<GeneralSteelSection> sect_;
+
+   //	std::unique_ptr<GeneralSteelSection> weld_sect_temp_;
+   //	std::unique_ptr<GeneralSteelSection> rolled_sect_temp_;
+
+   WeldedSection weld_sect_temp_;
+   RolledSection rolled_sect_temp_;
+
+   double d_ = 20;
+	//std::unique_ptr<GeneralSteelSection> sect_;
 
     std::unique_ptr<TFormLogger> log_;
 
@@ -83,7 +89,7 @@ private:	// User declarations
 	void set_form_controls();
 	void set_i_section();
 	void update_weld_sect_ctrls();
-	std::unique_ptr<GeneralSteelSection> update_steel_section();
+	void update_steel_section();
 	void form_controls_changed();
 
 	void Point_stand_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, double rad, float scale, TPoint *vertices);
@@ -96,8 +102,9 @@ public:		// User declarations
 	__fastcall TSteelSectionForm(TComponent* Owner)override;
 	void set_form_controls(ISection i_section);
 	ISection get_i_section() const {return i_section_temp_;}
-	std::unique_ptr<GeneralSteelSection> get_section() {return sect_;}
+	std::unique_ptr<GeneralSteelSection> get_section() const;
 	void register_observer(IObserver_* iobserver)override;
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TSteelSectionForm *SteelSectionForm;
