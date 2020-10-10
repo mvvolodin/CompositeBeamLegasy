@@ -65,10 +65,43 @@ void TRebarDefinitionForm::set_rebar()
 	String_double_plus(lbl_safety_factor->Caption, edt_safety_factor->Text, &safety_factor);
 	String grade = cmb_bx_rebar_grade->Text;
 	double R_s = StrToFloat(edt_R_s_n->Text);
-	rebar_temp_ = Rebar(grade, R_s, E_s, diameter, b, a_u, a_l, safety_factor);
+	rebar_temp_ = {grade, R_s, E_s, diameter, b, a_u, a_l, safety_factor};
+
 }
 //---------------------------------------------------------------------------
+void TRebarDefinitionForm::update_rebars()
+{
+	double d_s = 0.;
+	double E_s = 0.;
+	double gamma_s = 0.;
 
+	if(int rc = String_double_zero_plus(lbl_diameter -> Caption, edt_diameter -> Text, &d_s))
+		throw(rc);
+	if(int rc = String_double_plus(lbl_E_s -> Caption, edt_E_s -> Text, &E_s))
+		throw(rc);
+	if(int rc = String_double_plus(lbl_E_s -> Caption, edt_safety_factor -> Text, &gamma_s))
+		throw(rc);
+
+	Rebar2 reb {cmb_bx_rebar_grade -> Text,
+				static_cast<double>(StrToFloat(edt_R_s_n -> Text)),
+				E_s, d_s, gamma_s};
+
+	double a_u = 0.;
+	double a_l = 0.;
+	double b_u = 0.;
+	double b_l = 0.;
+
+	if(int rc = String_double_zero_plus(lbl_a_u->Caption, edt_a_u->Text, &a_u))
+		throw(rc);
+	if(int rc = String_double_zero_plus(lbl_a_l->Caption, edt_a_l->Text, &a_l))
+		throw(rc);
+	if(int rc = String_double_zero_plus(lbl_b->Caption, edt_b->Text, &b_u))
+		throw(rc);
+	if(int rc = String_double_zero_plus(lbl_b->Caption, edt_b->Text, &b_l))
+		throw(rc);
+
+	rebars_temp_ = {reb, a_u, a_l, b_u, b_l};
+}
 
 void TRebarDefinitionForm::register_observer(IObserver_* iobserver)
 {
@@ -97,7 +130,6 @@ void TRebarDefinitionForm::set_form_controls(Rebar rebar)
 	iobserver_ -> update(this);
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TRebarDefinitionForm::bt_btn_OkClick(TObject *Sender)
 {
 	set_rebar();
@@ -112,6 +144,8 @@ void __fastcall TRebarDefinitionForm::btn_closeClick(TObject *Sender)
 {
 	Close();
 }
+
+
 //---------------------------------------------------------------------------
 
 

@@ -278,14 +278,15 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 	double B_l = 0.;
 	double B_r = 0.;
 	double b_uf = 0.;
-	Rebar rebar{};
 	bool end_beam = false;
+
+	Rebars rebars = RebarDefinitionForm -> get_rebars();
 
 	if (rdgrp_slab_type -> ItemIndex == 0)
 	{
 		return std::unique_ptr<GeneralConcreteSection>{new SlabConcreteSection{
 				h_f,
-				rebar,
+				rebars,
 				b,
 				a_u,
 				a_l,
@@ -301,7 +302,7 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 		return std::unique_ptr<GeneralConcreteSection>{new CorrugatedConcreteSection{
 			CorrugatedSheetsData::get_corrugated_sheet(cmb_bx_corrugated_sheeting_part_number -> Text),
 			h_f,
-			rebar,
+			rebars,
 			b,
 			a_u,
 			a_l,

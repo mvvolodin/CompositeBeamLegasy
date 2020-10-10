@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 GeneralConcreteSection::GeneralConcreteSection(const double h_f,
-											   const Rebar& rebar,
+											   const Rebars& rebars,
 											   const double b,
 											   const double a_u,
 											   const double a_l,
@@ -18,7 +18,7 @@ GeneralConcreteSection::GeneralConcreteSection(const double h_f,
 											   const double b_uf,
 											   const bool end_beam):
 										h_f_{h_f},
-										rebar_{rebar},
+										rebars_{rebars},
 										b_{b},
 										a_u_{a_u},
 										a_l_{a_l},
@@ -87,9 +87,9 @@ double GeneralConcreteSection::b_sl() const
 {
 	return b_sl_;
 }
-Rebar GeneralConcreteSection::rebar()const
+Rebars GeneralConcreteSection::rebars()const
 {
-	return rebar_;
+	return rebars_;
 }
 double GeneralConcreteSection::a_u() const
 {

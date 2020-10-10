@@ -133,6 +133,10 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtStaticScheme: TTabSheet
       AlignWithMargins = True
       Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GrpBxLoadsSafetyFactors: TGroupBox
         Left = 594
         Top = 3

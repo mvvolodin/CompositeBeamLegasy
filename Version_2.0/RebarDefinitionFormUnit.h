@@ -49,14 +49,17 @@ private:	// User declarations
 	static const Publisher_ID id_ = Publisher_ID::REBARS_FORM;
 	IObserver_* iobserver_;
 	Rebar rebar_temp_;
+	Rebars rebars_temp_;
 	void set_form_controls();
 	void set_rebar();//Функция которая проверяет корректность ввода и вызывает конструктор rebar
+	void update_rebars();
 	virtual String get_information()const override;
 	virtual Publisher_ID get_id()const override;
 public:		// User declarations
 	__fastcall TRebarDefinitionForm(TComponent* Owner)override;
 	void set_form_controls(Rebar rebar);
 	Rebar get_rebar() const {return rebar_temp_;}
+	Rebars get_rebars() {update_rebars();return rebars_temp_;}
 	void register_observer(IObserver_* iobserver)override;
 };
 //---------------------------------------------------------------------------

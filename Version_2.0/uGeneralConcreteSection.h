@@ -9,7 +9,7 @@
 class GeneralConcreteSection{
 public:
 	GeneralConcreteSection(const double h_f,
-						   const Rebar& rebar,
+						   const Rebars& rebars,
 						   const double b,
 						   const double a_u,
 						   const double a_l,
@@ -21,7 +21,7 @@ public:
 	virtual ~ GeneralConcreteSection();
 	double h_f() const; // расчётная толщина железобетонной плиты
 	double b_sl() const; // расчётная ширина бетона
-	Rebar rebar()const;
+	Rebars rebars()const;
 	double a_u() const;// расстояние от верхней грани расчётной железобетонной плиты до центр арматуры
 	double a_l() const;// расстояние от нижней грани расчётной железобетонной плиты до центра арматуры
 	double num_rebar_rows() const;
@@ -37,7 +37,7 @@ protected:
 
 private:
 	const double b_sl_;
-	const Rebar rebar_;
+	const Rebars rebars_;
 	const double b_;
 	const double a_u_;
 	const double a_l_;

@@ -6,6 +6,15 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
+RebarStrengtNamedList const rebar_strength_named_list{
+	{L"A240", 240},
+	{L"A400", 400},
+	{L"A500", 500},
+	{L"A600", 600},
+	{L"A800", 800},
+	{L"A1000", 1000},
+	};
+
 RebarNamedList rebar_named_list
 {
 {{L"A240"},		{L"A240",240}},
@@ -99,13 +108,13 @@ Rebar2::Rebar2()
 {
 
 }
-Rebar2::Rebar2(String const grade, double const E_s, double const R_sn, double const d_s):
+Rebar2::Rebar2(String const grade, double R_sn, double const E_s, double const d_s, double gamma_s):
 	grade_{grade},
 	E_s_{E_s},
 	R_sn_{R_sn},
-	d_s_{d_s}
+	d_s_{d_s},
+	gamma_s_{gamma_s}
 {
-
 }
 String Rebar2::grade() const
 {
@@ -123,4 +132,32 @@ double Rebar2::d_s() const
 {
 	return d_s_;
 }
+Rebars::Rebars()
+{
+
+}
+Rebars::Rebars(Rebar2 const & reb,
+			   double const a_u, double const a_l,
+			   double const b_u, double const b_l):
+					reb_{reb},
+					a_u_{a_u}, a_l_{a_l},
+					b_u_{b_u}, b_l_{b_l}
+{
+
+}
+Rebar2 Rebars::rebar()
+{
+	return reb_;
+}
+double Rebars::A_u_s_per_unit()
+{
+	return 3.14159265 * reb_.d_s() * reb_.d_s() / (4 * b_u_);
+}
+double Rebars::A_l_s_per_unit()
+{
+	return 3.14159265 * reb_.d_s() * reb_.d_s() / (4 * b_l_);
+}
+
+
+
 

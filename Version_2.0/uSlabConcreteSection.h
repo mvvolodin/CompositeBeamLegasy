@@ -8,16 +8,16 @@
 
 class SlabConcreteSection: public GeneralConcreteSection{
 public:
-	SlabConcreteSection(const double h_f,
-						const Rebar rebar,
-						const double b,
-						const double a_u,
-						const double a_l,
-						const double L,
-						const double B_l,
-						const double B_r,
-						const double b_uf,
-						const bool end_beam);
+	SlabConcreteSection(double const  h_f,
+						Rebars const  rebars,
+						double const  b,
+						double const  a_u,
+						double const  a_l,
+						double const  L,
+						double const  B_l,
+						double const  B_r,
+						double const  b_uf,
+						bool const  end_beam);
 	~SlabConcreteSection();
 	double h() const override;
 	double h_n() const override;

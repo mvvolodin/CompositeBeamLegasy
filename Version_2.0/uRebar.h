@@ -52,35 +52,46 @@ private:
 class Rebar2{
 public:
 	Rebar2();
-	Rebar2(String const grade, double const E_s, double const R_sn, double const d_s);
+	Rebar2(String const grade, double R_sn, double const E_s,
+		   double const d_s, double gamma_s);
 	String grade() const;
 	double E_s() const;
 	double R_sn() const;
 	double d_s() const;
+	double gamma_s() const;
 
 private:
-	String const grade_{L""};
-	double const E_s_{0.};
-	double const R_sn_ {0.};
-	double const d_s_{0.};
+	String grade_{L""};
+	double E_s_{0.};
+	double R_sn_ {0.};
+	double d_s_{0.};
+	double gamma_s_{0.};
 };
 
 class Rebars{
 public:
+	Rebars();
+	Rebars(Rebar2 const & reb,
+		   double const a_u, double const a_l,
+		   double const b_u, double const b_l);
+	Rebar2 rebar();
 	double A_u_s_per_unit();
-    double A_l_s_per_unit();
+	double A_l_s_per_unit();
 private:
-	Rebar2 reb{};
-	double const a_u_ {0.};// Защитный слой верхний арматуры
-	double const a_l_ {0.}; //Защитный слой нижней арматуры
-	double const b_u_ {0.}; //Шаг врехней арматуры
-	double const b_l_ {0.}; //Шаг нижней арматуры
+	Rebar2 reb_{};//арматура
+	double a_u_ {0.};// Защитный слой верхний арматуры
+	double a_l_ {0.}; //Защитный слой нижней арматуры
+	double b_u_ {0.}; //Шаг врехней арматуры
+	double b_l_ {0.}; //Шаг нижней арматуры
 };
+
+using RebarStrengtNamedList = std::map<String, double>;
 
 using RebarPair=std::pair<String, RebarBasic>;
 using RebarNamedList=std::map<String, RebarBasic> ;
 using IteratorRebarNamedList=RebarNamedList::iterator ;
 
 extern RebarNamedList rebar_named_list;
+
 //---------------------------------------------------------------------------
 #endif

@@ -451,7 +451,7 @@ void CompositeSectionGeometry2::calculate2()
 {
 
 	const double E_st = steel_.get_E_st();
-	alfa_s_ = E_st / conc_sect_->rebar().get_E_s();
+	alfa_s_ = E_st / conc_sect_->rebars().rebar().E_s();
 	alfa_b_ = E_st / concrete_.get_E_b_tau();
 
 	H_red_ = conc_sect_-> h() + st_sect_ -> h_st();
@@ -461,18 +461,21 @@ void CompositeSectionGeometry2::calculate2()
 	const double b_sl = conc_sect_ -> b_sl();
 	A_red_= A_st +
 			A_b / alfa_b_ +
-			conc_sect_-> num_rebar_rows() * 1. / alfa_s_ * conc_sect_->rebar().get_A_s() *  b_sl;
+			1. / alfa_s_ * conc_sect_ -> rebars().A_u_s_per_unit() *  b_sl +
+			1. / alfa_s_ * conc_sect_ -> rebars().A_l_s_per_unit() *  b_sl;
 	Z_b_st_ = conc_sect_ -> C_b() + st_sect_ -> Z_f2_st();
 	Z_st_r_u_ = st_sect_ -> Z_f2_st() + conc_sect_ -> h() - conc_sect_ -> a_u();
 	Z_st_r_l_ = st_sect_ -> Z_f2_st() + conc_sect_ -> a_l();
 	S_red_ = conc_sect_ -> A_b() * Z_b_st_ / alfa_b_ +
-			 1 / alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl() * (Z_st_r_u_+Z_st_r_l_);
+			 1 / alfa_s_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_st_r_u_ +
+			 1 / alfa_s_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_st_r_l_;
 	Z_st_red_ = Z_st_red();
 	I_red_ = st_sect_ -> I_st() +
 			st_sect_ ->  A_st() * Z_st_red_ * Z_st_red_ +
 			1/alfa_b_ * conc_sect_ -> I_b() +
 			1/alfa_b_ * conc_sect_ ->A_b() * Z_b_red_ * Z_b_red_ +
-			1/alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl() * (Z_red_r_u_ * Z_red_r_u_ + Z_red_r_l_ * Z_red_r_l_);
+			1/alfa_s_ * conc_sect_-> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_red_r_u_ * Z_red_r_u_ +
+			1/alfa_s_ * conc_sect_-> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_red_r_l_ * Z_red_r_l_ ;
 
 
 
@@ -481,7 +484,7 @@ void CompositeSectionGeometry2::calculate2()
 
  double CompositeSectionGeometry2::alfa_s()
 {
-	return steel_.get_E_st() / conc_sect_->rebar().get_E_s();
+	return steel_.get_E_st() / conc_sect_-> rebars().rebar().E_s();
 }
 double CompositeSectionGeometry2::alfa_b()
 {
@@ -495,7 +498,8 @@ double CompositeSectionGeometry2::A_red()
 {
 	return st_sect_ -> A_st() +
 		   conc_sect_ -> A_b()/ alfa_b_ +
-		   conc_sect_-> num_rebar_rows() * 1. / alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl();
+		   1. / alfa_s_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() +
+		   1. / alfa_s_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl();
 }
 double CompositeSectionGeometry2::Z_b_st()
 {
@@ -512,7 +516,8 @@ double CompositeSectionGeometry2::Z_st_r_l()
 double CompositeSectionGeometry2::S_red()
 {
 	return conc_sect_ -> A_b() * Z_b_st_ / alfa_b_ +
-		   1 / alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl() * (Z_st_r_u_+Z_st_r_l_);
+		   1 / alfa_s_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_st_r_u_ +
+           1 / alfa_s_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_st_r_l_;
 }
 double CompositeSectionGeometry2::Z_st_red()
 {
@@ -524,7 +529,8 @@ double CompositeSectionGeometry2::I_red()
 			st_sect_ ->  A_st() * Z_st_red_ * Z_st_red_ +
 			1/alfa_b_ * conc_sect_ -> I_b() +
 			1/alfa_b_ * conc_sect_ ->A_b() * Z_b_red_ * Z_b_red_ +
-			1/alfa_s_ * conc_sect_->rebar().get_A_s() * conc_sect_ -> b_sl() * (Z_red_r_u_ * Z_red_r_u_ + Z_red_r_l_ * Z_red_r_l_);
+			1/alfa_s_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_red_r_u_ * Z_red_r_u_ +
+			1/alfa_s_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_red_r_l_ * Z_red_r_l_;
 }
 
 
