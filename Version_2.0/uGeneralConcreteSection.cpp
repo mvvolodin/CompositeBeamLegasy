@@ -23,7 +23,10 @@ GeneralConcreteSection::GeneralConcreteSection(const double h_f,
 										a_u_{a_u},
 										a_l_{a_l},
 										b_sl_  {calc_b_sl(L , B_l, B_r, h_f, b_uf, end_beam)}{}
+GeneralConcreteSection::~GeneralConcreteSection()
+{
 
+}
 double GeneralConcreteSection::calc_b_sl(const double L,
 										 const double B_l, const double B_r,
 										 const double h_f, const double b_uf,
@@ -104,4 +107,8 @@ double GeneralConcreteSection::I_b() const
 {
 	return h_f_ * b_sl_ * b_sl_ * b_sl_ / 12;
 
+}
+double GeneralConcreteSection::num_rebar_rows() const
+{
+	return 2;
 }

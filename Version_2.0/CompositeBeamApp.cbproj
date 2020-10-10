@@ -402,15 +402,15 @@
             <BuildOrder>32</BuildOrder>
         </CppCompile>
         <FormResources Include="uHelpForm.dfm"/>
-        <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="DefineSteelFormUnit.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
+        <FormResources Include="uFrmAddImacts.dfm"/>
+        <FormResources Include="uSteelSectionForm.dfm"/>
+        <FormResources Include="DefineSteelFormUnit.dfm"/>
         <FormResources Include="AboutProg.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
         <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
-        <FormResources Include="uSteelSectionForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

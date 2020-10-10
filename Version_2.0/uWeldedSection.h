@@ -17,7 +17,7 @@ public:
 	WeldedSection(double b_f1, double t_f1,
 				  double b_f2, double t_f2,
 				  double h_w, double t_w);
-
+	~WeldedSection();
 	double b_f1()const override;
 	double t_f1()const override;
 	double b_f2()const override;

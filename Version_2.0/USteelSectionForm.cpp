@@ -141,21 +141,10 @@ void TSteelSectionForm::update_steel_section()
 std::unique_ptr<GeneralSteelSection> TSteelSectionForm::get_section() const
 {
 	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
-		 return std::unique_ptr<GeneralSteelSection>(new WeldedSection(weld_sect_temp_));
-
-//			int a = 2;
-//			int* p_a = &a;
-//
-//			double* p_d = &d_;
-
-		//std::make_unique<WeldedSection>(new WeldedSection(weld_sect_temp_));
-//		return std::move(weld_sect_temp_);
-//	return std::moved(rolled_sect_temp_);
-  // return std::unique_ptr<GeneralSteelSection>();
-  // return std::move(weld_sect_temp_);
-
-
+		return std::unique_ptr<GeneralSteelSection> {new WeldedSection{weld_sect_temp_}};
+	return std::unique_ptr<GeneralSteelSection> {new RolledSection{rolled_sect_temp_}};
 }
+
 void TSteelSectionForm::set_i_section()
 {
 //Получение из элемента управления индека группы профилей
@@ -241,7 +230,7 @@ void  TSteelSectionForm::draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect)
     scale=MIN(scale_1,(Image_stand->Height-30)/(1e0*(sect->h + sect->h1 + sect->h2)));
 
     zero=(Image_stand->Height - (sect->h + sect->h1 + sect->h2)*scale)/2 + 10;
-    zero1=(Image_stand->Width - sect->b2*scale)/2;
+	zero1=(Image_stand->Width - sect->b2*scale)/2;
     zero2=(Image_stand->Width - sect->b1*scale)/2;
 	//StandartProfil.SetProfil(sect->n_group);
 	//ParamProfil = StandartProfil.GetVectorParamProfil(sect->n_profil);
@@ -266,7 +255,7 @@ void  TSteelSectionForm::draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect)
     pCanvas_Dim_vt(Image_stand, Point0_r, Point1_r, orHORIZ, sideUP, "bf",
 				 13, 0, 0, 0);
     // Высота профиля
-    Point0_r = vertices[11];
+	Point0_r = vertices[11];
     Point1_r = vertices[0];
 
 	pCanvas_Dim_vt(Image_stand, Point0_r, Point1_r, orVERT, sideLEFT, "h",

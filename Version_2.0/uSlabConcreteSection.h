@@ -18,7 +18,7 @@ public:
 						const double B_r,
 						const double b_uf,
 						const bool end_beam);
-
+	~SlabConcreteSection();
 	double h() const override;
 	double h_n() const override;
 	double C_b() const override;

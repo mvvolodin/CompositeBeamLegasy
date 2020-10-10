@@ -18,6 +18,10 @@ SlabConcreteSection::SlabConcreteSection(const double h_f,
 										 const bool end_beam):
 	GeneralConcreteSection(h_f, rebar, b, a_u, a_l, L, B_l, B_r, b_uf,
 		 end_beam){}
+SlabConcreteSection::~SlabConcreteSection()
+{
+
+}
 double SlabConcreteSection::h() const
 {
 	return h_f_;

@@ -22,7 +22,10 @@ RolledSection::RolledSection(std::wstring const & prof_num,
 								 C_{C},
 								 A_{A},
 								 I_{I}{}
+RolledSection::~RolledSection()
+{
 
+}
 double RolledSection::b_f1()const
 {
 	return b_f1_;

@@ -26,7 +26,10 @@ WeldedSection::WeldedSection(double b_f1, double t_f1,
 	vertexes_.emplace_back(-1 * b_f1 / 2, t_f1);//coord #11
 	vertexes_.emplace_back(-1 * b_f1 / 2, 0);//coord #0
 }
+WeldedSection::~WeldedSection()
+{
 
+}
 double WeldedSection::b_f1()const
 {
 	return vertexes_[1].X - vertexes_[0].X;

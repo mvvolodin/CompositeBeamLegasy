@@ -1048,7 +1048,15 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
 {
-	ShowMessage("В стадии реализации!");
+	std::unique_ptr<const GeneralSteelSection> st_sect = SteelSectionForm -> get_section();
+	Steel st = update_steel_i_section();
+
+	Concrete con = ConcreteDefinitionForm -> get_concrete();
+	std::unique_ptr<const GeneralConcreteSection> conc_sect = update_concrete_section();
+
+	CompositeSectionGeometry2 com_sect = CompositeSectionGeometry2{st, std::move(st_sect),
+																	con, std::move(conc_sect)};
+
 }
 
 void TCompositeBeamMainForm::calculate_composite_beam()

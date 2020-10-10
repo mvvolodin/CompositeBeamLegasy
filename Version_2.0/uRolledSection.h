@@ -13,6 +13,7 @@ public:
 				  double const  b_f2, double const  t_f2,
 				  double const  h_w, double const  t_w,
 				  double const  C, double const  A, double const I);
+	~RolledSection();
 	double b_f1()const override;
 	double t_f1()const override;
 	double b_f2()const override;
@@ -26,7 +27,7 @@ public:
 	double A_st()const override;
 	double I_st()const override;
 
-	void print_data_to_logger(TFormLogger* log)const;
+	void print_data_to_logger(TFormLogger* log)const override;
 
 private:
 	std::wstring const prof_num_;

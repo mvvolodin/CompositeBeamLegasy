@@ -94,6 +94,33 @@ void Rebar::set_default_values()
 	a_u_ = 50.;
 	a_l_ = 50.;
 	gamma_s_ = 1.15;
+}
+Rebar2::Rebar2()
+{
 
+}
+Rebar2::Rebar2(String const grade, double const E_s, double const R_sn, double const d_s):
+	grade_{grade},
+	E_s_{E_s},
+	R_sn_{R_sn},
+	d_s_{d_s}
+{
+
+}
+String Rebar2::grade() const
+{
+	return grade_;
+}
+double Rebar2::E_s() const
+{
+	return E_s_;
+}
+double Rebar2::R_sn() const
+{
+	return R_sn_;
+}
+double Rebar2::d_s() const
+{
+	return d_s_;
 }
 
