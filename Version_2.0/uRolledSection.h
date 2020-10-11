@@ -27,7 +27,7 @@ public:
 	double A_st()const override;
 	double I_st()const override;
 
-	void print_data_to_logger(TFormLogger* log)const override;
+	void print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const override;
 
 private:
 	std::wstring const prof_num_;

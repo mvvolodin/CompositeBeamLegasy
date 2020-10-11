@@ -68,16 +68,10 @@ private:	// User declarations
 	TStandartProfil StandartProfil_; //база данных
 	ISection i_section_temp_; //
 
-   //	std::unique_ptr<GeneralSteelSection> weld_sect_temp_;
-   //	std::unique_ptr<GeneralSteelSection> rolled_sect_temp_;
-
    WeldedSection weld_sect_temp_;
    RolledSection rolled_sect_temp_;
 
-   double d_ = 20;
-	//std::unique_ptr<GeneralSteelSection> sect_;
-
-    std::unique_ptr<TFormLogger> log_;
+	std::unique_ptr<TFormLogger> log_;
 
 	static const Publisher_ID id_ = Publisher_ID::SECTION_FORM;
 	IObserver_* iobserver_;
@@ -102,7 +96,7 @@ public:		// User declarations
 	__fastcall TSteelSectionForm(TComponent* Owner)override;
 	void set_form_controls(ISection i_section);
 	ISection get_i_section() const {return i_section_temp_;}
-	std::unique_ptr<GeneralSteelSection> get_section() const;
+	std::unique_ptr<GeneralSteelSection> get_section();
 	void register_observer(IObserver_* iobserver)override;
 
 };

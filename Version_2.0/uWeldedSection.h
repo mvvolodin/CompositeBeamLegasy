@@ -6,6 +6,7 @@
 #include "uGeneralSteelSection.h"
 #include "uFrmLogger.h"
 #include <vector>
+#include <memory>
 
 class WeldedSection:public GeneralSteelSection{
 struct Vertex{
@@ -31,7 +32,7 @@ public:
 	double A_st()const override;
 	double I_st() const override;
 
-	void print_data_to_logger(TFormLogger* log)const override;
+	void print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const override;
 
 private:
 	std::vector<Vertex> vertexes_;

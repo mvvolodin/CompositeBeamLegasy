@@ -8,23 +8,17 @@
 
 class GeneralConcreteSection{
 public:
-	GeneralConcreteSection(const double h_f,
-						   const Rebars& rebars,
-						   const double b,
-						   const double a_u,
-						   const double a_l,
-						   const double L,
-						   const double B_l,
-						   const double B_r,
-						   const double b_uf,
-						   const bool end_beam);
+	GeneralConcreteSection(double const h_f,
+						   double const L,
+						   double const B_l,
+						   double const B_r,
+						   double const b_uf,
+						   bool const is_end_beam,
+						   Rebars const & rebars);
 	virtual ~ GeneralConcreteSection();
 	double h_f() const; // расчётная толщина железобетонной плиты
 	double b_sl() const; // расчётная ширина бетона
 	Rebars rebars()const;
-	double a_u() const;// расстояние от верхней грани расчётной железобетонной плиты до центр арматуры
-	double a_l() const;// расстояние от нижней грани расчётной железобетонной плиты до центра арматуры
-	double num_rebar_rows() const;
 	double A_b() const;// площадь бетона
 	double I_b() const;// момент инерции бетона
 
@@ -38,9 +32,6 @@ protected:
 private:
 	const double b_sl_;
 	const Rebars rebars_;
-	const double b_;
-	const double a_u_;
-	const double a_l_;
 	double calc_b_sl(const double L, const double B_l, const double B_r,
 					 const double h_f, const double b_uf, const bool end_beam) const;
 	double calc_b(const double h_f, const double a,  const double B, const double l)const;

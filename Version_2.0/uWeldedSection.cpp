@@ -106,13 +106,12 @@ double WeldedSection::I_st()const
 			 (vertexes_[i].X * vertexes_[i + 1].Y -
 			  vertexes_[i + 1].X * vertexes_[i].Y);
 	}
-
-
 	return I / 12 - C_st() * C_st() * A_st();
 }
 
-void WeldedSection::print_data_to_logger(TFormLogger* log)const
+void WeldedSection::print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const
 {
+	log -> add_separator(L"ׂטן סוקוםטÿ");
 	log -> add_separator(L"ֳומלוענטקוסךטו נאחלונû");
 	log -> print_2_doubles(L"bf2 = ", b_f2(), L" לל",L"tf2 = ", t_f2(), L" לל");
 	log -> print_2_doubles(L"bf1 = ", b_f1(), L" לל",L"tf1 = ", t_f1(), L" לל");
@@ -124,7 +123,6 @@ void WeldedSection::print_data_to_logger(TFormLogger* log)const
 	log -> print_double(L"C = ", C_st(), L" לל");
 	log -> print_double(L"A = ", A_st(), L" לל2");
 	log -> print_double(L"I = ", I_st(), L" לל4");
-
 
 }
 

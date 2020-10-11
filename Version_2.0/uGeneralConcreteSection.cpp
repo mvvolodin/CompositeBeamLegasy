@@ -7,22 +7,16 @@
 #include <algorithm>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-GeneralConcreteSection::GeneralConcreteSection(const double h_f,
-											   const Rebars& rebars,
-											   const double b,
-											   const double a_u,
-											   const double a_l,
-											   const double L,
-											   const double B_l,
-											   const double B_r,
-											   const double b_uf,
-											   const bool end_beam):
+GeneralConcreteSection::GeneralConcreteSection(double const h_f,
+											   double const L,
+											   double const B_l,
+											   double const B_r,
+											   double const b_uf,
+											   bool const is_end_beam,
+											   Rebars const & rebars):
 										h_f_{h_f},
-										rebars_{rebars},
-										b_{b},
-										a_u_{a_u},
-										a_l_{a_l},
-										b_sl_  {calc_b_sl(L , B_l, B_r, h_f, b_uf, end_beam)}{}
+										b_sl_  {calc_b_sl(L , B_l, B_r, h_f, b_uf, is_end_beam)},
+										rebars_{rebars}{}
 GeneralConcreteSection::~GeneralConcreteSection()
 {
 
@@ -91,14 +85,6 @@ Rebars GeneralConcreteSection::rebars()const
 {
 	return rebars_;
 }
-double GeneralConcreteSection::a_u() const
-{
-	return a_u_;
-}
-double GeneralConcreteSection::a_l() const
-{
-	return a_l_;
-}
 double GeneralConcreteSection::A_b() const
 {
 	return h_f_ * b_sl_ ;
@@ -108,7 +94,4 @@ double GeneralConcreteSection::I_b() const
 	return h_f_ * b_sl_ * b_sl_ * b_sl_ / 12;
 
 }
-double GeneralConcreteSection::num_rebar_rows() const
-{
-	return 2;
-}
+

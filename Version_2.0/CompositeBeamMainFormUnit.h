@@ -215,6 +215,7 @@ public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;
 
 private:
+	std::unique_ptr<TFormLogger> frm_logger_;
 
 	CompositeBeamCalculator composite_beam_calculator_; //Основной объект в программе
 
@@ -223,7 +224,8 @@ private:
 	ISection update_i_section();//Инициализация объекта геометрия двутавра
 	Steel update_steel_i_section(); //Инициализация стали двутавра
 	ConcretePart update_concrete_part();//Инициализация бетонной части композитного сечения
-	std::unique_ptr<GeneralConcreteSection> update_concrete_section();
+	std::unique_ptr<GeneralConcreteSection> update_concrete_section(
+	double L, double B_l, double B_r, bool is_end_beam, double b_uf);
 	std::unique_ptr<GeneralSteelSection> update_steel_section();
 	SteelPart update_steel_part();
 	StudsOnBeam update_studs_on_beam();//Инициализация упоров

@@ -19,7 +19,7 @@ TCompositeBeamMainForm  *CompositeBeamMainForm;
 
 //----------------------------------------------------------------------
  _fastcall TCompositeBeamMainForm ::TCompositeBeamMainForm (TComponent* Owner)
-	: TForm(Owner)
+	: TForm(Owner), frm_logger_{new TFormLogger(this)}
 {
 	composite_beam_calculator_.set_default_values();
 
@@ -268,17 +268,13 @@ Steel TCompositeBeamMainForm ::update_steel_i_section()
 	return DefineSteelForm -> get_steel();
 }
 
-std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete_section()
+std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete_section(
+	double L, double B_l, double B_r, bool is_end_beam, double b_uf)
 {
 	double h_f = 0.;
-	double b = 0.;
-	double a_u = 0.;
-	double a_l = 0.;
-	double L = 0.;
-	double B_l = 0.;
-	double B_r = 0.;
-	double b_uf = 0.;
-	bool end_beam = false;
+
+	if(int rc = String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f))
+		throw(rc);
 
 	Rebars rebars = RebarDefinitionForm -> get_rebars();
 
@@ -286,15 +282,12 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 	{
 		return std::unique_ptr<GeneralConcreteSection>{new SlabConcreteSection{
 				h_f,
-				rebars,
-				b,
-				a_u,
-				a_l,
 				L,
 				B_l,
 				B_r,
 				b_uf,
-				end_beam}};
+				is_end_beam,
+				rebars}};
 	}
 	else
 	{
@@ -302,15 +295,12 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 		return std::unique_ptr<GeneralConcreteSection>{new CorrugatedConcreteSection{
 			CorrugatedSheetsData::get_corrugated_sheet(cmb_bx_corrugated_sheeting_part_number -> Text),
 			h_f,
-			rebars,
-			b,
-			a_u,
-			a_l,
 			L,
 			B_l,
 			B_r,
 			b_uf,
-			end_beam}};
+			is_end_beam,
+			rebars}};
 	}
 
 }
@@ -1049,11 +1039,13 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
 {
-	std::unique_ptr<const GeneralSteelSection> st_sect = SteelSectionForm -> get_section();
 	Steel st = update_steel_i_section();
+	std::unique_ptr<const GeneralSteelSection> st_sect = SteelSectionForm -> get_section();
 
+	Geometry geom = update_geometry();
+	std::unique_ptr<const GeneralConcreteSection> conc_sect = update_concrete_section(
+	geom.get_span(), geom.get_spacing_left(), geom.get_spacing_right(), geom.is_end_beam(), st_sect->b_f2());
 	Concrete con = ConcreteDefinitionForm -> get_concrete();
-	std::unique_ptr<const GeneralConcreteSection> conc_sect = update_concrete_section();
 
 	CompositeSectionGeometry2 com_sect = CompositeSectionGeometry2{st, std::move(st_sect),
 																	con, std::move(conc_sect)};
@@ -1288,7 +1280,8 @@ void TCompositeBeamMainForm ::update(IPublisher* ipublisher )
 
 void __fastcall TCompositeBeamMainForm ::btn_loggerClick(TObject *Sender)
 {
-	FormLogger->Show();
+   //	FormLogger->Show();
+   frm_logger_ -> Show();
 }
 //---------------------------------------------------------------------------
 

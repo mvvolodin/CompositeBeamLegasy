@@ -75,7 +75,7 @@ double RolledSection::I_st()const
 	return I_;
 }
 
-void RolledSection::print_data_to_logger(TFormLogger* log)const
+void RolledSection::print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const
 {
-
+	log -> add_separator(L"Тип сечения");
 }

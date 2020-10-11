@@ -4,6 +4,7 @@
 #define uGeneralSteelSectionH
 
 #include "uFrmLogger.h"
+#include <memory>
 
 class GeneralSteelSection{
 public:
@@ -22,7 +23,7 @@ public:
 	virtual double A_st() const = 0;
 	virtual double I_st() const = 0;
 
-	virtual void print_data_to_logger(TFormLogger* log)const = 0;
+	virtual void print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const = 0;
 
 };
 //---------------------------------------------------------------------------
