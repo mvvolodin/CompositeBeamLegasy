@@ -25,6 +25,7 @@ public:
 	virtual double h() const = 0; //высота железобетонной плиты
 	virtual double h_n() const = 0; // расстояние от наружней грани верхней полки двутавра до внутренней грани расчётной железобетонной плиты
 	virtual double C_b() const = 0; // центр тяжести бетона
+    virtual double SW() const = 0;
 
 protected:
 	const double h_f_;

@@ -108,10 +108,15 @@ double WeldedSection::I_st()const
 	}
 	return I / 12 - C_st() * C_st() * A_st();
 }
+double WeldedSection::SW()const
+{
+	return A_st() * 7850 / 1000 / 1000 / 1000 * 9.81;
+}
 
 void WeldedSection::print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const
 {
 	log -> add_separator(L"Тип сечения");
+	log -> print_string(L"Сварной двутавр");
 	log -> add_separator(L"Геометрические размеры");
 	log -> print_2_doubles(L"bf2 = ", b_f2(), L" мм",L"tf2 = ", t_f2(), L" мм");
 	log -> print_2_doubles(L"bf1 = ", b_f1(), L" мм",L"tf1 = ", t_f1(), L" мм");

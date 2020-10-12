@@ -57,7 +57,7 @@ void TFormLogger::clean_logger()
 	 mm_logger -> Clear();
 }
 
-void TFormLogger::add_separator(String str)
+void TFormLogger::add_separator(String const & str) const
 {
 	 mm_logger -> Lines -> Add("******************************************");
 	 mm_logger -> Lines -> Add(str);
@@ -92,16 +92,19 @@ void __fastcall TFormLogger::btn_cleanClick(TObject *Sender)
 {
 	mm_logger -> Clear();
 }
-void TFormLogger::print_double(String name, double val, String unit)
+void TFormLogger::print_string(String const & str)const
 {
-  //	mm_logger -> Lines -> Add(name + String{val}+String{unit});
-  mm_logger -> Lines -> Add(name + val + unit);
+	mm_logger -> Lines -> Add(str);
 }
-void TFormLogger::print_2_doubles(String name1, double val1, String unit1,
-						 String name2, double val2, String unit2)
+void TFormLogger::print_double(String const & name, double val, String const & unit)const
 {
-	mm_logger -> Lines -> Add(name1 + String{val1}+String{unit1}+L"    "+
-		name2 + String{val2}+String{unit2});
+	mm_logger -> Lines -> Add(name + val + unit);
+}
+void TFormLogger::print_2_doubles(String const & name1, double val1, String const & unit1,
+						 String const & name2, double val2, String const & unit2)const
+{
+	mm_logger -> Lines -> Add(name1 + val1 + unit1 + L"    " +
+		name2 + val2 + unit2);
 }
 //---------------------------------------------------------------------------
 

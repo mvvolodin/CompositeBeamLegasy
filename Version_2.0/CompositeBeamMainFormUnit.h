@@ -43,6 +43,8 @@
 
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
+
+
 #include <memory>
 
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
@@ -221,6 +223,7 @@ private:
 
 	Geometry update_geometry();//Инициализация топологии
 	Loads update_loads(); //Инициализация нагрузок
+	Loads update_loads(double SW_st_beam, double conc_sect, double SW_corrug_sheet);
 	ISection update_i_section();//Инициализация объекта геометрия двутавра
 	Steel update_steel_i_section(); //Инициализация стали двутавра
 	ConcretePart update_concrete_part();//Инициализация бетонной части композитного сечения

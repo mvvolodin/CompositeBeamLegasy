@@ -75,7 +75,13 @@ double RolledSection::I_st()const
 	return I_;
 }
 
+double RolledSection::SW()const
+{
+	return A_st() * 7850 / 1000 / 1000 / 1000 * 9.81;
+}
+
 void RolledSection::print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const
 {
 	log -> add_separator(L"Тип сечения");
+	log -> print_string(L"Прокатный двутавр");;
 }

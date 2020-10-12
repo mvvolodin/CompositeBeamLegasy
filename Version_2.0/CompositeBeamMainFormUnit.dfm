@@ -127,7 +127,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet

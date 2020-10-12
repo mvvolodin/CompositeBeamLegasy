@@ -21,7 +21,6 @@ object FormLogger: TFormLogger
     Align = alTop
     ScrollBars = ssVertical
     TabOrder = 0
-    ExplicitHeight = 231
   end
   object btn_clean: TButton
     Left = 422

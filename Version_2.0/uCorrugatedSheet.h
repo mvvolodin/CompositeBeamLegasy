@@ -18,7 +18,7 @@ public:
 	double get_height() const {return h_n_;}
 	double get_thickness() const {return t_;}
 	double get_weight() const {return w_;}
-	double get_h_b(bool wider_flange_up);
+	double get_h_b(bool wider_flange_up)const;
 	double get_b_0(bool wider_flange_up);
 private:
 	String name_ = "";

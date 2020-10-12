@@ -21,10 +21,11 @@ public:		// User declarations
 	__fastcall TFormLogger(TComponent* Owner);
 
 	void clean_logger();
-	void add_separator(String str);
-	void print_double(String name, double val, String unit);
-	void print_2_doubles(String name1, double val1, String unit1,
-						 String name2, double val2, String unit2);
+	void add_separator(String const & str) const;
+	void print_string(String const & str)const;
+	void print_double(String const & name, double val, String const & unit) const;
+	void print_2_doubles(String const & name1, double val1, String const & unit1,
+						 String const & name2, double val2, String const & unit2) const;
 
 	void print_sections_coordinates(double id, double x);
 	void print_M_X(double x, double M);

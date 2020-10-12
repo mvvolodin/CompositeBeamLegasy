@@ -22,6 +22,7 @@ public:
 	virtual double C_st() const = 0;
 	virtual double A_st() const = 0;
 	virtual double I_st() const = 0;
+	virtual double SW()const = 0;
 
 	virtual void print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const = 0;
 

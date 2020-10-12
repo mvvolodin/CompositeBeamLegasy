@@ -31,6 +31,7 @@ public:
 	double C_st() const override;
 	double A_st()const override;
 	double I_st() const override;
+    double SW()const override;
 
 	void print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const override;
 

@@ -139,7 +139,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;vclx.bpi;xmlrtl.bpi;vclimg.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclx.bpi;xmlrtl.bpi;vclimg.bpi;bcbie.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -176,7 +176,7 @@
             <Form>CompositeBeamMainForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>CompositeBeamMainFormUnit.h</DependentOn>
-            <BuildOrder>7</BuildOrder>
+            <BuildOrder>55</BuildOrder>
         </CppCompile>
         <CppCompile Include="ConcreteDefinitionFormUnit.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
@@ -314,7 +314,7 @@
         </CppCompile>
         <CppCompile Include="uGeneralConcreteSection.cpp">
             <DependentOn>uGeneralConcreteSection.h</DependentOn>
-            <BuildOrder>52</BuildOrder>
+            <BuildOrder>55</BuildOrder>
         </CppCompile>
         <CppCompile Include="uGeneralGeometry.cpp">
             <DependentOn>uGeneralGeometry.h</DependentOn>
@@ -401,16 +401,16 @@
             <DependentOn>WRData_Check.h</DependentOn>
             <BuildOrder>32</BuildOrder>
         </CppCompile>
-        <FormResources Include="uHelpForm.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
+        <FormResources Include="uHelpForm.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="uSteelSectionForm.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>
         <FormResources Include="AboutProg.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
-        <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
+        <FormResources Include="uSteelSectionForm.dfm"/>
+        <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -438,10 +438,10 @@
                     <Source Name="MainSource">CompositeBeamApp.cpp</Source>
                 </Source>
                 <VFOLDERS>
-                    <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
                     <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
-                    <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
+                    <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
                     <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
+                    <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
                 </VFOLDERS>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
@@ -525,6 +525,12 @@
                 <DeployFile LocalName=".\Win32\Release\CompositeBeamApp.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>CompositeBeamApp.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Win32\Debug\CompositeBeamApp.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>CompositeBeamApp.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

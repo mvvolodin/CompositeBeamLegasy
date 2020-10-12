@@ -19,7 +19,7 @@ TCompositeBeamMainForm  *CompositeBeamMainForm;
 
 //----------------------------------------------------------------------
  _fastcall TCompositeBeamMainForm ::TCompositeBeamMainForm (TComponent* Owner)
-	: TForm(Owner), frm_logger_{new TFormLogger(this)}
+	: TForm(Owner), frm_logger_(new TFormLogger(this))
 {
 	composite_beam_calculator_.set_default_values();
 
@@ -249,6 +249,10 @@ Loads TCompositeBeamMainForm ::update_loads()
 		FrmAddImpacts -> get_sigma_bi(),
 		FrmAddImpacts -> get_sigma_si()};
 }
+Loads TCompositeBeamMainForm ::update_loads(double SW_st_beam, double conc_sect, double SW_corrug_sheet)
+{
+	return Loads{};
+}
 //---------------------------------------------------------------------------
 //Инициализация геометрии двутавра
 //---------------------------------------------------------------------------
@@ -258,7 +262,7 @@ ISection TCompositeBeamMainForm ::update_i_section()
 }
 std::unique_ptr<GeneralConcreteSection> update_steel_section()
 {
-
+	return std::unique_ptr<GeneralConcreteSection> {};
 }
 //---------------------------------------------------------------------------
 //	Инициализация материала двутавра
@@ -291,7 +295,6 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 	}
 	else
 	{
-
 		return std::unique_ptr<GeneralConcreteSection>{new CorrugatedConcreteSection{
 			CorrugatedSheetsData::get_corrugated_sheet(cmb_bx_corrugated_sheeting_part_number -> Text),
 			h_f,
@@ -1047,9 +1050,17 @@ void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
 	geom.get_span(), geom.get_spacing_left(), geom.get_spacing_right(), geom.is_end_beam(), st_sect->b_f2());
 	Concrete con = ConcreteDefinitionForm -> get_concrete();
 
-	CompositeSectionGeometry2 com_sect = CompositeSectionGeometry2{st, std::move(st_sect),
+	double SW_corr_sheet = 0.;
+	double SW_st_sect = st_sect -> SW(); //что-то мало!
+	if(dynamic_cast<const CorrugatedConcreteSection*>(conc_sect.get()))
+		SW_corr_sheet = static_cast<const CorrugatedConcreteSection*>(conc_sect.get())
+			-> corrugated_sheet().get_weight();
+
+	  CompositeSectionGeometry2 com_sect = CompositeSectionGeometry2{st, std::move(st_sect),
 																	con, std::move(conc_sect)};
 
+
+	int i = 0;
 }
 
 void TCompositeBeamMainForm::calculate_composite_beam()
