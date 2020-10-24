@@ -67,6 +67,10 @@ double WeldedSection::Z_f2_st() const
 {
 	return vertexes_[7].Y - C_st();
 }
+double WeldedSection::Z_f1_st() const
+{
+	return C_st();
+}
 
 double WeldedSection::C_st()const
 {
@@ -93,6 +97,10 @@ double WeldedSection::A_st()const
 
 	return A / 2;
 }
+double WeldedSection::A_f2_st() const
+{
+	return b_f2() * t_f2();
+}
 
 double WeldedSection::I_st()const
 {
@@ -108,9 +116,25 @@ double WeldedSection::I_st()const
 	}
 	return I / 12 - C_st() * C_st() * A_st();
 }
+double WeldedSection::smaller_fl_to_larger_fl_ratio()const
+{
+	double A_f2 = A_f2_st();
+	double A_f1 = b_f1() * t_f1();
+
+	return (A_f2 <= A_f1)? A_f2 / A_f1: A_f1 / A_f2;
+}
+
+double WeldedSection::W_f2_st() const
+{
+	return I_st() / Z_f2_st();
+}
+double WeldedSection::W_f1_st() const
+{
+	return I_st() / Z_f1_st();
+}
 double WeldedSection::SW()const
 {
-	return A_st() * 7850 / 1000 / 1000 / 1000 * 9.81;
+	return A_st() * 7850 / 1000 / 1000 * 9.81;
 }
 
 void WeldedSection::print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const

@@ -57,6 +57,7 @@ public:
 	String grade() const;
 	double E_s() const;
 	double R_sn() const;
+	double R_s() const;
 	double d_s() const;
 	double gamma_s() const;
 
@@ -79,6 +80,7 @@ public:
 	double a_l();
 	double A_u_s_per_unit();
 	double A_l_s_per_unit();
+    double A_s_per_unit();
 private:
 	Rebar2 reb_{};//арматура
 	double a_u_ {0.};// «ащитный слой верхний арматуры

@@ -12,7 +12,7 @@
 #include "uGeneralConcreteSection.h"
 #include "uGeneralSteelSection.h"
 
-class CompositeSectionGeometry2{
+class ComposSectGeomSP35{
 	enum class NA_Location{
 		CONCRETE,
 		UPPER_FLANGE,
@@ -30,7 +30,7 @@ private:
 	const std::unique_ptr<const GeneralConcreteSection> conc_sect_;
 
 	void calculate();
-    void calculate2();
+
 	double alfa_s();
 	double alfa_b();
 	double H_red();
@@ -40,7 +40,10 @@ private:
 	double Z_st_r_l();
 	double S_red();
 	double Z_st_red();
-    double I_red();
+	double I_red();
+
+
+
 
 	double alfa_s_= 0.;//коэффициент приведения к стали
 	double alfa_b_= 0.;//коэффициент приведения к бетону
@@ -64,11 +67,27 @@ private:
 
 	double M_Rd_ = 0.;
 public:
-	CompositeSectionGeometry2(const Steel& steel,
+	ComposSectGeomSP35(const Steel& steel,
 							  std::unique_ptr<const GeneralSteelSection> st_sect,
 							  const Concrete& concrete,
 							  std::unique_ptr<const GeneralConcreteSection> conc_sect);
-
+	double E_b()const;
+	double I_b()const;
+	double E_st()const;
+	double I_s()const;
+	double W_b_stb()const;
+	double n_b()const;
+	double n_r()const;
+    double R_y()const;
+	double R_b()const;
+	double R_r()const;
+	double Z_b_s()const;
+	double W_s2_s()const;
+	double W_s1_s()const;
+	double A_s2()const;
+	double A_s()const;
+	double A_b()const;
+	double A_r()const;
 
 
 

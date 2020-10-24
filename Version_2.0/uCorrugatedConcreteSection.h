@@ -24,11 +24,13 @@ public:
 	double h() const override;
     double h_n() const override;
 	double C_b() const override;
-	double SW() const override;
+	double SW(double dens) const override;
 	CorrugatedSheet corrugated_sheet()const;
 
 private:
 	CorrugatedSheet corr_sheet_;
+	bool wider_flange_up_ = false;
+	bool sheet_orient_along_ = false;
 };
 
 

@@ -19,7 +19,7 @@ public:
 	double h() const override;
 	double h_n() const override;
 	double C_b() const override;
-	double SW() const override;
+	double SW(double dens) const override;
 
 };
 //---------------------------------------------------------------------------

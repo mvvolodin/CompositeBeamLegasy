@@ -19,6 +19,11 @@ public:
 	double get_gamma_bi()const{return gamma_bi_;}
 	double get_gamma_si()const{return gamma_si_;}
 	double get_gamma_c()const{return gamma_c_;}
+
+	double m_b()const{return gamma_bi_;}
+	double m_r()const{return gamma_si_;}
+	double m()const{return gamma_c_;}
+
 };
 
 #endif

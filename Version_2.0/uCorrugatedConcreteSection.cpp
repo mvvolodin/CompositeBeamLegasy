@@ -14,9 +14,9 @@ CorrugatedConcreteSection::CorrugatedConcreteSection(
 	double const  b_uf,
 	bool const    is_end_beam,
 	Rebars const & rebars):
-		GeneralConcreteSection{h_f, L, B_l, B_r, b_uf,
-			is_end_beam, rebars},
-		corr_sheet_{corr_sheet}{};
+		GeneralConcreteSection(h_f, L, B_l, B_r, b_uf,
+			is_end_beam, rebars),
+		corr_sheet_(corr_sheet){};
 CorrugatedConcreteSection::~CorrugatedConcreteSection()
 {
 
@@ -33,9 +33,9 @@ double CorrugatedConcreteSection::C_b() const
 {
 	return corr_sheet_.get_height() + h_f_ / 2;
 }
-double CorrugatedConcreteSection::SW() const
+double CorrugatedConcreteSection::SW(double dens) const
 {
-	return corr_sheet_.get_h_b(true);
+	return dens * 9.81 * (h_f_ + corr_sheet_.get_h_b(wider_flange_up_));
 }
 CorrugatedSheet CorrugatedConcreteSection::corrugated_sheet()const
 {

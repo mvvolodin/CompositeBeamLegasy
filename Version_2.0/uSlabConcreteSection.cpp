@@ -30,8 +30,8 @@ double SlabConcreteSection::C_b() const
 {
 	return h_f_ / 2;
 }
-double SlabConcreteSection::SW()const
+double SlabConcreteSection::SW(double dens)const
 {
-    return 0;
+	return dens * 9.81 * h_f_;
 }
 

@@ -12,16 +12,16 @@ RolledSection::RolledSection(std::wstring const & prof_num,
 							 double const  b_f2, double const  t_f2,
 							 double const  h_w, double const  t_w,
 							 double const  C, double const  A, double const  I):
-								 prof_num_{prof_num},
-								 b_f1_{b_f1},
-								 t_f1_{t_f1},
-								 b_f2_{b_f1},
-								 t_f2_{t_f1},
-								 h_w_{h_w},
-								 t_w_{t_w},
-								 C_{C},
-								 A_{A},
-								 I_{I}{}
+								 prof_num_(prof_num),
+								 b_f1_(b_f1),
+								 t_f1_(t_f1),
+								 b_f2_(b_f1),
+								 t_f2_(t_f1),
+								 h_w_(h_w),
+								 t_w_(t_w),
+								 C_(C),
+								 A_(A),
+								 I_(I){}
 RolledSection::~RolledSection()
 {
 
@@ -55,16 +55,14 @@ double RolledSection::h_st()const
 	return t_f1_ + h_w_ + t_f1_;
 }
 
-double RolledSection::Z_f2_st() const
-{
-	return h_st() - C_st();
-}
-
 double RolledSection::C_st()const
 {
 	return C_;
 }
-
+double RolledSection::A_f2_st()const
+{
+	return b_f2_ * t_f2_;
+}
 double RolledSection::A_st()const
 {
 	return A_;
@@ -74,10 +72,30 @@ double RolledSection::I_st()const
 {
 	return I_;
 }
+double RolledSection::smaller_fl_to_larger_fl_ratio()const
+{
+	return 1;
+}
 
 double RolledSection::SW()const
 {
-	return A_st() * 7850 / 1000 / 1000 / 1000 * 9.81;
+	return A_st() * 7850 / 1000 / 1000 * 9.81;
+}
+double RolledSection::W_f2_st()const
+{
+	return I_ / Z_f2_st();
+}
+double RolledSection::W_f1_st()const
+{
+	return I_ / Z_f1_st();
+}
+double RolledSection::Z_f2_st() const
+{
+	return h_st() - C_;
+}
+double RolledSection::Z_f1_st()const
+{
+	return C_;
 }
 
 void RolledSection::print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const

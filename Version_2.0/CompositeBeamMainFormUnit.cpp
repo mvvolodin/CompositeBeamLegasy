@@ -14,6 +14,7 @@
 #include "String_doubleUnit.h"
 #include "uWord_Automation.h"
 #include "AboutProg.h"
+#include "uComposSectCalculatorS35.h"
 
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 
@@ -1043,24 +1044,37 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
 {
 	Steel st = update_steel_i_section();
-	std::unique_ptr<const GeneralSteelSection> st_sect = SteelSectionForm -> get_section();
+	std::unique_ptr<GeneralSteelSection const > st_sect = SteelSectionForm -> get_section();
 
 	Geometry geom = update_geometry();
-	std::unique_ptr<const GeneralConcreteSection> conc_sect = update_concrete_section(
+	std::unique_ptr<GeneralConcreteSection const > conc_sect = update_concrete_section(
 	geom.get_span(), geom.get_spacing_left(), geom.get_spacing_right(), geom.is_end_beam(), st_sect->b_f2());
 	Concrete con = ConcreteDefinitionForm -> get_concrete();
 
 	double SW_corr_sheet = 0.;
-	double SW_st_sect = st_sect -> SW(); //что-то мало!
-	if(dynamic_cast<const CorrugatedConcreteSection*>(conc_sect.get()))
-		SW_corr_sheet = static_cast<const CorrugatedConcreteSection*>(conc_sect.get())
+	double SW_st_sect = st_sect -> SW();
+	double SW_conc_sect = conc_sect -> SW(con.get_density());
+	if(dynamic_cast<CorrugatedConcreteSection const *>(conc_sect.get()))
+		SW_corr_sheet = static_cast<CorrugatedConcreteSection const *>(conc_sect.get())
 			-> corrugated_sheet().get_weight();
 
-	  CompositeSectionGeometry2 com_sect = CompositeSectionGeometry2{st, std::move(st_sect),
-																	con, std::move(conc_sect)};
+	  ComposSectGeomSP35 com_sect {st, std::move(st_sect),
+										  con, std::move(conc_sect)};
 
+	  //подготовка калькулятора внутренних усилий
+	SupportsNumber tmp_sup_num = geom.get_temporary_supports_number();
+	double L = geom.get_span();
+	Loads loads{update_loads()};
+	InternalForcesCalculator intr_frcs_calculator{tmp_sup_num, L, loads };
 
-	int i = 0;
+	WorkingConditionsFactors working_conditions_factors{update_working_conditions_factors()};
+
+	  ComposSectCalculatorSP35 com_beam_calc {intr_frcs_calculator,
+												   working_conditions_factors,
+												   com_sect,
+												   0,
+												   0};
+
 }
 
 void TCompositeBeamMainForm::calculate_composite_beam()

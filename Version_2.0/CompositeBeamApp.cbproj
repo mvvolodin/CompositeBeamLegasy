@@ -76,8 +76,8 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <SanitizedProjectName>CompositeBeamApp</SanitizedProjectName>
-        <IncludePath>D:\ a. Программирование\Отрисовка эпюр\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>D:\ a. Программирование\Отрисовка эпюр\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\Bilinear interpolation\;D:\ a. Программирование\Отрисовка эпюр\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\Bilinear interpolation\;D:\ a. Программирование\Отрисовка эпюр\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;svn;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -266,6 +266,10 @@
         <None Include="TypeData.h">
             <BuildOrder>34</BuildOrder>
         </None>
+        <CppCompile Include="uBilinearInterp.cpp">
+            <DependentOn>uBilinearInterp.h</DependentOn>
+            <BuildOrder>56</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uCompositeBeam.cpp">
             <DependentOn>uCompositeBeam.h</DependentOn>
             <BuildOrder>48</BuildOrder>
@@ -274,13 +278,13 @@
             <DependentOn>uCompositeBeamCalculator.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uCompositeBeamCalculatorBridge.cpp">
-            <DependentOn>uCompositeBeamCalculatorBridge.h</DependentOn>
-            <BuildOrder>51</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uCompositeSectionGeometry.cpp">
             <DependentOn>uCompositeSectionGeometry.h</DependentOn>
             <BuildOrder>11</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uComposSectCalculatorS35.cpp">
+            <DependentOn>uComposSectCalculatorS35.h</DependentOn>
+            <BuildOrder>51</BuildOrder>
         </CppCompile>
         <CppCompile Include="uConcrete.cpp">
             <DependentOn>uConcrete.h</DependentOn>
@@ -374,7 +378,7 @@
             <DependentOn>uSteelPart.h</DependentOn>
             <BuildOrder>44</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uSteelSectionForm.cpp">
+        <CppCompile Include="USteelSectionForm.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>SteelSectionForm</Form>
             <FormType>dfm</FormType>
@@ -401,16 +405,16 @@
             <DependentOn>WRData_Check.h</DependentOn>
             <BuildOrder>32</BuildOrder>
         </CppCompile>
-        <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uHelpForm.dfm"/>
+        <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
+        <FormResources Include="USteelSectionForm.dfm"/>
         <FormResources Include="DefineSteelFormUnit.dfm"/>
         <FormResources Include="AboutProg.dfm"/>
         <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
+        <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <FormResources Include="StudDefinitionFormUnit.dfm"/>
         <FormResources Include="RebarDefinitionFormUnit.dfm"/>
-        <FormResources Include="uSteelSectionForm.dfm"/>
-        <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
