@@ -3,8 +3,10 @@
 #pragma hdrstop
 
 #include "uComposSectCalculatorS35.h"
+#include "uBilinearInterp.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+
 
 ComposSectCalculatorSP35::ComposSectCalculatorSP35
 	(InternalForcesCalculator const & intr_frcs_calculator,
@@ -33,6 +35,7 @@ Section ComposSectCalculatorSP35::calculate(double const x, double const M_1, co
 	double const Z_b_s = com_sect_.Z_b_s();
 	double const A_s = com_sect_.A_s();
 	double const A_s2 = com_sect_.A_s2();
+	double const A_s1 = com_sect_.A_s1();
 	double const W_s2_s = com_sect_.W_s2_s();
 	double const W_s1_s = com_sect_.W_s1_s();
 
@@ -41,12 +44,23 @@ Section ComposSectCalculatorSP35::calculate(double const x, double const M_1, co
 
 	double const R_y = com_sect_.R_y();
 	double const R_b = com_sect_.R_b();
+	double const R_r = com_sect_.R_r();
 
 	double const m = work_cond_factors_.m();
 	double const m_b = work_cond_factors_.m_b();
 
 	double const omega = 0;//8.16
-	double const eta = 0;  //9.15
+
+	double const fl_ratio = A_s2 / A_s1;
+//	double const A_f_min_to_A_w_ratio = A
+//	double const A_f_min_plus_A_w_to_A_ratio =
+
+	SP_35_13330_2011_table_9_5::FlangeBendingAndAxialStressSumUp fl = (A_s2 < A_s1)?
+		SP_35_13330_2011_table_9_5::FlangeBendingAndAxialStressSumUp::bigger:
+		SP_35_13330_2011_table_9_5::FlangeBendingAndAxialStressSumUp::smaller;
+    double str_ratio = 0.;
+
+	double eta = 0.;  //9.15
 
 	double omega_4 = 0;
 	double omega_3 = 0;
@@ -56,6 +70,7 @@ Section ComposSectCalculatorSP35::calculate(double const x, double const M_1, co
 
 	double N_br = 0.;
 	double N_br_R = 0.;
+	double N_bR_r = 0.;
 
 	double m_1 = 0.;
 
@@ -67,6 +82,11 @@ Section ComposSectCalculatorSP35::calculate(double const x, double const M_1, co
 
 		N_br = A_b * sigma_b + A_r * sigma_r;
 
+		str_ratio = N_br / (A_s * m * R_y);
+
+		eta = SP_35_13330_2011_table_9_5::bilinear_interpolation(fl_ratio, str_ratio, fl);
+
+		//omega = SP_35_13330_2011_table_8_16::bilinear_interpolation();
 		omega_3 = 1 + eta * (omega - 1);
 		omega_4 = omega_3 / m_1;
 
@@ -76,9 +96,22 @@ Section ComposSectCalculatorSP35::calculate(double const x, double const M_1, co
 		return Section{};
 
 	case DesignCase::Case_B:
-	;
+
+		N_br_R = A_b * R_b + A_r * R_r;
+		N_bR_r = A_b * R_b + A_r * sigma_r;
+
+		//omega = SP_35_13330_2011_table_8_16::bilinear_interpolation();
+		omega_3 = 1 + eta * (omega - 1);
+
+		fl_s2_ratio = ((M - Z_b_s * N_br_R) / (omega_3 * W_s2_s) - N_br_R / A_s) / (m * R_y);
+		fl_s1_ratio = ((M - Z_b_s * N_bR_r) / (omega_3 * W_s2_s) + N_bR_r / A_s) / (m * R_y);
+
+		return Section{};
+
 	case DesignCase::Case_C:
-	   ;
+
+
+	   return Section{};
    }
 
 }

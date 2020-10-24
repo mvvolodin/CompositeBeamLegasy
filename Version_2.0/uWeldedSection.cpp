@@ -101,6 +101,10 @@ double WeldedSection::A_f2_st() const
 {
 	return b_f2() * t_f2();
 }
+double WeldedSection::A_f1_st() const
+{
+	return b_f1() * t_f1();
+}
 
 double WeldedSection::I_st()const
 {

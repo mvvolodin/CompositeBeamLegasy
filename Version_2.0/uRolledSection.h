@@ -27,6 +27,7 @@ public:
 	double C_st()const override;
 	double A_st()const override;
 	double A_f2_st()const override;
+    double A_f1_st()const override;
 	double I_st()const override;
 	double W_f2_st()const override;
 	double W_f1_st()const override;

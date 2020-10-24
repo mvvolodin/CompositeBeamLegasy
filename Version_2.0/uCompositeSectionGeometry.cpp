@@ -516,6 +516,10 @@ double ComposSectGeomSP35::A_s2()const
 {
 	return st_sect_ -> A_f2_st();
 }
+double ComposSectGeomSP35::A_s1()const
+{
+	return st_sect_ -> A_f1_st();
+}
 double ComposSectGeomSP35::A_s()const
 {
 	return st_sect_-> A_st() ;

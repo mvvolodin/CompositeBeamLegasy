@@ -85,6 +85,7 @@ public:
 	double W_s2_s()const;
 	double W_s1_s()const;
 	double A_s2()const;
+    double A_s1()const;
 	double A_s()const;
 	double A_b()const;
 	double A_r()const;

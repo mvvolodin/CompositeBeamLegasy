@@ -23,6 +23,7 @@ public:
 	virtual double C_st() const = 0;
 	virtual double A_st() const = 0;
 	virtual double A_f2_st() const = 0;
+	virtual double A_f1_st() const = 0;
 	virtual double I_st() const = 0;
 	virtual double W_f2_st() const = 0;
 	virtual double W_f1_st() const = 0;

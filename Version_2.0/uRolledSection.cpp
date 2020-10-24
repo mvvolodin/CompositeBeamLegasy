@@ -59,6 +59,10 @@ double RolledSection::C_st()const
 {
 	return C_;
 }
+double RolledSection::A_f1_st()const
+{
+	return b_f1_ * t_f1_;
+}
 double RolledSection::A_f2_st()const
 {
 	return b_f2_ * t_f2_;
