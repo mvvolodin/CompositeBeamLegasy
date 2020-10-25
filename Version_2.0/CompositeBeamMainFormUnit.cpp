@@ -15,6 +15,7 @@
 #include "uWord_Automation.h"
 #include "AboutProg.h"
 #include "uComposSectCalculatorS35.h"
+#include "uIntForcesCalculator.h"
 
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 
@@ -1064,16 +1065,23 @@ void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
 	  //подготовка калькул€тора внутренних усилий
 	SupportsNumber tmp_sup_num = geom.get_temporary_supports_number();
 	double L = geom.get_span();
+	double B = geom.get_trib_width();
 	Loads loads{update_loads()};
-	InternalForcesCalculator intr_frcs_calculator{tmp_sup_num, L, loads };
+	loads.set_B(B);
+	IntForcesCalculator int_frcs_calculator{tmp_sup_num, L, B, loads };
 
 	WorkingConditionsFactors working_conditions_factors{update_working_conditions_factors()};
 
-	  ComposSectCalculatorSP35 com_beam_calc {intr_frcs_calculator,
+	  ComposSectCalculatorSP35 com_beam_calc {int_frcs_calculator,
 												   working_conditions_factors,
 												   com_sect,
 												   0,
 												   0};
+
+	  int const id = 0;
+	  double const x = L / 2;
+	  com_beam_calc.calculate(id, x);
+
 
 }
 

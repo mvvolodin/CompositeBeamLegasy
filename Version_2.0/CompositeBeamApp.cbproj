@@ -343,6 +343,10 @@
             <DependentOn>uInternalForcesCalculator.h</DependentOn>
             <BuildOrder>48</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uIntForcesCalculator.cpp">
+            <DependentOn>uIntForcesCalculator.h</DependentOn>
+            <BuildOrder>58</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uISection.cpp">
             <DependentOn>uISection.h</DependentOn>
             <BuildOrder>11</BuildOrder>
@@ -365,6 +369,10 @@
         <CppCompile Include="uSection.cpp">
             <DependentOn>uSection.h</DependentOn>
             <BuildOrder>50</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uSectOutputSP35.cpp">
+            <DependentOn>uSectOutputSP35.h</DependentOn>
+            <BuildOrder>57</BuildOrder>
         </CppCompile>
         <CppCompile Include="uSlabConcreteSection.cpp">
             <DependentOn>uSlabConcreteSection.h</DependentOn>

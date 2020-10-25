@@ -432,32 +432,40 @@ void ComposSectGeomSP35::calculate()
 {
 
 	const double E_st = steel_.get_E_st();
-	alfa_s_ = E_st / conc_sect_->rebars().rebar().E_s();
-	alfa_b_ = E_st / concrete_.get_E_b_tau();
+	n_r_ = E_st / conc_sect_->rebars().rebar().E_s();
+	n_b_ = E_st / concrete_.get_E_b_tau();
 
-	H_red_ = conc_sect_-> h() + st_sect_ -> h_st();
+	H_stb_ = conc_sect_-> h() + st_sect_ -> h_st();
 
 	const double A_st = st_sect_ -> A_st();
 	const double A_b = conc_sect_ -> A_b();
 	const double b_sl = conc_sect_ -> b_sl();
-	A_red_= A_st +
-			A_b / alfa_b_ +
-			1. / alfa_s_ * conc_sect_ -> rebars().A_u_s_per_unit() *  b_sl +
-			1. / alfa_s_ * conc_sect_ -> rebars().A_l_s_per_unit() *  b_sl;
+
+	A_stb_= A_st +
+			A_b / n_b_ +
+			1. / n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() *  b_sl +
+			1. / n_r_ * conc_sect_ -> rebars().A_l_s_per_unit() *  b_sl;
+
 	Z_b_st_ = conc_sect_ -> C_b() + st_sect_ -> Z_f2_st();
 	Z_st_r_u_ = st_sect_ -> Z_f2_st() + conc_sect_ -> h() - conc_sect_ -> rebars().a_u();
 	Z_st_r_l_ = st_sect_ -> Z_f2_st() + conc_sect_ -> rebars().a_l();
-	S_red_ = conc_sect_ -> A_b() * Z_b_st_ / alfa_b_ +
-			 1 / alfa_s_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_st_r_u_ +
-			 1 / alfa_s_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_st_r_l_;
-	Z_st_red_ = S_red_/A_red_;
-	I_red_ = st_sect_ -> I_st() +
-			st_sect_ ->  A_st() * Z_st_red_ * Z_st_red_ +
-			1/alfa_b_ * conc_sect_ -> I_b() +
-			1/alfa_b_ * conc_sect_ ->A_b() * Z_b_red_ * Z_b_red_ +
-			1/alfa_s_ * conc_sect_-> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_red_r_u_ * Z_red_r_u_ +
-			1/alfa_s_ * conc_sect_-> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_red_r_l_ * Z_red_r_l_ ;
 
+	S_stb_ = conc_sect_ -> A_b() * Z_b_st_ / n_b_ +
+			 1 / n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_st_r_u_ +
+			 1 / n_r_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_st_r_l_;
+
+	Z_s_stb_ = S_stb_/A_stb_;
+
+	I_stb_ = st_sect_ -> I_st() +
+			st_sect_ ->  A_st() * Z_s_stb_ * Z_s_stb_ +
+			1/n_b_ * conc_sect_ -> I_b() +
+			1/n_b_ * conc_sect_ ->A_b() * Z_b_stb_ * Z_b_stb_ +
+			1/n_r_ * conc_sect_-> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_red_r_u_ * Z_red_r_u_ +
+			1/n_r_ * conc_sect_-> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_red_r_l_ * Z_red_r_l_ ;
+
+	Z_b_stb_ = Z_b_st_ - Z_s_stb_;
+
+	W_b_stb_ = I_stb_ / Z_b_stb_;
 }
 
 
@@ -480,15 +488,15 @@ double ComposSectGeomSP35::I_s()const
 
 double ComposSectGeomSP35::W_b_stb()const
 {
-	return W_b_red_;
+	return W_b_stb_;
 }
 double ComposSectGeomSP35::n_b()const
 {
-	return alfa_b_;
+	return n_b_;
 }
 double ComposSectGeomSP35::n_r()const
 {
-	return alfa_s_;
+	return n_r_;
 }
 double ComposSectGeomSP35::R_b()const
 {

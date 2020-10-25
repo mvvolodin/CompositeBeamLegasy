@@ -39,6 +39,7 @@ public:
 		  double sigma_si);
 	void set_default_values();
 	void set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B);
+    void set_B(double B){B_ = B;}
 	void calculate_loads(double SW_concrete);
 	void save(std::ostream& ostr) const;
 	void load(std::istream& istr);
@@ -105,7 +106,7 @@ private:
 
 	double B_ = 0.;//грузовая площадь
 
-	bool fully_initialized_ = false;
+	bool fully_initialized_ = true;
 };
 #endif
 
