@@ -1045,22 +1045,30 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
 {
 	Steel st = update_steel_i_section();
-	std::unique_ptr<GeneralSteelSection const > st_sect = SteelSectionForm -> get_section();
+	std::unique_ptr<GeneralSteelSection const> st_sect = SteelSectionForm -> get_section();
 
 	Geometry geom = update_geometry();
-	std::unique_ptr<GeneralConcreteSection const > conc_sect = update_concrete_section(
-	geom.get_span(), geom.get_spacing_left(), geom.get_spacing_right(), geom.is_end_beam(), st_sect->b_f2());
-	Concrete con = ConcreteDefinitionForm -> get_concrete();
+	std::unique_ptr<GeneralConcreteSection const> conc_sect = update_concrete_section(
+	geom.get_span(), geom.get_spacing_left(), geom.get_spacing_right(), geom.is_end_beam(), st_sect -> b_f2());
+	Concrete conc = ConcreteDefinitionForm -> get_concrete();
 
 	double SW_corr_sheet = 0.;
 	double SW_st_sect = st_sect -> SW();
-	double SW_conc_sect = conc_sect -> SW(con.get_density());
+	double SW_conc_sect = conc_sect -> SW(conc.get_density());
 	if(dynamic_cast<CorrugatedConcreteSection const *>(conc_sect.get()))
 		SW_corr_sheet = static_cast<CorrugatedConcreteSection const *>(conc_sect.get())
 			-> corrugated_sheet().get_weight();
 
-	  ComposSectGeomSP35 com_sect {st, std::move(st_sect),
-										  con, std::move(conc_sect)};
+	  ComposSectGeomSP35 com_sect {st, *st_sect,
+								   conc, *conc_sect,
+								   ComposSectGeomSP35::ConcStateConsid::normal};
+	  ComposSectGeomSP35 com_sect_sh {st, *st_sect,
+									  conc, *conc_sect,
+									  ComposSectGeomSP35::ConcStateConsid::shrink};
+	  ComposSectGeomSP35 com_sect_cr {st, *st_sect,
+									  conc, *conc_sect,
+									  ComposSectGeomSP35::ConcStateConsid::creep};
+
 
 	  //подготовка калькул€тора внутренних усилий
 	SupportsNumber tmp_sup_num = geom.get_temporary_supports_number();
@@ -1075,8 +1083,8 @@ void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
 	  ComposSectCalculatorSP35 com_beam_calc {int_frcs_calculator,
 												   working_conditions_factors,
 												   com_sect,
-												   0,
-												   0};
+												   com_sect_sh,
+												   com_sect_cr};
 
 	  int const id = 0;
 	  double const x = L / 2;

@@ -57,6 +57,7 @@ public:
 	String grade() const;
 	double E_s() const;
 	double R_sn() const;
+	double E_rs() const;
 	double R_s() const;
 	double d_s() const;
 	double gamma_s() const;

@@ -13,37 +13,58 @@
 #include "uGeneralSteelSection.h"
 
 class ComposSectGeomSP35{
-	enum class NA_Location{
-		CONCRETE,
-		UPPER_FLANGE,
-		WEB,
-		NO_SOLUTION
+
+public:
+
+	enum class ConcStateConsid{
+		normal,
+		shrink,
+		creep,
 	};
-	struct NeutralAxis{
-		NA_Location na_location_;
-		double x_na_; //Расстояние от наружней грани сталежелезобетонной балки до нейтральной оси
-	};
+
+	ComposSectGeomSP35(Steel const & steel,
+					   GeneralSteelSection const & st_sect,
+					   Concrete const & concrete,
+					   GeneralConcreteSection const & conc_sect,
+					   ConcStateConsid const conc_st_consid);
+	double E_b()const;
+	double I_b()const;
+	double E_st()const;
+	double I_s()const;
+	double W_b_stb()const;
+	double n_b()const;
+	double n_r()const;
+	double R_y()const;
+	double R_b()const;
+	double R_r()const;
+	double Z_b_s()const;
+	double W_s2_s()const;
+	double W_s1_s()const;
+	double A_s2()const;
+	double A_s1()const;
+	double A_s()const;
+	double A_b()const;
+	double A_r()const;
+	double A_st()const;
+	double I_st()const;
+	double E_rs()const;
+	double A_stb()const;
+	double I_stb()const;
+	double Z_s_stb()const;
+	double Z_b_stb()const;
+	double Z_r_stb()const;
+	double eps_shr()const;
+
 private:
-	const Steel steel_; // идельным решением, на мой взгляд, является перемещение объекта
-	const std::unique_ptr<const GeneralSteelSection> st_sect_;
-	const Concrete concrete_;
-	const std::unique_ptr<const GeneralConcreteSection> conc_sect_;
+	Steel const  steel_; // идельным решением, на мой взгляд, является перемещение объекта
+	GeneralSteelSection const  & st_sect_;
+	Concrete const & concrete_;
+	GeneralConcreteSection const & conc_sect_;
 
-	void calculate();
+	void calculate(double const E_b);
+	void calculate(ConcStateConsid conc_st_consid);
 
-	double alfa_s();
-	double alfa_b();
-	double H_red();
-	double A_red();
-	double Z_b_st();
-	double Z_st_r_u();
-	double Z_st_r_l();
-	double S_red();
-	double Z_st_red();
-	double I_red();
-
-
-
+	double E_ef_kr()const;
 
 	double n_r_= 0.;//коэффициент приведения к стали
 	double n_b_= 0.;//коэффициент приведения к бетону
@@ -55,44 +76,17 @@ private:
 	double S_stb_= 0.;//Статический момент инерции сталежелезобетонного сечения относительно Ц.Т. стального сечения
 	double I_stb_= 0.;  //Момент инерции сталежелезобетонного сечения приведённого к металлу
 	double Z_s_stb_= 0.;//Расстояние между центром тяжести стального и сталежелезобетонного сечения
-	double Z_red_f2_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и наружней гранью верхней полки
-	double Z_red_f1_= 0.; //Расстояние между Ц.Т. сталежелезобетонного сечения и наружней гранью нижней полки
+	double Z_stb_s2_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и наружней гранью верхней полки
+	double Z_stb_s1_= 0.; //Расстояние между Ц.Т. сталежелезобетонного сечения и наружней гранью нижней полки
 	double Z_b_stb_= 0.;  //Расстояние между Ц.Т. бетонного и сталежелезобетонного сечения
-	double Z_red_r_u_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и верхней арматурой
-	double Z_red_r_l_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и нижней арматурой
-	double W_f2_red_= 0.; //Момент сопротивления сталежелезобетонного сечения для верхней полки
-	double W_f1_red_= 0.; //Момент сопротивления сталежелезобетонного сечения для нижней полки
+	double Z_stb_r_u_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и верхней арматурой
+	double Z_stb_r_l_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и нижней арматурой
+	double W_s2_stb_= 0.; //Момент сопротивления сталежелезобетонного сечения для верхней полки
+	double W_s1_stb_= 0.; //Момент сопротивления сталежелезобетонного сечения для нижней полки
 	double W_b_stb_= 0.;//Момент сопротивления сталежелезобетонного сечения для Ц.Т. железобетонной плиты
 	double W_b_st_ = 0.;//условный момент сопротивления на уровне центр тяжести сечения бетона
 
 	double M_Rd_ = 0.;
-public:
-	ComposSectGeomSP35(const Steel& steel,
-							  std::unique_ptr<const GeneralSteelSection> st_sect,
-							  const Concrete& concrete,
-							  std::unique_ptr<const GeneralConcreteSection> conc_sect);
-	double E_b()const;
-	double I_b()const;
-	double E_st()const;
-	double I_s()const;
-	double W_b_stb()const;
-	double n_b()const;
-	double n_r()const;
-    double R_y()const;
-	double R_b()const;
-	double R_r()const;
-	double Z_b_s()const;
-	double W_s2_s()const;
-	double W_s1_s()const;
-	double A_s2()const;
-    double A_s1()const;
-	double A_s()const;
-	double A_b()const;
-	double A_r()const;
-
-
-
-
 };
 
 class CompositeSectionGeometry{

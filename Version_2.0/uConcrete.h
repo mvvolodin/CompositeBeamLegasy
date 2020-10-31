@@ -44,14 +44,20 @@ public:
 	double get_phi_b_cr()const {return phi_b_cr_;}
 	double get_epsilon_b_lim()const {return epsilon_b_lim_;}
 	void set_phi_b_cr(double phi_b_cr){phi_b_cr_ = phi_b_cr;}
+	double E_b()const {return E_b_ ;}
+    /* TODO 1 -oMV : Добавить в конструктор c_n */
+	double c_n()const {return c_n_ ;}
 	double get_E_b_tau()const {return E_b_ / (1 + phi_b_cr_);}
 	double get_R_b()const {return R_bn_ / gamma_b_;}
+	double eps_shr()const {return eps_shr_;}
 private:
 	double density_ = 0.;
 	double phi_b_cr_ = 0.;
 	double gamma_b_ =  0.;
 	double gamma_bt_ = 0.;
 	double epsilon_b_lim_ = 0.;
+	double eps_shr_ = 2 * 10e-4;
+	double c_n_ = 0.;
 
 };
 
