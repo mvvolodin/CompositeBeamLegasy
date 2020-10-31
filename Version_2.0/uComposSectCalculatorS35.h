@@ -3,19 +3,12 @@
 #ifndef uComposSectCalculatorS35H
 #define uComposSectCalculatorS35H
 
-#include "uGeometry.h"
-#include "uLoads.h"
-#include "uSteel.h"
-#include "uCompositeSectionGeometry.h"
-#include "uStud.h"
-#include "uRebar.h"
+#include "uComposSectGeomSP35.h"
 #include "uWorkingConditionsFactors.h"
-#include "uCorrugatedSheet.h"
-#include "uSection.h"
 #include "uSectOutputSP35.h"
 #include "uIntForcesCalculator.h"
 
-#include <utility>
+#include "uFrmLogger.h"
 
 enum class DesignCase{
 	Case_A,
@@ -49,6 +42,8 @@ public:
 							 ComposSectGeomSP35 const & com_sect_kr);
 
 	SectOutputSP35 calculate(int const id, double const x);
+
+	void print_data_to_logger(TFormLogger const & log)const;
 
 private:
 

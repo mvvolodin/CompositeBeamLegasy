@@ -286,6 +286,10 @@
             <DependentOn>uComposSectCalculatorS35.h</DependentOn>
             <BuildOrder>51</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uComposSectGeomSP35.cpp">
+            <DependentOn>uComposSectGeomSP35.h</DependentOn>
+            <BuildOrder>59</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uConcrete.cpp">
             <DependentOn>uConcrete.h</DependentOn>
             <BuildOrder>39</BuildOrder>

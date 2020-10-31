@@ -15,6 +15,7 @@
 #include "uWord_Automation.h"
 #include "AboutProg.h"
 #include "uComposSectCalculatorS35.h"
+#include "uComposSectGeomSP35.h"
 #include "uIntForcesCalculator.h"
 
 TCompositeBeamMainForm  *CompositeBeamMainForm;
@@ -430,7 +431,7 @@ void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 			calculate_composite_beam();
 			break;
 		case 1:
-			calculate_composite_beam_bridge();
+			calculate_composite_beam_SP35();
 			break;
 	}
 }
@@ -1042,7 +1043,7 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 {
 	draw_diagram();
 }
-void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
+void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
 	Steel st = update_steel_i_section();
 	std::unique_ptr<GeneralSteelSection const> st_sect = SteelSectionForm -> get_section();
@@ -1068,7 +1069,9 @@ void TCompositeBeamMainForm ::calculate_composite_beam_bridge()
 	  ComposSectGeomSP35 com_sect_cr {st, *st_sect,
 									  conc, *conc_sect,
 									  ComposSectGeomSP35::ConcStateConsid::creep};
-
+	  com_sect.print_data_to_logger(*frm_logger_);
+	  com_sect_sh.print_data_to_logger(*frm_logger_);
+	  com_sect_cr.print_data_to_logger(*frm_logger_);
 
 	  //подготовка калькул€тора внутренних усилий
 	SupportsNumber tmp_sup_num = geom.get_temporary_supports_number();

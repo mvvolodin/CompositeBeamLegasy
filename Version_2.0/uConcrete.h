@@ -56,8 +56,8 @@ private:
 	double gamma_b_ =  0.;
 	double gamma_bt_ = 0.;
 	double epsilon_b_lim_ = 0.;
-	double eps_shr_ = 2 * 10e-4;
-	double c_n_ = 0.;
+	double eps_shr_ = 0.0002;
+	double c_n_ = 0.000084;
 
 };
 

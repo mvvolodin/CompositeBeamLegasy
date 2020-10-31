@@ -249,7 +249,7 @@ private:
 	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
 	void calculate_composite_beam();
-    void calculate_composite_beam_bridge();
+    void calculate_composite_beam_SP35();
 	void clean_static_scheme();
 	void clean_grid(TStringGrid* str_grd);
 	#define UNTITLED  "Без имени"
