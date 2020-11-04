@@ -336,6 +336,11 @@
             <DependentOn>uGeometry.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uGraphicObjects.cpp">
+            <VirtualFolder>{5FF06B42-F393-44F4-B2A7-3B7240E7B578}</VirtualFolder>
+            <DependentOn>uGraphicObjects.h</DependentOn>
+            <BuildOrder>60</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uHelpForm.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>HelpForm</Form>
@@ -454,10 +459,10 @@
                     <Source Name="MainSource">CompositeBeamApp.cpp</Source>
                 </Source>
                 <VFOLDERS>
-                    <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
                     <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
-                    <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
+                    <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
                     <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
+                    <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
                 </VFOLDERS>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>

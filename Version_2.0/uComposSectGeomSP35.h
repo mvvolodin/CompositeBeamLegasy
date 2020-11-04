@@ -8,7 +8,11 @@
 #include "uConcrete.h"
 #include "uSteel.h"
 
+//#define NDEBUG
+
+#ifndef NDEBUG
 #include "uFrmLogger.h"
+#endif
 
 class ComposSectGeomSP35{
 
@@ -25,8 +29,6 @@ public:
 					   Concrete const & concrete,
 					   GeneralConcreteSection const & conc_sect,
 					   ConcStateConsid const conc_st_consid);
-
-	void print_data_to_logger(TFormLogger const & log)const;
 
 	double E_b()const;
 	double I_b()const;
@@ -55,6 +57,10 @@ public:
 	double Z_b_stb()const;
 	double Z_r_stb()const;
 	double eps_shr()const;
+
+#ifndef NDEBUG
+	void print_data_to_logger(TFormLogger const & log)const;
+#endif
 
 private:
 	Steel const  steel_; // идельным решением, на мой взгляд, является перемещение объекта

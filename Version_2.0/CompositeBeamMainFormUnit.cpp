@@ -1069,9 +1069,7 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 	  ComposSectGeomSP35 com_sect_cr {st, *st_sect,
 									  conc, *conc_sect,
 									  ComposSectGeomSP35::ConcStateConsid::creep};
-	  com_sect.print_data_to_logger(*frm_logger_);
-	  com_sect_sh.print_data_to_logger(*frm_logger_);
-	  com_sect_cr.print_data_to_logger(*frm_logger_);
+
 
 	  //подготовка калькул€тора внутренних усилий
 	SupportsNumber tmp_sup_num = geom.get_temporary_supports_number();
@@ -1089,9 +1087,22 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 												   com_sect_sh,
 												   com_sect_cr};
 
-	  int const id = 0;
-	  double const x = L / 2;
-	  com_beam_calc.calculate(id, x);
+
+
+	  std::vector<double> const x_lst {0, L/4,  L/3, L/2, 2*L/3, 3*L/4, L};
+
+	  SectOutputSP35List const sect_output_lst = com_beam_calc.calculate(x_lst);
+
+
+#ifndef NDEBUG
+	  com_sect.print_data_to_logger(*frm_logger_);
+	  com_sect_sh.print_data_to_logger(*frm_logger_);
+	  com_sect_cr.print_data_to_logger(*frm_logger_);
+
+	  for(auto  & sect_output:sect_output_lst)
+		sect_output.print_data_to_logger(*frm_logger_);
+#endif
+
 
 
 }

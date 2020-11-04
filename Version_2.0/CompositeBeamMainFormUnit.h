@@ -50,6 +50,7 @@
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
 #include "ICompositeBeam.h"
 
+//#define NDEBUG
 
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 

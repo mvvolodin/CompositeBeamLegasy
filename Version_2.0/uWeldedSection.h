@@ -3,10 +3,11 @@
 #ifndef uWeldedSectionH
 #define uWeldedSectionH
 
+#include <Vcl.Graphics.hpp>
+#include <vector>
+
 #include "uGeneralSteelSection.h"
 #include "uFrmLogger.h"
-#include <vector>
-#include <memory>
 
 class WeldedSection:public GeneralSteelSection{
 struct Vertex{
@@ -37,12 +38,14 @@ public:
 	double W_f2_st() const override;
 	double W_f1_st() const override;
 	double smaller_fl_to_larger_fl_ratio()const override;
-    double SW()const override;
+	double SW()const override;
 
 	void print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const override;
-
+	void draw(TCanvas* cnvs);
 private:
 	std::vector<Vertex> vertexes_;
+
+	std::vector<TPoint> get_pnts_for_drawing();
 
 };
 //---------------------------------------------------------------------------

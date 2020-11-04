@@ -212,10 +212,10 @@ double ComposSectGeomSP35::eps_shr()const
 {
 	return concrete_.eps_shr();
 }
-
+#ifndef NDEBUG
 void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
 {
-	log.add_separator(L"Геометрические характеристики композитного сечения");
+	log.add_heading(L"Геометрические характеристики композитного сечения");
 	log.print_double(L"n_r = ", n_r_, L" ");
 	log.print_double(L"n_b = ", n_b_, L" ");
 	log.print_double(L"H_stb = ", H_stb_, L" мм");
@@ -238,3 +238,4 @@ void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
 //	log -> print_double(L"I = ", I_st(), L" мм4");
 
 }
+#endif

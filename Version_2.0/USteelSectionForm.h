@@ -57,6 +57,7 @@ __published:	// IDE-managed Components
 	TLabel *lbl_h_w;
 	TLabel *lbl_t_w;
 	TButton *btn_launch_logger;
+	TButton *btn_draw;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall ComboBox_profilChange(TObject *Sender);
 	void __fastcall RadioGroupGOST57837Click(TObject *Sender);
@@ -64,6 +65,7 @@ __published:	// IDE-managed Components
 	void __fastcall btn_cancelClick(TObject *Sender);
 	void __fastcall btn_closeClick(TObject *Sender);
 	void __fastcall btn_launch_loggerClick(TObject *Sender);
+	void __fastcall btn_drawClick(TObject *Sender);
 private:	// User declarations
 	TStandartProfil StandartProfil_; //база данных
 	ISection i_section_temp_; //
@@ -87,7 +89,9 @@ private:	// User declarations
 	void form_controls_changed();
 
 	void Point_stand_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, double rad, float scale, TPoint *vertices);
+	void Point_weld_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, float scale, TPoint *vertices);
 	void  draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect);
+	void Draw_dvutavr_weld_plane(TImage * Image_stand, SECT_DVUTAVR *sect);
 	void draw_axes(TImage *Image_Ax);
 	void draw_axes_zero(TImage *Image_Ax, int x0, int y0);
 

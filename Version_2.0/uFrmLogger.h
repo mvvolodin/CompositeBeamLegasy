@@ -21,7 +21,8 @@ public:		// User declarations
 	__fastcall TFormLogger(TComponent* Owner);
 
 	void clean_logger();
-	void add_separator(String const & str) const;
+	void add_heading(String const & str) const;
+	void add_chapter(String const & str) const;
 	void print_string(String const & str)const;
 	void print_double(String const & name, double val, String const & unit) const;
 	void print_2_doubles(String const & name1, double val1, String const & unit1,

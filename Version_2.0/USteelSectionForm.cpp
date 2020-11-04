@@ -15,13 +15,13 @@ bool flag_image = true;
 TSteelSectionForm *SteelSectionForm;
 //---------------------------------------------------------------------------
 __fastcall TSteelSectionForm::TSteelSectionForm(TComponent* Owner)
-	: TForm{Owner},
-	weld_sect_temp_{WeldedSection{300,24,200,12,1200,8}},
-	rolled_sect_temp_{RolledSection {std::wstring{L"35Б2"},
+	: TForm(Owner),
+	weld_sect_temp_(WeldedSection(300,24,200,12,1200,8)),
+	rolled_sect_temp_(RolledSection (std::wstring(L"35Б2"),
 									 175., 11.,
 									 175., 11.,
 									 328., 7.,
-									 175., 6314.,135590100.}}
+									 175., 6314.,135590100.))
 {
 	StringGrid_B->Cells[0][0]="h (мм)";
 	StringGrid_B->Cells[0][1]="bf (мм)";
@@ -73,9 +73,7 @@ void TSteelSectionForm::update_weld_sect_ctrls()
 
 	SECT_DVUTAVR weld_sect = {t_w, h_w, b_f2, t_f2, b_f1, t_f1};
 
-
-	draw_dvutavr(img_weld_sect, &weld_sect);
-
+	Draw_dvutavr_weld_plane(img_weld_sect, &weld_sect);
 }
 //---------------------------------------------------------------------------
 //Обновляет данные стального сечения значениями элементов управления формы
@@ -188,6 +186,116 @@ void TSteelSectionForm::set_i_section()
 								ParamProfil[parWZ]);
 }
 
+//----------------------------------------------------------------------
+// рисование сварного двутавра в проекции
+//----------------------------------------------------------------------
+void TSteelSectionForm::Draw_dvutavr_weld_plane(TImage * Image_stand, SECT_DVUTAVR *sect) {
+  TPoint vertices1[30];
+  TPoint vertices2[30];
+  TPoint vert_rect[30];
+  int zero, zero1, zero2;
+  double zero_f, zero1_f, zero2_f;
+  double scale_1, scale;
+  int rc;
+
+
+	double * ParamProfil;
+	int shiftY = 40;
+	int shiftX = 80;
+
+	TRect NewRect = Rect(0, 0, Image_stand->Width,Image_stand->Height);
+	Image_stand->Canvas->Brush->Color = clWhite;
+	Image_stand->Canvas->FillRect(NewRect);
+	//Image_stand->Canvas->Rectangle(0, 0, Image_stand->Width,Image_stand->Height);
+
+	scale=(Image_stand->Width-20)/(1e0*sect->b2);
+	scale_1=MIN(scale,(Image_stand->Width - 20)/(1e0*sect->b1));
+	scale=MIN(scale_1,(Image_stand->Height- 20)/(1e0*(sect->h + sect->h1 + sect->h2)));
+
+	zero_f = (Image_stand->Height - (sect->h + sect->h1 + sect->h2)*scale)/2;
+	zero1_f=(Image_stand->Width - sect->b2*scale)/2;
+	zero2_f=(Image_stand->Width - sect->b1*scale)/2;
+
+	zero = zero_f;
+	zero1 = zero1_f;
+	zero2 = zero2_f;
+	//  Точки двутавра
+
+	Point_weld_dvutavr(zero, zero1, zero2, sect, scale, vertices1); // получить точки контура двутавра
+
+	Image_stand->Canvas->Brush->Color = clMedGray;
+	//----------------------------------------------------------------
+
+	//--------------------------------------------
+	// Рисование двутавра
+	Image_stand->Canvas->Brush->Color = clScrollBar;
+	Image_stand->Canvas->Polygon(vertices1, 12);
+
+	Image_stand->Canvas->Brush->Style=bsClear;
+
+	//Draw_axes_zero(Image_stand, vPLANE, (vertices1[0].x + vertices1[1].x)/2, (vertices1[0].y + vertices1[7].y)/2);
+	draw_axes_zero(Image_stand, (vertices1[0].x + vertices1[1].x)/2, (vertices1[0].y + vertices1[7].y)/2);
+
+	TPoint Point0_r;
+    TPoint Point1_r;
+
+	flag_image = true;
+	Image_stand->Canvas->Brush->Style=bsClear;
+	// Ширина полки
+	Point0_r = vertices1[1];
+	Point1_r = vertices1[2];
+
+    pCanvas_Dim_vt(Image_stand, Point0_r, Point1_r, orHORIZ, sideUP, "bf",
+				 13, 0, 0, 0);
+    // Высота профиля
+	Point0_r = vertices1[10];
+	Point1_r = vertices1[0];
+
+	pCanvas_Dim_vt(Image_stand, Point0_r, Point1_r, orVERT, sideLEFT, "h",
+				 6, 0, 4, 0);
+	// Толщина пояса профиля
+	Point0_r = vertices1[1];
+	Point1_r = vertices1[2];
+
+	int posY = vertices1[2].y - vertices1[1].y;
+    pCanvas_Dim_vt(Image_stand, Point0_r, Point1_r, orVERT, sideRIGHT, "tf",
+                 6, 0, -4, -posY/2 - 4);
+    // Толщина стенки
+	Point0_r = vertices1[15];
+	Point1_r = vertices1[6];
+
+	pCanvas_Dim_vt(Image_stand, Point0_r, Point1_r, orHORIZ, sideUP, "tw",
+				 30, 0, 13, 0);
+}
+// Получить точки контура сварного двутавра
+void  TSteelSectionForm::Point_weld_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, float scale, TPoint *vertices) {
+  double b1c = sect->b1*scale;
+  double b1p = 0.5*(sect->b1 + sect->b)*scale;
+  double b1m = 0.5*(sect->b1 - sect->b)*scale;
+  double b2c = sect->b2*scale;
+  double b2p = 0.5*(sect->b2 + sect->b)*scale;
+  double b2m = 0.5*(sect->b2 - sect->b)*scale;
+  double h1c = sect->h1*scale;
+  double h_h1 = (sect->h + sect->h1)*scale;
+  double h_2h1 = (sect->h + sect->h1 + sect->h2)*scale;
+  double h2c = sect->h2*scale;
+  double h_h2 = (sect->h + sect->h2)*scale;
+  double h_2h2 = (sect->h + 2*sect->h2)*scale;
+
+  vertices[0] = Point(zero2, zero);
+  vertices[1] = Point(zero2 + b1c, zero);
+  vertices[2] = Point(zero2 + b1c, zero + h1c);
+  vertices[3] = Point(zero2 + b1p, zero + h1c);
+  vertices[4] = Point(zero2 + b1p, zero + h_h1);
+  vertices[5] = Point(zero1 + b2c, zero + h_h1);
+  vertices[6] = Point(zero1 + b2c, zero + h_2h1);
+  vertices[7] = Point(zero1, zero + h_2h1);
+  vertices[8] = Point(zero1, zero + h_h1);
+  vertices[9] = Point(zero2 + b1m, zero + h_h1);
+  vertices[10] = Point(zero2 + b1m, zero + h1c);
+  vertices[11] = Point(zero2, zero + h1c);
+  vertices[12] = Point(zero2, zero);
+}
 
 //----------------------------------------------------------------------
 // рисование двутавра
@@ -488,5 +596,12 @@ void __fastcall TSteelSectionForm::btn_launch_loggerClick(TObject *Sender)
 
 }
 
+//---------------------------------------------------------------------------
+
+void __fastcall TSteelSectionForm::btn_drawClick(TObject *Sender)
+{
+	weld_sect_temp_.draw(img_weld_sect->Canvas);
+
+}
 //---------------------------------------------------------------------------
 

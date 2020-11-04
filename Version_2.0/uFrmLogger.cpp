@@ -57,11 +57,17 @@ void TFormLogger::clean_logger()
 	 mm_logger -> Clear();
 }
 
-void TFormLogger::add_separator(String const & str) const
+void TFormLogger::add_heading(String const & str) const
 {
 	 mm_logger -> Lines -> Add("******************************************");
 	 mm_logger -> Lines -> Add(str);
 	 mm_logger -> Lines -> Add("******************************************");
+}
+void TFormLogger::add_chapter(String const & str) const
+{
+	 mm_logger -> Lines -> Add("------------------------------------------");
+	 mm_logger -> Lines -> Add(str);
+     mm_logger -> Lines -> Add("------------------------------------------");
 }
 void TFormLogger::print_stud_coordinates(double id, double x, double x_l, double x_r)
 {

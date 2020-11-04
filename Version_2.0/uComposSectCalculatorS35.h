@@ -3,6 +3,8 @@
 #ifndef uComposSectCalculatorS35H
 #define uComposSectCalculatorS35H
 
+#include <vector>
+
 #include "uComposSectGeomSP35.h"
 #include "uWorkingConditionsFactors.h"
 #include "uSectOutputSP35.h"
@@ -10,11 +12,13 @@
 
 #include "uFrmLogger.h"
 
+
 enum class DesignCase{
 	Case_A,
 	Case_B,
 	Case_C,
 };
+
 enum class Flange{
 	upper,
 	lower,
@@ -41,11 +45,12 @@ public:
 							 ComposSectGeomSP35 const & com_sect_shr,
 							 ComposSectGeomSP35 const & com_sect_kr);
 
-	SectOutputSP35 calculate(int const id, double const x);
-
-	void print_data_to_logger(TFormLogger const & log)const;
+	SectOutputSP35 calculate(double const x);
+	SectOutputSP35List calculate(std::vector<double> const & x_lst);
 
 private:
+
+	static int id_ ;
 
 	IntForcesCalculator const & intr_frcs_calculator_;
 	WorkingConditionsFactors const & work_cond_factors_;
@@ -58,7 +63,6 @@ private:
 	double creep_stress(double const M_2, double const Z)const;
 	double shrink_stress(ShrinkStressIn const shr_str_in) const;
 	double shrink_stress(double const E, double const R, double const nu)const;
-
 
 };
 

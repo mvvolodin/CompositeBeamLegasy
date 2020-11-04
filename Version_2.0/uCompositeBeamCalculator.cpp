@@ -111,32 +111,32 @@ void CompositeBeamCalculator::calculate_composite_beam()
 
 	#ifndef NDEBUG
 	FormLogger -> clean_logger();
-	FormLogger -> add_separator(L"Проверка сечений");
-	FormLogger -> add_separator(L"Координаты сечений");
+	FormLogger -> add_heading(L"Проверка сечений");
+	FormLogger -> add_heading(L"Координаты сечений");
 	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_sections_coordinates(section.get_id(), section.get_x());
-	FormLogger -> add_separator(L"Расчётный момент M_Ia");
+	FormLogger -> add_heading(L"Расчётный момент M_Ia");
 	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_Ia_design());
-	FormLogger -> add_separator(L"Расчётный момент M_Ib");
+	FormLogger -> add_heading(L"Расчётный момент M_Ib");
 	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_Ib_design());
-	FormLogger -> add_separator(L"Расчётный момент M_IIa");
+	FormLogger -> add_heading(L"Расчётный момент M_IIa");
 	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_IIa_design());
-	FormLogger -> add_separator(L"Расчётный момент M_IIb");
+	FormLogger -> add_heading(L"Расчётный момент M_IIb");
 	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_IIb_design());
-	FormLogger -> add_separator(L"Расчётный момент полный M_total");
+	FormLogger -> add_heading(L"Расчётный момент полный M_total");
 	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_M_total_design());
-	FormLogger -> add_separator(L"Расчётная полная поперечная сила Q_total");
+	FormLogger -> add_heading(L"Расчётная полная поперечная сила Q_total");
 	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_M_X(section.get_x(), section.get_Q_total_design());
-	FormLogger -> add_separator(L"Напряжения");
+	FormLogger -> add_heading(L"Напряжения");
 	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_sigma_b_sigma_s_X(section.get_x(), section.get_sigma_b(), section.get_sigma_s());
-	FormLogger -> add_separator(L"Коэффициенты использования");
+	FormLogger -> add_heading(L"Коэффициенты использования");
 	for (const auto& section:composite_beam_.get_section_list())
 		FormLogger -> print_ratios(section.get_x(),
 								   section.get_upper_fl_ratio(),
@@ -171,8 +171,8 @@ void CompositeBeamCalculator::calculate_studs()
 
 	#ifndef NDEBUG
 
-	FormLogger -> add_separator(L"Проверка упоров");
-	FormLogger -> add_separator(L"Координаты упоров");
+	FormLogger -> add_heading(L"Проверка упоров");
+	FormLogger -> add_heading(L"Координаты упоров");
 
 	for (auto stud:studs_on_beam_.stud_list())
 		FormLogger -> print_stud_coordinates(stud.get_id(),
@@ -180,14 +180,14 @@ void CompositeBeamCalculator::calculate_studs()
 										 stud.get_x_l(),
 										 stud.get_x_r());
 
-	FormLogger -> add_separator(L"Усилия в упорах");
+	FormLogger -> add_heading(L"Усилия в упорах");
 
 	for (auto stud:studs_on_beam_.stud_list())
 
 		FormLogger -> print_stud_shear_force(stud.get_id(),
 										  stud.get_S(LoadUnit::kN));
 
-	FormLogger -> add_separator(L"Коэффициенты использования");
+	FormLogger -> add_heading(L"Коэффициенты использования");
 
 	for (auto stud:studs_on_beam_.stud_list())
 

@@ -2,8 +2,11 @@
 
 #pragma hdrstop
 
-#include "uWeldedSection.h"
 #include <iostream>
+#include <algorithm>
+#include "uWeldedSection.h"
+#include "uGraphicObjects.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -143,19 +146,73 @@ double WeldedSection::SW()const
 
 void WeldedSection::print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const
 {
-	log -> add_separator(L"Тип сечения");
+	log -> add_heading(L"Тип сечения");
 	log -> print_string(L"Сварной двутавр");
-	log -> add_separator(L"Геометрические размеры");
+	log -> add_heading(L"Геометрические размеры");
 	log -> print_2_doubles(L"bf2 = ", b_f2(), L" мм",L"tf2 = ", t_f2(), L" мм");
 	log -> print_2_doubles(L"bf1 = ", b_f1(), L" мм",L"tf1 = ", t_f1(), L" мм");
 	log -> print_2_doubles(L"hw = ", h_w(), L" мм",L"tw = ", t_w(), L" мм");
-	log -> add_separator(L"Координаты вершин сварного двутавра");
+	log -> add_heading(L"Координаты вершин сварного двутавра");
 	for(auto v:vertexes_)
 		log -> print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
-	log -> add_separator(L"Геометрические характеристики");
+	log -> add_heading(L"Геометрические характеристики");
 	log -> print_double(L"C = ", C_st(), L" мм");
 	log -> print_double(L"A = ", A_st(), L" мм2");
 	log -> print_double(L"I = ", I_st(), L" мм4");
+
+}
+std::vector<TPoint> WeldedSection::get_pnts_for_drawing()
+{
+	std::vector<TPoint> pnts{};
+
+	pnts.emplace_back(b_f2() / 2, 0); //coord #0
+	pnts.emplace_back(b_f2() / 2, t_f2()); //coord #1
+	pnts.emplace_back(t_w() / 2, t_f2()); //coord #2
+	pnts.emplace_back( t_w() / 2, t_f2() + h_w());//coord #3
+	pnts.emplace_back(b_f1() / 2, t_f2() + h_w());//coord #4
+	pnts.emplace_back(b_f1() / 2, t_f2() + h_w() + t_f1());//coord #5
+	pnts.emplace_back(-1 * b_f1() / 2, t_f2() + h_w() + t_f1());//coord #6
+	pnts.emplace_back(-1 * b_f1() / 2, t_f2() + h_w());//coord #7
+	pnts.emplace_back(-1 * t_w() / 2, t_f2() + h_w());//coord #8
+	pnts.emplace_back(-1 * t_w() / 2, t_f2());//coord #9
+	pnts.emplace_back(-1 * b_f2() / 2, t_f2());//coord #10
+	pnts.emplace_back(-1 * b_f2() / 2, 0);//coord #11
+
+	return pnts;
+}
+
+void WeldedSection::draw(TCanvas* cnvs)
+{
+	cnvs -> Brush -> Color = clWhite;
+	cnvs -> Pen -> Color = clBlack;
+
+	cnvs -> Rectangle(cnvs -> ClipRect);
+
+	std::vector<TPoint> points {get_pnts_for_drawing()};
+
+	int const w = cnvs -> ClipRect.Width();
+	int const h = cnvs -> ClipRect.Height();
+
+	int const offset_x = 20;
+	int const offset_y = 20;
+
+	double const scale = std::min((h - 2 * offset_y) / (h_w() + t_f1() + t_f2()),
+		(w - 2 * offset_x) / std::max(b_f1(),b_f2()));
+
+	for_each(points.begin(), points.end(), [&scale, &w, &h](TPoint & p){
+		p.x = p.x + w / 2 / scale; p.y = p.y + offset_y / scale;});
+
+	for_each(points.begin(), points.end(), [&scale](TPoint & p){
+		p.x *= scale; p.y *= scale;});
+
+	cnvs -> Brush -> Color = clMedGray;
+   //	cnvs -> Polygon(points.data(),points.size()-1);
+
+	Dimension dim_bf2 {points[0], points[11], "b_f", 10, 0};
+	dim_bf2.draw(cnvs);
+
+//	Arrow ar {{30, 30}, 20, 4, 225};
+//	ar.draw(cnvs);
 
 }
 
