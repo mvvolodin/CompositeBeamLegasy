@@ -53,8 +53,8 @@ object SteelSectionForm: TSteelSectionForm
         OnChange = ComboBox_profilChange
       end
       object StringGrid_B: TStringGrid
-        Left = 360
-        Top = 45
+        Left = 352
+        Top = 48
         Width = 113
         Height = 140
         ColCount = 2
@@ -95,113 +95,103 @@ object SteelSectionForm: TSteelSectionForm
     object tb_sheet_welded_profile: TTabSheet
       Caption = #1057#1074#1072#1088#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object img_weld_sect: TImage
-        Left = 237
-        Top = 3
-        Width = 148
-        Height = 216
-      end
-      object StringGrid1: TStringGrid
-        Left = 391
-        Top = 3
-        Width = 110
-        Height = 216
-        ScrollBars = ssNone
-        TabOrder = 0
-        RowHeights = (
-          24
-          24
-          24
-          24
-          23)
+        Left = 311
+        Top = 9
+        Width = 190
+        Height = 210
       end
       object GroupBox1: TGroupBox
         Left = 3
         Top = 3
-        Width = 228
+        Width = 302
         Height = 216
         Caption = ' '#1043#1077#1086#1084#1077#1090#1088#1080#1103' '#1089#1077#1095#1077#1085#1080#1103' '
-        TabOrder = 1
+        TabOrder = 0
         object lbl_b_f2: TLabel
-          Left = 3
+          Left = 11
           Top = 30
           Width = 141
           Height = 13
           Caption = #1064#1080#1088#1080#1085#1072' '#1074#1077#1088#1093#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
         end
         object lbl_t_f2: TLabel
-          Left = 3
+          Left = 11
           Top = 55
           Width = 146
           Height = 13
           Caption = #1058#1086#1083#1097#1080#1085#1072' '#1074#1077#1088#1093#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
         end
         object lbl_b_f1: TLabel
-          Left = 3
+          Left = 11
           Top = 81
           Width = 140
           Height = 13
           Caption = #1064#1080#1088#1080#1085#1072' '#1085#1080#1078#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084': '
         end
         object lbl_t_f1: TLabel
-          Left = 3
+          Left = 11
           Top = 107
           Width = 145
           Height = 13
           Caption = #1058#1086#1083#1097#1080#1085#1072' '#1085#1080#1078#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084': '
         end
         object lbl_h_w: TLabel
-          Left = 3
+          Left = 11
           Top = 133
           Width = 98
           Height = 13
           Caption = #1042#1099#1089#1086#1090#1072' '#1089#1090#1077#1085#1082#1080', '#1084#1084':'
         end
         object lbl_t_w: TLabel
-          Left = 3
+          Left = 11
           Top = 159
           Width = 106
           Height = 13
           Caption = #1058#1086#1083#1097#1080#1085#1072' '#1089#1090#1077#1085#1082#1080', '#1084#1084':'
         end
         object edt_b_f2: TEdit
-          Left = 155
-          Top = 25
+          Left = 227
+          Top = 27
           Width = 57
           Height = 21
           TabOrder = 0
         end
         object edt_t_f2: TEdit
-          Left = 155
-          Top = 51
+          Left = 227
+          Top = 53
           Width = 57
           Height = 21
           TabOrder = 1
         end
         object edt_b_f1: TEdit
-          Left = 155
-          Top = 77
+          Left = 227
+          Top = 79
           Width = 57
           Height = 21
           TabOrder = 2
         end
         object edt_t_f1: TEdit
-          Left = 155
-          Top = 103
+          Left = 227
+          Top = 105
           Width = 57
           Height = 21
           TabOrder = 3
         end
         object edt_h_w: TEdit
-          Left = 155
-          Top = 129
+          Left = 227
+          Top = 131
           Width = 57
           Height = 21
           TabOrder = 4
         end
         object edt_t_w: TEdit
-          Left = 155
-          Top = 156
+          Left = 227
+          Top = 158
           Width = 57
           Height = 21
           TabOrder = 5

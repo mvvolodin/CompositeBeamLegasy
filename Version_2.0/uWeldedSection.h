@@ -20,6 +20,9 @@ public:
 				  double b_f2, double t_f2,
 				  double h_w, double t_w);
 	~WeldedSection();
+
+    String name()const override;
+
 	double b_f1()const override;
 	double t_f1()const override;
 	double b_f2()const override;
@@ -40,7 +43,7 @@ public:
 	double smaller_fl_to_larger_fl_ratio()const override;
 	double SW()const override;
 
-	void print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const override;
+	void print_data_to_logger(TFormLogger const & log)const override;
 	void draw(TCanvas* cnvs);
 private:
 	std::vector<Vertex> vertexes_;

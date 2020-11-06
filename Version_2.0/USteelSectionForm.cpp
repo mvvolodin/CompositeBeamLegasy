@@ -136,14 +136,14 @@ void TSteelSectionForm::update_steel_section()
 	}
 
 }
-std::unique_ptr<GeneralSteelSection> TSteelSectionForm::get_section()
+GeneralSteelSection const & TSteelSectionForm::get_section()
 {
 	update_steel_section();
 
 	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
-		return std::unique_ptr<GeneralSteelSection> {new WeldedSection{weld_sect_temp_}};
+		return weld_sect_temp_;
 
-	return std::unique_ptr<GeneralSteelSection> {new RolledSection{rolled_sect_temp_}};
+	return rolled_sect_temp_;
 
 }
 
@@ -552,7 +552,9 @@ void TSteelSectionForm::register_observer(IObserver_* iobserver)
 //---------------------------------------------------------------------------
 String TSteelSectionForm::get_information()const
 {
-   return i_section_temp_.get_profile_number();
+   	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
+		return weld_sect_temp_.name();
+   return rolled_sect_temp_.name();
 
 }
 //---------------------------------------------------------------------------
@@ -591,8 +593,8 @@ void __fastcall TSteelSectionForm::btn_launch_loggerClick(TObject *Sender)
 {
 
 	log_.reset(new TFormLogger(this));
-	log_.get() -> Show();
-	get_section() -> print_data_to_logger(log_);
+	log_.get()-> Show();
+	get_section().print_data_to_logger(*log_);
 
 }
 

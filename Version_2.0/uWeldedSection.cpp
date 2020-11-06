@@ -33,6 +33,10 @@ WeldedSection::~WeldedSection()
 {
 
 }
+String WeldedSection::name()const
+{
+	return L"Сварное";
+}
 double WeldedSection::b_f1()const
 {
 	return vertexes_[1].X - vertexes_[0].X;
@@ -144,21 +148,21 @@ double WeldedSection::SW()const
 	return A_st() * 7850 / 1000 / 1000 * 9.81;
 }
 
-void WeldedSection::print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const
+void WeldedSection::print_data_to_logger(TFormLogger const & log)const
 {
-	log -> add_heading(L"Тип сечения");
-	log -> print_string(L"Сварной двутавр");
-	log -> add_heading(L"Геометрические размеры");
-	log -> print_2_doubles(L"bf2 = ", b_f2(), L" мм",L"tf2 = ", t_f2(), L" мм");
-	log -> print_2_doubles(L"bf1 = ", b_f1(), L" мм",L"tf1 = ", t_f1(), L" мм");
-	log -> print_2_doubles(L"hw = ", h_w(), L" мм",L"tw = ", t_w(), L" мм");
-	log -> add_heading(L"Координаты вершин сварного двутавра");
+	log.add_heading(L"Тип сечения");
+	log.print_string(L"Сварной двутавр");
+	log.add_heading(L"Геометрические размеры");
+	log.print_2_doubles(L"bf2 = ", b_f2(), L" мм",L"tf2 = ", t_f2(), L" мм");
+	log.print_2_doubles(L"bf1 = ", b_f1(), L" мм",L"tf1 = ", t_f1(), L" мм");
+	log.print_2_doubles(L"hw = ", h_w(), L" мм",L"tw = ", t_w(), L" мм");
+	log.add_heading(L"Координаты вершин сварного двутавра");
 	for(auto v:vertexes_)
-		log -> print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
-	log -> add_heading(L"Геометрические характеристики");
-	log -> print_double(L"C = ", C_st(), L" мм");
-	log -> print_double(L"A = ", A_st(), L" мм2");
-	log -> print_double(L"I = ", I_st(), L" мм4");
+		log.print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
+	log.add_heading(L"Геометрические характеристики");
+	log.print_double(L"C = ", C_st(), L" мм");
+	log.print_double(L"A = ", A_st(), L" мм2");
+	log.print_double(L"I = ", I_st(), L" мм4");
 
 }
 std::vector<TPoint> WeldedSection::get_pnts_for_drawing()

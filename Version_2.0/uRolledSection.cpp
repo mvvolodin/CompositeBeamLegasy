@@ -26,6 +26,10 @@ RolledSection::~RolledSection()
 {
 
 }
+String RolledSection::name()const
+{
+	return "Прокатное";
+}
 double RolledSection::b_f1()const
 {
 	return b_f1_;
@@ -102,8 +106,8 @@ double RolledSection::Z_f1_st()const
 	return C_;
 }
 
-void RolledSection::print_data_to_logger(std::unique_ptr<TFormLogger> const & log)const
+void RolledSection::print_data_to_logger(TFormLogger const & log)const
 {
-	log -> add_heading(L"Тип сечения");
-	log -> print_string(L"Прокатный двутавр");;
+	log.add_heading(L"Тип сечения");
+	log.print_string(L"Прокатный двутавр");;
 }

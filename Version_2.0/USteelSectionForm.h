@@ -41,7 +41,6 @@ __published:	// IDE-managed Components
 	TButton *btn_cancel;
 	TButton *btn_close;
 	TTabSheet *tb_sheet_welded_profile;
-	TStringGrid *StringGrid1;
 	TImage *img_weld_sect;
 	TGroupBox *GroupBox1;
 	TEdit *edt_b_f2;
@@ -100,7 +99,7 @@ public:		// User declarations
 	__fastcall TSteelSectionForm(TComponent* Owner)override;
 	void set_form_controls(ISection i_section);
 	ISection get_i_section() const {return i_section_temp_;}
-	std::unique_ptr<GeneralSteelSection> get_section();
+	GeneralSteelSection const & get_section();
 	void register_observer(IObserver_* iobserver)override;
 
 };
