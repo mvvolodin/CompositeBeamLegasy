@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #ifndef CompositeBeamMainFormUnitH
 #define CompositeBeamMainFormUnitH
@@ -22,11 +22,11 @@
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-// Пользовательские заголовочные файлы
+// РџРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРµ Р·Р°РіРѕР»РѕРІРѕС‡РЅС‹Рµ С„Р°Р№Р»С‹
 //---------------------------------------------------------------------------
 
 
-#include "uCompositeBeamCalculator.h"//Подключаем логику
+#include "uCompositeBeamCalculator.h"//РџРѕРґРєР»СЋС‡Р°РµРј Р»РѕРіРёРєСѓ
 #include "StudDefinitionFormUnit.h"
 #include "ConcreteDefinitionFormUnit.h"
 #include "RebarDefinitionFormUnit.h"
@@ -35,7 +35,7 @@
 #include "DefineSteelFormUnit.h"
 #include "uFrmAddImacts.h"
 #include "uFrmLogger.h"
-#include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
+#include "DrawEpurMain.h" //РџРѕРґРєР»СЋС‡Р°РµРј С„СѓРЅРєС†РёСЋ РѕС‚СЂРёСЃРѕРІРєРё СЌРїСЋСЂ
 #include "uWord_Automation.h"
 #include "uGeneralConcreteSection.h"
 #include "uSlabConcreteSection.h"
@@ -47,12 +47,12 @@
 
 #include <memory>
 
-#include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
+#include "ObserverPatternInterfaces.h"//РїРѕРґРєР»СЋС‡Р°РµРј РёРЅС‚РµСЂС„РµР№СЃС‹ С€Р°Р±Р»РѕРЅР° РќР°Р±Р»СЋРґР°С‚РµР»СЊ
 #include "ICompositeBeam.h"
 
 //#define NDEBUG
 
-void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
+void ModelName(char * str0, char *ModelFile);  // Р’С‹РґРµР»РµРЅРёРµ РёР· РёРјРµРЅРё С„Р°Р№Р»Р° РІ РёРјРµРЅРё РјРѕРґРµР»Рё
 
 class TCompositeBeamMainForm : public TForm, public IObserver_, public ICompositeBeam
 {
@@ -220,43 +220,43 @@ public:		// User declarations
 private:
 	std::unique_ptr<TFormLogger> frm_logger_;
 
-	CompositeBeamCalculator composite_beam_calculator_; //Основной объект в программе
+	CompositeBeamCalculator composite_beam_calculator_; //РћСЃРЅРѕРІРЅРѕР№ РѕР±СЉРµРєС‚ РІ РїСЂРѕРіСЂР°РјРјРµ
 
-	Geometry update_geometry();//Инициализация топологии
-	Loads update_loads(); //Инициализация нагрузок
+	Geometry update_geometry();//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С‚РѕРїРѕР»РѕРіРёРё
+	Loads update_loads(); //РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РЅР°РіСЂСѓР·РѕРє
 	Loads update_loads(double SW_st_beam, double conc_sect, double SW_corrug_sheet);
-	ISection update_i_section();//Инициализация объекта геометрия двутавра
-	Steel update_steel_i_section(); //Инициализация стали двутавра
-	ConcretePart update_concrete_part();//Инициализация бетонной части композитного сечения
+	ISection update_i_section();//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РѕР±СЉРµРєС‚Р° РіРµРѕРјРµС‚СЂРёСЏ РґРІСѓС‚Р°РІСЂР°
+	Steel update_steel_i_section(); //РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‚Р°Р»Рё РґРІСѓС‚Р°РІСЂР°
+	ConcretePart update_concrete_part();//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р±РµС‚РѕРЅРЅРѕР№ С‡Р°СЃС‚Рё РєРѕРјРїРѕР·РёС‚РЅРѕРіРѕ СЃРµС‡РµРЅРёСЏ
 	std::unique_ptr<GeneralConcreteSection> update_concrete_section(
 	double L, double B_l, double B_r, bool is_end_beam, double b_uf);
 	std::unique_ptr<GeneralSteelSection> update_steel_section();
 	SteelPart update_steel_part();
-	StudsOnBeam update_studs_on_beam();//Инициализация упоров
-	WorkingConditionsFactors update_working_conditions_factors();//Инициализация коэффициентов условий работы
+	StudsOnBeam update_studs_on_beam();//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СѓРїРѕСЂРѕРІ
+	WorkingConditionsFactors update_working_conditions_factors();//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ СѓСЃР»РѕРІРёР№ СЂР°Р±РѕС‚С‹
 
 	void set_form_controls();
 	void update_composite_beam();
 	void generate_report();
-	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
-	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения
+	void cotr_ratios_grid(); // РљРѕРЅСЃС‚СЂСѓРёСЂРѕРІР°РЅРёРµ Grid РєРѕРЅС‚СЂРѕР»Р° РґР»СЏ РІС‹РІРѕРґР° СЂРµР·СѓР»СЊС‚Р°С‚РѕР°
+	void cotr_comp_sect_geometr_grid(); //РљРѕРЅСЃС‚СЂСѓРёСЂРѕРІР°РЅРёРµ Grid РґР»СЏ РІС‹РІРѕРґР° РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёС… С…Р°СЂР°РєС‚. РєРѕРјРї. СЃРµС‡РµРЅРёСЏ
 	void cotr_steel_sect_geometr_grid();
 	void ctor_concrete_sect_geometr_grid();
-	void fill_cmb_bx_impact();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
+	void fill_cmb_bx_impact();//Р—Р°РїРѕР»РЅСЏРµРј ComboBox РЅР°Р·РІР°РЅРёСЏРјРё СЃР»СѓС‡Р°РµРІ Р·Р°РіСЂСѓР¶РµРЅРёСЏ Рё СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРјРё РѕР±СЉРµРєС‚Р°РјРё С‚РёРїР° РїРµСЂРµС‡РµСЃР»РµРЅРёРµ СЃР»СѓС‡Р°РµРІ Р·Р°РіСЂСѓР¶РµРЅРёР№
 	void fill_cmb_bx_corrugated_sheets();
 	void fill_results_grid();
 	void fill_steel_sect_geometr_grid();
 	void fill_concrete_sect_geometr_grid();
 	void fill_composite_sect_geometr_grid();
-	void draw_diagram();//Отрисовка эпюр
+	void draw_diagram();//РћС‚СЂРёСЃРѕРІРєР° СЌРїСЋСЂ
 	void calculate_composite_beam();
     void calculate_composite_beam_SP35();
 	void clean_static_scheme();
 	void clean_grid(TStringGrid* str_grd);
-	#define UNTITLED  "Без имени"
-	bool modify_project;  // признак изменения проекта после сохранения
-	char ModelFile[240]; //Это имя файла?
-	AnsiString FileDir_Name; //Это имя директории?
+	#define UNTITLED  "Р‘РµР· РёРјРµРЅРё"
+	bool modify_project;  // РїСЂРёР·РЅР°Рє РёР·РјРµРЅРµРЅРёСЏ РїСЂРѕРµРєС‚Р° РїРѕСЃР»Рµ СЃРѕС…СЂР°РЅРµРЅРёСЏ
+	char ModelFile[240]; //Р­С‚Рѕ РёРјСЏ С„Р°Р№Р»Р°?
+	AnsiString FileDir_Name; //Р­С‚Рѕ РёРјСЏ РґРёСЂРµРєС‚РѕСЂРёРё?
 
 	virtual void update(IPublisher* ipublisher) override;
 	void register_observers();

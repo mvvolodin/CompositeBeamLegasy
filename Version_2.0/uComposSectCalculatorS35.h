@@ -8,17 +8,18 @@
 #include "uComposSectGeomSP35.h"
 #include "uWorkingConditionsFactors.h"
 #include "uSectOutputSP35.h"
+#include "uSectOutputSP35List.h"
 #include "uIntForcesCalculator.h"
 
 #include "uFrmLogger.h"
-
+//---------------------------------------------------------------------------
 
 enum class DesignCase{
 	Case_A,
 	Case_B,
 	Case_C,
 };
-
+//---------------------------------------------------------------------------
 enum class Flange{
 	upper,
 	lower,
@@ -28,12 +29,12 @@ enum class ShrinkStressIn{
 	concrete,
 	rebar,
 };
-
+//---------------------------------------------------------------------------
 enum class CreepStressIn{
 	concrete,
 	rebar,
 };
-
+//---------------------------------------------------------------------------
 class ComposSectCalculatorSP35{
 
 public:

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 #include <vcl.h>
 #include<ComObj.hpp>
 #include <ostream>
@@ -52,11 +52,11 @@ void __fastcall TCompositeBeamMainForm ::FormShow(TObject *Sender)
 
 }
 //----------------------------------------------------------------------
-////Присваивение значений полям формы из данных класс типа TCompositeBeam
+////РџСЂРёСЃРІР°РёРІРµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РїРѕР»СЏРј С„РѕСЂРјС‹ РёР· РґР°РЅРЅС‹С… РєР»Р°СЃСЃ С‚РёРїР° TCompositeBeam
 //----------------------------------------------------------------------
 void TCompositeBeamMainForm ::set_form_controls()
 {
- // Данные типа Geometry
+ // Р”Р°РЅРЅС‹Рµ С‚РёРїР° Geometry
 	Geometry geom = composite_beam_calculator_.get_geometry();
 	edt_max_elem_length -> Text = composite_beam_calculator_.get_max_elem_length();
 	edt_span -> Text = geom.get_span();
@@ -64,7 +64,7 @@ void TCompositeBeamMainForm ::set_form_controls()
 	edt_width_right -> Text = geom.get_spacing_right();
 	cmb_bx_number_propping_supports -> ItemIndex =
 		cmb_bx_number_propping_supports -> Items -> IndexOf(static_cast<int>(geom.get_temporary_supports_number()));
-//Данные типа Loads
+//Р”Р°РЅРЅС‹Рµ С‚РёРїР° Loads
 	Loads loads = composite_beam_calculator_.get_loads();
 
 	edt_SW_add_concrete -> Text = loads.get_SW_add_concrete(LoadUnit::kN, LengthUnit::m);
@@ -84,22 +84,22 @@ void TCompositeBeamMainForm ::set_form_controls()
 	FrmAddImpacts -> set_sigma_bi(loads.get_sigma_bi());
 	FrmAddImpacts -> set_sigma_si(loads.get_sigma_si());
 
-//Данные типа WorkingConditionsFactors
+//Р”Р°РЅРЅС‹Рµ С‚РёРїР° WorkingConditionsFactors
 	WorkingConditionsFactors wcf = composite_beam_calculator_.get_working_conditions_factors();
 	edt_gamma_bi -> Text = wcf.get_gamma_bi();
 	edt_gamma_si -> Text = wcf.get_gamma_si();
 	edt_gamma_c -> Text = wcf.get_gamma_c();
 
-//Максимальное расстояние между расчётными сечениями:
+//РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ СЂР°СЃСЃС‚РѕСЏРЅРёРµ РјРµР¶РґСѓ СЂР°СЃС‡С‘С‚РЅС‹РјРё СЃРµС‡РµРЅРёСЏРјРё:
 	edt_max_elem_length -> Text = composite_beam_calculator_.get_max_elem_length();
 
-//Панели для отображения данных
+//РџР°РЅРµР»Рё РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РґР°РЅРЅС‹С…
 	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> get_studs_on_beam().get_name();
 	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> get_rebar().get_grade();
 	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> get_concrete().get_grade();
 	Pnl_SteelSectionViewer -> Caption = SteelSectionForm -> get_i_section().get_profile_number();
 
-//Данные для плиты
+//Р”Р°РЅРЅС‹Рµ РґР»СЏ РїР»РёС‚С‹
 
 	switch (composite_beam_calculator_.get_composite_section().get_concrete_part().get_slab_type_enum())
 	{
@@ -120,19 +120,19 @@ void TCompositeBeamMainForm ::set_form_controls()
 	edt_h_f -> Text = composite_beam_calculator_.get_composite_section().get_concrete_part().get_h_f();
 	edt_h_n -> Text = composite_beam_calculator_.get_composite_section().get_concrete_part().get_h_n();
 
-//Данные типа Studs
+//Р”Р°РЅРЅС‹Рµ С‚РёРїР° Studs
    	StudDefinitionForm -> set_form_controls(composite_beam_calculator_.get_studs_on_beam());
 
-//Данные типа Rebar
+//Р”Р°РЅРЅС‹Рµ С‚РёРїР° Rebar
 	RebarDefinitionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_concrete_part().get_rebar());
 
-//Данные типа Concrete
+//Р”Р°РЅРЅС‹Рµ С‚РёРїР° Concrete
 	ConcreteDefinitionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_concrete_part().get_concrete());
 	Concrete con = composite_beam_calculator_.get_composite_section().get_concrete_part().get_concrete();
 
-//Данные типа Steel
+//Р”Р°РЅРЅС‹Рµ С‚РёРїР° Steel
 	DefineSteelForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_steel());
-//Данные типа Section
+//Р”Р°РЅРЅС‹Рµ С‚РёРїР° Section
 	SteelSectionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_section());
 
 }
@@ -155,7 +155,7 @@ void TCompositeBeamMainForm ::register_I_composite_beam()
 
 
 //---------------------------------------------------------------------------
-//Инициализация топологии
+//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С‚РѕРїРѕР»РѕРіРёРё
 //---------------------------------------------------------------------------
 Geometry TCompositeBeamMainForm ::update_geometry()
 {
@@ -185,8 +185,8 @@ Geometry TCompositeBeamMainForm ::update_geometry()
 
 }
 //---------------------------------------------------------------------------
-//Инициализация нагрузок и коэффициентов надёжности по нагрузкам
-//(для инициализации SW (собственного веса) необходима инициализация структуры I сечения- предусловие)
+//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РЅР°РіСЂСѓР·РѕРє Рё РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ РЅР°РґС‘Р¶РЅРѕСЃС‚Рё РїРѕ РЅР°РіСЂСѓР·РєР°Рј
+//(РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё SW (СЃРѕР±СЃС‚РІРµРЅРЅРѕРіРѕ РІРµСЃР°) РЅРµРѕР±С…РѕРґРёРјР° РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‚СЂСѓРєС‚СѓСЂС‹ I СЃРµС‡РµРЅРёСЏ- РїСЂРµРґСѓСЃР»РѕРІРёРµ)
 //---------------------------------------------------------------------------
 Loads TCompositeBeamMainForm ::update_loads()
 {
@@ -257,7 +257,7 @@ Loads TCompositeBeamMainForm ::update_loads(double SW_st_beam, double conc_sect,
 	return Loads{};
 }
 //---------------------------------------------------------------------------
-//Инициализация геометрии двутавра
+//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РіРµРѕРјРµС‚СЂРёРё РґРІСѓС‚Р°РІСЂР°
 //---------------------------------------------------------------------------
 ISection TCompositeBeamMainForm ::update_i_section()
 {
@@ -268,7 +268,7 @@ std::unique_ptr<GeneralConcreteSection> update_steel_section()
 	return std::unique_ptr<GeneralConcreteSection> {};
 }
 //---------------------------------------------------------------------------
-//	Инициализация материала двутавра
+//	РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РјР°С‚РµСЂРёР°Р»Р° РґРІСѓС‚Р°РІСЂР°
 //---------------------------------------------------------------------------
 Steel TCompositeBeamMainForm ::update_steel_i_section()
 {
@@ -311,7 +311,7 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 
 }
 //---------------------------------------------------------------------------
-//Инициализация железобетонной части сечения
+//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р¶РµР»РµР·РѕР±РµС‚РѕРЅРЅРѕР№ С‡Р°СЃС‚Рё СЃРµС‡РµРЅРёСЏ
 //---------------------------------------------------------------------------
 ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 {
@@ -326,7 +326,7 @@ ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 		double h_n = 0.;
 		String_double_plus(lbl_h_f_flat -> Caption, edt_h_f_flat -> Text, &t_sl);
 		String_double_zero_plus(lbl_h_n -> Caption, edt_h_n -> Text, &h_n);
-		return ConcretePart (L"Плоская плита",
+		return ConcretePart (L"РџР»РѕСЃРєР°СЏ РїР»РёС‚Р°",
 							  SlabType::FLAT,
 							  ConcreteDefinitionForm->get_concrete(),
 							  RebarDefinitionForm->get_rebar(),
@@ -350,7 +350,7 @@ ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 	}
 }
 //---------------------------------------------------------------------------
-//Инициализация стальной части сечения
+//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‚Р°Р»СЊРЅРѕР№ С‡Р°СЃС‚Рё СЃРµС‡РµРЅРёСЏ
 //---------------------------------------------------------------------------
 SteelPart TCompositeBeamMainForm ::update_steel_part()
 {
@@ -361,14 +361,14 @@ SteelPart TCompositeBeamMainForm ::update_steel_part()
 	return SteelPart(i_section, steel_i_section);
 }
 //---------------------------------------------------------------------------
-//	Инициализация упоров
+//	РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СѓРїРѕСЂРѕРІ
 //---------------------------------------------------------------------------
 StudsOnBeam TCompositeBeamMainForm ::update_studs_on_beam()
 {
 	return StudDefinitionForm -> get_studs_on_beam();
 }
 //---------------------------------------------------------------------------
-//	Инициализация коэффициентов условий работы
+//	РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ СѓСЃР»РѕРІРёР№ СЂР°Р±РѕС‚С‹
 //---------------------------------------------------------------------------
  WorkingConditionsFactors TCompositeBeamMainForm ::update_working_conditions_factors()
  {
@@ -393,7 +393,7 @@ StudsOnBeam TCompositeBeamMainForm ::update_studs_on_beam()
  }
 
 // ---------------------------------------------------------------------------
-// Инициализация композитной балки
+// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєРѕРјРїРѕР·РёС‚РЅРѕР№ Р±Р°Р»РєРё
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_composite_beam()
 {
@@ -421,7 +421,7 @@ void TCompositeBeamMainForm::update_composite_beam()
 											  max_elem_length);
 }
 //---------------------------------------------------------------------------
-//	Функция запускающая расчёт композитной балки
+//	Р¤СѓРЅРєС†РёСЏ Р·Р°РїСѓСЃРєР°СЋС‰Р°СЏ СЂР°СЃС‡С‘С‚ РєРѕРјРїРѕР·РёС‚РЅРѕР№ Р±Р°Р»РєРё
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 {
@@ -436,17 +436,17 @@ void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
-//Сформировать и открыть отчёт
+//РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ Рё РѕС‚РєСЂС‹С‚СЊ РѕС‚С‡С‘С‚
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::btn_reportClick(TObject *Sender)
 {
-	Screen->Cursor = crHourGlass;//На время создания отчёта присвоем курсору вид часов
+	Screen->Cursor = crHourGlass;//РќР° РІСЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ РѕС‚С‡С‘С‚Р° РїСЂРёСЃРІРѕРµРј РєСѓСЂСЃРѕСЂСѓ РІРёРґ С‡Р°СЃРѕРІ
 	generate_report();
-	Screen->Cursor = crDefault;//Возвращаем курсору вид по умолчанию
+	Screen->Cursor = crDefault;//Р’РѕР·РІСЂР°С‰Р°РµРј РєСѓСЂСЃРѕСЂСѓ РІРёРґ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 }
 //---------------------------------------------------------------------------
-//	Активация контролов для внесения данных о бетонном сечении в зависимости
-//	от выбранного типа: плита по настилу или плоская плита
+//	РђРєС‚РёРІР°С†РёСЏ РєРѕРЅС‚СЂРѕР»РѕРІ РґР»СЏ РІРЅРµСЃРµРЅРёСЏ РґР°РЅРЅС‹С… Рѕ Р±РµС‚РѕРЅРЅРѕРј СЃРµС‡РµРЅРёРё РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё
+//	РѕС‚ РІС‹Р±СЂР°РЅРЅРѕРіРѕ С‚РёРїР°: РїР»РёС‚Р° РїРѕ РЅР°СЃС‚РёР»Сѓ РёР»Рё РїР»РѕСЃРєР°СЏ РїР»РёС‚Р°
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::rdgrp_slab_typeClick(TObject *Sender)
 {
@@ -530,45 +530,45 @@ void __fastcall TCompositeBeamMainForm ::strng_grd_results_rendering(TObject *Se
 
 }
 //---------------------------------------------------------------------------
-//	Функция заполняющая TStringGrid выводящий результаты расчёта геометрических характеристик композитного сечения
+//	Р¤СѓРЅРєС†РёСЏ Р·Р°РїРѕР»РЅСЏСЋС‰Р°СЏ TStringGrid РІС‹РІРѕРґСЏС‰РёР№ СЂРµР·СѓР»СЊС‚Р°С‚С‹ СЂР°СЃС‡С‘С‚Р° РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёС… С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРє РєРѕРјРїРѕР·РёС‚РЅРѕРіРѕ СЃРµС‡РµРЅРёСЏ
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::cotr_comp_sect_geometr_grid()
 {
-	strng_grd_compos_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
-	strng_grd_compos_sect_geom_character->Cells [1][0]=L"Значения";
-	strng_grd_compos_sect_geom_character->Cells [0][1]=L"Площадь Ared, мм2";
-	strng_grd_compos_sect_geom_character->Cells [0][2]=L"Момент инерции Ired, мм4 ";
-	strng_grd_compos_sect_geom_character->Cells [0][3]=L"Момент сопротивления, Ц.Т. ж.б. плиты Wb,red, мм3";
-	strng_grd_compos_sect_geom_character->Cells [0][4]=L"Расстояние Zb,red, мм";
-	strng_grd_compos_sect_geom_character->Cells [0][5]=L"Расстояние Zst,red мм";
-	strng_grd_compos_sect_geom_character->Cells [0][6]=L"Расстояние Zb,st мм";
+	strng_grd_compos_sect_geom_character->Cells [0][0]=L"Р“РµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё";
+	strng_grd_compos_sect_geom_character->Cells [1][0]=L"Р—РЅР°С‡РµРЅРёСЏ";
+	strng_grd_compos_sect_geom_character->Cells [0][1]=L"РџР»РѕС‰Р°РґСЊ Ared, РјРј2";
+	strng_grd_compos_sect_geom_character->Cells [0][2]=L"РњРѕРјРµРЅС‚ РёРЅРµСЂС†РёРё Ired, РјРј4 ";
+	strng_grd_compos_sect_geom_character->Cells [0][3]=L"РњРѕРјРµРЅС‚ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёСЏ, Р¦.Рў. Р¶.Р±. РїР»РёС‚С‹ Wb,red, РјРј3";
+	strng_grd_compos_sect_geom_character->Cells [0][4]=L"Р Р°СЃСЃС‚РѕСЏРЅРёРµ Zb,red, РјРј";
+	strng_grd_compos_sect_geom_character->Cells [0][5]=L"Р Р°СЃСЃС‚РѕСЏРЅРёРµ Zst,red РјРј";
+	strng_grd_compos_sect_geom_character->Cells [0][6]=L"Р Р°СЃСЃС‚РѕСЏРЅРёРµ Zb,st РјРј";
 }
 //---------------------------------------------------------------------------
-//Функция заполняющая объект TStringGrid геометрическими характеристиками стального сечения
+//Р¤СѓРЅРєС†РёСЏ Р·Р°РїРѕР»РЅСЏСЋС‰Р°СЏ РѕР±СЉРµРєС‚ TStringGrid РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРјРё С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєР°РјРё СЃС‚Р°Р»СЊРЅРѕРіРѕ СЃРµС‡РµРЅРёСЏ
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::cotr_steel_sect_geometr_grid()
 {
-	strng_grd_steel_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
-	strng_grd_steel_sect_geom_character->Cells [1][0]=L"Значения";
-	strng_grd_steel_sect_geom_character->Cells [0][1]=L"Площадь, мм2";
-	strng_grd_steel_sect_geom_character->Cells [0][2]=L"Момент инерции, мм4";
-	strng_grd_steel_sect_geom_character->Cells [0][3]=L"Момент сопротивления крайних волокон в.полки, мм3";
-	strng_grd_steel_sect_geom_character->Cells [0][4]=L"Момент сопротивления крайних волокон н.полки, мм3";
-	strng_grd_steel_sect_geom_character->Cells [0][5]=L"Расстояние Zf2,st, мм";
-	strng_grd_steel_sect_geom_character->Cells [0][6]=L"Расстояние Zf1,st, мм";
+	strng_grd_steel_sect_geom_character->Cells [0][0]=L"Р“РµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё";
+	strng_grd_steel_sect_geom_character->Cells [1][0]=L"Р—РЅР°С‡РµРЅРёСЏ";
+	strng_grd_steel_sect_geom_character->Cells [0][1]=L"РџР»РѕС‰Р°РґСЊ, РјРј2";
+	strng_grd_steel_sect_geom_character->Cells [0][2]=L"РњРѕРјРµРЅС‚ РёРЅРµСЂС†РёРё, РјРј4";
+	strng_grd_steel_sect_geom_character->Cells [0][3]=L"РњРѕРјРµРЅС‚ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёСЏ РєСЂР°Р№РЅРёС… РІРѕР»РѕРєРѕРЅ РІ.РїРѕР»РєРё, РјРј3";
+	strng_grd_steel_sect_geom_character->Cells [0][4]=L"РњРѕРјРµРЅС‚ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёСЏ РєСЂР°Р№РЅРёС… РІРѕР»РѕРєРѕРЅ РЅ.РїРѕР»РєРё, РјРј3";
+	strng_grd_steel_sect_geom_character->Cells [0][5]=L"Р Р°СЃСЃС‚РѕСЏРЅРёРµ Zf2,st, РјРј";
+	strng_grd_steel_sect_geom_character->Cells [0][6]=L"Р Р°СЃСЃС‚РѕСЏРЅРёРµ Zf1,st, РјРј";
 }
 //---------------------------------------------------------------------------
-//Функция заполняющая объект TStringGrid геометрическими характеристиками железобетонного сечения
+//Р¤СѓРЅРєС†РёСЏ Р·Р°РїРѕР»РЅСЏСЋС‰Р°СЏ РѕР±СЉРµРєС‚ TStringGrid РіРµРѕРјРµС‚СЂРёС‡РµСЃРєРёРјРё С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєР°РјРё Р¶РµР»РµР·РѕР±РµС‚РѕРЅРЅРѕРіРѕ СЃРµС‡РµРЅРёСЏ
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::ctor_concrete_sect_geometr_grid()
 {
-	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
-	strng_grd_concrete_sect_geom_character->Cells [1][0]=L"Значения";
-	strng_grd_concrete_sect_geom_character->Cells [0][1]=L"Расчётная ширина, мм";
-	strng_grd_concrete_sect_geom_character->Cells [0][2]=L"Расстояние от нижней грани до центра тяжести, мм";
-	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Площадь, мм2";
-	strng_grd_concrete_sect_geom_character->Cells [0][4]=L"Момент инерции, мм4";
-   //	strng_grd_concrete_sect_geom_character->Cells [0][6]=L"Момент сопротивления";
+	strng_grd_concrete_sect_geom_character->Cells [0][0]=L"Р“РµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё";
+	strng_grd_concrete_sect_geom_character->Cells [1][0]=L"Р—РЅР°С‡РµРЅРёСЏ";
+	strng_grd_concrete_sect_geom_character->Cells [0][1]=L"Р Р°СЃС‡С‘С‚РЅР°СЏ С€РёСЂРёРЅР°, РјРј";
+	strng_grd_concrete_sect_geom_character->Cells [0][2]=L"Р Р°СЃСЃС‚РѕСЏРЅРёРµ РѕС‚ РЅРёР¶РЅРµР№ РіСЂР°РЅРё РґРѕ С†РµРЅС‚СЂР° С‚СЏР¶РµСЃС‚Рё, РјРј";
+	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"РџР»РѕС‰Р°РґСЊ, РјРј2";
+	strng_grd_concrete_sect_geom_character->Cells [0][4]=L"РњРѕРјРµРЅС‚ РёРЅРµСЂС†РёРё, РјРј4";
+   //	strng_grd_concrete_sect_geom_character->Cells [0][6]=L"РњРѕРјРµРЅС‚ СЃРѕРїСЂРѕС‚РёРІР»РµРЅРёСЏ";
 }
 void TCompositeBeamMainForm ::fill_steel_sect_geometr_grid()
 {
@@ -599,8 +599,8 @@ void TCompositeBeamMainForm ::fill_composite_sect_geometr_grid()
 	double Z_f2_red=composite_beam_calculator_.get_composite_section().get_Z_st_red();
 	double Z_f1_red=composite_beam_calculator_.get_composite_section().get_Z_b_st();
 
-	strng_grd_compos_sect_geom_character->Cells [1][1]=FloatToStrF(A_red, ffFixed, 15, 0); //Предельно значение точность для
-	strng_grd_compos_sect_geom_character->Cells [1][2]=FloatToStrF(I_red, ffFixed, 15, 0); //типа double 15
+	strng_grd_compos_sect_geom_character->Cells [1][1]=FloatToStrF(A_red, ffFixed, 15, 0); //РџСЂРµРґРµР»СЊРЅРѕ Р·РЅР°С‡РµРЅРёРµ С‚РѕС‡РЅРѕСЃС‚СЊ РґР»СЏ
+	strng_grd_compos_sect_geom_character->Cells [1][2]=FloatToStrF(I_red, ffFixed, 15, 0); //С‚РёРїР° double 15
 	strng_grd_compos_sect_geom_character->Cells [1][3]=FloatToStrF(W_b_red, ffFixed, 15, 0);
 	strng_grd_compos_sect_geom_character->Cells [1][4]=FloatToStrF(Z_b_red, ffFixed, 15, 0);
 	strng_grd_compos_sect_geom_character->Cells [1][5]=FloatToStrF(std::abs(Z_f2_red), ffFixed, 15, 0);
@@ -636,46 +636,46 @@ void TCompositeBeamMainForm ::fill_results_grid()
 	strng_grd_results -> Cells [1][17] = FloatToStrF(std::abs(max_ratio_studs_row.get_ratio()), ffFixed, 15, 2);
 }
 //---------------------------------------------------------------------------
-//	Функция заполняющая Grid выводящий результаты расчёта композитной балки
+//	Р¤СѓРЅРєС†РёСЏ Р·Р°РїРѕР»РЅСЏСЋС‰Р°СЏ Grid РІС‹РІРѕРґСЏС‰РёР№ СЂРµР·СѓР»СЊС‚Р°С‚С‹ СЂР°СЃС‡С‘С‚Р° РєРѕРјРїРѕР·РёС‚РЅРѕР№ Р±Р°Р»РєРё
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::cotr_ratios_grid()
 {
-	strng_grd_results -> Cells [0][0] = L"Проверка";
-	strng_grd_results -> Cells [0][1] = L"На действие изгибающих моментов при монтаже";
-	strng_grd_results -> Cells [0][2] = L"      Координата критического сечения, мм";
-	strng_grd_results -> Cells [0][3] = L"      Прочность";
-	strng_grd_results -> Cells [0][4] = L"На действие изгибающих моментов, раздел 6.2.1:";
-	strng_grd_results -> Cells [0][5] = L"      Координата критического сечения, мм";
-	strng_grd_results -> Cells [0][6] = L"      Прочность верхнего пояса стального сечения";
-	strng_grd_results -> Cells [0][7] = L"      Прочность нижнего пояса стального сечения";
-	strng_grd_results -> Cells [0][8] = L"      Прочность железобетона";
-	strng_grd_results -> Cells [0][9] = L"На действие изгибающих моментов (жёсткопластический материал), пункт 6.2.1.6:";
-	strng_grd_results -> Cells [0][10] = L"      Координата критического сечения, мм";
-	strng_grd_results -> Cells [0][11] = L"      Прочность балки";
-	strng_grd_results -> Cells [0][12] = L"Прочности на действие поперечной силы:";
-	strng_grd_results -> Cells [0][13] = L"      Координата критического сечения, мм";
-	strng_grd_results -> Cells [0][14] = L"      Прочность сечения, раздел 6.2.2";
-	strng_grd_results -> Cells [0][15] = L"Упоров объединения, раздел 9.1.2";
-	strng_grd_results -> Cells [0][16] = L"      Координата критического упора, мм";
-	strng_grd_results -> Cells [0][17] = L"      Прочность упора";
+	strng_grd_results -> Cells [0][0] = L"РџСЂРѕРІРµСЂРєР°";
+	strng_grd_results -> Cells [0][1] = L"РќР° РґРµР№СЃС‚РІРёРµ РёР·РіРёР±Р°СЋС‰РёС… РјРѕРјРµРЅС‚РѕРІ РїСЂРё РјРѕРЅС‚Р°Р¶Рµ";
+	strng_grd_results -> Cells [0][2] = L"      РљРѕРѕСЂРґРёРЅР°С‚Р° РєСЂРёС‚РёС‡РµСЃРєРѕРіРѕ СЃРµС‡РµРЅРёСЏ, РјРј";
+	strng_grd_results -> Cells [0][3] = L"      РџСЂРѕС‡РЅРѕСЃС‚СЊ";
+	strng_grd_results -> Cells [0][4] = L"РќР° РґРµР№СЃС‚РІРёРµ РёР·РіРёР±Р°СЋС‰РёС… РјРѕРјРµРЅС‚РѕРІ, СЂР°Р·РґРµР» 6.2.1:";
+	strng_grd_results -> Cells [0][5] = L"      РљРѕРѕСЂРґРёРЅР°С‚Р° РєСЂРёС‚РёС‡РµСЃРєРѕРіРѕ СЃРµС‡РµРЅРёСЏ, РјРј";
+	strng_grd_results -> Cells [0][6] = L"      РџСЂРѕС‡РЅРѕСЃС‚СЊ РІРµСЂС…РЅРµРіРѕ РїРѕСЏСЃР° СЃС‚Р°Р»СЊРЅРѕРіРѕ СЃРµС‡РµРЅРёСЏ";
+	strng_grd_results -> Cells [0][7] = L"      РџСЂРѕС‡РЅРѕСЃС‚СЊ РЅРёР¶РЅРµРіРѕ РїРѕСЏСЃР° СЃС‚Р°Р»СЊРЅРѕРіРѕ СЃРµС‡РµРЅРёСЏ";
+	strng_grd_results -> Cells [0][8] = L"      РџСЂРѕС‡РЅРѕСЃС‚СЊ Р¶РµР»РµР·РѕР±РµС‚РѕРЅР°";
+	strng_grd_results -> Cells [0][9] = L"РќР° РґРµР№СЃС‚РІРёРµ РёР·РіРёР±Р°СЋС‰РёС… РјРѕРјРµРЅС‚РѕРІ (Р¶С‘СЃС‚РєРѕРїР»Р°СЃС‚РёС‡РµСЃРєРёР№ РјР°С‚РµСЂРёР°Р»), РїСѓРЅРєС‚ 6.2.1.6:";
+	strng_grd_results -> Cells [0][10] = L"      РљРѕРѕСЂРґРёРЅР°С‚Р° РєСЂРёС‚РёС‡РµСЃРєРѕРіРѕ СЃРµС‡РµРЅРёСЏ, РјРј";
+	strng_grd_results -> Cells [0][11] = L"      РџСЂРѕС‡РЅРѕСЃС‚СЊ Р±Р°Р»РєРё";
+	strng_grd_results -> Cells [0][12] = L"РџСЂРѕС‡РЅРѕСЃС‚Рё РЅР° РґРµР№СЃС‚РІРёРµ РїРѕРїРµСЂРµС‡РЅРѕР№ СЃРёР»С‹:";
+	strng_grd_results -> Cells [0][13] = L"      РљРѕРѕСЂРґРёРЅР°С‚Р° РєСЂРёС‚РёС‡РµСЃРєРѕРіРѕ СЃРµС‡РµРЅРёСЏ, РјРј";
+	strng_grd_results -> Cells [0][14] = L"      РџСЂРѕС‡РЅРѕСЃС‚СЊ СЃРµС‡РµРЅРёСЏ, СЂР°Р·РґРµР» 6.2.2";
+	strng_grd_results -> Cells [0][15] = L"РЈРїРѕСЂРѕРІ РѕР±СЉРµРґРёРЅРµРЅРёСЏ, СЂР°Р·РґРµР» 9.1.2";
+	strng_grd_results -> Cells [0][16] = L"      РљРѕРѕСЂРґРёРЅР°С‚Р° РєСЂРёС‚РёС‡РµСЃРєРѕРіРѕ СѓРїРѕСЂР°, РјРј";
+	strng_grd_results -> Cells [0][17] = L"      РџСЂРѕС‡РЅРѕСЃС‚СЊ СѓРїРѕСЂР°";
 
-	strng_grd_results -> Cells [1][0] = L"Коэффициенты Использования (КИ) ";
+	strng_grd_results -> Cells [1][0] = L"РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ (РљР) ";
 }
 //---------------------------------------------------------------------------
-//	Функция заполняющая ComboBox случаями загружений
+//	Р¤СѓРЅРєС†РёСЏ Р·Р°РїРѕР»РЅСЏСЋС‰Р°СЏ ComboBox СЃР»СѓС‡Р°СЏРјРё Р·Р°РіСЂСѓР¶РµРЅРёР№
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::fill_cmb_bx_impact()
 {
-	cmb_bx_impact -> Items -> Append(L"Воздействие 1a");
-	cmb_bx_impact -> Items -> Append(L"Воздействие 1b");
-	cmb_bx_impact -> Items -> Append(L"Воздействие 2c");
-	cmb_bx_impact -> Items -> Append(L"Воздействие 2d");
-	cmb_bx_impact -> Items -> Append(L"Воздействие: 1b + 2c + 2d");
+	cmb_bx_impact -> Items -> Append(L"Р’РѕР·РґРµР№СЃС‚РІРёРµ 1a");
+	cmb_bx_impact -> Items -> Append(L"Р’РѕР·РґРµР№СЃС‚РІРёРµ 1b");
+	cmb_bx_impact -> Items -> Append(L"Р’РѕР·РґРµР№СЃС‚РІРёРµ 2c");
+	cmb_bx_impact -> Items -> Append(L"Р’РѕР·РґРµР№СЃС‚РІРёРµ 2d");
+	cmb_bx_impact -> Items -> Append(L"Р’РѕР·РґРµР№СЃС‚РІРёРµ: 1b + 2c + 2d");
 
 	cmb_bx_impact -> ItemIndex = 4;
 }
 //---------------------------------------------------------------------------
-//	Функция заполняющая ComboBox настилами
+//	Р¤СѓРЅРєС†РёСЏ Р·Р°РїРѕР»РЅСЏСЋС‰Р°СЏ ComboBox РЅР°СЃС‚РёР»Р°РјРё
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::fill_cmb_bx_corrugated_sheets()
 {
@@ -735,20 +735,20 @@ void __fastcall TCompositeBeamMainForm ::NExitClick(TObject *Sender)
 	Close();
 }
 //---------------------------------------------------------------------------
-//Создание отчёта
+//РЎРѕР·РґР°РЅРёРµ РѕС‚С‡С‘С‚Р°
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::generate_report()
 {
 	TWord_Automation report_ = TWord_Automation("ReportCompositeBeam.dotx");
 
-//[1.1] Топология
+//[1.1] РўРѕРїРѕР»РѕРіРёСЏ
 	Geometry geometry = composite_beam_calculator_.get_geometry();
 
 	report_.PasteTextPattern(geometry.is_end_beam_to_str(), "%end_beam%");
 	report_.PasteTextPattern(FloatToStrF(geometry.get_span(LengthUnit::mm), ffFixed, 15, 2), "%span%");
 	report_.PasteTextPattern(FloatToStrF(geometry.get_spacing_left(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_left% ");
 	report_.PasteTextPattern(FloatToStrF(geometry.get_spacing_right(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_right% ");
-//[1.2] Загружения
+//[1.2] Р—Р°РіСЂСѓР¶РµРЅРёСЏ
 	Loads loads = composite_beam_calculator_.get_loads();
 
 	report_.PasteTextPattern(FloatToStrF(loads.get_self_weight(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%steel_beam%");
@@ -759,7 +759,7 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_II%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_live_load(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%LL%");
 
-//[1.3] Коэффициенты надёжности по нагрузке
+//[1.3] РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РЅР°РґС‘Р¶РЅРѕСЃС‚Рё РїРѕ РЅР°РіСЂСѓР·РєРµ
 
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_st_SW(), ffFixed, 15, 2), "%gamma_f_st_SW%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_concrete_SW(), ffFixed, 15, 2), "%gamma_f_concrete_SW%");
@@ -767,8 +767,8 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_DL_I(), ffFixed, 15, 2), "%gamma_f_DL_I%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_DL_II(), ffFixed, 15, 2), "%gamma_f_DL_II%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_LL(), ffFixed, 15, 2), "%gamma_f_LL%");
-//[1.4] Стальное сечение
-//[1.4.1] Номинальные размеры двутавра
+//[1.4] РЎС‚Р°Р»СЊРЅРѕРµ СЃРµС‡РµРЅРёРµ
+//[1.4.1] РќРѕРјРёРЅР°Р»СЊРЅС‹Рµ СЂР°Р·РјРµСЂС‹ РґРІСѓС‚Р°РІСЂР°
 	ISection i_section = composite_beam_calculator_.get_composite_section().get_steel_part().get_section();
 
 	report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
@@ -779,7 +779,7 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(i_section.get_t_uf(LengthUnit::mm), ffFixed, 15, 2),"%t%");
 	report_.PasteTextPattern(FloatToStrF(i_section.get_t_w(LengthUnit::mm), ffFixed, 15, 2),"%s%");
 	report_.PasteTextPattern(FloatToStrF(i_section.get_r(LengthUnit::mm), ffFixed, 15, 2),"%r%");
-//[1.4.2] Характеристики стали
+//[1.4.2] РҐР°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё СЃС‚Р°Р»Рё
 	Steel steel = composite_beam_calculator_.get_composite_section().get_steel_part().get_steel();
 
 	report_.PasteTextPattern(steel.get_steel_grade(),"%steel_grade%");
@@ -789,15 +789,15 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(steel.get_G_st(), ffFixed, 15, 2),"%G_st%");
 	report_.PasteTextPattern(FloatToStrF(steel.get_nu_st(), ffFixed, 15, 2),"%nu_st%");
 	report_.PasteTextPattern(FloatToStrF(steel.get_gamma_m(), ffFixed, 15, 2),"%gamma_m%");
-//[1.5] Железобетонное сечение
-//[1.5.1] Номинальные размеры плиты
+//[1.5] Р–РµР»РµР·РѕР±РµС‚РѕРЅРЅРѕРµ СЃРµС‡РµРЅРёРµ
+//[1.5.1] РќРѕРјРёРЅР°Р»СЊРЅС‹Рµ СЂР°Р·РјРµСЂС‹ РїР»РёС‚С‹
 	ConcretePart concrete_part = composite_beam_calculator_.get_composite_section().get_concrete_part();
 
 	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
 	report_.PasteTextPattern(concrete_part.get_h_n(LengthUnit::cm),"%h_n%");
 	report_.PasteTextPattern(concrete_part.get_h_f(LengthUnit::cm),"%t_sl%");
 
-//[1.5.2] Характеристики бетона
+//[1.5.2] РҐР°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё Р±РµС‚РѕРЅР°
 	Concrete concrete = concrete_part.get_concrete();
 
 	report_.PasteTextPattern(concrete.get_grade(),"%conc_grade%");
@@ -810,13 +810,13 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(concrete.get_gamma_bt(), ffFixed, 15, 2),"%gamma_bt%");
 	report_.PasteTextPattern(FloatToStrF(concrete.get_epsilon_b_lim(), ffFixed, 15, 4),"%epsilon_b_lim%");
 
-//[1.6] Арматура
+//[1.6] РђСЂРјР°С‚СѓСЂР°
 	Rebar rebar = concrete_part.get_rebar();
 
 	report_.PasteTextPattern(rebar.get_grade(),"%grade%");
 	report_.PasteTextPattern(FloatToStrF(rebar.get_diameter(), ffFixed, 15, 2),"%d%");
 	report_.PasteTextPattern(FloatToStrF(rebar.get_R_sn(), ffFixed, 15, 2),"%R_sn%");
-//[1.7] Соединительные элементы
+//[1.7] РЎРѕРµРґРёРЅРёС‚РµР»СЊРЅС‹Рµ СЌР»РµРјРµРЅС‚С‹
 	Stud stud = composite_beam_calculator_.get_studs_on_beam().get_stud();
 
 	StudsOnBeam studs_on_beam = composite_beam_calculator_.get_studs_on_beam();
@@ -832,34 +832,34 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(studs_on_beam.get_more_than_one_stud_per_corrugation_edge_string(),"%ed_more_than_one_stud%");
 	report_.PasteTextPattern(studs_on_beam.get_more_than_one_stud_per_corrugation_middle_string(),"%mid_more_than_one_stud%");
 
-//[1.8] Коэффициенты
+//[1.8] РљРѕСЌС„С„РёС†РёРµРЅС‚С‹
 
 	WorkingConditionsFactors working_conditions_factors = composite_beam_calculator_.get_working_conditions_factors();
 
 	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_c(), ffFixed, 15, 2),"%gamma_c%");
 	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_bi(), ffFixed, 15, 2),"%gamma_bi%");
 	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_si(), ffFixed, 15, 2),"%gamma_si%");
-//[1.9] Учёт условий монтажа
+//[1.9] РЈС‡С‘С‚ СѓСЃР»РѕРІРёР№ РјРѕРЅС‚Р°Р¶Р°
 
 	report_.PasteTextPattern(FloatToStrF(static_cast<int>(geometry.get_temporary_supports_number()), ffFixed, 15, 0),"%temp_supp%");
 	report_.PasteTextPattern(FloatToStrF(loads.get_sheeting_continuity_coefficient(), ffFixed, 15, 2),"%sheeting_continuity_coeff%");
 
-//[2] Результаты расчёта балки
-//[2.1] Геометрические параметры
-//[2.1.1] Стального сечения
+//[2] Р РµР·СѓР»СЊС‚Р°С‚С‹ СЂР°СЃС‡С‘С‚Р° Р±Р°Р»РєРё
+//[2.1] Р“РµРѕРјРµС‚СЂРёС‡РµСЃРєРёРµ РїР°СЂР°РјРµС‚СЂС‹
+//[2.1.1] РЎС‚Р°Р»СЊРЅРѕРіРѕ СЃРµС‡РµРЅРёСЏ
 	report_.PasteTextPattern(FloatToStrF(i_section.get_A_st(LengthUnit::cm), ffFixed, 15, 2),"%A_st%");
 	report_.PasteTextPattern(FloatToStrF(i_section.get_I_st(LengthUnit::cm), ffFixed, 15, 2),"%I_st%");
 	report_.PasteTextPattern(FloatToStrF(i_section.get_Wf2_st(LengthUnit::cm), ffFixed, 15, 2),"%Wf2_st%");
 	report_.PasteTextPattern(FloatToStrF(i_section.get_Wf1_st(LengthUnit::cm), ffFixed, 15, 2),"%Wf1_st%");
 	report_.PasteTextPattern(FloatToStrF(i_section.get_Z_f2_st(LengthUnit::cm), ffFixed, 15, 2),"%Z_f2_st%");
 	report_.PasteTextPattern(FloatToStrF(i_section.get_Z_f1_st(LengthUnit::cm), ffFixed, 15, 2),"%Z_f1_st%");
-//[2.1.2] Железобетонного сечения
+//[2.1.2] Р–РµР»РµР·РѕР±РµС‚РѕРЅРЅРѕРіРѕ СЃРµС‡РµРЅРёСЏ
 	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_b_sl(LengthUnit::cm), ffFixed, 15, 2),"%b_sl%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_C_b(LengthUnit::cm), ffFixed, 15, 2),"%C_b%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_A_b(LengthUnit::cm), ffFixed, 15, 2),"%A_b%");
 	report_.PasteTextPattern(FloatToStrF(concrete_part.get_I_b(LengthUnit::cm), ffFixed, 15, 2),"%I_b%");
-//[2.1.3] Композитного сечения
+//[2.1.3] РљРѕРјРїРѕР·РёС‚РЅРѕРіРѕ СЃРµС‡РµРЅРёСЏ
 
 	CompositeSectionGeometry composite_section_geometry = composite_beam_calculator_.get_composite_section();
 
@@ -869,7 +869,7 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(composite_section_geometry.get_Z_b_red(LengthUnit::cm), ffFixed, 15, 2),"%Z_b_red%");
 	report_.PasteTextPattern(FloatToStrF(composite_section_geometry.get_Z_st_red(LengthUnit::cm), ffFixed, 15, 2),"%Z_st_red%");
 	report_.PasteTextPattern(FloatToStrF(composite_section_geometry.get_Z_b_st(LengthUnit::cm), ffFixed, 15, 2),"%Z_b_st%");
-//[2.2] Усилия
+//[2.2] РЈСЃРёР»РёСЏ
 	Section max_direct_stress_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_direct_stress_ratio_section();
 
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_x(), ffFixed, 15, 0),"%cs_x%");
@@ -879,41 +879,41 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_M_IIb_design(kN, m), ffFixed, 15, 2),"%M_IIb%");
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_M_total_design(kN, m), ffFixed, 15, 2),"%M_total%");
 
-//[2.3] Напряжения
+//[2.3] РќР°РїСЂСЏР¶РµРЅРёСЏ
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_sigma_b(), ffFixed, 15, 2),"%sigma_b%");
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_sigma_s(), ffFixed, 15, 2),"%sigma_s%");
-//[2.4] Коэффициенты использования
-//[2.4.1] По изгибающим моментам при монтаже
+//[2.4] РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
+//[2.4.1] РџРѕ РёР·РіРёР±Р°СЋС‰РёРј РјРѕРјРµРЅС‚Р°Рј РїСЂРё РјРѕРЅС‚Р°Р¶Рµ
 
 	Section max_i_section_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_i_section_ratio_section();
 
 	report_.PasteTextPattern(FloatToStrF(max_i_section_ratio_section.get_x(),ffFixed, 15, 2),"%x_M_I%");
 	report_.PasteTextPattern(FloatToStrF(max_i_section_ratio_section.get_i_section_ratio(),ffFixed, 15, 2),"%i_section_ratio%");
 
-//[2.4.2] По изгибающим моментам, раздел 6.2.1
+//[2.4.2] РџРѕ РёР·РіРёР±Р°СЋС‰РёРј РјРѕРјРµРЅС‚Р°Рј, СЂР°Р·РґРµР» 6.2.1
 
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_x(),ffFixed, 15, 2),"%x_M%");
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_upper_fl_ratio(),ffFixed, 15, 2),"%ratio_uf%");
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_lower_fl_ratio(),ffFixed, 15, 2),"%ratio_lf%");
 	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_conc_ratio(),ffFixed, 15, 2),"%conc_ratio%");
 
-//[2.4.3] По изгибающим моментам (жёсткопластический материал), пункт 6.2.1.6
+//[2.4.3] РџРѕ РёР·РіРёР±Р°СЋС‰РёРј РјРѕРјРµРЅС‚Р°Рј (Р¶С‘СЃС‚РєРѕРїР»Р°СЃС‚РёС‡РµСЃРєРёР№ РјР°С‚РµСЂРёР°Р»), РїСѓРЅРєС‚ 6.2.1.6
 
 	Section max_rigid_plastic_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_rigid_plastic_ratio_section();
 
 	report_.PasteTextPattern(FloatToStrF(max_rigid_plastic_ratio_section.get_x(),ffFixed, 15, 2),"%x_rigid_plastic%");
 	report_.PasteTextPattern(FloatToStrF(max_rigid_plastic_ratio_section.get_rigid_plastic_ratio(),ffFixed, 15, 2),"%ratio_rigid_plastic%");
 
-//[2.4.4] По поперечным силам, пункт 6.2.2
+//[2.4.4] РџРѕ РїРѕРїРµСЂРµС‡РЅС‹Рј СЃРёР»Р°Рј, РїСѓРЅРєС‚ 6.2.2
 
 	Section max_shear_stress_section = composite_beam_calculator_.get_composite_beam().get_max_shear_stress_ratio_section();
 
 	report_.PasteTextPattern(FloatToStrF(max_shear_stress_section.get_x(),ffFixed, 15, 2),"%x_Q%");
 	report_.PasteTextPattern(FloatToStrF(max_shear_stress_section.get_shear_ratio(),ffFixed, 15, 2),"%ratio_shear%");
 
-//[3] Результаты расчёта конструкций объединения
+//[3] Р РµР·СѓР»СЊС‚Р°С‚С‹ СЂР°СЃС‡С‘С‚Р° РєРѕРЅСЃС‚СЂСѓРєС†РёР№ РѕР±СЉРµРґРёРЅРµРЅРёСЏ
 
-//[3.1] Несущая способность упора
+//[3.1] РќРµСЃСѓС‰Р°СЏ СЃРїРѕСЃРѕР±РЅРѕСЃС‚СЊ СѓРїРѕСЂР°
 
 	StudsRow max_ratio_studs_row = composite_beam_calculator_.get_studs_on_beam().get_max_ratio_studs_row();
 
@@ -921,16 +921,16 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_k(),ffFixed, 15, 2),"%k%");
 	report_.PasteTextPattern(FloatToStrF(stud.get_S_h(kN),ffFixed, 15, 2),"%S_h%");
 
-  //[3.2] Усилия
+  //[3.2] РЈСЃРёР»РёСЏ
 	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_x(),ffFixed, 15, 2),"%cs_stud%");
 	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_S(LoadUnit::kN),ffFixed, 15, 2),"%S_stud%");
 
- //  [3.3] Коэффициенты использования
+ //  [3.3] РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
 	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_ratio(),ffFixed, 15, 2),"%ratio_stud%");
 }
 
 //---------------------------------------------------------------------------
-// Отрисовка эпюр
+// РћС‚СЂРёСЃРѕРІРєР° СЌРїСЋСЂ
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::draw_diagram()
 {
@@ -943,7 +943,7 @@ void TCompositeBeamMainForm ::draw_diagram()
 
 	switch (cmb_bx_impact->ItemIndex)
 	{
-	case(0): // Нагрузки Ia стадии
+	case(0): // РќР°РіСЂСѓР·РєРё Ia СЃС‚Р°РґРёРё
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_Ia_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_Ia_design_list(LoadUnit::kN);
@@ -953,7 +953,7 @@ void TCompositeBeamMainForm ::draw_diagram()
 		coor_supp = composite_beam_calculator_.get_composite_beam().get_support_x_list();
 
 		break;
-	case(1): // Нагрузки Ib стадии
+	case(1): // РќР°РіСЂСѓР·РєРё Ib СЃС‚Р°РґРёРё
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_Ib_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_Ib_design_list(LoadUnit::kN);
@@ -963,7 +963,7 @@ void TCompositeBeamMainForm ::draw_diagram()
 		coor_supp = composite_beam_calculator_.get_composite_beam().get_support_x_list();
 
 		break;
-	case(2): // Нагрузки IIa стадии
+	case(2): // РќР°РіСЂСѓР·РєРё IIa СЃС‚Р°РґРёРё
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_IIa_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_IIa_design_list(LoadUnit::kN);
@@ -975,7 +975,7 @@ void TCompositeBeamMainForm ::draw_diagram()
 
 		break;
 
-	case(3): // Нагрузки IIb стадии
+	case(3): // РќР°РіСЂСѓР·РєРё IIb СЃС‚Р°РґРёРё
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_IIb_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_IIb_design_list(LoadUnit::kN);
@@ -987,7 +987,7 @@ void TCompositeBeamMainForm ::draw_diagram()
 
 		break;
 
-	case(4)://Нагрузки полные
+	case(4)://РќР°РіСЂСѓР·РєРё РїРѕР»РЅС‹Рµ
 
 		M = composite_beam_calculator_.get_composite_beam().get_M_total_design_list(LoadUnit::kN, LengthUnit::m);
 		Q = composite_beam_calculator_.get_composite_beam().get_Q_total_design_list(LoadUnit::kN);
@@ -1003,7 +1003,7 @@ void TCompositeBeamMainForm ::draw_diagram()
 	TImage *Image1=img_static_scheme;
 	std::vector<double> coor_epur = composite_beam_calculator_.get_composite_beam().get_x_list();
 
-//флаг отрисовки значений на эпюре
+//С„Р»Р°Рі РѕС‚СЂРёСЃРѕРІРєРё Р·РЅР°С‡РµРЅРёР№ РЅР° СЌРїСЋСЂРµ
 	bool flag_sign = true;
 	int num_digits = 2;
 	bool con_sign_practice = true;
@@ -1071,7 +1071,7 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 									  ComposSectGeomSP35::ConcStateConsid::creep};
 
 
-	  //подготовка калькулятора внутренних усилий
+	  //РїРѕРґРіРѕС‚РѕРІРєР° РєР°Р»СЊРєСѓР»СЏС‚РѕСЂР° РІРЅСѓС‚СЂРµРЅРЅРёС… СѓСЃРёР»РёР№
 	SupportsNumber tmp_sup_num = geom.get_temporary_supports_number();
 	double L = geom.get_span();
 	double B = geom.get_trib_width();
@@ -1093,6 +1093,9 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 
 	  SectOutputSP35List const sect_output_lst = com_beam_calc.calculate(x_lst);
 
+	  TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.docx");
+
+	  sect_output_lst.print_data_to_report(report);
 
 #ifndef NDEBUG
 	  com_sect.print_data_to_logger(*frm_logger_);
@@ -1125,7 +1128,7 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 	catch (String str)
 	{
 		Application -> MessageBox(str.w_str(),
-								  L"Расчёт невозможен",
+								  L"Р Р°СЃС‡С‘С‚ РЅРµРІРѕР·РјРѕР¶РµРЅ",
 								  MB_OK | MB_ICONERROR);
 		return;
 	}
@@ -1152,28 +1155,28 @@ void __fastcall TCompositeBeamMainForm ::NNewClick(TObject *Sender)
 {
 	int i;
 	if (modify_project) {
-		 i=Application->MessageBox(L"Сохранить текущий проект?", L" ",
+		 i=Application->MessageBox(L"РЎРѕС…СЂР°РЅРёС‚СЊ С‚РµРєСѓС‰РёР№ РїСЂРѕРµРєС‚?", L" ",
 				  MB_YESNO | MB_ICONQUESTION);
 		 if (i==IDYES) NSaveClick(Sender);
 	}
 	strcpy(ModelFile, UNTITLED);
 	modify_project = false;
 
-	Caption = "Расчет комбинированной балки - [Новый проект]";
+	Caption = "Р Р°СЃС‡РµС‚ РєРѕРјР±РёРЅРёСЂРѕРІР°РЅРЅРѕР№ Р±Р°Р»РєРё - [РќРѕРІС‹Р№ РїСЂРѕРµРєС‚]";
 
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm ::NSaveClick(TObject *Sender)
 {
-	update_composite_beam(); //актуализируем композитную балку из полей формы
-   // Получение имени директории, в которой находится исполняемый модуль
+	update_composite_beam(); //Р°РєС‚СѓР°Р»РёР·РёСЂСѓРµРј РєРѕРјРїРѕР·РёС‚РЅСѓСЋ Р±Р°Р»РєСѓ РёР· РїРѕР»РµР№ С„РѕСЂРјС‹
+   // РџРѕР»СѓС‡РµРЅРёРµ РёРјРµРЅРё РґРёСЂРµРєС‚РѕСЂРёРё, РІ РєРѕС‚РѕСЂРѕР№ РЅР°С…РѕРґРёС‚СЃСЏ РёСЃРїРѕР»РЅСЏРµРјС‹Р№ РјРѕРґСѓР»СЊ
 
    if  (strcmp(ModelFile, UNTITLED)==0) {
 	  if(SaveDialog_Model->Execute())
 	  {
-		  FileDir_Name = SaveDialog_Model->FileName;;//поле класс хранит путь полный
-		  ModelName(FileDir_Name.c_str(), ModelFile); //выделяет имя файла для отображения на форме из пути
+		  FileDir_Name = SaveDialog_Model->FileName;;//РїРѕР»Рµ РєР»Р°СЃСЃ С…СЂР°РЅРёС‚ РїСѓС‚СЊ РїРѕР»РЅС‹Р№
+		  ModelName(FileDir_Name.c_str(), ModelFile); //РІС‹РґРµР»СЏРµС‚ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РЅР° С„РѕСЂРјРµ РёР· РїСѓС‚Рё
 	  }
    }
 
@@ -1183,7 +1186,7 @@ void __fastcall TCompositeBeamMainForm ::NSaveClick(TObject *Sender)
 	composite_beam_calculator_.save(ofstr);
 	ofstr.close();
 
-   Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
+   Caption = "Р Р°СЃС‡РµС‚ РєРѕРјР±РёРЅРёСЂРѕРІР°РЅРЅРѕР№ Р±Р°Р»РєРё - " + AnsiString(ModelFile);
 
    modify_project = false;
 }
@@ -1195,7 +1198,7 @@ void __fastcall TCompositeBeamMainForm ::NSaveAsClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 //@--------------------------------------------------------------------------
-// Выделение из имени файла в имени модели
+// Р’С‹РґРµР»РµРЅРёРµ РёР· РёРјРµРЅРё С„Р°Р№Р»Р° РІ РёРјРµРЅРё РјРѕРґРµР»Рё
 void ModelName(char * str0, char* ModelFile)
 {
 	  char *ptr1, *ptr2;
@@ -1242,7 +1245,7 @@ void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 
 	  ModelName(FileDir_Name.c_str(), ModelFile);
 
-	  Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
+	  Caption = "Р Р°СЃС‡РµС‚ РєРѕРјР±РёРЅРёСЂРѕРІР°РЅРЅРѕР№ Р±Р°Р»РєРё - " + AnsiString(ModelFile);
 
 	  modify_project = false;
 
@@ -1254,7 +1257,7 @@ void TCompositeBeamMainForm ::clean_static_scheme()
 {
    	img_static_scheme -> Canvas -> Brush -> Color = clWhite;
 	img_static_scheme -> Canvas -> FillRect (img_static_scheme -> Canvas -> ClipRect);
-   //img_static_scheme -> Picture = nullptr;  нет ли утечки памяти?
+   //img_static_scheme -> Picture = nullptr;  РЅРµС‚ Р»Рё СѓС‚РµС‡РєРё РїР°РјСЏС‚Рё?
 }
 void TCompositeBeamMainForm ::clean_grid(TStringGrid* str_grd)
 {
@@ -1279,12 +1282,12 @@ void __fastcall TCompositeBeamMainForm ::OnControlsChange(TObject *Sender)
 void __fastcall TCompositeBeamMainForm ::chck_bx_end_beamClick(TObject *Sender)
 {
 	if (chck_bx_end_beam->Checked){
-		lbl_trib_width_left->Caption="Свес плиты, мм:";
-		lbl_trib_width_right->Caption="Расстояние до балки справа, мм:";
+		lbl_trib_width_left->Caption="РЎРІРµСЃ РїР»РёС‚С‹, РјРј:";
+		lbl_trib_width_right->Caption="Р Р°СЃСЃС‚РѕСЏРЅРёРµ РґРѕ Р±Р°Р»РєРё СЃРїСЂР°РІР°, РјРј:";
 		}
 	else{
-		lbl_trib_width_left->Caption="Расстояние до балки слева, мм:";
-		lbl_trib_width_right->Caption="Расстояние до балки справа, мм:";
+		lbl_trib_width_left->Caption="Р Р°СЃСЃС‚РѕСЏРЅРёРµ РґРѕ Р±Р°Р»РєРё СЃР»РµРІР°, РјРј:";
+		lbl_trib_width_right->Caption="Р Р°СЃСЃС‚РѕСЏРЅРёРµ РґРѕ Р±Р°Р»РєРё СЃРїСЂР°РІР°, РјРј:";
 	}
 	OnControlsChange(Sender);
 }
@@ -1353,7 +1356,7 @@ void __fastcall TCompositeBeamMainForm ::N8Click(TObject *Sender)
 
 
 //---------------------------------------------------------------------------
-//Обработчик события обеспечивающий заполнение первой строки жирным шрифтом
+//РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ РѕР±РµСЃРїРµС‡РёРІР°СЋС‰РёР№ Р·Р°РїРѕР»РЅРµРЅРёРµ РїРµСЂРІРѕР№ СЃС‚СЂРѕРєРё Р¶РёСЂРЅС‹Рј С€СЂРёС„С‚РѕРј
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm::strng_grd_first_raw_bold(TObject *Sender,
@@ -1376,7 +1379,7 @@ void __fastcall TCompositeBeamMainForm::btn_add_impactsClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::HelpClick(TObject *Sender)
 {
-	WideString path = ExtractFilePath(Application -> ExeName) + "Руководство Пользователя Комбинированная Балка v.1.0.0.pdf";
+	WideString path = ExtractFilePath(Application -> ExeName) + "Р СѓРєРѕРІРѕРґСЃС‚РІРѕ РџРѕР»СЊР·РѕРІР°С‚РµР»СЏ РљРѕРјР±РёРЅРёСЂРѕРІР°РЅРЅР°СЏ Р‘Р°Р»РєР° v.1.0.0.pdf";
 
 	HelpForm -> CppWebBrowser1 -> Navigate((BSTR)path);
 
