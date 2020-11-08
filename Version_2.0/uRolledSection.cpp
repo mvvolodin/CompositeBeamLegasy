@@ -8,15 +8,15 @@
 #pragma package(smart_init)
 
 RolledSection::RolledSection(std::wstring const & prof_num,
-							 double const  b_f1, double const  t_f1,
-							 double const  b_f2, double const  t_f2,
+							 double const lower_fl_width, double const  lower_fl_thick,
+							 double const upper_fl_width, double const  upper_fl_thick,
 							 double const  h_w, double const  t_w,
 							 double const  C, double const  A, double const  I):
 								 prof_num_(prof_num),
-								 b_f1_(b_f1),
-								 t_f1_(t_f1),
-								 b_f2_(b_f1),
-								 t_f2_(t_f1),
+								 lower_fl_width_(lower_fl_width),
+								 lower_fl_thick_(lower_fl_thick),
+								 upper_fl_width_(upper_fl_width),
+								 upper_fl_thick_(upper_fl_thick),
 								 h_w_(h_w),
 								 t_w_(t_w),
 								 C_(C),
@@ -30,21 +30,21 @@ String RolledSection::name()const
 {
 	return "Прокатное";
 }
-double RolledSection::b_f1()const
+double RolledSection::lower_fl_width()const
 {
-	return b_f1_;
+	return lower_fl_width_;
 }
-double RolledSection::t_f1()const
+double RolledSection::lower_fl_thick()const
 {
-	return t_f1_;
+	return lower_fl_thick_;
 }
-double RolledSection::b_f2()const
+double RolledSection::upper_fl_width()const
 {
-	return b_f2_;
+	return upper_fl_width_;
 }
-double RolledSection::t_f2()const
+double RolledSection::upper_fl_thick()const
 {
-	return t_f2_;
+	return upper_fl_thick_;
 }
 double RolledSection::h_w()const
 {
@@ -56,7 +56,7 @@ double RolledSection::t_w()const
 }
 double RolledSection::h_st()const
 {
-	return t_f1_ + h_w_ + t_f1_;
+	return lower_fl_thick_ + h_w_ + upper_fl_thick_;
 }
 
 double RolledSection::C_st()const
@@ -65,11 +65,11 @@ double RolledSection::C_st()const
 }
 double RolledSection::A_f1_st()const
 {
-	return b_f1_ * t_f1_;
+	return lower_fl_width_ * lower_fl_thick_;
 }
 double RolledSection::A_f2_st()const
 {
-	return b_f2_ * t_f2_;
+	return upper_fl_width_ * upper_fl_thick_;
 }
 double RolledSection::A_st()const
 {
@@ -105,9 +105,10 @@ double RolledSection::Z_f1_st()const
 {
 	return C_;
 }
-
+#ifndef NDEBUG
 void RolledSection::print_data_to_logger(TFormLogger const & log)const
 {
 	log.add_heading(L"Тип сечения");
 	log.print_string(L"Прокатный двутавр");;
 }
+#endif

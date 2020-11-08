@@ -58,9 +58,9 @@ void Section::calculate_stresses(CompositeSectionGeometry& com_sect,
 	double R_b = com_sect.get_concrete_part().get_concrete().get_R_b();
 	double R_s = com_sect.get_concrete_part().get_rebar().get_R_s();
 
-	double gamma_bi = working_conditions_factors.get_gamma_bi();
-	double gamma_si = working_conditions_factors.get_gamma_si();
-	double gamma_c = working_conditions_factors.get_gamma_c();
+	double gamma_bi = working_conditions_factors.gamma_bi();
+	double gamma_si = working_conditions_factors.gamma_si();
+	double gamma_c = working_conditions_factors.gamma_c();
 
 	sigma_b_ = std::abs(M_IIa_design_ + M_IIb_design_)/(alfa_b*W_b_red) - sigma_bi_;
 	sigma_s_ = std::abs(M_IIa_design_ + M_IIb_design_)/(alfa_s*W_b_red) - sigma_si_;
@@ -99,8 +99,8 @@ void Section::calculate_direct_stress_ratios(CompositeSectionGeometry& com_sect,
 	double A_b = com_sect.get_concrete_part().get_A_b();
 	double R_y = com_sect.get_steel_part().get_steel().get_R_y ();
 	double R_b = com_sect.get_concrete_part().get_concrete().get_R_bn();
-	double gamma_bi = working_conditions_factors.get_gamma_bi();
-	double gamma_c = working_conditions_factors.get_gamma_c();
+	double gamma_bi = working_conditions_factors.gamma_bi();
+	double gamma_c = working_conditions_factors.gamma_c();
 	double A_f2_st = com_sect.get_steel_part().get_section().get_A_f2_st();
 	double E_st = com_sect.get_steel_part().get_steel().get_E_st();
 	double epsilon_b_lim = com_sect.get_concrete_part().get_concrete().get_epsilon_b_lim();
@@ -162,7 +162,7 @@ void Section::calculate_i_sect_ratio(CompositeSectionGeometry& com_sect,
 									 WorkingConditionsFactors& working_conditions_factors)
 {
 	const double M_Rd = com_sect.get_steel_part().get_M_Rd();
-	const double gamma_c = working_conditions_factors.get_gamma_c();
+	const double gamma_c = working_conditions_factors.gamma_c();
 
 	i_section_ratio_ = std::abs(M_Ia_design_) / (M_Rd * gamma_c);
 }

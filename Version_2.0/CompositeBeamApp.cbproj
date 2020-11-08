@@ -270,6 +270,10 @@
             <DependentOn>uBilinearInterp.h</DependentOn>
             <BuildOrder>56</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uComBeamOutputSP35.cpp">
+            <DependentOn>uComBeamOutputSP35.h</DependentOn>
+            <BuildOrder>63</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uCompositeBeam.cpp">
             <DependentOn>uCompositeBeam.h</DependentOn>
             <BuildOrder>48</BuildOrder>
@@ -386,10 +390,6 @@
         <CppCompile Include="uSectOutputSP35.cpp">
             <DependentOn>uSectOutputSP35.h</DependentOn>
             <BuildOrder>57</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uSectOutputSP35List.cpp">
-            <DependentOn>uSectOutputSP35List.h</DependentOn>
-            <BuildOrder>62</BuildOrder>
         </CppCompile>
         <CppCompile Include="uSlabConcreteSection.cpp">
             <DependentOn>uSlabConcreteSection.h</DependentOn>

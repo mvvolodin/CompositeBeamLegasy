@@ -7,8 +7,9 @@
 #include <ostream>
 #include <istream>
 #include <cassert>
-#include "Units.h"
 #include <map>
+#include "Units.h"
+#include "uWord_Automation.h"
 //-----------------------------------------------------------------------------
 // ласс предоставл€ющий значени€ нагрузок от комбинаций загружений
 //ѕеред использованием необходимо вызвать метод
@@ -78,10 +79,12 @@ public:
 	double get_sigma_si()const{return sigma_si_;}
 
 	double get_gamma_f_DL_I() const {return gamma_f_DL_I_;}
-	double get_gamma_f_DL_II(){return gamma_f_DL_II_;}
+	double get_gamma_f_DL_II()const{return gamma_f_DL_II_;}
 	double get_gamma_f_LL()const {return gamma_f_LL_;}
 
 	double get_sheeting_continuity_coefficient(){return sheeting_continuity_coefficient_;}
+
+	void print_data_to_report(TWord_Automation & report)const;
 
 private:
 	double SW_steel_beam_ = 0.;

@@ -10,29 +10,37 @@ WorkingConditionsFactors::WorkingConditionsFactors()
 {
 
 }
-WorkingConditionsFactors::WorkingConditionsFactors(double gamma_bi, double gamma_si, double gamma_c)
-	:gamma_bi_(gamma_bi),gamma_si_(gamma_si),gamma_c_(gamma_c)
-{
-
-}
+WorkingConditionsFactors::WorkingConditionsFactors(double gamma_conc,
+												   double gamma_rebar,
+												   double gamma_com_beam)
+	:gamma_conc_(gamma_conc),
+	 gamma_rebar_(gamma_rebar),
+	 gamma_com_beam_(gamma_com_beam){}
 void WorkingConditionsFactors::save(std::ostream& ostr)const
 {
-	ostr.write((char*)&gamma_bi_ ,sizeof(gamma_bi_));
-	ostr.write((char*)&gamma_si_ ,sizeof(gamma_si_));
-	ostr.write((char*)&gamma_c_ ,sizeof(gamma_c_));
+	ostr.write((char*)&gamma_conc_ ,sizeof(gamma_conc_));
+	ostr.write((char*)&gamma_rebar_ ,sizeof(gamma_rebar_));
+	ostr.write((char*)&gamma_com_beam_ ,sizeof(gamma_com_beam_));
 }
 void WorkingConditionsFactors::load(std::istream& istr)
 {
-	istr.read((char*)&gamma_bi_ ,sizeof(gamma_bi_));
-	istr.read((char*)&gamma_si_ ,sizeof(gamma_si_));
-	istr.read((char*)&gamma_c_ ,sizeof(gamma_c_));
+	istr.read((char*)&gamma_conc_ ,sizeof(gamma_conc_));
+	istr.read((char*)&gamma_rebar_ ,sizeof(gamma_rebar_));
+	istr.read((char*)&gamma_com_beam_ ,sizeof(gamma_com_beam_));
 }
 //-----------------------------------------------------------------------------
 //ѕрисваение данным класса значений по умолчанию
 //-----------------------------------------------------------------------------
 void WorkingConditionsFactors::set_default_values()
 {
-	gamma_bi_= 1.;
-	gamma_si_ = 1.;
-	gamma_c_  = 1.;
+	gamma_conc_= 1.;
+	gamma_rebar_ = 1.;
+	gamma_com_beam_  = 1.;
+}
+void WorkingConditionsFactors::print_data_to_report_SP35(TWord_Automation & report)const
+{
+	report.PasteTextPattern(FloatToStrF(m_b(), ffFixed, 15, 2),"%gamma_c%");
+	report.PasteTextPattern(FloatToStrF(m_r(), ffFixed, 15, 2),"%gamma_bi%");
+	report.PasteTextPattern(FloatToStrF(m(), ffFixed, 15, 2),"%gamma_si%");
+
 }

@@ -193,4 +193,23 @@ void Loads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double S
 	fully_initialized_ = true;
 }
 
+void Loads::print_data_to_report(TWord_Automation & report)const
+{
+	report.PasteTextPattern(FloatToStrF(get_self_weight(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%steel_beam%");
+	report.PasteTextPattern(FloatToStrF(get_self_weight_sheets(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_sheets%");
+	report.PasteTextPattern(FloatToStrF(get_SW_concrete(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_concrete%");
+	report.PasteTextPattern(FloatToStrF(get_SW_add_concrete(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_add_concrete%");
+	report.PasteTextPattern(FloatToStrF(get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_I%");
+	report.PasteTextPattern(FloatToStrF(get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_II%");
+	report.PasteTextPattern(FloatToStrF(get_live_load(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%LL%");
+
+	report.PasteTextPattern(FloatToStrF(get_gamma_f_st_SW(), ffFixed, 15, 2), "%gamma_f_st_SW%");
+	report.PasteTextPattern(FloatToStrF(get_gamma_f_concrete_SW(), ffFixed, 15, 2), "%gamma_f_concrete_SW%");
+	report.PasteTextPattern(FloatToStrF(get_gamma_f_add_concrete_SW(), ffFixed, 15, 2), "%SW gamma_f_add_concr%");
+	report.PasteTextPattern(FloatToStrF(get_gamma_f_DL_I(), ffFixed, 15, 2), "%gamma_f_DL_I%");
+	report.PasteTextPattern(FloatToStrF(get_gamma_f_DL_II(), ffFixed, 15, 2), "%gamma_f_DL_II%");
+	report.PasteTextPattern(FloatToStrF(get_gamma_f_LL(), ffFixed, 15, 2), "%gamma_f_LL%");
+
+}
+
 

@@ -18,6 +18,15 @@ Geometry::Geometry(bool end_beam, double L, double B_l, double B_r, SupportsNumb
 	 temp_supports_num_	(temp_supports_num)
 {
 }
+
+void Geometry::print_data_to_report(TWord_Automation & report)const
+{
+	report.PasteTextPattern(is_end_beam_to_str(), "%end_beam%");
+	report.PasteTextPattern(FloatToStrF(get_span(LengthUnit::mm), ffFixed, 15, 2), "%span%");
+	report.PasteTextPattern(FloatToStrF(get_spacing_left(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_left% ");
+	report.PasteTextPattern(FloatToStrF(get_spacing_right(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_right% ");
+
+}
 void Geometry::set_default_values()
 {
 	end_beam_ = false;
@@ -124,3 +133,5 @@ double Geometry::get_trib_width(LengthUnit length_units)const
 	return (B_l_ / 2 + B_r_ / 2) / static_cast<int>(length_units);
 
 }
+
+

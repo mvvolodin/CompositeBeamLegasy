@@ -86,9 +86,9 @@ void TCompositeBeamMainForm ::set_form_controls()
 
 //Данные типа WorkingConditionsFactors
 	WorkingConditionsFactors wcf = composite_beam_calculator_.get_working_conditions_factors();
-	edt_gamma_bi -> Text = wcf.get_gamma_bi();
-	edt_gamma_si -> Text = wcf.get_gamma_si();
-	edt_gamma_c -> Text = wcf.get_gamma_c();
+	edt_gamma_bi -> Text = wcf.gamma_bi();
+	edt_gamma_si -> Text = wcf.gamma_si();
+	edt_gamma_c -> Text = wcf.gamma_c();
 
 //Максимальное расстояние между расчётными сечениями:
 	edt_max_elem_length -> Text = composite_beam_calculator_.get_max_elem_length();
@@ -836,9 +836,9 @@ void TCompositeBeamMainForm ::generate_report()
 
 	WorkingConditionsFactors working_conditions_factors = composite_beam_calculator_.get_working_conditions_factors();
 
-	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_c(), ffFixed, 15, 2),"%gamma_c%");
-	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_bi(), ffFixed, 15, 2),"%gamma_bi%");
-	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.get_gamma_si(), ffFixed, 15, 2),"%gamma_si%");
+	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.gamma_c(), ffFixed, 15, 2),"%gamma_c%");
+	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.gamma_bi(), ffFixed, 15, 2),"%gamma_bi%");
+	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.gamma_si(), ffFixed, 15, 2),"%gamma_si%");
 //[1.9] Учёт условий монтажа
 
 	report_.PasteTextPattern(FloatToStrF(static_cast<int>(geometry.get_temporary_supports_number()), ffFixed, 15, 0),"%temp_supp%");
@@ -1091,20 +1091,25 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 
 	  std::vector<double> const x_lst {0, L/4,  L/3, L/2, 2*L/3, 3*L/4, L};
 
-	  SectOutputSP35List const sect_output_lst = com_beam_calc.calculate(x_lst);
+	  ComBeamOutputSP35 const com_beam_output = com_beam_calc.calculate(x_lst);
 
 	  TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.docx");
 
-	  sect_output_lst.print_data_to_report(report);
+	  geom.print_data_to_report(report);
+	  loads.print_data_to_report(report);
+	  working_conditions_factors.print_data_to_report_SP35(report);
 
-#ifndef NDEBUG
-	  com_sect.print_data_to_logger(*frm_logger_);
-	  com_sect_sh.print_data_to_logger(*frm_logger_);
-	  com_sect_cr.print_data_to_logger(*frm_logger_);
 
-	  for(auto  & sect_output:sect_output_lst)
-		sect_output.print_data_to_logger(*frm_logger_);
-#endif
+	  com_beam_output.print_data_to_report(report);
+
+//#ifndef NDEBUG
+//	  com_sect.print_data_to_logger(*frm_logger_);
+//	  com_sect_sh.print_data_to_logger(*frm_logger_);
+//	  com_sect_cr.print_data_to_logger(*frm_logger_);
+//
+//	  for(auto  & sect_output:sect_output_lst)
+//		sect_output.print_data_to_logger(*frm_logger_);
+//#endif
 
 
 

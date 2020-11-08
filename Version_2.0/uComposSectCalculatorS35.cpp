@@ -21,14 +21,17 @@ ComposSectCalculatorSP35::ComposSectCalculatorSP35
 		com_sect_shr_(com_sect_shr),
 		com_sect_kr_(com_sect_kr){}
 
-SectOutputSP35List ComposSectCalculatorSP35::calculate(std::vector<double> const & x_lst)
+ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<double> const & x_lst)
 {
-	SectOutputSP35List sect_output_lst {};
+	std::vector<SectOutputSP35> sect_output_lst {};
 
 	for(auto const & x:x_lst)
 		sect_output_lst.push_back(calculate(x));
 
-	return sect_output_lst;
+	return {com_sect_,
+			com_sect_shr_,
+			com_sect_kr_,
+			sect_output_lst};
 }
 SectOutputSP35 ComposSectCalculatorSP35::calculate(double const x)
 {

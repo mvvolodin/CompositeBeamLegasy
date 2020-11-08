@@ -8,8 +8,9 @@
 #include "uComposSectGeomSP35.h"
 #include "uWorkingConditionsFactors.h"
 #include "uSectOutputSP35.h"
-#include "uSectOutputSP35List.h"
+#include "uComBeamOutputSP35.h"
 #include "uIntForcesCalculator.h"
+
 
 #include "uFrmLogger.h"
 //---------------------------------------------------------------------------
@@ -47,7 +48,7 @@ public:
 							 ComposSectGeomSP35 const & com_sect_kr);
 
 	SectOutputSP35 calculate(double const x);
-	SectOutputSP35List calculate(std::vector<double> const & x_lst);
+	ComBeamOutputSP35 calculate(std::vector<double> const & x_lst);
 
 private:
 

@@ -37,22 +37,22 @@ String WeldedSection::name()const
 {
 	return L"Сварное";
 }
-double WeldedSection::b_f1()const
+double WeldedSection::lower_fl_width()const
 {
 	return vertexes_[1].X - vertexes_[0].X;
 }
 
-double WeldedSection::t_f1() const
+double WeldedSection::lower_fl_thick() const
 {
 	return vertexes_[2].Y - vertexes_[1].Y;
 }
 
-double WeldedSection::b_f2()const
+double WeldedSection::upper_fl_width()const
 {
 	return vertexes_[6].X - vertexes_[7].X;
 }
 
-double WeldedSection::t_f2()const
+double WeldedSection::upper_fl_thick()const
 {
 	return vertexes_[6].Y - vertexes_[5].Y;
 }
@@ -106,11 +106,11 @@ double WeldedSection::A_st()const
 }
 double WeldedSection::A_f2_st() const
 {
-	return b_f2() * t_f2();
+	return upper_fl_width() * upper_fl_thick();
 }
 double WeldedSection::A_f1_st() const
 {
-	return b_f1() * t_f1();
+	return lower_fl_width() * lower_fl_thick();
 }
 
 double WeldedSection::I_st()const
@@ -130,7 +130,7 @@ double WeldedSection::I_st()const
 double WeldedSection::smaller_fl_to_larger_fl_ratio()const
 {
 	double A_f2 = A_f2_st();
-	double A_f1 = b_f1() * t_f1();
+	double A_f1 = lower_fl_width() * lower_fl_thick();
 
 	return (A_f2 <= A_f1)? A_f2 / A_f1: A_f1 / A_f2;
 }
@@ -147,14 +147,14 @@ double WeldedSection::SW()const
 {
 	return A_st() * 7850 / 1000 / 1000 * 9.81;
 }
-
+#ifndef NDEBUG
 void WeldedSection::print_data_to_logger(TFormLogger const & log)const
 {
 	log.add_heading(L"Тип сечения");
 	log.print_string(L"Сварной двутавр");
 	log.add_heading(L"Геометрические размеры");
-	log.print_2_doubles(L"bf2 = ", b_f2(), L" мм",L"tf2 = ", t_f2(), L" мм");
-	log.print_2_doubles(L"bf1 = ", b_f1(), L" мм",L"tf1 = ", t_f1(), L" мм");
+	log.print_2_doubles(L"bf2 = ", upper_fl_width(), L" мм",L"tf2 = ", upper_fl_thick(), L" мм");
+	log.print_2_doubles(L"bf1 = ", lower_fl_width(), L" мм",L"tf1 = ", lower_fl_thick(), L" мм");
 	log.print_2_doubles(L"hw = ", h_w(), L" мм",L"tw = ", t_w(), L" мм");
 	log.add_heading(L"Координаты вершин сварного двутавра");
 	for(auto v:vertexes_)
@@ -165,6 +165,7 @@ void WeldedSection::print_data_to_logger(TFormLogger const & log)const
 	log.print_double(L"I = ", I_st(), L" мм4");
 
 }
+#endif
 std::vector<TPoint> WeldedSection::get_pnts_for_drawing()
 {
 	std::vector<TPoint> pnts{};

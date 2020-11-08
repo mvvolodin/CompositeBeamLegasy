@@ -32,7 +32,7 @@ double ComposSectGeomSP35::E_ef_kr()const
 
 	double const phi_kr = gamma_f_shr_kr * E_b * c_n;
 
-	double const nu = A_b / n_b_ * (1 / A_st() + Z_b_st_ * Z_b_st_ / I_st());
+	double const nu = A_b / n_b_ * (1 / A_s() + Z_b_st_ * Z_b_st_ / I_s());
 
 	return (nu - 0.5 * phi_kr + 1) / ((1 + phi_kr) * nu + 0.5 * phi_kr + 1) * E_b;
 }
@@ -178,15 +178,17 @@ double ComposSectGeomSP35::R_y()const
 {
 	return steel_.get_R_y();
 }
+
 double ComposSectGeomSP35::A_st()const
 {
 	return A_s() + A_r() * conc_sect_.b_sl();
 }
-/* TODO 1 -oMV : Реализовать метод I_st() */
+/////* TODO 1 -oMV : Реализовать метод I_st() */
 double ComposSectGeomSP35::I_st()const
 {
 	return 1;
 }
+
 double ComposSectGeomSP35::A_stb()const
 {
 	return A_stb_;
@@ -211,6 +213,12 @@ double ComposSectGeomSP35::Z_r_stb()const
 double ComposSectGeomSP35::eps_shr()const
 {
 	return concrete_.eps_shr();
+}
+
+void ComposSectGeomSP35::print_data_to_report(TWord_Automation & report)const
+{
+	st_sect_.print_data_to_report(report);
+
 }
 #ifndef NDEBUG
 void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
