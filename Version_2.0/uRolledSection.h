@@ -17,9 +17,12 @@ public:
 				  double const upper_fl_width, double const  upper_fl_thick,
 				  double const h_w, double const  t_w,
 				  double const C, double const  A, double const I);
+
+	 RolledSection(int rolled_sect_type, int rolled_sect_num);
+
 	~RolledSection();
 
-	String name()const override;
+	std::wstring name()const override;
 
 	double upper_fl_width() const override;
 	double upper_fl_thick() const override;
@@ -44,16 +47,16 @@ public:
 	void print_data_to_logger(TFormLogger const & log)const override;
 #endif
 private:
-	std::wstring const prof_num_;
-	double const lower_fl_width_;
-	double const lower_fl_thick_;
-	double const upper_fl_width_;
-	double const upper_fl_thick_;
-	double const h_w_;
-	double const t_w_;
-	double const C_;
-	double const A_;
-	double const I_;
+	std::wstring prof_num_;
+	double lower_fl_width_;
+	double lower_fl_thick_;
+	double upper_fl_width_;
+	double upper_fl_thick_;
+	double h_w_;
+	double t_w_;
+	double C_;
+	double A_;
+	double I_;
 };
 //---------------------------------------------------------------------------
 #endif

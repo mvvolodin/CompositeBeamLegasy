@@ -21,6 +21,32 @@ ComposSectCalculatorSP35::ComposSectCalculatorSP35
 		com_sect_shr_(com_sect_shr),
 		com_sect_kr_(com_sect_kr){}
 
+//ComposSectCalculatorSP35::ComposSectCalculatorSP35
+//							(IntForcesCalculator const & intr_frcs_calculator,
+//							 WorkingConditionsFactors const & work_cond_factors,
+//							 Steel const & steel,
+//							 GeneralSteelSection const & st_sect,
+//							 Concrete const & concrete,
+//							 GeneralConcreteSection const & conc_sect):
+//								intr_frcs_calculator_(intr_frcs_calculator),
+//								work_cond_factors_(work_cond_factors)
+//{
+//	com_sect_ {ComposSectGeomSP35{Steel const & steel,
+//							 GeneralSteelSection const & st_sect,
+//							 Concrete const & concrete,
+//							 GeneralConcreteSection const & conc_sect}};
+//	com_sect_shr_ {ComposSectGeomSP35{Steel const & steel,
+//							 GeneralSteelSection const & st_sect,
+//							 Concrete const & concrete,
+//							 GeneralConcreteSection const & conc_sect}};
+//	com_sect_kr_ {ComposSectGeomSP35{Steel const & steel,
+//							 GeneralSteelSection const & st_sect,
+//							 Concrete const & concrete,
+//							 GeneralConcreteSection const & conc_sect}};
+//
+//}
+
+
 ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<double> const & x_lst)
 {
 	std::vector<SectOutputSP35> sect_output_lst {};

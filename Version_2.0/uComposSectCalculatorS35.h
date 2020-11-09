@@ -47,6 +47,13 @@ public:
 							 ComposSectGeomSP35 const & com_sect_shr,
 							 ComposSectGeomSP35 const & com_sect_kr);
 
+	ComposSectCalculatorSP35(IntForcesCalculator const & intr_frcs_calculator,
+							 WorkingConditionsFactors const & work_cond_factors,
+							 Steel const & steel,
+							 GeneralSteelSection const & st_sect,
+							 Concrete const & concrete,
+							 GeneralConcreteSection const & conc_sect);
+
 	SectOutputSP35 calculate(double const x);
 	ComBeamOutputSP35 calculate(std::vector<double> const & x_lst);
 

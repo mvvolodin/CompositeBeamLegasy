@@ -33,9 +33,13 @@ WeldedSection::~WeldedSection()
 {
 
 }
-String WeldedSection::name()const
+std::wstring WeldedSection::name()const
 {
-	return L"Сварное";
+	double max_width_fl = (upper_fl_width() >= lower_fl_width()) ?
+		upper_fl_width():lower_fl_width();
+
+	return L"Св. " + std::to_wstring(static_cast<int>(h_st())) +
+		   L"x" + std::to_wstring(static_cast<int>(max_width_fl));
 }
 double WeldedSection::lower_fl_width()const
 {

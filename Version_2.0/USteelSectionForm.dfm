@@ -4,7 +4,7 @@ object SteelSectionForm: TSteelSectionForm
   BorderStyle = bsDialog
   Caption = #1042#1099#1073#1086#1088' '#1089#1090#1072#1083#1100#1085#1086#1075#1086' '#1089#1077#1095#1077#1085#1080#1103
   ClientHeight = 296
-  ClientWidth = 528
+  ClientWidth = 617
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,20 +15,16 @@ object SteelSectionForm: TSteelSectionForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object PageControl2: TPageControl
+  object pg_cntrl_sect_type: TPageControl
     Left = 8
     Top = 4
     Width = 512
     Height = 250
-    ActivePage = tb_sheet_welded_profile
+    ActivePage = TabSheet_Standart
     TabOrder = 0
     object TabSheet_Standart: TTabSheet
       Caption = #1055#1088#1086#1082#1072#1090#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088' '#1043#1054#1057#1058' '#1056' 57837'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Label10: TLabel
         Left = 360
         Top = 3
@@ -43,14 +39,14 @@ object SteelSectionForm: TSteelSectionForm
         Height = 169
         Proportional = True
       end
-      object ComboBox_profil: TComboBox
+      object cmb_bx_rolled_sect_num: TComboBox
         Left = 360
         Top = 21
         Width = 113
         Height = 21
         Style = csDropDownList
         TabOrder = 0
-        OnChange = ComboBox_profilChange
+        OnChange = cmb_bx_rolled_sect_numChange
       end
       object StringGrid_B: TStringGrid
         Left = 352
@@ -75,8 +71,8 @@ object SteelSectionForm: TSteelSectionForm
           18
           18)
       end
-      object RadioGroupGOST57837: TRadioGroup
-        Left = 3
+      object rd_grp_rolled_sect_type: TRadioGroup
+        Left = 0
         Top = 21
         Width = 169
         Height = 172
@@ -89,16 +85,12 @@ object SteelSectionForm: TSteelSectionForm
           #1041#1072#1083#1086#1095#1085#1099#1081' '#1076#1086#1087#1086#1083#1085#1080#1090'. ('#1044#1041') '
           #1050#1086#1083#1086#1085#1085#1099#1081' '#1076#1086#1087#1086#1083#1085#1080#1090'. ('#1044#1050') ')
         TabOrder = 2
-        OnClick = RadioGroupGOST57837Click
+        OnClick = rd_grp_rolled_sect_typeClick
       end
     end
     object tb_sheet_welded_profile: TTabSheet
       Caption = #1057#1074#1072#1088#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object img_weld_sect: TImage
         Left = 311
         Top = 9
@@ -236,12 +228,30 @@ object SteelSectionForm: TSteelSectionForm
     OnClick = btn_launch_loggerClick
   end
   object btn_draw: TButton
-    Left = 144
-    Top = 264
+    Left = 526
+    Top = 26
     Width = 75
     Height = 25
     Caption = 'Draw'
     TabOrder = 5
     OnClick = btn_drawClick
+  end
+  object btn_save: TButton
+    Left = 526
+    Top = 57
+    Width = 75
+    Height = 25
+    Caption = 'Save'
+    TabOrder = 6
+    OnClick = btn_saveClick
+  end
+  object btn_load: TButton
+    Left = 526
+    Top = 88
+    Width = 75
+    Height = 25
+    Caption = 'Load'
+    TabOrder = 7
+    OnClick = btn_loadClick
   end
 end

@@ -24,7 +24,7 @@ public:
 				  double h_w, double t_w);
 	~WeldedSection();
 
-    String name()const override;
+	std::wstring name()const override;
 
 	double upper_fl_width() const override;
 	double upper_fl_thick() const override;

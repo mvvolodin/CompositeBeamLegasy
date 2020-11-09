@@ -3,6 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
+#include <fstream>
 #include "uSteelSectionForm.h"
 #include "String_doubleUnit.h"
 #include "uFrmLogger.h"
@@ -34,6 +35,8 @@ __fastcall TSteelSectionForm::TSteelSectionForm(TComponent* Owner)
 void __fastcall TSteelSectionForm::FormShow(TObject *Sender)
 {
 	set_form_controls();
+
+	update_cntrls_state();
 }
 //---------------------------------------------------------------------------
 //Присваивение значений элементам управления из параметра функции типа ISection
@@ -49,7 +52,7 @@ void TSteelSectionForm::set_form_controls(ISection i_section)
 //---------------------------------------------------------------------------
 void TSteelSectionForm::set_form_controls()
 {
-	RadioGroupGOST57837Click(nullptr);
+	rd_grp_rolled_sect_typeClick(nullptr);
 	update_weld_sect_ctrls();
 }
 //---------------------------------------------------------------------------
@@ -80,67 +83,25 @@ void TSteelSectionForm::update_weld_sect_ctrls()
 //---------------------------------------------------------------------------
 void TSteelSectionForm::update_steel_section()
 {
-	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
+	if(pg_cntrl_sect_type -> ActivePage == tb_sheet_welded_profile)
 	{
-		int rc = 0;
-		double b_f1 = 0.;
-		double t_f1 = 0.;
-		double b_f2 = 0.;
-		double t_f2 = 0.;
-		double h_w = 0.;
-		double t_w = 0.;
 
-		rc = String_double_plus(lbl_b_f2 -> Caption, edt_b_f2 -> Text, &b_f2);
-		if(rc > 0)throw(rc);
-
-		rc = String_double_plus(lbl_t_f2 -> Caption, edt_t_f2 -> Text, &t_f2);
-		if(rc > 0)throw(rc);
-
-		rc = String_double_plus(lbl_b_f1 -> Caption, edt_b_f1 -> Text, &b_f1);
-		if(rc > 0)throw(rc);
-
-		rc = String_double_plus(lbl_t_f1 -> Caption, edt_t_f1 -> Text, &t_f1);
-		if(rc > 0)throw(rc);
-
-		rc = String_double_plus(lbl_h_w -> Caption, edt_h_w -> Text, &h_w);
-		if(rc > 0)throw(rc);
-
-		rc = String_double_plus(lbl_t_w -> Caption, edt_t_w -> Text, &t_w);
-		if(rc > 0)throw(rc);
-
-		weld_sect_temp_ = {b_f1, t_f1, b_f2, t_f2, h_w, t_w};
+		WeldedSection weld_sect {cntrls_state_.edt_b_f1_, cntrls_state_.edt_t_f1_,
+								 cntrls_state_.edt_b_f2_, cntrls_state_.edt_t_f2_,
+								 cntrls_state_.edt_h_w_, cntrls_state_.edt_t_w_};
 	}
 	else
-	{
-		//Получение из элемента управления индека группы профилей
-		int profile_group_index = RadioGroupGOST57837 -> ItemIndex + typeGOST_G57837_B;
-		//Заполнение данных группы профилей по индексу группы профилей
-		TStandartProfil StandartProfil;
-		StandartProfil.SetProfil(profile_group_index);
-		//Получаем вектор имён профилей по индексу группы профилей
-		int n_profil;
-		AnsiString *NameProfil;
-		NameProfil = StandartProfil.GetVectorNameProfil(&n_profil);
-		//Получение из элемента управления индека профиля
-		int profile_number_index = ComboBox_profil -> ItemIndex;
-		//Заполняем данные профиля по индексу профиля
-		double * ParamProfil;
-		ParamProfil = StandartProfil.GetVectorParamProfil(profile_number_index);
-			RolledSection{
-							std::wstring{L"Б"},
-							ParamProfil[parBSECT], ParamProfil[parTF],
-							 ParamProfil[parBSECT], ParamProfil[parTF],
-							 2,
-							 ParamProfil[parHSECT] - 2 * ParamProfil[parTF], ParamProfil[parTW],
-							 ParamProfil[parAREA], ParamProfil[parWZ]};
-	}
+		RolledSection rolled_sect{cntrls_state_.rd_grp_rolled_sect_type_,
+			 cntrls_state_.cmb_bx_rolled_sect_num_};
+
+
 
 }
 GeneralSteelSection const & TSteelSectionForm::get_section()
 {
 	update_steel_section();
 
-	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
+	if(pg_cntrl_sect_type -> ActivePage == tb_sheet_welded_profile)
 		return weld_sect_temp_;
 
 	return rolled_sect_temp_;
@@ -150,7 +111,7 @@ GeneralSteelSection const & TSteelSectionForm::get_section()
 void TSteelSectionForm::set_i_section()
 {
 //Получение из элемента управления индека группы профилей
-	int profile_group_index = RadioGroupGOST57837 -> ItemIndex + typeGOST_G57837_B;
+	int profile_group_index = rd_grp_rolled_sect_type -> ItemIndex + typeGOST_G57837_B;
 //Заполнение данных группы профилей по индексу группы профилей
 	TStandartProfil StandartProfil;
 	StandartProfil.SetProfil(profile_group_index);
@@ -161,14 +122,14 @@ void TSteelSectionForm::set_i_section()
 	NameProfil = StandartProfil.GetVectorNameProfil(&n_profil);
 
 //Получение из элемента управления индека профиля
-	int profile_number_index = ComboBox_profil -> ItemIndex;
+	int profile_number_index = cmb_bx_rolled_sect_num -> ItemIndex;
 //Заполняем данные профиля по индексу профиля
 	double * ParamProfil;
 	ParamProfil = StandartProfil.GetVectorParamProfil(profile_number_index);
 //Создаём и присваиваем полю класса объект ISection;
 
 	i_section_temp_ = ISection( NameProfil[profile_number_index],
-								static_cast<ProfileGroup>(RadioGroupGOST57837 -> ItemIndex),
+								static_cast<ProfileGroup>(rd_grp_rolled_sect_type -> ItemIndex),
 								ParamProfil[parBSECT],
 								ParamProfil[parTF],
 								ParamProfil[parBSECT],
@@ -473,17 +434,17 @@ void  TSteelSectionForm::Point_stand_dvutavr(int zero, int zero1, int zero2, SEC
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-void __fastcall TSteelSectionForm::ComboBox_profilChange(TObject *Sender)
+void __fastcall TSteelSectionForm::cmb_bx_rolled_sect_numChange(TObject *Sender)
 {
 //Заполняем данные профиля по индексу профиля
 	int profile_number_index = 0;
 	double * ParamProfil;
 	if(Sender)
-		profile_number_index = ComboBox_profil -> ItemIndex;
+		profile_number_index = cmb_bx_rolled_sect_num -> ItemIndex;
 	else
 		{
-			profile_number_index = ComboBox_profil -> Items -> IndexOf(i_section_temp_.get_profile_number());
-			ComboBox_profil -> ItemIndex = profile_number_index;
+			profile_number_index = cmb_bx_rolled_sect_num -> Items -> IndexOf(i_section_temp_.get_profile_number());
+			cmb_bx_rolled_sect_num -> ItemIndex = profile_number_index;
         }
 
 		ParamProfil = StandartProfil_.GetVectorParamProfil(profile_number_index);
@@ -513,12 +474,12 @@ void __fastcall TSteelSectionForm::ComboBox_profilChange(TObject *Sender)
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
-void __fastcall TSteelSectionForm::RadioGroupGOST57837Click(TObject *Sender)
+void __fastcall TSteelSectionForm::rd_grp_rolled_sect_typeClick(TObject *Sender)
 {
 //Получение из элемента управления индекса группы профилей
 	int profile_group_index = 0;
 	if(Sender)
-		profile_group_index = RadioGroupGOST57837 -> ItemIndex + typeGOST_G57837_B;
+		profile_group_index = rd_grp_rolled_sect_type -> ItemIndex + typeGOST_G57837_B;
 	else
 		profile_group_index = static_cast<int>(i_section_temp_.get_profile_group()) + typeGOST_G57837_B;
 //Заполнение данных группы профилей по индексу группы профилей
@@ -531,14 +492,14 @@ void __fastcall TSteelSectionForm::RadioGroupGOST57837Click(TObject *Sender)
 	NameProfil = StandartProfil_.GetVectorNameProfil(&n_profil);
 
 //Заполнение элемента управления именами профилей
-	ComboBox_profil -> Items -> Clear();
+	cmb_bx_rolled_sect_num -> Items -> Clear();
 
 	for (int i=0; i < n_profil; i++)
-		ComboBox_profil -> Items -> Add(NameProfil[i]);
+		cmb_bx_rolled_sect_num -> Items -> Add(NameProfil[i]);
 
-	ComboBox_profil -> ItemIndex = 0;
+	cmb_bx_rolled_sect_num -> ItemIndex = 0;
 
-	ComboBox_profilChange(Sender);
+	cmb_bx_rolled_sect_numChange(Sender);
 }
 //---------------------------------------------------------------------------
 //
@@ -552,10 +513,7 @@ void TSteelSectionForm::register_observer(IObserver_* iobserver)
 //---------------------------------------------------------------------------
 String TSteelSectionForm::get_information()const
 {
-   	if(PageControl2 -> ActivePage == tb_sheet_welded_profile)
-		return weld_sect_temp_.name();
-   return rolled_sect_temp_.name();
-
+   return sect_name();
 }
 //---------------------------------------------------------------------------
 //
@@ -569,6 +527,9 @@ Publisher_ID TSteelSectionForm::get_id()const
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionForm::btk_okClick(TObject *Sender)
 {
+	write_cntrls_state();
+
+
 	set_i_section();
 	iobserver_ -> update(this);
 	Close();
@@ -578,7 +539,11 @@ void __fastcall TSteelSectionForm::btk_okClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionForm::btn_cancelClick(TObject *Sender)
 {
+	update_cntrls_state();
+
 	set_form_controls();
+
+
 }
 //---------------------------------------------------------------------------
 //
@@ -605,5 +570,85 @@ void __fastcall TSteelSectionForm::btn_drawClick(TObject *Sender)
 	weld_sect_temp_.draw(img_weld_sect->Canvas);
 
 }
+//---------------------------------------------------------------------------
+void TSteelSectionForm::write_cntrls_state()
+{
+		int rc = 0;
+
+		rc = String_double_plus(lbl_b_f2 -> Caption, edt_b_f2 -> Text, &cntrls_state_.edt_b_f2_);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_t_f2 -> Caption, edt_t_f2 -> Text, &cntrls_state_.edt_t_f2_);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_b_f1 -> Caption, edt_b_f1 -> Text, &cntrls_state_.edt_b_f1_);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_t_f1 -> Caption, edt_t_f1 -> Text, &cntrls_state_.edt_t_f1_);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_h_w -> Caption, edt_h_w -> Text, &cntrls_state_.edt_h_w_);
+		if(rc > 0)throw(rc);
+
+		rc = String_double_plus(lbl_t_w -> Caption, edt_t_w -> Text, &cntrls_state_.edt_t_w_);
+		if(rc > 0)throw(rc);
+
+		cntrls_state_.pg_cntrl_sect_type_ = pg_cntrl_sect_type -> ActivePageIndex;
+		cntrls_state_.cmb_bx_rolled_sect_num_ = cmb_bx_rolled_sect_num -> ItemIndex;
+		cntrls_state_.rd_grp_rolled_sect_type_ = rd_grp_rolled_sect_type -> ItemIndex;
+
+}
+void TSteelSectionForm::update_cntrls_state()
+{
+		edt_b_f2 -> Text = cntrls_state_.edt_b_f2_;
+		edt_t_f2 -> Text = cntrls_state_.edt_t_f2_;
+		edt_b_f1 -> Text = cntrls_state_.edt_b_f1_;
+		edt_t_f1 -> Text = cntrls_state_.edt_t_f1_;
+		edt_h_w -> Text = cntrls_state_.edt_h_w_;
+		edt_t_w -> Text = cntrls_state_.edt_t_w_;
+
+		pg_cntrl_sect_type -> ActivePageIndex = cntrls_state_.pg_cntrl_sect_type_;
+		cmb_bx_rolled_sect_num -> ItemIndex = cntrls_state_.cmb_bx_rolled_sect_num_;
+		rd_grp_rolled_sect_type -> ItemIndex = cntrls_state_.rd_grp_rolled_sect_type_;
+
+}
+
+void __fastcall TSteelSectionForm::btn_saveClick(TObject *Sender)
+{
+	write_cntrls_state();
+	std::ofstream ofstr {"test.cb"};
+	cntrls_state_.save_cntls_state(ofstr);
+	ofstr.close();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TSteelSectionForm::btn_loadClick(TObject *Sender)
+{
+
+	std::ifstream ifstr {"test.cb"};
+	ifstr.seekg(0);
+	cntrls_state_.load_cntrls_state(ifstr);
+	update_cntrls_state();
+}
+
+String TSteelSectionForm::sect_name()const
+{
+	if(pg_cntrl_sect_type -> ActivePage == tb_sheet_welded_profile)
+	{
+		double h_sect = cntrls_state_.edt_t_f1_ + cntrls_state_.edt_h_w_ + cntrls_state_.edt_t_f2_;
+		double max_width_fl = (cntrls_state_.edt_b_f2_ >= cntrls_state_.edt_b_f1_) ?
+			cntrls_state_.edt_b_f2_:cntrls_state_.edt_b_f1_;
+
+		return L"Св. " + FloatToStrF(max_width_fl, ffFixed, 15, 0) +
+			L"x" + FloatToStrF(h_sect, ffFixed, 15, 0);
+	}
+	else
+		return cmb_bx_rolled_sect_num -> Items -> Strings[cmb_bx_rolled_sect_num -> ItemIndex];
+
+}
+
+
+
+
 //---------------------------------------------------------------------------
 

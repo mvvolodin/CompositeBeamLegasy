@@ -23,7 +23,7 @@ public:
 	virtual double t_w() const = 0;
 	virtual double h_st() const = 0;
 
-	virtual String name()const = 0;
+	virtual std::wstring name()const = 0;
 	virtual double Z_f2_st() const = 0;
 	virtual double Z_f1_st() const = 0;
 	virtual double C_st() const = 0;

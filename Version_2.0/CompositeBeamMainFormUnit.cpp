@@ -1045,28 +1045,39 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
-	Steel st = update_steel_i_section();
-	GeneralSteelSection const & st_sect = SteelSectionForm -> get_section();
+	TSteelSectionFormCntrlsState const & cntrls_state = SteelSectionForm -> cntrls_state();
 
-	Geometry geom = update_geometry();
+	std::unique_ptr<GeneralSteelSection const> st_sect{
+		new WeldedSection{cntrls_state.edt_b_f1_, cntrls_state.edt_t_f1_,
+						  cntrls_state.edt_b_f2_, cntrls_state.edt_t_f2_,
+						  cntrls_state.edt_h_w_, cntrls_state.edt_t_w_}};
+
+	if(cntrls_state.pg_cntrl_sect_type_ == 0)
+		st_sect.reset(new RolledSection{cntrls_state.rd_grp_rolled_sect_type_,
+										cntrls_state.cmb_bx_rolled_sect_num_});
+
+
+	Steel st {update_steel_i_section()};
+
+	Geometry geom {update_geometry()};
 	std::unique_ptr<GeneralConcreteSection const> conc_sect = update_concrete_section(
-	geom.get_span(), geom.get_spacing_left(), geom.get_spacing_right(), geom.is_end_beam(), st_sect.b_f2());
+	geom.get_span(), geom.get_spacing_left(), geom.get_spacing_right(), geom.is_end_beam(), st_sect -> b_f2());
 	Concrete conc = ConcreteDefinitionForm -> get_concrete();
 
 	double SW_corr_sheet = 0.;
-	double SW_st_sect = st_sect.SW();
+	double SW_st_sect = st_sect -> SW();
 	double SW_conc_sect = conc_sect -> SW(conc.get_density());
 	if(dynamic_cast<CorrugatedConcreteSection const *>(conc_sect.get()))
 		SW_corr_sheet = static_cast<CorrugatedConcreteSection const *>(conc_sect.get())
 			-> corrugated_sheet().get_weight();
 
-	  ComposSectGeomSP35 com_sect {st, st_sect,
+	  ComposSectGeomSP35 com_sect {st, *st_sect,
 								   conc, *conc_sect,
 								   ComposSectGeomSP35::ConcStateConsid::normal};
-	  ComposSectGeomSP35 com_sect_sh {st, st_sect,
+	  ComposSectGeomSP35 com_sect_sh {st, *st_sect,
 									  conc, *conc_sect,
 									  ComposSectGeomSP35::ConcStateConsid::shrink};
-	  ComposSectGeomSP35 com_sect_cr {st, st_sect,
+	  ComposSectGeomSP35 com_sect_cr {st, *st_sect,
 									  conc, *conc_sect,
 									  ComposSectGeomSP35::ConcStateConsid::creep};
 

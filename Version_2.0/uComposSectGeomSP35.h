@@ -73,7 +73,7 @@ public:
 #endif
 
 private:
-	Steel const  steel_; // идельным решением, на мой взгляд, является перемещение объекта
+	Steel const &  steel_;
 	GeneralSteelSection const  & st_sect_;
 	Concrete const & concrete_;
 	GeneralConcreteSection const & conc_sect_;
