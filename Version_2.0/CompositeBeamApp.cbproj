@@ -328,6 +328,10 @@
             <DependentOn>uFrmLogger.h</DependentOn>
             <BuildOrder>47</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uFrmsCntrlsState.cpp">
+            <DependentOn>uFrmsCntrlsState.h</DependentOn>
+            <BuildOrder>63</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uGeneralConcreteSection.cpp">
             <DependentOn>uGeneralConcreteSection.h</DependentOn>
             <BuildOrder>55</BuildOrder>

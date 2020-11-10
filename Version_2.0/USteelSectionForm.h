@@ -25,48 +25,13 @@
 #include "ProcExt.h"
 #include "String_doubleUnit.h"
 #include "GArrow.h"
+#include "uFrmsCntrlsState.h"
 
 #include "uISection.h"
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
-struct TSteelSectionFormCntrlsState{
-
-	double edt_b_f2_ = 500;
-	double edt_t_f2_ = 24;
-	double edt_b_f1_ = 300;
-	double edt_t_f1_ = 12;
-	double edt_h_w_ = 1200;
-	double edt_t_w_ = 12;
-
-	int pg_cntrl_sect_type_;
-	int cmb_bx_rolled_sect_num_;
-	int rd_grp_rolled_sect_type_;
-
-
-	void save_cntls_state(ostream & os)
-	{
-		   os << edt_b_f2_ << '\n'
-			  << edt_t_f2_ << '\n'
-			  << edt_b_f1_ << '\n'
-			  << edt_t_f1_ << '\n'
-			  << edt_h_w_  << '\n'
-			  << edt_t_w_  << '\n'
-			  << pg_cntrl_sect_type_ << '\n'
-			  << cmb_bx_rolled_sect_num_ << '\n'
-			  << rd_grp_rolled_sect_type_ << '\n';
-	}
-	void load_cntrls_state(istream & is)
-	{
-			   is >> edt_b_f2_ >> edt_t_f2_
-				  >> edt_b_f1_ >> edt_t_f1_
-				  >> edt_h_w_ >> edt_t_w_
-				  >> pg_cntrl_sect_type_
-				  >> cmb_bx_rolled_sect_num_
-				  >> rd_grp_rolled_sect_type_;
-	}
-};
 
 class TSteelSectionForm : public TForm, public IPublisher
 {
@@ -98,8 +63,6 @@ __published:	// IDE-managed Components
 	TLabel *lbl_t_w;
 	TButton *btn_launch_logger;
 	TButton *btn_draw;
-	TButton *btn_save;
-	TButton *btn_load;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall cmb_bx_rolled_sect_numChange(TObject *Sender);
 	void __fastcall rd_grp_rolled_sect_typeClick(TObject *Sender);
@@ -108,16 +71,9 @@ __published:	// IDE-managed Components
 	void __fastcall btn_closeClick(TObject *Sender);
 	void __fastcall btn_launch_loggerClick(TObject *Sender);
 	void __fastcall btn_drawClick(TObject *Sender);
-	void __fastcall btn_saveClick(TObject *Sender);
-	void __fastcall btn_loadClick(TObject *Sender);
+
 private:	// User declarations
 	TSteelSectionFormCntrlsState cntrls_state_;
-
-	void write_cntrls_state();
-	void update_cntrls_state();
-
-	void save_cntls_state(ostream const & ostr);
-	void load_cntrls_state(istream const & istr);
 
 	TStandartProfil StandartProfil_; //база данных
 	ISection i_section_temp_; //
@@ -139,7 +95,6 @@ private:	// User declarations
 	void update_weld_sect_ctrls();
 	void update_steel_section();
 	void form_controls_changed();
-	void save_form_cntrls_state();
 
 	void Point_stand_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, double rad, float scale, TPoint *vertices);
 	void Point_weld_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, float scale, TPoint *vertices);
@@ -156,6 +111,11 @@ public:		// User declarations
 	ISection get_i_section() const {return i_section_temp_;}
 	GeneralSteelSection const & get_section();
 	void register_observer(IObserver_* iobserver)override;
+
+	void fix_cntrls_state();
+	void update_cntrls();
+	void save(ostream & os);
+	void load(istream & os);
 
 	TSteelSectionFormCntrlsState const & cntrls_state(){return cntrls_state_;}
 

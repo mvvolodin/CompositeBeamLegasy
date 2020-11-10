@@ -42,13 +42,15 @@ void __fastcall TCompositeBeamMainForm ::FormShow(TObject *Sender)
 
 	register_I_composite_beam();
 
-	set_form_controls();
+	update_all_frms_cntrls();
 
-	NNewClick(Sender);
+	//set_form_controls();
+
+//	NNewClick(Sender);
 
   //	rdgrp_slab_typeClick(Sender);
 
-	calculate_composite_beam();
+	//calculate_composite_beam();
 
 }
 //----------------------------------------------------------------------
@@ -168,14 +170,14 @@ Geometry TCompositeBeamMainForm ::update_geometry()
 	rc = String_double_plus(lbl_span->Caption, edt_span->Text, &span);
 	if(rc > 0)
 		throw(rc);
-		
+
 	rc = String_double_plus(lbl_trib_width_left->Caption, edt_width_left->Text, &trib_width_left);
 	if(rc > 0)
 		throw(rc);
 
 	rc = String_double_plus(lbl_trib_width_right->Caption, edt_width_right->Text, &trib_width_right);
 	if(rc > 0)
-		throw(rc);	
+		throw(rc);
 
 
 	return Geometry{chck_bx_end_beam->Checked,
@@ -233,13 +235,13 @@ Loads TCompositeBeamMainForm ::update_loads()
 	if(rc > 0) 
 		throw(rc);
 	rc = String_double_zero_plus(lbl_gamma_f_add_concrete_SW -> Caption, edt_gamma_f_add_concrete_SW -> Text, &gamma_f_add_concrete_SW);
-	if(rc > 0) 
+	if(rc > 0)
 		throw(rc);
 	rc = String_double_zero_plus(lbl_gamma_f_DL_II -> Caption, edt_gamma_f_DL_II -> Text, &gamma_f_DL_II);
 	if(rc > 0) 
 		throw(rc);
 	rc = String_double_zero_plus(lbl_gamma_f_LL -> Caption, edt_gamma_f_LL -> Text, &gamma_f_LL);
-	if(rc > 0) 
+	if(rc > 0)
 		throw(rc);
 
 	rc = String_double_zero_plus(lbl_sheeting_continuity_coefficient -> Caption, edt_sheeting_continuity_coefficient -> Text, &sheeting_continuity_coefficient);
@@ -1045,22 +1047,24 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
-	TSteelSectionFormCntrlsState const & cntrls_state = SteelSectionForm -> cntrls_state();
+	fix_cntrls_state();
 
-	std::unique_ptr<GeneralSteelSection const> st_sect{
-		new WeldedSection{cntrls_state.edt_b_f1_, cntrls_state.edt_t_f1_,
-						  cntrls_state.edt_b_f2_, cntrls_state.edt_t_f2_,
-						  cntrls_state.edt_h_w_, cntrls_state.edt_t_w_}};
+	TSteelSectionFormCntrlsState const & cntrls_state = SteelSectionForm -> cntrls_state();
+	//---------------------------------------------------------------
+	std::unique_ptr<GeneralSteelSection const> st_sect {nullptr};
 
 	if(cntrls_state.pg_cntrl_sect_type_ == 0)
 		st_sect.reset(new RolledSection{cntrls_state.rd_grp_rolled_sect_type_,
 										cntrls_state.cmb_bx_rolled_sect_num_});
-
-
+	else
+		st_sect.reset(new WeldedSection{cntrls_state.edt_b_f1_, cntrls_state.edt_t_f1_,
+						  cntrls_state.edt_b_f2_, cntrls_state.edt_t_f2_,
+						  cntrls_state.edt_h_w_, cntrls_state.edt_t_w_});
+	//----------------------------------------------
 	Steel st {update_steel_i_section()};
 
 	Geometry geom {update_geometry()};
-	std::unique_ptr<GeneralConcreteSection const> conc_sect = update_concrete_section(
+	std::unique_ptr<GeneralConcreteSection const > conc_sect = update_concrete_section(
 	geom.get_span(), geom.get_spacing_left(), geom.get_spacing_right(), geom.is_end_beam(), st_sect -> b_f2());
 	Concrete conc = ConcreteDefinitionForm -> get_concrete();
 
@@ -1071,15 +1075,15 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 		SW_corr_sheet = static_cast<CorrugatedConcreteSection const *>(conc_sect.get())
 			-> corrugated_sheet().get_weight();
 
-	  ComposSectGeomSP35 com_sect {st, *st_sect,
-								   conc, *conc_sect,
-								   ComposSectGeomSP35::ConcStateConsid::normal};
-	  ComposSectGeomSP35 com_sect_sh {st, *st_sect,
-									  conc, *conc_sect,
-									  ComposSectGeomSP35::ConcStateConsid::shrink};
-	  ComposSectGeomSP35 com_sect_cr {st, *st_sect,
-									  conc, *conc_sect,
-									  ComposSectGeomSP35::ConcStateConsid::creep};
+//	  ComposSectGeomSP35 com_sect {st, *st_sect,
+//								   conc, *conc_sect,
+//								   ComposSectGeomSP35::ConcStateConsid::normal};
+//	  ComposSectGeomSP35 com_sect_sh {st, *st_sect,
+//									  conc, *conc_sect,
+//									  ComposSectGeomSP35::ConcStateConsid::shrink};
+//	  ComposSectGeomSP35 com_sect_cr {st, *st_sect,
+//									  conc, *conc_sect,
+//									  ComposSectGeomSP35::ConcStateConsid::creep};
 
 
 	  //подготовка калькулятора внутренних усилий
@@ -1088,18 +1092,21 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 	double B = geom.get_trib_width();
 	Loads loads{update_loads()};
 	loads.set_B(B);
-	IntForcesCalculator int_frcs_calculator{tmp_sup_num, L, B, loads };
+	IntForcesCalculator int_frcs_calculator {tmp_sup_num, L, B, loads };//сконструкировали
 
 	WorkingConditionsFactors working_conditions_factors{update_working_conditions_factors()};
 
-	  ComposSectCalculatorSP35 com_beam_calc {int_frcs_calculator,
-												   working_conditions_factors,
-												   com_sect,
-												   com_sect_sh,
-												   com_sect_cr};
-
-
-
+//	  ComposSectCalculatorSP35 com_beam_calc {int_frcs_calculator,
+//												   working_conditions_factors,
+//												   com_sect,
+//												   com_sect_sh,
+//												   com_sect_cr};
+ //------------------------------------------------------------------------
+	ComposSectCalculatorSP35 com_beam_calc {int_frcs_calculator,
+											working_conditions_factors, //копирование
+											st, st_sect.get(),
+											conc, conc_sect.get()};
+ //------------------------------------------------------------------------
 	  std::vector<double> const x_lst {0, L/4,  L/3, L/2, 2*L/3, 3*L/4, L};
 
 	  ComBeamOutputSP35 const com_beam_output = com_beam_calc.calculate(x_lst);
@@ -1401,5 +1408,264 @@ void __fastcall TCompositeBeamMainForm::HelpClick(TObject *Sender)
 
 	HelpForm -> ShowModal();
 }
+
+void TCompositeBeamMainForm::update_cntrls()
+{
+	// Геометрия
+	edt_span -> Text = cntrls_state_.edt_span_;
+	edt_width_left -> Text = cntrls_state_.edt_width_left_;
+	edt_width_right -> Text = cntrls_state_.edt_width_right_;
+	chck_bx_end_beam -> Checked = cntrls_state_.chck_bx_end_beam_;
+	cmb_bx_number_propping_supports -> ItemIndex = cntrls_state_.cmb_bx_number_propping_supports_;
+
+	// Нагрузки
+	edt_SW_add_concrete -> Text = cntrls_state_.edt_SW_add_concrete_;
+	edt_dead_load_first_stage -> Text = cntrls_state_.edt_dead_load_first_stage_;
+	edt_dead_load_second_stage -> Text = cntrls_state_.edt_dead_load_second_stage_;
+	edt_live_load -> Text = cntrls_state_.edt_live_load_;
+
+	// Коэффициенты надёжности по нагрузке
+
+	edt_gamma_f_st_SW -> Text = cntrls_state_.edt_gamma_f_st_SW_;
+	edt_gamma_f_concrete_SW -> Text = cntrls_state_.edt_gamma_f_concrete_SW_;
+	edt_gamma_f_add_concrete_SW -> Text = cntrls_state_.edt_gamma_f_add_concrete_SW_;
+	edt_gamma_f_DL_I -> Text = cntrls_state_.edt_gamma_f_DL_I_;
+	edt_gamma_f_DL_II -> Text = cntrls_state_.edt_gamma_f_DL_II_;
+	edt_gamma_f_LL -> Text = cntrls_state_.edt_gamma_f_LL_;
+
+	// Коэффициенты условий работы
+
+	edt_gamma_c -> Text = cntrls_state_.edt_gamma_c_;
+	edt_gamma_bi -> Text = cntrls_state_.edt_gamma_bi_;
+	edt_gamma_si -> Text = cntrls_state_.edt_gamma_si_;
+
+	// Коэффициенты учёт неразрезности настила
+
+	edt_sheeting_continuity_coefficient -> Text = cntrls_state_.edt_sheeting_continuity_coefficient_;
+
+	// Отрисовка эпюр
+
+	cmb_bx_impact -> ItemIndex = cntrls_state_.cmb_bx_impact_;
+	rd_grp_internal_forces_type -> ItemIndex = cntrls_state_.rd_grp_internal_forces_type_;
+
+	// Параметры расчёта
+
+	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_;
+	edt_max_elem_length -> Text = cntrls_state_.edt_max_elem_length_;
+
+	//Тип жб плиты
+
+	rdgrp_slab_type -> ItemIndex = cntrls_state_.rdgrp_slab_type_;
+
+	//Плита по настилу
+
+	cmb_bx_corrugated_sheeting_part_number -> ItemIndex = cntrls_state_.cmb_bx_corrugated_sheeting_part_number_;
+	edt_h_f -> Text = cntrls_state_.edt_h_f_;
+	chck_bx_wider_flange_up -> Checked = cntrls_state_.chck_bx_wider_flange_up_;
+	chck_bx_sheet_orient_along -> Checked = cntrls_state_.chck_bx_sheet_orient_along_;
+
+	//Плита плоская
+
+	edt_h_f_flat -> Text = cntrls_state_.edt_h_f_flat_;
+	edt_h_n -> Text = cntrls_state_.edt_h_n_;
+
+}
+void TCompositeBeamMainForm::fix_cntrls_state()
+{
+	int rc = 0;
+	// Геометрия
+	rc = String_double_plus(lbl_span -> Caption,
+							edt_span -> Text,
+							&cntrls_state_.edt_span_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_plus(lbl_trib_width_left -> Caption,
+							edt_width_left -> Text,
+							&cntrls_state_.edt_width_left_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_plus(lbl_trib_width_right -> Caption,
+							edt_width_right -> Text,
+							&cntrls_state_.edt_width_right_);
+	if(rc > 0) throw(rc);
+
+	cntrls_state_.chck_bx_end_beam_ = chck_bx_end_beam -> Checked;
+	cntrls_state_.cmb_bx_number_propping_supports_ = cmb_bx_number_propping_supports -> ItemIndex;
+
+	// Нагрузки
+	rc = String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption,
+								 edt_gamma_f_concrete_SW -> Text,
+								 &cntrls_state_.edt_SW_add_concrete_);
+   if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_dead_load_first_stage -> Caption,
+								 edt_dead_load_first_stage -> Text,
+								 &cntrls_state_.edt_dead_load_first_stage_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_dead_load_second_stage -> Caption,
+								 edt_dead_load_second_stage -> Text,
+								 &cntrls_state_.edt_dead_load_second_stage_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_live_load -> Caption,
+								 edt_live_load -> Text,
+								 &cntrls_state_.edt_live_load_);
+	if(rc > 0) throw(rc);
+	// Коэффициенты надёжности по нагрузке
+	rc = String_double_zero_plus(lbl_gamma_f_st_SW -> Caption,
+								 edt_gamma_f_st_SW -> Text,
+								 &cntrls_state_.edt_gamma_f_st_SW_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption,
+								 edt_gamma_f_concrete_SW -> Text,
+								 &cntrls_state_.edt_gamma_f_concrete_SW_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_gamma_f_add_concrete_SW -> Caption,
+								 edt_gamma_f_add_concrete_SW -> Text,
+								 &cntrls_state_.edt_gamma_f_add_concrete_SW_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_gamma_f_DL_I -> Caption,
+								 edt_gamma_f_DL_I -> Text,
+								 &cntrls_state_.edt_gamma_f_DL_I_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_gamma_f_DL_II -> Caption,
+								 edt_gamma_f_DL_II -> Text,
+								 &cntrls_state_.edt_gamma_f_DL_II_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_gamma_f_LL -> Caption,
+								 edt_gamma_f_LL -> Text,
+								 &cntrls_state_.edt_gamma_f_LL_);
+	if(rc > 0) throw(rc);
+
+	// Коэффициенты условий работы
+
+	rc = String_double_zero_plus(lbl_gamma_c -> Caption,
+								 edt_gamma_c -> Text,
+								 &cntrls_state_.edt_gamma_c_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_gamma_bi -> Caption,
+								 edt_gamma_bi -> Text,
+								 &cntrls_state_.edt_gamma_bi_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_gamma_si -> Caption,
+								 edt_gamma_si -> Text,
+								 &cntrls_state_.edt_gamma_si_);
+	if(rc > 0) throw(rc);
+	// Коэффициенты учёт неразрезности настила
+	rc = String_double_zero_plus(lbl_sheeting_continuity_coefficient -> Caption,
+								 edt_sheeting_continuity_coefficient -> Text,
+								 &cntrls_state_.edt_sheeting_continuity_coefficient_);
+	if(rc > 0) throw(rc);
+
+    // Отрисовка эпюр
+
+	cntrls_state_.cmb_bx_impact_ = cmb_bx_impact -> ItemIndex;
+	cntrls_state_.rd_grp_internal_forces_type_ = rd_grp_internal_forces_type -> ItemIndex;
+
+	// Параметры расчёта
+
+	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_;
+	rc = String_double_zero_plus(lbl_max_elem_length -> Caption,
+								 edt_max_elem_length -> Text,
+								 &cntrls_state_.edt_max_elem_length_);
+	if(rc > 0) throw(rc);
+
+	//Тип жб плиты
+
+	cntrls_state_.rdgrp_slab_type_ = rdgrp_slab_type -> ItemIndex ;
+
+	//Плита по настилу
+	rc = String_double_zero_plus(lbl_h_f -> Caption,
+								 edt_h_f -> Text,
+								 &cntrls_state_.edt_h_f_);
+	if(rc > 0) throw(rc);
+
+	cntrls_state_.cmb_bx_corrugated_sheeting_part_number_ = cmb_bx_corrugated_sheeting_part_number -> ItemIndex ;
+	cntrls_state_.chck_bx_wider_flange_up_ = chck_bx_wider_flange_up -> Checked ;
+	cntrls_state_.chck_bx_sheet_orient_along_ = chck_bx_sheet_orient_along -> Checked;
+
+	//Плита плоская
+	rc = String_double_zero_plus(lbl_h_f_flat -> Caption,
+								 edt_h_f_flat -> Text,
+								 &cntrls_state_.edt_h_f_flat_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_h_n -> Caption,
+								 edt_h_n -> Text,
+								 &cntrls_state_.edt_h_n_);
+	if(rc > 0) throw(rc);
+
+}
 //---------------------------------------------------------------------------
+void TCompositeBeamMainForm::fix_all_frms_cntrls_state()
+{
+	fix_cntrls_state();
+	SteelSectionForm -> fix_cntrls_state();
+}
+
+void TCompositeBeamMainForm::update_all_frms_cntrls()
+{
+	update_cntrls();
+	SteelSectionForm -> update_cntrls();
+}
+
+
+void __fastcall TCompositeBeamMainForm::rd_grp_codeClick(TObject *Sender)
+{
+	if (rd_grp_code -> ItemIndex == 0)
+		set_GUI_SP266();
+	else
+		set_GUI_SP35();
+}
+void TCompositeBeamMainForm::set_GUI_SP35()
+{
+	grp_bx_corrugated_slab -> Visible = false;
+	rdgrp_slab_type -> Visible = false;
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::set_GUI_SP266()
+{
+	grp_bx_corrugated_slab -> Visible = true;
+	rdgrp_slab_type -> Visible = true;
+
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::save()
+{
+	std::ofstream ofs {"test.cb"};
+	cntrls_state_.save(ofs);
+	SteelSectionForm -> save(ofs);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::load()
+{
+	std::ifstream ifs {"test.cb"};
+	cntrls_state_.load(ifs);
+	SteelSectionForm -> load(ifs);
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TCompositeBeamMainForm::btn_saveClick(TObject *Sender)
+{
+	fix_all_frms_cntrls_state();
+	save();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::btn_loadClick(TObject *Sender)
+{
+	load();
+	update_cntrls();
+}
+//---------------------------------------------------------------------------
+
+
 

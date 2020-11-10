@@ -4,7 +4,7 @@ object SteelSectionForm: TSteelSectionForm
   BorderStyle = bsDialog
   Caption = #1042#1099#1073#1086#1088' '#1089#1090#1072#1083#1100#1085#1086#1075#1086' '#1089#1077#1095#1077#1085#1080#1103
   ClientHeight = 296
-  ClientWidth = 617
+  ClientWidth = 526
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,7 +20,7 @@ object SteelSectionForm: TSteelSectionForm
     Top = 4
     Width = 512
     Height = 250
-    ActivePage = TabSheet_Standart
+    ActivePage = tb_sheet_welded_profile
     TabOrder = 0
     object TabSheet_Standart: TTabSheet
       Caption = #1055#1088#1086#1082#1072#1090#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088' '#1043#1054#1057#1058' '#1056' 57837'
@@ -228,30 +228,12 @@ object SteelSectionForm: TSteelSectionForm
     OnClick = btn_launch_loggerClick
   end
   object btn_draw: TButton
-    Left = 526
-    Top = 26
+    Left = 166
+    Top = 263
     Width = 75
     Height = 25
     Caption = 'Draw'
     TabOrder = 5
     OnClick = btn_drawClick
-  end
-  object btn_save: TButton
-    Left = 526
-    Top = 57
-    Width = 75
-    Height = 25
-    Caption = 'Save'
-    TabOrder = 6
-    OnClick = btn_saveClick
-  end
-  object btn_load: TButton
-    Left = 526
-    Top = 88
-    Width = 75
-    Height = 25
-    Caption = 'Load'
-    TabOrder = 7
-    OnClick = btn_loadClick
   end
 end

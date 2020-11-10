@@ -9,32 +9,44 @@
 
 int ComposSectCalculatorSP35::id_ = 1;
 
-ComposSectCalculatorSP35::ComposSectCalculatorSP35
-	(IntForcesCalculator const & intr_frcs_calculator,
-	 WorkingConditionsFactors const & work_cond_factors,
-	 ComposSectGeomSP35 const & com_sect,
-	 ComposSectGeomSP35 const & com_sect_shr,
-	 ComposSectGeomSP35 const & com_sect_kr):
-		intr_frcs_calculator_(intr_frcs_calculator),
-		work_cond_factors_(work_cond_factors),
-		com_sect_(com_sect),
-		com_sect_shr_(com_sect_shr),
-		com_sect_kr_(com_sect_kr){}
-
 //ComposSectCalculatorSP35::ComposSectCalculatorSP35
-//							(IntForcesCalculator const & intr_frcs_calculator,
-//							 WorkingConditionsFactors const & work_cond_factors,
-//							 Steel const & steel,
-//							 GeneralSteelSection const & st_sect,
-//							 Concrete const & concrete,
-//							 GeneralConcreteSection const & conc_sect):
-//								intr_frcs_calculator_(intr_frcs_calculator),
-//								work_cond_factors_(work_cond_factors)
-//{
-//	com_sect_ {ComposSectGeomSP35{Steel const & steel,
-//							 GeneralSteelSection const & st_sect,
-//							 Concrete const & concrete,
-//							 GeneralConcreteSection const & conc_sect}};
+//	(IntForcesCalculator const & intr_frcs_calculator,
+//	 WorkingConditionsFactors const & work_cond_factors,
+//	 ComposSectGeomSP35 const & com_sect,
+//	 ComposSectGeomSP35 const & com_sect_shr,
+//	 ComposSectGeomSP35 const & com_sect_kr):
+//		intr_frcs_calculator_(intr_frcs_calculator),
+//		work_cond_factors_(work_cond_factors),
+//		com_sect_(com_sect),
+//		com_sect_shr_(com_sect_shr),
+//		com_sect_kr_(com_sect_kr){}
+
+ComposSectCalculatorSP35::ComposSectCalculatorSP35
+							(IntForcesCalculator const intr_frcs_calculator,
+							 WorkingConditionsFactors const work_cond_factors,
+							 Steel const steel,
+							 GeneralSteelSection const * st_sect,
+							 Concrete const concrete,
+							 GeneralConcreteSection const * conc_sect):
+								intr_frcs_calculator_(intr_frcs_calculator),
+								work_cond_factors_(work_cond_factors),
+								com_sect_(ComposSectGeomSP35(
+											steel, st_sect, concrete ,conc_sect,
+											ComposSectGeomSP35::ConcStateConsid::normal)),
+								com_sect_shr_(ComposSectGeomSP35(
+												steel, st_sect, concrete ,conc_sect,
+												ComposSectGeomSP35::ConcStateConsid::shrink)),
+								com_sect_kr_(ComposSectGeomSP35(
+												steel, st_sect, concrete ,conc_sect,
+												ComposSectGeomSP35::ConcStateConsid::creep))
+{
+//	com_sect_  = {steel, st_sect, concrete ,conc_sect,
+//				  ComposSectGeomSP35::ConcStateConsid::normal};
+//	com_sect_  = {steel, st_sect, concrete ,conc_sect,
+//				  ComposSectGeomSP35::ConcStateConsid::shrink};
+//	com_sect_  = {steel, st_sect, concrete ,conc_sect,
+//				  ComposSectGeomSP35::ConcStateConsid::creep};
+
 //	com_sect_shr_ {ComposSectGeomSP35{Steel const & steel,
 //							 GeneralSteelSection const & st_sect,
 //							 Concrete const & concrete,
@@ -43,8 +55,9 @@ ComposSectCalculatorSP35::ComposSectCalculatorSP35
 //							 GeneralSteelSection const & st_sect,
 //							 Concrete const & concrete,
 //							 GeneralConcreteSection const & conc_sect}};
-//
-//}
+
+}
+
 
 
 ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<double> const & x_lst)

@@ -34,9 +34,9 @@ __fastcall TSteelSectionForm::TSteelSectionForm(TComponent* Owner)
 }
 void __fastcall TSteelSectionForm::FormShow(TObject *Sender)
 {
-	set_form_controls();
+	//set_form_controls();
 
-	update_cntrls_state();
+	update_cntrls();
 }
 //---------------------------------------------------------------------------
 //Присваивение значений элементам управления из параметра функции типа ISection
@@ -434,6 +434,10 @@ void  TSteelSectionForm::Point_stand_dvutavr(int zero, int zero1, int zero2, SEC
 //---------------------------------------------------------------------------
 //
 //---------------------------------------------------------------------------
+void TSteelSectionForm::get_rolled_sect_from_data_base()
+{
+
+}
 void __fastcall TSteelSectionForm::cmb_bx_rolled_sect_numChange(TObject *Sender)
 {
 //Заполняем данные профиля по индексу профиля
@@ -527,9 +531,6 @@ Publisher_ID TSteelSectionForm::get_id()const
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionForm::btk_okClick(TObject *Sender)
 {
-	write_cntrls_state();
-
-
 	set_i_section();
 	iobserver_ -> update(this);
 	Close();
@@ -539,7 +540,7 @@ void __fastcall TSteelSectionForm::btk_okClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionForm::btn_cancelClick(TObject *Sender)
 {
-	update_cntrls_state();
+	update_cntrls();
 
 	set_form_controls();
 
@@ -571,7 +572,7 @@ void __fastcall TSteelSectionForm::btn_drawClick(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-void TSteelSectionForm::write_cntrls_state()
+void TSteelSectionForm::fix_cntrls_state()
 {
 		int rc = 0;
 
@@ -598,7 +599,7 @@ void TSteelSectionForm::write_cntrls_state()
 		cntrls_state_.rd_grp_rolled_sect_type_ = rd_grp_rolled_sect_type -> ItemIndex;
 
 }
-void TSteelSectionForm::update_cntrls_state()
+void TSteelSectionForm::update_cntrls()
 {
 		edt_b_f2 -> Text = cntrls_state_.edt_b_f2_;
 		edt_t_f2 -> Text = cntrls_state_.edt_t_f2_;
@@ -611,24 +612,18 @@ void TSteelSectionForm::update_cntrls_state()
 		cmb_bx_rolled_sect_num -> ItemIndex = cntrls_state_.cmb_bx_rolled_sect_num_;
 		rd_grp_rolled_sect_type -> ItemIndex = cntrls_state_.rd_grp_rolled_sect_type_;
 
+		cmb_bx_rolled_sect_numChange(nullptr);
 }
 
-void __fastcall TSteelSectionForm::btn_saveClick(TObject *Sender)
+void TSteelSectionForm::save(ostream & os)
 {
-	write_cntrls_state();
-	std::ofstream ofstr {"test.cb"};
-	cntrls_state_.save_cntls_state(ofstr);
-	ofstr.close();
+	cntrls_state_.save_cntls_state(os);
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TSteelSectionForm::btn_loadClick(TObject *Sender)
+void TSteelSectionForm::load(istream & is)
 {
-
-	std::ifstream ifstr {"test.cb"};
-	ifstr.seekg(0);
-	cntrls_state_.load_cntrls_state(ifstr);
-	update_cntrls_state();
+	cntrls_state_.load_cntrls_state(is);
 }
 
 String TSteelSectionForm::sect_name()const

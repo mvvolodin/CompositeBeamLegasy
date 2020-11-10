@@ -40,6 +40,7 @@
 #include "uGeneralConcreteSection.h"
 #include "uSlabConcreteSection.h"
 #include "uCorrugatedConcreteSection.h"
+#include "uFrmsCntrlsState.h"
 
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
@@ -51,6 +52,8 @@
 #include "ICompositeBeam.h"
 
 //#define NDEBUG
+
+
 
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 
@@ -182,6 +185,8 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox1;
 	TMenuItem *Help;
 	TRadioGroup *rd_grp_code;
+	TButton *btn_save;
+	TButton *btn_load;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -213,11 +218,16 @@ __published:	// IDE-managed Components
           int ARow, TRect &Rect, TGridDrawState State);
 	void __fastcall btn_add_impactsClick(TObject *Sender);
 	void __fastcall HelpClick(TObject *Sender);
+	void __fastcall rd_grp_codeClick(TObject *Sender);
+	void __fastcall btn_loadClick(TObject *Sender);
+	void __fastcall btn_saveClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;
 
 private:
+	TCompositeBeamMainFormCntrlsState cntrls_state_;
+
 	std::unique_ptr<TFormLogger> frm_logger_;
 
 	CompositeBeamCalculator composite_beam_calculator_; //Основной объект в программе
@@ -253,6 +263,9 @@ private:
     void calculate_composite_beam_SP35();
 	void clean_static_scheme();
 	void clean_grid(TStringGrid* str_grd);
+	void set_GUI_SP35();
+	void set_GUI_SP266();
+
 	#define UNTITLED  "Без имени"
 	bool modify_project;  // признак изменения проекта после сохранения
 	char ModelFile[240]; //Это имя файла?
@@ -262,6 +275,14 @@ private:
 	void register_observers();
 	void register_I_composite_beam();
 	virtual double get_t_max()const{return composite_beam_calculator_.get_composite_section().get_steel_part().get_section().get_t_uf();};
+
+	void update_cntrls();
+	void update_all_frms_cntrls();
+	void fix_cntrls_state();
+	void fix_all_frms_cntrls_state();
+
+	void save();
+	void load();
 
 };
 //---------------------------------------------------------------------------
