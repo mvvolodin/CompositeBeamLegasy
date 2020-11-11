@@ -6,7 +6,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1050#1086#1084#1073#1080#1085#1080#1088#1086#1074#1072#1085#1085#1072#1103' '#1073#1072#1083#1082#1072
-  ClientHeight = 604
+  ClientHeight = 602
   ClientWidth = 1072
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -575,14 +575,16 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtSectionMaterials: TTabSheet
       Caption = #1057#1077#1095#1077#1085#1080#1077' '#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1099
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 28
       object GrpBxSteelSection: TGroupBox
         Left = -4
         Top = 283
         Width = 307
         Height = 60
-        Caption = '  '#1055#1088#1086#1082#1072#1090#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077'  '
+        Caption = '  '#1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077'  '
         TabOrder = 0
-        object Pnl_SteelSectionViewer: TPanel
+        object pnl_SteelSectionViewer: TPanel
           Left = 195
           Top = 17
           Width = 90

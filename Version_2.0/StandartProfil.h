@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
+#include <vector>
 
 #ifndef StandartProfilH
 #define StandartProfilH
@@ -2544,6 +2545,10 @@ void  Set_TypeProfil_Com(int type_sect, SECT_DVUTAVR* sect, int index_profil, in
 
 // Установить начальный тип профиля двутавра (при этом должен установиться стандартный профиль и для других типов)
 void    Set_TypeProfilInit(SECT_DVUTAVR* sect, int index_profil, int type_profil);
+
+
+SECT_DVUTAVR get_rolled_sect_from_DB(int rolled_sect_type, int rolled_sect_num);
+std::vector<AnsiString> get_rolled_sect_type_nums(int rolled_sect_type);
 
 
 //---------------------------------------------------------------------------

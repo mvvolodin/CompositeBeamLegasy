@@ -49,7 +49,11 @@ typedef struct _sect_dvutavr {
    char profile_number_[10];//имя профиля. Тип char, так как тип String обладает non-trivial ctor MV 18.01.20
    double r; //радиус галтели MV 18.01.20
    double weight;//вес погонного метра профиля MV 18.01.20
+   double C; //Центр тяжести MV 11.11.2020
+   double A; //Площадь MV 11.11.2020
+   double I; //Момент инерции MV 11.11.2020
 }  SECT_DVUTAVR;
+
 
 typedef struct _sect_gnutic {
    double tG;      // толщина стенки (стали)

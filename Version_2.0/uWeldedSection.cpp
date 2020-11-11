@@ -215,13 +215,13 @@ void WeldedSection::draw(TCanvas* cnvs)
 		p.x *= scale; p.y *= scale;});
 
 	cnvs -> Brush -> Color = clMedGray;
-   //	cnvs -> Polygon(points.data(),points.size()-1);
+	cnvs -> Polygon(points.data(),points.size()-1);
 
-	Dimension dim_bf2 {points[0], points[11], "b_f", 10, 0};
-	dim_bf2.draw(cnvs);
-
-//	Arrow ar {{30, 30}, 20, 4, 225};
-//	ar.draw(cnvs);
+//	Dimension dim_bf2 {points[0], points[11], "b_f", 10, 0};
+//	dim_bf2.draw(cnvs);
+//
+////	Arrow ar {{30, 30}, 20, 4, 225};
+////	ar.draw(cnvs);
 
 }
 

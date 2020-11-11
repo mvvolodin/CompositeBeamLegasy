@@ -176,9 +176,6 @@ Coordinates=511,475,53,58
 [GrpBxTopology]
 Coordinates=104,548,104,58
 
-[Pnl_SteelSectionViewer]
-Coordinates=1241,144,152,58
-
 [BtnSteelSectionChoice]
 Coordinates=60,644,146,58
 
@@ -305,4 +302,7 @@ Coordinates=120,1,117,58
 
 [grp_bx_load_cases]
 Coordinates=755,644,116,58
+
+[pnl_SteelSectionViewer]
+Coordinates=1241,144,152,58
 

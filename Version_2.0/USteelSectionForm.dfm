@@ -22,6 +22,7 @@ object SteelSectionForm: TSteelSectionForm
     Height = 250
     ActivePage = tb_sheet_welded_profile
     TabOrder = 0
+    OnChange = pg_cntrl_sect_typeChange
     object TabSheet_Standart: TTabSheet
       Caption = #1055#1088#1086#1082#1072#1090#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088' '#1043#1054#1057#1058' '#1056' 57837'
       ImageIndex = 1
@@ -40,8 +41,8 @@ object SteelSectionForm: TSteelSectionForm
         Proportional = True
       end
       object cmb_bx_rolled_sect_num: TComboBox
-        Left = 360
-        Top = 21
+        Left = 352
+        Top = 22
         Width = 113
         Height = 21
         Style = csDropDownList
@@ -113,7 +114,7 @@ object SteelSectionForm: TSteelSectionForm
         end
         object lbl_t_f2: TLabel
           Left = 11
-          Top = 55
+          Top = 49
           Width = 146
           Height = 13
           Caption = #1058#1086#1083#1097#1080#1085#1072' '#1074#1077#1088#1093#1085#1077#1081' '#1087#1086#1083#1082#1080', '#1084#1084':'
@@ -152,6 +153,7 @@ object SteelSectionForm: TSteelSectionForm
           Width = 57
           Height = 21
           TabOrder = 0
+          OnExit = edt_weld_sect_exit
         end
         object edt_t_f2: TEdit
           Left = 227
@@ -159,6 +161,7 @@ object SteelSectionForm: TSteelSectionForm
           Width = 57
           Height = 21
           TabOrder = 1
+          OnExit = edt_weld_sect_exit
         end
         object edt_b_f1: TEdit
           Left = 227
@@ -166,6 +169,7 @@ object SteelSectionForm: TSteelSectionForm
           Width = 57
           Height = 21
           TabOrder = 2
+          OnExit = edt_weld_sect_exit
         end
         object edt_t_f1: TEdit
           Left = 227
@@ -173,6 +177,7 @@ object SteelSectionForm: TSteelSectionForm
           Width = 57
           Height = 21
           TabOrder = 3
+          OnExit = edt_weld_sect_exit
         end
         object edt_h_w: TEdit
           Left = 227
@@ -180,6 +185,7 @@ object SteelSectionForm: TSteelSectionForm
           Width = 57
           Height = 21
           TabOrder = 4
+          OnExit = edt_weld_sect_exit
         end
         object edt_t_w: TEdit
           Left = 227
@@ -187,6 +193,7 @@ object SteelSectionForm: TSteelSectionForm
           Width = 57
           Height = 21
           TabOrder = 5
+          OnExit = edt_weld_sect_exit
         end
       end
     end
@@ -217,23 +224,5 @@ object SteelSectionForm: TSteelSectionForm
     Caption = #1047#1072#1082#1088#1099#1090#1100
     TabOrder = 3
     OnClick = btn_closeClick
-  end
-  object btn_launch_logger: TButton
-    Left = 18
-    Top = 263
-    Width = 75
-    Height = 25
-    Caption = #1051#1086#1075
-    TabOrder = 4
-    OnClick = btn_launch_loggerClick
-  end
-  object btn_draw: TButton
-    Left = 166
-    Top = 263
-    Width = 75
-    Height = 25
-    Caption = 'Draw'
-    TabOrder = 5
-    OnClick = btn_drawClick
   end
 end

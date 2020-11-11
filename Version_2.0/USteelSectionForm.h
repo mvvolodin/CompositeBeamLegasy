@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #ifndef uSteelSectionFormH
 #define uSteelSectionFormH
@@ -10,7 +10,6 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Grids.hpp>
-#include <memory>
 #include <ostream>
 #include <istream>
 #include "uGeneralSteelSection.h"
@@ -28,12 +27,12 @@
 #include "uFrmsCntrlsState.h"
 
 #include "uISection.h"
-#include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
+#include "ObserverPatternInterfaces.h"//РїРѕРґРєР»СЋС‡Р°РµРј РёРЅС‚РµСЂС„РµР№СЃС‹ С€Р°Р±Р»РѕРЅР° РќР°Р±Р»СЋРґР°С‚РµР»СЊ
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 
-class TSteelSectionForm : public TForm, public IPublisher
+class TSteelSectionForm : public TForm
 {
 __published:	// IDE-managed Components
 	TPageControl *pg_cntrl_sect_type;
@@ -61,59 +60,40 @@ __published:	// IDE-managed Components
 	TLabel *lbl_t_f1;
 	TLabel *lbl_h_w;
 	TLabel *lbl_t_w;
-	TButton *btn_launch_logger;
-	TButton *btn_draw;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall cmb_bx_rolled_sect_numChange(TObject *Sender);
 	void __fastcall rd_grp_rolled_sect_typeClick(TObject *Sender);
 	void __fastcall btk_okClick(TObject *Sender);
 	void __fastcall btn_cancelClick(TObject *Sender);
 	void __fastcall btn_closeClick(TObject *Sender);
-	void __fastcall btn_launch_loggerClick(TObject *Sender);
-	void __fastcall btn_drawClick(TObject *Sender);
+	void __fastcall edt_weld_sect_exit(TObject *Sender);
+	void __fastcall pg_cntrl_sect_typeChange(TObject *Sender);
 
 private:	// User declarations
 	TSteelSectionFormCntrlsState cntrls_state_;
 
-	TStandartProfil StandartProfil_; //база данных
-	ISection i_section_temp_; //
-
-   WeldedSection weld_sect_temp_;
-   RolledSection rolled_sect_temp_;
-
-	std::unique_ptr<TFormLogger> log_;
-
-	static const Publisher_ID id_ = Publisher_ID::SECTION_FORM;
-	IObserver_* iobserver_;
-	virtual String get_information()const override;
-	virtual Publisher_ID get_id()const override;
-
 	TArrow CoorAx;
 
-	void set_form_controls();
-	void set_i_section();
-	void update_weld_sect_ctrls();
-	void update_steel_section();
-	void form_controls_changed();
+	void fill_cmb_bx_rolled_sect_num(int rolled_sect_type);
+	void fill_strng_grd_rolled_sect(SECT_DVUTAVR sect);
 
 	void Point_stand_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, double rad, float scale, TPoint *vertices);
 	void Point_weld_dvutavr(int zero, int zero1, int zero2, SECT_DVUTAVR *sect, float scale, TPoint *vertices);
-	void  draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect);
+	void draw_dvutavr(TImage * Image_stand, SECT_DVUTAVR *sect);
+	void draw_weld_sect();
 	void Draw_dvutavr_weld_plane(TImage * Image_stand, SECT_DVUTAVR *sect);
 	void draw_axes(TImage *Image_Ax);
 	void draw_axes_zero(TImage *Image_Ax, int x0, int y0);
 
-	String sect_name()const;
-
 public:		// User declarations
-	__fastcall TSteelSectionForm(TComponent* Owner)override;
-	void set_form_controls(ISection i_section);
-	ISection get_i_section() const {return i_section_temp_;}
-	GeneralSteelSection const & get_section();
-	void register_observer(IObserver_* iobserver)override;
+	__fastcall TSteelSectionForm(TComponent* Owner);
 
-	void fix_cntrls_state();
-	void update_cntrls();
+    String sect_name()const;
+
+	void check_input();
+	void store_cntrls_state();
+	void update_cntrls_state();
+
 	void save(ostream & os);
 	void load(istream & os);
 

@@ -8,6 +8,59 @@
 #include "ProcExt.h"
 #include "Get_param_sect_func.h"
 
+SECT_DVUTAVR get_rolled_sect_from_DB(int rolled_sect_type, int rolled_sect_num)
+{
+	//Получить данные группы профилей по индексу
+	TStandartProfil StandartProfil;
+	StandartProfil.SetProfil(rolled_sect_type + typeGOST_G57837_B);
+
+	//Получить вектор имён профилей по индексу группы профилей
+	int n_profil;
+	AnsiString* sect_nums_array = StandartProfil.GetVectorNameProfil(&n_profil);
+
+	AnsiString sect_num = sect_nums_array[rolled_sect_num];
+
+	//Заполнить данные профиля по индексу профиля
+	double * ParamProfil;
+	ParamProfil = StandartProfil.GetVectorParamProfil(rolled_sect_num);
+
+	SECT_DVUTAVR sect_dvutavr;
+
+	std::strcpy(sect_dvutavr.profile_number_, sect_num .c_str());
+	sect_dvutavr.b = ParamProfil[parTW];// толщина стенки двутавра
+	sect_dvutavr.h = ParamProfil[parHSECT] - 2 * ParamProfil[parTF]; // высота стенки двутавра
+	sect_dvutavr.b1 = ParamProfil[parBSECT]; // ширина наружной полки двутавра
+	sect_dvutavr.h1 = ParamProfil[parTF];// толщина наружней полки двутавра
+	sect_dvutavr.b2 = ParamProfil[parBSECT]; // ширина внутренней полки двутавра
+	sect_dvutavr.h2 = ParamProfil[parTF];// толщина внутренней полки двутавра
+	sect_dvutavr.r = ParamProfil[parRAD];// толщина внутренней полки двутавра
+	sect_dvutavr.C = ParamProfil[parHSECT] / 2;//Центр тяжести
+	sect_dvutavr.A = ParamProfil[parAREA]; //Площадь
+	sect_dvutavr.I = ParamProfil[parIZZ ]; //Момент инерции
+
+	return sect_dvutavr;
+}
+
+std::vector<AnsiString> get_rolled_sect_type_nums(int rolled_sect_type)
+{
+	TStandartProfil StandartProfil_;
+
+	StandartProfil_.SetProfil(rolled_sect_type + typeGOST_G57837_B);
+
+	//Получить вектора имен профилей и его длины
+	AnsiString *NameProfil;
+	int n_profil;
+
+	NameProfil = StandartProfil_.GetVectorNameProfil(&n_profil);
+
+	std::vector<AnsiString> sect_type_nums{};
+
+	for (int i=0; i < n_profil; i++)
+		sect_type_nums.emplace_back(NameProfil[i]);
+
+	return sect_type_nums;
+}
+
 
 //--------------------------------------------------
 // Установить тип профиля
@@ -276,6 +329,8 @@ AnsiString* TStandartProfil::GetVectorNameProfil(int *n_profil) {
 double* TStandartProfil::GetVectorParamProfil(int n_profil) {
    return Gost_Profil[n_profil];
 }
+
+
 
 
 //----------------------------------------------------------------------

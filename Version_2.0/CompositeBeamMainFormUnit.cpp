@@ -99,7 +99,7 @@ void TCompositeBeamMainForm ::set_form_controls()
 	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> get_studs_on_beam().get_name();
 	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> get_rebar().get_grade();
 	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> get_concrete().get_grade();
-	Pnl_SteelSectionViewer -> Caption = SteelSectionForm -> get_i_section().get_profile_number();
+	pnl_SteelSectionViewer -> Caption = SteelSectionForm -> sect_name();
 
 //Данные для плиты
 
@@ -135,7 +135,7 @@ void TCompositeBeamMainForm ::set_form_controls()
 //Данные типа Steel
 	DefineSteelForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_steel());
 //Данные типа Section
-	SteelSectionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_section());
+	//SteelSectionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_section());
 
 }
 void TCompositeBeamMainForm ::register_observers()
@@ -145,7 +145,7 @@ void TCompositeBeamMainForm ::register_observers()
 	ipublishers.push_back(StudDefinitionForm);
 	ipublishers.push_back(ConcreteDefinitionForm);
 	ipublishers.push_back(DefineSteelForm);
-	ipublishers.push_back(SteelSectionForm);
+   //	ipublishers.push_back(SteelSectionForm);
 	for(auto ip:ipublishers)
 	ip -> register_observer(this);
 
@@ -194,7 +194,7 @@ Loads TCompositeBeamMainForm ::update_loads()
 {
 	double SW_sheets = 0.;
 
-	double SW = SteelSectionForm -> get_i_section().get_weight();
+	//double SW = SteelSectionForm -> get_i_section().get_weight();
 
 	double SW_add_concrete = 0.;
 	double DL_I = 0.;
@@ -247,8 +247,8 @@ Loads TCompositeBeamMainForm ::update_loads()
 	rc = String_double_zero_plus(lbl_sheeting_continuity_coefficient -> Caption, edt_sheeting_continuity_coefficient -> Text, &sheeting_continuity_coefficient);
 	if(rc > 0) 
 		throw(rc);
-	
-	return Loads {SW, SW_sheets, SW_add_concrete, DL_I, DL_II, LL,
+
+	return Loads {0, SW_sheets, SW_add_concrete, DL_I, DL_II, LL,
 		gamma_f_st_SW, gamma_f_concrete_SW, gamma_f_add_concrete_SW, gamma_f_DL_I, gamma_f_DL_II, gamma_f_LL,
 		sheeting_continuity_coefficient,
 		FrmAddImpacts -> get_sigma_bi(),
@@ -258,13 +258,13 @@ Loads TCompositeBeamMainForm ::update_loads(double SW_st_beam, double conc_sect,
 {
 	return Loads{};
 }
-//---------------------------------------------------------------------------
-//Инициализация геометрии двутавра
-//---------------------------------------------------------------------------
-ISection TCompositeBeamMainForm ::update_i_section()
-{
-	return SteelSectionForm -> get_i_section();
-}
+////---------------------------------------------------------------------------
+////Инициализация геометрии двутавра
+////---------------------------------------------------------------------------
+//ISection TCompositeBeamMainForm ::update_i_section()
+//{
+//	return SteelSectionForm -> get_i_section();
+//}
 std::unique_ptr<GeneralConcreteSection> update_steel_section()
 {
 	return std::unique_ptr<GeneralConcreteSection> {};
@@ -319,7 +319,7 @@ ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 {
 	Geometry geometry = update_geometry();
 
-	ISection i_section = SteelSectionForm -> get_i_section();
+	ISection i_section  {};
 	double b_uf = i_section.get_b_uf();
 
 	if (rdgrp_slab_type -> ItemIndex ==0)
@@ -357,7 +357,8 @@ ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 SteelPart TCompositeBeamMainForm ::update_steel_part()
 {
 
-   ISection i_section = update_i_section();
+   //ISection i_section = update_i_section();
+   ISection i_section{};
    Steel steel_i_section = update_steel_i_section();
 
 	return SteelPart(i_section, steel_i_section);
@@ -538,12 +539,12 @@ void TCompositeBeamMainForm ::cotr_comp_sect_geometr_grid()
 {
 	strng_grd_compos_sect_geom_character->Cells [0][0]=L"Геометрические характеристики";
 	strng_grd_compos_sect_geom_character->Cells [1][0]=L"Значения";
-	strng_grd_compos_sect_geom_character->Cells [0][1]=L"Площадь Ared, мм2";
-	strng_grd_compos_sect_geom_character->Cells [0][2]=L"Момент инерции Ired, мм4 ";
-	strng_grd_compos_sect_geom_character->Cells [0][3]=L"Момент сопротивления, Ц.Т. ж.б. плиты Wb,red, мм3";
-	strng_grd_compos_sect_geom_character->Cells [0][4]=L"Расстояние Zb,red, мм";
-	strng_grd_compos_sect_geom_character->Cells [0][5]=L"Расстояние Zst,red мм";
-	strng_grd_compos_sect_geom_character->Cells [0][6]=L"Расстояние Zb,st мм";
+	strng_grd_compos_sect_geom_character->Cells [0][1]=L"Площадь, мм2";
+	strng_grd_compos_sect_geom_character->Cells [0][2]=L"Момент инерции, мм4 ";
+	strng_grd_compos_sect_geom_character->Cells [0][3]=L"Момент сопротивления Ц.Т. ж.б. плиты, мм3";
+	strng_grd_compos_sect_geom_character->Cells [0][4]=L"Расстояние от Ц.Т. до Ц.Т. бетона, мм";
+	strng_grd_compos_sect_geom_character->Cells [0][5]=L"Расстояние от Ц.Т. до Ц.Т. стали мм";
+	strng_grd_compos_sect_geom_character->Cells [0][6]=L"Расстояние от Ц.Т. стали до Ц.Т. бетона мм";
 }
 //---------------------------------------------------------------------------
 //Функция заполняющая объект TStringGrid геометрическими характеристиками стального сечения
@@ -696,7 +697,9 @@ void __fastcall TCompositeBeamMainForm ::BtBtnSteelChoiceClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm ::BtnSteelSectionChoiceClick(TObject *Sender)
 {
-	SteelSectionForm -> Show();
+	SteelSectionForm -> ShowModal();
+	pnl_SteelSectionViewer -> Caption = SteelSectionForm -> sect_name();
+
 }
 //---------------------------------------------------------------------------
 
@@ -1350,7 +1353,7 @@ void TCompositeBeamMainForm ::update(IPublisher* ipublisher )
 			OnControlsChange(nullptr);
 			break;
 		case(Publisher_ID::SECTION_FORM):
-			Pnl_SteelSectionViewer -> Caption = ipublisher -> get_information();
+			pnl_SteelSectionViewer -> Caption = ipublisher -> get_information();
 			OnControlsChange(nullptr);
 			break;
 	}
@@ -1468,6 +1471,13 @@ void TCompositeBeamMainForm::update_cntrls()
 
 	edt_h_f_flat -> Text = cntrls_state_.edt_h_f_flat_;
 	edt_h_n -> Text = cntrls_state_.edt_h_n_;
+
+    //Панели для отображения данных
+
+	String set_name = SteelSectionForm -> sect_name();
+	pnl_SteelSectionViewer -> Caption = SteelSectionForm -> sect_name();
+
+	update_GUI();
 
 }
 void TCompositeBeamMainForm::fix_cntrls_state()
@@ -1608,33 +1618,39 @@ void TCompositeBeamMainForm::fix_cntrls_state()
 void TCompositeBeamMainForm::fix_all_frms_cntrls_state()
 {
 	fix_cntrls_state();
-	SteelSectionForm -> fix_cntrls_state();
+	SteelSectionForm -> store_cntrls_state();
 }
 
 void TCompositeBeamMainForm::update_all_frms_cntrls()
 {
+	SteelSectionForm -> update_cntrls_state();
+	//второстепенные формы обновляются первыми для того, чтобы верно отобразить информацию на панелях
 	update_cntrls();
-	SteelSectionForm -> update_cntrls();
+
+
 }
 
-
-void __fastcall TCompositeBeamMainForm::rd_grp_codeClick(TObject *Sender)
+void TCompositeBeamMainForm::update_GUI()
 {
-	if (rd_grp_code -> ItemIndex == 0)
+	if (cntrls_state_.rd_grp_code_ == 0)
 		set_GUI_SP266();
 	else
 		set_GUI_SP35();
 }
+
+void __fastcall TCompositeBeamMainForm::rd_grp_codeClick(TObject *Sender)
+{
+	update_GUI();
+}
 void TCompositeBeamMainForm::set_GUI_SP35()
 {
-	grp_bx_corrugated_slab -> Visible = false;
-	rdgrp_slab_type -> Visible = false;
+	rdgrp_slab_type -> ItemIndex = 0;
+	rdgrp_slab_type -> Buttons [1] -> Enabled = false;
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::set_GUI_SP266()
 {
-	grp_bx_corrugated_slab -> Visible = true;
-	rdgrp_slab_type -> Visible = true;
+	rdgrp_slab_type -> Buttons [1] -> Enabled = true;
 
 }
 //---------------------------------------------------------------------------

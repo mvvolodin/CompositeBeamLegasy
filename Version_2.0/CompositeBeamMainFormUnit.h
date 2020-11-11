@@ -129,7 +129,7 @@ __published:	// IDE-managed Components
 	TEdit *edt_gamma_c;
 	TTabSheet *TbShtSectionMaterials;
 	TGroupBox *GrpBxSteelSection;
-	TPanel *Pnl_SteelSectionViewer;
+	TPanel *pnl_SteelSectionViewer;
 	TBitBtn *BtnSteelSectionChoice;
 	TRadioGroup *rdgrp_slab_type;
 	TGroupBox *grp_bx_flat_slab;
@@ -263,6 +263,7 @@ private:
     void calculate_composite_beam_SP35();
 	void clean_static_scheme();
 	void clean_grid(TStringGrid* str_grd);
+	void update_GUI();
 	void set_GUI_SP35();
 	void set_GUI_SP266();
 
