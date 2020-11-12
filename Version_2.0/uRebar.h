@@ -6,6 +6,22 @@
 #include<map>
 #include <iostream>
 #include <ostream>
+#include <string>
+#include <vector>
+
+namespace SP35Code{
+
+	struct RebarData{
+		std::string const grade_;
+		double const R_sn_;
+	};
+
+	extern std::vector<RebarData> const RebarsData;
+
+	std::vector<std::string> grades();
+	double R_sn(std::string const & grade);
+}
+
 
 class RebarBasic{
 public:

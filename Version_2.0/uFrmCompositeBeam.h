@@ -1,7 +1,7 @@
 ﻿//---------------------------------------------------------------------------
 
-#ifndef CompositeBeamMainFormUnitH
-#define CompositeBeamMainFormUnitH
+#ifndef uFrmCompositeBeamH
+#define uFrmCompositeBeamH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
@@ -27,12 +27,12 @@
 
 
 #include "uCompositeBeamCalculator.h"//Подключаем логику
-#include "StudDefinitionFormUnit.h"
-#include "ConcreteDefinitionFormUnit.h"
-#include "RebarDefinitionFormUnit.h"
-#include "uSteelSectionForm.h"
-#include "uHelpForm.h"
-#include "DefineSteelFormUnit.h"
+#include "uFrmStud.h"
+#include "uFrmConcrete.h"
+#include "uFrmRebar.h"
+#include "uFrmSteelSection.h"
+#include "uFrmHelp.h"
+#include "uFrmSteel.h"
 #include "uFrmAddImacts.h"
 #include "uFrmLogger.h"
 #include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
@@ -129,7 +129,7 @@ __published:	// IDE-managed Components
 	TEdit *edt_gamma_c;
 	TTabSheet *TbShtSectionMaterials;
 	TGroupBox *GrpBxSteelSection;
-	TPanel *pnl_SteelSectionViewer;
+	TPanel *pnl_steel_section_viewer;
 	TBitBtn *BtnSteelSectionChoice;
 	TRadioGroup *rdgrp_slab_type;
 	TGroupBox *grp_bx_flat_slab;

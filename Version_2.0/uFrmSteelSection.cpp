@@ -4,7 +4,7 @@
 #pragma hdrstop
 
 #include <fstream>
-#include "uSteelSectionForm.h"
+#include "uFrmSteelSection.h"
 #include "String_doubleUnit.h"
 #include "uFrmLogger.h"
 //---------------------------------------------------------------------------
@@ -368,7 +368,7 @@ void __fastcall TSteelSectionForm::edt_weld_sect_exit(TObject *Sender)
 //---------------------------------------------------------------------------
 void TSteelSectionForm::check_input()
 {
-	int rc = 0;
+	int rc;
 	double temp;
 
 	rc = String_double_plus(lbl_b_f2 -> Caption, edt_b_f2 -> Text, &temp);

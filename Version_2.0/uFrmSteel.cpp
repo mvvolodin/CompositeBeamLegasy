@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "DefineSteelFormUnit.h"
+#include "uFrmSteel.h"
 #include "Steel_param_ARSS.h"
 #include "String_doubleUnit.h"
 

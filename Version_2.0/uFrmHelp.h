@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef uHelpFormH
-#define uHelpFormH
+#ifndef uFrmHelpH
+#define uFrmHelpH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>

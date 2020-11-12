@@ -10,10 +10,10 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 
-#include "CompositeBeamMainFormUnit.h"
+#include "uFrmCompositeBeam.h"
 #include "String_doubleUnit.h"
 #include "uWord_Automation.h"
-#include "AboutProg.h"
+#include "uFrmAboutProg.h"
 #include "uComposSectCalculatorS35.h"
 #include "uComposSectGeomSP35.h"
 #include "uIntForcesCalculator.h"
@@ -97,9 +97,9 @@ void TCompositeBeamMainForm ::set_form_controls()
 
 //Панели для отображения данных
 	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> get_studs_on_beam().get_name();
-	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> get_rebar().get_grade();
+	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> rebar_name();
 	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> get_concrete().get_grade();
-	pnl_SteelSectionViewer -> Caption = SteelSectionForm -> sect_name();
+	pnl_steel_section_viewer -> Caption = SteelSectionForm -> sect_name();
 
 //Данные для плиты
 
@@ -126,7 +126,7 @@ void TCompositeBeamMainForm ::set_form_controls()
    	StudDefinitionForm -> set_form_controls(composite_beam_calculator_.get_studs_on_beam());
 
 //Данные типа Rebar
-	RebarDefinitionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_concrete_part().get_rebar());
+	//RebarDefinitionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_concrete_part().get_rebar());
 
 //Данные типа Concrete
 	ConcreteDefinitionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_concrete_part().get_concrete());
@@ -141,7 +141,7 @@ void TCompositeBeamMainForm ::set_form_controls()
 void TCompositeBeamMainForm ::register_observers()
 {
 	std::vector<IPublisher*> ipublishers;
-	ipublishers.push_back(RebarDefinitionForm);
+	//ipublishers.push_back(RebarDefinitionForm);
 	ipublishers.push_back(StudDefinitionForm);
 	ipublishers.push_back(ConcreteDefinitionForm);
 	ipublishers.push_back(DefineSteelForm);
@@ -285,7 +285,16 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 	if(int rc = String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f))
 		throw(rc);
 
-	Rebars rebars = RebarDefinitionForm -> get_rebars();
+	TFrmRebarCntrlsState cntrls_state = RebarDefinitionForm -> cntrls_state();
+
+
+	Rebar2 reb {"",
+				500,
+				cntrls_state.edt_E_s_,
+				cntrls_state.edt_diameter_,
+				cntrls_state.edt_safety_factor_};
+
+    Rebars rebars;
 
 	if (rdgrp_slab_type -> ItemIndex == 0)
 	{
@@ -317,39 +326,39 @@ std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete
 //---------------------------------------------------------------------------
 ConcretePart TCompositeBeamMainForm ::update_concrete_part()
 {
-	Geometry geometry = update_geometry();
-
-	ISection i_section  {};
-	double b_uf = i_section.get_b_uf();
-
-	if (rdgrp_slab_type -> ItemIndex ==0)
-	{
-		double t_sl = 0.;
-		double h_n = 0.;
-		String_double_plus(lbl_h_f_flat -> Caption, edt_h_f_flat -> Text, &t_sl);
-		String_double_zero_plus(lbl_h_n -> Caption, edt_h_n -> Text, &h_n);
-		return ConcretePart (L"Плоская плита",
-							  SlabType::FLAT,
-							  ConcreteDefinitionForm->get_concrete(),
-							  RebarDefinitionForm->get_rebar(),
-							  t_sl,
-							  h_n);
-	}
-	else
-	{
-		double h_f = 0.;
-
-		String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f);
-
-		return ConcretePart (cmb_bx_corrugated_sheeting_part_number->Text,
-							  SlabType::CORRUGATED,
-							  ConcreteDefinitionForm->get_concrete(),
-							  RebarDefinitionForm->get_rebar(),
-							  h_f,
-							  0.,
-							  chck_bx_wider_flange_up -> Checked,
-							  chck_bx_sheet_orient_along -> Checked);
-	}
+//	Geometry geometry = update_geometry();
+//
+//	ISection i_section  {};
+//	double b_uf = i_section.get_b_uf();
+//
+//	if (rdgrp_slab_type -> ItemIndex ==0)
+//	{
+//		double t_sl = 0.;
+//		double h_n = 0.;
+//		String_double_plus(lbl_h_f_flat -> Caption, edt_h_f_flat -> Text, &t_sl);
+//		String_double_zero_plus(lbl_h_n -> Caption, edt_h_n -> Text, &h_n);
+//		return ConcretePart (L"Плоская плита",
+//							  SlabType::FLAT,
+//							  ConcreteDefinitionForm->get_concrete(),
+//							  RebarDefinitionForm->get_rebar(),
+//							  t_sl,
+//							  h_n);
+//	}
+//	else
+//	{
+//		double h_f = 0.;
+//
+//		String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f);
+//
+//		return ConcretePart (cmb_bx_corrugated_sheeting_part_number->Text,
+//							  SlabType::CORRUGATED,
+//							  ConcreteDefinitionForm->get_concrete(),
+//							  RebarDefinitionForm->get_rebar(),
+//							  h_f,
+//							  0.,
+//							  chck_bx_wider_flange_up -> Checked,
+//							  chck_bx_sheet_orient_along -> Checked);
+//	}
 }
 //---------------------------------------------------------------------------
 //Инициализация стальной части сечения
@@ -698,7 +707,7 @@ void __fastcall TCompositeBeamMainForm ::BtBtnSteelChoiceClick(TObject *Sender)
 void __fastcall TCompositeBeamMainForm ::BtnSteelSectionChoiceClick(TObject *Sender)
 {
 	SteelSectionForm -> ShowModal();
-	pnl_SteelSectionViewer -> Caption = SteelSectionForm -> sect_name();
+	pnl_steel_section_viewer -> Caption = SteelSectionForm -> sect_name();
 
 }
 //---------------------------------------------------------------------------
@@ -1078,17 +1087,6 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 		SW_corr_sheet = static_cast<CorrugatedConcreteSection const *>(conc_sect.get())
 			-> corrugated_sheet().get_weight();
 
-//	  ComposSectGeomSP35 com_sect {st, *st_sect,
-//								   conc, *conc_sect,
-//								   ComposSectGeomSP35::ConcStateConsid::normal};
-//	  ComposSectGeomSP35 com_sect_sh {st, *st_sect,
-//									  conc, *conc_sect,
-//									  ComposSectGeomSP35::ConcStateConsid::shrink};
-//	  ComposSectGeomSP35 com_sect_cr {st, *st_sect,
-//									  conc, *conc_sect,
-//									  ComposSectGeomSP35::ConcStateConsid::creep};
-
-
 	  //подготовка калькулятора внутренних усилий
 	SupportsNumber tmp_sup_num = geom.get_temporary_supports_number();
 	double L = geom.get_span();
@@ -1099,11 +1097,6 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 
 	WorkingConditionsFactors working_conditions_factors{update_working_conditions_factors()};
 
-//	  ComposSectCalculatorSP35 com_beam_calc {int_frcs_calculator,
-//												   working_conditions_factors,
-//												   com_sect,
-//												   com_sect_sh,
-//												   com_sect_cr};
  //------------------------------------------------------------------------
 	ComposSectCalculatorSP35 com_beam_calc {int_frcs_calculator,
 											working_conditions_factors, //копирование
@@ -1353,7 +1346,7 @@ void TCompositeBeamMainForm ::update(IPublisher* ipublisher )
 			OnControlsChange(nullptr);
 			break;
 		case(Publisher_ID::SECTION_FORM):
-			pnl_SteelSectionViewer -> Caption = ipublisher -> get_information();
+			pnl_steel_section_viewer -> Caption = ipublisher -> get_information();
 			OnControlsChange(nullptr);
 			break;
 	}
@@ -1475,7 +1468,8 @@ void TCompositeBeamMainForm::update_cntrls()
     //Панели для отображения данных
 
 	String set_name = SteelSectionForm -> sect_name();
-	pnl_SteelSectionViewer -> Caption = SteelSectionForm -> sect_name();
+	pnl_steel_section_viewer -> Caption = SteelSectionForm -> sect_name();
+	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> rebar_name();
 
 	update_GUI();
 
@@ -1659,6 +1653,8 @@ void TCompositeBeamMainForm::save()
 	std::ofstream ofs {"test.cb"};
 	cntrls_state_.save(ofs);
 	SteelSectionForm -> save(ofs);
+	RebarDefinitionForm -> save(ofs);
+
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::load()

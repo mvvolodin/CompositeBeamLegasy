@@ -127,7 +127,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -575,8 +575,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtSectionMaterials: TTabSheet
       Caption = #1057#1077#1095#1077#1085#1080#1077' '#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1099
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 28
       object GrpBxSteelSection: TGroupBox
         Left = -4
         Top = 283
@@ -584,7 +582,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Height = 60
         Caption = '  '#1057#1090#1072#1083#1100#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077'  '
         TabOrder = 0
-        object pnl_SteelSectionViewer: TPanel
+        object pnl_steel_section_viewer: TPanel
           Left = 195
           Top = 17
           Width = 90

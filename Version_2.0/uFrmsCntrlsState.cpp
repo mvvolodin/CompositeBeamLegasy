@@ -98,24 +98,43 @@ void TCompositeBeamMainFormCntrlsState::load(istream & is)
 //---------------------------------------------------------------------------
 void TSteelSectionFormCntrlsState::save_cntls_state(ostream & os)
 {
-	   os << edt_b_f2_ << '\n'
-		  << edt_t_f2_ << '\n'
-		  << edt_b_f1_ << '\n'
-		  << edt_t_f1_ << '\n'
-		  << edt_h_w_  << '\n'
-		  << edt_t_w_  << '\n'
-		  << pg_cntrl_sect_type_ << '\n'
-		  << cmb_bx_rolled_sect_num_ << '\n'
-		  << rd_grp_rolled_sect_type_ << '\n';
-
+	os << edt_b_f2_ << '\n'
+	   << edt_t_f2_ << '\n'
+	   << edt_b_f1_ << '\n'
+	   << edt_t_f1_ << '\n'
+	   << edt_h_w_  << '\n'
+	   << edt_t_w_  << '\n'
+	   << pg_cntrl_sect_type_ << '\n'
+	   << cmb_bx_rolled_sect_num_ << '\n'
+	   << rd_grp_rolled_sect_type_ << '\n';
 }
 void TSteelSectionFormCntrlsState::load_cntrls_state(istream & is)
 {
-		   is >> edt_b_f2_ >> edt_t_f2_
-			  >> edt_b_f1_ >> edt_t_f1_
-			  >> edt_h_w_ >> edt_t_w_
-			  >> pg_cntrl_sect_type_
-			  >> cmb_bx_rolled_sect_num_
-			  >> rd_grp_rolled_sect_type_;
+	is >> edt_b_f2_ >> edt_t_f2_
+	   >> edt_b_f1_ >> edt_t_f1_
+	   >> edt_h_w_ >> edt_t_w_
+	   >> pg_cntrl_sect_type_
+	   >> cmb_bx_rolled_sect_num_
+	   >> rd_grp_rolled_sect_type_;
 }
-
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+void TFrmRebarCntrlsState::save_cntls_state(ostream & os)
+{
+	os << cmb_bx_rebar_grade_ << '\n'
+	   << edt_E_s_ << '\n'
+	   << edt_safety_factor_ << '\n'
+	   << edt_diameter_ << '\n'
+	   << edt_b_  << '\n'
+	   << edt_a_u_  << '\n'
+	   << edt_a_l_ << '\n';
+}
+void TFrmRebarCntrlsState::load_cntrls_state(istream & is)
+{
+	is >> cmb_bx_rebar_grade_
+	   >> edt_E_s_
+	   >> edt_safety_factor_
+	   >> edt_diameter_
+	   >> edt_b_ >> edt_a_u_
+	   >> edt_a_l_;
+}

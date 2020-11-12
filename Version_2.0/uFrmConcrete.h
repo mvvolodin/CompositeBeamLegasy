@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
-#ifndef ConcreteDefinitionFormUnitH
-#define ConcreteDefinitionFormUnitH
+#ifndef uFrmConcreteH
+#define uFrmConcreteH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>

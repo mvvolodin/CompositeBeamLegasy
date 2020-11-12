@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef RebarDefinitionFormUnitH
-#define RebarDefinitionFormUnitH
+#ifndef uFrmRebarH
+#define uFrmRebarH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
@@ -11,11 +11,11 @@
 //---------------------------------------------------------------------------
 #include "uRebar.h"
 #include <Vcl.ExtCtrls.hpp>
-
+#include "uFrmsCntrlsState.h"
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
 //---------------------------------------------------------------------------
 
-class TRebarDefinitionForm : public TForm, public IPublisher
+class TRebarDefinitionForm : public TForm
 {
 __published:	// IDE-managed Components
 	TEdit *edt_safety_factor;
@@ -46,21 +46,21 @@ __published:	// IDE-managed Components
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall btn_closeClick(TObject *Sender);
 private:	// User declarations
-	static const Publisher_ID id_ = Publisher_ID::REBARS_FORM;
-	IObserver_* iobserver_;
-	Rebar rebar_temp_;
-	Rebars rebars_temp_;
-	void set_form_controls();
-	void set_rebar();//Функция которая проверяет корректность ввода и вызывает конструктор rebar
-	void update_rebars();
-	virtual String get_information()const override;
-	virtual Publisher_ID get_id()const override;
+	TFrmRebarCntrlsState cntrls_state_;
+	void check_input();
+	void store_cntrls_state();
+
+
 public:		// User declarations
 	__fastcall TRebarDefinitionForm(TComponent* Owner)override;
-	void set_form_controls(Rebar rebar);
-	Rebar get_rebar() const {return rebar_temp_;}
-	Rebars get_rebars() {update_rebars();return rebars_temp_;}
-	void register_observer(IObserver_* iobserver)override;
+
+	void update_cntrls_state();
+
+	void save(ostream & os);
+	void load(istream & os);
+
+	String rebar_name()const;
+	TFrmRebarCntrlsState const & cntrls_state(){return cntrls_state_;}
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TRebarDefinitionForm *RebarDefinitionForm;

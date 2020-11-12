@@ -3,8 +3,38 @@
 #pragma hdrstop
 
 #include "uRebar.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+
+namespace SP35Code
+{
+
+	std::vector<RebarData> const rebars_data{{"A240",240},
+											 {"A400",400},
+											 {"A500",500},
+											 {"A600",600},
+											 {"A800",800},
+											 {"A1000",1000}};
+
+	std::vector<std::string> grades()
+	{
+		std::vector<std::string> grades;
+		for(auto const & rb:rebars_data)
+			grades.emplace_back(rb.grade_);
+
+		return std::move(grades);
+	}
+	double R_sn(std::string const & grade)
+	{
+		return std::find_if(rebars_data.cbegin(), rebars_data.cend(),
+			[grade](auto const & rb){return rb.grade_ == grade;}) -> R_sn_;
+	}
+};
+
+
+
+
 
 RebarStrengtNamedList const rebar_strength_named_list{
 	{L"A240", 240},

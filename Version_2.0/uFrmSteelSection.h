@@ -1,7 +1,7 @@
 ﻿//---------------------------------------------------------------------------
 
-#ifndef uSteelSectionFormH
-#define uSteelSectionFormH
+#ifndef uFrmSteelSectionH
+#define uFrmSteelSectionH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
@@ -71,6 +71,7 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 	TSteelSectionFormCntrlsState cntrls_state_;
+	void check_input();
 
 	TArrow CoorAx;
 
@@ -85,12 +86,12 @@ private:	// User declarations
 	void draw_axes(TImage *Image_Ax);
 	void draw_axes_zero(TImage *Image_Ax, int x0, int y0);
 
+
 public:		// User declarations
 	__fastcall TSteelSectionForm(TComponent* Owner);
 
     String sect_name()const;
 
-	void check_input();
 	void store_cntrls_state();
 	void update_cntrls_state();
 

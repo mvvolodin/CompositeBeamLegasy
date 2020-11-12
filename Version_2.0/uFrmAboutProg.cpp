@@ -14,7 +14,7 @@
 #pragma hdrstop
 
 
-#include "AboutProg.h"
+#include "uFrmAboutProg.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"

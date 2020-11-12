@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "StudDefinitionFormUnit.h"
+#include "uFrmStud.h"
 #include "String_doubleUnit.h"  //‘ункции провер€ющие правильность ввода данных в пол€ формы
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

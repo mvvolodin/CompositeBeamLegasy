@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef AboutProgH
-#define AboutProgH
+#ifndef uFrmAboutProgH
+#define uFrmAboutProgH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>

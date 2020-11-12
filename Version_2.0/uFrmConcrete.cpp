@@ -2,7 +2,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "ConcreteDefinitionFormUnit.h"
+#include "uFrmConcrete.h"
 #include "String_doubleUnit.h"  //Функции проверяющие правильность ввода данных в поля формы
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

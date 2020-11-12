@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef StudDefinitionFormUnitH
-#define StudDefinitionFormUnitH
+#ifndef uFrmStudH
+#define uFrmStudH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>

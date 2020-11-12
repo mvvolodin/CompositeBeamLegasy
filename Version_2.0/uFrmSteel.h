@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
-#ifndef DefineSteelFormUnitH
-#define DefineSteelFormUnitH
+#ifndef uFrmSteelH
+#define uFrmSteelH
 //---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>

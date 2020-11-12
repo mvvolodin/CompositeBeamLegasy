@@ -156,13 +156,6 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="AboutProg.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>AboutProgForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>AboutProg.h</DependentOn>
-            <BuildOrder>47</BuildOrder>
-        </CppCompile>
         <CppCompile Include="CompositeBeamApp.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -171,30 +164,9 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <CppCompile Include="CompositeBeamMainFormUnit.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>CompositeBeamMainForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>CompositeBeamMainFormUnit.h</DependentOn>
-            <BuildOrder>55</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="ConcreteDefinitionFormUnit.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>ConcreteDefinitionForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>ConcreteDefinitionFormUnit.h</DependentOn>
-            <BuildOrder>33</BuildOrder>
-        </CppCompile>
         <None Include="Data_Profil.h">
             <BuildOrder>23</BuildOrder>
         </None>
-        <CppCompile Include="DefineSteelFormUnit.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>DefineSteelForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>DefineSteelFormUnit.h</DependentOn>
-            <BuildOrder>48</BuildOrder>
-        </CppCompile>
         <CppCompile Include="DrawEpurMain.cpp">
             <VirtualFolder>{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}</VirtualFolder>
             <DependentOn>DrawEpurMain.h</DependentOn>
@@ -233,13 +205,6 @@
         <None Include="ProcExt.h">
             <BuildOrder>26</BuildOrder>
         </None>
-        <CppCompile Include="RebarDefinitionFormUnit.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>RebarDefinitionForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>RebarDefinitionFormUnit.h</DependentOn>
-            <BuildOrder>39</BuildOrder>
-        </CppCompile>
         <CppCompile Include="Round_func.cpp">
             <BuildOrder>33</BuildOrder>
         </CppCompile>
@@ -255,13 +220,6 @@
             <VirtualFolder>{180C2F3E-0915-4A09-9C20-078BD4F933E8}</VirtualFolder>
             <DependentOn>String_doubleUnit.h</DependentOn>
             <BuildOrder>42</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="StudDefinitionFormUnit.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>StudDefinitionForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>StudDefinitionFormUnit.h</DependentOn>
-            <BuildOrder>40</BuildOrder>
         </CppCompile>
         <None Include="TypeData.h">
             <BuildOrder>34</BuildOrder>
@@ -314,12 +272,40 @@
             <DependentOn>uCorrtgatedSheet.h</DependentOn>
             <BuildOrder>47</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uFrmAboutProg.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>AboutProgForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmAboutProg.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uFrmAddImacts.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
             <Form>FrmAddImpacts</Form>
             <FormType>dfm</FormType>
             <DependentOn>uFrmAddImacts.h</DependentOn>
             <BuildOrder>46</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uFrmCompositeBeam.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>CompositeBeamMainForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmCompositeBeam.h</DependentOn>
+            <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uFrmConcrete.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>ConcreteDefinitionForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmConcrete.h</DependentOn>
+            <BuildOrder>33</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uFrmHelp.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>HelpForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmHelp.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
         </CppCompile>
         <CppCompile Include="uFrmLogger.cpp">
             <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
@@ -328,9 +314,37 @@
             <DependentOn>uFrmLogger.h</DependentOn>
             <BuildOrder>47</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uFrmRebar.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>RebarDefinitionForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmRebar.h</DependentOn>
+            <BuildOrder>39</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uFrmsCntrlsState.cpp">
             <DependentOn>uFrmsCntrlsState.h</DependentOn>
             <BuildOrder>63</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uFrmSteel.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>DefineSteelForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmSteel.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uFrmSteelSection.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>SteelSectionForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmSteelSection.h</DependentOn>
+            <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uFrmStud.cpp">
+            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
+            <Form>StudDefinitionForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>uFrmStud.h</DependentOn>
+            <BuildOrder>40</BuildOrder>
         </CppCompile>
         <CppCompile Include="uGeneralConcreteSection.cpp">
             <DependentOn>uGeneralConcreteSection.h</DependentOn>
@@ -352,13 +366,6 @@
             <VirtualFolder>{5FF06B42-F393-44F4-B2A7-3B7240E7B578}</VirtualFolder>
             <DependentOn>uGraphicObjects.h</DependentOn>
             <BuildOrder>60</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uHelpForm.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>HelpForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>uHelpForm.h</DependentOn>
-            <BuildOrder>47</BuildOrder>
         </CppCompile>
         <CppCompile Include="uInternalForcesCalculator.cpp">
             <DependentOn>uInternalForcesCalculator.h</DependentOn>
@@ -407,13 +414,6 @@
             <DependentOn>uSteelPart.h</DependentOn>
             <BuildOrder>44</BuildOrder>
         </CppCompile>
-        <CppCompile Include="USteelSectionForm.cpp">
-            <VirtualFolder>{FECC496F-C25B-475C-B742-DA879DE8382E}</VirtualFolder>
-            <Form>SteelSectionForm</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>uSteelSectionForm.h</DependentOn>
-            <BuildOrder>55</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uStud.cpp">
             <DependentOn>uStud.h</DependentOn>
             <BuildOrder>42</BuildOrder>
@@ -434,16 +434,16 @@
             <DependentOn>WRData_Check.h</DependentOn>
             <BuildOrder>32</BuildOrder>
         </CppCompile>
-        <FormResources Include="uHelpForm.dfm"/>
+        <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="USteelSectionForm.dfm"/>
-        <FormResources Include="DefineSteelFormUnit.dfm"/>
-        <FormResources Include="AboutProg.dfm"/>
-        <FormResources Include="ConcreteDefinitionFormUnit.dfm"/>
-        <FormResources Include="CompositeBeamMainFormUnit.dfm"/>
-        <FormResources Include="StudDefinitionFormUnit.dfm"/>
-        <FormResources Include="RebarDefinitionFormUnit.dfm"/>
+        <FormResources Include="uFrmSteelSection.dfm"/>
+        <FormResources Include="uFrmAboutProg.dfm"/>
+        <FormResources Include="uFrmSteel.dfm"/>
+        <FormResources Include="uFrmConcrete.dfm"/>
+        <FormResources Include="uFrmCompositeBeam.dfm"/>
+        <FormResources Include="uFrmRebar.dfm"/>
+        <FormResources Include="uFrmStud.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

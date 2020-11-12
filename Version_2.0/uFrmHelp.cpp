@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "uHelpForm.h"
+#include "uFrmHelp.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "SHDocVw_OCX"
