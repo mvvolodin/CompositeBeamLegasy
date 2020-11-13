@@ -254,20 +254,26 @@ Loads TCompositeBeamMainForm ::update_loads()
 		FrmAddImpacts -> get_sigma_bi(),
 		FrmAddImpacts -> get_sigma_si()};
 }
-Loads TCompositeBeamMainForm ::update_loads(double SW_st_beam, double conc_sect, double SW_corrug_sheet)
+Loads TCompositeBeamMainForm::update_loads(double SW_st_beam, double conc_sect, double SW_corrug_sheet)
 {
 	return Loads{};
 }
-////---------------------------------------------------------------------------
-////Инициализация геометрии двутавра
-////---------------------------------------------------------------------------
-//ISection TCompositeBeamMainForm ::update_i_section()
-//{
-//	return SteelSectionForm -> get_i_section();
-//}
-std::unique_ptr<GeneralConcreteSection> update_steel_section()
+
+
+std::unique_ptr<GeneralSteelSection const> TCompositeBeamMainForm::make_steel_section()
 {
-	return std::unique_ptr<GeneralConcreteSection> {};
+	std::unique_ptr<GeneralSteelSection const> st_sect {nullptr};
+
+	TSteelSectionFormCntrlsState cntrls_state {SteelSectionForm -> cntrls_state()};
+
+	if(cntrls_state.pg_cntrl_sect_type_ == 0)
+		st_sect.reset(new RolledSection{cntrls_state.rd_grp_rolled_sect_type_,
+										cntrls_state.cmb_bx_rolled_sect_num_});
+	else
+		st_sect.reset(new WeldedSection{cntrls_state.edt_b_f1_, cntrls_state.edt_t_f1_,
+						  cntrls_state.edt_b_f2_, cntrls_state.edt_t_f2_,
+						  cntrls_state.edt_h_w_, cntrls_state.edt_t_w_});
+	return st_sect;
 }
 //---------------------------------------------------------------------------
 //	Инициализация материала двутавра
@@ -277,49 +283,50 @@ Steel TCompositeBeamMainForm ::update_steel_i_section()
 	return DefineSteelForm -> get_steel();
 }
 
-std::unique_ptr<GeneralConcreteSection> TCompositeBeamMainForm ::update_concrete_section(
-	double L, double B_l, double B_r, bool is_end_beam, double b_uf)
+std::unique_ptr<GeneralConcreteSection const> TCompositeBeamMainForm ::make_concrete_section(double b_uf)
 {
-	double h_f = 0.;
-
-	if(int rc = String_double_plus(lbl_h_f->Caption, edt_h_f->Text, &h_f))
-		throw(rc);
+	std::unique_ptr<GeneralConcreteSection> conc_sect {nullptr};
 
 	TFrmRebarCntrlsState cntrls_state = RebarDefinitionForm -> cntrls_state();
 
 
-	Rebar2 reb {"",
-				500,
-				cntrls_state.edt_E_s_,
-				cntrls_state.edt_diameter_,
-				cntrls_state.edt_safety_factor_};
+	Rebars rebars{{cntrls_state.cmb_bx_rebar_grade_,
+				   cntrls_state.edt_E_s_,
+				   cntrls_state.edt_diameter_,
+				   cntrls_state.edt_safety_factor_},
 
-    Rebars rebars;
+				   cntrls_state.edt_a_u_,
+				   cntrls_state.edt_a_l_,
+				   cntrls_state.edt_b_,
+				   cntrls_state.edt_b_,};
+
+	std::unique_ptr<GeneralConcreteSection> con_sect {nullptr};
 
 	if (rdgrp_slab_type -> ItemIndex == 0)
 	{
-		return std::unique_ptr<GeneralConcreteSection>{new SlabConcreteSection{
-				h_f,
-				L,
-				B_l,
-				B_r,
-				b_uf,
-				is_end_beam,
-				rebars}};
+
+		conc_sect.reset(new SlabConcreteSection{cntrls_state_.edt_h_f_flat_,
+												cntrls_state_.edt_h_n_,
+												cntrls_state_.edt_span_,
+												cntrls_state_.edt_width_left_,
+												cntrls_state_.edt_width_right_,
+												b_uf,
+												cntrls_state_.chck_bx_end_beam_,
+												rebars});
 	}
 	else
 	{
-		return std::unique_ptr<GeneralConcreteSection>{new CorrugatedConcreteSection{
-			CorrugatedSheetsData::get_corrugated_sheet(cmb_bx_corrugated_sheeting_part_number -> Text),
-			h_f,
-			L,
-			B_l,
-			B_r,
-			b_uf,
-			is_end_beam,
-			rebars}};
+		conc_sect.reset(new CorrugatedConcreteSection{CorrugatedSheetsData::get_corrugated_sheet(cmb_bx_corrugated_sheeting_part_number -> Text),
+													  cntrls_state_.edt_h_f_,
+													  cntrls_state_.edt_span_,
+													  cntrls_state_.edt_width_left_,
+													  cntrls_state_.edt_width_right_,
+													  b_uf,
+													  cntrls_state_.chck_bx_end_beam_,
+													  rebars});
 	}
 
+	return conc_sect;
 }
 //---------------------------------------------------------------------------
 //Инициализация железобетонной части сечения
@@ -1062,23 +1069,16 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 	fix_cntrls_state();
 
 	TSteelSectionFormCntrlsState const & cntrls_state = SteelSectionForm -> cntrls_state();
-	//---------------------------------------------------------------
-	std::unique_ptr<GeneralSteelSection const> st_sect {nullptr};
 
-	if(cntrls_state.pg_cntrl_sect_type_ == 0)
-		st_sect.reset(new RolledSection{cntrls_state.rd_grp_rolled_sect_type_,
-										cntrls_state.cmb_bx_rolled_sect_num_});
-	else
-		st_sect.reset(new WeldedSection{cntrls_state.edt_b_f1_, cntrls_state.edt_t_f1_,
-						  cntrls_state.edt_b_f2_, cntrls_state.edt_t_f2_,
-						  cntrls_state.edt_h_w_, cntrls_state.edt_t_w_});
-	//----------------------------------------------
 	Steel st {update_steel_i_section()};
 
 	Geometry geom {update_geometry()};
-	std::unique_ptr<GeneralConcreteSection const > conc_sect = update_concrete_section(
-	geom.get_span(), geom.get_spacing_left(), geom.get_spacing_right(), geom.is_end_beam(), st_sect -> b_f2());
-	Concrete conc = ConcreteDefinitionForm -> get_concrete();
+
+	std::unique_ptr<GeneralSteelSection const> const st_sect {make_steel_section()};
+
+	std::unique_ptr<GeneralConcreteSection const> const conc_sect {make_concrete_section(st_sect -> b_f2())};
+
+	Concrete conc {ConcreteDefinitionForm -> get_concrete()};
 
 	double SW_corr_sheet = 0.;
 	double SW_st_sect = st_sect -> SW();

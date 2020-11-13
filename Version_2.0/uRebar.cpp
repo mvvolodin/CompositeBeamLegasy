@@ -7,31 +7,41 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-namespace SP35Code
+namespace RebarsSP35
 {
+	std::vector<Data> const data {{u"À240",240},
+								 {u"À400",400},
+								 {u"À500",500},
+								 {u"À600",600},
+								 {u"À800",800},
+								 {u"À1000",1000}};
 
-	std::vector<RebarData> const rebars_data{{"A240",240},
-											 {"A400",400},
-											 {"A500",500},
-											 {"A600",600},
-											 {"A800",800},
-											 {"A1000",1000}};
-
-	std::vector<std::string> grades()
+	std::vector<std::basic_string<char16_t>> grades()
 	{
-		std::vector<std::string> grades;
-		for(auto const & rb:rebars_data)
+		std::vector<std::basic_string<char16_t>> grades;
+		for(auto const & rb:data)
 			grades.emplace_back(rb.grade_);
 
 		return std::move(grades);
 	}
-	double R_sn(std::string const & grade)
+//	double R_sn(std::basic_string<char16_t> const & grade)
+//	{
+//		return std::find_if(data.cbegin(), data.cend(),
+//			[grade](auto const & rb){return rb.grade_ == grade;}) -> R_sn_;
+//	}
+//	std::basic_string<char16_t> grade(int index)
+//	{
+//		return data[index].grade_;
+//	}
+//	double R_sn(int index)
+//	{
+//		return data[index].R_sn_;
+//	}
+	Data const & rebar (int index)
 	{
-		return std::find_if(rebars_data.cbegin(), rebars_data.cend(),
-			[grade](auto const & rb){return rb.grade_ == grade;}) -> R_sn_;
+		return data[index];
 	}
-};
-
+}
 
 
 
@@ -141,15 +151,15 @@ Rebar2::Rebar2()
 {
 
 }
-Rebar2::Rebar2(String const grade, double R_sn, double const E_s, double const d_s, double gamma_s):
-	grade_{grade},
+Rebar2::Rebar2(int const index, double const E_s, double const d_s, double const gamma_s):
+	grade_{RebarsSP35::rebar(index).grade_.c_str()},
 	E_s_{E_s},
-	R_sn_{R_sn},
+	R_sn_{RebarsSP35::rebar(index).R_sn_},
 	d_s_{d_s},
 	gamma_s_{gamma_s}
 {
 }
-String Rebar2::grade() const
+std::basic_string<char16_t> Rebar2::grade() const
 {
 	return grade_;
 }

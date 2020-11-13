@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #ifndef uSlabConcreteSectionH
 #define uSlabConcreteSectionH
@@ -9,10 +9,11 @@
 class SlabConcreteSection: public GeneralConcreteSection{
 public:
 	SlabConcreteSection(double const  h_f,
+						double const h_n,
 						double const  L,
 						double const  B_l,
 						double const  B_r,
-						double const  b_uf,
+                        double const  b_uf,
 						bool const  is_end_beam,
 						Rebars const & rebars);
 	~SlabConcreteSection();
@@ -20,6 +21,8 @@ public:
 	double h_n() const override;
 	double C_b() const override;
 	double SW(double dens) const override;
+private:
+    double const h_n_;
 
 };
 //---------------------------------------------------------------------------

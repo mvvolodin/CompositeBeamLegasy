@@ -90,7 +90,7 @@ struct TSteelSectionFormCntrlsState{
 //--------------------------------------------------------------------------
 struct TFrmRebarCntrlsState{
 
-	int cmb_bx_rebar_grade_ {3};
+	int cmb_bx_rebar_grade_ {2};
 	double edt_E_s_ {200000};
 	double edt_safety_factor_ {1.15};
 	double edt_diameter_ {0};

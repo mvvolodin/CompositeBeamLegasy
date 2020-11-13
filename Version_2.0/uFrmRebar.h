@@ -50,6 +50,7 @@ private:	// User declarations
 	void check_input();
 	void store_cntrls_state();
 
+	void update_edt_R_s_n(int cmb_bx_rebar_grade_index);
 
 public:		// User declarations
 	__fastcall TRebarDefinitionForm(TComponent* Owner)override;

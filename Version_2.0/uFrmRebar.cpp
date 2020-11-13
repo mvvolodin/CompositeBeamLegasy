@@ -17,7 +17,7 @@ TRebarDefinitionForm *RebarDefinitionForm;
 __fastcall TRebarDefinitionForm::TRebarDefinitionForm(TComponent* Owner)
 	: TForm(Owner)
 {
-	for (auto grade:SP35Code::grades()) {
+	for (auto grade:RebarsSP35::grades()){
 		cmb_bx_rebar_grade -> Items -> Add(grade.c_str());
 	}
 }
@@ -29,8 +29,11 @@ void __fastcall TRebarDefinitionForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TRebarDefinitionForm::cmb_bx_rebar_gradeChange(TObject *Sender)
 {
-	String grade = cmb_bx_rebar_grade->Text;
-	edt_R_s_n -> Text=FloatToStr(rebar_named_list.find(grade) -> second.get_R_sn());
+	update_edt_R_s_n(static_cast<TComboBox*>(Sender) -> ItemIndex);
+}
+void TRebarDefinitionForm::update_edt_R_s_n(int cmb_bx_rebar_grade_index)
+{
+	edt_R_s_n -> Text = RebarsSP35::rebar(cmb_bx_rebar_grade_index).R_sn_;
 }
 
 //---------------------------------------------------------------------------
@@ -87,6 +90,8 @@ void TRebarDefinitionForm::store_cntrls_state()
 void TRebarDefinitionForm::update_cntrls_state()
 {
 	cmb_bx_rebar_grade -> ItemIndex = cntrls_state_.cmb_bx_rebar_grade_;
+	update_edt_R_s_n(cntrls_state_.cmb_bx_rebar_grade_);
+
 	edt_E_s -> Text = cntrls_state_.edt_E_s_;
 	edt_safety_factor -> Text = cntrls_state_.edt_safety_factor_;
 	edt_diameter -> Text = cntrls_state_.edt_diameter_;

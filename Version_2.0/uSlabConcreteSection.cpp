@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #pragma hdrstop
 
@@ -7,20 +7,22 @@
 #pragma package(smart_init)
 
 SlabConcreteSection::SlabConcreteSection(double const  h_f,
+										 double const h_n,
 										 double const  L,
 										 double const  B_l,
 										 double const  B_r,
 										 double const  b_uf,
 										 bool const  is_end_beam,
 										 Rebars const &  rebars):
-	GeneralConcreteSection{h_f, L, B_l, B_r, b_uf, is_end_beam, rebars}{}
+	GeneralConcreteSection(h_f, L, B_l, B_r, b_uf, is_end_beam, rebars),
+	h_n_(h_n){}
 SlabConcreteSection::~SlabConcreteSection()
 {
 
 }
 double SlabConcreteSection::h() const
 {
-	return h_f_;
+	return h_n_ + h_f_;
 }
 double SlabConcreteSection::h_n() const
 {
@@ -28,7 +30,7 @@ double SlabConcreteSection::h_n() const
 }
 double SlabConcreteSection::C_b() const
 {
-	return h_f_ / 2;
+	return h_n_ + h_f_ / 2;
 }
 double SlabConcreteSection::SW(double dens)const
 {

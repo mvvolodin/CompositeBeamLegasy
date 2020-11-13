@@ -22,8 +22,10 @@ GeneralConcreteSection::~GeneralConcreteSection()
 
 }
 double GeneralConcreteSection::calc_b_sl(const double L,
-										 const double B_l, const double B_r,
-										 const double h_f, const double b_uf,
+										 const double B_l,
+										 const double B_r,
+										 const double h_f,
+										 const double b_uf,
 										 const bool end_beam)const
 {
 	if (!end_beam)
