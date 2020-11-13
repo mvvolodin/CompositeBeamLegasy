@@ -97,9 +97,9 @@ void TCompositeBeamMainForm ::set_form_controls()
 
 //Панели для отображения данных
 	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> get_studs_on_beam().get_name();
-	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> rebar_name();
-	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> get_concrete().get_grade();
-	pnl_steel_section_viewer -> Caption = SteelSectionForm -> sect_name();
+	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> info();
+	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> info();
+	pnl_steel_section_viewer -> Caption = SteelSectionForm -> info();
 
 //Данные для плиты
 
@@ -129,7 +129,7 @@ void TCompositeBeamMainForm ::set_form_controls()
 	//RebarDefinitionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_concrete_part().get_rebar());
 
 //Данные типа Concrete
-	ConcreteDefinitionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_concrete_part().get_concrete());
+	//ConcreteDefinitionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_concrete_part().get_concrete());
 	Concrete con = composite_beam_calculator_.get_composite_section().get_concrete_part().get_concrete();
 
 //Данные типа Steel
@@ -143,7 +143,7 @@ void TCompositeBeamMainForm ::register_observers()
 	std::vector<IPublisher*> ipublishers;
 	//ipublishers.push_back(RebarDefinitionForm);
 	ipublishers.push_back(StudDefinitionForm);
-	ipublishers.push_back(ConcreteDefinitionForm);
+	//ipublishers.push_back(ConcreteDefinitionForm);
 	ipublishers.push_back(DefineSteelForm);
    //	ipublishers.push_back(SteelSectionForm);
 	for(auto ip:ipublishers)
@@ -714,7 +714,7 @@ void __fastcall TCompositeBeamMainForm ::BtBtnSteelChoiceClick(TObject *Sender)
 void __fastcall TCompositeBeamMainForm ::BtnSteelSectionChoiceClick(TObject *Sender)
 {
 	SteelSectionForm -> ShowModal();
-	pnl_steel_section_viewer -> Caption = SteelSectionForm -> sect_name();
+	pnl_steel_section_viewer -> Caption = SteelSectionForm -> info();
 
 }
 //---------------------------------------------------------------------------
@@ -1078,7 +1078,7 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 
 	std::unique_ptr<GeneralConcreteSection const> const conc_sect {make_concrete_section(st_sect -> b_f2())};
 
-	Concrete conc {ConcreteDefinitionForm -> get_concrete()};
+	Concrete conc ;
 
 	double SW_corr_sheet = 0.;
 	double SW_st_sect = st_sect -> SW();
@@ -1467,9 +1467,10 @@ void TCompositeBeamMainForm::update_cntrls()
 
     //Панели для отображения данных
 
-	String set_name = SteelSectionForm -> sect_name();
-	pnl_steel_section_viewer -> Caption = SteelSectionForm -> sect_name();
-	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> rebar_name();
+	String set_name = SteelSectionForm -> info();
+	pnl_steel_section_viewer -> Caption = SteelSectionForm -> info();
+	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> info();
+	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> info();
 
 	update_GUI();
 
@@ -1618,6 +1619,8 @@ void TCompositeBeamMainForm::fix_all_frms_cntrls_state()
 void TCompositeBeamMainForm::update_all_frms_cntrls()
 {
 	SteelSectionForm -> update_cntrls_state();
+	RebarDefinitionForm -> update_cntrls_state();
+	ConcreteDefinitionForm -> update_cntrls_state();
 	//второстепенные формы обновляются первыми для того, чтобы верно отобразить информацию на панелях
 	update_cntrls();
 

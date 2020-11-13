@@ -1,13 +1,47 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #pragma hdrstop
 
 #include "uConcrete.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+namespace ConcreteSP35
+{
+	extern std::vector<Data> const data_lst{{u"B10", 19000, 7.5, 0.85},   //РњР°СЂРєР°, E_b, R_b, R-bt
+											{u"B12.5", 21500, 9.5, 1},
+											{u"B15", 24000, 11, 1.1},
+											{u"B20", 27500, 15, 1.35},
+											{u"B25", 30000, 18.5, 1.55},
+											{u"B30", 32500, 22, 1.75},
+											{u"B35", 34500, 25.5, 1.95},
+											{u"B40", 36000, 29, 2.1},
+											{u"B45", 37000, 32, 2.25},
+											{u"B50", 38000, 36, 2.45},
+											{u"B55", 39000, 36, 2.6},
+											{u"B60", 39500, 39.5, 2.75}};
+
+	std::vector<std::basic_string<char16_t>> grades()
+	{
+		std::vector<std::basic_string<char16_t>> grades;
+		for(auto const & conc:data_lst)
+			grades.emplace_back(conc.grade_);
+
+		return std::move(grades);
+    }
+	Data const & concrete (int index)
+	{
+		return data_lst[index];
+	}
+	std::basic_string<char16_t> grade(int index)
+	{
+		return data_lst[index].grade_;
+	}
+}
+
+
 std::vector <ConcreteBasic> concrete_basic
 {
-	{"B10", 19000, 7.5, 0.85},   //Марка, E_b, R_b, R-bt
+	{"B10", 19000, 7.5, 0.85},   //РњР°СЂРєР°, E_b, R_b, R-bt
 	{"B12.5", 21500, 9.5, 1},
 	{"B15", 24000, 11, 1.1},
 	{"B20", 27500, 15, 1.35},
@@ -97,7 +131,7 @@ void Concrete::load(istream& istr)
 	istr.read((char*)&epsilon_b_lim_ ,sizeof(epsilon_b_lim_));
 }
 //-----------------------------------------------------------------------------
-//Присваение данным класса значений по умолчанию
+//РџСЂРёСЃРІР°РµРЅРёРµ РґР°РЅРЅС‹Рј РєР»Р°СЃСЃР° Р·РЅР°С‡РµРЅРёР№ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 //-----------------------------------------------------------------------------
 void Concrete::set_default_values()
 {

@@ -333,7 +333,7 @@ void TSteelSectionForm::load(istream & is)
 	cntrls_state_.load_cntrls_state(is);
 }
 
-String TSteelSectionForm::sect_name()const
+String TSteelSectionForm::info()const
 {
 	if(cntrls_state_.pg_cntrl_sect_type_ == 1)
 	{

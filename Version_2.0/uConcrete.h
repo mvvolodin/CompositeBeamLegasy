@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #ifndef uConcreteH
 #define uConcreteH
@@ -7,11 +7,27 @@
 #include <map>
 #include <ostream>
 #include <istream>
-#include <utility>//для чего это включение?
-#include <systobj.h>//для чего это включение?
+#include <utility>//РґР»СЏ С‡РµРіРѕ СЌС‚Рѕ РІРєР»СЋС‡РµРЅРёРµ?
+#include <systobj.h>//РґР»СЏ С‡РµРіРѕ СЌС‚Рѕ РІРєР»СЋС‡РµРЅРёРµ?
 #include "Units.h"
 
 //---------------------------------------------------------------------------
+namespace ConcreteSP35
+{
+	struct Data{
+		std::basic_string<char16_t> const grade_;
+		double const R_bn_;
+		double const R_btn_;
+		double const E_b_;
+	};
+
+	extern std::vector<Data> const data_lst;
+
+	std::vector<std::basic_string<char16_t>> grades();
+	Data const & concrete (int index);
+	std::basic_string<char16_t> grade(int index);
+}
+
 class ConcreteBasic{
 public:
 	ConcreteBasic();
@@ -45,7 +61,7 @@ public:
 	double get_epsilon_b_lim()const {return epsilon_b_lim_;}
 	void set_phi_b_cr(double phi_b_cr){phi_b_cr_ = phi_b_cr;}
 	double E_b()const {return E_b_ ;}
-    /* TODO 1 -oMV : Добавить в конструктор c_n */
+    /* TODO 1 -oMV : Р”РѕР±Р°РІРёС‚СЊ РІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ c_n */
 	double c_n()const {return c_n_ ;}
 	double get_E_b_tau()const {return E_b_ / (1 + phi_b_cr_);}
 	double get_R_b()const {return R_bn_ / gamma_b_;}

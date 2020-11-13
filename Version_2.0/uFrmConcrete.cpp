@@ -18,107 +18,29 @@ __fastcall TConcreteDefinitionForm::TConcreteDefinitionForm(TComponent* Owner)
     lbl_gamma_bt->Caption=(lbl_gamma_bt->Caption + u"\u03B3"+u"bt");
 	lbl_epsilon_b_lim->Caption=(lbl_epsilon_b_lim->Caption+u"\u03B5"+u"lim");
 
-	for(auto concrete:concrete_basic) {
-		cmb_bx_concrete_grade_list->Items->Add(concrete.get_grade());
+	for (auto grade:ConcreteSP35::grades()){
+		cmb_bx_concrete_grade_list -> Items -> Add(grade.c_str());
 	}
-
 }
 void __fastcall TConcreteDefinitionForm::FormShow(TObject *Sender)
 {
-	set_form_controls();
+	update_cntrls_state();
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TConcreteDefinitionForm::cmb_bx_concrete_grade_listChange(TObject *Sender)
 {
-	String grade = cmb_bx_concrete_grade_list -> Text;
-	auto it_concrete = std::find_if(concrete_basic.begin(),concrete_basic.end(),
-		[grade](ConcreteBasic concrete_basic){return concrete_basic.get_grade() == grade;});
-	edt_R_bn -> Text = FloatToStr(it_concrete->get_R_bn());
-	edt_R_btn -> Text = FloatToStr(it_concrete->get_R_btn());
-	edt_E_b -> Text = FloatToStr(it_concrete->get_E_b());
+	after_cmb_bx_conc_grade_list_change(static_cast<TComboBox*>(Sender) -> ItemIndex);
 }
-//---------------------------------------------------------------------------
-void TConcreteDefinitionForm::set_concrete()
- {
-	int rc = 0;
-
-	String grade = "";
-	double R_bn = 0.;
-	double R_btn = 0.;
-	double E_b = 0.;
-	double density = 0.;
-	double phi_b_cr = 0.;
-	double gamma_b = 0.;
-	double gamma_bt = 0.;
-	double epsilon_b_lim = 0.;
-
-	grade=cmb_bx_concrete_grade_list -> Text;
-	R_bn=StrToFloat(edt_R_bn -> Text);
-	R_btn=StrToFloat(edt_R_btn -> Text);
-	E_b=StrToFloat(edt_E_b -> Text);
-
-	rc = String_double_zero_plus(lbl_phi_b_cr -> Caption, edt_phi_b_cr -> Text, &phi_b_cr);
-	if (rc>0)
-		throw(rc);
-	rc = String_double_zero_plus(lbl_density -> Caption, edt_density -> Text, &density);
-	if (rc>0)
-		throw(rc);
-	rc = String_double_plus(lbl_gamma_b -> Caption, edt_gamma_b -> Text, &gamma_b);
- 	if (rc>0)
-		throw(rc);
-	rc = String_double_plus(lbl_gamma_bt -> Caption, edt_gamma_bt -> Text, &gamma_bt);
-	if (rc>0)
-		throw(rc);
-	rc = String_double_plus(lbl_epsilon_b_lim -> Caption, edt_epsilon_b_lim -> Text, &epsilon_b_lim);
-	if (rc>0)
-		throw(rc);
-
-	concrete_temp_ = Concrete{{grade, E_b, R_bn, R_btn}, density, phi_b_cr, gamma_b, gamma_bt, epsilon_b_lim};
-}
-//---------------------------------------------------------------------------
-//Присваивение значений полям формы из данных класс типа Concrete
-//---------------------------------------------------------------------------
- void TConcreteDefinitionForm::set_form_controls()
- {
-	cmb_bx_concrete_grade_list -> ItemIndex = cmb_bx_concrete_grade_list -> Items -> IndexOf(concrete_temp_.get_grade());
-	edt_R_bn->Text = concrete_temp_.get_R_bn();
-	edt_R_btn->Text = concrete_temp_.get_R_btn();
-	edt_E_b->Text = concrete_temp_.get_E_b();
-
-	edt_density -> Text = concrete_temp_.get_density(LengthUnit::m);
-	edt_phi_b_cr -> Text = concrete_temp_.get_phi_b_cr();
-	edt_gamma_b -> Text = concrete_temp_.get_gamma_b();
-	edt_gamma_bt -> Text = concrete_temp_.get_gamma_bt();
-	edt_epsilon_b_lim -> Text = concrete_temp_.get_epsilon_b_lim();
-
- }
-//---------------------------------------------------------------------------
-//Присваивем значения полям формы из параметра функции типа Concrete
-//---------------------------------------------------------------------------
-void TConcreteDefinitionForm::set_form_controls(Concrete concrete)
+void __fastcall TConcreteDefinitionForm::btn_OKClick(TObject *Sender)
 {
-	concrete_temp_ = concrete;
-	set_form_controls();
-	iobserver_ -> update(this);
-}
-//---------------------------------------------------------------------------
-void __fastcall TConcreteDefinitionForm::BtBtnConcreteChoiceClick(TObject *Sender)
-{
-	 try
-	 {
-		set_concrete();
-	 }
-	 catch (int rc)
-	 {
-		return;
-	 }
-	iobserver_ -> update(this);
-    Close();
+	check_input();
+	store_cntrls_state();
 }
 //---------------------------------------------------------------------------
 void __fastcall TConcreteDefinitionForm::btn_cancelClick(TObject *Sender)
 {
-	set_form_controls();
+	update_cntrls_state();
 }
 //---------------------------------------------------------------------------
 
@@ -126,5 +48,60 @@ void __fastcall TConcreteDefinitionForm::btn_closeClick(TObject *Sender)
 {
 	Close();
 }
+void TConcreteDefinitionForm::store_cntrls_state()
+{
+	cntrls_state_.cmb_bx_conc_grade_index_= cmb_bx_concrete_grade_list -> ItemIndex;
+	cntrls_state_.edt_density_data_ = edt_density -> Text.ToDouble();
+	cntrls_state_.edt_phi_b_cr_data_ = edt_phi_b_cr -> Text.ToDouble();
+	cntrls_state_.edt_gamma_b_data_ = edt_gamma_b -> Text.ToDouble();
+	cntrls_state_.edt_gamma_bt_data_ = edt_gamma_bt -> Text.ToDouble();
+	cntrls_state_.edt_epsilon_b_lim_data_ = edt_epsilon_b_lim -> Text.ToDouble();
+}
+void TConcreteDefinitionForm::update_cntrls_state()
+{
+	cmb_bx_concrete_grade_list -> ItemIndex = cntrls_state_.cmb_bx_conc_grade_index_;
+	after_cmb_bx_conc_grade_list_change(cntrls_state_.cmb_bx_conc_grade_index_);
+
+	edt_density -> Text = cntrls_state_.edt_density_data_;
+	edt_phi_b_cr -> Text = cntrls_state_.edt_phi_b_cr_data_;
+	edt_gamma_b -> Text = cntrls_state_.edt_gamma_b_data_;
+	edt_gamma_bt -> Text = cntrls_state_.edt_gamma_bt_data_;
+	edt_epsilon_b_lim -> Text = cntrls_state_.edt_epsilon_b_lim_data_;
+
+}
+void TConcreteDefinitionForm::after_cmb_bx_conc_grade_list_change(int index)
+{
+	edt_R_bn -> Text = ConcreteSP35::concrete(index).R_bn_;
+	edt_R_btn -> Text = ConcreteSP35::concrete(index).R_btn_;
+	edt_E_b -> Text = ConcreteSP35::concrete(index).E_b_;
+
+}
+
+void TConcreteDefinitionForm::check_input()
+{
+	int rc;
+	double temp;
+
+	rc = String_double_zero_plus(lbl_phi_b_cr -> Caption, edt_phi_b_cr -> Text, &temp);
+	if (rc>0) throw(rc);
+	rc = String_double_zero_plus(lbl_density -> Caption, edt_density -> Text, &temp);
+	if (rc>0) throw(rc);
+	rc = String_double_plus(lbl_gamma_b -> Caption, edt_gamma_b -> Text, &temp);
+	if (rc>0) throw(rc);
+	rc = String_double_plus(lbl_gamma_bt -> Caption, edt_gamma_bt -> Text, &temp);
+	if (rc>0) throw(rc);
+	rc = String_double_plus(lbl_epsilon_b_lim -> Caption, edt_epsilon_b_lim -> Text, &temp);
+	if (rc>0) throw(rc);
+}
+
+String TConcreteDefinitionForm::info()const
+{
+	return ConcreteSP35::grade(cntrls_state_.cmb_bx_conc_grade_index_).c_str();
+}
+
+
+//---------------------------------------------------------------------------
+
+
 //---------------------------------------------------------------------------
 

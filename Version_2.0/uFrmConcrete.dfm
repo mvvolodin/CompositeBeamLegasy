@@ -11,21 +11,12 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object BtBtnConcreteChoice: TBitBtn
-    Left = 215
-    Top = 309
-    Width = 75
-    Height = 25
-    Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
-    TabOrder = 0
-    OnClick = BtBtnConcreteChoiceClick
-  end
   object pnl_concrete_grade: TPanel
     Left = 8
     Top = 8
     Width = 441
     Height = 41
-    TabOrder = 1
+    TabOrder = 0
     object lbl_concrete_grade: TLabel
       Left = 15
       Top = 14
@@ -49,7 +40,7 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Width = 75
     Height = 25
     Caption = #1054#1090#1084#1077#1085#1080#1090#1100
-    TabOrder = 2
+    TabOrder = 1
     OnClick = btn_cancelClick
   end
   object btn_close: TButton
@@ -58,7 +49,7 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Width = 75
     Height = 25
     Caption = #1047#1072#1082#1088#1099#1090#1100
-    TabOrder = 3
+    TabOrder = 2
     OnClick = btn_closeClick
   end
   object grp_bx_characteristics: TGroupBox
@@ -67,7 +58,7 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
     Width = 441
     Height = 248
     Caption = ' '#1061#1072#1088#1072#1082#1090#1077#1088#1080#1089#1090#1080#1082#1080' '
-    TabOrder = 4
+    TabOrder = 3
     object lbl_R_bn: TLabel
       Left = 16
       Top = 23
@@ -183,5 +174,14 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
       Height = 21
       TabOrder = 7
     end
+  end
+  object btn_OK: TButton
+    Left = 215
+    Top = 309
+    Width = 75
+    Height = 25
+    Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
+    TabOrder = 4
+    OnClick = btn_OKClick
   end
 end

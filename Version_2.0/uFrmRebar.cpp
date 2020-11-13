@@ -99,7 +99,7 @@ void TRebarDefinitionForm::update_cntrls_state()
 	edt_a_u -> Text = cntrls_state_.edt_a_u_;
 	edt_a_l -> Text = cntrls_state_.edt_a_l_;
 }
-String TRebarDefinitionForm::rebar_name()const
+String TRebarDefinitionForm::info()const
 {
 	return cmb_bx_rebar_grade -> Items -> Strings[cntrls_state_.cmb_bx_rebar_grade_];
 }

@@ -90,7 +90,7 @@ private:	// User declarations
 public:		// User declarations
 	__fastcall TSteelSectionForm(TComponent* Owner);
 
-    String sect_name()const;
+	String info()const;
 
 	void store_cntrls_state();
 	void update_cntrls_state();

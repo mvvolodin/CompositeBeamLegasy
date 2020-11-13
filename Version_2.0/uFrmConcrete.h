@@ -12,8 +12,9 @@
 //---------------------------------------------------------------------------
 #include "uConcrete.h"
 #include "ObserverPatternInterfaces.h"
+#include "uFrmsCntrlsState.h"
 //---------------------------------------------------------------------------
-class TConcreteDefinitionForm : public TForm, public IPublisher
+class TConcreteDefinitionForm : public TForm
 {
 __published:	// IDE-managed Components
 	TLabel *lbl_R_bn;
@@ -24,7 +25,6 @@ __published:	// IDE-managed Components
 	TLabel *lbl_R_btn;
 	TComboBox *cmb_bx_concrete_grade_list;
 	TLabel *lbl_concrete_grade;
-	TBitBtn *BtBtnConcreteChoice;
 	TEdit *edt_gamma_b;
 	TLabel *lbl_gamma_b;
 	TLabel *lbl_epsilon_b_lim;
@@ -39,28 +39,30 @@ __published:	// IDE-managed Components
 	TLabel *lbl_density;
 	TEdit *edt_density;
 	TGroupBox *grp_bx_characteristics;
+	TButton *btn_OK;
 	void __fastcall cmb_bx_concrete_grade_listChange(TObject *Sender);
-	void __fastcall BtBtnConcreteChoiceClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
+    void __fastcall btn_OKClick(TObject *Sender);
 	void __fastcall btn_cancelClick(TObject *Sender);
 	void __fastcall btn_closeClick(TObject *Sender);
+
 private:	// User declarations
-	static const Publisher_ID id_ = Publisher_ID::CONCRETE_FORM;
-	IObserver_* iobserver_;
-	Concrete concrete_temp_;
-	ConcreteBasicData concrete_data_;
-   typedef ConcreteBasicData::iterator ConcreteBasicDataIterator;
-private:  //User declaration
-	void set_form_controls();
-	void set_concrete();
-	virtual String get_information()const override {return concrete_temp_.get_grade();}
-	virtual Publisher_ID get_id()const override {return id_;}
+	TConcreteDefinitionFormCntrlsState cntrls_state_;
+	void check_input();
+	void store_cntrls_state();
+
+	void after_cmb_bx_conc_grade_list_change(int index);
 
 public:		// User declarations
-	__fastcall TConcreteDefinitionForm(TComponent* Owner)override;
-	Concrete get_concrete()const {return concrete_temp_;}
-	void register_observer(IObserver_* iobserver)override{iobserver_ = iobserver;}
-	void set_form_controls(Concrete concrete);
+	__fastcall TConcreteDefinitionForm(TComponent* Owner);
+
+	void update_cntrls_state();
+
+	void save(ostream & os);
+	void load(istream & os);
+
+	String info()const;
+	TConcreteDefinitionFormCntrlsState const & cntrls_state(){return cntrls_state_;}
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TConcreteDefinitionForm *ConcreteDefinitionForm;

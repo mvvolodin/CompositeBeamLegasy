@@ -138,3 +138,23 @@ void TFrmRebarCntrlsState::load_cntrls_state(istream & is)
 	   >> edt_b_ >> edt_a_u_
 	   >> edt_a_l_;
 }
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+void TConcreteDefinitionFormCntrlsState::save_cntls_state(ostream & os)
+{
+	os << cmb_bx_conc_grade_index_ << '\n'
+	   << edt_density_data_ << '\n'
+	   << edt_phi_b_cr_data_ << '\n'
+	   << edt_gamma_b_data_ << '\n'
+	   << edt_gamma_bt_data_  << '\n'
+	   << edt_epsilon_b_lim_data_  << '\n';
+}
+void TConcreteDefinitionFormCntrlsState::load_cntrls_state(istream & is)
+{
+	is >> cmb_bx_conc_grade_index_
+	   >> edt_density_data_
+	   >> edt_phi_b_cr_data_
+	   >> edt_gamma_b_data_
+	   >> edt_gamma_bt_data_
+	   >> edt_epsilon_b_lim_data_;
+}

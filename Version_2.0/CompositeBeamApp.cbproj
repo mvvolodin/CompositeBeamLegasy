@@ -430,20 +430,16 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
-        <CppCompile Include="WRData_Check.cpp">
-            <DependentOn>WRData_Check.h</DependentOn>
-            <BuildOrder>32</BuildOrder>
-        </CppCompile>
-        <FormResources Include="uFrmHelp.dfm"/>
-        <FormResources Include="uFrmLogger.dfm"/>
-        <FormResources Include="uFrmAddImacts.dfm"/>
+        <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
-        <FormResources Include="uFrmAboutProg.dfm"/>
-        <FormResources Include="uFrmSteel.dfm"/>
+        <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
+        <FormResources Include="uFrmAddImacts.dfm"/>
+        <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
-        <FormResources Include="uFrmStud.dfm"/>
+        <FormResources Include="uFrmLogger.dfm"/>
+        <FormResources Include="uFrmAboutProg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -101,6 +101,18 @@ struct TFrmRebarCntrlsState{
 	void save_cntls_state(ostream & os);
 	void load_cntrls_state(istream & is);
 };
+//--------------------------------------------------------------------------
+struct TConcreteDefinitionFormCntrlsState{
+	int cmb_bx_conc_grade_index_{5};
+	double edt_density_data_{2500};
+	double edt_phi_b_cr_data_{2.3};
+	double edt_gamma_b_data_{1.3};
+	double edt_gamma_bt_data_{1.5};
+	double edt_epsilon_b_lim_data_{0.0016};
+
+	void save_cntls_state(ostream & os);
+	void load_cntrls_state(istream & is);
+};
 #endif
 
 

@@ -53,8 +53,7 @@ void TDefineSteelForm::set_steel()
 	bool  flag_diag_thick=false;//для чего этот флаг
 
 	rc=Steel_param(str, t_max, &my_steel_param, flag_diag_thick);
-//	if(rc!=0)
-//		return Steel();//что возвращать из функции если Steel_param вернул ошибку?
+
 	R_yn =  my_steel_param.Ryn;
 	R_un =  my_steel_param.Run;
 

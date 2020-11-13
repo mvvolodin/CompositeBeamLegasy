@@ -60,7 +60,7 @@ public:		// User declarations
 	void save(ostream & os);
 	void load(istream & os);
 
-	String rebar_name()const;
+	String info()const;
 	TFrmRebarCntrlsState const & cntrls_state(){return cntrls_state_;}
 };
 //---------------------------------------------------------------------------
