@@ -17,9 +17,8 @@ TRebarDefinitionForm *RebarDefinitionForm;
 __fastcall TRebarDefinitionForm::TRebarDefinitionForm(TComponent* Owner)
 	: TForm(Owner)
 {
-	for (auto grade:RebarsSP35::grades()){
+	for (auto grade:RebarsSP35::grades())
 		cmb_bx_rebar_grade -> Items -> Add(grade.c_str());
-	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TRebarDefinitionForm::FormShow(TObject *Sender)

@@ -5,11 +5,11 @@
 //---------------------------------------------------------------------------
 USEFORM("uFrmStud.cpp", StudDefinitionForm);
 USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
-USEFORM("uFrmHelp.cpp", HelpForm);
+USEFORM("uFrmSteel.cpp", DefineSteelForm);
 USEFORM("uFrmConcrete.cpp", ConcreteDefinitionForm);
 USEFORM("uFrmCompositeBeam.cpp", CompositeBeamMainForm);
 USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
-USEFORM("uFrmSteel.cpp", DefineSteelForm);
+USEFORM("uFrmHelp.cpp", HelpForm);
 USEFORM("uFrmRebar.cpp", RebarDefinitionForm);
 USEFORM("uFrmLogger.cpp", FormLogger);
 USEFORM("uFrmAboutProg.cpp", AboutProgForm);

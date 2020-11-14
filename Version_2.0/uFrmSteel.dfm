@@ -62,24 +62,10 @@ object DefineSteelForm: TDefineSteelForm
       Width = 65
       Height = 21
       Style = csDropDownList
-      ItemIndex = 2
       TabOrder = 0
-      Text = 'C255'
       OnChange = cmb_bx_steel_gradesChange
       Items.Strings = (
-        'C235'
-        'C245'
-        'C255'
-        'C275'
-        'C285'
-        'C345'
-        'C345K'
-        'C375'
-        'C390'
-        'C390K'
-        'C440'
-        'C590'
-        'C590K')
+        '')
     end
     object cmb_bx_standard: TComboBox
       Left = 150

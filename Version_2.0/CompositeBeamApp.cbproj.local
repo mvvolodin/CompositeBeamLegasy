@@ -37,10 +37,10 @@
     <Transaction>1899.12.30 00:00:00.000.766,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\SteelProperties.xml=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam.xml</Transaction>
     <Transaction>1899.12.30 00:00:00.000.886,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\CompositeBeam\Version_2.0\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\CompositeBeam\Version_2.0\uWerldedSection.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.184,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\unternalForcesCalculator.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.515,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.044,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.281,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.674,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.044,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.515,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.501,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcretepPartInitialDataUnit.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionInitialDataUnit.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.665,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\SteelSectionDefinitionFrameUnit.cpp=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\SectSelectCom_Param.cpp</Transaction>
     <Transaction>1899.12.30 00:00:00.000.887,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmConcrete.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmConcreteDefinition.h</Transaction>
@@ -82,8 +82,8 @@
     <Transaction>1899.12.30 00:00:00.000.131,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmConcreteDefinition.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\ConcreteDefinitionFormUnit.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.196,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uSteelSectionForm.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\_SteelSectionForm.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.469,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForces.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.688,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ISection.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.113,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ISection.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.688,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ISection.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.487,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uCompositeBeamCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeam.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.565,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeamBuilder.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.757,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\_SteelSectionForm.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\USteelSectionForm.h</Transaction>
@@ -94,7 +94,7 @@
     <Transaction>1899.12.30 00:00:00.000.971,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Stress.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\StressUnit.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.485,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.dfm=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uHelpForm.dfm</Transaction>
     <Transaction>1899.12.30 00:00:00.000.832,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSectionUnit.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ConcreteSection.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.266,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\UInternalForcesCalculator.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.886,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\UInternalForcesCalculator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.887,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmConcrete.dfm=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmConcreteDefinition.dfm</Transaction>
     <Transaction>1899.12.30 00:00:00.000.100,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmSteelSection.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\USteelSectionForm.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.804,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\GeometryUnit.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uGeometryUnit.h</Transaction>
@@ -103,8 +103,8 @@
     <Transaction>1899.12.30 00:00:00.000.393,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Uqers\Maksim\Documents\Embarcadern\Studio[Projects\Composite Beam\InternalForcesBeam.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.066,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\LoggerFormUnit.dfm=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmLogger.dfm</Transaction>
     <Transaction>1899.12.30 00:00:00.000.441,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmSteel.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\DefineSteelFormUnit.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.886,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\UInternalForcesCalculator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.226,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\UInternalForcesCalculator.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.266,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\UInternalForcesCalculator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.664,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeSection.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeSectionUnit.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.515,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uCompositeBeamCalculatorBridge.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\Unit1.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.489,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeBeam.dfm=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
@@ -281,6 +281,7 @@
     <File Path="uFrmConcrete.cpp"/>
     <File Path="String_doubleUnit.h"/>
     <File Path="Units.h"/>
+    <File Path="uFrmsCntrlsState.h"/>
     <File Path="uConcrete.h"/>
     <File Path="ObserverPatternInterfaces.h"/>
     <File Path="uFrmConcrete.cpp"/>
@@ -810,5 +811,18 @@
     <File Path="uWorkingConditionsFactors.h"/>
     <File Path="uWord_Automation.h"/>
     <File Path="uWorkingConditionsFactors.h"/>
+    <File Path="uSteelTable.cpp"/>
+    <File Path="uSteelTable.cpp"/>
+    <File Path="uSteelTable.cpp"/>
+    <File Path="uSteelTable.cpp"/>
+    <File Path="uSteelTable.h"/>
+    <File Path="uSteelTable.h"/>
+    <File Path="uSteelTableObjects.cpp"/>
+    <File Path="uSteelTableObjects.cpp"/>
+    <File Path="uSteelTableObjects.cpp"/>
+    <File Path="uSteelTableObjects.cpp"/>
+    <File Path="uSteelTableObjects.h"/>
+    <File Path="uSteelTable.h"/>
+    <File Path="uSteelTableObjects.h"/>
   </ProjectSortOrder>
 </BorlandProject>

@@ -414,6 +414,14 @@
             <DependentOn>uSteelPart.h</DependentOn>
             <BuildOrder>44</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uSteelTable.cpp">
+            <DependentOn>uSteelTable.h</DependentOn>
+            <BuildOrder>63</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uSteelTableObjects.cpp">
+            <DependentOn>uSteelTableObjects.h</DependentOn>
+            <BuildOrder>64</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uStud.cpp">
             <DependentOn>uStud.h</DependentOn>
             <BuildOrder>42</BuildOrder>
@@ -432,11 +440,11 @@
         </CppCompile>
         <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
-        <FormResources Include="uFrmHelp.dfm"/>
+        <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="uFrmSteel.dfm"/>
+        <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uFrmAboutProg.dfm"/>

@@ -42,13 +42,13 @@ __published:	// IDE-managed Components
 	TButton *btn_cancel;
 
         void __fastcall btn_okClick(TObject *Sender);
-		void __fastcall cmb_bx_steel_gradesChange(TObject *Sender);
 		void __fastcall cmb_bx_standardChange(TObject *Sender);
 		void __fastcall btn_closeClick(TObject *Sender);
 		void __fastcall set_steel_standard();
 		void __fastcall fill_grd_steel_data();
 	void __fastcall btn_cancelClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
+	void __fastcall cmb_bx_steel_gradesChange(TObject *Sender);
 private:
 		static const Publisher_ID id_ = Publisher_ID::STEEL_FORM;
 		IObserver_* iobserver_;
@@ -58,6 +58,9 @@ private:
 		void set_form_controls();
 		virtual String get_information()const override {return steel_temp_.get_steel_grade();}
 		virtual Publisher_ID get_id()const override {return id_;}
+
+		void fill_cmb_bx_steel_grades()const;
+        void after_cmb_bx_steel_grades_change(int index)const;
 
 public:
 		__fastcall TDefineSteelForm(TComponent* Owner)override;
