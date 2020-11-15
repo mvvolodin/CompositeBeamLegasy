@@ -6,6 +6,19 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 Steel::Steel(){}
+Steel::	Steel(String steel_grade,
+			  double R_yn,double R_un,
+			  double E_st, double G_st, double nu_st,
+			  double density,
+			  double gamma_m):
+				steel_grade_(steel_grade),
+				R_yn_(R_yn),
+				R_un_(R_un),
+				E_st_(E_st),
+				G_st_(G_st),
+				nu_st_(nu_st),
+				density_(density),
+				gamma_m_(gamma_m){}
 Steel::	Steel(String steel_grade, String standard, double E_st, double G_st, double nu_st,
 			  double gamma_m,double R_yn,double R_un, double density, double t_max):
 			  steel_grade_(steel_grade),

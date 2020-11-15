@@ -10,66 +10,61 @@
 #include <Buttons.hpp>
 #include <Vcl.Grids.hpp>
 //---------------------------------------------------------------------------
-#include "Steel_param_ARSS.h"
-#include "uSteel.h"
-#include "ObserverPatternInterfaces.h"
-#include "ICompositeBeam.h"
 #include "uSteelTableObjects.h"
+#include "uFrmsCntrlsState.h"
 //---------------------------------------------------------------------------
 
-class TDefineSteelForm : public TForm, public IPublisher, public ICompositeBeamUser
+class TDefineSteelForm : public TForm
 {
 __published:	// IDE-managed Components
 		TPanel *Panel1;
 		TLabel *Label2;
         TGroupBox *GroupBox1;
-        TEdit *Edit_E;
-        TEdit *Edit_G;
-        TEdit *Edit_nu;
-        TLabel *Label3;
-        TLabel *Label4;
-        TLabel *Label5;
+	TEdit *edt_E;
+	TEdit *edt_G;
+	TEdit *edt_nu;
+	TLabel *lbl_E;
+	TLabel *lbl_G;
+	TLabel *lbl_nu;
 	TGroupBox *GroupBox_Prop;
-        TEdit *Edit_dens;
-        TLabel *Label9;
+	TEdit *edt_dens;
+	TLabel *lbl_dens;
 	TBitBtn *btn_close;
 	TBitBtn *btn_ok;
-        TLabel *Label_gamma_m;
+	TLabel *lbl_gamma_m;
         TLabel *Label11;
-        TEdit *Edit_gamma_m;
+	TEdit *edt_gamma_m;
 	TComboBox *cmb_bx_steel_grades;
 	TComboBox *cmb_bx_standard;
 	TStringGrid *StringGrid_Prop;
 	TButton *btn_cancel;
 
-	void __fastcall btn_okClick(TObject *Sender);
-	void __fastcall cmb_bx_standardChange(TObject *Sender);
-	void __fastcall btn_closeClick(TObject *Sender);
-	void __fastcall set_steel_standard();
-	void __fastcall btn_cancelClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
+	void __fastcall btn_okClick(TObject *Sender);
+	void __fastcall btn_closeClick(TObject *Sender);
+	void __fastcall cmb_bx_standardChange(TObject *Sender);
 	void __fastcall cmb_bx_steel_gradesChange(TObject *Sender);
+	void __fastcall btn_cancelClick(TObject *Sender);
 private:
-		static const Publisher_ID id_ = Publisher_ID::STEEL_FORM;
-		IObserver_* iobserver_;
-		ICompositeBeam* icomposite_beam_;
-		Steel steel_temp_;
-        void set_steel();
-		void set_form_controls();
-		virtual String get_information()const override {return steel_temp_.get_steel_grade();}
-		virtual Publisher_ID get_id()const override {return id_;}
+	TDefineSteelFormCntrlsState cntrls_state_;
+	void check_input();
+	void store_cntrls_state();
 
-		void fill_cmb_bx_steel_grades(int st_table_index);
-		void fill_cmb_bx_standard();
-		void after_cmb_bx_steel_grades_change(int grade_index);
-		void after_cmb_bx_standard_change(int st_table_index);
+	void fill_cmb_bx_steel_grades(int st_table_index);
+	void fill_cmb_bx_standard();
+	void after_cmb_bx_steel_grades_change(int grade_index);
+	void after_cmb_bx_standard_change(int st_table_index);
 
 public:
-		__fastcall TDefineSteelForm(TComponent* Owner)override;
-		Steel get_steel(){set_steel(); return steel_temp_;}
-		void register_observer(IObserver_* iobserver) override {iobserver_ = iobserver;}
-		void register_icopmosite_beam_user(ICompositeBeam* icomposite_beam)override {icomposite_beam_ = icomposite_beam;}
-		void set_form_controls(Steel steel);
+	__fastcall TDefineSteelForm(TComponent* Owner)override;
+
+	void update_cntrls_state();
+
+	void save(ostream & os);
+	void load(istream & os);
+
+	String info()const;
+	TDefineSteelFormCntrlsState const & cntrls_state(){return cntrls_state_;}
 
 };
 //---------------------------------------------------------------------------

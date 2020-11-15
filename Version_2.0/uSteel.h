@@ -11,6 +11,11 @@
 class Steel{
 public:
 	Steel();
+	Steel(String steel_grade,
+			  double R_yn,double R_un,
+			  double E_st, double G_st, double nu_st,
+			  double density,
+			  double gamma_m);
 	Steel(String steel_grade, String grade, double E_st, double G_st, double nu_st,
 			  double gamma_m,double R_yn,double R_un, double density, double t_max);
 	void save(std::ostream& ostr)const;
@@ -31,13 +36,13 @@ public:
 private:
 	String standard_ = "";
 	String steel_grade_ = "";
+	double R_yn_ = 0.;
+	double R_un_ = 0.;
 	double E_st_ = 0.;
 	double G_st_ = 0.;
 	double nu_st_ = 0.;
-	double R_yn_ = 0.;
-	double R_un_ = 0.;
-	double gamma_m_ = 0.;
 	double density_ = 0.;
+	double gamma_m_ = 0.;
 	double t_max_ = 0.;
 };
 //----

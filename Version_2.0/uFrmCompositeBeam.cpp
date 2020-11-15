@@ -133,7 +133,7 @@ void TCompositeBeamMainForm ::set_form_controls()
 	Concrete con = composite_beam_calculator_.get_composite_section().get_concrete_part().get_concrete();
 
 //Данные типа Steel
-	DefineSteelForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_steel());
+//	DefineSteelForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_steel());
 //Данные типа Section
 	//SteelSectionForm -> set_form_controls(composite_beam_calculator_.get_composite_section().get_steel_part().get_section());
 
@@ -144,7 +144,7 @@ void TCompositeBeamMainForm ::register_observers()
 	//ipublishers.push_back(RebarDefinitionForm);
 	ipublishers.push_back(StudDefinitionForm);
 	//ipublishers.push_back(ConcreteDefinitionForm);
-	ipublishers.push_back(DefineSteelForm);
+//	ipublishers.push_back(DefineSteelForm);
    //	ipublishers.push_back(SteelSectionForm);
 	for(auto ip:ipublishers)
 	ip -> register_observer(this);
@@ -152,7 +152,7 @@ void TCompositeBeamMainForm ::register_observers()
 }
 void TCompositeBeamMainForm ::register_I_composite_beam()
 {
-	DefineSteelForm -> register_icopmosite_beam_user(this);
+//	DefineSteelForm -> register_icopmosite_beam_user(this);
 }
 
 
@@ -280,7 +280,7 @@ std::unique_ptr<GeneralSteelSection const> TCompositeBeamMainForm::make_steel_se
 //---------------------------------------------------------------------------
 Steel TCompositeBeamMainForm ::update_steel_i_section()
 {
-	return DefineSteelForm -> get_steel();
+	return Steel {};
 }
 
 std::unique_ptr<GeneralConcreteSection const> TCompositeBeamMainForm ::make_concrete_section(double b_uf)
@@ -707,7 +707,8 @@ void TCompositeBeamMainForm ::fill_cmb_bx_corrugated_sheets()
 
 void __fastcall TCompositeBeamMainForm ::BtBtnSteelChoiceClick(TObject *Sender)
 {
-	 DefineSteelForm->Show();
+	 DefineSteelForm -> ShowModal();
+	 pnl_steel -> Caption = DefineSteelForm -> info();
 }
 //---------------------------------------------------------------------------
 
@@ -1070,15 +1071,39 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 
 	TSteelSectionFormCntrlsState const & cntrls_state = SteelSectionForm -> cntrls_state();
 
-	Steel st {update_steel_i_section()};
-
 	Geometry geom {update_geometry()};
 
 	std::unique_ptr<GeneralSteelSection const> const st_sect {make_steel_section()};
 
 	std::unique_ptr<GeneralConcreteSection const> const conc_sect {make_concrete_section(st_sect -> b_f2())};
 
-	Concrete conc ;
+	TConcreteDefinitionFormCntrlsState const & cntrls_state3 = ConcreteDefinitionForm -> cntrls_state();
+
+//	Concrete(ConcreteBasic concrete_basic, double density,
+//	double phi_b_cr, double gamma_b, double gamma_bt, double epsilon_b_lim);
+	ConcreteSP35::Data dt = ConcreteSP35::concrete(cntrls_state3.cmb_bx_conc_grade_index_);
+//      String grade, double E_b, double R_b, double R_bt
+	Concrete conc { {"", dt.E_b_, dt.R_bn_, dt.R_btn_},
+					cntrls_state3.edt_density_data_,
+					cntrls_state3.edt_phi_b_cr_data_,
+					cntrls_state3.edt_gamma_b_data_,
+					cntrls_state3.edt_gamma_bt_data_,
+					cntrls_state3.edt_epsilon_b_lim_data_};
+
+	TDefineSteelFormCntrlsState cntrls_state2 = DefineSteelForm -> cntrls_state();
+	SteelTable const & st_table = steel_tables[cntrls_state2.cmb_bx_standard_index_];
+	SteelTableRow const & st_table_row = st_table[cntrls_state2.cmb_bx_steel_grades_index_];
+	/* TODO : Заменить 20 на метод возвращающей максимальную толщину сечения */
+	SteelData st_data = st_table_row(20);
+
+	Steel st {"",
+			st_data.R_yn_,
+			st_data.R_un_,
+			cntrls_state2.edt_E_data_,
+			cntrls_state2.edt_G_data_,
+			cntrls_state2.edt_nu_data_,
+			cntrls_state2.edt_dens_data_,
+			cntrls_state2.edt_gamma_m_data_};
 
 	double SW_corr_sheet = 0.;
 	double SW_st_sect = st_sect -> SW();
@@ -1467,10 +1492,11 @@ void TCompositeBeamMainForm::update_cntrls()
 
     //Панели для отображения данных
 
-	String set_name = SteelSectionForm -> info();
+//	String set_name = SteelSectionForm -> info();
 	pnl_steel_section_viewer -> Caption = SteelSectionForm -> info();
 	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> info();
 	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> info();
+    pnl_steel -> Caption = DefineSteelForm -> info();
 
 	update_GUI();
 
@@ -1621,6 +1647,7 @@ void TCompositeBeamMainForm::update_all_frms_cntrls()
 	SteelSectionForm -> update_cntrls_state();
 	RebarDefinitionForm -> update_cntrls_state();
 	ConcreteDefinitionForm -> update_cntrls_state();
+	DefineSteelForm -> update_cntrls_state();
 	//второстепенные формы обновляются первыми для того, чтобы верно отобразить информацию на панелях
 	update_cntrls();
 

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #ifndef uFrmRebarH
 #define uFrmRebarH
@@ -12,7 +12,6 @@
 #include "uRebar.h"
 #include <Vcl.ExtCtrls.hpp>
 #include "uFrmsCntrlsState.h"
-#include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
 //---------------------------------------------------------------------------
 
 class TRebarDefinitionForm : public TForm

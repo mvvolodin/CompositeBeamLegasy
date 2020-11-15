@@ -113,6 +113,21 @@ struct TConcreteDefinitionFormCntrlsState{
 	void save_cntls_state(ostream & os);
 	void load_cntrls_state(istream & is);
 };
+//---------------------------------------------------------------------------
+struct TDefineSteelFormCntrlsState{
+	int cmb_bx_standard_index_{0};
+	int cmb_bx_steel_grades_index_{2};
+	double edt_E_data_{206000};
+	double edt_G_data_{79200};
+	double edt_nu_data_{0.3};
+	double edt_dens_data_{7850};
+	double edt_gamma_m_data_{1.025};
+
+	void save_cntls_state(ostream & os);
+	void load_cntrls_state(istream & is);
+
+};
+//---------------------------------------------------------------------------
 #endif
 
 

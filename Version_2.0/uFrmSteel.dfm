@@ -15,14 +15,14 @@ object DefineSteelForm: TDefineSteelForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label9: TLabel
+  object lbl_dens: TLabel
     Left = 16
     Top = 193
     Width = 93
     Height = 13
     Caption = #1055#1083#1086#1090#1085#1086#1089#1090#1100' ('#1082#1075'/'#1084'3)'
   end
-  object Label_gamma_m: TLabel
+  object lbl_gamma_m: TLabel
     Left = 237
     Top = 216
     Width = 226
@@ -84,28 +84,28 @@ object DefineSteelForm: TDefineSteelForm
     Height = 117
     Caption = ' '#1059#1087#1088#1091#1075#1080#1077' '#1089#1074#1086#1081#1089#1090#1074#1072' '
     TabOrder = 2
-    object Label3: TLabel
-      Left = 8
-      Top = 24
+    object lbl_E: TLabel
+      Left = 14
+      Top = 19
       Width = 112
       Height = 13
       Caption = #1052#1086#1076#1091#1083#1100' '#1070#1085#1075#1072', E ('#1052#1055#1072')'
     end
-    object Label4: TLabel
-      Left = 8
-      Top = 52
+    object lbl_G: TLabel
+      Left = 14
+      Top = 51
       Width = 122
       Height = 13
       Caption = #1052#1086#1076#1091#1083#1100' '#1089#1076#1074#1080#1075#1072', G ('#1052#1055#1072')'
     end
-    object Label5: TLabel
-      Left = 8
-      Top = 80
+    object lbl_nu: TLabel
+      Left = 14
+      Top = 83
       Width = 140
       Height = 13
       Caption = #1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090' '#1055#1091#1072#1089#1089#1086#1085#1072', nu'
     end
-    object Edit_E: TEdit
+    object edt_E: TEdit
       Left = 160
       Top = 16
       Width = 60
@@ -113,7 +113,7 @@ object DefineSteelForm: TDefineSteelForm
       ReadOnly = True
       TabOrder = 0
     end
-    object Edit_G: TEdit
+    object edt_G: TEdit
       Left = 160
       Top = 48
       Width = 60
@@ -121,7 +121,7 @@ object DefineSteelForm: TDefineSteelForm
       ReadOnly = True
       TabOrder = 1
     end
-    object Edit_nu: TEdit
+    object edt_nu: TEdit
       Left = 160
       Top = 80
       Width = 60
@@ -159,7 +159,7 @@ object DefineSteelForm: TDefineSteelForm
         60)
     end
   end
-  object Edit_dens: TEdit
+  object edt_dens: TEdit
     Left = 164
     Top = 189
     Width = 60
@@ -185,7 +185,7 @@ object DefineSteelForm: TDefineSteelForm
     TabOrder = 0
     OnClick = btn_okClick
   end
-  object Edit_gamma_m: TEdit
+  object edt_gamma_m: TEdit
     Left = 477
     Top = 212
     Width = 49
