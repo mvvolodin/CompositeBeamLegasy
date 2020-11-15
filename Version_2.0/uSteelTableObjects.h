@@ -4,5 +4,10 @@
 //---------------------------------------------------------------------------
 #include "uSteelTable.h"
 //---------------------------------------------------------------------------
-extern SteelTable const SP266_TableB4;
+enum class SteelTableIndex{
+	SP266_TableB4 = 0,
+	GOST_27772_TableB4 = 1
+};
+//---------------------------------------------------------------------------
+extern std::vector<SteelTable> const steel_tables;
 #endif

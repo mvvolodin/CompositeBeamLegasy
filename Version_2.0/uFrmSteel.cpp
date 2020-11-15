@@ -6,7 +6,6 @@
 #include "uFrmSteel.h"
 #include "Steel_param_ARSS.h"
 #include "String_doubleUnit.h"
-#include "uSteelTableObjects.h"
 //-----------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -22,16 +21,15 @@ __fastcall TDefineSteelForm::TDefineSteelForm(TComponent* Owner)
 	StringGrid_Prop->Cells[0][0] = L"Толщина проката, мм";
 	StringGrid_Prop->Cells[1][0] = L"  Ryn";
 	StringGrid_Prop->Cells[2][0] = L"  Run";
-	cmb_bx_standard->Items->Clear();
-	cmb_bx_standard -> Items -> Add(L"СП 16.13330.2017, Таблица В.4, двутавры");
-	cmb_bx_standard -> Items -> Add(L"ГОСТ 27772-2015, Таблица 5, фасонный прокат");
+
+
 
 }
 void __fastcall TDefineSteelForm::FormShow(TObject *Sender)
 {
-	set_form_controls();
-	fill_cmb_bx_steel_grades();
-	after_cmb_bx_steel_grades_change(0);
+	fill_cmb_bx_standard();
+	cmb_bx_standard -> ItemIndex = 0;
+	after_cmb_bx_standard_change(cmb_bx_standard -> ItemIndex);
 }
 //---------------------------------------------------------------------------
 void TDefineSteelForm::set_steel()
@@ -85,7 +83,7 @@ void TDefineSteelForm::set_form_controls()
 	set_steel_standard();
 
 	cmb_bx_steel_grades -> ItemIndex = cmb_bx_steel_grades -> Items -> IndexOf(steel_temp_.get_steel_grade());
-    fill_grd_steel_data();
+
 
 }
 void TDefineSteelForm::set_form_controls(Steel steel)  //const reference
@@ -124,9 +122,7 @@ void __fastcall TDefineSteelForm::set_steel_standard() {
 //----------------------------------------------------------------------
 void __fastcall TDefineSteelForm::cmb_bx_standardChange(TObject *Sender)
 {
-	set_steel_standard();
-    fill_grd_steel_data();
-
+	after_cmb_bx_standard_change(static_cast<TComboBox*>(Sender) ->ItemIndex );
 }
 //---------------------------------------------------------------------------
 // Заполнение таблицы StringGrid_Prop свойствами стали
@@ -147,17 +143,26 @@ void __fastcall TDefineSteelForm::btn_closeClick(TObject *Sender)
 {
     Close();
 }
-void TDefineSteelForm::fill_cmb_bx_steel_grades()const
+void TDefineSteelForm::fill_cmb_bx_standard()
 {
-	for(auto const & grade: SP266_TableB4.grades())
-		cmb_bx_steel_grades -> Items -> Add(grade.c_str());
+	cmb_bx_standard -> Items -> Clear();
 
+	for(auto const & st_table: steel_tables)
+		cmb_bx_standard  -> Items -> Add(st_table.title().c_str());
 }
-void TDefineSteelForm::after_cmb_bx_steel_grades_change(int index)const
+void TDefineSteelForm::fill_cmb_bx_steel_grades(int st_table_index)
 {
+	cmb_bx_steel_grades -> Clear();
 
+	SteelTable const & st_table = steel_tables[st_table_index];
 
-	std::map<std::pair<double,double>, SteelData> ranges = SP266_TableB4[index].ranges();
+	for(auto const & grade: st_table.grades())
+		cmb_bx_steel_grades -> Items -> Add(grade.c_str());
+}
+void TDefineSteelForm::after_cmb_bx_steel_grades_change(int grade_index)
+{
+	SteelTable const & st_table = steel_tables[cmb_bx_standard -> ItemIndex];
+	std::map<std::pair<double,double>, SteelData> ranges = st_table[grade_index].ranges();
 
 	StringGrid_Prop -> RowCount = ranges.size() + 1;
 
@@ -176,7 +181,14 @@ void TDefineSteelForm::after_cmb_bx_steel_grades_change(int index)const
 		++i;
 	}
 }
+void TDefineSteelForm::after_cmb_bx_standard_change(int st_table_index)
+{
+	fill_cmb_bx_steel_grades(st_table_index);
 
+	cmb_bx_steel_grades -> ItemIndex = 0;
+	after_cmb_bx_steel_grades_change(cmb_bx_steel_grades -> ItemIndex);
+
+}
 //---------------------------------------------------------------------------
 void __fastcall TDefineSteelForm::cmb_bx_steel_gradesChange(TObject *Sender)
 {

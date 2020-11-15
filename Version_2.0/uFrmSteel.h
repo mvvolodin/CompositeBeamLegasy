@@ -14,6 +14,7 @@
 #include "uSteel.h"
 #include "ObserverPatternInterfaces.h"
 #include "ICompositeBeam.h"
+#include "uSteelTableObjects.h"
 //---------------------------------------------------------------------------
 
 class TDefineSteelForm : public TForm, public IPublisher, public ICompositeBeamUser
@@ -41,11 +42,10 @@ __published:	// IDE-managed Components
 	TStringGrid *StringGrid_Prop;
 	TButton *btn_cancel;
 
-        void __fastcall btn_okClick(TObject *Sender);
-		void __fastcall cmb_bx_standardChange(TObject *Sender);
-		void __fastcall btn_closeClick(TObject *Sender);
-		void __fastcall set_steel_standard();
-		void __fastcall fill_grd_steel_data();
+	void __fastcall btn_okClick(TObject *Sender);
+	void __fastcall cmb_bx_standardChange(TObject *Sender);
+	void __fastcall btn_closeClick(TObject *Sender);
+	void __fastcall set_steel_standard();
 	void __fastcall btn_cancelClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall cmb_bx_steel_gradesChange(TObject *Sender);
@@ -59,8 +59,10 @@ private:
 		virtual String get_information()const override {return steel_temp_.get_steel_grade();}
 		virtual Publisher_ID get_id()const override {return id_;}
 
-		void fill_cmb_bx_steel_grades()const;
-        void after_cmb_bx_steel_grades_change(int index)const;
+		void fill_cmb_bx_steel_grades(int st_table_index);
+		void fill_cmb_bx_standard();
+		void after_cmb_bx_steel_grades_change(int grade_index);
+		void after_cmb_bx_standard_change(int st_table_index);
 
 public:
 		__fastcall TDefineSteelForm(TComponent* Owner)override;

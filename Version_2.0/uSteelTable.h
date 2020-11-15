@@ -25,11 +25,13 @@ private:
 //---------------------------------------------------------------------------
 class SteelTable{
 public:
-	SteelTable(std::vector<SteelTableRow> const rows);
+	SteelTable(std::u16string const & title, std::vector<SteelTableRow> const & rows);
 	SteelTableRow const & operator[](int index)const;
 	SteelTableRow const & row(std::u16string const & grade)const;
 	std::vector<std::u16string> grades()const;
+    std::u16string const & title() const;
 private:
+	std::u16string const title_;
 	std::vector<SteelTableRow> const rows_;
 	int index(std::u16string const & grade)const;
 };

@@ -27,8 +27,10 @@ std::map<std::pair<double,double>, SteelData> const & SteelTableRow::ranges()con
 	return ranges_;
 }
 //---------------------------------------------------------------------------
-SteelTable::SteelTable(std::vector<SteelTableRow> const rows):
-	rows_(rows){}
+SteelTable::SteelTable(std::u16string const & title,
+					   std::vector<SteelTableRow> const & rows):
+							title_(title),
+							rows_(rows){}
 SteelTableRow const & SteelTable::operator[](int index)const
 {
 	return rows_[index];
@@ -53,4 +55,8 @@ int SteelTable::index(std::u16string const & grade)const
 	if (iter == grades_lst.cend())
 		throw std::u16string {u"Заданная марка стали в стандарте не определена! Обратите внимание, буквы в марке стали должны вводиться кириллицей!"};
 	return std::distance(grades_lst.cbegin(), iter);
+}
+std::u16string const & SteelTable::title() const
+{
+	return title_;
 }
