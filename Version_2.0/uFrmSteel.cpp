@@ -4,7 +4,6 @@
 #pragma hdrstop
 
 #include "uFrmSteel.h"
-#include "Steel_param_ARSS.h"
 #include "String_doubleUnit.h"
 //-----------------------------------------------------------------------
 #pragma package(smart_init)

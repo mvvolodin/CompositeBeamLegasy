@@ -240,6 +240,9 @@ private:
 	ConcretePart update_concrete_part();//Инициализация бетонной части композитного сечения
 	std::unique_ptr<GeneralConcreteSection const> make_concrete_section(double b_uf);
 	std::unique_ptr<GeneralSteelSection const> make_steel_section();
+	Concrete make_concrete();
+	Steel make_steel(double t_max);
+	Loads make_loads(double SW_st_beam, double SW_sheets, double SW_conc, double B);
 	SteelPart update_steel_part();
 	StudsOnBeam update_studs_on_beam();//Инициализация упоров
 	WorkingConditionsFactors update_working_conditions_factors();//Инициализация коэффициентов условий работы
@@ -278,8 +281,8 @@ private:
 
 	void update_cntrls();
 	void update_all_frms_cntrls();
-	void fix_cntrls_state();
-	void fix_all_frms_cntrls_state();
+	void store_cntrls_state();
+	void store_all_frms_cntrls_state();
 
 	void save();
 	void load();

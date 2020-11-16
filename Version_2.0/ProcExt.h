@@ -1,7 +1,7 @@
 #ifndef procextH
 #define procextH
 
-#include "Steel_param_ARSS.h"
+//#include "Steel_param_ARSS.h"
 
 int ortog_q(int, int, int, double**, double**, double*, double*);
 int ortog_m(int, int, double**, double*, double**);

@@ -49,7 +49,6 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	TConcreteDefinitionFormCntrlsState cntrls_state_;
 	void check_input();
-	void store_cntrls_state();
 
 	void after_cmb_bx_conc_grade_list_change(int index);
 
@@ -57,6 +56,7 @@ public:		// User declarations
 	__fastcall TConcreteDefinitionForm(TComponent* Owner);
 
 	void update_cntrls_state();
+    void store_cntrls_state();
 
 	void save(ostream & os);
 	void load(istream & os);

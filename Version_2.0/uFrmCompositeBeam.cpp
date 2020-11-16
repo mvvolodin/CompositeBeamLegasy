@@ -222,11 +222,11 @@ Loads TCompositeBeamMainForm ::update_loads()
 	if(rc > 0)
 		throw(rc);
 	rc = String_double_zero_plus(lbl_live_load -> Caption, edt_live_load -> Text, &LL);
-	if(rc > 0) 
+	if(rc > 0)
 		throw(rc);
 
 	rc = String_double_zero_plus(lbl_gamma_f_st_SW -> Caption, edt_gamma_f_st_SW -> Text, &gamma_f_st_SW);
-	if(rc > 0) 
+	if(rc > 0)
 		throw(rc);
 	rc = String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption, edt_gamma_f_concrete_SW -> Text, &gamma_f_concrete_SW);
 	if(rc > 0) 
@@ -238,14 +238,14 @@ Loads TCompositeBeamMainForm ::update_loads()
 	if(rc > 0)
 		throw(rc);
 	rc = String_double_zero_plus(lbl_gamma_f_DL_II -> Caption, edt_gamma_f_DL_II -> Text, &gamma_f_DL_II);
-	if(rc > 0) 
+	if(rc > 0)
 		throw(rc);
 	rc = String_double_zero_plus(lbl_gamma_f_LL -> Caption, edt_gamma_f_LL -> Text, &gamma_f_LL);
 	if(rc > 0)
 		throw(rc);
 
 	rc = String_double_zero_plus(lbl_sheeting_continuity_coefficient -> Caption, edt_sheeting_continuity_coefficient -> Text, &sheeting_continuity_coefficient);
-	if(rc > 0) 
+	if(rc > 0)
 		throw(rc);
 
 	return Loads {0, SW_sheets, SW_add_concrete, DL_I, DL_II, LL,
@@ -274,6 +274,57 @@ std::unique_ptr<GeneralSteelSection const> TCompositeBeamMainForm::make_steel_se
 						  cntrls_state.edt_b_f2_, cntrls_state.edt_t_f2_,
 						  cntrls_state.edt_h_w_, cntrls_state.edt_t_w_});
 	return st_sect;
+}
+Concrete TCompositeBeamMainForm::make_concrete()
+{
+	TConcreteDefinitionFormCntrlsState const & cntrls_state = ConcreteDefinitionForm -> cntrls_state();
+
+	ConcreteSP35::Data dt = ConcreteSP35::concrete(cntrls_state.cmb_bx_conc_grade_index_);
+
+	return {{ConcreteSP35::grade(cntrls_state.cmb_bx_conc_grade_index_).c_str(), dt.E_b_, dt.R_bn_, dt.R_btn_},
+			cntrls_state.edt_density_data_,
+			cntrls_state.edt_phi_b_cr_data_,
+			cntrls_state.edt_gamma_b_data_,
+			cntrls_state.edt_gamma_bt_data_,
+			cntrls_state.edt_epsilon_b_lim_data_};
+}
+Steel TCompositeBeamMainForm::make_steel(double t_max)
+{
+	TDefineSteelFormCntrlsState cntrls_state = DefineSteelForm -> cntrls_state();
+
+	SteelTableRow const & st_table_row = steel_tables[cntrls_state.cmb_bx_standard_index_]
+													 [cntrls_state.cmb_bx_steel_grades_index_];
+
+	SteelData st_data = st_table_row(t_max);
+
+	return {st_table_row.grade().c_str(),
+			st_data.R_yn_,
+			st_data.R_un_,
+			cntrls_state.edt_E_data_,
+			cntrls_state.edt_G_data_,
+			cntrls_state.edt_nu_data_,
+			cntrls_state.edt_dens_data_,
+			cntrls_state.edt_gamma_m_data_};
+}
+Loads TCompositeBeamMainForm::make_loads(double SW_st_beam, double SW_sheets, double SW_conc, double B)
+{
+	return Loads {SW_st_beam,
+				  SW_sheets,
+				  SW_conc,
+				  cntrls_state_.edt_SW_add_concrete_,
+				  cntrls_state_.edt_dead_load_first_stage_,
+				  cntrls_state_.edt_dead_load_second_stage_,
+				  cntrls_state_.edt_live_load_,
+				  cntrls_state_.edt_gamma_f_st_SW_,
+				  cntrls_state_.edt_gamma_f_concrete_SW_,
+				  cntrls_state_.edt_gamma_f_add_concrete_SW_,
+				  cntrls_state_.edt_gamma_f_DL_I_,
+				  cntrls_state_.edt_gamma_f_DL_II_,
+				  cntrls_state_.edt_gamma_f_LL_,
+				  cntrls_state_.edt_sheeting_continuity_coefficient_,
+				  FrmAddImpacts -> get_sigma_bi(),
+				  FrmAddImpacts -> get_sigma_si(),
+				  B};
 }
 //---------------------------------------------------------------------------
 //	Инициализация материала двутавра
@@ -1067,57 +1118,28 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
-	fix_cntrls_state();
-
-	TSteelSectionFormCntrlsState const & cntrls_state = SteelSectionForm -> cntrls_state();
+	store_cntrls_state();
 
 	Geometry geom {update_geometry()};
 
 	std::unique_ptr<GeneralSteelSection const> const st_sect {make_steel_section()};
-
 	std::unique_ptr<GeneralConcreteSection const> const conc_sect {make_concrete_section(st_sect -> b_f2())};
 
-	TConcreteDefinitionFormCntrlsState const & cntrls_state3 = ConcreteDefinitionForm -> cntrls_state();
+	Concrete conc {make_concrete()};
+	Steel st {make_steel(st_sect -> t_max())};
 
-//	Concrete(ConcreteBasic concrete_basic, double density,
-//	double phi_b_cr, double gamma_b, double gamma_bt, double epsilon_b_lim);
-	ConcreteSP35::Data dt = ConcreteSP35::concrete(cntrls_state3.cmb_bx_conc_grade_index_);
-//      String grade, double E_b, double R_b, double R_bt
-	Concrete conc { {"", dt.E_b_, dt.R_bn_, dt.R_btn_},
-					cntrls_state3.edt_density_data_,
-					cntrls_state3.edt_phi_b_cr_data_,
-					cntrls_state3.edt_gamma_b_data_,
-					cntrls_state3.edt_gamma_bt_data_,
-					cntrls_state3.edt_epsilon_b_lim_data_};
-
-	TDefineSteelFormCntrlsState cntrls_state2 = DefineSteelForm -> cntrls_state();
-	SteelTable const & st_table = steel_tables[cntrls_state2.cmb_bx_standard_index_];
-	SteelTableRow const & st_table_row = st_table[cntrls_state2.cmb_bx_steel_grades_index_];
-	/* TODO : Заменить 20 на метод возвращающей максимальную толщину сечения */
-	SteelData st_data = st_table_row(20);
-
-	Steel st {"",
-			st_data.R_yn_,
-			st_data.R_un_,
-			cntrls_state2.edt_E_data_,
-			cntrls_state2.edt_G_data_,
-			cntrls_state2.edt_nu_data_,
-			cntrls_state2.edt_dens_data_,
-			cntrls_state2.edt_gamma_m_data_};
-
-	double SW_corr_sheet = 0.;
 	double SW_st_sect = st_sect -> SW();
 	double SW_conc_sect = conc_sect -> SW(conc.get_density());
-	if(dynamic_cast<CorrugatedConcreteSection const *>(conc_sect.get()))
-		SW_corr_sheet = static_cast<CorrugatedConcreteSection const *>(conc_sect.get())
-			-> corrugated_sheet().get_weight();
+	Loads loads{make_loads(st_sect -> SW(),
+				0,
+				conc_sect -> SW(conc.get_density()),
+				geom.get_trib_width())};
 
 	  //подготовка калькулятора внутренних усилий
 	SupportsNumber tmp_sup_num = geom.get_temporary_supports_number();
 	double L = geom.get_span();
 	double B = geom.get_trib_width();
-	Loads loads{update_loads()};
-	loads.set_B(B);
+
 	IntForcesCalculator int_frcs_calculator {tmp_sup_num, L, B, loads };//сконструкировали
 
 	WorkingConditionsFactors working_conditions_factors{update_working_conditions_factors()};
@@ -1501,7 +1523,7 @@ void TCompositeBeamMainForm::update_cntrls()
 	update_GUI();
 
 }
-void TCompositeBeamMainForm::fix_cntrls_state()
+void TCompositeBeamMainForm::store_cntrls_state()
 {
 	int rc = 0;
 	// Геометрия
@@ -1636,10 +1658,14 @@ void TCompositeBeamMainForm::fix_cntrls_state()
 
 }
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::fix_all_frms_cntrls_state()
+void TCompositeBeamMainForm::store_all_frms_cntrls_state()
 {
-	fix_cntrls_state();
+	store_cntrls_state();
 	SteelSectionForm -> store_cntrls_state();
+	RebarDefinitionForm -> store_cntrls_state();
+	ConcreteDefinitionForm -> store_cntrls_state();
+	DefineSteelForm -> store_cntrls_state();
+
 }
 
 void TCompositeBeamMainForm::update_all_frms_cntrls()
@@ -1650,8 +1676,6 @@ void TCompositeBeamMainForm::update_all_frms_cntrls()
 	DefineSteelForm -> update_cntrls_state();
 	//второстепенные формы обновляются первыми для того, чтобы верно отобразить информацию на панелях
 	update_cntrls();
-
-
 }
 
 void TCompositeBeamMainForm::update_GUI()
@@ -1697,7 +1721,7 @@ void TCompositeBeamMainForm::load()
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::btn_saveClick(TObject *Sender)
 {
-	fix_all_frms_cntrls_state();
+	store_all_frms_cntrls_state();
 	save();
 }
 //---------------------------------------------------------------------------

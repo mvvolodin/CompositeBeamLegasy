@@ -77,15 +77,15 @@ double RolledSection::upper_fl_thick()const
 {
 	return upper_fl_thick_;
 }
-double RolledSection::h_w()const
+double RolledSection::web_height()const
 {
 	return h_w_;
 }
-double RolledSection::t_w()const
+double RolledSection::web_thick()const
 {
 	return t_w_;
 }
-double RolledSection::h_st()const
+double RolledSection::sect_height()const
 {
 	return lower_fl_thick_ + h_w_ + upper_fl_thick_;
 }
@@ -130,7 +130,7 @@ double RolledSection::W_f1_st()const
 }
 double RolledSection::Z_f2_st() const
 {
-	return h_st() - C_;
+	return sect_height() - C_;
 }
 double RolledSection::Z_f1_st()const
 {

@@ -212,10 +212,6 @@
             <DependentOn>StandartProfil.h</DependentOn>
             <BuildOrder>24</BuildOrder>
         </CppCompile>
-        <CppCompile Include="Steel_param_ARSS.cpp">
-            <DependentOn>Steel_param_ARSS.h</DependentOn>
-            <BuildOrder>21</BuildOrder>
-        </CppCompile>
         <CppCompile Include="String_doubleUnit.cpp">
             <VirtualFolder>{180C2F3E-0915-4A09-9C20-078BD4F933E8}</VirtualFolder>
             <DependentOn>String_doubleUnit.h</DependentOn>
@@ -439,14 +435,14 @@
             <BuildOrder>41</BuildOrder>
         </CppCompile>
         <FormResources Include="uFrmStud.dfm"/>
-        <FormResources Include="uFrmSteelSection.dfm"/>
-        <FormResources Include="uFrmSteel.dfm"/>
+        <FormResources Include="uFrmLogger.dfm"/>
+        <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
-        <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="uFrmHelp.dfm"/>
+        <FormResources Include="uFrmSteelSection.dfm"/>
+        <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
-        <FormResources Include="uFrmLogger.dfm"/>
+        <FormResources Include="uFrmAddImacts.dfm"/>
         <FormResources Include="uFrmAboutProg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

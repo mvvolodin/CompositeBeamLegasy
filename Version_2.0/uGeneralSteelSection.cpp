@@ -4,6 +4,7 @@
 
 #include "uGeneralSteelSection.h"
 #include <iostream>
+#include <algorithm>
 #include "Units.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -17,6 +18,13 @@ GeneralSteelSection::GeneralSteelSection()
 GeneralSteelSection:: ~ GeneralSteelSection()
 {
 	std::cout << "ISection:: ~ ISection()" << std::endl;
+}
+
+double GeneralSteelSection::t_max()const
+{
+	return std::max({upper_fl_thick(),
+					 lower_fl_thick(),
+					 web_thick()});
 }
 
 void GeneralSteelSection::print_data_to_report(TWord_Automation & report)const

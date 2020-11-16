@@ -86,7 +86,7 @@ void ComposSectGeomSP35::calculate(double const E_b)
 //	const double A_b = conc_sect_.A_b();
 //	const double b_sl = conc_sect_.b_sl();
 
-	H_stb_ = conc_sect_ -> h() + st_sect_ -> h_st();
+	H_stb_ = conc_sect_ -> h() + st_sect_ -> h_s();
 
 	const double A_st = st_sect_ -> A_st();
 	const double A_b = conc_sect_ -> A_b();

@@ -4,14 +4,14 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("uFrmStud.cpp", StudDefinitionForm);
-USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
-USEFORM("uFrmSteel.cpp", DefineSteelForm);
+USEFORM("uFrmLogger.cpp", FormLogger);
+USEFORM("uFrmHelp.cpp", HelpForm);
 USEFORM("uFrmConcrete.cpp", ConcreteDefinitionForm);
 USEFORM("uFrmCompositeBeam.cpp", CompositeBeamMainForm);
-USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
-USEFORM("uFrmHelp.cpp", HelpForm);
+USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
+USEFORM("uFrmSteel.cpp", DefineSteelForm);
 USEFORM("uFrmRebar.cpp", RebarDefinitionForm);
-USEFORM("uFrmLogger.cpp", FormLogger);
+USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
 USEFORM("uFrmAboutProg.cpp", AboutProgForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)

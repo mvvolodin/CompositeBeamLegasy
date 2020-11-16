@@ -38,6 +38,23 @@ public:
 		  double sheeting_continuity_coefficient,
 		  double sigma_bi,
 		  double sigma_si);
+	Loads(double SW_steel_beam,
+		  double SW_corrugated_sheets,
+		  double SW_conc,
+		  double SW_add_concrete,
+		  double DL_I,
+		  double DL_II,
+		  double LL,
+		  double gamma_f_SW,
+		  double gamma_f_concrete_SW,
+		  double gamma_f_add_concrete_SW,
+		  double gamma_f_DL_I,
+		  double gamma_f_DL_II,
+		  double gamma_f_LL,
+		  double sheeting_continuity_coefficient,
+		  double sigma_bi,
+		  double sigma_si,
+		  double B);
 	void set_default_values();
 	void set_data(double SW_steel_beam, double SW_corrugated_sheets, double SW_concrete, double B);
     void set_B(double B){B_ = B;}

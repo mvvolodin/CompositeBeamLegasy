@@ -48,7 +48,6 @@ __published:	// IDE-managed Components
 private:
 	TDefineSteelFormCntrlsState cntrls_state_;
 	void check_input();
-	void store_cntrls_state();
 
 	void fill_cmb_bx_steel_grades(int st_table_index);
 	void fill_cmb_bx_standard();
@@ -59,6 +58,7 @@ public:
 	__fastcall TDefineSteelForm(TComponent* Owner)override;
 
 	void update_cntrls_state();
+	void store_cntrls_state();
 
 	void save(ostream & os);
 	void load(istream & os);

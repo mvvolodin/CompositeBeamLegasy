@@ -30,9 +30,9 @@ public:
 	double upper_fl_thick() const override;
 	double lower_fl_width() const override;
 	double lower_fl_thick() const override;
-	double h_w()const override;
-	double t_w()const override;
-	double h_st()const override;
+	double web_height()const override;
+	double web_thick()const override;
+	double sect_height()const override;
 
 	double Z_f2_st() const override;
     double Z_f1_st() const override;

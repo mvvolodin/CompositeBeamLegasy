@@ -47,14 +47,13 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	TFrmRebarCntrlsState cntrls_state_;
 	void check_input();
-	void store_cntrls_state();
-
 	void update_edt_R_s_n(int cmb_bx_rebar_grade_index);
 
 public:		// User declarations
 	__fastcall TRebarDefinitionForm(TComponent* Owner)override;
 
 	void update_cntrls_state();
+    void store_cntrls_state();
 
 	void save(ostream & os);
 	void load(istream & os);

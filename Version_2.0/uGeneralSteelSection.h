@@ -19,9 +19,10 @@ public:
 	virtual double upper_fl_thick() const = 0;
 	virtual double lower_fl_width() const = 0;
 	virtual double lower_fl_thick() const = 0;
-	virtual double h_w() const = 0;
-	virtual double t_w() const = 0;
-	virtual double h_st() const = 0;
+	virtual double web_height() const = 0;
+	virtual double web_thick() const = 0;
+	virtual double sect_height() const = 0;
+	double t_max()const;
 
 	virtual std::wstring name()const = 0;
 	virtual double Z_f2_st() const = 0;
@@ -40,11 +41,13 @@ public:
 	double t_f1()const{return lower_fl_thick();}
 	double b_f2()const{return upper_fl_width();}
 	double t_f2()const{return upper_fl_thick();}
+	double h_st() const {return web_height();}
 
 	double b_s1() const {return lower_fl_width();}
 	double t_s1() const {return lower_fl_thick();}
 	double b_s2() const {return upper_fl_width();}
 	double t_s2() const {return upper_fl_thick();}
+	double h_s() const {return web_height();}
 
 	double Z_s2_s() const {return Z_f2_st();}
 	double Z_s1_s() const {return Z_f1_st();}

@@ -38,7 +38,7 @@ std::wstring WeldedSection::name()const
 	double max_width_fl = (upper_fl_width() >= lower_fl_width()) ?
 		upper_fl_width():lower_fl_width();
 
-	return L"Св. " + std::to_wstring(static_cast<int>(h_st())) +
+	return L"Св. " + std::to_wstring(static_cast<int>(sect_height())) +
 		   L"x" + std::to_wstring(static_cast<int>(max_width_fl));
 }
 double WeldedSection::lower_fl_width()const
@@ -61,16 +61,16 @@ double WeldedSection::upper_fl_thick()const
 	return vertexes_[6].Y - vertexes_[5].Y;
 }
 
-double WeldedSection::h_w()const
+double WeldedSection::web_height()const
 {
 	return vertexes_[4].Y - vertexes_[3].Y;
 }
 
-double WeldedSection::t_w()const
+double WeldedSection::web_thick()const
 {
 	return vertexes_[3].X - vertexes_[10].X;
 }
-double WeldedSection::h_st()const
+double WeldedSection::sect_height()const
 {
 	return vertexes_[7].Y - vertexes_[0].Y;
 }
@@ -159,7 +159,7 @@ void WeldedSection::print_data_to_logger(TFormLogger const & log)const
 	log.add_heading(L"Геометрические размеры");
 	log.print_2_doubles(L"bf2 = ", upper_fl_width(), L" мм",L"tf2 = ", upper_fl_thick(), L" мм");
 	log.print_2_doubles(L"bf1 = ", lower_fl_width(), L" мм",L"tf1 = ", lower_fl_thick(), L" мм");
-	log.print_2_doubles(L"hw = ", h_w(), L" мм",L"tw = ", t_w(), L" мм");
+	log.print_2_doubles(L"hw = ", web_height(), L" мм",L"tw = ", web_thick(), L" мм");
 	log.add_heading(L"Координаты вершин сварного двутавра");
 	for(auto v:vertexes_)
 		log.print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
@@ -174,18 +174,18 @@ std::vector<TPoint> WeldedSection::get_pnts_for_drawing()
 {
 	std::vector<TPoint> pnts{};
 
-	pnts.emplace_back(b_f2() / 2, 0); //coord #0
-	pnts.emplace_back(b_f2() / 2, t_f2()); //coord #1
-	pnts.emplace_back(t_w() / 2, t_f2()); //coord #2
-	pnts.emplace_back( t_w() / 2, t_f2() + h_w());//coord #3
-	pnts.emplace_back(b_f1() / 2, t_f2() + h_w());//coord #4
-	pnts.emplace_back(b_f1() / 2, t_f2() + h_w() + t_f1());//coord #5
-	pnts.emplace_back(-1 * b_f1() / 2, t_f2() + h_w() + t_f1());//coord #6
-	pnts.emplace_back(-1 * b_f1() / 2, t_f2() + h_w());//coord #7
-	pnts.emplace_back(-1 * t_w() / 2, t_f2() + h_w());//coord #8
-	pnts.emplace_back(-1 * t_w() / 2, t_f2());//coord #9
-	pnts.emplace_back(-1 * b_f2() / 2, t_f2());//coord #10
-	pnts.emplace_back(-1 * b_f2() / 2, 0);//coord #11
+	pnts.emplace_back(upper_fl_width() / 2, 0); //coord #0
+	pnts.emplace_back(upper_fl_width() / 2, upper_fl_thick()); //coord #1
+	pnts.emplace_back(web_thick() / 2, upper_fl_thick()); //coord #2
+	pnts.emplace_back(web_thick() / 2, upper_fl_thick() + web_height());//coord #3
+	pnts.emplace_back(lower_fl_width() / 2, upper_fl_thick() + web_height());//coord #4
+	pnts.emplace_back(lower_fl_width() / 2, upper_fl_thick() + web_height() + lower_fl_thick());//coord #5
+	pnts.emplace_back(-1 * lower_fl_width() / 2, upper_fl_thick() + web_height() + lower_fl_thick());//coord #6
+	pnts.emplace_back(-1 * lower_fl_width() / 2, upper_fl_thick() + web_height());//coord #7
+	pnts.emplace_back(-1 * web_thick() / 2, upper_fl_thick() + web_height());//coord #8
+	pnts.emplace_back(-1 * web_thick() / 2, upper_fl_thick());//coord #9
+	pnts.emplace_back(-1 * upper_fl_width() / 2, upper_fl_thick());//coord #10
+	pnts.emplace_back(-1 * upper_fl_width() / 2, 0);//coord #11
 
 	return pnts;
 }
@@ -205,8 +205,8 @@ void WeldedSection::draw(TCanvas* cnvs)
 	int const offset_x = 20;
 	int const offset_y = 20;
 
-	double const scale = std::min((h - 2 * offset_y) / (h_w() + t_f1() + t_f2()),
-		(w - 2 * offset_x) / std::max(b_f1(),b_f2()));
+	double const scale = std::min((h - 2 * offset_y) / (web_height() + lower_fl_thick() + upper_fl_thick()),
+		(w - 2 * offset_x) / std::max(lower_fl_thick(),upper_fl_thick()));
 
 	for_each(points.begin(), points.end(), [&scale, &w, &h](TPoint & p){
 		p.x = p.x + w / 2 / scale; p.y = p.y + offset_y / scale;});
