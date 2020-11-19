@@ -131,7 +131,6 @@ double Geometry::get_trib_width(LengthUnit length_units)const
 	if (end_beam_)
 		return  (B_l_ + B_r_ / 2) / static_cast<int>(length_units);
 	return (B_l_ / 2 + B_r_ / 2) / static_cast<int>(length_units);
-
 }
 
 

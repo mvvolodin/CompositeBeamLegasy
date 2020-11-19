@@ -9,18 +9,6 @@
 
 int ComposSectCalculatorSP35::id_ = 1;
 
-//ComposSectCalculatorSP35::ComposSectCalculatorSP35
-//	(IntForcesCalculator const & intr_frcs_calculator,
-//	 WorkingConditionsFactors const & work_cond_factors,
-//	 ComposSectGeomSP35 const & com_sect,
-//	 ComposSectGeomSP35 const & com_sect_shr,
-//	 ComposSectGeomSP35 const & com_sect_kr):
-//		intr_frcs_calculator_(intr_frcs_calculator),
-//		work_cond_factors_(work_cond_factors),
-//		com_sect_(com_sect),
-//		com_sect_shr_(com_sect_shr),
-//		com_sect_kr_(com_sect_kr){}
-
 ComposSectCalculatorSP35::ComposSectCalculatorSP35
 							(IntForcesCalculator const intr_frcs_calculator,
 							 WorkingConditionsFactors const work_cond_factors,
@@ -38,27 +26,7 @@ ComposSectCalculatorSP35::ComposSectCalculatorSP35
 												ComposSectGeomSP35::ConcStateConsid::shrink)),
 								com_sect_kr_(ComposSectGeomSP35(
 												steel, st_sect, concrete ,conc_sect,
-												ComposSectGeomSP35::ConcStateConsid::creep))
-{
-//	com_sect_  = {steel, st_sect, concrete ,conc_sect,
-//				  ComposSectGeomSP35::ConcStateConsid::normal};
-//	com_sect_  = {steel, st_sect, concrete ,conc_sect,
-//				  ComposSectGeomSP35::ConcStateConsid::shrink};
-//	com_sect_  = {steel, st_sect, concrete ,conc_sect,
-//				  ComposSectGeomSP35::ConcStateConsid::creep};
-
-//	com_sect_shr_ {ComposSectGeomSP35{Steel const & steel,
-//							 GeneralSteelSection const & st_sect,
-//							 Concrete const & concrete,
-//							 GeneralConcreteSection const & conc_sect}};
-//	com_sect_kr_ {ComposSectGeomSP35{Steel const & steel,
-//							 GeneralSteelSection const & st_sect,
-//							 Concrete const & concrete,
-//							 GeneralConcreteSection const & conc_sect}};
-
-}
-
-
+												ComposSectGeomSP35::ConcStateConsid::creep)){}
 
 ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<double> const & x_lst)
 {
@@ -96,6 +64,11 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(double const x)
 	double const f_1b = intr_frcs_calculator_.f_1b(x);
 	double const f_2c = intr_frcs_calculator_.f_2c(x);
 	double const f_2d = intr_frcs_calculator_.f_2d(x);
+
+	double const R_1a_ = 0.;
+	double const R_1b_ = 0.;
+	double const R_2c_ = 0.;
+	double const R_2d_ = 0.;
 
 	double const W_b_stb = com_sect_.W_b_stb();
 	double const n_b = com_sect_.n_b();

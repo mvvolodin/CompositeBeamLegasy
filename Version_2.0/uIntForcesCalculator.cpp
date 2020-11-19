@@ -7,7 +7,7 @@
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 
-IntForcesCalculator::IntForcesCalculator(SupportsNumber const s_num,
+IntForcesCalculator::IntForcesCalculator(int const s_num,
 										 double const L,
 										 double const B,
 										 Loads const & loads):
@@ -25,11 +25,11 @@ std::map<double, double> IntForcesCalculator::R_1b()const
 }
 std::map<double, double> IntForcesCalculator::R_2c()const
 {
-	return R_uniform_load(loads_.Ib_design_LCC(), SupportsNumber::ZERO);
+	return R_uniform_load(loads_.Ib_design_LCC(), 0);
 }
 std::map<double, double> IntForcesCalculator::R_2d()const
 {
-	return R_uniform_load(loads_.IIb_design_LCC(), SupportsNumber::ZERO );
+	return R_uniform_load(loads_.IIb_design_LCC(), 0);
 }
 std::map<double, double> IntForcesCalculator::P_2a()const
 {
@@ -57,24 +57,24 @@ double IntForcesCalculator::M_2c(double x)const
 
 	switch(s_num_)
 	{
-		case(SupportsNumber::ZERO):
+		case(0):
 
 			return 0;
 
-		case(SupportsNumber::ONE):
+		case(1):
 
 			L0 = L_ / 2;
 
 			return M_point_load(x, R_Ib_design_named_list.at(L0), L0);
 
-		case(SupportsNumber::TWO):
+		case(2):
 
 			L0 = L_ / 3;
 
 			return M_point_load(x, R_Ib_design_named_list.at(L0), L0) +
 				M_point_load(x, R_Ib_design_named_list.at(2 * L0), 2 * L0);
 
-		case(SupportsNumber::THREE):
+		case(3):
 
 			L0 = L_ / 4;
 
@@ -85,7 +85,7 @@ double IntForcesCalculator::M_2c(double x)const
 }
 double IntForcesCalculator::M_2d(double x)const
 {
-	return M_uniform_load(x, loads_.IIb_design_LCC(), SupportsNumber::ZERO );
+	return M_uniform_load(x, loads_.IIb_design_LCC(), 0);
 }
 
 
@@ -103,24 +103,24 @@ double IntForcesCalculator::Q_2c(double x)const
 
 	switch(s_num_)
 	{
-		case(SupportsNumber::ZERO):
+		case(0):
 
 			return 0;
 
-		case(SupportsNumber::ONE):
+		case(1):
 
 			L0 = L_ / 2;
 
 			return Q_point_load(x, P_2a().at(L0), L0);
 
-		case(SupportsNumber::TWO):
+		case(2):
 
 			L0 = L_ / 3;
 
 			return Q_point_load(x, P_2a().at(L0), L0) +
 				Q_point_load(x, P_2a().at(2 * L0), 2 * L0);
 
-		case(SupportsNumber::THREE):
+		case(3):
 
 			L0 = L_ / 4;
 
@@ -131,7 +131,7 @@ double IntForcesCalculator::Q_2c(double x)const
 }
 double IntForcesCalculator::Q_2d(double x)const
 {
-	return Q_uniform_load(x, loads_.IIb_design_LCC(), SupportsNumber::ZERO);
+	return Q_uniform_load(x, loads_.IIb_design_LCC(), 0);
 }
 
 
@@ -143,18 +143,18 @@ double IntForcesCalculator::f_1a(double x)const
 
     	switch(s_num_)
 	{
-		case(SupportsNumber::ZERO):
+		case(0):
 
 		return f_uniform_load(x, loads_.Ia_LCC());
 
-		case(SupportsNumber::ONE):
+		case(1):
 
 			L0 = L_ / 2;
 
 			return f_uniform_load(x, loads_.Ia_LCC()) +
 				f_point_load(x, -1 * R_Ia_named_list.at(L0), L0);
 
-		case(SupportsNumber::TWO):
+		case(2):
 
 			L0 = L_ / 3;
 
@@ -162,7 +162,7 @@ double IntForcesCalculator::f_1a(double x)const
 				f_point_load(x, -1 * R_Ia_named_list.at(L0), L0) +
 				f_point_load(x, -1 * R_Ia_named_list.at(2 * L0), 2 * L0);
 
-		case(SupportsNumber::THREE):
+		case(3):
 
 			L0 = L_ / 4;
 
@@ -181,18 +181,18 @@ double IntForcesCalculator::f_1b(double x)const
 
 		switch(s_num_)
 	{
-		case(SupportsNumber::ZERO):
+		case(0):
 
 		return f_uniform_load(x, loads_.Ib_LCC());
 
-		case(SupportsNumber::ONE):
+		case(1):
 
 			L0 = L_ / 2;
 
 			return f_uniform_load(x, loads_.Ib_LCC()) +
 				f_point_load(x, -1 * R_Ib_named_list.at(L0), L0);
 
-		case(SupportsNumber::TWO):
+		case(2):
 
 			L0 = L_ / 3;
 
@@ -200,7 +200,7 @@ double IntForcesCalculator::f_1b(double x)const
 				f_point_load(x, -1 * R_Ib_named_list.at(L0), L0) +
 				f_point_load(x, -1 * R_Ib_named_list.at(2 * L0), 2 * L0);
 
-		case(SupportsNumber::THREE):
+		case(3):
 
 			L0 = L_ / 4;
 
@@ -218,24 +218,24 @@ double IntForcesCalculator::f_2c(double x)const
 
 		switch(s_num_)
 	{
-		case(SupportsNumber::ZERO):
+		case(0):
 
 		return 0;
 
-		case(SupportsNumber::ONE):
+		case(1):
 
 			L0 = L_ / 2;
 
 			return f_point_load(x, R_Ib_named_list.at(L0), L0);
 
-		case(SupportsNumber::TWO):
+		case(2):
 
 			L0 = L_ / 3;
 
 			return f_point_load(x, R_Ib_named_list.at(L0), L0) +
 				f_point_load(x, R_Ib_named_list.at(2 * L0), 2 * L0);
 
-		case(SupportsNumber::THREE):
+		case(3):
 
 			L0 = L_ / 4;
 
@@ -249,7 +249,7 @@ double IntForcesCalculator::f_2d(double x)const
 	return f_uniform_load(x, loads_.IIb_LCC());
 }
 
-std::map<double, double> IntForcesCalculator::R_uniform_load(double q, SupportsNumber s_num)const
+std::map<double, double> IntForcesCalculator::R_uniform_load(double q, int s_num)const
 {
 	std::map<double, double> R_named_list{};
 
@@ -257,7 +257,7 @@ std::map<double, double> IntForcesCalculator::R_uniform_load(double q, SupportsN
 
 	switch(s_num)
 	{
-		case(SupportsNumber::ZERO):
+		case(0):
 
 			L0 = L_;
 
@@ -266,7 +266,7 @@ std::map<double, double> IntForcesCalculator::R_uniform_load(double q, SupportsN
 
 			return R_named_list;
 
-		case(SupportsNumber::ONE):
+		case(1):
 
 			L0 = L_ / 2;
 
@@ -276,7 +276,7 @@ std::map<double, double> IntForcesCalculator::R_uniform_load(double q, SupportsN
 
 			return R_named_list;
 
-		case(SupportsNumber::TWO):
+		case(2):
 
 			L0 = L_ / 3;
 
@@ -287,7 +287,7 @@ std::map<double, double> IntForcesCalculator::R_uniform_load(double q, SupportsN
 
 			return R_named_list;
 
-		case(SupportsNumber::THREE):
+		case(3):
 
 			L0 = L_ / 4;
 
@@ -300,20 +300,20 @@ std::map<double, double> IntForcesCalculator::R_uniform_load(double q, SupportsN
 			return R_named_list;
 	}
 }
-double IntForcesCalculator::M_uniform_load(double x, double q, SupportsNumber s_num)const
+double IntForcesCalculator::M_uniform_load(double x, double q, int s_num)const
 {
 	double L0 = 0.;
 	std::map<double, double> R = R_uniform_load(q, s_num);
 
 	switch(s_num)
 	{
-		case(SupportsNumber::ZERO):
+		case(0):
 
 			L0 = L_;
 
 			return R.at(0) * x - q * x * x / 2;
 
-		case(SupportsNumber::ONE):
+		case(1):
 
 			L0 = L_ / 2;
 
@@ -321,7 +321,7 @@ double IntForcesCalculator::M_uniform_load(double x, double q, SupportsNumber s_
 				return R.at(0) * x - q * x * x / 2;
 			return R.at(0) * x + R.at(L0) * (x - L0) - q * x * x / 2;
 
-		case(SupportsNumber::TWO):
+		case(2):
 
 			L0 = L_ / 3;
 
@@ -331,7 +331,7 @@ double IntForcesCalculator::M_uniform_load(double x, double q, SupportsNumber s_
 				return R.at(0) * x + R.at(L0) * (x - L0) - q * x * x / 2;
 			return R.at(0) * x + R.at(L0) * (x - L0) + R.at(2 * L0) * (x - 2 * L0) - q * x * x / 2;
 
-		case(SupportsNumber::THREE):
+		case(3):
 
 			L0 = L_ / 4;
 
@@ -350,20 +350,20 @@ double IntForcesCalculator::M_point_load(double x, double P, double x_P)const
 
 	return P * (L_ - x_P) / L_ * x - P * (x - x_P) ;
 }
-double IntForcesCalculator::Q_uniform_load(double x, double q, SupportsNumber s_num)const
+double IntForcesCalculator::Q_uniform_load(double x, double q, int s_num)const
 {
 	double L0 = 0.;
 	std::map<double, double> R = R_uniform_load(q, s_num);
 
 	switch(s_num)
 	{
-		case(SupportsNumber::ZERO):
+		case(0):
 
 			L0 = L_;
 
 			return R.at(0) - q * x;
 
-		case(SupportsNumber::ONE):
+		case(1):
 
 			L0 = L_ / 2;
 
@@ -371,7 +371,7 @@ double IntForcesCalculator::Q_uniform_load(double x, double q, SupportsNumber s_
 				return R.at(0) - q * x;
 			return R.at(0) + R.at(L0) - q * x;
 
-		case(SupportsNumber::TWO):
+		case(2):
 
 			L0 = L_ / 3;
 
@@ -381,7 +381,7 @@ double IntForcesCalculator::Q_uniform_load(double x, double q, SupportsNumber s_
 				return R.at(0) + R.at(L0) - q * x;
 			return R.at(0) + R.at(L0) + R.at(2 * L0) - q * x;
 
-		case(SupportsNumber::THREE):
+		case(3):
 
 			L0 = L_ / 4;
 

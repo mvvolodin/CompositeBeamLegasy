@@ -39,14 +39,6 @@ enum class CreepStressIn{
 class ComposSectCalculatorSP35{
 
 public:
-
-
-//	ComposSectCalculatorSP35(IntForcesCalculator const & intr_frcs_calculator,
-//							 WorkingConditionsFactors const & work_cond_factors,
-//							 ComposSectGeomSP35 const & com_sect,
-//							 ComposSectGeomSP35 const & com_sect_shr,
-//							 ComposSectGeomSP35 const & com_sect_kr);
-
 	ComposSectCalculatorSP35(IntForcesCalculator const intr_frcs_calculator,
 							 WorkingConditionsFactors const work_cond_factors,
 							 Steel const steel,
@@ -61,12 +53,6 @@ private:
 
 	static int id_ ;
 
-//	IntForcesCalculator const & intr_frcs_calculator_;
-//	WorkingConditionsFactors const & work_cond_factors_;
-//	ComposSectGeomSP35 const & com_sect_;
-//	ComposSectGeomSP35 const & com_sect_shr_;
-//	ComposSectGeomSP35 const & com_sect_kr_;
-
 	IntForcesCalculator const intr_frcs_calculator_;
 	WorkingConditionsFactors const work_cond_factors_;
 	ComposSectGeomSP35 const com_sect_;
@@ -78,7 +64,6 @@ private:
 	double creep_stress(double const M_2, double const Z)const;
 	double shrink_stress(ShrinkStressIn const shr_str_in) const;
 	double shrink_stress(double const E, double const R, double const nu)const;
-
 };
 
 //---------------------------------------------------------------------------

@@ -14,7 +14,6 @@
 #include "String_doubleUnit.h"
 #include "uWord_Automation.h"
 #include "uFrmAboutProg.h"
-#include "uComposSectCalculatorS35.h"
 #include "uComposSectGeomSP35.h"
 #include "uIntForcesCalculator.h"
 
@@ -161,29 +160,29 @@ void TCompositeBeamMainForm ::register_I_composite_beam()
 //---------------------------------------------------------------------------
 Geometry TCompositeBeamMainForm ::update_geometry()
 {
-	int rc = 0;
-
-	double span = 0.;
-	double trib_width_left = 0.;
-	double trib_width_right = 0.;
-
-	rc = String_double_plus(lbl_span->Caption, edt_span->Text, &span);
-	if(rc > 0)
-		throw(rc);
-
-	rc = String_double_plus(lbl_trib_width_left->Caption, edt_width_left->Text, &trib_width_left);
-	if(rc > 0)
-		throw(rc);
-
-	rc = String_double_plus(lbl_trib_width_right->Caption, edt_width_right->Text, &trib_width_right);
-	if(rc > 0)
-		throw(rc);
-
-
-	return Geometry{chck_bx_end_beam->Checked,
-					 span, trib_width_left,
-					 trib_width_right,
-					 static_cast<SupportsNumber>(StrToFloat(cmb_bx_number_propping_supports -> Text))};
+//	int rc = 0;
+//
+//	double span = 0.;
+//	double trib_width_left = 0.;
+//	double trib_width_right = 0.;
+//
+//	rc = String_double_plus(lbl_span->Caption, edt_span->Text, &span);
+//	if(rc > 0)
+//		throw(rc);
+//
+//	rc = String_double_plus(lbl_trib_width_left->Caption, edt_width_left->Text, &trib_width_left);
+//	if(rc > 0)
+//		throw(rc);
+//
+//	rc = String_double_plus(lbl_trib_width_right->Caption, edt_width_right->Text, &trib_width_right);
+//	if(rc > 0)
+//		throw(rc);
+//
+//
+//	return Geometry{chck_bx_end_beam->Checked,
+//					 span, trib_width_left,
+//					 trib_width_right,
+//					 static_cast<SupportsNumber>(StrToFloat(cmb_bx_number_propping_supports -> Text))};
 
 }
 //---------------------------------------------------------------------------
@@ -325,6 +324,23 @@ Loads TCompositeBeamMainForm::make_loads(double SW_st_beam, double SW_sheets, do
 				  FrmAddImpacts -> get_sigma_bi(),
 				  FrmAddImpacts -> get_sigma_si(),
 				  B};
+}
+Geometry TCompositeBeamMainForm::make_geometry()
+{
+	return Geometry{static_cast<bool>(cntrls_state_.chck_bx_end_beam_),
+					cntrls_state_.edt_span_,
+					cntrls_state_.edt_width_left_,
+					cntrls_state_.edt_width_right_,
+					static_cast<SupportsNumber>(cntrls_state_.cmb_bx_number_propping_supports_)};
+}
+GlobGeom TCompositeBeamMainForm::make_glob_geom()
+{
+	return {cntrls_state_.edt_max_elem_length_,
+			static_cast<bool>(cntrls_state_.chck_bx_end_beam_),
+			cntrls_state_.edt_span_,
+			cntrls_state_.edt_width_left_,
+			cntrls_state_.edt_width_right_,
+			cntrls_state_.cmb_bx_number_propping_supports_};
 }
 //---------------------------------------------------------------------------
 //	Инициализация материала двутавра
@@ -1002,10 +1018,115 @@ void TCompositeBeamMainForm ::generate_report()
 	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_ratio(),ffFixed, 15, 2),"%ratio_stud%");
 }
 
+
 //---------------------------------------------------------------------------
 // Отрисовка эпюр
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::draw_diagram()
+{
+	std::vector<double> M;
+	std::vector<double> Q;
+	std::vector<double> R;
+	std::vector<double> f;
+
+	std::vector<double>	coor_supp {};
+
+	switch (cmb_bx_impact->ItemIndex)
+	{
+	case(0): // Нагрузки Ia стадии
+
+		M = composite_beam_calculator_.get_composite_beam().get_M_Ia_design_list(LoadUnit::kN, LengthUnit::m);
+		Q = composite_beam_calculator_.get_composite_beam().get_Q_Ia_design_list(LoadUnit::kN);
+		R = composite_beam_calculator_.get_composite_beam().get_R_Ia_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_composite_beam().get_f_Ia_list(LengthUnit::mm);
+
+		coor_supp = composite_beam_calculator_.get_composite_beam().get_support_x_list();
+
+		break;
+	case(1): // Нагрузки Ib стадии
+
+		M = composite_beam_calculator_.get_composite_beam().get_M_Ib_design_list(LoadUnit::kN, LengthUnit::m);
+		Q = composite_beam_calculator_.get_composite_beam().get_Q_Ib_design_list(LoadUnit::kN);
+		R = composite_beam_calculator_.get_composite_beam().get_R_Ib_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_composite_beam().get_f_Ib_list(LengthUnit::mm);
+
+		coor_supp = composite_beam_calculator_.get_composite_beam().get_support_x_list();
+
+		break;
+	case(2): // Нагрузки IIa стадии
+
+		M = composite_beam_calculator_.get_composite_beam().get_M_IIa_design_list(LoadUnit::kN, LengthUnit::m);
+		Q = composite_beam_calculator_.get_composite_beam().get_Q_IIa_design_list(LoadUnit::kN);
+		R = composite_beam_calculator_.get_composite_beam().get_P_IIa_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_composite_beam().get_f_IIa_list(LengthUnit::mm);
+
+		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().front());
+		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().back());
+
+		break;
+
+	case(3): // Нагрузки IIb стадии
+
+		M = composite_beam_calculator_.get_composite_beam().get_M_IIb_design_list(LoadUnit::kN, LengthUnit::m);
+		Q = composite_beam_calculator_.get_composite_beam().get_Q_IIb_design_list(LoadUnit::kN);
+		R = composite_beam_calculator_.get_composite_beam().get_R_IIb_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_composite_beam().get_f_IIb_list(LengthUnit::mm);
+
+		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().front());
+		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().back());
+
+		break;
+
+	case(4)://Нагрузки полные
+
+		M = composite_beam_calculator_.get_composite_beam().get_M_total_design_list(LoadUnit::kN, LengthUnit::m);
+		Q = composite_beam_calculator_.get_composite_beam().get_Q_total_design_list(LoadUnit::kN);
+		R = composite_beam_calculator_.get_composite_beam().get_R_total_design_list(LoadUnit::kN);
+		f = composite_beam_calculator_.get_composite_beam().get_f_total_list(LengthUnit::mm);
+
+		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().front());
+		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().back());
+
+		break;
+	}
+
+	TImage *Image1=img_static_scheme;
+	std::vector<double> coor_epur = composite_beam_calculator_.get_composite_beam().get_x_list();
+
+//флаг отрисовки значений на эпюре
+	bool flag_sign = true;
+	int num_digits = 2;
+	bool con_sign_practice = true;
+
+	switch (rd_grp_internal_forces_type->ItemIndex)
+	{
+	case(0):
+
+		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, coor_supp.size(), &coor_supp[0],
+			flag_sign, num_digits, con_sign_practice);
+
+		break;
+
+	case(1):
+
+		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R[0], coor_supp.size(), &coor_supp[0],
+			flag_sign, num_digits, con_sign_practice);
+
+		break;
+
+	case(2):
+
+		DrawEpur(Image1, f.size(), &coor_epur[0], &f[0], nullptr, coor_supp.size(), &coor_supp[0],
+			flag_sign, num_digits, false);
+
+		break;
+	}
+}
+
+//---------------------------------------------------------------------------
+// Отрисовка эпюр
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::draw_diagram(ComBeamOutputSP35 const & cb_output_SP35)
 {
 	std::vector<double> M;
 	std::vector<double> Q;
@@ -1120,27 +1241,40 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
 	store_cntrls_state();
 
-	Geometry geom {update_geometry()};
-
 	std::unique_ptr<GeneralSteelSection const> const st_sect {make_steel_section()};
 	std::unique_ptr<GeneralConcreteSection const> const conc_sect {make_concrete_section(st_sect -> b_f2())};
 
 	Concrete conc {make_concrete()};
 	Steel st {make_steel(st_sect -> t_max())};
 
+	GlobGeom geom{make_glob_geom()};
+
+	std::vector<double> x_lst;
+
+	for (auto node:geom.nodes_lst())
+		x_lst.emplace_back(node.x());
+
+	std::vector<double> sup_lst;
+
+	for (auto node:geom.nodes_lst())
+	{
+		if(node.is_sup())
+			sup_lst.emplace_back(node.x());
+	}
+
+	double* x_lst_ar = x_lst.data();
+	double* x_sup_ar = sup_lst.data();
+
 	double SW_st_sect = st_sect -> SW();
 	double SW_conc_sect = conc_sect -> SW(conc.get_density());
 	Loads loads{make_loads(st_sect -> SW(),
 				0,
 				conc_sect -> SW(conc.get_density()),
-				geom.get_trib_width())};
+				geom.trib_width())};
 
-	  //подготовка калькулятора внутренних усилий
-	SupportsNumber tmp_sup_num = geom.get_temporary_supports_number();
-	double L = geom.get_span();
-	double B = geom.get_trib_width();
-
-	IntForcesCalculator int_frcs_calculator {tmp_sup_num, L, B, loads };//сконструкировали
+	IntForcesCalculator int_frcs_calculator {geom.tmp_sup_num(),
+											 geom.span(),
+											 geom.trib_width(), loads };
 
 	WorkingConditionsFactors working_conditions_factors{update_working_conditions_factors()};
 
@@ -1150,7 +1284,6 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 											st, st_sect.get(),
 											conc, conc_sect.get()};
  //------------------------------------------------------------------------
-	  std::vector<double> const x_lst {0, L/4,  L/3, L/2, 2*L/3, 3*L/4, L};
 
 	  ComBeamOutputSP35 const com_beam_output = com_beam_calc.calculate(x_lst);
 

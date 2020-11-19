@@ -358,6 +358,10 @@
             <DependentOn>uGeometry.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uGlobGeom.cpp">
+            <DependentOn>uGlobGeom.h</DependentOn>
+            <BuildOrder>64</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uGraphicObjects.cpp">
             <VirtualFolder>{5FF06B42-F393-44F4-B2A7-3B7240E7B578}</VirtualFolder>
             <DependentOn>uGraphicObjects.h</DependentOn>

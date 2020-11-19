@@ -41,6 +41,8 @@
 #include "uSlabConcreteSection.h"
 #include "uCorrugatedConcreteSection.h"
 #include "uFrmsCntrlsState.h"
+#include "uComposSectCalculatorS35.h"
+#include "uGlobGeom.h"
 
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
@@ -243,6 +245,9 @@ private:
 	Concrete make_concrete();
 	Steel make_steel(double t_max);
 	Loads make_loads(double SW_st_beam, double SW_sheets, double SW_conc, double B);
+	Geometry make_geometry();
+	GlobGeom make_glob_geom();
+	WorkingConditionsFactors make_working_cond_factors();
 	SteelPart update_steel_part();
 	StudsOnBeam update_studs_on_beam();//Инициализация упоров
 	WorkingConditionsFactors update_working_conditions_factors();//Инициализация коэффициентов условий работы
@@ -261,6 +266,7 @@ private:
 	void fill_concrete_sect_geometr_grid();
 	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
+	void draw_diagram(ComBeamOutputSP35 const & cb_output_SP35);
 	void calculate_composite_beam();
     void calculate_composite_beam_SP35();
 	void clean_static_scheme();
