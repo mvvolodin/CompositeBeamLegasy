@@ -3044,6 +3044,14 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     TabOrder = 9
     OnClick = btn_loadClick
   end
+  object Button1: TButton
+    Left = 647
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 10
+  end
   object MainMenu1: TMainMenu
     Images = ImageList1
     Left = 416

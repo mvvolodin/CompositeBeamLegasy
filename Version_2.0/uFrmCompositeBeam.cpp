@@ -1135,16 +1135,16 @@ void TCompositeBeamMainForm::draw_diagram(ComBeamOutputSP35 const & cb_output_SP
 
 	std::vector<double>	coor_supp {};
 
-	switch (cmb_bx_impact->ItemIndex)
+	switch (cmb_bx_impact -> ItemIndex)
 	{
 	case(0): // Нагрузки Ia стадии
 
-		M = composite_beam_calculator_.get_composite_beam().get_M_Ia_design_list(LoadUnit::kN, LengthUnit::m);
-		Q = composite_beam_calculator_.get_composite_beam().get_Q_Ia_design_list(LoadUnit::kN);
-		R = composite_beam_calculator_.get_composite_beam().get_R_Ia_design_list(LoadUnit::kN);
-		f = composite_beam_calculator_.get_composite_beam().get_f_Ia_list(LengthUnit::mm);
+		M = cb_output_SP35.M_1a_lst();
+		Q = cb_output_SP35.Q_1a_lst();
+		R = cb_output_SP35.R_1a_lst();
+//		f = composite_beam_calculator_.get_composite_beam().get_f_Ia_list(LengthUnit::mm);
 
-		coor_supp = composite_beam_calculator_.get_composite_beam().get_support_x_list();
+		coor_supp = cb_output_SP35.sup_coord();
 
 		break;
 	case(1): // Нагрузки Ib стадии
@@ -1195,19 +1195,20 @@ void TCompositeBeamMainForm::draw_diagram(ComBeamOutputSP35 const & cb_output_SP
 	}
 
 	TImage *Image1=img_static_scheme;
-	std::vector<double> coor_epur = composite_beam_calculator_.get_composite_beam().get_x_list();
+	std::vector<double> coor_epur = cb_output_SP35.x_lst();
 
 //флаг отрисовки значений на эпюре
 	bool flag_sign = true;
 	int num_digits = 2;
 	bool con_sign_practice = true;
 
-	switch (rd_grp_internal_forces_type->ItemIndex)
+	switch (rd_grp_internal_forces_type -> ItemIndex)
 	{
 	case(0):
 
 		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, coor_supp.size(), &coor_supp[0],
 			flag_sign, num_digits, con_sign_practice);
+
 
 		break;
 
@@ -1235,7 +1236,7 @@ void __fastcall TCompositeBeamMainForm ::cmb_bx_impactChange(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObject *Sender)
 {
-	draw_diagram();
+//	draw_diagram();
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
@@ -1248,22 +1249,6 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 	Steel st {make_steel(st_sect -> t_max())};
 
 	GlobGeom geom{make_glob_geom()};
-
-	std::vector<double> x_lst;
-
-	for (auto node:geom.nodes_lst())
-		x_lst.emplace_back(node.x());
-
-	std::vector<double> sup_lst;
-
-	for (auto node:geom.nodes_lst())
-	{
-		if(node.is_sup())
-			sup_lst.emplace_back(node.x());
-	}
-
-	double* x_lst_ar = x_lst.data();
-	double* x_sup_ar = sup_lst.data();
 
 	double SW_st_sect = st_sect -> SW();
 	double SW_conc_sect = conc_sect -> SW(conc.get_density());
@@ -1284,17 +1269,43 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 											st, st_sect.get(),
 											conc, conc_sect.get()};
  //------------------------------------------------------------------------
+	std::vector<Node> nodes_lst {geom.nodes_lst()};
 
-	  ComBeamOutputSP35 const com_beam_output = com_beam_calc.calculate(x_lst);
+	std::vector<double> x_lst;
+	for(auto const & n:nodes_lst)
+		x_lst.push_back(n.x());
+	double* x_arr = x_lst.data();
 
-	  TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.docx");
+	std::vector<double> end_sup_coord_lst;
+	for(auto const & n:nodes_lst)
+		if(n.is_end_support())
+			end_sup_coord_lst.push_back(n.x());
+	double* end_sup_coord_arr = end_sup_coord_lst.data();
 
-	  geom.print_data_to_report(report);
-	  loads.print_data_to_report(report);
-	  working_conditions_factors.print_data_to_report_SP35(report);
+	std::vector<double> inter_sup_coord_lst;
+	for(auto const & n:nodes_lst)
+		if(n.is_inter_support())
+			inter_sup_coord_lst.push_back(n.x());
+	double* inter_sup_coord_arr = inter_sup_coord_lst.data();
 
+	std::vector<double> coord_lst;
+	for(auto const & n:nodes_lst)
+		if(n.is_end_support() || n.is_inter_support())
+			coord_lst.push_back(n.x());
+	double* coord_arr = coord_lst.data();
 
-	  com_beam_output.print_data_to_report(report);
+	  ComBeamOutputSP35 const com_beam_output = com_beam_calc.calculate(nodes_lst);
+
+	  draw_diagram(com_beam_output);
+
+//	  TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.docx");
+//
+//	  geom.print_data_to_report(report);
+//	  loads.print_data_to_report(report);
+//	  working_conditions_factors.print_data_to_report_SP35(report);
+//
+//
+//	  com_beam_output.print_data_to_report(report);
 
 //#ifndef NDEBUG
 //	  com_sect.print_data_to_logger(*frm_logger_);
@@ -1865,6 +1876,7 @@ void __fastcall TCompositeBeamMainForm::btn_loadClick(TObject *Sender)
 	update_cntrls();
 }
 //---------------------------------------------------------------------------
+
 
 
 

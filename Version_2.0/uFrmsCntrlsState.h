@@ -42,8 +42,8 @@ struct TCompositeBeamMainFormCntrlsState{
 
 	// Отрисовка эпюр
 
-	int cmb_bx_impact_ {4};
-	int rd_grp_internal_forces_type_ {0};
+	int cmb_bx_impact_ {0};
+	int rd_grp_internal_forces_type_ {1};
 
 	// Параметры расчёта
 

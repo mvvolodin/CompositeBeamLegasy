@@ -7,8 +7,6 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-int ComposSectCalculatorSP35::id_ = 1;
-
 ComposSectCalculatorSP35::ComposSectCalculatorSP35
 							(IntForcesCalculator const intr_frcs_calculator,
 							 WorkingConditionsFactors const work_cond_factors,
@@ -28,20 +26,28 @@ ComposSectCalculatorSP35::ComposSectCalculatorSP35
 												steel, st_sect, concrete ,conc_sect,
 												ComposSectGeomSP35::ConcStateConsid::creep)){}
 
-ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<double> const & x_lst)
+ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<Node> const & nodes_lst)
 {
 	std::vector<SectOutputSP35> sect_output_lst {};
 
-	for(auto const & x:x_lst)
-		sect_output_lst.push_back(calculate(x));
+	for(auto const & node:nodes_lst)
+		sect_output_lst.push_back(calculate(node));
 
 	return {com_sect_,
 			com_sect_shr_,
 			com_sect_kr_,
 			sect_output_lst};
 }
-SectOutputSP35 ComposSectCalculatorSP35::calculate(double const x)
+SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 {
+	double x = node.x();
+
+	int end_sup_index = node.end_sup_index();
+	bool is_end_support = node.is_end_support();
+
+	int inter_sup_index = node.inter_sup_index();
+	bool is_inter_support = node.is_inter_support();
+
 	double const M_1a = intr_frcs_calculator_.M_1a(x);
 	double const M_1b = intr_frcs_calculator_.M_1b(x);
 	double const M_2c = intr_frcs_calculator_.M_2c(x);
@@ -65,10 +71,22 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(double const x)
 	double const f_2c = intr_frcs_calculator_.f_2c(x);
 	double const f_2d = intr_frcs_calculator_.f_2d(x);
 
-	double const R_1a_ = 0.;
-	double const R_1b_ = 0.;
-	double const R_2c_ = 0.;
-	double const R_2d_ = 0.;
+	double R_1a = 0.;
+	double R_1b = 0.;
+	double R_2c = 0.;
+	double R_2d = 0.;
+
+	if(is_end_support){
+		R_1a = intr_frcs_calculator_.R_1a(end_sup_index);
+		R_1b = intr_frcs_calculator_.R_1b(end_sup_index);
+		R_2c = intr_frcs_calculator_.R_2c(end_sup_index);
+		R_2d = intr_frcs_calculator_.R_2d(end_sup_index);
+	}
+
+	if(is_inter_support){
+		R_1a = intr_frcs_calculator_.R_1a(inter_sup_index);
+		R_1b = intr_frcs_calculator_.R_1b(inter_sup_index);
+	}
 
 	double const W_b_stb = com_sect_.W_b_stb();
 	double const n_b = com_sect_.n_b();
@@ -141,7 +159,9 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(double const x)
 
 	DesignCase const des_case = design_case(sigma_b, sigma_r);
 
-	switch (des_case) {
+	/* TODO : Вернуть в switch() переменную des_case */
+
+	switch (DesignCase::Case_A) {
 
 	case DesignCase::Case_A:
 		if((m_1 = 1 + (m_b * R_b - sigma_b) / (m * R_y) * A_b / A_s2) >= 1.2) m_1 = 1.2;
@@ -159,9 +179,10 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(double const x)
 		fl_s2_ratio = ((M - Z_b_s * N_br) / (omega_4 * W_s2_s) - N_br / A_s) / (m_1 * m * R_y);
 		fl_s1_ratio = ((M - Z_b_s * N_br) / (omega_3 * W_s2_s) + N_br / A_s) / (m * R_y);
 
-		return SectOutputSP35{id_++, x,
+		return SectOutputSP35{node,
 							  M_1a, M_1b, M_2c, M_2d,
 							  Q_1a, Q_1b, Q_2c, Q_2d,
+							  R_1a, R_1b, R_2c, R_2d,
 							  f_1a, f_1b, f_2c, f_2d,
 							  sigma_bi_sh, sigma_bi_kr,
 							  sigma_ri_sh, sigma_ri_kr,
@@ -191,9 +212,10 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(double const x)
 		fl_s2_ratio = ((M - Z_b_s * N_br_R) / (omega_3_s2 * W_s2_s) - N_br_R / A_s) / (m * R_y);
 		fl_s1_ratio = ((M - Z_b_s * N_bR_r) / (omega_3_s1 * W_s2_s) + N_bR_r / A_s) / (m * R_y);
 
-		return SectOutputSP35{id_++, x,
+		return SectOutputSP35{node,
 							  M_1a, M_1b, M_2c, M_2d,
 							  Q_1a, Q_1b, Q_2c, Q_2d,
+							  R_1a, R_1b, R_2c, R_2d,
 							  f_1a, f_1b, f_2c, f_2d,
 							  sigma_bi_sh, sigma_bi_kr,
 							  sigma_ri_sh, sigma_ri_kr,
@@ -221,9 +243,10 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(double const x)
 		fl_s1_ratio = ((M - Z_b_s * N_br_R) / (omega_3 * W_s2_s) + N_br_R / A_s) / (m * R_y);
 
 
-	   return SectOutputSP35{id_++,x,
+	   return SectOutputSP35{node,
 							 M_1a, M_1b, M_2c, M_2d,
 							 Q_1a, Q_1b, Q_2c, Q_2d,
+							 R_1a, R_1b, R_2c, R_2d,
 							 f_1a, f_1b, f_2c, f_2d,
 							 sigma_bi_sh, sigma_bi_kr,
 							 sigma_ri_sh, sigma_ri_kr,

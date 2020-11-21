@@ -10,6 +10,7 @@
 #include "uSectOutputSP35.h"
 #include "uComBeamOutputSP35.h"
 #include "uIntForcesCalculator.h"
+#include "uGlobGeom.h"
 
 
 #include "uFrmLogger.h"
@@ -46,12 +47,10 @@ public:
 							 Concrete const concrete,
 							 GeneralConcreteSection const * conc_sect);
 
-	SectOutputSP35 calculate(double const x);
-	ComBeamOutputSP35 calculate(std::vector<double> const & x_lst);
+	SectOutputSP35 calculate(Node const node);
+	ComBeamOutputSP35 calculate(std::vector<Node> const & nodes_lst);
 
 private:
-
-	static int id_ ;
 
 	IntForcesCalculator const intr_frcs_calculator_;
 	WorkingConditionsFactors const work_cond_factors_;

@@ -11,16 +11,47 @@
 //---------------------------------------------------------------------------
 class Node{
 public:
-	Node(double x, bool is_s):
+	Node(double x, bool is_end_sup, bool is_inter_sup):
+		id_(id_counter_++),
 		x_(x),
-		is_sup_(is_sup){}
-	double x(){return x_;}
-	bool is_sup(){return is_sup_;}
+		is_end_sup_(is_end_sup),
+		is_inter_sup_(is_inter_sup)
+		{
+			if(is_end_sup){
+				end_sup_index_ = end_sup_counter_++;
+			}
+
+			if(is_inter_sup){
+				inter_sup_index_ = inter_sup_counter_++;
+			}
+		}
+	int id()const{return id_;}
+
+	double x()const{return x_;}
+
+	bool is_end_support()const{return is_end_sup_;}
+	int end_sup_index()const{return end_sup_index_;}
+
+	bool is_inter_support()const{return is_inter_sup_;}
+	int inter_sup_index()const{return inter_sup_index_;}
 
 private:
-	bool is_sup_ = false;
+	int id_ = 0;
+	static int id_counter_;
+
 	double x_ = 0.;
+
+	bool is_end_sup_ = false;
+	int end_sup_index_ = -1;
+	static int end_sup_counter_;
+
+	bool is_inter_sup_ = false;
+	int inter_sup_index_ = -1;
+	static int inter_sup_counter_;
 };
+	int Node::id_counter_ = 0;
+	int Node::end_sup_counter_ = 0;
+	int Node::inter_sup_counter_ = 0;
 
 class GlobGeom{
 
@@ -54,12 +85,6 @@ private:
 
 	std::vector<Node> nodes_lst_{};
 
-//	double effect_width_left_ = 0.;
-//	double effect_width_right_ = 0.;
-
 	void init_sect_lst();
-//	void calculate_effective_width(double h_f, double b_uf);
-//	double basic_effective_width(double h_f, double a,  double spacing);
-//	double cantilever_effective_width(double t_sl, double a,  double spacing);
 };
 #endif

@@ -438,14 +438,14 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
-        <FormResources Include="uFrmStud.dfm"/>
+        <FormResources Include="uFrmRebar.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
-        <FormResources Include="uFrmCompositeBeam.dfm"/>
+        <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmSteel.dfm"/>
-        <FormResources Include="uFrmRebar.dfm"/>
+        <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
         <FormResources Include="uFrmAboutProg.dfm"/>
         <BuildConfiguration Include="Release">

@@ -189,6 +189,7 @@ __published:	// IDE-managed Components
 	TRadioGroup *rd_grp_code;
 	TButton *btn_save;
 	TButton *btn_load;
+	TButton *Button1;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
