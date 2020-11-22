@@ -11,9 +11,9 @@ ComposSectCalculatorSP35::ComposSectCalculatorSP35
 							(IntForcesCalculator const intr_frcs_calculator,
 							 WorkingConditionsFactors const work_cond_factors,
 							 Steel const steel,
-							 GeneralSteelSection const * st_sect,
+							 std::shared_ptr<GeneralSteelSection const> st_sect,
 							 Concrete const concrete,
-							 GeneralConcreteSection const * conc_sect):
+							 std::shared_ptr<GeneralConcreteSection const> conc_sect):
 								intr_frcs_calculator_(intr_frcs_calculator),
 								work_cond_factors_(work_cond_factors),
 								com_sect_(ComposSectGeomSP35(
@@ -87,6 +87,10 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 		R_1a = intr_frcs_calculator_.R_1a(inter_sup_index);
 		R_1b = intr_frcs_calculator_.R_1b(inter_sup_index);
 	}
+
+	double const R_1 = R_1b;
+	double const R_2 = R_2c + R_2d;
+	double const R = R_1 + R_2;
 
 	double const W_b_stb = com_sect_.W_b_stb();
 	double const n_b = com_sect_.n_b();
@@ -180,9 +184,9 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 		fl_s1_ratio = ((M - Z_b_s * N_br) / (omega_3 * W_s2_s) + N_br / A_s) / (m * R_y);
 
 		return SectOutputSP35{node,
-							  M_1a, M_1b, M_2c, M_2d,
-							  Q_1a, Q_1b, Q_2c, Q_2d,
-							  R_1a, R_1b, R_2c, R_2d,
+							  M_1a, M_1b, M_2c, M_2d, M,
+							  Q_1a, Q_1b, Q_2c, Q_2d, Q,
+							  R_1a, R_1b, R_2c, R_2d, R,
 							  f_1a, f_1b, f_2c, f_2d,
 							  sigma_bi_sh, sigma_bi_kr,
 							  sigma_ri_sh, sigma_ri_kr,
@@ -213,9 +217,9 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 		fl_s1_ratio = ((M - Z_b_s * N_bR_r) / (omega_3_s1 * W_s2_s) + N_bR_r / A_s) / (m * R_y);
 
 		return SectOutputSP35{node,
-							  M_1a, M_1b, M_2c, M_2d,
-							  Q_1a, Q_1b, Q_2c, Q_2d,
-							  R_1a, R_1b, R_2c, R_2d,
+							  M_1a, M_1b, M_2c, M_2d, M,
+							  Q_1a, Q_1b, Q_2c, Q_2d, Q,
+							  R_1a, R_1b, R_2c, R_2d, R,
 							  f_1a, f_1b, f_2c, f_2d,
 							  sigma_bi_sh, sigma_bi_kr,
 							  sigma_ri_sh, sigma_ri_kr,
@@ -244,9 +248,9 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 
 
 	   return SectOutputSP35{node,
-							 M_1a, M_1b, M_2c, M_2d,
-							 Q_1a, Q_1b, Q_2c, Q_2d,
-							 R_1a, R_1b, R_2c, R_2d,
+							 M_1a, M_1b, M_2c, M_2d, M,
+							 Q_1a, Q_1b, Q_2c, Q_2d, Q,
+							 R_1a, R_1b, R_2c, R_2d, R,
 							 f_1a, f_1b, f_2c, f_2d,
 							 sigma_bi_sh, sigma_bi_kr,
 							 sigma_ri_sh, sigma_ri_kr,

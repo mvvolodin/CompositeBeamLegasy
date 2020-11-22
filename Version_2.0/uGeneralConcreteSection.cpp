@@ -94,6 +94,14 @@ double GeneralConcreteSection::A_b() const
 double GeneralConcreteSection::I_b() const
 {
 	return h_f_ * b_sl_ * b_sl_ * b_sl_ / 12;
+}
 
+void GeneralConcreteSection::print_data_to_report(TWord_Automation & report)const
+{
+	report.PasteTextPattern(slab_type().c_str(),"%slab_type%");
+	report.PasteTextPattern(FloatToStrF(b_sl(), ffFixed, 15, 2),"%b_sl%");
+	report.PasteTextPattern(FloatToStrF(C_b(), ffFixed, 15, 2),"%C_b%");
+	report.PasteTextPattern(FloatToStrF(A_b(), ffFixed, 15, 2),"%A_b%");
+	report.PasteTextPattern(FloatToStrF(I_b(), ffFixed, 15, 2),"%I_b%");
 }
 

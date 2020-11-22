@@ -3,6 +3,7 @@
 #ifndef uSlabConcreteSectionH
 #define uSlabConcreteSectionH
 
+#include <string>
 #include "uGeneralConcreteSection.h"
 #include "uRebar.h"
 
@@ -17,12 +18,13 @@ public:
 						bool const  is_end_beam,
 						Rebars const & rebars);
 	~SlabConcreteSection();
+	std::u16string slab_type()const override;
 	double h() const override;
 	double h_n() const override;
 	double C_b() const override;
 	double SW(double dens) const override;
 private:
-    double const h_n_;
+	double const h_n_;
 
 };
 //---------------------------------------------------------------------------

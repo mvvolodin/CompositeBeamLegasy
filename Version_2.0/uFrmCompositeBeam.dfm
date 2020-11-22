@@ -106,7 +106,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   end
   object btn_report: TButton
     Left = 88
-    Top = 559
+    Top = 557
     Width = 75
     Height = 25
     Caption = #1054#1090#1095#1105#1090

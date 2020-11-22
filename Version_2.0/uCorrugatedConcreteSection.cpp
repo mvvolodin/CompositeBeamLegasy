@@ -21,6 +21,10 @@ CorrugatedConcreteSection::~CorrugatedConcreteSection()
 {
 
 }
+std::u16string CorrugatedConcreteSection::slab_type()const
+{
+	return u"Плита по настилу";
+}
 double CorrugatedConcreteSection::h() const
 {
 	return corr_sheet_.get_height() + h_f_;

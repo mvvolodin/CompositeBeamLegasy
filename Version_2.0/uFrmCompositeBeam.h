@@ -255,7 +255,8 @@ private:
 
 	void set_form_controls();
 	void update_composite_beam();
-	void generate_report();
+    void generate_report();
+	void generate_report2();
 	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
 	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения
 	void cotr_steel_sect_geometr_grid();
@@ -267,7 +268,7 @@ private:
 	void fill_concrete_sect_geometr_grid();
 	void fill_composite_sect_geometr_grid();
 	void draw_diagram();//Отрисовка эпюр
-	void draw_diagram(ComBeamOutputSP35 const & cb_output_SP35);
+	void draw_diagram2();
 	void calculate_composite_beam();
     void calculate_composite_beam_SP35();
 	void clean_static_scheme();

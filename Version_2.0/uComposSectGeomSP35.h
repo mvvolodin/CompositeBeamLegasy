@@ -7,6 +7,7 @@
 #include "uFrmLogger.h"
 #endif
 //---------------------------------------------------------------------------
+#include <memory>
 #include "uGeneralConcreteSection.h"
 #include "uGeneralSteelSection.h"
 #include "uConcrete.h"
@@ -24,16 +25,11 @@ public:
 	};
 	ComposSectGeomSP35() = default;
 
-	ComposSectGeomSP35(Steel const & steel,
-					   GeneralSteelSection const & st_sect,
-					   Concrete const & concrete,
-					   GeneralConcreteSection const & conc_sect,
-					   ConcStateConsid const conc_st_consid);
 
 	ComposSectGeomSP35(Steel const steel,
-					   GeneralSteelSection const* st_sect,
+					   std::shared_ptr<GeneralSteelSection const> st_sect,
 					   Concrete const concrete,
-					   GeneralConcreteSection const* conc_sect,
+					   std::shared_ptr<GeneralConcreteSection const> conc_sect,
 					   ConcStateConsid const conc_st_consid);
 
 	double E_rs()const;
@@ -69,8 +65,6 @@ public:
 	double I_stb()const;
 	double eps_shr()const;
 
-
-
 	double A_r()const;
 
 	void print_data_to_report(TWord_Automation & report)const;
@@ -80,15 +74,11 @@ public:
 #endif
 
 private:
-//	Steel const &  steel_;
-//	GeneralSteelSection const  & st_sect_;
-//	Concrete const & concrete_;
-//	GeneralConcreteSection const & conc_sect_;
 
 	Steel const steel_;
-	GeneralSteelSection const* st_sect_;
+	std::shared_ptr<GeneralSteelSection const> st_sect_;
 	Concrete const concrete_;
-	GeneralConcreteSection const* conc_sect_;
+	std::shared_ptr<GeneralConcreteSection const> conc_sect_;
 
 	void calculate(double const E_b);
 	void calculate(ConcStateConsid conc_st_consid);

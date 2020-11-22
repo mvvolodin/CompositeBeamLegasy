@@ -3,6 +3,7 @@
 #ifndef uComBeamOutputSP35H
 #define uComBeamOutputSP35H
 //---------------------------------------------------------------------------
+#include <memory>
 #include "uSectOutputSP35.h"
 #include "uComposSectGeomSP35.h"
 #include "uWord_Automation.h"
@@ -27,16 +28,19 @@ public:
 	std::vector<double> M_1b_lst()const;
 	std::vector<double> M_2c_lst()const;
 	std::vector<double> M_2d_lst()const;
+	std::vector<double> M_total_lst()const;
 
 	std::vector<double> Q_1a_lst()const;
 	std::vector<double> Q_1b_lst()const;
 	std::vector<double> Q_2c_lst()const;
 	std::vector<double> Q_2d_lst()const;
+	std::vector<double> Q_total_lst()const;
 
 	std::vector<double> R_1a_lst()const;
 	std::vector<double> R_1b_lst()const;
 	std::vector<double> R_2c_lst()const;
 	std::vector<double> R_2d_lst()const;
+    std::vector<double> R_total_lst()const;
 
 private:
 	ComposSectGeomSP35 const com_sect_;
@@ -50,5 +54,5 @@ private:
 	SectOutputSP35 const & max_shear_str_ratio_sect()const;
 
 };
-//---------------------------------------------------------------------------
+
 #endif

@@ -20,6 +20,10 @@ SlabConcreteSection::~SlabConcreteSection()
 {
 
 }
+std::u16string SlabConcreteSection::slab_type()const
+{
+	return u"Плоская плита";
+}
 double SlabConcreteSection::h() const
 {
 	return h_n_ + h_f_;

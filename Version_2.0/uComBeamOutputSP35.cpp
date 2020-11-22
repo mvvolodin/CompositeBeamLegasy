@@ -5,6 +5,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
+
 ComBeamOutputSP35::ComBeamOutputSP35(ComposSectGeomSP35  com_sect,
 									 ComposSectGeomSP35  com_sect_shr,
 									 ComposSectGeomSP35  com_sect_kr,
@@ -96,6 +97,15 @@ std::vector<double> ComBeamOutputSP35::M_2d_lst()const
 
 	return E;
 }
+std::vector<double> ComBeamOutputSP35::M_total_lst()const
+{
+	std::vector<double> E;
+
+	for(auto const & s:sect_outp_list_)
+		E.push_back(s.M_total());
+
+	return E;
+}
 std::vector<double> ComBeamOutputSP35::Q_1a_lst()const
 {
 	std::vector<double> E;
@@ -129,6 +139,15 @@ std::vector<double> ComBeamOutputSP35::Q_2d_lst()const
 
 	for(auto const & s:sect_outp_list_)
 		E.push_back(s.Q_2d());
+
+	return E;
+}
+std::vector<double> ComBeamOutputSP35::Q_total_lst()const
+{
+	std::vector<double> E;
+
+	for(auto const & s:sect_outp_list_)
+		E.push_back(s.Q_total());
 
 	return E;
 }
@@ -166,6 +185,15 @@ std::vector<double> ComBeamOutputSP35::R_2d_lst()const
 
 	for(auto const & s:sect_outp_list_)
 		E.push_back(s.R_2d());
+
+	return E;
+}
+std::vector<double> ComBeamOutputSP35::R_total_lst()const
+{
+	std::vector<double> E;
+
+	for(auto const & s:sect_outp_list_)
+		E.push_back(s.R_total());
 
 	return E;
 }

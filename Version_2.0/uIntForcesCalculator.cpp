@@ -11,7 +11,7 @@ IntForcesCalculator::IntForcesCalculator(int const s_num,
 										 double const L,
 										 double const B,
 										 Loads const & loads):
-										 	s_num_(s_num),
+											s_num_(s_num),
 											L_(L),
 											B_(B),
 											loads_(loads){}
@@ -31,6 +31,10 @@ double IntForcesCalculator::R_2d(int sup_index)const
 {
 	return R_uniform_load(loads_.IIb_design_LCC(), 0)[sup_index];
 }
+double IntForcesCalculator::R_total(int sup_index)const
+{
+	return R_uniform_load(loads_.total_design_LCC(), 0)[sup_index];
+}
 std::vector<double> IntForcesCalculator::R_1a()const
 {
 	return R_uniform_load(loads_.Ia_design_LCC(), s_num_);
@@ -46,6 +50,10 @@ std::vector<double> IntForcesCalculator::R_2c()const
 std::vector<double> IntForcesCalculator::R_2d()const
 {
 	return R_uniform_load(loads_.IIb_design_LCC(), 0);
+}
+std::vector<double> IntForcesCalculator::R_total()const
+{
+	return R_uniform_load(loads_.total_design_LCC(), 0);
 }
 
 double IntForcesCalculator::M_1a(double x)const
@@ -94,7 +102,10 @@ double IntForcesCalculator::M_2d(double x)const
 {
 	return M_uniform_load(x, loads_.IIb_design_LCC(), 0);
 }
-
+double IntForcesCalculator::M_total(double x)const
+{
+	return M_uniform_load(x, loads_.total_design_LCC(), 0);
+}
 
 double IntForcesCalculator::Q_1a(double x)const
 {
@@ -141,6 +152,10 @@ double IntForcesCalculator::Q_2c(double x)const
 double IntForcesCalculator::Q_2d(double x)const
 {
 	return Q_uniform_load(x, loads_.IIb_design_LCC(), 0);
+}
+double IntForcesCalculator::Q_total(double x)const
+{
+	return Q_uniform_load(x, loads_.total_design_LCC(), 0);
 }
 
 double IntForcesCalculator::f_1a(double x)const
