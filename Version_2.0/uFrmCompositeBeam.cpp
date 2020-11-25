@@ -16,9 +16,12 @@
 #include "uFrmAboutProg.h"
 #include "uComposSectGeomSP35.h"
 #include "uIntForcesCalculator.h"
+#include "uComBeamInputSP35.h"
 
 //---------------------------------------------------------------------------
 std::unique_ptr<ComBeamOutputSP35 const> com_beam_out_SP35 {nullptr};
+std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
+
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 //----------------------------------------------------------------------
  _fastcall TCompositeBeamMainForm ::TCompositeBeamMainForm (TComponent* Owner)
@@ -366,7 +369,7 @@ std::unique_ptr<GeneralConcreteSection const> TCompositeBeamMainForm ::make_conc
 				   cntrls_state.edt_a_u_,
 				   cntrls_state.edt_a_l_,
 				   cntrls_state.edt_b_,
-				   cntrls_state.edt_b_,};
+				   cntrls_state.edt_b_};
 
 	std::unique_ptr<GeneralConcreteSection> con_sect {nullptr};
 
@@ -1248,7 +1251,14 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
+
 	store_cntrls_state();
+
+	com_beam_input_SP35.reset(new ComBeamInputSP35{cntrls_state_,
+												   ConcreteDefinitionForm -> cntrls_state(),
+												   SteelSectionForm -> cntrls_state(),
+												   DefineSteelForm -> cntrls_state(),
+												   RebarDefinitionForm -> cntrls_state()});
 
 	std::shared_ptr<GeneralSteelSection const> const st_sect {make_steel_section()};
 	std::shared_ptr<GeneralConcreteSection const> const conc_sect {make_concrete_section(st_sect -> b_f2())};

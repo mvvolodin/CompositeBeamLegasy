@@ -5,7 +5,6 @@
 //---------------------------------------------------------------------------
 #include <ostream>
 #include <istream>
-#include "String_doubleUnit.h"
 //---------------------------------------------------------------------------
 struct TCompositeBeamMainFormCntrlsState{
 	// Геометрия

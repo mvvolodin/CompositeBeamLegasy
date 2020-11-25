@@ -224,6 +224,10 @@
             <DependentOn>uBilinearInterp.h</DependentOn>
             <BuildOrder>56</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uComBeamInputSP35.cpp">
+            <DependentOn>uComBeamInputSP35.h</DependentOn>
+            <BuildOrder>65</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uComBeamOutputSP35.cpp">
             <DependentOn>uComBeamOutputSP35.h</DependentOn>
             <BuildOrder>63</BuildOrder>

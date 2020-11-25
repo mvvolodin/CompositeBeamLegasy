@@ -5,7 +5,6 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-Loads::Loads(){}
 
 Loads::Loads(double SW_steel_beam,
 			 double SW_corrugated_sheets,

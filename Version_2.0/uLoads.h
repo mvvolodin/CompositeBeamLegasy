@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 class Loads {
 public:
-	Loads();
+	Loads() = default;
 	Loads(double SW_steel_beam,
 		  double SW_corrugated_sheets,
 		  double SW_add_concrete,

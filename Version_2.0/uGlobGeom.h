@@ -57,6 +57,7 @@ class GlobGeom{
 
 public:
 	public:
+	GlobGeom() = default;
 	GlobGeom(double max_el_length,
 			 bool end_beam,
 			 double span,
@@ -76,12 +77,12 @@ public:
     std::vector<Node> nodes_lst()const;
 
 private:
-	double const max_el_length_ = 0.;
-	bool const end_beam_ = false;
-	double const span_ = 0.;
-	double const spacing_left_ = 0.;
-	double const spacing_right_ = 0.;
-	int const tmp_sup_num_ = 0.;
+	double max_el_length_ = -1.;
+	bool end_beam_ = false;
+	double span_ = -1.;
+	double spacing_left_ = -1.;
+	double spacing_right_ = -1.;
+	int tmp_sup_num_ = -1.;
 
 	std::vector<Node> nodes_lst_{};
 
