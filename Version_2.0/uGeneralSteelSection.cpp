@@ -27,16 +27,16 @@ double GeneralSteelSection::t_max()const
 					 web_thick()});
 }
 
-void GeneralSteelSection::print_data_to_report(TWord_Automation & report)const
+void GeneralSteelSection::fill_grid(TStringGrid* str_grid)const
 {
-//	REPORT(A_s(),void);
-//	REPORT(I_s());
-	report.PasteTextPattern(FloatToStrF(A_st(), ffFixed, 15, 2),"%A_s%");
-	report.PasteTextPattern(FloatToStrF(I_st(), ffFixed, 15, 2),"%I_s%");
-	report.PasteTextPattern(FloatToStrF(W_f2_st(), ffFixed, 15, 2),"%W_s2_s%");
-	report.PasteTextPattern(FloatToStrF(W_f1_st(), ffFixed, 15, 2),"%W_s1_s%");
-	report.PasteTextPattern(FloatToStrF(Z_f2_st(), ffFixed, 15, 2),"%Z_s2_s%");
-	report.PasteTextPattern(FloatToStrF(Z_f1_st(), ffFixed, 15, 2),"%Z_s1_s%");
+
+	str_grid -> Cells [1][1] = FloatToStrF(area(), ffFixed, 15, 0);
+	str_grid -> Cells [1][2] = FloatToStrF(inertia(), ffFixed, 15, 0);
+//	str_grid -> Cells [1][3] = FloatToStrF(i_section.get_Wf2_st(), ffFixed, 15, 0);
+//	str_grid -> Cells [1][4] = FloatToStrF(i_section.get_Wf1_st(), ffFixed, 15, 0);
+//	str_grid -> Cells [1][5] = FloatToStrF(i_section.get_Z_f2_st(), ffFixed, 15, 0);
+//	str_grid -> Cells [1][6] = FloatToStrF(i_section.get_Z_f1_st(), ffFixed, 15, 0);
 
 }
+
 

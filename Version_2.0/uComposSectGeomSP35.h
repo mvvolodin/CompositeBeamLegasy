@@ -26,10 +26,10 @@ public:
 	ComposSectGeomSP35() = default;
 
 
-	ComposSectGeomSP35(Steel const steel,
-					   std::shared_ptr<GeneralSteelSection const> st_sect,
-					   Concrete const concrete,
-					   std::shared_ptr<GeneralConcreteSection const> conc_sect,
+	ComposSectGeomSP35(Steel const & steel,
+					   GeneralSteelSection const * const st_sect,
+					   Concrete const & concrete,
+					   GeneralConcreteSection const * const conc_sect,
 					   ConcStateConsid const conc_st_consid);
 
 	double E_rs()const;
@@ -67,7 +67,8 @@ public:
 
 	double A_r()const;
 
-	void print_data_to_report(TWord_Automation & report)const;
+	void print(TWord_Automation & report)const;
+	GeneralSteelSection const * const st_sect()const;
 
 #ifndef NDEBUG
 	void print_data_to_logger(TFormLogger const & log)const;
@@ -75,10 +76,10 @@ public:
 
 private:
 
-	Steel const steel_;
-	std::shared_ptr<GeneralSteelSection const> st_sect_;
-	Concrete const concrete_;
-	std::shared_ptr<GeneralConcreteSection const> conc_sect_;
+	Steel const & steel_;
+	GeneralSteelSection const * const st_sect_;
+	Concrete const & concrete_;
+	GeneralConcreteSection const * const conc_sect_;
 
 	void calculate(double const E_b);
 	void calculate(ConcStateConsid conc_st_consid);

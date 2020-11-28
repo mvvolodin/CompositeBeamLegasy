@@ -95,6 +95,17 @@ void Steel::set_default_values()
 
 }
 
+void Steel::print(TWord_Automation & report)const
+{
+	report.PasteTextPattern(steel_grade_, "%steel_grade%");
+	report.PasteTextPattern(FloatToStrF(R_yn_, ffFixed, 15, 2), "%R_yn%");
+	report.PasteTextPattern(FloatToStrF(R_un_, ffFixed, 15, 2), "%R_un%");
+	report.PasteTextPattern(FloatToStrF(E_st_, ffFixed, 15, 2), "%E_st%");
+	report.PasteTextPattern(FloatToStrF(G_st_, ffFixed, 15, 2), "%G_st%");
+	report.PasteTextPattern(FloatToStrF(nu_st_, ffFixed, 15, 2), "%nu_st%");
+	report.PasteTextPattern(FloatToStrF(gamma_m_, ffFixed, 15, 2), "%gamma_m%");
+}
+
 
 
 

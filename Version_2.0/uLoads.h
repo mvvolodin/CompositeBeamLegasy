@@ -101,7 +101,7 @@ public:
 
 	double get_sheeting_continuity_coefficient(){return sheeting_continuity_coefficient_;}
 
-	void print_data_to_report(TWord_Automation & report)const;
+	void print(TWord_Automation & report)const;
 
 private:
 	double SW_steel_beam_ = 0.;

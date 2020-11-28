@@ -226,7 +226,7 @@ void Loads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double S
 	fully_initialized_ = true;
 }
 
-void Loads::print_data_to_report(TWord_Automation & report)const
+void Loads::print(TWord_Automation & report)const
 {
 	report.PasteTextPattern(FloatToStrF(get_self_weight(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%steel_beam%");
 	report.PasteTextPattern(FloatToStrF(get_self_weight_sheets(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_sheets%");

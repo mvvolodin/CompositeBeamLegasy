@@ -15,10 +15,10 @@ ComBeamOutputSP35::ComBeamOutputSP35(ComposSectGeomSP35  com_sect,
 		com_sect_kr_(com_sect_kr),
 		sect_outp_list_(sect_outp_list){}
 
-void ComBeamOutputSP35::print_data_to_report(TWord_Automation & report)const
+void ComBeamOutputSP35::print(TWord_Automation & report)const
 {
 
-	com_sect_.print_data_to_report(report);
+	com_sect_.print(report);
 	max_direct_str_ratio_sect().print_max_direct_str_ratio_sect(report);
 
 }
@@ -216,4 +216,9 @@ SectOutputSP35 const & ComBeamOutputSP35::max_shear_str_ratio_sect()const
 	return *std::max_element(sect_outp_list_.begin(), sect_outp_list_.end(),
 		[](SectOutputSP35 const &  sect_output1, SectOutputSP35 const & sect_output2)
 		{return sect_output1.shear_ratio() < sect_output2.shear_ratio();});
+}
+
+ComposSectGeomSP35 const & ComBeamOutputSP35::com_sect()const
+{
+	return com_sect_;
 }

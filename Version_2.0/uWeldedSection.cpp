@@ -94,10 +94,10 @@ double WeldedSection::C_st()const
 			  vertexes_[i + 1].X * vertexes_[i].Y);
 	}
 
-	return C /(6 * A_st());
+	return C /(6 * area());
 }
 
-double WeldedSection::A_st()const
+double WeldedSection::area()const
 {
 	double A = 0.;
 
@@ -108,16 +108,16 @@ double WeldedSection::A_st()const
 
 	return A / 2;
 }
-double WeldedSection::A_f2_st() const
+double WeldedSection::area_upper_fl() const
 {
 	return upper_fl_width() * upper_fl_thick();
 }
-double WeldedSection::A_f1_st() const
+double WeldedSection::area_lower_fl() const
 {
 	return lower_fl_width() * lower_fl_thick();
 }
 
-double WeldedSection::I_st()const
+double WeldedSection::inertia()const
 {
 	double I = 0.;
 
@@ -129,11 +129,11 @@ double WeldedSection::I_st()const
 			 (vertexes_[i].X * vertexes_[i + 1].Y -
 			  vertexes_[i + 1].X * vertexes_[i].Y);
 	}
-	return I / 12 - C_st() * C_st() * A_st();
+	return I / 12 - C_st() * C_st() * area();
 }
 double WeldedSection::smaller_fl_to_larger_fl_ratio()const
 {
-	double A_f2 = A_f2_st();
+	double A_f2 = upper_fl_width() * upper_fl_thick();
 	double A_f1 = lower_fl_width() * lower_fl_thick();
 
 	return (A_f2 <= A_f1)? A_f2 / A_f1: A_f1 / A_f2;
@@ -141,15 +141,15 @@ double WeldedSection::smaller_fl_to_larger_fl_ratio()const
 
 double WeldedSection::W_f2_st() const
 {
-	return I_st() / Z_f2_st();
+	return inertia() / Z_f2_st();
 }
 double WeldedSection::W_f1_st() const
 {
-	return I_st() / Z_f1_st();
+	return inertia() / Z_f1_st();
 }
 double WeldedSection::SW()const
 {
-	return A_st() * 7850 / 1000 / 1000 * 9.81;
+	return area() * 7850 / 1000 / 1000 * 9.81;
 }
 #ifndef NDEBUG
 void WeldedSection::print_data_to_logger(TFormLogger const & log)const
@@ -165,8 +165,8 @@ void WeldedSection::print_data_to_logger(TFormLogger const & log)const
 		log.print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
 	log.add_heading(L"Геометрические характеристики");
 	log.print_double(L"C = ", C_st(), L" мм");
-	log.print_double(L"A = ", A_st(), L" мм2");
-	log.print_double(L"I = ", I_st(), L" мм4");
+	log.print_double(L"A = ", area(), L" мм2");
+	log.print_double(L"I = ", inertia(), L" мм4");
 
 }
 #endif
@@ -222,6 +222,28 @@ void WeldedSection::draw(TCanvas* cnvs)
 //
 ////	Arrow ar {{30, 30}, 20, 4, 225};
 ////	ar.draw(cnvs);
+
+}
+void WeldedSection::print_input(TWord_Automation & report)const
+{
+	report.PasteTextPattern(name().c_str() ,"%name%");
+	report.PasteTextPattern(FloatToStrF(sect_height(), ffFixed, 15, 2),"%sect_height%");
+	report.PasteTextPattern(FloatToStrF(upper_fl_width(), ffFixed, 15, 2),"%upper_fl_width%");
+	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%upper_fl_thick%");
+	report.PasteTextPattern(FloatToStrF(lower_fl_width(), ffFixed, 15, 2),"%lower_fl_width%");
+	report.PasteTextPattern(FloatToStrF(lower_fl_thick(), ffFixed, 15, 2),"%lower_fl_thick%");
+	report.PasteTextPattern(FloatToStrF(web_height(), ffFixed, 15, 2),"%web_height%");
+	report.PasteTextPattern(FloatToStrF(web_thick(), ffFixed, 15, 2),"%web_thick%");
+	report.PasteTextPattern(FloatToStrF(0, ffFixed, 15, 2),"%radius%");
+
+}
+void WeldedSection::print_output(TWord_Automation & report)const
+{
+	report.PasteTextPattern(FloatToStrF(area(), ffFixed, 15, 2),"%area%");
+	report.PasteTextPattern(FloatToStrF(inertia(), ffFixed, 15, 2),"%inertia%");
+	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%modulus_upper_fl%");
+	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%modulus_lower_fl%");
+
 
 }
 

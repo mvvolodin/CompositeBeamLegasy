@@ -15,8 +15,8 @@ ComBeamInputSP35::ComBeamInputSP35(TCompositeBeamMainFormCntrlsState const & mai
 					 TFrmRebarCntrlsState const & rebar_frm_cntrls_state)
 {
 	glob_geom_ = make_glob_geom(main_frm_cntrls_state);
-	make_steel_section(st_sect_frm_cntrls_state);
-	make_concrete_section(main_frm_cntrls_state,
+	st_sect_ = make_steel_section(st_sect_frm_cntrls_state);
+	conc_sect_ = make_concrete_section(main_frm_cntrls_state,
 						  rebar_frm_cntrls_state,
 						  st_sect_ -> b_f2());
 	steel_ = make_steel(st_frm_cntrls_state, st_sect_ -> t_max());
@@ -47,7 +47,7 @@ Steel ComBeamInputSP35::make_steel(TDefineSteelFormCntrlsState const & st_frm_cn
 			st_frm_cntrls_state.edt_dens_data_,
 			st_frm_cntrls_state.edt_gamma_m_data_};
 }
-void ComBeamInputSP35::make_concrete_section(
+std::unique_ptr<GeneralConcreteSection const> ComBeamInputSP35::make_concrete_section(
 	TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state,
 	TFrmRebarCntrlsState const & rebar_frm_cntrls_state,
 	double b_uf)
@@ -69,7 +69,7 @@ void ComBeamInputSP35::make_concrete_section(
 	if (main_frm_cntrls_state.rdgrp_slab_type_ == 0)
 	{
 
-		conc_sect_.reset(new SlabConcreteSection{main_frm_cntrls_state.edt_h_f_flat_,
+		conc_sect.reset(new SlabConcreteSection{main_frm_cntrls_state.edt_h_f_flat_,
 												main_frm_cntrls_state.edt_h_n_,
 												main_frm_cntrls_state.edt_span_,
 												main_frm_cntrls_state.edt_width_left_,
@@ -89,6 +89,8 @@ void ComBeamInputSP35::make_concrete_section(
 //													  main_frm_cntrls_state.chck_bx_end_beam_,
 //													  rebars});
 	}
+
+	return conc_sect;
 }
 Concrete ComBeamInputSP35::make_concrete(TConcreteDefinitionFormCntrlsState
 	 const & conc_frm_cntrls_state)
@@ -105,22 +107,24 @@ Concrete ComBeamInputSP35::make_concrete(TConcreteDefinitionFormCntrlsState
 			conc_frm_cntrls_state.edt_gamma_bt_data_,
 			conc_frm_cntrls_state.edt_epsilon_b_lim_data_};
 }
-void ComBeamInputSP35::make_steel_section(
+std::unique_ptr<GeneralSteelSection const> ComBeamInputSP35::make_steel_section(
 	TSteelSectionFormCntrlsState const & st_sect_frm_cntrls_state)
 {
 	std::unique_ptr<GeneralSteelSection const> st_sect {nullptr};
 
 
 	if(st_sect_frm_cntrls_state.pg_cntrl_sect_type_ == 0)
-		st_sect_.reset(new RolledSection{st_sect_frm_cntrls_state.rd_grp_rolled_sect_type_,
+		st_sect.reset(new RolledSection{st_sect_frm_cntrls_state.rd_grp_rolled_sect_type_,
 										st_sect_frm_cntrls_state.cmb_bx_rolled_sect_num_});
 	else
-		st_sect_.reset(new WeldedSection{st_sect_frm_cntrls_state.edt_b_f1_,
+		st_sect.reset(new WeldedSection{st_sect_frm_cntrls_state.edt_b_f1_,
 										st_sect_frm_cntrls_state.edt_t_f1_,
 										st_sect_frm_cntrls_state.edt_b_f2_,
 										st_sect_frm_cntrls_state.edt_t_f2_,
 										st_sect_frm_cntrls_state.edt_h_w_,
 										st_sect_frm_cntrls_state.edt_t_w_});
+
+	return st_sect;
 }
 GlobGeom ComBeamInputSP35::make_glob_geom(TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state)
 {
@@ -153,10 +157,23 @@ Loads ComBeamInputSP35::make_loads(TCompositeBeamMainFormCntrlsState const & mai
 			0,
 			B};
 }
- WorkingConditionsFactors ComBeamInputSP35::make_working_conditions_fctrs(
-	TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state)
- {
+WorkingConditionsFactors ComBeamInputSP35::make_working_conditions_fctrs(
+TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state)
+{
 	return {main_frm_cntrls_state.edt_gamma_bi_,
 			main_frm_cntrls_state.edt_gamma_si_,
 			main_frm_cntrls_state.edt_gamma_c_};
- }
+}
+
+void ComBeamInputSP35::print(TWord_Automation & report)const
+{
+	glob_geom_.print(report);
+	work_cond_fctrs_.print(report);
+	conc_.print(report);
+	steel_.print(report);
+	loads_.print(report);
+	st_sect_ -> print_input(report);
+//    conc_sect_ -> print_input(report);
+
+
+}

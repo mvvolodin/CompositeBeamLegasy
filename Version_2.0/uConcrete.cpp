@@ -73,15 +73,15 @@ Concrete::Concrete()
 Concrete::Concrete(ConcreteBasic concrete_basic,
 				   double        density,
 				   double        phi_b_cr,
-				   double        gamma_b,
-				   double        gamma_bt,
+				   double 		 mater_coeff,
+				   double        mater_coeff_tens,
 				   double        epsilon_b_lim):
-						ConcreteBasic (concrete_basic),
-						density_      (density / std::pow(static_cast<int>(LengthUnit::m),3)),
-						phi_b_cr_     (phi_b_cr),
-						gamma_b_      (gamma_b),
-						gamma_bt_     (gamma_bt),
-						epsilon_b_lim_(epsilon_b_lim)
+						ConcreteBasic 	  (concrete_basic),
+						density_      	  (density / std::pow(static_cast<int>(LengthUnit::m),3)),
+						phi_b_cr_     	  (phi_b_cr),
+						mater_coeff_      (mater_coeff),
+						mater_coeff_tens_ (mater_coeff_tens),
+						epsilon_b_lim_	  (epsilon_b_lim)
 {
 }
 void ConcreteBasic::save(ostream& ostr) const
@@ -116,8 +116,8 @@ void Concrete::save(ostream& ostr) const
 
 	ostr.write((char*)&density_ ,sizeof(density_));
 	ostr.write((char*)&phi_b_cr_ ,sizeof(phi_b_cr_));
-	ostr.write((char*)&gamma_b_ ,sizeof(gamma_b_));
-	ostr.write((char*)&gamma_bt_ ,sizeof(gamma_bt_));
+	ostr.write((char*)&mater_coeff_ ,sizeof(mater_coeff_));
+	ostr.write((char*)&mater_coeff_tens_ ,sizeof(mater_coeff_tens_));
 	ostr.write((char*)&epsilon_b_lim_ ,sizeof(epsilon_b_lim_));
 }
 void Concrete::load(istream& istr)
@@ -126,13 +126,11 @@ void Concrete::load(istream& istr)
 
 	istr.read((char*)&density_ ,sizeof(density_));
 	istr.read((char*)&phi_b_cr_ ,sizeof(phi_b_cr_));
-	istr.read((char*)&gamma_b_ ,sizeof(gamma_b_));
-	istr.read((char*)&gamma_bt_ ,sizeof(gamma_bt_));
+	istr.read((char*)&mater_coeff_ ,sizeof(mater_coeff_));
+	istr.read((char*)&mater_coeff_tens_ ,sizeof(mater_coeff_tens_));
 	istr.read((char*)&epsilon_b_lim_ ,sizeof(epsilon_b_lim_));
 }
-//-----------------------------------------------------------------------------
-//Присваение данным класса значений по умолчанию
-//-----------------------------------------------------------------------------
+
 void Concrete::set_default_values()
 {
 	grade_ = L"B30";
@@ -141,9 +139,21 @@ void Concrete::set_default_values()
 	R_bn_ = 22;
 	R_btn_ = 1.75;
 	phi_b_cr_ = 2.3;
-	gamma_b_ =  1.3;
-	gamma_bt_ = 1.5;
+	mater_coeff_ =  1.3;
+	mater_coeff_tens_ = 1.5;
 	epsilon_b_lim_ = 0.0016;
+}
+void Concrete::print(TWord_Automation & report)const
+{
+	report.PasteTextPattern(grade_, "%conc_grade%");
+	report.PasteTextPattern(FloatToStrF(R_bn_, ffFixed, 15, 2), "%R_bn%");
+	report.PasteTextPattern(FloatToStrF(R_btn_, ffFixed, 15, 2), "%R_btn%");
+	report.PasteTextPattern(FloatToStrF(density_, ffFixed, 15, 2), "%density%");
+	report.PasteTextPattern(FloatToStrF(E_b_, ffFixed, 15, 2), "%E_b%");
+	report.PasteTextPattern(FloatToStrF(mater_coeff_, ffFixed, 15, 2), "%gamma_b%");
+	report.PasteTextPattern(FloatToStrF(mater_coeff_tens_, ffFixed, 15, 2), "%gamma_bt%");
+	report.PasteTextPattern(FloatToStrF(epsilon_b_lim_, ffFixed, 15, 2), "%epsilon_b_lim%");
+
 }
 
 

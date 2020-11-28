@@ -48,14 +48,13 @@ void GlobGeom::init_sect_lst()
 
 }
 
-void GlobGeom::print_data_to_report(TWord_Automation & report)const
+void GlobGeom::print(TWord_Automation & report)const
 {
-//	report.PasteTextPattern(is_end_beam_to_str(), "%end_beam%");
-//	report.PasteTextPattern(FloatToStrF(span(LengthUnit::mm), ffFixed, 15, 2), "%span%");
-//	report.PasteTextPattern(FloatToStrF(get_spacing_left(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_left% ");
-//	report.PasteTextPattern(FloatToStrF(get_spacing_right(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_right% ");
+	report.PasteTextPattern(end_beam_, "%end_beam%");
+	report.PasteTextPattern(FloatToStrF(span_, ffFixed, 15, 2), "%span%");
+	report.PasteTextPattern(FloatToStrF(spacing_left_, ffFixed, 15, 2), "%spacing_left%");
+	report.PasteTextPattern(FloatToStrF(spacing_right_, ffFixed, 15, 2), "%spacing_right% ");
 }
-
 
 bool GlobGeom::is_end_beam()const
 {

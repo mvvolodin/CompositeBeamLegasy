@@ -37,7 +37,7 @@ void WorkingConditionsFactors::set_default_values()
 	gamma_rebar_ = 1.;
 	gamma_com_beam_  = 1.;
 }
-void WorkingConditionsFactors::print_data_to_report_SP35(TWord_Automation & report)const
+void WorkingConditionsFactors::print(TWord_Automation & report)const
 {
 	report.PasteTextPattern(FloatToStrF(m_b(), ffFixed, 15, 2),"%gamma_c%");
 	report.PasteTextPattern(FloatToStrF(m_r(), ffFixed, 15, 2),"%gamma_bi%");

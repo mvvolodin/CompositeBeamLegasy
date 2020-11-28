@@ -65,7 +65,7 @@ public:
 			 double spacing_right,
 			 int tmp_sup_num);
 
-	void print_data_to_report(TWord_Automation & report)const;
+	void print(TWord_Automation & report)const;
 
 	bool is_end_beam()const;
 	std::basic_string<char16_t>  is_end_beam_to_str()const;

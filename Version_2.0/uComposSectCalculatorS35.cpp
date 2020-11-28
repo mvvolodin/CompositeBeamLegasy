@@ -7,24 +7,26 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-ComposSectCalculatorSP35::ComposSectCalculatorSP35
-							(IntForcesCalculator const intr_frcs_calculator,
-							 WorkingConditionsFactors const work_cond_factors,
-							 Steel const steel,
-							 std::shared_ptr<GeneralSteelSection const> st_sect,
-							 Concrete const concrete,
-							 std::shared_ptr<GeneralConcreteSection const> conc_sect):
-								intr_frcs_calculator_(intr_frcs_calculator),
-								work_cond_factors_(work_cond_factors),
-								com_sect_(ComposSectGeomSP35(
-											steel, st_sect, concrete ,conc_sect,
-											ComposSectGeomSP35::ConcStateConsid::normal)),
-								com_sect_shr_(ComposSectGeomSP35(
-												steel, st_sect, concrete ,conc_sect,
-												ComposSectGeomSP35::ConcStateConsid::shrink)),
-								com_sect_kr_(ComposSectGeomSP35(
-												steel, st_sect, concrete ,conc_sect,
-												ComposSectGeomSP35::ConcStateConsid::creep)){}
+ComposSectCalculatorSP35::ComposSectCalculatorSP35(ComBeamInputSP35 const & input):
+	intr_frcs_calculator_({input.glob_geom().tmp_sup_num(),
+						   input.glob_geom().span(),
+						   input.loads()}),
+	work_cond_factors_(input.work_cond_fctrs()),
+	com_sect_({input.steel(),
+			   input.steel_sect().get(),
+			   input.concrete(),
+			   input.concrete_sect().get(),
+			   ComposSectGeomSP35::ConcStateConsid::normal}),
+	com_sect_shr_({input.steel(),
+			   input.steel_sect().get(),
+			   input.concrete(),
+			   input.concrete_sect().get(),
+			   ComposSectGeomSP35::ConcStateConsid::shrink}),
+	com_sect_kr_({input.steel(),
+			   input.steel_sect().get(),
+			   input.concrete(),
+			   input.concrete_sect().get(),
+			   ComposSectGeomSP35::ConcStateConsid::creep}){}
 
 ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<Node> const & nodes_lst)
 {

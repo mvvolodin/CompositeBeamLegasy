@@ -7,10 +7,10 @@
 #pragma package(smart_init)
 
 
- ComposSectGeomSP35::ComposSectGeomSP35(Steel const steel,
-										std::shared_ptr<GeneralSteelSection const> st_sect,
-										Concrete const concrete,
-										std::shared_ptr<GeneralConcreteSection const> conc_sect,
+ ComposSectGeomSP35::ComposSectGeomSP35(Steel const & steel,
+										GeneralSteelSection const * const st_sect,
+										Concrete const & concrete,
+										GeneralConcreteSection const * const conc_sect,
 										ConcStateConsid const conc_st_consid)
 								:steel_(steel),
 								 st_sect_(st_sect),
@@ -67,7 +67,7 @@ void ComposSectGeomSP35::calculate(double const E_b)
 
 	H_stb_ = conc_sect_ -> h() + st_sect_ -> h_s();
 
-	const double A_st = st_sect_ -> A_st();
+	const double A_st = st_sect_ -> A_s();
 	const double A_b = conc_sect_ -> A_b();
 	const double b_sl = conc_sect_ -> b_sl();
 
@@ -87,8 +87,8 @@ void ComposSectGeomSP35::calculate(double const E_b)
 
 	Z_s_stb_ = S_stb_/A_stb_;
 
-	I_stb_ = st_sect_ -> I_st() +
-			st_sect_ -> A_st() * Z_s_stb_ * Z_s_stb_ +
+	I_stb_ = st_sect_ -> I_s() +
+			st_sect_ -> A_s() * Z_s_stb_ * Z_s_stb_ +
 			1/n_b_ * conc_sect_ -> I_b() +
 			1/n_b_ * conc_sect_ -> A_b() * Z_b_stb_ * Z_b_stb_ +
 			1/n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_stb_r_u_ * Z_stb_r_u_ +
@@ -112,7 +112,7 @@ double ComposSectGeomSP35::E_st()const
 }
 double ComposSectGeomSP35::I_s()const
 {
-	return st_sect_ -> I_st();
+	return st_sect_ -> I_s();
 }
 
 double ComposSectGeomSP35::W_b_stb()const
@@ -151,15 +151,15 @@ double ComposSectGeomSP35::W_s1_s()const
 }
 double ComposSectGeomSP35::A_s2()const
 {
-	return st_sect_ -> A_f2_st();
+	return st_sect_ -> A_s2_s();
 }
 double ComposSectGeomSP35::A_s1()const
 {
-	return st_sect_ -> A_f1_st();
+	return st_sect_ -> A_s1_s();
 }
 double ComposSectGeomSP35::A_s()const
 {
-	return st_sect_ -> A_st() ;
+	return st_sect_ -> A_s() ;
 }
 double ComposSectGeomSP35::A_b()const
 {
@@ -214,9 +214,9 @@ double ComposSectGeomSP35::eps_shr()const
 	return concrete_.eps_shr();
 }
 
-void ComposSectGeomSP35::print_data_to_report(TWord_Automation & report)const
+void ComposSectGeomSP35::print(TWord_Automation & report)const
 {
-	st_sect_ -> print_data_to_report(report);
+	st_sect_ -> print_output(report);
 	conc_sect_ -> print_data_to_report(report);
 
 	report.PasteTextPattern(FloatToStrF(A_stb_, ffFixed, 15, 2),"%A_stb%");
@@ -241,3 +241,8 @@ void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
 
 }
 #endif
+
+GeneralSteelSection const * const ComposSectGeomSP35::st_sect()const
+{
+	return st_sect_;
+}

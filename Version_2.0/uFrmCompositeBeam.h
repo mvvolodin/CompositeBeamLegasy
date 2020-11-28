@@ -59,7 +59,7 @@
 
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 
-class TCompositeBeamMainForm : public TForm, public IObserver_, public ICompositeBeam
+class TCompositeBeamMainForm : public TForm
 {
 
 __published:	// IDE-managed Components
@@ -187,9 +187,6 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox1;
 	TMenuItem *Help;
 	TRadioGroup *rd_grp_code;
-	TButton *btn_save;
-	TButton *btn_load;
-	TButton *Button1;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -233,29 +230,9 @@ private:
 
 	std::unique_ptr<TFormLogger> frm_logger_;
 
-	CompositeBeamCalculator composite_beam_calculator_; //Основной объект в программе
-
-	Geometry update_geometry();//Инициализация топологии
-	Loads update_loads(); //Инициализация нагрузок
-	Loads update_loads(double SW_st_beam, double conc_sect, double SW_corrug_sheet);
-	ISection update_i_section();//Инициализация объекта геометрия двутавра
-	Steel update_steel_i_section(); //Инициализация стали двутавра
-	ConcretePart update_concrete_part();//Инициализация бетонной части композитного сечения
-	std::unique_ptr<GeneralConcreteSection const> make_concrete_section(double b_uf);
-	std::unique_ptr<GeneralSteelSection const> make_steel_section();
-	Concrete make_concrete();
-	Steel make_steel(double t_max);
-	Loads make_loads(double SW_st_beam, double SW_sheets, double SW_conc, double B);
-	Geometry make_geometry();
-	GlobGeom make_glob_geom();
-	WorkingConditionsFactors make_working_cond_factors();
-	SteelPart update_steel_part();
-	StudsOnBeam update_studs_on_beam();//Инициализация упоров
-	WorkingConditionsFactors update_working_conditions_factors();//Инициализация коэффициентов условий работы
 
 	void set_form_controls();
-	void update_composite_beam();
-    void generate_report();
+	void generate_report();
 	void generate_report2();
 	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
 	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения
@@ -281,11 +258,6 @@ private:
 	bool modify_project;  // признак изменения проекта после сохранения
 	char ModelFile[240]; //Это имя файла?
 	AnsiString FileDir_Name; //Это имя директории?
-
-	virtual void update(IPublisher* ipublisher) override;
-	void register_observers();
-	void register_I_composite_beam();
-	virtual double get_t_max()const{return composite_beam_calculator_.get_composite_section().get_steel_part().get_section().get_t_uf();};
 
 	void update_cntrls();
 	void update_all_frms_cntrls();

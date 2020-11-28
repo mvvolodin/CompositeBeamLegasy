@@ -9,11 +9,9 @@
 
 IntForcesCalculator::IntForcesCalculator(int const s_num,
 										 double const L,
-										 double const B,
 										 Loads const & loads):
 											s_num_(s_num),
 											L_(L),
-											B_(B),
 											loads_(loads){}
 double IntForcesCalculator::R_1a(int sup_index)const
 {

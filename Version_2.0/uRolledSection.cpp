@@ -94,20 +94,20 @@ double RolledSection::C_st()const
 {
 	return C_;
 }
-double RolledSection::A_f1_st()const
+double RolledSection::area_upper_fl()const
 {
 	return lower_fl_width_ * lower_fl_thick_;
 }
-double RolledSection::A_f2_st()const
+double RolledSection::area_lower_fl()const
 {
 	return upper_fl_width_ * upper_fl_thick_;
 }
-double RolledSection::A_st()const
+double RolledSection::area()const
 {
 	return A_;
 }
 
-double RolledSection::I_st()const
+double RolledSection::inertia()const
 {
 	return I_;
 }
@@ -118,7 +118,7 @@ double RolledSection::smaller_fl_to_larger_fl_ratio()const
 
 double RolledSection::SW()const
 {
-	return A_st() * 7850 / 1000 / 1000 * 9.81;
+	return area() * 7850 / 1000 / 1000 * 9.81;
 }
 double RolledSection::W_f2_st()const
 {
@@ -135,6 +135,27 @@ double RolledSection::Z_f2_st() const
 double RolledSection::Z_f1_st()const
 {
 	return C_;
+}
+void RolledSection::print_input(TWord_Automation & report)const
+{
+	report.PasteTextPattern(name().c_str() ,"%name%");
+}
+void RolledSection::print_output(TWord_Automation & report)const
+{
+	report.PasteTextPattern(FloatToStrF(sect_height(), ffFixed, 15, 2),"%sect_height%");
+	report.PasteTextPattern(FloatToStrF(upper_fl_width(), ffFixed, 15, 2),"%upper_fl_width%");
+	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%upper_fl_thick%");
+	report.PasteTextPattern(FloatToStrF(lower_fl_width(), ffFixed, 15, 2),"%lower_fl_width%");
+	report.PasteTextPattern(FloatToStrF(lower_fl_thick(), ffFixed, 15, 2),"%lower_fl_thick%");
+	report.PasteTextPattern(FloatToStrF(web_height(), ffFixed, 15, 2),"%web_height%");
+	report.PasteTextPattern(FloatToStrF(web_thick(), ffFixed, 15, 2),"%web_thick%");
+
+	report.PasteTextPattern(FloatToStrF(area(), ffFixed, 15, 2),"%area%");
+	report.PasteTextPattern(FloatToStrF(inertia(), ffFixed, 15, 2),"%inertia%");
+	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%modulus_upper_fl%");
+	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%modulus_lower_fl%");
+
+
 }
 #ifndef NDEBUG
 void RolledSection::print_data_to_logger(TFormLogger const & log)const

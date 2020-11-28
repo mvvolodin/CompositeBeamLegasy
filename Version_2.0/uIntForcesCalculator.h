@@ -12,7 +12,6 @@ class IntForcesCalculator{
 	public:
 	IntForcesCalculator(int const s_num,
 						double const L,
-						double const B,
 						Loads const & loads);
 
 	double R_1a(int sup_index)const;
@@ -48,7 +47,6 @@ private:
 
 	int const s_num_;
 	double const L_;
-	double const B_;
 	Loads const  loads_;
 
 	double M_point_load(double x, double P, double x_P)const;

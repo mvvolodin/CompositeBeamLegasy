@@ -24,7 +24,7 @@ public:
 	double m_r()const{return gamma_rebar_;}
 	double m()const{return gamma_com_beam_;}
 
-	void print_data_to_report_SP35(TWord_Automation & report)const;
+	void print(TWord_Automation & report)const;
 private:
 	double gamma_conc_= 0.;
 	double gamma_rebar_ = 0.;

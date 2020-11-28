@@ -37,14 +37,16 @@ public:
 	double Z_f2_st() const override;
     double Z_f1_st() const override;
 	double C_st() const override;
-	double A_st()const override;
-	double A_f2_st() const override;
-    double A_f1_st() const override;
-	double I_st() const override;
+	double area() const override;
+	double area_upper_fl() const override ;
+	double area_lower_fl() const override;
+	double inertia() const override;
 	double W_f2_st() const override;
 	double W_f1_st() const override;
 	double smaller_fl_to_larger_fl_ratio()const override;
 	double SW()const override;
+	void print_input(TWord_Automation & report)const override;
+	void print_output(TWord_Automation & report)const override;
 #ifndef NDEBUG
 	void print_data_to_logger(TFormLogger const & log)const override;
 #endif

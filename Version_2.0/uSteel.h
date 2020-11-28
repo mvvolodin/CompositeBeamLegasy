@@ -7,6 +7,7 @@
 #include <istream>
 #include <ostream>
 #include "Units.h"
+#include "uWord_Automation.h"
 //---------------------------------------------------------------------------
 class Steel{
 public:
@@ -33,6 +34,8 @@ public:
 	double get_gamma_m () const {return gamma_m_;}
 	double get_density () const {return density_;}
 	double get_t_max () const {return t_max_;}
+
+	void print(TWord_Automation & report)const;
 private:
 	String standard_ = "";
 	String steel_grade_ = "";

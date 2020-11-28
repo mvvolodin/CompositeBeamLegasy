@@ -127,7 +127,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 528
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -2902,7 +2902,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 3
           Width = 426
           Height = 393
-          ActivePage = tb_sht_composite_geom_char
+          ActivePage = tb_sht_steel_geom_char
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1057#1090#1072#1083#1077#1078#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
@@ -3025,32 +3025,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       #1057#1055' 35.13330.2011')
     TabOrder = 7
     OnClick = rd_grp_codeClick
-  end
-  object btn_save: TButton
-    Left = 538
-    Top = 8
-    Width = 75
-    Height = 25
-    Caption = 'Save'
-    TabOrder = 8
-    OnClick = btn_saveClick
-  end
-  object btn_load: TButton
-    Left = 457
-    Top = 8
-    Width = 75
-    Height = 25
-    Caption = 'Load'
-    TabOrder = 9
-    OnClick = btn_loadClick
-  end
-  object Button1: TButton
-    Left = 647
-    Top = 8
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 10
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
