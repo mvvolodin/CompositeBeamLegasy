@@ -230,7 +230,6 @@ private:
 
 	std::unique_ptr<TFormLogger> frm_logger_;
 
-
 	void set_form_controls();
 	void generate_report();
 	void generate_report2();
@@ -241,16 +240,24 @@ private:
 	void fill_cmb_bx_impact();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
 	void fill_cmb_bx_corrugated_sheets();
 	void fill_results_grid();
-	void fill_steel_sect_geometr_grid();
-	void fill_concrete_sect_geometr_grid();
-	void fill_composite_sect_geometr_grid();
+
+	void update_grids(int code_indx);
+	void update_steel_sect_geometr_grid(int code_indx);
+	void update_concrete_sect_geometr_grid(int code_indx);
+	void update_composite_sect_geometr_grid(int code_indx);
+	void update_results_grid(int code_indx);
+
 	void draw_diagram();//Отрисовка эпюр
 	void draw_diagram2();
+
 	void calculate_composite_beam();
-    void calculate_composite_beam_SP35();
+	void calculate_composite_beam_SP266();
+	void calculate_composite_beam_SP35();
+	void after_calculation();
+
 	void clean_static_scheme();
 	void clean_grid(TStringGrid* str_grd);
-	void update_GUI();
+	void update_GUI(int code_indx);
 	void set_GUI_SP35();
 	void set_GUI_SP266();
 

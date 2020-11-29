@@ -8,9 +8,9 @@
 //---------------------------------------------------------------------------
 struct TCompositeBeamMainFormCntrlsState{
 	// Геометрия
-	double edt_span_ {8000};
-	double edt_width_left_ {3000};
-	double edt_width_right_{3000};
+	double edt_span_ {17885};
+	double edt_width_left_ {5100};
+	double edt_width_right_{5100};
 	bool chck_bx_end_beam_ {false};
 	int cmb_bx_number_propping_supports_ {0};
 
@@ -51,7 +51,7 @@ struct TCompositeBeamMainFormCntrlsState{
 
 	//Тип жб плиты
 
-	int rdgrp_slab_type_ {1};
+	int rdgrp_slab_type_ {0};
 
 	//Плита по настилу
 
@@ -62,8 +62,8 @@ struct TCompositeBeamMainFormCntrlsState{
 
 	//Плита плоская
 
-	double edt_h_f_flat_ {95};
-	double edt_h_n_ {75};
+	double edt_h_f_flat_ {90};
+	double edt_h_n_ {0};
 
 	void save(ostream & os);
 	void load(istream & is);
@@ -80,7 +80,7 @@ struct TSteelSectionFormCntrlsState{
 	double edt_t_w_  {12};
 
 	int pg_cntrl_sect_type_ {0};
-	int cmb_bx_rolled_sect_num_ {22};
+	int cmb_bx_rolled_sect_num_ {47};
 	int rd_grp_rolled_sect_type_ {0};
 
 	void save_cntls_state(ostream & os);
@@ -89,13 +89,13 @@ struct TSteelSectionFormCntrlsState{
 //--------------------------------------------------------------------------
 struct TFrmRebarCntrlsState{
 
-	int cmb_bx_rebar_grade_ {2};
+	int cmb_bx_rebar_grade_ {0};
 	double edt_E_s_ {200000};
 	double edt_safety_factor_ {1.15};
-	double edt_diameter_ {0};
-	double edt_b_ {200};
-	double edt_a_u_ {50};
-	double edt_a_l_ {50};
+	double edt_diameter_ {6};
+	double edt_b_ {100};
+	double edt_a_u_ {15};
+	double edt_a_l_ {15};
 
 	void save_cntls_state(ostream & os);
 	void load_cntrls_state(istream & is);
@@ -115,7 +115,7 @@ struct TConcreteDefinitionFormCntrlsState{
 //---------------------------------------------------------------------------
 struct TDefineSteelFormCntrlsState{
 	int cmb_bx_standard_index_{0};
-	int cmb_bx_steel_grades_index_{2};
+	int cmb_bx_steel_grades_index_{6};
 	double edt_E_data_{206000};
 	double edt_G_data_{79200};
 	double edt_nu_data_{0.3};

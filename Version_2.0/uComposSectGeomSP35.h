@@ -8,6 +8,7 @@
 #endif
 //---------------------------------------------------------------------------
 #include <memory>
+#include <Vcl.Grids.hpp>
 #include "uGeneralConcreteSection.h"
 #include "uGeneralSteelSection.h"
 #include "uConcrete.h"
@@ -68,7 +69,9 @@ public:
 	double A_r()const;
 
 	void print(TWord_Automation & report)const;
+	void fill_grid(TStringGrid* str_grid)const;
 	GeneralSteelSection const * const st_sect()const;
+	GeneralConcreteSection const * const conc_sect()const;
 
 #ifndef NDEBUG
 	void print_data_to_logger(TFormLogger const & log)const;
@@ -95,13 +98,12 @@ private:
 	double I_stb_= 0.;  //Момент инерции сталежелезобетонного сечения приведённого к металлу
 	double W_b_stb_= 0.;//Момент сопротивления сталежелезобетонного сечения для Ц.Т. железобетонной плиты
 
+	double Z_s_r_u_= 0.;//расстояние между Ц.Т. стальной балки и верхней арматурой
+	double Z_s_r_l_= 0.;//расстояние между Ц.Т. стальной балки и нижней арматурой
+	double Z_b_s_= 0.; //Расстояние между центрами тяжести плиты и стальной балки
+
 	double Z_s_stb_= 0.;//Расстояние между центром тяжести стального и сталежелезобетонного сечения
 	double Z_b_stb_= 0.;  //Расстояние между Ц.Т. бетонного и сталежелезобетонного сечения
-
-	double Z_st_r_u_= 0.;//расстояние между Ц.Т. стальной балки и верхней арматурой
-	double Z_st_r_l_= 0.;//расстояние между Ц.Т. стальной балки и нижней арматурой
-	double Z_b_st_= 0.; //Расстояние между центрами тяжести плиты и стальной балки
-
 	double Z_stb_r_u_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и верхней арматурой
 	double Z_stb_r_l_= 0.;//Расстояние между Ц.Т. сталежелезобетонного сечения и нижней арматурой
 

@@ -44,6 +44,8 @@ public:
 
 	ComposSectGeomSP35 const & com_sect()const;
 
+	void fill_grid(TStringGrid* str_grid)const;
+
 private:
 	ComposSectGeomSP35 const com_sect_;
 	ComposSectGeomSP35 const com_sect_shr_;

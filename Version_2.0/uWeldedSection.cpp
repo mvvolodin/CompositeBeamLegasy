@@ -74,16 +74,16 @@ double WeldedSection::sect_height()const
 {
 	return vertexes_[7].Y - vertexes_[0].Y;
 }
-double WeldedSection::Z_f2_st() const
+double WeldedSection::grav_cent_upper_fl_dist() const
 {
-	return vertexes_[7].Y - C_st();
+	return vertexes_[7].Y - grav_cent();
 }
-double WeldedSection::Z_f1_st() const
+double WeldedSection::grav_cent_lower_fl_dist() const
 {
-	return C_st();
+	return grav_cent();
 }
 
-double WeldedSection::C_st()const
+double WeldedSection::grav_cent()const
 {
 	double C = 0.;
 
@@ -129,7 +129,7 @@ double WeldedSection::inertia()const
 			 (vertexes_[i].X * vertexes_[i + 1].Y -
 			  vertexes_[i + 1].X * vertexes_[i].Y);
 	}
-	return I / 12 - C_st() * C_st() * area();
+	return I / 12 - grav_cent() * grav_cent() * area();
 }
 double WeldedSection::smaller_fl_to_larger_fl_ratio()const
 {
@@ -139,13 +139,13 @@ double WeldedSection::smaller_fl_to_larger_fl_ratio()const
 	return (A_f2 <= A_f1)? A_f2 / A_f1: A_f1 / A_f2;
 }
 
-double WeldedSection::W_f2_st() const
+double WeldedSection::modulus_upper_fl() const
 {
-	return inertia() / Z_f2_st();
+	return inertia() / grav_cent_upper_fl_dist();
 }
-double WeldedSection::W_f1_st() const
+double WeldedSection::modulus_lower_fl() const
 {
-	return inertia() / Z_f1_st();
+	return inertia() / grav_cent_lower_fl_dist();
 }
 double WeldedSection::SW()const
 {
@@ -164,7 +164,7 @@ void WeldedSection::print_data_to_logger(TFormLogger const & log)const
 	for(auto v:vertexes_)
 		log.print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
 	log.add_heading(L"Геометрические характеристики");
-	log.print_double(L"C = ", C_st(), L" мм");
+	log.print_double(L"C = ", grav_cent(), L" мм");
 	log.print_double(L"A = ", area(), L" мм2");
 	log.print_double(L"I = ", inertia(), L" мм4");
 

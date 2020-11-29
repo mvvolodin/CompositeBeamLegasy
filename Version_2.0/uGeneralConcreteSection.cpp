@@ -93,7 +93,14 @@ double GeneralConcreteSection::A_b() const
 }
 double GeneralConcreteSection::I_b() const
 {
-	return h_f_ * b_sl_ * b_sl_ * b_sl_ / 12;
+	return b_sl_ * h_f_ * h_f_ * h_f_ / 12;
+}
+void GeneralConcreteSection::fill_grid(TStringGrid* str_grid)const
+{
+	str_grid->Cells [1][1]=FloatToStrF(b_sl(), ffFixed, 15, 0);
+	str_grid->Cells [1][2]=FloatToStrF(C_b(), ffFixed, 15, 0);
+	str_grid->Cells [1][3]=FloatToStrF(A_b(), ffFixed, 15, 0);
+	str_grid->Cells [1][4]=FloatToStrF(I_b(), ffFixed, 15, 0);
 }
 
 void GeneralConcreteSection::print_data_to_report(TWord_Automation & report)const

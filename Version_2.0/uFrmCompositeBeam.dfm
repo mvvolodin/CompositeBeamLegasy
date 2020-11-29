@@ -620,7 +620,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Height = 60
         Caption = #1055#1083#1086#1089#1082#1072#1103' '#1087#1083#1080#1090#1072
         TabOrder = 2
-        Visible = False
         object lbl_h_f_flat: TLabel
           Left = 16
           Top = 29
@@ -658,7 +657,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         Height = 60
         Caption = '  '#1055#1083#1080#1090#1072' '#1087#1086' '#1085#1072#1089#1090#1080#1083#1091'  '
         TabOrder = 3
-        Visible = False
         object lbl_h_f: TLabel
           Left = 214
           Top = 27
@@ -2902,7 +2900,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 3
           Width = 426
           Height = 393
-          ActivePage = tb_sht_steel_geom_char
+          ActivePage = tb_sht_concrete_geom_char
           TabOrder = 0
           object tb_sht_composite_geom_char: TTabSheet
             Caption = #1057#1090#1072#1083#1077#1078#1077#1083#1077#1079#1086#1073#1077#1090#1086#1085#1085#1086#1077' '#1089#1077#1095#1077#1085#1080#1077
@@ -2997,6 +2995,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         ScrollBars = ssNone
         TabOrder = 0
         OnDrawCell = strng_grd_results_rendering
+        ExplicitTop = 2
         ColWidths = (
           513
           349)

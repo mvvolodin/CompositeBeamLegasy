@@ -63,6 +63,8 @@ public:		// User declarations
 
 	String info()const;
 	TConcreteDefinitionFormCntrlsState const & cntrls_state(){return cntrls_state_;}
+	void set_GUI_SP35();
+	void set_GUI_SP266();
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TConcreteDefinitionForm *ConcreteDefinitionForm;

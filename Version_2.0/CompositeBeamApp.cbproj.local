@@ -95,12 +95,12 @@
     <Transaction>1899.12.30 00:00:00.000.858,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\RebarDefinitionForm.dfm=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit2.dfm</Transaction>
     <Transaction>1899.12.30 00:00:00.000.594,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\SteelDefinitionForm.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam v.5\Composite Beam\Composite Beam\SteelDefinitionFormUnit.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.664,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeSectionUnit.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\CompositeSection.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.044,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.281,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.674,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.872,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uHelpForm.dfm=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmHelp.dfm</Transaction>
     <Transaction>1899.12.30 00:00:00.000.131,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\ConcreteDefinitionFormUnit.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\uFrmConcreteDefinition.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.829,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\RebarUnit.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Rebar.h</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.044,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.674,C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\InternalForcesCalculator.h=C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\uInternalForcesCalculator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.902,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\UnitObserver.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.833,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\Unit1.h=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\ReportGenerator.h</Transaction>
     <Transaction>1899.12.30 00:00:00.000.923,C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\SteelList.xml=C:\Users\Maksim\Documents\Embarcadero\Studio\Projects\Composite Beam\SteelProperties.xml</Transaction>
@@ -284,6 +284,7 @@
     <File Path="uFrmConcrete.cpp"/>
     <File Path="uFrmConcrete.cpp"/>
     <File Path="uFrmConcrete.cpp"/>
+    <File Path="uWord_Automation.h"/>
     <File Path="String_doubleUnit.h"/>
     <File Path="Units.h"/>
     <File Path="uFrmsCntrlsState.h"/>
@@ -589,6 +590,7 @@
     <File Path="uConcrete.cpp"/>
     <File Path="uConcrete.cpp"/>
     <File Path="uConcrete.cpp"/>
+    <File Path="uWord_Automation.h"/>
     <File Path="Units.h"/>
     <File Path="uConcrete.cpp"/>
     <File Path="uConcrete.h"/>
@@ -752,10 +754,12 @@
     <File Path="uSteel.cpp"/>
     <File Path="uSteel.h"/>
     <File Path="Units.h"/>
+    <File Path="uWord_Automation.h"/>
     <File Path="uSteel.h"/>
     <File Path="uSteelPart.cpp"/>
     <File Path="uSteelPart.cpp"/>
     <File Path="uSteelPart.cpp"/>
+    <File Path="uWord_Automation.h"/>
     <File Path="uSteel.h"/>
     <File Path="uISection.h"/>
     <File Path="Units.h"/>

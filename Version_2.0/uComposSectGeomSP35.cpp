@@ -32,7 +32,7 @@ double ComposSectGeomSP35::E_ef_kr()const
 
 	double const phi_kr = gamma_f_shr_kr * E_b * c_n;
 
-	double const nu = A_b / n_b_ * (1 / A_s() + Z_b_st_ * Z_b_st_ / I_s());
+	double const nu = A_b / n_b_ * (1 / A_s() + Z_b_s_ * Z_b_s_ / I_s());
 
 	return (nu - 0.5 * phi_kr + 1) / ((1 + phi_kr) * nu + 0.5 * phi_kr + 1) * E_b;
 }
@@ -76,16 +76,19 @@ void ComposSectGeomSP35::calculate(double const E_b)
 			1. / n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() *  b_sl +
 			1. / n_r_ * conc_sect_ -> rebars().A_l_s_per_unit() *  b_sl;
 
-	Z_b_st_ = conc_sect_ -> C_b() + st_sect_ -> Z_f2_st();
-	Z_st_r_u_ = st_sect_ -> Z_f2_st() + conc_sect_ -> h() - conc_sect_ -> rebars().a_u();
-	Z_st_r_l_ = st_sect_ -> Z_f2_st() + conc_sect_ -> rebars().a_l();
+	Z_b_s_ = conc_sect_ -> C_b() + st_sect_ -> Z_s2_s();
+	Z_s_r_u_ = st_sect_ -> Z_s2_s() + conc_sect_ -> h() - conc_sect_ -> rebars().a_u();
+	Z_s_r_l_ = st_sect_ -> Z_s2_s() + conc_sect_ -> rebars().a_l();
 
 
-	S_stb_ = conc_sect_ -> A_b() * Z_b_st_ / n_b_ +
-			 1 / n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_st_r_u_ +
-			 1 / n_r_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_-> b_sl() * Z_st_r_l_;
+	S_stb_ = conc_sect_ -> A_b() * Z_b_s_ / n_b_ +
+			 1 / n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_s_r_u_ +
+			 1 / n_r_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_-> b_sl() * Z_s_r_l_;
 
 	Z_s_stb_ = S_stb_/A_stb_;
+	Z_b_stb_ = Z_b_s_ - Z_s_stb_;
+	Z_stb_r_u_ = Z_b_stb_ - conc_sect_ -> C_b() + conc_sect_ -> h() - conc_sect_ -> rebars().a_u();
+	Z_stb_r_l_ = Z_b_stb_ - conc_sect_ -> C_b() + conc_sect_ -> rebars().a_l();
 
 	I_stb_ = st_sect_ -> I_s() +
 			st_sect_ -> A_s() * Z_s_stb_ * Z_s_stb_ +
@@ -93,8 +96,6 @@ void ComposSectGeomSP35::calculate(double const E_b)
 			1/n_b_ * conc_sect_ -> A_b() * Z_b_stb_ * Z_b_stb_ +
 			1/n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_stb_r_u_ * Z_stb_r_u_ +
 			1/n_r_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_stb_r_l_ * Z_stb_r_l_ ;
-
-	Z_b_stb_ = Z_b_st_ - Z_s_stb_;
 
 	W_b_stb_ = I_stb_ / Z_b_stb_;
 }
@@ -139,15 +140,15 @@ double ComposSectGeomSP35::R_r()const
 
 double ComposSectGeomSP35::Z_b_s()const
 {
-	return Z_b_st_;
+	return Z_b_s_;
 }
 double ComposSectGeomSP35::W_s2_s()const
 {
-	return st_sect_ -> W_f2_st();
+	return st_sect_ -> W_s2_s();
 }
 double ComposSectGeomSP35::W_s1_s()const
 {
-	return st_sect_ -> W_f1_st();
+	return st_sect_ -> W_s1_s();
 }
 double ComposSectGeomSP35::A_s2()const
 {
@@ -224,7 +225,7 @@ void ComposSectGeomSP35::print(TWord_Automation & report)const
 	report.PasteTextPattern(FloatToStrF(W_b_stb_, ffFixed, 15, 2),"%W_b_stb%");
 	report.PasteTextPattern(FloatToStrF(Z_b_stb_, ffFixed, 15, 2),"%Z_b_stb%");
 	report.PasteTextPattern(FloatToStrF(Z_s_stb_, ffFixed, 15, 2),"%Z_s_stb%");
-//	report.PasteTextPattern(FloatToStrF(Z_b_s_, ffFixed, 15, 2),"%Z_b_s%");
+	report.PasteTextPattern(FloatToStrF(Z_b_s_, ffFixed, 15, 2),"%Z_b_s%");
 }
 #ifndef NDEBUG
 void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
@@ -245,4 +246,19 @@ void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
 GeneralSteelSection const * const ComposSectGeomSP35::st_sect()const
 {
 	return st_sect_;
+}
+
+GeneralConcreteSection const * const ComposSectGeomSP35::conc_sect()const
+{
+	return conc_sect_;
+}
+
+void ComposSectGeomSP35::fill_grid(TStringGrid* str_grid)const
+{
+	str_grid -> Cells [1][1] = FloatToStrF(A_stb_, ffFixed, 15, 0);
+	str_grid -> Cells [1][2] = FloatToStrF(I_stb_, ffFixed, 15, 0);
+	str_grid -> Cells [1][3] = FloatToStrF(W_b_stb_, ffFixed, 15, 0);
+	str_grid -> Cells [1][4] = FloatToStrF(Z_b_stb_, ffFixed, 15, 0);
+	str_grid -> Cells [1][5] = FloatToStrF(Z_s_stb_, ffFixed, 15, 0);
+	str_grid -> Cells [1][6] = FloatToStrF(Z_b_s_, ffFixed, 15, 0);
 }

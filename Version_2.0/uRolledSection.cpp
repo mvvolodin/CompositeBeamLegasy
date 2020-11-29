@@ -8,22 +8,6 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-RolledSection::RolledSection(std::wstring const & prof_num,
-							 double const lower_fl_width, double const  lower_fl_thick,
-							 double const upper_fl_width, double const  upper_fl_thick,
-							 double const  h_w, double const  t_w,
-							 double const  C, double const  A, double const  I):
-								 prof_num_(prof_num),
-								 lower_fl_width_(lower_fl_width),
-								 lower_fl_thick_(lower_fl_thick),
-								 upper_fl_width_(upper_fl_width),
-								 upper_fl_thick_(upper_fl_thick),
-								 h_w_(h_w),
-								 t_w_(t_w),
-								 C_(C),
-								 A_(A),
-								 I_(I){}
-
 RolledSection::RolledSection(int rolled_sect_type, int rolled_sect_num)
 {
 	//Получить данные группы профилей по индексу
@@ -45,13 +29,12 @@ RolledSection::RolledSection(int rolled_sect_type, int rolled_sect_num)
 	lower_fl_thick_ = ParamProfil[parTF];
 	upper_fl_width_ = ParamProfil[parBSECT];
 	upper_fl_thick_ = ParamProfil[parTF];
-	h_w_ = ParamProfil[parHSECT] - 2 * ParamProfil[parTF];
-	t_w_ = ParamProfil[parTW];
-	C_ = ParamProfil[parHSECT] / 2;
-	A_ = ParamProfil[parAREA];
-	I_ = ParamProfil[parIZZ ];
-
-
+	web_height_ = ParamProfil[parHSECT] - 2 * ParamProfil[parTF];
+	web_thick_ = ParamProfil[parTW];
+	rad_ = ParamProfil[parRAD];
+	grav_cent_ = ParamProfil[parHSECT] / 2;
+	area_ = ParamProfil[parAREA];
+	inertia_ = ParamProfil[parIZZ];
 }
 RolledSection::~RolledSection()
 {
@@ -79,20 +62,20 @@ double RolledSection::upper_fl_thick()const
 }
 double RolledSection::web_height()const
 {
-	return h_w_;
+	return web_height_;
 }
 double RolledSection::web_thick()const
 {
-	return t_w_;
+	return web_thick_;
 }
 double RolledSection::sect_height()const
 {
-	return lower_fl_thick_ + h_w_ + upper_fl_thick_;
+	return lower_fl_thick_ + web_height_ + upper_fl_thick_;
 }
 
-double RolledSection::C_st()const
+double RolledSection::grav_cent()const
 {
-	return C_;
+	return grav_cent_;
 }
 double RolledSection::area_upper_fl()const
 {
@@ -104,12 +87,12 @@ double RolledSection::area_lower_fl()const
 }
 double RolledSection::area()const
 {
-	return A_;
+	return area_;
 }
 
 double RolledSection::inertia()const
 {
-	return I_;
+	return inertia_;
 }
 double RolledSection::smaller_fl_to_larger_fl_ratio()const
 {
@@ -120,21 +103,25 @@ double RolledSection::SW()const
 {
 	return area() * 7850 / 1000 / 1000 * 9.81;
 }
-double RolledSection::W_f2_st()const
+double RolledSection::modulus_upper_fl()const
 {
-	return I_ / Z_f2_st();
+	return inertia_ / grav_cent_upper_fl_dist();
 }
-double RolledSection::W_f1_st()const
+double RolledSection::modulus_lower_fl()const
 {
-	return I_ / Z_f1_st();
+	return inertia_ / grav_cent_lower_fl_dist();
 }
-double RolledSection::Z_f2_st() const
+double RolledSection::grav_cent_upper_fl_dist() const
 {
-	return sect_height() - C_;
+	return sect_height() - grav_cent_;
 }
-double RolledSection::Z_f1_st()const
+double RolledSection::grav_cent_lower_fl_dist()const
 {
-	return C_;
+	return grav_cent_;
+}
+double RolledSection::radius()const
+{
+	return rad_;
 }
 void RolledSection::print_input(TWord_Automation & report)const
 {
@@ -149,6 +136,7 @@ void RolledSection::print_output(TWord_Automation & report)const
 	report.PasteTextPattern(FloatToStrF(lower_fl_thick(), ffFixed, 15, 2),"%lower_fl_thick%");
 	report.PasteTextPattern(FloatToStrF(web_height(), ffFixed, 15, 2),"%web_height%");
 	report.PasteTextPattern(FloatToStrF(web_thick(), ffFixed, 15, 2),"%web_thick%");
+	report.PasteTextPattern(FloatToStrF(radius(), ffFixed, 15, 2),"%radius%");
 
 	report.PasteTextPattern(FloatToStrF(area(), ffFixed, 15, 2),"%area%");
 	report.PasteTextPattern(FloatToStrF(inertia(), ffFixed, 15, 2),"%inertia%");

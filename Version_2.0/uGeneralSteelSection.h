@@ -26,15 +26,15 @@ public:
 	double t_max()const;
 
 	virtual std::wstring name()const = 0;
-	virtual double Z_f2_st() const = 0;
-	virtual double Z_f1_st() const = 0;
-	virtual double C_st() const = 0;
+	virtual double grav_cent_upper_fl_dist() const = 0;
+	virtual double grav_cent_lower_fl_dist() const = 0;
+	virtual double grav_cent() const = 0;
 	virtual double area() const = 0;
 	virtual double area_upper_fl() const = 0;
 	virtual double area_lower_fl() const = 0;
 	virtual double inertia() const = 0;
-	virtual double W_f2_st() const = 0;
-	virtual double W_f1_st() const = 0;
+	virtual double modulus_upper_fl() const = 0;
+	virtual double modulus_lower_fl() const = 0;
 	virtual double smaller_fl_to_larger_fl_ratio()const = 0;
 	virtual double SW()const = 0;
 
@@ -44,9 +44,12 @@ public:
 	double t_f2()const{return upper_fl_thick();}
 	double h_st() const {return web_height();}
 
+	double Z_f2_st() const {return grav_cent_upper_fl_dist();}
+	double Z_f1_st() const {return grav_cent_lower_fl_dist();}
 	double A_st() const {return area();}
 	double I_st() const {return inertia();}
-
+	double W_f2_st() const {return modulus_upper_fl();}
+	double W_f1_st() const {return modulus_lower_fl();}
 
 	double b_s1() const {return lower_fl_width();}
 	double t_s1() const {return lower_fl_thick();}
@@ -54,15 +57,15 @@ public:
 	double t_s2() const {return upper_fl_thick();}
 	double h_s() const {return web_height();}
 
-	double Z_s2_s() const {return Z_f2_st();}
-	double Z_s1_s() const {return Z_f1_st();}
-	double C_s() const {return C_st();}
+	double Z_s2_s() const {return grav_cent_upper_fl_dist();}
+	double Z_s1_s() const {return grav_cent_lower_fl_dist();}
+	double C_s() const {return grav_cent();}
 	double A_s() const {return area();}
 	double A_s2_s() const {return area_upper_fl();}
 	double A_s1_s() const {return area_lower_fl();}
 	double I_s() const {return inertia();}
-	double W_s2_s() const {return W_f2_st();}
-	double W_s1_s() const {return W_f1_st();}
+	double W_s2_s() const {return modulus_upper_fl();}
+	double W_s1_s() const {return modulus_lower_fl();}
 
 	virtual void print_input(TWord_Automation & report)const = 0;
 	virtual void print_output(TWord_Automation & report)const = 0;

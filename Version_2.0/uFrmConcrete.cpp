@@ -36,6 +36,7 @@ void __fastcall TConcreteDefinitionForm::btn_OKClick(TObject *Sender)
 {
 	check_input();
 	store_cntrls_state();
+    Close();
 }
 //---------------------------------------------------------------------------
 void __fastcall TConcreteDefinitionForm::btn_cancelClick(TObject *Sender)
@@ -97,6 +98,15 @@ void TConcreteDefinitionForm::check_input()
 String TConcreteDefinitionForm::info()const
 {
 	return ConcreteSP35::grade(cntrls_state_.cmb_bx_conc_grade_index_).c_str();
+}
+
+void TConcreteDefinitionForm::set_GUI_SP35()
+{
+	edt_phi_b_cr -> Enabled = false;
+}
+void TConcreteDefinitionForm::set_GUI_SP266()
+{
+    edt_phi_b_cr -> Enabled = true;
 }
 
 

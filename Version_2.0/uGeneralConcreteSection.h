@@ -4,6 +4,7 @@
 #define uGeneralConcreteSectionH
 
 #include <string>
+#include <Vcl.Grids.hpp>
 #include "uRebar.h"
 #include "uWord_Automation.h"
 
@@ -28,6 +29,8 @@ public:
 	virtual double h_n() const = 0; // расстояние от наружней грани верхней полки двутавра до внутренней грани расчётной железобетонной плиты
 	virtual double C_b() const = 0; // центр тяжести бетона
 	virtual double SW(double dens) const = 0;
+
+	void fill_grid(TStringGrid* str_grid)const;
 
 	void print_data_to_report(TWord_Automation & report)const;
 

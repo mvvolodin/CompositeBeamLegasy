@@ -165,9 +165,7 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 
 	DesignCase const des_case = design_case(sigma_b, sigma_r);
 
-	/* TODO : Вернуть в switch() переменную des_case */
-
-	switch (DesignCase::Case_A) {
+	switch (des_case) {
 
 	case DesignCase::Case_A:
 		if((m_1 = 1 + (m_b * R_b - sigma_b) / (m * R_y) * A_b / A_s2) >= 1.2) m_1 = 1.2;

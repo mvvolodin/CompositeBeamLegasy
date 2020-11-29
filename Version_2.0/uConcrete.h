@@ -7,8 +7,6 @@
 #include <map>
 #include <ostream>
 #include <istream>
-//#include <utility>//для чего это включение?
-//#include <systobj.h>//для чего это включение?
 #include "Units.h"
 #include "uWord_Automation.h"
 
@@ -17,9 +15,9 @@ namespace ConcreteSP35
 {
 	struct Data{
 		std::basic_string<char16_t> const grade_;
+		double const E_b_;
 		double const R_bn_;
 		double const R_btn_;
-		double const E_b_;
 	};
 
 	extern std::vector<Data> const data_lst;

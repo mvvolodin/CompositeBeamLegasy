@@ -123,7 +123,6 @@ std::unique_ptr<GeneralSteelSection const> ComBeamInputSP35::make_steel_section(
 										st_sect_frm_cntrls_state.edt_t_f2_,
 										st_sect_frm_cntrls_state.edt_h_w_,
 										st_sect_frm_cntrls_state.edt_t_w_});
-
 	return st_sect;
 }
 GlobGeom ComBeamInputSP35::make_glob_geom(TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state)
