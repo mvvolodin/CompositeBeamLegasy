@@ -203,23 +203,36 @@ Rebar2 Rebars::rebar()
 {
 	return reb_;
 }
-double Rebars::a_u()
+double Rebars::a_u()const
 {
 	return a_u_;
 }
-double Rebars::a_l()
+double Rebars::a_l()const
 {
 	return a_l_;
 }
-double Rebars::A_u_s_per_unit()
+
+double Rebars::A_u_s_per_unit()const
 {
 	return 3.14159265 * reb_.d_s() * reb_.d_s() / (4 * b_u_);
 }
-double Rebars::A_l_s_per_unit()
+double Rebars::A_l_s_per_unit()const
 {
 	return 3.14159265 * reb_.d_s() * reb_.d_s() / (4 * b_l_);
 }
-double Rebars::A_s_per_unit()
+double Rebars::A_s_per_unit()const
+{
+	return A_u_s_per_unit() + A_l_s_per_unit();
+}
+double Rebars::A_u_r_per_unit()const
+{
+	return 3.14159265 * reb_.d_s() * reb_.d_s() / (4 * b_u_);
+}
+double Rebars::A_l_r_per_unit()const
+{
+	return 3.14159265 * reb_.d_s() * reb_.d_s() / (4 * b_l_);
+}
+double Rebars::A_r_per_unit()const
 {
 	return A_u_s_per_unit() + A_l_s_per_unit();
 }

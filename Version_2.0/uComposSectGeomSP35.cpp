@@ -43,15 +43,15 @@ void ComposSectGeomSP35::calculate(ConcStateConsid conc_st_consid)
 	switch (conc_st_consid) {
 
 	case ConcStateConsid::normal:
-		calculate(concrete_.get_E_b());
+		calculate(concrete_.E_b());
 		break;
 
 	case ConcStateConsid::shrink:
-		calculate(0.5 * concrete_.get_E_b());
+		calculate(concrete_.E_b_shr());
 		break;
 
 	case ConcStateConsid::creep:
-		calculate(concrete_.get_E_b());
+		calculate(concrete_.E_b());
 		calculate(E_ef_kr());
 		break;
 	}
@@ -61,47 +61,66 @@ void ComposSectGeomSP35::calculate(ConcStateConsid conc_st_consid)
 void ComposSectGeomSP35::calculate(double const E_b)
 {
 
-	const double E_st = steel_.get_E_st();
-	n_r_ = E_st / conc_sect_ -> rebars().rebar().E_s();
+	double const E_st = steel_.get_E_st();
+	double const E_rs = conc_sect_ -> rebars().rebar().E_s();
+
 	n_b_ = E_st / E_b;
+	n_r_ = E_st / E_rs;
 
-	H_stb_ = conc_sect_ -> h() + st_sect_ -> h_s();
+	double const A_s = st_sect_ -> A_s();
+	double const A_b = conc_sect_ -> A_b();
+	double const A_u_r = conc_sect_ -> rebars().A_u_r_per_unit() * conc_sect_ -> b_sl();
+	double const A_l_r = conc_sect_ -> rebars().A_l_r_per_unit() * conc_sect_ -> b_sl();
 
-	const double A_st = st_sect_ -> A_s();
-	const double A_b = conc_sect_ -> A_b();
-	const double b_sl = conc_sect_ -> b_sl();
+	A_stb_= A_s + A_b / n_b_ + A_u_r / n_r_ + A_l_r / n_r_;
 
-	A_stb_= A_st +
-			A_b / n_b_ +
-			1. / n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() *  b_sl +
-			1. / n_r_ * conc_sect_ -> rebars().A_l_s_per_unit() *  b_sl;
+	double const h_s = st_sect_ -> h_s();
+	double const h_n = conc_sect_ -> h_n();
+	double const h_f = conc_sect_ -> h_f();
+	double const a_l_r = conc_sect_ -> rebars().a_l();
+	double const a_u_r = conc_sect_ -> rebars().a_u();
+	double const Z_s2_s = st_sect_ -> Z_s2_s();
+	double const C_b = conc_sect_ -> C_b();
 
-	Z_b_s_ = conc_sect_ -> C_b() + st_sect_ -> Z_s2_s();
-	Z_s_r_u_ = st_sect_ -> Z_s2_s() + conc_sect_ -> h() - conc_sect_ -> rebars().a_u();
-	Z_s_r_l_ = st_sect_ -> Z_s2_s() + conc_sect_ -> rebars().a_l();
+	h_stb_ = h_s + h_n + h_f;
 
+	Z_b_s_ = C_b + Z_s2_s;
+	Z_s_r_u_ = Z_s2_s + h_n + h_f - a_u_r;
+	Z_s_r_l_ = Z_s2_s + a_l_r;
 
-	S_stb_ = conc_sect_ -> A_b() * Z_b_s_ / n_b_ +
-			 1 / n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_s_r_u_ +
-			 1 / n_r_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_-> b_sl() * Z_s_r_l_;
+	S_stb_ = A_b * Z_b_s_ / n_b_ + A_u_r * Z_s_r_u_ / n_r_  + A_l_r * Z_s_r_l_ / n_r_;
 
 	Z_s_stb_ = S_stb_/A_stb_;
 	Z_b_stb_ = Z_b_s_ - Z_s_stb_;
-	Z_stb_r_u_ = Z_b_stb_ - conc_sect_ -> C_b() + conc_sect_ -> h() - conc_sect_ -> rebars().a_u();
-	Z_stb_r_l_ = Z_b_stb_ - conc_sect_ -> C_b() + conc_sect_ -> rebars().a_l();
+	Z_r_u_stb_ = Z_b_stb_ - C_b + h_n + h_f - a_u_r;
+	Z_r_l_stb_ = Z_b_stb_ - C_b + a_l_r;
 
-	I_stb_ = st_sect_ -> I_s() +
-			st_sect_ -> A_s() * Z_s_stb_ * Z_s_stb_ +
-			1/n_b_ * conc_sect_ -> I_b() +
-			1/n_b_ * conc_sect_ -> A_b() * Z_b_stb_ * Z_b_stb_ +
-			1/n_r_ * conc_sect_ -> rebars().A_u_s_per_unit() * conc_sect_ -> b_sl() * Z_stb_r_u_ * Z_stb_r_u_ +
-			1/n_r_ * conc_sect_ -> rebars().A_l_s_per_unit() * conc_sect_ -> b_sl() * Z_stb_r_l_ * Z_stb_r_l_ ;
+	double const I_s = st_sect_ -> I_s();
+	double const I_b = conc_sect_ -> I_b();
+
+	I_stb_ = I_s + A_s * Z_s_stb_ * Z_s_stb_ +
+			 I_b / n_b_ + A_b * Z_b_stb_ * Z_b_stb_ / n_b_ +
+			 A_u_r * Z_r_u_stb_ * Z_r_u_stb_ / n_r_  +
+			 A_l_r * Z_r_l_stb_ * Z_r_l_stb_ / n_r_ ;
 
 	W_b_stb_ = I_stb_ / Z_b_stb_;
+
+	Z_st_stb_ = Z_s_stb_ -
+		(A_l_r / n_r_ * (a_l_r + h_n + Z_s2_s) + A_u_r / n_r_ * (Z_s2_s + h_n + h_f - a_u_r)) /
+		(A_u_r / n_r_ + A_l_r / n_r_ + A_s);
+
+	A_st_ = A_s + A_u_r + A_l_r;
+
+	S_st_ = A_st_ * Z_st_stb_;  //в норме обозначение S_shr
+
 }
 double ComposSectGeomSP35::E_b()const
 {
-	return concrete_.get_E_b();
+	return concrete_.E_b();
+}
+double ComposSectGeomSP35::E_b_shr()const
+{
+	return concrete_.E_b_shr();
 }
 double ComposSectGeomSP35::I_b()const
 {
@@ -181,12 +200,12 @@ double ComposSectGeomSP35::R_y()const
 
 double ComposSectGeomSP35::A_st()const
 {
-	return A_s() + A_r() * conc_sect_ -> b_sl();
+	return A_st_;
 }
-/////* TODO 1 -oMV : Реализовать метод I_st() */
-double ComposSectGeomSP35::I_st()const
+
+double ComposSectGeomSP35::S_st()const
 {
-	return 1;
+	return S_st_;
 }
 
 double ComposSectGeomSP35::A_stb()const
@@ -208,7 +227,7 @@ double ComposSectGeomSP35::Z_b_stb()const
 }
 double ComposSectGeomSP35::Z_r_stb()const
 {
-	return (Z_stb_r_l_ + Z_stb_r_u_) / 2;
+	return (Z_r_l_stb_ + Z_r_u_stb_) / 2;
 }
 double ComposSectGeomSP35::eps_shr()const
 {
@@ -233,7 +252,7 @@ void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
 	log.add_heading(L"Геометрические характеристики композитного сечения");
 	log.print_double(L"n_r = ", n_r_, L" ");
 	log.print_double(L"n_b = ", n_b_, L" ");
-	log.print_double(L"H_stb = ", H_stb_, L" мм");
+	log.print_double(L"H_stb = ", h_stb_, L" мм");
 	log.print_double(L"A_stb = ", A_stb_, L" мм2");
 	log.print_double(L"S_stb = ", S_stb_, L" мм3");
 	log.print_double(L"I_stb = ", I_stb_, L" мм4");

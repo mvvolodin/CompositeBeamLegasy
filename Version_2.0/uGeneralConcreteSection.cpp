@@ -95,6 +95,7 @@ double GeneralConcreteSection::I_b() const
 {
 	return b_sl_ * h_f_ * h_f_ * h_f_ / 12;
 }
+
 void GeneralConcreteSection::fill_grid(TStringGrid* str_grid)const
 {
 	str_grid->Cells [1][1]=FloatToStrF(b_sl(), ffFixed, 15, 0);

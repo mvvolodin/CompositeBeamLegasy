@@ -289,7 +289,7 @@ double ComposSectCalculatorSP35::shrink_stress(ShrinkStressIn const shr_str_in)c
 	switch (shr_str_in) {
 
 	case ShrinkStressIn::concrete:
-		return shrink_stress(com_sect_shr_.E_b(), -1 * com_sect_shr_.Z_b_stb(), 0);
+		return shrink_stress(com_sect_shr_.E_b_shr(), -1 * com_sect_shr_.Z_b_stb(), 0);
 
 	case ShrinkStressIn::rebar:
 		return shrink_stress(com_sect_shr_.E_rs(), -1 * com_sect_shr_.Z_r_stb(), 1);
@@ -302,9 +302,9 @@ double ComposSectCalculatorSP35::shrink_stress(double const E, double Z, double 
 	double const A_st = com_sect_shr_.A_st();
 	double const A_stb_shr = com_sect_shr_.A_stb();
 	double const I_stb_shr = com_sect_shr_.I_stb();
-	double const S_shr = A_st * com_sect_shr_.Z_s_stb();
+	double const S_st = com_sect_shr_.S_st();
 
-	return eps_shr * E * (A_st / A_stb_shr + S_shr / I_stb_shr *Z - nu);
+	return eps_shr * E * (A_st / A_stb_shr + S_st / I_stb_shr * Z - nu); //S_shr в норме
 }
 
 

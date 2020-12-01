@@ -61,7 +61,8 @@ public:
 	double get_epsilon_b_lim()const {return epsilon_b_lim_;}
 	void set_phi_b_cr(double phi_b_cr){phi_b_cr_ = phi_b_cr;}
 	double E_b()const {return E_b_ ;}
-    /* TODO 1 -oMV : Добавить в конструктор c_n */
+	double E_b_shr()const {return 0.5 * E_b_ ;}
+	/* TODO 1 -oMV : Добавить в конструктор c_n */
 	double c_n()const {return c_n_ ;}
 	double get_E_b_tau()const {return E_b_ / (1 + phi_b_cr_);}
 	double get_R_b()const {return R_bn_ / mater_coeff_;}

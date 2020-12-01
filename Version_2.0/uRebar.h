@@ -96,11 +96,14 @@ public:
 		   double const a_u, double const a_l,
 		   double const b_u, double const b_l);
 	Rebar2 rebar();
-	double a_u();
-	double a_l();
-	double A_u_s_per_unit();
-	double A_l_s_per_unit();
-    double A_s_per_unit();
+	double a_u()const;
+	double a_l()const;
+	double A_u_r_per_unit()const;
+	double A_l_r_per_unit()const;
+	double A_r_per_unit()const;
+	double A_u_s_per_unit()const;
+	double A_l_s_per_unit()const;
+	double A_s_per_unit()const;
 private:
 	Rebar2 const reb_{};//арматура
 	double const a_u_ {0.};// «ащитный слой верхний арматуры
