@@ -86,7 +86,7 @@ void ComposSectGeomSP35::calculate(double const E_b)
 
 	Z_b_s_ = C_b + Z_s2_s;
 	Z_s_r_u_ = Z_s2_s + h_n + h_f - a_u_r;
-	Z_s_r_l_ = Z_s2_s + a_l_r;
+	Z_s_r_l_ = Z_s2_s + h_n + a_l_r;
 
 	S_stb_ = A_b * Z_b_s_ / n_b_ + A_u_r * Z_s_r_u_ / n_r_  + A_l_r * Z_s_r_l_ / n_r_;
 
@@ -109,9 +109,12 @@ void ComposSectGeomSP35::calculate(double const E_b)
 		(A_l_r / n_r_ * (a_l_r + h_n + Z_s2_s) + A_u_r / n_r_ * (Z_s2_s + h_n + h_f - a_u_r)) /
 		(A_u_r / n_r_ + A_l_r / n_r_ + A_s);
 
-	A_st_ = A_s + A_u_r + A_l_r;
+	A_st_ = A_s + A_u_r / n_r_ + A_l_r / n_r_;
 
 	S_st_ = A_st_ * Z_st_stb_;  //в норме обозначение S_shr
+
+	I_st_ = I_s + A_s * Z_s_st_ * Z_s_st_ + A_l_r / n_r_ * (Z_s_r_l_ - Z_s_st_) * (Z_s_r_l_ - Z_s_st_) +
+		A_u_r / n_r_ * (Z_s_r_u_ - Z_s_st_) * (Z_s_r_u_ - Z_s_st_);
 
 }
 double ComposSectGeomSP35::E_b()const
@@ -206,6 +209,10 @@ double ComposSectGeomSP35::A_st()const
 double ComposSectGeomSP35::S_st()const
 {
 	return S_st_;
+}
+double ComposSectGeomSP35::I_st()const
+{
+	return I_st_;
 }
 
 double ComposSectGeomSP35::A_stb()const

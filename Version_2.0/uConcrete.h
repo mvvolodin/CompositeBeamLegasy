@@ -18,6 +18,7 @@ namespace ConcreteSP35
 		double const E_b_;
 		double const R_bn_;
 		double const R_btn_;
+        double const c_n;
 	};
 
 	extern std::vector<Data> const data_lst;

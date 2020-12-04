@@ -40,6 +40,8 @@ __published:	// IDE-managed Components
 	TEdit *edt_density;
 	TGroupBox *grp_bx_characteristics;
 	TButton *btn_OK;
+	TEdit *edt_c_n;
+	TLabel *lbl_c_n;
 	void __fastcall cmb_bx_concrete_grade_listChange(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
     void __fastcall btn_OKClick(TObject *Sender);
