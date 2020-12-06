@@ -38,11 +38,14 @@ public:
 	double grav_cent_lower_fl_dist() const override;
 	double grav_cent() const override;
 	double area() const override;
+	double area_web() const override;
 	double area_upper_fl() const override ;
 	double area_lower_fl() const override;
 	double inertia() const override;
 	double modulus_upper_fl() const override;
 	double modulus_lower_fl() const override;
+	double smaller_fl_area_to_web_area_ratio()const override;
+	double smaller_fl_area_plus_web_area_to_total_area_ratio() const override;
 	double smaller_fl_to_larger_fl_ratio()const override;
 	double SW()const override;
 	void print_input(TWord_Automation & report)const override;

@@ -85,6 +85,10 @@ double RolledSection::area_lower_fl()const
 {
 	return upper_fl_width_ * upper_fl_thick_;
 }
+double RolledSection::area_web()const
+{
+	return web_height_ * web_thick_;
+}
 double RolledSection::area()const
 {
 	return area_;
@@ -96,7 +100,22 @@ double RolledSection::inertia()const
 }
 double RolledSection::smaller_fl_to_larger_fl_ratio()const
 {
-	return 1;
+	return (area_upper_fl() <= area_lower_fl())?
+		area_upper_fl() / area_lower_fl() : area_lower_fl() / area_upper_fl();
+}
+double RolledSection::smaller_fl_area_to_web_area_ratio()const
+{
+	double const A_smaller_fl = (area_upper_fl() <= area_lower_fl())?
+		area_upper_fl() : area_lower_fl();
+
+	return A_smaller_fl / area_web();
+}
+double RolledSection::smaller_fl_area_plus_web_area_to_total_area_ratio()const
+{
+	double const A_smaller_fl = (area_upper_fl() <= area_lower_fl())?
+		area_upper_fl() : area_lower_fl();
+
+	return (A_smaller_fl + area_web()) / area();
 }
 
 double RolledSection::SW()const

@@ -100,6 +100,10 @@ double IntForcesCalculator::M_2d(double x)const
 {
 	return M_uniform_load(x, loads_.IIb_design_LCC(), 0);
 }
+double IntForcesCalculator::M_2d_DL(double x)const
+{
+	return M_uniform_load(x, loads_.design_LCC_2d_DL(), 0);
+}
 double IntForcesCalculator::M_total(double x)const
 {
 	return M_uniform_load(x, loads_.total_design_LCC(), 0);

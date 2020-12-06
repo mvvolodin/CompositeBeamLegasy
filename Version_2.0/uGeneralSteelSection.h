@@ -30,12 +30,15 @@ public:
 	virtual double grav_cent_lower_fl_dist() const = 0;
 	virtual double grav_cent() const = 0;
 	virtual double area() const = 0;
+    virtual double area_web() const = 0;
 	virtual double area_upper_fl() const = 0;
 	virtual double area_lower_fl() const = 0;
 	virtual double inertia() const = 0;
 	virtual double modulus_upper_fl() const = 0;
 	virtual double modulus_lower_fl() const = 0;
 	virtual double smaller_fl_to_larger_fl_ratio()const = 0;
+	virtual double smaller_fl_area_to_web_area_ratio()const = 0;
+	virtual double smaller_fl_area_plus_web_area_to_total_area_ratio()const = 0;
 	virtual double SW()const = 0;
 
 	double b_f1()const{return lower_fl_width();}

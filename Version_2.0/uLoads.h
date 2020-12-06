@@ -10,16 +10,7 @@
 #include <map>
 #include "Units.h"
 #include "uWord_Automation.h"
-//-----------------------------------------------------------------------------
-// ласс предоставл€ющий значени€ нагрузок от комбинаций загружений
-//ѕеред использованием необходимо вызвать метод
-// set_data() инициализирующий пол€
-//	SW_steel_beam_;
-//	SW_corrugated_sheets_;
-//	SW_concrete_ ;
-//	b_ ;
-// и устанавливающий флаг fully initialized в true
-//-----------------------------------------------------------------------------
+
 class Loads {
 public:
 	Loads() = default;
@@ -66,6 +57,7 @@ public:
 	double Ia_design_LCC()const;
 	double Ib_design_LCC()const;
 	double IIb_design_LCC()const;
+	double design_LCC_2d_DL()const;
 	double total_design_LCC()const;
 
 	double Ia_LCC()const;

@@ -833,19 +833,24 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 	store_cntrls_state();
 
 	com_beam_input_SP35.reset(new ComBeamInputSP35{cntrls_state_,
-												   ConcreteDefinitionForm -> cntrls_state(),
-												   SteelSectionForm -> cntrls_state(),
-												   DefineSteelForm -> cntrls_state(),
-												   RebarDefinitionForm -> cntrls_state()});
+													   ConcreteDefinitionForm -> cntrls_state(),
+													   SteelSectionForm -> cntrls_state(),
+													   DefineSteelForm -> cntrls_state(),
+													   RebarDefinitionForm -> cntrls_state()});
+
+	try {
+		ComposSectCalculatorSP35 com_beam_calc {*com_beam_input_SP35};
+		std::vector<Node> nodes_lst;// {com_beam_input_SP35 -> glob_geom().nodes_lst()};
+   		nodes_lst.push_back({8942.5, false, true});
+
+		com_beam_output_SP35.reset(new ComBeamOutputSP35{com_beam_calc.calculate(nodes_lst)});
+
+	} catch (std::u16string const & str) {
+		ShowMessage(str.c_str());
+		return;
+	}
 
 
-	ComposSectCalculatorSP35 com_beam_calc {*com_beam_input_SP35};
-
-
-	std::vector<Node> nodes_lst {com_beam_input_SP35 -> glob_geom().nodes_lst()};
-
-
-	com_beam_output_SP35.reset(new ComBeamOutputSP35{com_beam_calc.calculate(nodes_lst)});
 
 	  draw_diagram2();
 

@@ -108,6 +108,10 @@ double WeldedSection::area()const
 
 	return A / 2;
 }
+double WeldedSection::area_web() const
+{
+	return web_height() * web_thick();
+}
 double WeldedSection::area_upper_fl() const
 {
 	return upper_fl_width() * upper_fl_thick();
@@ -133,10 +137,22 @@ double WeldedSection::inertia()const
 }
 double WeldedSection::smaller_fl_to_larger_fl_ratio()const
 {
-	double A_f2 = upper_fl_width() * upper_fl_thick();
-	double A_f1 = lower_fl_width() * lower_fl_thick();
+	return (area_upper_fl() <= area_lower_fl())?
+		area_upper_fl() / area_lower_fl() : area_lower_fl() / area_upper_fl();
+}
+double WeldedSection::smaller_fl_area_to_web_area_ratio()const
+{
+	double const A_smaller_fl = (area_upper_fl() <= area_lower_fl())?
+		area_upper_fl() : area_lower_fl();
 
-	return (A_f2 <= A_f1)? A_f2 / A_f1: A_f1 / A_f2;
+	return A_smaller_fl / area_web();
+}
+double WeldedSection::smaller_fl_area_plus_web_area_to_total_area_ratio() const
+{
+	double const A_smaller_fl = (area_upper_fl() <= area_lower_fl())?
+		area_upper_fl() : area_lower_fl();
+
+	return (A_smaller_fl + area_web()) / area();
 }
 
 double WeldedSection::modulus_upper_fl() const

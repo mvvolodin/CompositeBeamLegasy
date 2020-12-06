@@ -4,6 +4,7 @@
 #define uComposSectCalculatorS35H
 
 #include <vector>
+#include <string>
 
 #include "uComposSectGeomSP35.h"
 #include "uWorkingConditionsFactors.h"
@@ -14,7 +15,6 @@
 
 #include "uComBeamInputSP35.h"
 
-
 #include "uFrmLogger.h"
 //---------------------------------------------------------------------------
 
@@ -22,6 +22,7 @@ enum class DesignCase{
 	Case_A,
 	Case_B,
 	Case_C,
+	Case_F // случай, когда в бетоне растяжение
 };
 //---------------------------------------------------------------------------
 enum class Flange{
@@ -55,8 +56,7 @@ private:
 
 	DesignCase design_case(double sigma_b, double sigma_r);
 	SectOutputSP35 calculate(Node const node);
-	double creep_stress(double const M_2, CreepStressIn const cr_str_in)const;
-	double creep_stress(double const M_2, double const Z)const;
+	double creep_stress(double const M, CreepStressIn const cr_str_in)const;
 	double shrink_stress(ShrinkStressIn const shr_str_in) const;
 	double shrink_stress(double const E, double const R, double const nu)const;
 };
