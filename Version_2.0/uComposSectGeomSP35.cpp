@@ -209,7 +209,8 @@ double ComposSectGeomSP35::A_b()const
 }
 double ComposSectGeomSP35::A_r()const
 {
-	return conc_sect_ -> rebars().A_s_per_unit();
+	return conc_sect_ -> rebars().A_u_r_per_unit() * conc_sect_ -> b_sl() +
+		   conc_sect_ -> rebars().A_l_r_per_unit() * conc_sect_ -> b_sl();
 }
 double ComposSectGeomSP35::E_rs()const
 {

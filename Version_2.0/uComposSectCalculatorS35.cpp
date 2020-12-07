@@ -4,6 +4,7 @@
 
 #include "uComposSectCalculatorS35.h"
 #include "uBilinearInterp.h"
+#include <algorithm>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -117,8 +118,6 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const sigma_bi_kr = creep_stress(M_2c + M_2d_DL, CreepStressIn::concrete);
 	double const sigma_ri_kr = creep_stress(M_2c + M_2d_DL, CreepStressIn::rebar);
 
-
-
 	double const sigma_bi = std::abs(sigma_bi_sh) + std::abs(sigma_bi_kr);
 	double const sigma_ri = std::abs(sigma_ri_sh) + std::abs(sigma_ri_kr);
 
@@ -142,8 +141,6 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const m = work_cond_factors_.m();
 	double const m_b = work_cond_factors_.m_b();
 
-	double omega = 0;
-
 	double const fl_ratio = A_s2 / A_s1;
 	double const A_f_min_to_A_w_ratio = com_sect_.st_sect() ->
 		smaller_fl_area_to_web_area_ratio();
@@ -153,18 +150,31 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	SP_35_13330_2011_table_9_5::FlangeBendingAndAxialStressSumUp fl = (A_s2 < A_s1)?
 		SP_35_13330_2011_table_9_5::FlangeBendingAndAxialStressSumUp::bigger:
 		SP_35_13330_2011_table_9_5::FlangeBendingAndAxialStressSumUp::smaller;
-	double str_ratio = 0.;
-	double str_s2_ratio = 0.;
-	double str_s1_ratio = 0.;
 
-	double eta = 1.;
-	double eta_s2 = 1.;
-	double eta_s1 = 1.;
+	double const N_br = A_b * sigma_b + A_r * sigma_r;;
+	double const N_bR_r = A_b * R_b + A_r * sigma_r;
+	double const N_bR_R = A_b * R_b + A_r * R_r;
 
-	double omega_4 = 0;
-	double omega_3 = 0;
-	double omega_3_s2 = 0;
-	double omega_3_s1 = 0;
+	double const str_ratio_br = N_br / (A_s * m *R_y);
+	double const str_ratio_bR_r = N_bR_r / (A_s * m *R_y);
+	double const str_ratio_bR_R = N_bR_R / (A_s * m *R_y);
+
+	double const eta_br = SP_35_13330_2011_table_9_5::bilinear_interpolation(
+		fl_ratio, str_ratio_br, fl);
+	double const eta_bR_r = SP_35_13330_2011_table_9_5::bilinear_interpolation(
+		fl_ratio, str_ratio_bR_r, fl);
+	double const eta_bR_R = SP_35_13330_2011_table_9_5::bilinear_interpolation(
+		fl_ratio, str_ratio_bR_R, fl);
+
+	double const omega = SP_35_13330_2011_table_8_16::bilinear_interpolation(A_f_min_to_A_w_ratio,
+		A_f_min_plus_A_w_to_A_ratio);
+
+	double const omega_3_br = 1 + eta_br * (omega - 1);
+	double const omega_3_bR_r = 1 + eta_bR_r * (omega - 1);
+	double const omega_3_bR_R = 1 + eta_bR_R * (omega - 1);
+
+	double const m_1 = std::min(1 + (m_b * R_b - sigma_b) / (m * R_y) * A_b / A_s2, 1.2);
+	double const omega_4_br = omega_3_br / m_1;
 
 	double fl_s2_ratio = 0.;
 	double fl_s1_ratio = 0.;
@@ -172,32 +182,14 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double shear_ratio = 0.;
 	double st_sect_ratio = 0.;
 
-	double N_br = 0.;
-	double N_br_R = 0.;
-	double N_bR_r = 0.;
-
-	double m_1 = 0.;
-
 	DesignCase const des_case = design_case(sigma_b, sigma_r);
 
 	switch (des_case) {
 
 	case DesignCase::Case_A:
-		if((m_1 = 1 + (m_b * R_b - sigma_b) / (m * R_y) * A_b / A_s2) >= 1.2) m_1 = 1.2;
 
-		N_br = A_b * sigma_b + A_r * sigma_r;
-
-		str_ratio = N_br / (A_s * m * R_y);
-
-		eta = SP_35_13330_2011_table_9_5::bilinear_interpolation(fl_ratio, str_ratio, fl);
-
-		omega = SP_35_13330_2011_table_8_16::bilinear_interpolation(A_f_min_to_A_w_ratio,
-																	A_f_min_plus_A_w_to_A_ratio);
-		omega_3 = 1 + eta * (omega - 1);
-		omega_4 = omega_3 / m_1;
-
-		fl_s2_ratio = ((M - Z_b_s * N_br) / (omega_4 * W_s2_s) - N_br / A_s) / (m_1 * m * R_y);
-		fl_s1_ratio = ((M - Z_b_s * N_br) / (omega_3 * W_s1_s) + N_br / A_s) / (m * R_y);
+		fl_s2_ratio = ((M - Z_b_s * N_br) / (omega_4_br * W_s2_s) - N_br / A_s) / (m_1 * m * R_y);
+		fl_s1_ratio = ((M - Z_b_s * N_br) / (omega_3_br * W_s1_s) + N_br / A_s) / (m * R_y);
 
 		return {node,
 				M_1a, M_1b, M_2c, M_2d, M,
@@ -217,20 +209,8 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 
 	case DesignCase::Case_B:
 
-		N_br_R = A_b * R_b + A_r * R_r;
-		N_bR_r = A_b * R_b + A_r * sigma_r;
-
-		str_s2_ratio = N_br_R / (A_s * m * R_y);
-		str_s1_ratio = N_bR_r / (A_s * m * R_y);
-
-		//eta_s2 = SP_35_13330_2011_table_9_5::bilinear_interpolation(fl_ratio, str_s2_ratio, fl);
-		//eta_s1 = SP_35_13330_2011_table_9_5::bilinear_interpolation(fl_ratio, str_s1_ratio, fl);
-		//omega = SP_35_13330_2011_table_8_16::bilinear_interpolation();
-		omega_3_s2 = 1 + eta_s2 * (omega - 1);
-		omega_3_s1 = 1 + eta_s1 * (omega - 1);
-
-		fl_s2_ratio = ((M - Z_b_s * N_br_R) / (omega_3_s2 * W_s2_s) - N_br_R / A_s) / (m * R_y);
-		fl_s1_ratio = ((M - Z_b_s * N_bR_r) / (omega_3_s1 * W_s1_s) + N_bR_r / A_s) / (m * R_y);
+		fl_s2_ratio = ((M - Z_b_s * N_bR_R) / (omega_3_bR_R * W_s2_s) - N_bR_R / A_s) / (m * R_y);
+		fl_s1_ratio = ((M - Z_b_s * N_bR_r) / (omega_3_bR_r * W_s1_s) + N_bR_r / A_s) / (m * R_y);
 
 		return {node,
 				M_1a, M_1b, M_2c, M_2d, M,
@@ -250,17 +230,8 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 
 	case DesignCase::Case_C:
 
-		N_br_R = A_b * R_b + A_r * R_r;
-
-		str_ratio = N_br_R  / (A_s * m * R_y);
-
-		//eta = SP_35_13330_2011_table_9_5::bilinear_interpolation(fl_ratio, str_ratio, fl);
-
-		//omega = SP_35_13330_2011_table_8_16::bilinear_interpolation();
-		omega_3 = 1 + eta * (omega - 1);
-
-		fl_s2_ratio = ((M - Z_b_s * N_br_R) / (omega_3 * W_s2_s) - N_br_R / A_s) / (m * R_y);
-		fl_s1_ratio = ((M - Z_b_s * N_br_R) / (omega_3 * W_s1_s) + N_br_R / A_s) / (m * R_y);
+		fl_s2_ratio = ((M - Z_b_s * N_bR_R) / (omega_3_bR_R * W_s2_s) - N_bR_R / A_s) / (m * R_y);
+		fl_s1_ratio = ((M - Z_b_s * N_bR_R) / (omega_3_bR_R * W_s1_s) + N_bR_R / A_s) / (m * R_y);
 
 
 	   return {node,
@@ -278,7 +249,7 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 			   conc_ratio,
 			   shear_ratio,
 			   st_sect_ratio};
-		case DesignCase::Case_F:
+	case DesignCase::Case_F:
 
 		fl_s2_ratio = M / (W_s2_s * m * R_y);
 		fl_s1_ratio = M / (W_s1_s * m * R_y);
@@ -310,7 +281,7 @@ double ComposSectCalculatorSP35::creep_stress(double M, CreepStressIn const cr_s
 	double const W_b_stb_kr = com_sect_kr_.W_b_stb();
 	double const W_b_stb = com_sect_.W_b_stb();
 
-	if(M / W_b_stb <= 0.2 * com_sect_.R_b())
+	if(M / (n_b * W_b_stb) <= 0.2 * com_sect_.R_b())
 		return 0;
 
 	switch (cr_str_in){
@@ -347,7 +318,6 @@ double ComposSectCalculatorSP35::shrink_stress(double const E, double Z, double 
 
 	return eps_shr * E * (A_st / A_stb_shr + S_st / I_stb_shr * Z - nu);
 }
-
 
 DesignCase ComposSectCalculatorSP35::design_case(double const sigma_b, double const sigma_r)
 {
