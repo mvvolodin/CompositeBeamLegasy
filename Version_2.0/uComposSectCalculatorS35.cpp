@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #pragma hdrstop
 
@@ -35,13 +35,13 @@ ComposSectCalculatorSP35::ComposSectCalculatorSP35(ComBeamInputSP35 const & inpu
 	double const E_st = com_sect_.E_st();
 
 	if(!(E_b * I_b <= 0.2 * E_st * I_s))
-		throw(std::u16string {u"Условие применимости гипотезы \"плоской плиты\" E_b * I_b <= 0.2 * E_st * I_s \
-		не выполняется. Необходимо изменить исходные данные!"});
+		throw(std::u16string {u"РЈСЃР»РѕРІРёРµ РїСЂРёРјРµРЅРёРјРѕСЃС‚Рё РіРёРїРѕС‚РµР·С‹ \"РїР»РѕСЃРєРѕР№ РїР»РёС‚С‹\" E_b * I_b <= 0.2 * E_st * I_s \
+		РЅРµ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ. РќРµРѕР±С…РѕРґРёРјРѕ РёР·РјРµРЅРёС‚СЊ РёСЃС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ!"});
 }
 
 ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<Node> const & nodes_lst)
 {
-	std::vector<SectOutputSP35> sect_output_lst {};
+	std::vector<ComposSectOutputSP35> sect_output_lst {};
 
 	for(auto const & node:nodes_lst)
 		sect_output_lst.push_back(calculate(node));
@@ -52,7 +52,7 @@ ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<Node> const & 
 			sect_output_lst};
 }
 
-SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
+ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 {
 	double x = node.x();
 
@@ -151,7 +151,7 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 		SP_35_13330_2011_table_9_5::FlangeBendingAndAxialStressSumUp::bigger:
 		SP_35_13330_2011_table_9_5::FlangeBendingAndAxialStressSumUp::smaller;
 
-	double const N_br = A_b * sigma_b + A_r * sigma_r;;
+	double const N_br = A_b * sigma_b + A_r * sigma_r;
 	double const N_bR_r = A_b * R_b + A_r * sigma_r;
 	double const N_bR_R = A_b * R_b + A_r * R_r;
 
@@ -159,12 +159,12 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const str_ratio_bR_r = N_bR_r / (A_s * m *R_y);
 	double const str_ratio_bR_R = N_bR_R / (A_s * m *R_y);
 
-	double const eta_br = SP_35_13330_2011_table_9_5::bilinear_interpolation(
-		fl_ratio, str_ratio_br, fl);
-	double const eta_bR_r = SP_35_13330_2011_table_9_5::bilinear_interpolation(
-		fl_ratio, str_ratio_bR_r, fl);
-	double const eta_bR_R = SP_35_13330_2011_table_9_5::bilinear_interpolation(
-		fl_ratio, str_ratio_bR_R, fl);
+	double const eta_br = (str_ratio_br <= 0.7)?
+			SP_35_13330_2011_table_9_5::bilinear_interpolation(fl_ratio, str_ratio_br, fl):0;
+	double const eta_bR_r = (str_ratio_bR_r <= 0.7)?
+			SP_35_13330_2011_table_9_5::bilinear_interpolation(fl_ratio, str_ratio_bR_r, fl):0;
+	double const eta_bR_R = (str_ratio_bR_R <= 0.7)?
+		SP_35_13330_2011_table_9_5::bilinear_interpolation(fl_ratio, str_ratio_bR_R, fl):0;
 
 	double const omega = SP_35_13330_2011_table_8_16::bilinear_interpolation(A_f_min_to_A_w_ratio,
 		A_f_min_plus_A_w_to_A_ratio);
@@ -200,6 +200,10 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 				sigma_ri_sh, sigma_ri_kr,
 				sigma_bi, sigma_ri,
 				sigma_b, sigma_r,
+				{{{PlastCoeff::Omega, omega},
+				  {PlastCoeff::Eta_lf,eta_br},
+				  {PlastCoeff::Omega_3_lf,omega_3_br},
+				  {PlastCoeff::Omega_4,omega_4_br}}},
 				des_case,
 				fl_s2_ratio,
 				fl_s1_ratio,
@@ -221,6 +225,11 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 				sigma_ri_sh, sigma_ri_kr,
 				sigma_bi, sigma_ri,
 				sigma_b, sigma_r,
+				{{{PlastCoeff::Omega, omega},
+				  {PlastCoeff::Eta_uf,eta_bR_R},
+				  {PlastCoeff::Eta_lf,eta_bR_r},
+				  {PlastCoeff::Omega_3_uf,omega_3_bR_R},
+				  {PlastCoeff::Omega_3_lf,omega_3_bR_r}}},
 				des_case,
 				fl_s2_ratio,
 				fl_s1_ratio,
@@ -243,6 +252,11 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 			   sigma_ri_sh, sigma_ri_kr,
 			   sigma_bi, sigma_ri,
 			   sigma_b, sigma_r,
+			   {{{PlastCoeff::Omega, omega},
+				 {PlastCoeff::Eta_uf,eta_bR_R},
+				 {PlastCoeff::Eta_lf,eta_bR_R},
+				 {PlastCoeff::Omega_3_uf,omega_3_bR_R},
+				 {PlastCoeff::Omega_3_lf,omega_3_bR_R}}},
 			   des_case,
 			   fl_s2_ratio,
 			   fl_s1_ratio,
@@ -251,8 +265,8 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 			   st_sect_ratio};
 	case DesignCase::Case_F:
 
-		fl_s2_ratio = M / (W_s2_s * m * R_y);
-		fl_s1_ratio = M / (W_s1_s * m * R_y);
+		fl_s2_ratio = M / (omega * W_s2_s * m * R_y);
+		fl_s1_ratio = M / (omega * W_s1_s * m * R_y);
 
 	   return {node,
 			   M_1a, M_1b, M_2c, M_2d, M,
@@ -263,6 +277,7 @@ SectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 			   sigma_ri_sh, sigma_ri_kr,
 			   sigma_bi, sigma_ri,
 			   sigma_b, sigma_r,
+			   {{{PlastCoeff::Omega, omega}}},
 			   des_case,
 			   fl_s2_ratio,
 			   fl_s1_ratio,
@@ -313,7 +328,7 @@ double ComposSectCalculatorSP35::shrink_stress(double const E, double Z, double 
 	double const eps_shr = com_sect_shr_.eps_shr();
 	double const A_stb_shr = com_sect_shr_.A_stb();
 	double const A_st = com_sect_shr_.A_st();
-	double const S_st = com_sect_shr_.S_st();  //S_shr в норме
+	double const S_st = com_sect_shr_.S_st();  //S_shr РІ РЅРѕСЂРјРµ
 	double const I_stb_shr = com_sect_shr_.I_stb();
 
 	return eps_shr * E * (A_st / A_stb_shr + S_st / I_stb_shr * Z - nu);

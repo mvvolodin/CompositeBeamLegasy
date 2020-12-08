@@ -4,7 +4,7 @@
 #define uComBeamOutputSP35H
 //---------------------------------------------------------------------------
 #include <memory>
-#include "uSectOutputSP35.h"
+#include "uComposSectOutputSP35.h"
 #include "uComposSectGeomSP35.h"
 #include "uWord_Automation.h"
 //---------------------------------------------------------------------------
@@ -14,7 +14,7 @@ public:
 	ComBeamOutputSP35(ComposSectGeomSP35  com_sect,
 					  ComposSectGeomSP35  com_sect_shr,
 					  ComposSectGeomSP35  com_sect_kr,
-					  std::vector<SectOutputSP35>  sect_outp_list);
+					  std::vector<ComposSectOutputSP35>  sect_outp_list);
 
 	void print(TWord_Automation & report)const;
 
@@ -51,11 +51,11 @@ private:
 	ComposSectGeomSP35 const com_sect_shr_;
 	ComposSectGeomSP35 const com_sect_kr_;
 
-	std::vector<SectOutputSP35> const sect_outp_list_;
+	std::vector<ComposSectOutputSP35> const sect_outp_list_;
 
-	SectOutputSP35 const & max_st_sect_ratio_sect()const;
-	SectOutputSP35 const & max_direct_str_ratio_sect()const;
-	SectOutputSP35 const & max_shear_str_ratio_sect()const;
+	ComposSectOutputSP35 const & max_st_sect_ratio_sect()const;
+	ComposSectOutputSP35 const & max_direct_str_ratio_sect()const;
+	ComposSectOutputSP35 const & max_shear_str_ratio_sect()const;
 
 };
 

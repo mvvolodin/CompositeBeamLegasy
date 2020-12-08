@@ -256,6 +256,10 @@
             <DependentOn>uComposSectGeomSP35.h</DependentOn>
             <BuildOrder>59</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uComposSectOutputSP35.cpp">
+            <DependentOn>uComposSectOutputSP35.h</DependentOn>
+            <BuildOrder>57</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uConcrete.cpp">
             <DependentOn>uConcrete.h</DependentOn>
             <BuildOrder>39</BuildOrder>
@@ -386,6 +390,10 @@
         <None Include="Units.h">
             <BuildOrder>47</BuildOrder>
         </None>
+        <CppCompile Include="uPlastCoeff.cpp">
+            <DependentOn>uPlastCoeff.h</DependentOn>
+            <BuildOrder>65</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uRebar.cpp">
             <DependentOn>uRebar.h</DependentOn>
             <BuildOrder>16</BuildOrder>
@@ -397,10 +405,6 @@
         <CppCompile Include="uSection.cpp">
             <DependentOn>uSection.h</DependentOn>
             <BuildOrder>50</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uSectOutputSP35.cpp">
-            <DependentOn>uSectOutputSP35.h</DependentOn>
-            <BuildOrder>57</BuildOrder>
         </CppCompile>
         <CppCompile Include="uSlabConcreteSection.cpp">
             <DependentOn>uSlabConcreteSection.h</DependentOn>
