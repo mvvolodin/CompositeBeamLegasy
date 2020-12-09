@@ -64,6 +64,7 @@ public:
 	double Z_s1_s() const {return grav_cent_lower_fl_dist();}
 	double C_s() const {return grav_cent();}
 	double A_s() const {return area();}
+	double A_w()const {return area_web();}
 	double A_s2_s() const {return area_upper_fl();}
 	double A_s1_s() const {return area_lower_fl();}
 	double I_s() const {return inertia();}

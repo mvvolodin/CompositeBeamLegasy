@@ -135,6 +135,8 @@ void ComposSectGeomSP35::calculate(double const E_b)
 
 	W_b_stb_ = I_stb_ / Z_b_stb_;
 
+	W_b_s_ = I_s / Z_b_s_;
+
 }
 double ComposSectGeomSP35::E_b()const
 {
@@ -156,10 +158,13 @@ double ComposSectGeomSP35::I_s()const
 {
 	return st_sect_ -> I_s();
 }
-
 double ComposSectGeomSP35::W_b_stb()const
 {
 	return W_b_stb_;
+}
+double ComposSectGeomSP35::W_b_s()const
+{
+	return W_b_s_;
 }
 double ComposSectGeomSP35::n_b()const
 {
@@ -178,7 +183,10 @@ double ComposSectGeomSP35::R_r()const
 {
 	return conc_sect_ -> rebars().rebar().R_s();
 }
-
+double ComposSectGeomSP35::eps_b_lim() const
+{
+	return concrete_.get_epsilon_b_lim();
+}
 double ComposSectGeomSP35::Z_b_s()const
 {
 	return Z_b_s_;
@@ -190,6 +198,10 @@ double ComposSectGeomSP35::W_s2_s()const
 double ComposSectGeomSP35::W_s1_s()const
 {
 	return st_sect_ -> W_s1_s();
+}
+double ComposSectGeomSP35::A_w()const
+{
+	return st_sect_ -> A_w();
 }
 double ComposSectGeomSP35::A_s2()const
 {

@@ -54,7 +54,36 @@ ComBeamOutputSP35 ComposSectCalculatorSP35::calculate(std::vector<Node> const & 
 
 ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 {
-	double x = node.x();
+	double const n_b = com_sect_.n_b();
+	double const n_r = com_sect_.n_r();
+
+	double const Z_b_s = com_sect_.Z_b_s();
+	double const A_s = com_sect_.A_s();
+	double const A_w = com_sect_.A_w();
+	double const A_s2 = com_sect_.A_s2();
+	double const A_s1 = com_sect_.A_s1();
+	double const W_s2_s = com_sect_.W_s2_s();
+	double const W_s1_s = com_sect_.W_s1_s();
+
+	double const A_b = com_sect_.A_b();
+	double const A_r = com_sect_.A_r();
+
+	double const W_b_stb = com_sect_.W_b_stb();
+
+	double const W_b_s = com_sect_.W_b_s();
+
+	double const E_st = com_sect_.E_st();
+
+	double const R_y = com_sect_.R_y();
+	double const R_b = com_sect_.R_b();
+	double const R_r = com_sect_.R_r();
+
+	double const eps_b_lim = com_sect_.eps_b_lim();
+
+	double const m = work_cond_factors_.m();
+	double const m_b = work_cond_factors_.m_b();
+
+    double x = node.x();
 
 	int end_sup_index = node.end_sup_index();
 	bool is_end_support = node.is_end_support();
@@ -66,6 +95,7 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const M_1b = intr_frcs_calculator_.M_1b(x);
 	double const M_2c = intr_frcs_calculator_.M_2c(x);
 	double const M_2d = intr_frcs_calculator_.M_2d(x);
+	double const M_2d_DL = intr_frcs_calculator_.M_2d_DL(x);
 
 	double const M_1 = M_1b;
 	double const M_2 = M_2c + M_2d;
@@ -106,11 +136,6 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const R_2 = R_2c + R_2d;
 	double const R = R_1 + R_2;
 
-	double const W_b_stb = com_sect_.W_b_stb();
-	double const n_b = com_sect_.n_b();
-	double const n_r = com_sect_.n_r();
-
-	double const M_2d_DL = intr_frcs_calculator_.M_2d_DL(x);
 
 	double  sigma_bi_sh = shrink_stress(ShrinkStressIn::concrete);
 	double  sigma_ri_sh = shrink_stress(ShrinkStressIn::rebar);
@@ -123,23 +148,6 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 
 	double const sigma_b = M_2 / (n_b * W_b_stb) -  sigma_bi;
 	double const sigma_r = M_2 / (n_r * W_b_stb) +  sigma_ri;
-
-	double const Z_b_s = com_sect_.Z_b_s();
-	double const A_s = com_sect_.A_s();
-	double const A_s2 = com_sect_.A_s2();
-	double const A_s1 = com_sect_.A_s1();
-	double const W_s2_s = com_sect_.W_s2_s();
-	double const W_s1_s = com_sect_.W_s1_s();
-
-	double const A_b = com_sect_.A_b();
-	double const A_r = com_sect_.A_r();
-
-	double const R_y = com_sect_.R_y();
-	double const R_b = com_sect_.R_b();
-	double const R_r = com_sect_.R_r();
-
-	double const m = work_cond_factors_.m();
-	double const m_b = work_cond_factors_.m_b();
 
 	double const fl_ratio = A_s2 / A_s1;
 	double const A_f_min_to_A_w_ratio = com_sect_.st_sect() ->
@@ -176,11 +184,14 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const m_1 = std::min(1 + (m_b * R_b - sigma_b) / (m * R_y) * A_b / A_s2, 1.2);
 	double const omega_4_br = omega_3_br / m_1;
 
+	double const k = 1.0;
+
+	double const st_sect_ratio = M_1a / (std::min(W_s1_s,W_s2_s) * R_y * m);
+	double const shear_ratio = Q / (0.58 * R_y * A_w * m);
+
 	double fl_s2_ratio = 0.;
 	double fl_s1_ratio = 0.;
 	double conc_ratio = 0.;
-	double shear_ratio = 0.;
-	double st_sect_ratio = 0.;
 
 	DesignCase const des_case = design_case(sigma_b, sigma_r);
 
@@ -241,7 +252,7 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 
 		fl_s2_ratio = ((M - Z_b_s * N_bR_R) / (omega_3_bR_R * W_s2_s) - N_bR_R / A_s) / (m * R_y);
 		fl_s1_ratio = ((M - Z_b_s * N_bR_R) / (omega_3_bR_R * W_s1_s) + N_bR_R / A_s) / (m * R_y);
-
+		conc_ratio = k / E_st * ((M_2- Z_b_s * N_bR_R) / W_b_s - N_bR_R / A_s) / eps_b_lim;
 
 	   return {node,
 			   M_1a, M_1b, M_2c, M_2d, M,
@@ -303,11 +314,11 @@ double ComposSectCalculatorSP35::creep_stress(double M, CreepStressIn const cr_s
 
 	case CreepStressIn::concrete:
 
-		return M / (n_b * W_b_stb) - M / (n_b_kr * W_b_stb_kr);
+		return std::abs(M / (n_b * W_b_stb) - M / (n_b_kr * W_b_stb_kr));
 
 	case CreepStressIn::rebar:
 
-		return M / (n_r * W_b_stb_kr) - M / (n_r * W_b_stb);
+		return std::abs(M / (n_r * W_b_stb_kr) - M / (n_r * W_b_stb));
 	}
 }
 
@@ -331,7 +342,7 @@ double ComposSectCalculatorSP35::shrink_stress(double const E, double Z, double 
 	double const S_st = com_sect_shr_.S_st();  //S_shr в норме
 	double const I_stb_shr = com_sect_shr_.I_stb();
 
-	return eps_shr * E * (A_st / A_stb_shr + S_st / I_stb_shr * Z - nu);
+	return std::abs(eps_shr * E * (A_st / A_stb_shr + S_st / I_stb_shr * Z - nu));
 }
 
 DesignCase ComposSectCalculatorSP35::design_case(double const sigma_b, double const sigma_r)

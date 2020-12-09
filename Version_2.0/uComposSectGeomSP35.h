@@ -35,7 +35,7 @@ public:
 
 	double E_rs()const;
 	double E_b()const;
-    double E_b_shr()const;
+	double E_b_shr()const;
 	double E_st()const;
 
 	double n_b()const;
@@ -45,9 +45,12 @@ public:
 	double R_b()const;
 	double R_r()const;
 
+	double eps_b_lim() const;
+
 	double A_s()const;
 	double A_s2()const;
 	double A_s1()const;
+    double A_w()const;
 	double W_s1_s()const;
 	double W_s2_s()const;
 	double I_s()const;
@@ -66,6 +69,7 @@ public:
 	double Z_r_stb()const;
 	double A_stb()const;
 	double W_b_stb()const;
+    double W_b_s()const;
 	double I_stb()const;
 	double eps_shr()const;
 
@@ -104,6 +108,8 @@ private:
 	double S_stb_= 0.;//Статический момент инерции сталежелезобетонного сечения относительно Ц.Т. стального сечения
 	double I_stb_= 0.;  //Момент инерции сталежелезобетонного сечения приведённого к металлу
 	double W_b_stb_= 0.;//Момент сопротивления сталежелезобетонного сечения для Ц.Т. железобетонной плиты
+
+	double W_b_s_ = 0.;//Условный момент сопротивления на уровне центра тяжести сечения бетона
 
 	double Z_s_r_u_= 0.;//расстояние между Ц.Т. стальной балки и верхней арматурой
 	double Z_s_r_l_= 0.;//расстояние между Ц.Т. стальной балки и нижней арматурой
