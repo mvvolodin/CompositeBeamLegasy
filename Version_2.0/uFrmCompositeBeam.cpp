@@ -840,8 +840,8 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 
 	try {
 		ComposSectCalculatorSP35 com_beam_calc {*com_beam_input_SP35};
-		std::vector<Node> nodes_lst {com_beam_input_SP35 -> glob_geom().nodes_lst()};
-		//nodes_lst.push_back({8942.5, false, true});
+		std::vector<Node> nodes_lst;// {com_beam_input_SP35 -> glob_geom().nodes_lst()};
+		nodes_lst.push_back({8942.5, false, true});
 
 		com_beam_output_SP35.reset(new ComBeamOutputSP35{com_beam_calc.calculate(nodes_lst)});
 

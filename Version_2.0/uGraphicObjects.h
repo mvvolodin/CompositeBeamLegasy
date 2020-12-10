@@ -5,6 +5,9 @@
 
 #include <Vcl.Graphics.hpp>
 #include <string>
+#include <vector>
+
+
 
 class Arrow{
 public:
@@ -12,7 +15,7 @@ public:
 	Arrow(TPoint const & pnt, int l, int w, int ang);
 	void draw(TCanvas* cnvs);
 private:
-	TPoint pnt_;
+	TPoint pnt_;//arrow tip location
 	int l_; //total length of arrow
 	int w_; // half of width of arrow head
 	int ang_;//rotation in clockwise direction in degree around the arrow tip

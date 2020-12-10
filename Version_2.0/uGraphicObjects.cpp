@@ -7,6 +7,23 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
+void rotate_vector(std::vector<TPoint> & vpnts, double ang)
+{
+	for (auto & vp: vpnts)
+	{
+		TPoint const vp0 {vp};
+
+		vp.x = std::round(vp0.x * cos(ang * 3.14159265 / 180) - vp0.y * sin(ang * 3.14159265 / 180));
+		vp.y = std::round(vp0.x * sin(ang * 3.14159265 / 180) + vp0.y * cos(ang * 3.14159265 / 180));
+	}
+}
+
+void move_to_point(std::vector<TPoint> & vpnts, TPoint const pnt)
+{
+	for (auto & vp: vpnts)
+		vp += pnt;
+}
+
 Arrow::Arrow(TPoint const & pnt, int l, int w, int ang):
 	pnt_(pnt),
 	l_(l),
@@ -20,32 +37,19 @@ void Arrow::draw(TCanvas* cnvs)
 	cnvs -> Pen -> Color = clBlack;
 	cnvs -> Brush -> Color = clBlack;
 
-	int pnts_sz = 3; //initialize arrow points
-	TPoint pnts[]{
-		{0, 0},
-		{-l_, w_},
-		{-l_, -w_}};
+	std::vector<TPoint> pnts{{0, 0},
+							 {-l_, w_},
+							 {-l_, -w_}};
 
-	for (int i = 0; i < pnts_sz; ++i) //rotation
-	{
-		double x0 = pnts[i].x;
-		double y0 = pnts[i].y;
+	rotate_vector(pnts, ang_);
+	move_to_point(pnts, pnt_);
 
-		pnts[i].x = std::round(x0 * cos(ang_ * 3.14159265 / 180) - y0 * sin(ang_ * 3.14159265 / 180));
-		pnts[i].y = std::round(x0 * sin(ang_ * 3.14159265 / 180) + y0 * cos(ang_ * 3.14159265 / 180));
-	}
-
-	for (int i = 0; i < pnts_sz; ++i) // movement
-	{
-		pnts[i].x += pnt_.x;
-		pnts[i].y += pnt_.y;
-	}
-
-	cnvs -> Polygon(pnts, pnts_sz - 1); //draw arrow
+	cnvs -> Polygon(pnts.data(), pnts.size()-1);
 
 	cnvs -> Pen -> Color = pen_old_color; //restore color settings
 	cnvs -> Brush -> Color = pen_old_color;
 }
+
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 Dimension::Dimension(TPoint const & pnt_l, TPoint const &  pnt_r, std::string const & str, int offset, int ang):
@@ -70,9 +74,19 @@ void Dimension::draw(TCanvas* cnvs)
 
 	int a = pnt_l_.x;
 
-	TPoint pnts_dim[sz] = {pnt_l_ + TPoint {0, offset_}, pnt_r_ + TPoint {0, offset_}};
+	TPoint pnts_dim[sz] {pnt_l_ + TPoint {0, -offset_}, pnt_r_ + TPoint {0, -offset_}};
+
+	TPoint pnts_ext_left[sz] {pnt_l_, pnts_dim[0] + TPoint {0, -2}};
+	TPoint pnts_ext_right[sz]{pnt_r_, pnts_dim[1] + TPoint {0, -2}};
+
+	TPoint pnts_tick_left[sz] {pnts_dim[0] + TPoint {-5, 5}, pnts_dim[0] + TPoint {5, -5}};
+	TPoint pnts_tick_right[sz]{pnts_dim[1] + TPoint {-5, 5}, pnts_dim[1] + TPoint {5, -5}};
 
 	cnvs -> Polyline(pnts_dim, sz - 1);
+	cnvs -> Polyline(pnts_ext_left, sz - 1);
+	cnvs -> Polyline(pnts_ext_right, sz - 1);
+	cnvs -> Polyline(pnts_tick_left, sz - 1);
+	cnvs -> Polyline(pnts_tick_right, sz - 1);
 
 	int alx = pnt_l_.x;
 	int aly = pnt_l_.y;
@@ -113,4 +127,6 @@ void Dimension::draw(TCanvas* cnvs)
 //	cnvs -> Brush -> Color = pen_old_color;
 
 }
+
+
 

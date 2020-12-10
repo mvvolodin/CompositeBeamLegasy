@@ -233,13 +233,15 @@ void WeldedSection::draw(TCanvas* cnvs)
 	cnvs -> Brush -> Color = clMedGray;
 	cnvs -> Polygon(points.data(),points.size()-1);
 
-//	Dimension dim_bf2 {points[0], points[11], "b_f", 10, 0};
-//	dim_bf2.draw(cnvs);
-//
-////	Arrow ar {{30, 30}, 20, 4, 225};
-////	ar.draw(cnvs);
+	Dimension dim_bf2 {points[0], points[11], "b_f", 10, 0};
+	dim_bf2.draw(cnvs);
+
+	Arrow ar {{30, 30}, 20, 4, 225};
+	ar.draw(cnvs);
 
 }
+
+
 void WeldedSection::print_input(TWord_Automation & report)const
 {
 	report.PasteTextPattern(name().c_str() ,"%name%");
@@ -259,7 +261,7 @@ void WeldedSection::print_output(TWord_Automation & report)const
 	report.PasteTextPattern(FloatToStrF(inertia(), ffFixed, 15, 2),"%inertia%");
 	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%modulus_upper_fl%");
 	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%modulus_lower_fl%");
-
-
+	report.PasteTextPattern(FloatToStrF(grav_cent_upper_fl_dist(), ffFixed, 15, 2),"%GC_upper_fl_dist%");
+	report.PasteTextPattern(FloatToStrF(grav_cent_lower_fl_dist(), ffFixed, 15, 2),"%GC_lower_fl_dist%");
 }
 

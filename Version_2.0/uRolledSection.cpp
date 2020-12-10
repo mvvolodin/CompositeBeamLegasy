@@ -161,8 +161,8 @@ void RolledSection::print_output(TWord_Automation & report)const
 	report.PasteTextPattern(FloatToStrF(inertia(), ffFixed, 15, 2),"%inertia%");
 	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%modulus_upper_fl%");
 	report.PasteTextPattern(FloatToStrF(upper_fl_thick(), ffFixed, 15, 2),"%modulus_lower_fl%");
-
-
+	report.PasteTextPattern(FloatToStrF(grav_cent_upper_fl_dist(), ffFixed, 15, 2),"%GC_upper_fl_dist%");
+	report.PasteTextPattern(FloatToStrF(grav_cent_lower_fl_dist(), ffFixed, 15, 2),"%GC_lower_fl_dist%");
 }
 #ifndef NDEBUG
 void RolledSection::print_data_to_logger(TFormLogger const & log)const

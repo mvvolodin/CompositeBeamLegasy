@@ -29,14 +29,16 @@ double GeneralSteelSection::t_max()const
 
 void GeneralSteelSection::fill_grid(TStringGrid* str_grid)const
 {
-
 	str_grid -> Cells [1][1] = FloatToStrF(area(), ffFixed, 15, 0);
 	str_grid -> Cells [1][2] = FloatToStrF(inertia(), ffFixed, 15, 0);
 	str_grid -> Cells [1][3] = FloatToStrF(modulus_upper_fl(), ffFixed, 15, 0);
 	str_grid -> Cells [1][4] = FloatToStrF(modulus_lower_fl(), ffFixed, 15, 0);
 	str_grid -> Cells [1][5] = FloatToStrF(grav_cent_upper_fl_dist(), ffFixed, 15, 0);
 	str_grid -> Cells [1][6] = FloatToStrF(grav_cent_lower_fl_dist(), ffFixed, 15, 0);
-
 }
+
+
+
+
 
 
