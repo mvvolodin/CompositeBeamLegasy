@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #ifndef uGraphicObjectsH
 #define uGraphicObjectsH
@@ -6,6 +6,7 @@
 #include <Vcl.Graphics.hpp>
 #include <string>
 #include <vector>
+#include <array>
 
 
 
@@ -23,15 +24,24 @@ private:
 
 class Dimension{
 public:
+	enum Direct{horiz, vert};
 	Dimension() = delete;
-	Dimension(TPoint const &  pnt_l, TPoint const &  pnt_r, std::string const & str, int offset, int ang);
+	Dimension(TPoint const &  pnt_1,
+			  TPoint const &  pnt_2,
+			  std::string const & str,
+			  int offset,
+			  Direct dir);
 	void draw(TCanvas* cnvs);
 private:
-	TPoint pnt_l_;
-	TPoint pnt_r_;
+	TPoint pnt_1_;
+	TPoint pnt_2_;
 	std::string str_; //string above the dim line
 	int offset_;
-	int ang_;//rotation in clockwise direction in degree around the first point of dimension attachment
+	Direct dir_;
+	void draw_vert(TCanvas* cnvs);
+	void draw_horiz(TCanvas* cnvs);
 };
+
+//rotation in clockwise direction in degree around the first point of dimension attachment
 //---------------------------------------------------------------------------
 #endif

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #pragma hdrstop
 
@@ -6,23 +6,93 @@
 #include "uGraphicObjects.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-
-void rotate_vector(std::vector<TPoint> & vpnts, double ang)
+/*
+	Функция поворота точки относительно начала декартовой системы координат
+*/
+void rotate(TPoint & p, double const ang)
 {
-	for (auto & vp: vpnts)
-	{
-		TPoint const vp0 {vp};
+	TPoint const p0 {p};
 
-		vp.x = std::round(vp0.x * cos(ang * 3.14159265 / 180) - vp0.y * sin(ang * 3.14159265 / 180));
-		vp.y = std::round(vp0.x * sin(ang * 3.14159265 / 180) + vp0.y * cos(ang * 3.14159265 / 180));
-	}
+	p.X = std::round(p0.x * cos(ang * 3.14159265 / 180) - p0.y * sin(ang * 3.14159265 / 180));
+	p.Y = std::round(p0.x * sin(ang * 3.14159265 / 180) + p0.y * cos(ang * 3.14159265 / 180));
+}
+/*
+	Функция поворота объекта относительно начала декартовой системы координат
+*/
+void rotate(std::vector<TPoint> & obj, double const ang)
+{
+	for(auto & p:obj)
+		rotate(p, ang);
+}
+/*
+	Функция поворота группы объектов относительно начала декартовой системы координат
+*/
+void rotate(std::vector<std::vector<TPoint>> & objs, double const ang)
+{
+	for(auto & o:objs)
+		rotate(o, ang);
+}
+/*
+	Функция поворота точки относительно точки rot_cent
+*/
+void rotate(TPoint & p, TPoint const & rot_cent, double const ang)
+{
+	p -= rot_cent;
+	rotate(p, ang);
+	p += rot_cent;
+}
+/*
+	Функция поворота объекта относительно точки rot_cent
+*/
+void rotate(std::vector<TPoint> & obj, TPoint const & rot_cent, double const ang)
+{
+	for(auto & p:obj)
+		rotate(p, rot_cent, ang);
+}
+/*
+	Функция перемещения точки на расстояния dist_x и dist_y
+*/
+void move(TPoint & p, int const dist_x, int const dist_y)
+{
+		p += TPoint {dist_x, dist_y};
+}
+/*
+	Функция перемещения объекта на расстояния dist_x и dist_y
+*/
+void move(std::vector<TPoint> & obj, int dist_x, int dist_y)
+{
+	for (auto & p: obj)
+		move(p, dist_x, dist_y);
+}
+/*
+	Функция перемещения группы объектов на расстояния dist_x и dist_y
+*/
+void move(std::vector<std::vector<TPoint>> & objs, int dist_x, int dist_y)
+{
+	for (auto & o: objs)
+		move(o, dist_x, dist_y);
+}
+/*
+	Функция перемещения объекта в точку pnt
+*/
+void move_obj(std::vector<TPoint> & obj, TPoint const & pnt)
+{
+	int const dist_x = pnt.X - obj.front().X;
+	int const dist_y = pnt.Y - obj.front().Y;
+
+	move(obj, dist_x, dist_y);
+}
+/*
+	Функция перемещения группы объектов в точку pnt
+*/
+void move_objs(std::vector<std::vector<TPoint>> & objs, TPoint const & pnt)
+{
+	int const dist_x = pnt.X - objs.front().front().X;
+	int const dist_y = pnt.Y - objs.front().front().Y;
+
+	move(objs, dist_x, dist_y);
 }
 
-void move_to_point(std::vector<TPoint> & vpnts, TPoint const pnt)
-{
-	for (auto & vp: vpnts)
-		vp += pnt;
-}
 
 Arrow::Arrow(TPoint const & pnt, int l, int w, int ang):
 	pnt_(pnt),
@@ -37,14 +107,16 @@ void Arrow::draw(TCanvas* cnvs)
 	cnvs -> Pen -> Color = clBlack;
 	cnvs -> Brush -> Color = clBlack;
 
-	std::vector<TPoint> pnts{{0, 0},
-							 {-l_, w_},
-							 {-l_, -w_}};
+	std::vector<TPoint> arrow{{0, 0},
+							  {-l_, w_},
+							  {-l_, -w_}};
+	int const center_x = cnvs -> ClipRect.Width() / 2;
+	int const center_y = cnvs -> ClipRect.Height() / 2;
 
-	rotate_vector(pnts, ang_);
-	move_to_point(pnts, pnt_);
+	move_obj(arrow,{30, 50});
+	rotate(arrow, {30, 50}, 90);
 
-	cnvs -> Polygon(pnts.data(), pnts.size()-1);
+	cnvs -> Polygon(arrow.data(), arrow.size()-1);
 
 	cnvs -> Pen -> Color = pen_old_color; //restore color settings
 	cnvs -> Brush -> Color = pen_old_color;
@@ -52,79 +124,124 @@ void Arrow::draw(TCanvas* cnvs)
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-Dimension::Dimension(TPoint const & pnt_l, TPoint const &  pnt_r, std::string const & str, int offset, int ang):
-	pnt_l_(pnt_l),
-	pnt_r_(pnt_r),
+Dimension::Dimension(TPoint const & pnt_1,
+					 TPoint const &  pnt_2,
+					 std::string const & str,
+					 int offset,
+					 Direct dir):
+	pnt_1_(pnt_1),
+	pnt_2_(pnt_2),
 	str_(str),
     offset_(offset),
-	ang_(ang)
+	dir_(dir)
 	{}
 
 void Dimension::draw(TCanvas* cnvs)
 {
-	TColor pen_old_color = cnvs -> Pen -> Color;// save color settings
+	switch (dir_){
+	case horiz:
+		draw_horiz(cnvs);
+		break;
+	case vert:
+		draw_vert(cnvs);
+		break;
+	}
+}
+void Dimension::draw_horiz(TCanvas* cnvs)
+{
+	TColor pen_old_color = cnvs -> Pen -> Color;
 	TColor brush_old = cnvs -> Brush -> Color;
 
 	cnvs -> Pen -> Color = clBlack;
-	cnvs -> Brush -> Color = clBlack;
+	cnvs -> Brush -> Color = clWhite;
 
-	int const sz = 2;
+	int const num_pnts = 2;
 
-	TPoint tick {5,5};
+	std::vector<TPoint> dim {pnt_1_ + TPoint {0, -offset_},
+									  pnt_2_ + TPoint {0, -offset_}};
 
-	int a = pnt_l_.x;
+	std::vector<TPoint> ext_left{pnt_1_,
+										  dim[0] + TPoint {0, -2}};
 
-	TPoint pnts_dim[sz] {pnt_l_ + TPoint {0, -offset_}, pnt_r_ + TPoint {0, -offset_}};
+	std::vector<TPoint> ext_right{pnt_2_,
+										   dim[1] + TPoint {0, -2}};
 
-	TPoint pnts_ext_left[sz] {pnt_l_, pnts_dim[0] + TPoint {0, -2}};
-	TPoint pnts_ext_right[sz]{pnt_r_, pnts_dim[1] + TPoint {0, -2}};
+	std::vector<TPoint> tick_left{dim[0] + TPoint {-5, 5},
+										   dim[0] + TPoint {5, -5}};
 
-	TPoint pnts_tick_left[sz] {pnts_dim[0] + TPoint {-5, 5}, pnts_dim[0] + TPoint {5, -5}};
-	TPoint pnts_tick_right[sz]{pnts_dim[1] + TPoint {-5, 5}, pnts_dim[1] + TPoint {5, -5}};
+	std::vector<TPoint> tick_right{dim[1] + TPoint {-5, 5},
+											dim[1] + TPoint {5, -5}};
 
-	cnvs -> Polyline(pnts_dim, sz - 1);
-	cnvs -> Polyline(pnts_ext_left, sz - 1);
-	cnvs -> Polyline(pnts_ext_right, sz - 1);
-	cnvs -> Polyline(pnts_tick_left, sz - 1);
-	cnvs -> Polyline(pnts_tick_right, sz - 1);
+	int w_str = cnvs -> TextWidth(UnicodeString{str_.c_str()});
+	int h_str = cnvs -> TextHeight(UnicodeString{str_.c_str()});
 
-	int alx = pnt_l_.x;
-	int aly = pnt_l_.y;
+	TPoint pnt_txt {(ext_left [1].X + ext_right[1].X) / 2 - w_str / 2,
+					 ext_left[1].Y - h_str};
 
-	int arx = pnt_r_.x;
-	int ary = pnt_r_.y;
+	cnvs -> Font-> Style = TFontStyles() << fsItalic;
+	cnvs -> TextOut(pnt_txt.X, pnt_txt.Y, str_.c_str());
 
-	bool stop2 = true;
+	cnvs -> Pen -> Color = pen_old_color; //restore color settings
+	cnvs -> Brush -> Color = pen_old_color;
 
-//	TPoint p1 {pnt1_ + TPoint{0, offset_}};
-//	TPoint p2 {pnt2_ + TPoint{0, offset_}};
-//
-//	pnt1_.Offset(0, offset_);
-//	pnt2_.Offset(0, offset_);
+	TPoint pnt1 {0,0};
 
-//	pnt1_.y += offset_;
-//	pnt2_.y += offset_;
-//
-//	bool stop2 = true;
-//
-//	TPoint p5 = pnt1_ + (TPoint{0, offset_});
-//	TPoint p6 = pnt2_ + TPoint{0, offset_};
-//
-//	cnvs -> Polyline(pnts_dim, sz - 1);
-//
-//	TPoint pnts_tick_l[sz]{pnts_dim[0] + tick, pnts_dim[0] - tick};
-//	TPoint pnts_tick_r[sz]{pnts_dim[1] + tick, pnts_dim[1] - tick};
-//	TPoint pnts_offset_l[sz]{pnt1_, pnts_dim[0]};
-//	TPoint pnts_offset_r[sz]{pnt2_, pnts_dim[1]};
-//
-//
-//	cnvs -> Polyline(pnts_tick_l, sz - 1);
-//	cnvs -> Polyline(pnts_tick_r, sz - 1);
-//	cnvs -> Polyline(pnts_offset_l, sz - 1);
-//	cnvs -> Polyline(pnts_offset_l, sz - 1);
-//
-//	cnvs -> Pen -> Color = pen_old_color; //restore color settings
-//	cnvs -> Brush -> Color = pen_old_color;
+	std::vector<std::vector<TPoint>> objs {dim,
+		ext_left, ext_right, tick_left, tick_right};
+
+	rotate(objs, 0);
+
+	for(auto const & l:objs)
+		cnvs -> Polyline(l.data(), l.size()-1);
+
+
+}
+void Dimension::draw_vert(TCanvas* cnvs)
+{
+	TColor pen_old_color = cnvs -> Pen -> Color;
+	TColor brush_old = cnvs -> Brush -> Color;
+
+	cnvs -> Pen -> Color = clBlack;
+	cnvs -> Brush -> Color = clWhite;
+
+	int const num_pnts = 2;
+
+	std::vector<TPoint> dim {pnt_1_ + TPoint {-offset_, 0 },
+									  pnt_2_ + TPoint {-offset_, 0}};
+
+	std::vector<TPoint> ext_left{pnt_1_, dim[0] + TPoint {0, -2}};
+
+	std::vector<TPoint> ext_right{pnt_2_,
+						    dim[1] + TPoint {0, -2}};
+
+	std::vector<TPoint> tick_left{dim[0] + TPoint {-5, 5},
+										   dim[0] + TPoint {5, -5}};
+
+	std::vector<TPoint> tick_right{dim[1] + TPoint {-5, 5},
+											dim[1] + TPoint {5, -5}};
+
+	int w_str = cnvs -> TextWidth(UnicodeString{str_.c_str()});
+	int h_str = cnvs -> TextHeight(UnicodeString{str_.c_str()});
+
+	TPoint pnt_txt {(ext_left [1].X + ext_right[1].X) / 2 - w_str / 2,
+					 ext_left[1].Y - h_str};
+
+	cnvs -> Font-> Style = TFontStyles() << fsItalic;
+	cnvs -> TextOut(pnt_txt.X, pnt_txt.Y, str_.c_str());
+
+	cnvs -> Pen -> Color = pen_old_color; //restore color settings
+	cnvs -> Brush -> Color = pen_old_color;
+
+	TPoint pnt1 {0,0};
+
+	std::vector<std::vector<TPoint>> objs {dim,
+		ext_left, ext_right, tick_left, tick_right};
+
+	rotate(objs, 0);
+
+	for(auto const & l:objs)
+		cnvs -> Polyline(l.data(), l.size()-1);
+
 
 }
 

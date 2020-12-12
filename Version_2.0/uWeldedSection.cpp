@@ -218,8 +218,8 @@ void WeldedSection::draw(TCanvas* cnvs)
 	int const w = cnvs -> ClipRect.Width();
 	int const h = cnvs -> ClipRect.Height();
 
-	int const offset_x = 20;
-	int const offset_y = 20;
+	int const offset_x = 30;
+	int const offset_y = 30;
 
 	double const scale = std::min((h - 2 * offset_y) / (web_height() + lower_fl_thick() + upper_fl_thick()),
 		(w - 2 * offset_x) / std::max(lower_fl_thick(),upper_fl_thick()));
@@ -233,8 +233,10 @@ void WeldedSection::draw(TCanvas* cnvs)
 	cnvs -> Brush -> Color = clMedGray;
 	cnvs -> Polygon(points.data(),points.size()-1);
 
-	Dimension dim_bf2 {points[0], points[11], "b_f", 10, 0};
+	Dimension dim_bf2 {points[11], points[0], "b_f", 10, Dimension::Direct::horiz};
+	Dimension dim_h {points[11], points[6], "h", 10, Dimension::Direct::vert};
 	dim_bf2.draw(cnvs);
+	dim_h.draw(cnvs);
 
 	Arrow ar {{30, 30}, 20, 4, 225};
 	ar.draw(cnvs);
