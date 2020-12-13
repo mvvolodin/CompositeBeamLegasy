@@ -12,14 +12,27 @@
 
 class Arrow{
 public:
-	Arrow() = delete;
-	Arrow(TPoint const & pnt, int l, int w, int ang);
-	void draw(TCanvas* cnvs);
+	Arrow();
+	Arrow(int l, int w);
+	Arrow(TColor col);
+	Arrow(int l, int w, TColor col);
+	void draw(TCanvas* const cnvs, TPoint const & pnt, int ang);
 private:
-	TPoint pnt_;//arrow tip location
-	int l_; //total length of arrow
-	int w_; // half of width of arrow head
-	int ang_;//rotation in clockwise direction in degree around the arrow tip
+	int l_ = 15; //total length of arrow
+	int w_ = 4; // half of width of arrow head
+	TColor col_ = clBlack;
+};
+class CoordSyst{
+public:
+	CoordSyst() = delete;
+	CoordSyst(TPoint const & orig);
+	void draw(TCanvas* const cnvs);
+private:
+	TPoint orig_;
+	int ax_len_ = 40;
+	int orig_rad_ = 4;
+	Arrow ar_ {20, 4};
+
 };
 
 class Dimension{

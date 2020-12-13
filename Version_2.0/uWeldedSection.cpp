@@ -238,8 +238,9 @@ void WeldedSection::draw(TCanvas* cnvs)
 	dim_bf2.draw(cnvs);
 	dim_h.draw(cnvs);
 
-	Arrow ar {{30, 30}, 20, 4, 225};
-	ar.draw(cnvs);
+	CoordSyst cs ({w / 2, h / 2});
+	cs.draw(cnvs);
+
 
 }
 
