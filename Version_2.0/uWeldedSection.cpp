@@ -233,15 +233,20 @@ void WeldedSection::draw(TCanvas* cnvs)
 	cnvs -> Brush -> Color = clMedGray;
 	cnvs -> Polygon(points.data(),points.size()-1);
 
-	Dimension dim_bf2 {points[11], points[0], "b_f", 10, Dimension::Direct::horiz};
-	Dimension dim_h {points[11], points[6], "h", 10, Dimension::Direct::vert};
+	String bf2_tmp {FloatToStrF(upper_fl_width(), ffFixed, 15, 2)};
+	std::u16string const bf2 {bf2_tmp.begin(),bf2_tmp.end()};
+
+	String h_sect_tmp {FloatToStrF(sect_height(), ffFixed, 15, 2)};
+	std::u16string const h_sect {h_sect_tmp.begin(),h_sect_tmp.end()};
+
+	Dimension dim_bf2 {points[11], points[0], bf2, 10, Dimension::Direct::horiz};
+	Dimension dim_h {points[11], points[6], h_sect, 10, Dimension::Direct::vert};
+
 	dim_bf2.draw(cnvs);
 	dim_h.draw(cnvs);
 
-	CoordSyst cs ({w / 2, h / 2});
-	cs.draw(cnvs);
-
-
+	CoordSyst cs (cnvs);
+	cs.draw({w / 2, h / 2});
 }
 
 

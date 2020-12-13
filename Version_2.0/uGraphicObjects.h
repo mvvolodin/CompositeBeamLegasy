@@ -7,31 +7,45 @@
 #include <string>
 #include <vector>
 #include <array>
-
+class Line{
+public:
+	Line() = delete;
+	Line(TCanvas* cnvs);
+	Line(TCanvas* cnvs, TColor col);
+	void draw(TPoint const & p1, TPoint const & p2);
+private:
+	static int const last_pnt_index_ = 1;
+	TColor col_ {clBlack};
+	TCanvas* const cnvs_;
+};
 
 
 class Arrow{
 public:
-	Arrow();
-	Arrow(int l, int w);
-	Arrow(TColor col);
-	Arrow(int l, int w, TColor col);
-	void draw(TCanvas* const cnvs, TPoint const & pnt, int ang);
+	Arrow() = delete;
+	Arrow(TCanvas* cnvs, int l, int w);
+	Arrow(TCanvas* cnvs, TColor col);
+	Arrow(TCanvas* cnvs, int l, int w, TColor col);
+	void draw(TPoint const & pnt, int ang);
 private:
-	int l_ = 15; //total length of arrow
-	int w_ = 4; // half of width of arrow head
-	TColor col_ = clBlack;
+	TCanvas* const cnvs_;
+	int l_ {15}; //total length of arrow
+	int w_ {4}; // half of width of arrow head
+	TColor col_ {clBlack};
 };
 class CoordSyst{
 public:
 	CoordSyst() = delete;
-	CoordSyst(TPoint const & orig);
-	void draw(TCanvas* const cnvs);
+	CoordSyst(TCanvas* const cnvs);
+	CoordSyst(TCanvas* cnvs, TColor ax_col, TColor orig_color);
+	void draw(TPoint const & orig);
 private:
-	TPoint orig_;
-	int ax_len_ = 40;
-	int orig_rad_ = 4;
-	Arrow ar_ {20, 4};
+	TCanvas* const cnvs_;
+	TColor ax_col_{clBlack};
+	TColor orig_color_{clWhite};
+	int ax_len_ {40};
+	int orig_rad_ {4};
+	Arrow ar_ {cnvs_, ax_col_};
 
 };
 
@@ -41,16 +55,19 @@ public:
 	Dimension() = delete;
 	Dimension(TPoint const &  pnt_1,
 			  TPoint const &  pnt_2,
-			  std::string const & str,
+			  std::u16string const & str,
 			  int offset,
 			  Direct dir);
 	void draw(TCanvas* cnvs);
 private:
 	TPoint pnt_1_;
 	TPoint pnt_2_;
-	std::string str_; //string above the dim line
-	int offset_;
+	std::u16string str_; //string above the dim line
+	int offset_{10};
+	int const ext_ {2};
+	int const tick_cathet_ {4};
 	Direct dir_;
+    int txt_offset_{2};
 	void draw_vert(TCanvas* cnvs);
 	void draw_horiz(TCanvas* cnvs);
 };
