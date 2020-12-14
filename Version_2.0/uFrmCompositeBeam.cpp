@@ -17,6 +17,7 @@
 #include "uComposSectGeomSP35.h"
 #include "uIntForcesCalculator.h"
 #include "uComBeamInputSP35.h"
+#include "uUnits_new.h"
 
 //---------------------------------------------------------------------------
 std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
@@ -43,6 +44,7 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	update_all_frms_cntrls();
 
 	calculate_composite_beam();
+	after_calculation();
 
 }
 
@@ -197,6 +199,32 @@ void TCompositeBeamMainForm ::update_grids(int code_index)
 	update_concrete_sect_geometr_grid(code_index);
 	update_composite_sect_geometr_grid(code_index);
 	update_results_grid(code_index);
+}
+void TCompositeBeamMainForm ::update_SW_edts(int code_indx)
+{
+
+	double dens;
+	double SW_conc;
+	double SW_steel_beam;
+
+	AnsiString t;
+
+	switch (code_indx) {
+
+	case(0):
+
+		break;
+	case(1):
+
+		dens = com_beam_input_SP35 -> concrete().get_density();
+		SW_conc = com_beam_input_SP35 -> concrete_sect() -> SW(dens);
+		edt_SW_conc -> Text = force_per_area_to_str(SW_conc, LengthUnit::m, LoadUnit::kN);
+
+		SW_steel_beam = com_beam_input_SP35 -> steel_sect() -> SW();
+		edt_SW_steel_beam -> Text = force_per_length_to_str(SW_steel_beam, LengthUnit::m, LoadUnit::kN);
+
+		break;
+	}
 }
 
 void TCompositeBeamMainForm ::update_steel_sect_geometr_grid(int code_indx)
@@ -703,12 +731,12 @@ void TCompositeBeamMainForm ::draw_diagram()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::draw_diagram2()
 {
-	std::vector<double> M{};
-	std::vector<double> Q{};
-	std::vector<double> R{};
-	std::vector<double> f{};
+	std::vector<double> M;
+	std::vector<double> Q;
+	std::vector<double> R;
+	std::vector<double> f;
 
-	std::vector<double>	coor_supp{};
+	std::vector<double>	coor_supp;
 
 	switch (cmb_bx_impact -> ItemIndex)
 	{
@@ -777,7 +805,7 @@ void TCompositeBeamMainForm::draw_diagram2()
 	{
 	case(0):
 
-		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, coor_supp.size(), &coor_supp[0],
+		DrawEpur(Image1, M.size(), coor_epur.data(), M.data(), nullptr, coor_supp.size(), coor_supp.data(),
 			flag_sign, num_digits, con_sign_practice);
 
 
@@ -785,14 +813,14 @@ void TCompositeBeamMainForm::draw_diagram2()
 
 	case(1):
 
-		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R[0], coor_supp.size(), &coor_supp[0],
+		DrawEpur(Image1, Q.size(), coor_epur.data(), Q.data(), R.data(), coor_supp.size(), coor_supp.data(),
 			flag_sign, num_digits, con_sign_practice);
 
 		break;
 
 	case(2):
 
-		DrawEpur(Image1, f.size(), &coor_epur[0], &f[0], nullptr, coor_supp.size(), &coor_supp[0],
+		DrawEpur(Image1, f.size(), coor_epur.data(), f.data(), nullptr, coor_supp.size(), coor_supp.data(),
 			flag_sign, num_digits, false);
 
 		break;
@@ -840,8 +868,8 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 
 	try {
 		ComposSectCalculatorSP35 com_beam_calc {*com_beam_input_SP35};
-		std::vector<Node> nodes_lst;// {com_beam_input_SP35 -> glob_geom().nodes_lst()};
-		nodes_lst.push_back({8942.5, false, true});
+		std::vector<Node> nodes_lst {com_beam_input_SP35 -> glob_geom().nodes_lst()};
+//		nodes_lst.push_back({8942.5, false, true});
 
 		com_beam_output_SP35.reset(new ComBeamOutputSP35{com_beam_calc.calculate(nodes_lst)});
 
@@ -858,6 +886,8 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 void TCompositeBeamMainForm::after_calculation()
 {
 	update_grids(rd_grp_code -> ItemIndex);
+
+	update_SW_edts(rd_grp_code -> ItemIndex);
 
 	draw_diagram2();
 

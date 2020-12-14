@@ -6,9 +6,11 @@
 #include <math.h>
 #include <ostream>
 #include <istream>
+#include <System.hpp>
 //---------------------------------------------------------------------------
-#include "Units.h"
-#include "System.hpp"
+#include "uUnits_new.h"
+#include "Constants.h"
+
 
 enum class ProfileGroup{
 	B,
@@ -53,7 +55,7 @@ public:
 	double get_t_w(LengthUnit length_unit=LengthUnit::mm) const {return t_w_/static_cast<int>(length_unit);}
 	double get_h_st(LengthUnit length_unit=LengthUnit::mm) const {return h_st_/static_cast<int>(length_unit);}
 	double get_r(LengthUnit length_unit=LengthUnit::mm) const {return r_/static_cast<int>(length_unit);}
-	double get_weight(LengthUnit length_unit=LengthUnit::mm, LoadUnit load_unit=LoadUnit::N) const {return (GRAV_ACCELERAT * weight_ / static_cast<int>(LengthUnit::m)) /static_cast<int>(load_unit)*static_cast<int>(length_unit);}
+	double get_weight(LengthUnit length_unit=LengthUnit::mm, LoadUnit load_unit=LoadUnit::N) const {return (constants::grav_accelerate * weight_ / static_cast<int>(LengthUnit::m)) /static_cast<int>(load_unit)*static_cast<int>(length_unit);}
 	double get_Z_f2_st(LengthUnit length_unit=LengthUnit::mm) const {return Z_f2_st_/static_cast<int>(length_unit);}
 	double get_Z_f1_st(LengthUnit length_unit=LengthUnit::mm) const {return Z_f1_st_/static_cast<int>(length_unit);}
 	double get_A_st(LengthUnit length_unit=LengthUnit::mm) const {return A_st_/std::pow(static_cast<int>(length_unit),2);}

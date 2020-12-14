@@ -5,6 +5,7 @@
 #include "uComposSectCalculatorS35.h"
 #include "uBilinearInterp.h"
 #include <algorithm>
+#include <cmath>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -136,7 +137,6 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const R_2 = R_2c + R_2d;
 	double const R = R_1 + R_2;
 
-
 	double  sigma_bi_sh = shrink_stress(ShrinkStressIn::concrete);
 	double  sigma_ri_sh = shrink_stress(ShrinkStressIn::rebar);
 
@@ -146,10 +146,10 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const sigma_bi = std::abs(sigma_bi_sh) + std::abs(sigma_bi_kr);
 	double const sigma_ri = std::abs(sigma_ri_sh) + std::abs(sigma_ri_kr);
 
-	double const sigma_b = M_2 / (n_b * W_b_stb) -  sigma_bi;
+	double const sigma_b = std::max(M_2 / (n_b * W_b_stb) -  sigma_bi, 0.);
 	double const sigma_r = M_2 / (n_r * W_b_stb) +  sigma_ri;
 
-	double const fl_ratio = A_s2 / A_s1;
+	double const fl_ratio = com_sect_.st_sect() -> smaller_fl_to_larger_fl_ratio();
 	double const A_f_min_to_A_w_ratio = com_sect_.st_sect() ->
 		smaller_fl_area_to_web_area_ratio();
 	double const A_f_min_plus_A_w_to_A_ratio = com_sect_.st_sect() ->

@@ -2,8 +2,9 @@
 
 #pragma hdrstop
 
-#include <cmath>
 #include "uGraphicObjects.h"
+#include <cmath>
+#include "Constants.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -14,8 +15,8 @@ void rotate(TPoint & p, double const ang)
 {
 	TPoint const p0 {p};
 
-	p.X = std::round(p0.x * cos(ang * 3.14159265 / 180) - p0.y * sin(ang * 3.14159265 / 180));
-	p.Y = std::round(p0.x * sin(ang * 3.14159265 / 180) + p0.y * cos(ang * 3.14159265 / 180));
+	p.X = std::round(p0.x * cos(ang * constants::pi / 180) - p0.y * sin(ang * constants::pi / 180));
+	p.Y = std::round(p0.x * sin(ang * constants::pi / 180) + p0.y * cos(ang * constants::pi / 180));
 }
 /*
 	Функция поворота объекта относительно начала декартовой системы координат

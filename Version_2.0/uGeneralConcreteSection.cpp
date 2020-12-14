@@ -5,6 +5,7 @@
 #include "uGeneralConcreteSection.h"
 #include "MathFunction.h"
 #include <algorithm>
+#include "uUnits_new.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 GeneralConcreteSection::GeneralConcreteSection(double const h_f,
@@ -107,9 +108,9 @@ void GeneralConcreteSection::fill_grid(TStringGrid* str_grid)const
 void GeneralConcreteSection::print_data_to_report(TWord_Automation & report)const
 {
 	report.PasteTextPattern(slab_type().c_str(),"%slab_type%");
-	report.PasteTextPattern(FloatToStrF(b_sl(), ffFixed, 15, 2),"%b_sl%");
-	report.PasteTextPattern(FloatToStrF(C_b(), ffFixed, 15, 2),"%C_b%");
-	report.PasteTextPattern(FloatToStrF(A_b(), ffFixed, 15, 2),"%A_b%");
-	report.PasteTextPattern(FloatToStrF(I_b(), ffFixed, 15, 2),"%I_b%");
+	report.PasteTextPattern(length_to_str(b_sl_, LengthUnit::cm),"%b_sl%");
+	report.PasteTextPattern(length_to_str(C_b(), LengthUnit::cm),"%C_b%");
+	report.PasteTextPattern(area_to_str(A_b()),"%A_b%");
+	report.PasteTextPattern(inertia_to_str(I_b()),"%I_b%");
 }
 

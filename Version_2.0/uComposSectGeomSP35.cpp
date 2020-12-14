@@ -224,6 +224,7 @@ double ComposSectGeomSP35::A_r()const
 	return conc_sect_ -> rebars().A_u_r_per_unit() * conc_sect_ -> b_sl() +
 		   conc_sect_ -> rebars().A_l_r_per_unit() * conc_sect_ -> b_sl();
 }
+
 double ComposSectGeomSP35::E_rs()const
 {
 	return conc_sect_ -> rebars().rebar().E_rs();
@@ -306,12 +307,12 @@ void ComposSectGeomSP35::print(TWord_Automation & report)const
 	st_sect_ -> print_output(report);
 	conc_sect_ -> print_data_to_report(report);
 
-	report.PasteTextPattern(FloatToStrF(A_stb_, ffFixed, 15, 2),"%A_stb%");
-	report.PasteTextPattern(FloatToStrF(I_stb_, ffFixed, 15, 2),"%I_stb%");
-	report.PasteTextPattern(FloatToStrF(W_b_stb_, ffFixed, 15, 2),"%W_b_stb%");
-	report.PasteTextPattern(FloatToStrF(Z_b_stb_, ffFixed, 15, 2),"%Z_b_stb%");
-	report.PasteTextPattern(FloatToStrF(Z_s_stb_, ffFixed, 15, 2),"%Z_s_stb%");
-	report.PasteTextPattern(FloatToStrF(Z_b_s_, ffFixed, 15, 2),"%Z_b_s%");
+	report.PasteTextPattern(area_to_str(A_stb_),"%A_stb%");
+	report.PasteTextPattern(inertia_to_str(I_stb_),"%I_stb%");
+	report.PasteTextPattern(sect_modul_to_str(W_b_stb_),"%W_b_stb%");
+	report.PasteTextPattern(length_to_str(Z_b_stb_, LengthUnit::cm),"%Z_b_stb%");
+	report.PasteTextPattern(length_to_str(Z_s_stb_, LengthUnit::cm),"%Z_s_stb%");
+	report.PasteTextPattern(length_to_str(Z_b_s_, LengthUnit::cm),"%Z_b_s%");
 }
 #ifndef NDEBUG
 void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const

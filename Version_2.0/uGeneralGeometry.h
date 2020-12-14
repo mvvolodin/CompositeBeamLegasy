@@ -1,34 +1,37 @@
 //---------------------------------------------------------------------------
-#ifndef uGeometryH
-#define uGeometryH
+
+#ifndef uGeneralGeometryH
+#define uGeneralGeometryH
 //---------------------------------------------------------------------------
+
 #include <vector>
 #include <ostream>
 #include <istream>
+#include "Units.h"
 #include <system.hpp>
-#include "uUnits_new.h"
-#include "uWord_Automation.h"
-//---------------------------------------------------------------------------
+
 enum class SupportsNumber{
 	ZERO,
 	ONE,
 	TWO,
 	THREE
 };
-//---------------------------------------------------------------------------
-class Geometry{
+
+class GeneralGeometry{
 
 public:
     public:
-	Geometry();
-	Geometry(bool end_beam, double L, double B_l, double B_r, SupportsNumber temp_supports_num);
 
-	void print_data_to_report(TWord_Automation & report)const;
+	GeneralGeometry(bool end_beam,
+					double L,
+					double B_l,
+					double B_r,
+					SupportsNumber temp_supports_num);
 
 	void set_default_values();
 	void save(ostream& ostr) const;
 	void load(istream& istr);
-	bool is_end_beam()const {return end_beam_;}
+	inline bool is_end_beam()const {return end_beam_;}
 	String is_end_beam_to_str()const;
 	double get_span(LengthUnit length_units=LengthUnit::mm)const {return L_/static_cast<int>(length_units);}
 	double get_spacing_left(LengthUnit length_units=LengthUnit::mm) const {return B_l_/static_cast<int>(length_units);}

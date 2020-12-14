@@ -184,9 +184,13 @@ __published:	// IDE-managed Components
 	TLabel *lbl_sheeting_continuity_coefficient;
 	TCheckBox *chck_bx_wider_flange_up;
 	TCheckBox *chck_bx_sheet_orient_along;
-	TGroupBox *GroupBox1;
+	TGroupBox *grp_bx_sheet_cont;
 	TMenuItem *Help;
 	TRadioGroup *rd_grp_code;
+	TLabel *lbl_SW_conc;
+	TEdit *edt_SW_conc;
+	TLabel *lbl_SW_steel_beam;
+	TEdit *edt_SW_steel_beam;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -242,6 +246,7 @@ private:
 	void fill_results_grid();
 
 	void update_grids(int code_indx);
+	void update_SW_edts(int code_indx);
 	void update_steel_sect_geometr_grid(int code_indx);
 	void update_concrete_sect_geometr_grid(int code_indx);
 	void update_composite_sect_geometr_grid(int code_indx);

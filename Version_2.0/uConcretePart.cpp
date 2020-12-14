@@ -5,6 +5,7 @@
 
 	#include<cmath>
 	#include "uConcretePart.h"
+	#include "Constants.h"
 	//---------------------------------------------------------------------------
 	#pragma package(smart_init)
 
@@ -118,9 +119,9 @@ double ConcretePart::get_SW_concrete(LoadUnit load_unit, LengthUnit length_unit)
 	double density = concrete_.get_density();
 
 	if (slab_type_enum_ == SlabType::CORRUGATED)
-		SW_concrete = density * GRAV_ACCELERAT * (h_f_ + CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_h_b(wider_flange_up_));
+		SW_concrete = density * constants::grav_accelerate * (h_f_ + CorrugatedSheetsData::get_corrugated_sheet(slab_type_).get_h_b(wider_flange_up_));
 	else
-		SW_concrete = density * GRAV_ACCELERAT * h_f_;
+		SW_concrete = density * constants::grav_accelerate * h_f_;
 
 	return SW_concrete / static_cast<int>(load_unit)*std::pow(static_cast<int>(length_unit),2);
 }
