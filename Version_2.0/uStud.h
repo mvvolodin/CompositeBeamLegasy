@@ -25,12 +25,12 @@ public:
 	void set_gamma_c(double gamma_c){gamma_c_ = gamma_c;};
 
 	String get_name()const{return name_;}
-	double get_d_an(LengthUnit__ lenght_unit = mm)const{return d_an_ / lenght_unit;}
-	double get_l(LengthUnit__ lenght_unit = mm)const{return l_ / lenght_unit;}
+	double get_d_an(LengthUnit lenght_unit = LengthUnit::mm)const{return d_an_ / static_cast<int>(lenght_unit);}
+	double get_l(LengthUnit lenght_unit = LengthUnit::mm)const{return l_ / static_cast<int>(lenght_unit);}
 	double get_R_y()const{return R_y_;}
 
-	double get_P_rd(LoadUnit__ load_unit = N);
-	double get_S_h(LoadUnit__ load_unit = N);
+	double get_P_rd(LoadUnit load_unit = LoadUnit::N);
+	double get_S_h(LoadUnit load_unit = LoadUnit::N);
 
 private:
 	String name_ = "";
@@ -129,8 +129,8 @@ public:
 	String get_name()const{return stud_.get_name();}
 	const Stud& get_stud()const{return stud_;};
 	double get_gamma_c()const{return gamma_c_;}
-	double get_dist_e(LengthUnit__ lenght_unit = mm)const{return dist_e_ / lenght_unit;}
-	double get_dist_m(LengthUnit__ lenght_unit = mm)const{return dist_m_ / lenght_unit;}
+	double get_dist_e(LengthUnit lenght_unit = LengthUnit::mm)const{return dist_e_ / static_cast<int>(lenght_unit);}
+	double get_dist_m(LengthUnit lenght_unit = LengthUnit::mm)const{return dist_m_ / static_cast<int>(lenght_unit);}
 	int get_num_e()const{return num_e_;}
 	int get_num_m()const{return num_m_;}
 	bool get_more_than_one_stud_per_corrugation_edge()const{return more_than_one_stud_per_corrugation_edge_;}

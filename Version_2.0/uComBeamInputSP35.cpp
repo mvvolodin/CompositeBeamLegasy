@@ -139,7 +139,7 @@ Loads ComBeamInputSP35::make_loads(TCompositeBeamMainFormCntrlsState const & mai
 								   double SW_st_beam, double SW_sheets, double SW_conc, double B)
 {
 	return {SW_st_beam,
-			SW_sheets,
+			0,
 			SW_conc,
 			main_frm_cntrls_state.edt_SW_add_concrete_,
 			main_frm_cntrls_state.edt_dead_load_first_stage_,
@@ -151,7 +151,7 @@ Loads ComBeamInputSP35::make_loads(TCompositeBeamMainFormCntrlsState const & mai
 			main_frm_cntrls_state.edt_gamma_f_DL_I_,
 			main_frm_cntrls_state.edt_gamma_f_DL_II_,
 			main_frm_cntrls_state.edt_gamma_f_LL_,
-			main_frm_cntrls_state.edt_sheeting_continuity_coefficient_,
+			1,
 			0,
 			0,
 			B};

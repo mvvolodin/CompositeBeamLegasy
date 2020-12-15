@@ -25,6 +25,8 @@ GlobGeom::GlobGeom(double max_el_length,
 }
 void GlobGeom::init_sect_lst()
 {
+	Node::reset_counters();
+
 	int num_temp_spans = tmp_sup_num_ + 1;
 
 	int num_elements = span_ / num_temp_spans / max_el_length_  + 1;
@@ -35,13 +37,17 @@ void GlobGeom::init_sect_lst()
 
 	nodes_lst_.emplace_back(0, true, false);
 
-	for (int i = 0; i < num_temp_spans; ++i){
+	for (int i = 0; i < num_temp_spans - 1; ++i){
 
 		for(int j = 1; j < num_elements; ++j){
 			nodes_lst_.emplace_back(span_ / num_temp_spans * i + elem_length * j, false, false);
 		}
 
 		nodes_lst_.emplace_back(span_ / num_temp_spans * (i + 1), false, true);
+	}
+
+    for(int j = 1; j < num_elements; ++j){
+		nodes_lst_.emplace_back(span_ / num_temp_spans * (num_temp_spans - 1) + elem_length * j, false, false);
 	}
 
 	nodes_lst_.back() = {span_, true, false};

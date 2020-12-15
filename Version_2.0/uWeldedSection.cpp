@@ -7,10 +7,12 @@
 #include "uWeldedSection.h"
 #include "uGraphicObjects.h"
 #include "uUnits_new.h"
+#include "Constants.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
+using namespace units;
 
 WeldedSection::WeldedSection(double b_f1, double t_f1,
 							 double b_f2, double t_f2,
@@ -166,7 +168,7 @@ double WeldedSection::modulus_lower_fl() const
 }
 double WeldedSection::SW()const
 {
-	return area() * 7850 / 1000 / 1000 * 9.81;
+	return area() * constants::steel_density / mm3 * constants::grav_accelerate;
 }
 #ifndef NDEBUG
 void WeldedSection::print_data_to_logger(TFormLogger const & log)const

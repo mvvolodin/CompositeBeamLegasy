@@ -236,7 +236,6 @@ private:
 
 	void set_form_controls();
 	void generate_report();
-	void generate_report2();
 	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
 	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения
 	void cotr_steel_sect_geometr_grid();

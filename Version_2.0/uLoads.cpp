@@ -5,6 +5,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
+using namespace units;
 
 Loads::Loads(double SW_steel_beam,
 			 double SW_corrugated_sheets,
@@ -21,10 +22,10 @@ Loads::Loads(double SW_steel_beam,
 			 double sheeting_continuity_coefficient,
 			 double sigma_bi,
 			 double sigma_si)
-	:SW_steel_beam_(SW_steel_beam/static_cast<int>(LengthUnit::m)),
+	:SW_steel_beam_(SW_steel_beam),
 	SW_corrugated_sheets_(SW_corrugated_sheets*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	SW_add_concrete_(SW_add_concrete*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
-	DL_I_(DL_I*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),  //Полезно сделать сеттеры!
+	DL_I_(DL_I * N/mm2),  //Полезно сделать сеттеры!
 	DL_II_(DL_II*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	LL_(LL*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	gamma_f_st_SW_(gamma_f_SW),
@@ -53,13 +54,13 @@ Loads::Loads(double SW_steel_beam,
 			 double sigma_bi,
 			 double sigma_si,
 			 double B)
-	:SW_steel_beam_(SW_steel_beam/static_cast<int>(LengthUnit::m)),
-	SW_corrugated_sheets_(SW_corrugated_sheets*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
+	:SW_steel_beam_(SW_steel_beam),
+	SW_corrugated_sheets_(SW_corrugated_sheets * N/mm2),
 	SW_concrete_(SW_conc),
-	SW_add_concrete_(SW_add_concrete*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
-	DL_I_(DL_I*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),  //Полезно сделать сеттеры!
-	DL_II_(DL_II*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
-	LL_(LL*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
+	SW_add_concrete_(SW_add_concrete * N/mm2),
+	DL_I_(DL_I * N/mm2),  //Полезно сделать сеттеры!
+	DL_II_(DL_II * N/mm2),
+	LL_(LL * N/mm2),
 	gamma_f_st_SW_(gamma_f_SW),
 	gamma_f_concrete_SW_(gamma_f_concrete_SW),
 	gamma_f_add_concrete_SW_(gamma_f_add_concrete_SW),

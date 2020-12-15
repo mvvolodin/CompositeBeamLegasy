@@ -18,23 +18,21 @@ public:
 		is_inter_sup_(is_inter_sup)
 		{
 			if(is_end_sup){
-				end_sup_index_ = end_sup_counter_++;
+				sup_index_ = sup_counter_++;
 			}
 
 			if(is_inter_sup){
-				inter_sup_index_ = inter_sup_counter_++;
+				sup_index_ = sup_counter_++;
 			}
 		}
 	int id()const{return id_;}
-
 	double x()const{return x_;}
-
 	bool is_end_support()const{return is_end_sup_;}
-	int end_sup_index()const{return end_sup_index_;}
-
 	bool is_inter_support()const{return is_inter_sup_;}
-	int inter_sup_index()const{return inter_sup_index_;}
+	int sup_index()const{return sup_index_;}
 
+	static void reset_counters(){id_counter_ = 0;
+								 sup_counter_ = 0;}
 private:
 	int id_ = 0;
 	static int id_counter_;
@@ -42,16 +40,13 @@ private:
 	double x_ = 0.;
 
 	bool is_end_sup_ = false;
-	int end_sup_index_ = -1;
-	static int end_sup_counter_;
-
 	bool is_inter_sup_ = false;
-	int inter_sup_index_ = -1;
-	static int inter_sup_counter_;
+	int sup_index_ = -1;
+	static int sup_counter_;
 };
 	int Node::id_counter_ = 0;
-	int Node::end_sup_counter_ = 0;
-	int Node::inter_sup_counter_ = 0;
+	int Node::sup_counter_ = 0;
+
 
 class GlobGeom{
 

@@ -86,11 +86,13 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 
     double x = node.x();
 
-	int end_sup_index = node.end_sup_index();
+//	int end_sup_index = node.end_sup_index();
 	bool is_end_support = node.is_end_support();
 
-	int inter_sup_index = node.inter_sup_index();
+//	int inter_sup_index = node.inter_sup_index();
 	bool is_inter_support = node.is_inter_support();
+
+	int sup_index = node.sup_index();
 
 	double const M_1a = intr_frcs_calculator_.M_1a(x);
 	double const M_1b = intr_frcs_calculator_.M_1b(x);
@@ -122,16 +124,18 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double R_2d = 0.;
 
 	if(is_end_support){
-		R_1a = intr_frcs_calculator_.R_1a(end_sup_index);
-		R_1b = intr_frcs_calculator_.R_1b(end_sup_index);
-		R_2c = intr_frcs_calculator_.R_2c(end_sup_index);
-		R_2d = intr_frcs_calculator_.R_2d(end_sup_index);
+		R_1a = intr_frcs_calculator_.R_1a(sup_index);
+		R_1b = intr_frcs_calculator_.R_1b(sup_index);
+		R_2c = intr_frcs_calculator_.R_2c(sup_index);
+		R_2d = intr_frcs_calculator_.R_2d(sup_index);
 	}
 
 	if(is_inter_support){
-		R_1a = intr_frcs_calculator_.R_1a(inter_sup_index);
-		R_1b = intr_frcs_calculator_.R_1b(inter_sup_index);
+		R_1a = intr_frcs_calculator_.R_1a(sup_index);
+		R_1b = intr_frcs_calculator_.R_1b(sup_index);
+		R_2c = - intr_frcs_calculator_.R_1b(sup_index);
 	}
+
 
 	double const R_1 = R_1b;
 	double const R_2 = R_2c + R_2d;

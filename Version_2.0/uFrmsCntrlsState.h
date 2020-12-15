@@ -47,7 +47,7 @@ struct TCompositeBeamMainFormCntrlsState{
 	// Параметры расчёта
 
 	int rd_grp_code_ {1};
-	double edt_max_elem_length_ {100};
+	double edt_max_elem_length_ {500};
 
 	//Тип жб плиты
 

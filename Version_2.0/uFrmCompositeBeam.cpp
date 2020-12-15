@@ -64,7 +64,7 @@ void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 void __fastcall TCompositeBeamMainForm ::btn_reportClick(TObject *Sender)
 {
 	Screen->Cursor = crHourGlass;//На время создания отчёта присвоем курсору вид часов
-	generate_report2();
+	generate_report();
 	Screen->Cursor = crDefault;//Возвращаем курсору вид по умолчанию
 }
 //---------------------------------------------------------------------------
@@ -403,7 +403,7 @@ void __fastcall TCompositeBeamMainForm ::BtBtnShearStudsChoiceClick(TObject *Sen
 
 void __fastcall TCompositeBeamMainForm ::NOutReportClick(TObject *Sender)
 {
-	generate_report2();
+	generate_report();
 }
 //---------------------------------------------------------------------------
 
@@ -411,203 +411,8 @@ void __fastcall TCompositeBeamMainForm ::NExitClick(TObject *Sender)
 {
 	Close();
 }
-//---------------------------------------------------------------------------
-//Создание отчёта
-//---------------------------------------------------------------------------
-void TCompositeBeamMainForm ::generate_report()
-{
-//	TWord_Automation report_ = TWord_Automation("ReportCompositeBeam.dotx");
-//
-////[1.1] Топология
-//	Geometry geometry = composite_beam_calculator_.get_geometry();
-//
-//	report_.PasteTextPattern(geometry.is_end_beam_to_str(), "%end_beam%");
-//	report_.PasteTextPattern(FloatToStrF(geometry.get_span(LengthUnit::mm), ffFixed, 15, 2), "%span%");
-//	report_.PasteTextPattern(FloatToStrF(geometry.get_spacing_left(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_left% ");
-//	report_.PasteTextPattern(FloatToStrF(geometry.get_spacing_right(LengthUnit::mm), ffFixed, 15, 2), "%trib_width_right% ");
-////[1.2] Загружения
-//	Loads loads = composite_beam_calculator_.get_loads();
-//
-//	report_.PasteTextPattern(FloatToStrF(loads.get_self_weight(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%steel_beam%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_self_weight_sheets(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_sheets%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_SW_concrete(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_concrete%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_SW_add_concrete(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_add_concrete%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_I%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_II%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_live_load(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%LL%");
-//
-////[1.3] Коэффициенты надёжности по нагрузке
-//
-//	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_st_SW(), ffFixed, 15, 2), "%gamma_f_st_SW%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_concrete_SW(), ffFixed, 15, 2), "%gamma_f_concrete_SW%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_add_concrete_SW(), ffFixed, 15, 2), "%SW gamma_f_add_concr%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_DL_I(), ffFixed, 15, 2), "%gamma_f_DL_I%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_DL_II(), ffFixed, 15, 2), "%gamma_f_DL_II%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_gamma_f_LL(), ffFixed, 15, 2), "%gamma_f_LL%");
-////[1.4] Стальное сечение
-////[1.4.1] Номинальные размеры двутавра
-//	ISection i_section = composite_beam_calculator_.get_composite_section().get_steel_part().get_section();
-//
-//	report_.PasteTextPattern(i_section.get_profile_number(),"%profile_number%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_h_st(LengthUnit::mm), ffFixed, 15, 2),"%h%");
-//	report_.PasteTextPattern(FloatToStrF(0, ffFixed, 15, 2),"%h%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_b_uf(LengthUnit::mm), ffFixed, 15, 2),"%b%");
-//	report_.PasteTextPattern(FloatToStrF(0, ffFixed, 15, 2),"%b_w%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_t_uf(LengthUnit::mm), ffFixed, 15, 2),"%t%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_t_w(LengthUnit::mm), ffFixed, 15, 2),"%s%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_r(LengthUnit::mm), ffFixed, 15, 2),"%r%");
-////[1.4.2] Характеристики стали
-//	Steel steel = composite_beam_calculator_.get_composite_section().get_steel_part().get_steel();
-//
-//	report_.PasteTextPattern(steel.get_steel_grade(),"%steel_grade%");
-//	report_.PasteTextPattern(FloatToStrF(steel.get_R_yn(), ffFixed, 15, 2),"%R_yn%");
-//	report_.PasteTextPattern(FloatToStrF(steel.get_R_un(), ffFixed, 15, 2),"%R_un%");
-//	report_.PasteTextPattern(FloatToStrF(steel.get_E_st(), ffFixed, 15, 2),"%E_st%");
-//	report_.PasteTextPattern(FloatToStrF(steel.get_G_st(), ffFixed, 15, 2),"%G_st%");
-//	report_.PasteTextPattern(FloatToStrF(steel.get_nu_st(), ffFixed, 15, 2),"%nu_st%");
-//	report_.PasteTextPattern(FloatToStrF(steel.get_gamma_m(), ffFixed, 15, 2),"%gamma_m%");
-////[1.5] Железобетонное сечение
-////[1.5.1] Номинальные размеры плиты
-//	ConcretePart concrete_part = composite_beam_calculator_.get_composite_section().get_concrete_part();
-//
-//	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
-//	report_.PasteTextPattern(concrete_part.get_h_n(LengthUnit::cm),"%h_n%");
-//	report_.PasteTextPattern(concrete_part.get_h_f(LengthUnit::cm),"%t_sl%");
-//
-////[1.5.2] Характеристики бетона
-//	Concrete concrete = concrete_part.get_concrete();
-//
-//	report_.PasteTextPattern(concrete.get_grade(),"%conc_grade%");
-//	report_.PasteTextPattern(FloatToStrF(concrete.get_R_bn(), ffFixed, 15, 2),"%R_bn%");
-//	report_.PasteTextPattern(FloatToStrF(concrete.get_R_btn(), ffFixed, 15, 2),"%R_btn%");
-//	report_.PasteTextPattern(FloatToStrF(concrete.get_density(LengthUnit::m), ffFixed, 15, 2),"%density%");
-//	report_.PasteTextPattern(FloatToStrF(concrete.get_phi_b_cr(), ffFixed, 15, 2),"%phi_b_cr%");
-//	report_.PasteTextPattern(FloatToStrF(concrete.get_E_b(), ffFixed, 15, 2),"%E_b%");
-//	report_.PasteTextPattern(FloatToStrF(concrete.get_gamma_b(), ffFixed, 15, 2),"%gamma_b%");
-//	report_.PasteTextPattern(FloatToStrF(concrete.get_gamma_bt(), ffFixed, 15, 2),"%gamma_bt%");
-//	report_.PasteTextPattern(FloatToStrF(concrete.get_epsilon_b_lim(), ffFixed, 15, 4),"%epsilon_b_lim%");
-//
-////[1.6] Арматура
-//	Rebar rebar = concrete_part.get_rebar();
-//
-//	report_.PasteTextPattern(rebar.get_grade(),"%grade%");
-//	report_.PasteTextPattern(FloatToStrF(rebar.get_diameter(), ffFixed, 15, 2),"%d%");
-//	report_.PasteTextPattern(FloatToStrF(rebar.get_R_sn(), ffFixed, 15, 2),"%R_sn%");
-////[1.7] Соединительные элементы
-//	Stud stud = composite_beam_calculator_.get_studs_on_beam().get_stud();
-//
-//	StudsOnBeam studs_on_beam = composite_beam_calculator_.get_studs_on_beam();
-//
-//	report_.PasteTextPattern(stud.get_name(),"%name%");
-//	report_.PasteTextPattern(FloatToStrF(stud.get_l(cm), ffFixed, 15, 2),"%l%");
-//	report_.PasteTextPattern(FloatToStrF(stud.get_d_an(cm), ffFixed, 15, 2),"%d_an%");
-//	report_.PasteTextPattern(FloatToStrF(stud.get_R_y(), ffFixed, 15, 2),"%R_y%");
-//	report_.PasteTextPattern(FloatToStrF(studs_on_beam.get_dist_e(cm), ffFixed, 15, 2),"%z_e%");
-//	report_.PasteTextPattern(FloatToStrF(studs_on_beam.get_dist_m(cm), ffFixed, 15, 2),"%z_m%");
-//	report_.PasteTextPattern(FloatToStrF(studs_on_beam.get_num_e(), ffFixed, 15, 2),"%ed_rw_num%");
-//	report_.PasteTextPattern(FloatToStrF(studs_on_beam.get_num_m(), ffFixed, 15, 2),"%mid_rw_num%");
-//	report_.PasteTextPattern(studs_on_beam.get_more_than_one_stud_per_corrugation_edge_string(),"%ed_more_than_one_stud%");
-//	report_.PasteTextPattern(studs_on_beam.get_more_than_one_stud_per_corrugation_middle_string(),"%mid_more_than_one_stud%");
-//
-////[1.8] Коэффициенты
-//
-//	WorkingConditionsFactors working_conditions_factors = composite_beam_calculator_.get_working_conditions_factors();
-//
-//	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.gamma_c(), ffFixed, 15, 2),"%gamma_c%");
-//	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.gamma_bi(), ffFixed, 15, 2),"%gamma_bi%");
-//	report_.PasteTextPattern(FloatToStrF(working_conditions_factors.gamma_si(), ffFixed, 15, 2),"%gamma_si%");
-////[1.9] Учёт условий монтажа
-//
-//	report_.PasteTextPattern(FloatToStrF(static_cast<int>(geometry.get_temporary_supports_number()), ffFixed, 15, 0),"%temp_supp%");
-//	report_.PasteTextPattern(FloatToStrF(loads.get_sheeting_continuity_coefficient(), ffFixed, 15, 2),"%sheeting_continuity_coeff%");
-//
-////[2] Результаты расчёта балки
-////[2.1] Геометрические параметры
-////[2.1.1] Стального сечения
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_A_st(LengthUnit::cm), ffFixed, 15, 2),"%A_st%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_I_st(LengthUnit::cm), ffFixed, 15, 2),"%I_st%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_Wf2_st(LengthUnit::cm), ffFixed, 15, 2),"%Wf2_st%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_Wf1_st(LengthUnit::cm), ffFixed, 15, 2),"%Wf1_st%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_Z_f2_st(LengthUnit::cm), ffFixed, 15, 2),"%Z_f2_st%");
-//	report_.PasteTextPattern(FloatToStrF(i_section.get_Z_f1_st(LengthUnit::cm), ffFixed, 15, 2),"%Z_f1_st%");
-////[2.1.2] Железобетонного сечения
-//	report_.PasteTextPattern(concrete_part.get_slab_type(),"%slab_type%");
-//	report_.PasteTextPattern(FloatToStrF(concrete_part.get_b_sl(LengthUnit::cm), ffFixed, 15, 2),"%b_sl%");
-//	report_.PasteTextPattern(FloatToStrF(concrete_part.get_C_b(LengthUnit::cm), ffFixed, 15, 2),"%C_b%");
-//	report_.PasteTextPattern(FloatToStrF(concrete_part.get_A_b(LengthUnit::cm), ffFixed, 15, 2),"%A_b%");
-//	report_.PasteTextPattern(FloatToStrF(concrete_part.get_I_b(LengthUnit::cm), ffFixed, 15, 2),"%I_b%");
-////[2.1.3] Композитного сечения
-//
-//	CompositeSectionGeometry composite_section_geometry = composite_beam_calculator_.get_composite_section();
-//
-//	report_.PasteTextPattern(FloatToStrF(composite_section_geometry.get_A_red(LengthUnit::cm), ffFixed, 15, 2),"%A_red%");
-//	report_.PasteTextPattern(FloatToStrF(composite_section_geometry.get_I_red(LengthUnit::cm), ffFixed, 15, 2),"%I_red%");
-//	report_.PasteTextPattern(FloatToStrF(composite_section_geometry.get_W_b_red(LengthUnit::cm), ffFixed, 15, 2),"%W_b_red%");
-//	report_.PasteTextPattern(FloatToStrF(composite_section_geometry.get_Z_b_red(LengthUnit::cm), ffFixed, 15, 2),"%Z_b_red%");
-//	report_.PasteTextPattern(FloatToStrF(composite_section_geometry.get_Z_st_red(LengthUnit::cm), ffFixed, 15, 2),"%Z_st_red%");
-//	report_.PasteTextPattern(FloatToStrF(composite_section_geometry.get_Z_b_st(LengthUnit::cm), ffFixed, 15, 2),"%Z_b_st%");
-////[2.2] Усилия
-//	Section max_direct_stress_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_direct_stress_ratio_section();
-//
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_x(), ffFixed, 15, 0),"%cs_x%");
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_M_Ia_design(kN, m), ffFixed, 15, 2),"%M_Ia%");
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_M_Ib_design(kN, m), ffFixed, 15, 2),"%M_Ib%");
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_M_IIa_design(kN, m), ffFixed, 15, 2),"%M_IIa%");
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_M_IIb_design(kN, m), ffFixed, 15, 2),"%M_IIb%");
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_M_total_design(kN, m), ffFixed, 15, 2),"%M_total%");
-//
-////[2.3] Напряжения
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_sigma_b(), ffFixed, 15, 2),"%sigma_b%");
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_sigma_s(), ffFixed, 15, 2),"%sigma_s%");
-////[2.4] Коэффициенты использования
-////[2.4.1] По изгибающим моментам при монтаже
-//
-//	Section max_i_section_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_i_section_ratio_section();
-//
-//	report_.PasteTextPattern(FloatToStrF(max_i_section_ratio_section.get_x(),ffFixed, 15, 2),"%x_M_I%");
-//	report_.PasteTextPattern(FloatToStrF(max_i_section_ratio_section.get_i_section_ratio(),ffFixed, 15, 2),"%i_section_ratio%");
-//
-////[2.4.2] По изгибающим моментам, раздел 6.2.1
-//
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_x(),ffFixed, 15, 2),"%x_M%");
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_upper_fl_ratio(),ffFixed, 15, 2),"%ratio_uf%");
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_lower_fl_ratio(),ffFixed, 15, 2),"%ratio_lf%");
-//	report_.PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_conc_ratio(),ffFixed, 15, 2),"%conc_ratio%");
-//
-////[2.4.3] По изгибающим моментам (жёсткопластический материал), пункт 6.2.1.6
-//
-//	Section max_rigid_plastic_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_rigid_plastic_ratio_section();
-//
-//	report_.PasteTextPattern(FloatToStrF(max_rigid_plastic_ratio_section.get_x(),ffFixed, 15, 2),"%x_rigid_plastic%");
-//	report_.PasteTextPattern(FloatToStrF(max_rigid_plastic_ratio_section.get_rigid_plastic_ratio(),ffFixed, 15, 2),"%ratio_rigid_plastic%");
-//
-////[2.4.4] По поперечным силам, пункт 6.2.2
-//
-//	Section max_shear_stress_section = composite_beam_calculator_.get_composite_beam().get_max_shear_stress_ratio_section();
-//
-//	report_.PasteTextPattern(FloatToStrF(max_shear_stress_section.get_x(),ffFixed, 15, 2),"%x_Q%");
-//	report_.PasteTextPattern(FloatToStrF(max_shear_stress_section.get_shear_ratio(),ffFixed, 15, 2),"%ratio_shear%");
-//
-////[3] Результаты расчёта конструкций объединения
-//
-////[3.1] Несущая способность упора
-//
-//	StudsRow max_ratio_studs_row = composite_beam_calculator_.get_studs_on_beam().get_max_ratio_studs_row();
-//
-//	report_.PasteTextPattern(FloatToStrF(stud.get_P_rd(kN),ffFixed, 15, 2),"%P_rd%");
-//	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_k(),ffFixed, 15, 2),"%k%");
-//	report_.PasteTextPattern(FloatToStrF(stud.get_S_h(kN),ffFixed, 15, 2),"%S_h%");
-//
-//  //[3.2] Усилия
-//	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_x(),ffFixed, 15, 2),"%cs_stud%");
-//	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_S(LoadUnit::kN),ffFixed, 15, 2),"%S_stud%");
-//
-// //  [3.3] Коэффициенты использования
-//	report_.PasteTextPattern(FloatToStrF(max_ratio_studs_row.get_ratio(),ffFixed, 15, 2),"%ratio_stud%");
-//}
 
-}
-void TCompositeBeamMainForm::generate_report2()
+void TCompositeBeamMainForm::generate_report()
 {
 	if(!com_beam_output_SP35){
 		ShowMessage(u"Данные для отчёта отсутствуют! Необходимо выполнить расчёт.");
@@ -794,6 +599,8 @@ void TCompositeBeamMainForm::draw_diagram2()
 		break;
 	}
 
+//	double* Q_ar = Q.data();
+
 	TImage *Image1=img_static_scheme;
 	bool flag_sign = true;
 	int num_digits = 2;
@@ -860,11 +667,11 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 
 	store_cntrls_state();
 
-	com_beam_input_SP35.reset(new ComBeamInputSP35{cntrls_state_,
-													   ConcreteDefinitionForm -> cntrls_state(),
-													   SteelSectionForm -> cntrls_state(),
-													   DefineSteelForm -> cntrls_state(),
-													   RebarDefinitionForm -> cntrls_state()});
+	com_beam_input_SP35.reset(new ComBeamInputSP35{this -> cntrls_state_,
+												   ConcreteDefinitionForm -> cntrls_state(),
+												   SteelSectionForm -> cntrls_state(),
+												   DefineSteelForm -> cntrls_state(),
+												   RebarDefinitionForm -> cntrls_state()});
 
 	try {
 		ComposSectCalculatorSP35 com_beam_calc {*com_beam_input_SP35};
@@ -1066,10 +873,6 @@ void __fastcall TCompositeBeamMainForm ::btn_loggerClick(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
-//---------------------------------------------------------------------------
-
-
-
 void __fastcall TCompositeBeamMainForm ::N8Click(TObject *Sender)
 {
 	AboutProgForm->ShowModal();
@@ -1201,8 +1004,8 @@ void TCompositeBeamMainForm::store_cntrls_state()
 	cntrls_state_.cmb_bx_number_propping_supports_ = cmb_bx_number_propping_supports -> ItemIndex;
 
 	// Нагрузки
-	rc = String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption,
-								 edt_gamma_f_concrete_SW -> Text,
+	rc = String_double_zero_plus(lbl_SW_add_concrete -> Caption,
+								 edt_SW_add_concrete -> Text,
 								 &cntrls_state_.edt_SW_add_concrete_);
    if(rc > 0) throw(rc);
 
@@ -1353,15 +1156,19 @@ void TCompositeBeamMainForm::set_GUI_SP35()
 	rdgrp_slab_type -> ItemIndex = 0;
 	rdgrp_slab_type -> Buttons [1] -> Enabled = false;
 	btn_add_impacts -> Enabled = false;
-	ConcreteDefinitionForm -> set_GUI_SP35();
+	edt_sheeting_continuity_coefficient -> Enabled = false;
 	rdgrp_slab_typeClick(nullptr);
+
+	ConcreteDefinitionForm -> set_GUI_SP35();
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::set_GUI_SP266()
 {
 	rdgrp_slab_type -> Buttons [1] -> Enabled = true;
 	btn_add_impacts -> Enabled = true;
-	ConcreteDefinitionForm -> set_GUI_SP266();
+	edt_sheeting_continuity_coefficient -> Enabled = true;
+
+    ConcreteDefinitionForm -> set_GUI_SP266();
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::save()

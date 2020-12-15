@@ -6,8 +6,11 @@
 #include "uRolledSection.h"
 #include "StandartProfil.h"
 #include "uUnits_new.h"
+#include "Constants.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+
+using namespace units;
 
 RolledSection::RolledSection(int rolled_sect_type, int rolled_sect_num)
 {
@@ -121,7 +124,7 @@ double RolledSection::smaller_fl_area_plus_web_area_to_total_area_ratio()const
 
 double RolledSection::SW()const
 {
-	return area() * 7850 / 1000 / 1000 * 9.81;
+	return area() * constants::steel_density / mm3 * constants::grav_accelerate;
 }
 double RolledSection::modulus_upper_fl()const
 {

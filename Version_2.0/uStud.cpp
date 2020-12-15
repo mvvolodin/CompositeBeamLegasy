@@ -177,17 +177,17 @@ void Stud::calculate_P_rd()
 		P_rd_ = d_an_/10 * d_an_/10 * std::pow(10 * R_b_, 0.5) * 1000;
 	}
 }
-double Stud::get_P_rd(LoadUnit__ load_unit)
+double Stud::get_P_rd(LoadUnit load_unit)
 {
 	if(!P_rd_calculated) calculate_P_rd();
 
-	return P_rd_ / load_unit;
+	return P_rd_ / static_cast<int>(load_unit);
 }
-double Stud::get_S_h(LoadUnit__ load_unit)
+double Stud::get_S_h(LoadUnit load_unit)
 {
 	if(!S_h_calculated) calculate_S_h();
 
-	return S_h_ / load_unit;
+	return S_h_ / static_cast<int>(load_unit);
 }
 
 double StudsRow::calculate_k(double b_0, double h_n, double l, bool sheet_orient_along)

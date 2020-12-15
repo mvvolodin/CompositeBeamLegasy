@@ -28,11 +28,16 @@ public:
 	int get_id()const{return id_;}
 	double get_x()const{return x_;}
 
-	const double get_M_Ia_design(LoadUnit__ load_unit = N, LengthUnit__ length_unit = mm)const{return M_Ia_design_ / (load_unit * length_unit);}
-	const double get_M_Ib_design(LoadUnit__ load_unit = N, LengthUnit__ length_unit = mm)const{return M_Ib_design_ / (load_unit * length_unit);}
-	const double get_M_IIa_design(LoadUnit__ load_unit = N, LengthUnit__ length_unit = mm)const{return M_IIa_design_ / (load_unit * length_unit);}
-	const double get_M_IIb_design(LoadUnit__ load_unit = N, LengthUnit__ length_unit = mm)const {return M_IIb_design_ / (load_unit * length_unit);}
-	const double get_M_total_design(LoadUnit__ load_unit = N, LengthUnit__ length_unit = mm)const{return M_total_design_ / (load_unit * length_unit);}
+	const double get_M_Ia_design(LoadUnit load_unit = LoadUnit::N, LengthUnit length_unit = LengthUnit::mm)const
+		{return M_Ia_design_ / (static_cast<int>(load_unit) * static_cast<int>(length_unit));}
+	const double get_M_Ib_design(LoadUnit load_unit = LoadUnit::N, LengthUnit length_unit = LengthUnit::mm)const
+		{return M_Ib_design_ / (static_cast<int>(load_unit) * static_cast<int>(length_unit));}
+	const double get_M_IIa_design(LoadUnit load_unit = LoadUnit::N, LengthUnit length_unit = LengthUnit::mm)const
+		{return M_IIa_design_ / (static_cast<int>(load_unit) * static_cast<int>(length_unit));}
+	const double get_M_IIb_design(LoadUnit load_unit = LoadUnit::N, LengthUnit length_unit = LengthUnit::mm)const
+		{return M_IIb_design_ / (static_cast<int>(load_unit) * static_cast<int>(length_unit));}
+	const double get_M_total_design(LoadUnit load_unit = LoadUnit::N, LengthUnit length_unit = LengthUnit::mm)const
+		{return M_total_design_ / (static_cast<int>(load_unit) * static_cast<int>(length_unit));}
 
 	double get_Q_Ia_design()const{return Q_Ia_design_;}
 	double get_Q_Ib_design()const{return Q_Ib_design_;}

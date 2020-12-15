@@ -20,12 +20,6 @@ class IntForcesCalculator{
 	double R_2d(int sup_index)const;
 	double R_total(int sup_index)const;
 
-	std::vector<double> R_1a()const;
-	std::vector<double> R_1b()const;
-	std::vector<double> R_2c()const;
-	std::vector<double> R_2d()const;
-	std::vector<double> R_total()const;
-
 	double M_1a(double x)const;
 	double M_1b(double x)const;
 	double M_2c(double x)const;
@@ -33,7 +27,6 @@ class IntForcesCalculator{
 	double M_2d_DL(double x)const;  //подумать о добавлении дополнительного этапа работы.
 	double M_total(double x)const;  //В этом случае, постоянные нагрузки второй стадии будут отнесены к этапу 'd', а
 									//временные нагрузки второй стадии будут отнесены к этапу 'e'
-
 	double Q_1a(double x)const;
 	double Q_1b(double x)const;
 	double Q_2c(double x)const;
