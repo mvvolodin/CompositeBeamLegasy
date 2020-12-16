@@ -8,62 +8,63 @@
 //---------------------------------------------------------------------------
 struct TCompositeBeamMainFormCntrlsState{
 	// Геометрия
-	double edt_span_ {17885};
-	double edt_width_left_ {5100};
-	double edt_width_right_{5100};
-	bool chck_bx_end_beam_ {false};
-	int cmb_bx_number_propping_supports_ {0};
+	double edt_span_data_ {17885};
+	double edt_width_left_data_ {5100};
+	double edt_width_right_data_{5100};
+	bool chck_bx_end_beam_data_ {false};
+	int cmb_bx_number_propping_supports_data_ {0};
 
 	// Нагрузки
-	double edt_SW_add_concrete_ {0};
-	double edt_dead_load_first_stage_ {0};
-	double edt_dead_load_second_stage_ {2};
-	double edt_live_load_ {4};
+	double edt_SW_add_concrete_data_ {0};
+	double edt_dead_load_first_stage_data_ {0};
+	double edt_dead_load_second_stage_data_ {2};
+	double edt_live_load_data_ {4};
 
 	// Коэффициенты надёжности по нагрузке
 
-	double edt_gamma_f_st_SW_ {1.05};
-	double edt_gamma_f_concrete_SW_ {1.1};
-	double edt_gamma_f_add_concrete_SW_ {1.1};
-	double edt_gamma_f_DL_I_ {1.3};
-	double edt_gamma_f_DL_II_ {1.2};
-	double edt_gamma_f_LL_ {1.3};
+	double edt_gamma_f_st_SW_data_ {1.05};
+	double edt_gamma_f_concrete_SW_data_ {1.1};
+	double edt_gamma_f_add_concrete_SW_data_ {1.1};
+	double edt_gamma_f_DL_I_data_ {1.3};
+	double edt_gamma_f_DL_II_data_ {1.2};
+	double edt_gamma_f_LL_data_ {1.3};
 
 	// Коэффициенты условий работы
 
-	double edt_gamma_c_ {1};
-	double edt_gamma_bi_ {1};
-	double edt_gamma_si_ {1};
+	double edt_gamma_c_data_ {1};
+	double edt_gamma_bi_data_ {1};
+	double edt_gamma_si_data_ {1};
 
-	// Коэффициенты учёт неразрезности настила
+	// Прочие коэффициенты
 
-	double edt_sheeting_continuity_coefficient_ {1.25};
+	double edt_sheeting_continuity_coefficient_data_ {1.25};
+	double edt_fact_quasi_perm_load_data_ {1.0};
 
 	// Отрисовка эпюр
 
-	int cmb_bx_impact_ {0};
-	int rd_grp_internal_forces_type_ {0};
+	int cmb_bx_impact_data_ {0};
+	int rd_grp_internal_forces_type_data_ {0};
 
 	// Параметры расчёта
 
-	int rd_grp_code_ {1};
-	double edt_max_elem_length_ {500};
+	int rd_grp_code_data_ {1};
+	double edt_max_elem_length_data_ {500};
 
 	//Тип жб плиты
 
-	int rdgrp_slab_type_ {0};
+	int rdgrp_slab_type_data_ {0};
 
 	//Плита по настилу
 
-	int cmb_bx_corrugated_sheeting_part_number_ {4};
-	double edt_h_f_ {95};
-	bool chck_bx_wider_flange_up_ {false};
-	bool chck_bx_sheet_orient_along_ {false};
+	int cmb_bx_corrugated_sheeting_part_number_data_ {4};
+	double edt_h_f_data_ {95};
+	bool chck_bx_wider_flange_up_data_ {false};
+	bool chck_bx_sheet_orient_along_data_ {false};
 
 	//Плита плоская
 
-	double edt_h_f_flat_ {90};
-	double edt_h_n_ {0};
+	double edt_h_f_flat_data_ {90};
+	double edt_h_n_data_ {0};
 
 	void save(ostream & os);
 	void load(istream & is);

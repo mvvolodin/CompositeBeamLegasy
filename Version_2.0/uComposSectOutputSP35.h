@@ -41,6 +41,7 @@ public:
 				   double const f_1b,
 				   double const f_2c,
 				   double const f_2d,
+                   double const f_total,
 
 				   double const sigma_b_shr,
 				   double const sigma_b_kr,
@@ -83,6 +84,12 @@ public:
 	double R_2d()const;
 	double R_total()const;
 
+	double f_1a()const;
+	double f_1b()const;
+	double f_2c()const;
+	double f_2d()const;
+	double f_total()const;
+
 	double upper_fl_ratio()const{return upper_fl_ratio_;}
 	double lower_fl_ratio()const{return lower_fl_ratio_;}
 	double conc_ratio()const{return conc_ratio_;}
@@ -124,6 +131,7 @@ private:
 	double const f_1b_ = 0.;
 	double const f_2c_ = 0.;
 	double const f_2d_ = 0.;
+	double const f_total_ = 0.;
 
 	double const sigma_b_ = 0.;
 	double const sigma_r_ = 0.;

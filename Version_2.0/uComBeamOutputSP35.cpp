@@ -198,6 +198,52 @@ std::vector<double> ComBeamOutputSP35::R_total_lst()const
 	return E;
 }
 
+std::vector<double> ComBeamOutputSP35::f_1a_lst()const
+{
+	std::vector<double> E;
+
+	for(auto const & s:sect_outp_list_)
+		E.push_back(s.f_1a());
+
+	return E;
+}
+std::vector<double> ComBeamOutputSP35::f_1b_lst()const
+{
+	std::vector<double> E;
+
+	for(auto const & s:sect_outp_list_)
+		E.push_back(s.f_1b());
+
+	return E;
+}
+std::vector<double> ComBeamOutputSP35::f_2c_lst()const
+{
+	std::vector<double> E;
+
+	for(auto const & s:sect_outp_list_)
+		E.push_back(s.f_2c());
+
+	return E;
+}
+std::vector<double> ComBeamOutputSP35::f_2d_lst()const
+{
+	std::vector<double> E;
+
+	for(auto const & s:sect_outp_list_)
+		E.push_back(s.f_2d());
+
+	return E;
+}
+std::vector<double> ComBeamOutputSP35::f_total_lst()const
+{
+	std::vector<double> E;
+
+	for(auto const & s:sect_outp_list_)
+		E.push_back(s.f_total());
+
+	return E;
+}
+
 ComposSectOutputSP35 const & ComBeamOutputSP35::max_st_sect_ratio_sect()const
 {
 	return *std::max_element(sect_outp_list_.begin(), sect_outp_list_.end(),

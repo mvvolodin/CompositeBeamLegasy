@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #ifndef uLoadsH
 #define uLoadsH
@@ -27,6 +27,7 @@ public:
 		  double gamma_f_DL_II,
 		  double gamma_f_LL,
 		  double sheeting_continuity_coefficient,
+          double fact_quasi_perm_load_,
 		  double sigma_bi,
 		  double sigma_si);
 	Loads(double SW_steel_beam,
@@ -43,6 +44,7 @@ public:
 		  double gamma_f_DL_II,
 		  double gamma_f_LL,
 		  double sheeting_continuity_coefficient,
+		  double fact_quasi_perm_load,
 		  double sigma_bi,
 		  double sigma_si,
 		  double B);
@@ -54,16 +56,15 @@ public:
 	void load(std::istream& istr);
   	bool get_status()const{return fully_initialized_;}
 
-	double Ia_design_LCC()const;
-	double Ib_design_LCC()const;
-	double IIb_design_LCC()const;
-	double design_LCC_2d_DL()const;
-	double total_design_LCC()const;
+	double LCC_1a_des()const;
+	double LCC_1b_des()const;
+	double LCC_2d_des()const;
+	double LCC_2d_DL_des()const;
 
-	double Ia_LCC()const;
-	double Ib_LCC()const;
-	double IIb_LCC()const;
-	double total_LCC()const;
+	double LCC_1a()const;
+	double LCC_1b()const;
+	double LCC_2d()const;
+    double LCC_2d_DL()const;
 
 	double get_self_weight(LoadUnit load_unit=LoadUnit::N, LengthUnit length_unit=LengthUnit::mm) const
 		{return SW_steel_beam_/static_cast<int>(load_unit)*static_cast<int>(length_unit);}
@@ -90,6 +91,7 @@ public:
 	double get_gamma_f_DL_I() const {return gamma_f_DL_I_;}
 	double get_gamma_f_DL_II()const{return gamma_f_DL_II_;}
 	double get_gamma_f_LL()const {return gamma_f_LL_;}
+	double fact_quasi_perm_load()const {return fact_quasi_perm_load_;}
 
 	double get_sheeting_continuity_coefficient(){return sheeting_continuity_coefficient_;}
 
@@ -115,8 +117,9 @@ private:
 	double gamma_f_LL_ = 0.;
 
 	double sheeting_continuity_coefficient_ = 0.;
+	double fact_quasi_perm_load_ = 0.;
 
-	double B_ = 0.;//грузовая площадь
+	double B_ = 0.;//РіСЂСѓР·РѕРІР°СЏ РїР»РѕС‰Р°РґСЊ
 
 	bool fully_initialized_ = true;
 };

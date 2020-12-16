@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "uGlobGeom.h"
 #include "MathFunction.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -56,10 +57,12 @@ void GlobGeom::init_sect_lst()
 
 void GlobGeom::print(TWord_Automation & report)const
 {
-	report.PasteTextPattern(end_beam_, "%end_beam%");
-	report.PasteTextPattern(FloatToStrF(span_, ffFixed, 15, 2), "%span%");
-	report.PasteTextPattern(FloatToStrF(spacing_left_, ffFixed, 15, 2), "%spacing_left%");
-	report.PasteTextPattern(FloatToStrF(spacing_right_, ffFixed, 15, 2), "%spacing_right% ");
+	report.PasteTextPattern((end_beam_)? u"Да": u"Нет", "%end_beam%");
+	report.PasteTextPattern(double_to_str(span_, 0), "%span%");
+	report.PasteTextPattern(double_to_str(spacing_left_, 0), "%spacing_left%");
+	report.PasteTextPattern(double_to_str(spacing_right_, 0), "%spacing_right%");
+
+	report.PasteTextPattern(double_to_str(tmp_sup_num_, 0), "%temp_supp%");
 }
 
 bool GlobGeom::is_end_beam()const

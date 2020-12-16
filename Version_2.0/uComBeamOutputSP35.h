@@ -42,6 +42,12 @@ public:
 	std::vector<double> R_2d_lst()const;
 	std::vector<double> R_total_lst()const;
 
+	std::vector<double> f_1a_lst()const;
+	std::vector<double> f_1b_lst()const;
+	std::vector<double> f_2c_lst()const;
+	std::vector<double> f_2d_lst()const;
+    std::vector<double> f_total_lst()const;
+
 	ComposSectGeomSP35 const & com_sect()const;
 
 	void fill_grid(TStringGrid* str_grid)const;

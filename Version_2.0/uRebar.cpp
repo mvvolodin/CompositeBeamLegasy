@@ -24,19 +24,6 @@ namespace RebarsSP35
 
 		return std::move(grades);
 	}
-//	double R_sn(std::basic_string<char16_t> const & grade)
-//	{
-//		return std::find_if(data.cbegin(), data.cend(),
-//			[grade](auto const & rb){return rb.grade_ == grade;}) -> R_sn_;
-//	}
-//	std::basic_string<char16_t> grade(int index)
-//	{
-//		return data[index].grade_;
-//	}
-//	double R_sn(int index)
-//	{
-//		return data[index].R_sn_;
-//	}
 	Data const & rebar (int index)
 	{
 		return data[index];
@@ -199,7 +186,7 @@ Rebars::Rebars(Rebar2 const & reb,
 {
 
 }
-Rebar2 Rebars::rebar()
+Rebar2 Rebars::rebar()const
 {
 	return reb_;
 }

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #ifndef uIntForcesCalculatorH
 #define uIntForcesCalculatorH
@@ -18,25 +18,26 @@ class IntForcesCalculator{
 	double R_1b(int sup_index)const;
 	double R_2c(int sup_index)const;
 	double R_2d(int sup_index)const;
-	double R_total(int sup_index)const;
 
 	double M_1a(double x)const;
 	double M_1b(double x)const;
 	double M_2c(double x)const;
 	double M_2d(double x)const;
-	double M_2d_DL(double x)const;  //подумать о добавлении дополнительного этапа работы.
-	double M_total(double x)const;  //В этом случае, постоянные нагрузки второй стадии будут отнесены к этапу 'd', а
-									//временные нагрузки второй стадии будут отнесены к этапу 'e'
+	double M_2d_DL(double x)const;  //РїРѕРґСѓРјР°С‚СЊ Рѕ РґРѕР±Р°РІР»РµРЅРёРё РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРіРѕ СЌС‚Р°РїР° СЂР°Р±РѕС‚С‹.
+									//Р’ СЌС‚РѕРј СЃР»СѓС‡Р°Рµ, РїРѕСЃС‚РѕСЏРЅРЅС‹Рµ РЅР°РіСЂСѓР·РєРё РІС‚РѕСЂРѕР№ СЃС‚Р°РґРёРё Р±СѓРґСѓС‚ РѕС‚РЅРµСЃРµРЅС‹ Рє СЌС‚Р°РїСѓ 'd', Р°
+									//РІСЂРµРјРµРЅРЅС‹Рµ РЅР°РіСЂСѓР·РєРё РІС‚РѕСЂРѕР№ СЃС‚Р°РґРёРё Р±СѓРґСѓС‚ РѕС‚РЅРµСЃРµРЅС‹ Рє СЌС‚Р°РїСѓ 'e'
 	double Q_1a(double x)const;
 	double Q_1b(double x)const;
 	double Q_2c(double x)const;
 	double Q_2d(double x)const;
-	double Q_total(double x)const;
 
 	double f_1a(double x)const;
 	double f_1b(double x)const;
 	double f_2c(double x)const;
 	double f_2d(double x)const;
+	double f_2d_DL(double x)const;
+
+	double fact_quasi_perm_load()const {return loads_.fact_quasi_perm_load();}
 
 private:
 

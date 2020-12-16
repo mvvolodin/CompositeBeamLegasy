@@ -65,15 +65,19 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const A_s1 = com_sect_.A_s1();
 	double const W_s2_s = com_sect_.W_s2_s();
 	double const W_s1_s = com_sect_.W_s1_s();
+	double const I_s = com_sect_.I_s();
 
 	double const A_b = com_sect_.A_b();
-	double const A_r = com_sect_.A_r();
 
-	double const W_b_stb = com_sect_.W_b_stb();
+	double const A_r = com_sect_.A_r();
 
 	double const W_b_s = com_sect_.W_b_s();
 
+	double const W_b_stb = com_sect_.W_b_stb();
+	double const I_stb = com_sect_.I_stb();
+
 	double const E_st = com_sect_.E_st();
+	double const E_b_shr = com_sect_.E_b_shr();
 
 	double const R_y = com_sect_.R_y();
 	double const R_b = com_sect_.R_b();
@@ -86,10 +90,8 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 
     double x = node.x();
 
-//	int end_sup_index = node.end_sup_index();
 	bool is_end_support = node.is_end_support();
 
-//	int inter_sup_index = node.inter_sup_index();
 	bool is_inter_support = node.is_inter_support();
 
 	int sup_index = node.sup_index();
@@ -113,10 +115,14 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 	double const Q_2 = Q_2c + Q_2d;
 	double const Q = Q_1 + Q_2;
 
-	double const f_1a = intr_frcs_calculator_.f_1a(x);
-	double const f_1b = intr_frcs_calculator_.f_1b(x);
-	double const f_2c = intr_frcs_calculator_.f_2c(x);
-	double const f_2d = intr_frcs_calculator_.f_2d(x);
+	double const fact_quasi_perm_load = intr_frcs_calculator_.fact_quasi_perm_load();
+
+	double const f_1a = intr_frcs_calculator_.f_1a(x) / (E_st * I_s);
+	double const f_1b = intr_frcs_calculator_.f_1b(x) / (E_st * I_s);
+	double const f_2c = intr_frcs_calculator_.f_2c(x) / (E_b_shr * I_stb);
+	double const f_2d = intr_frcs_calculator_.f_2d(x) / (E_b_shr * I_stb);
+	double const f_2d_DL = intr_frcs_calculator_.f_2d_DL(x) / (E_b_shr * I_stb);
+	double const f_total = f_1b + f_2c + f_2d_DL + fact_quasi_perm_load * (f_2d - f_2d_DL);
 
 	double R_1a = 0.;
 	double R_1b = 0.;
@@ -135,7 +141,6 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 		R_1b = intr_frcs_calculator_.R_1b(sup_index);
 		R_2c = - intr_frcs_calculator_.R_1b(sup_index);
 	}
-
 
 	double const R_1 = R_1b;
 	double const R_2 = R_2c + R_2d;
@@ -210,7 +215,7 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 				M_1a, M_1b, M_2c, M_2d, M,
 				Q_1a, Q_1b, Q_2c, Q_2d, Q,
 				R_1a, R_1b, R_2c, R_2d, R,
-				f_1a, f_1b, f_2c, f_2d,
+				f_1a, f_1b, f_2c, f_2d, f_total,
 				sigma_bi_sh, sigma_bi_kr,
 				sigma_ri_sh, sigma_ri_kr,
 				sigma_bi, sigma_ri,
@@ -235,7 +240,7 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 				M_1a, M_1b, M_2c, M_2d, M,
 				Q_1a, Q_1b, Q_2c, Q_2d, Q,
 				R_1a, R_1b, R_2c, R_2d, R,
-				f_1a, f_1b, f_2c, f_2d,
+				f_1a, f_1b, f_2c, f_2d, f_total,
 				sigma_bi_sh, sigma_bi_kr,
 				sigma_ri_sh, sigma_ri_kr,
 				sigma_bi, sigma_ri,
@@ -262,7 +267,7 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 			   M_1a, M_1b, M_2c, M_2d, M,
 			   Q_1a, Q_1b, Q_2c, Q_2d, Q,
 			   R_1a, R_1b, R_2c, R_2d, R,
-			   f_1a, f_1b, f_2c, f_2d,
+			   f_1a, f_1b, f_2c, f_2d, f_total,
 			   sigma_bi_sh, sigma_bi_kr,
 			   sigma_ri_sh, sigma_ri_kr,
 			   sigma_bi, sigma_ri,
@@ -287,7 +292,7 @@ ComposSectOutputSP35 ComposSectCalculatorSP35::calculate(Node const node)
 			   M_1a, M_1b, M_2c, M_2d, M,
 			   Q_1a, Q_1b, Q_2c, Q_2d, Q,
 			   R_1a, R_1b, R_2c, R_2d, R,
-			   f_1a, f_1b, f_2c, f_2d,
+			   f_1a, f_1b, f_2c, f_2d, f_total,
 			   sigma_bi_sh, sigma_bi_kr,
 			   sigma_ri_sh, sigma_ri_kr,
 			   sigma_bi, sigma_ri,

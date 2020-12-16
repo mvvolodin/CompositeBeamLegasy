@@ -305,7 +305,7 @@ double ComposSectGeomSP35::eps_shr()const
 void ComposSectGeomSP35::print(TWord_Automation & report)const
 {
 	st_sect_ -> print_output(report);
-	conc_sect_ -> print_data_to_report(report);
+	conc_sect_ -> print_output(report);
 
 	report.PasteTextPattern(area_to_str(A_stb_),"%A_stb%");
 	report.PasteTextPattern(inertia_to_str(I_stb_),"%I_stb%");

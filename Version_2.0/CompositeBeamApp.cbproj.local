@@ -411,8 +411,6 @@
     <File Path="ICompositeBeam.h"/>
     <File Path="Constants.h"/>
     <File Path="CompositeBeamApp.cpp"/>
-    <File Path="CompositeBeamApp.cpp"/>
-    <File Path="CompositeBeamApp.cpp"/>
     <File Path="CompositeBeamAppPCH.h"/>
     <File Path="Get_param_sect_func.cpp"/>
     <File Path="Get_param_sect_func.cpp"/>
@@ -432,14 +430,7 @@
     <File Path="MathFunction.h"/>
     <File Path="MathFunction.h"/>
     <File Path="Point_dvutavr.cpp"/>
-    <File Path="Point_dvutavr.cpp"/>
-    <File Path="Point_dvutavr.cpp"/>
-    <File Path="Data_Profil.h"/>
-    <File Path="ProcExt.h"/>
     <File Path="Round_func.cpp"/>
-    <File Path="Round_func.cpp"/>
-    <File Path="Round_func.cpp"/>
-    <File Path="ListConst.h"/>
     <File Path="StandartProfil.cpp"/>
     <File Path="StandartProfil.cpp"/>
     <File Path="StandartProfil.cpp"/>
@@ -717,6 +708,7 @@
     <File Path="uRolledSection.cpp"/>
     <File Path="uRolledSection.cpp"/>
     <File Path="uRolledSection.cpp"/>
+    <File Path="Constants.h"/>
     <File Path="uWord_Automation.h"/>
     <File Path="uUnits_new.h"/>
     <File Path="uGeneralSteelSection.h"/>
@@ -812,6 +804,7 @@
     <File Path="uWeldedSection.cpp"/>
     <File Path="uWeldedSection.cpp"/>
     <File Path="uWeldedSection.h"/>
+    <File Path="Constants.h"/>
     <File Path="uWord_Automation.h"/>
     <File Path="uUnits_new.h"/>
     <File Path="uGeneralSteelSection.h"/>

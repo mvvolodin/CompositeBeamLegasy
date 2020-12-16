@@ -57,3 +57,8 @@ AnsiString force_per_area_to_str(double val, LengthUnit length_unit, LoadUnit lo
 {
 	return FloatToStrF(conv_force_per_geom(val, length_unit, 2, load_unit), ffFixed, 15, num_digits);
 }
+
+AnsiString double_to_str(double val, int num_digits)
+{
+	return FloatToStrF(val, ffFixed, 15, num_digits);
+}

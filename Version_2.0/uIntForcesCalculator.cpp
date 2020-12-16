@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+ï»¿//---------------------------------------------------------------------------
 
 #pragma hdrstop
 
@@ -14,9 +14,17 @@ IntForcesCalculator::IntForcesCalculator(int const s_num,
 											L_(L),
 											loads_(loads){}
 
+double IntForcesCalculator::M_1a(double x)const
+{
+	return M_uniform_load(x, loads_.LCC_1a_des(), s_num_);
+}
+double IntForcesCalculator::M_1b(double x)const
+{
+	return M_uniform_load(x, loads_.LCC_1b_des(), s_num_);
+}
 double IntForcesCalculator::M_2c(double x)const
 {
-	std::vector<double> R_Ib_design_named_list = R_uniform_load(loads_.Ib_design_LCC(), s_num_);
+	std::vector<double> R_Ib_design_named_list = R_uniform_load(loads_.LCC_1b_des(), s_num_);
 
 	double L0 = 0.;
 
@@ -50,30 +58,26 @@ double IntForcesCalculator::M_2c(double x)const
 }
 double IntForcesCalculator::M_2d(double x)const
 {
-	return M_uniform_load(x, loads_.IIb_design_LCC(), 0);
+	return M_uniform_load(x, loads_.LCC_2d_des(), 0);
 }
 double IntForcesCalculator::M_2d_DL(double x)const
 {
-	return M_uniform_load(x, loads_.design_LCC_2d_DL(), 0);
-}
-double IntForcesCalculator::M_total(double x)const
-{
-	return M_uniform_load(x, loads_.total_design_LCC(), 0);
+	return M_uniform_load(x, loads_.LCC_2d_DL_des(), 0);
 }
 
 double IntForcesCalculator::Q_1a(double x)const
 {
-	return Q_uniform_load(x, loads_.Ia_design_LCC(), s_num_);
+	return Q_uniform_load(x, loads_.LCC_1a_des(), s_num_);
 }
 double IntForcesCalculator::Q_1b(double x)const
 {
-	return Q_uniform_load(x, loads_.Ib_design_LCC(), s_num_);
+	return Q_uniform_load(x, loads_.LCC_1b_des(), s_num_);
 }
 double IntForcesCalculator::Q_2c(double x)const
 {
 	double L0 = 0.;
 
-	std::vector<double> P_2a_lst = R_uniform_load(loads_.Ib_design_LCC(), s_num_);
+	std::vector<double> P_2a_lst = R_uniform_load(loads_.LCC_1b_des(), s_num_);
 
 	switch(s_num_)
 	{
@@ -103,32 +107,52 @@ double IntForcesCalculator::Q_2c(double x)const
 				Q_point_load(x, P_2a_lst[3], 3 * L0);
 	}
 }
+double IntForcesCalculator::Q_2d(double x)const
+{
+	return Q_uniform_load(x, loads_.LCC_2d_des(), 0);
+}
 
+double IntForcesCalculator::R_1a(int sup_index)const
+{
+	return R_uniform_load(loads_.LCC_1a_des(), s_num_)[sup_index];
+}
+double IntForcesCalculator::R_1b(int sup_index)const
+{
+	return R_uniform_load(loads_.LCC_1b_des(), s_num_)[sup_index];
+}
+double IntForcesCalculator::R_2c(int sup_index)const
+{
+	return R_uniform_load(loads_.LCC_1b_des(), 0)[sup_index];
+}
+double IntForcesCalculator::R_2d(int sup_index)const
+{
+	return R_uniform_load(loads_.LCC_2d_des(), 0)[sup_index];
+}
 
 double IntForcesCalculator::f_1a(double x)const
 {
-	std::vector<double> R_Ia_named_list = R_uniform_load(loads_.Ia_LCC(), s_num_);
+	std::vector<double> R_Ia_named_list = R_uniform_load(loads_.LCC_1a(), s_num_);
 
 	double L0 = 0.;
 
-    	switch(s_num_)
+		switch(s_num_)
 	{
 		case(0):
 
-		return f_uniform_load(x, loads_.Ia_LCC());
+		return f_uniform_load(x, loads_.LCC_1a());
 
 		case(1):
 
 			L0 = L_ / 2;
 
-			return f_uniform_load(x, loads_.Ia_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1a()) +
 				f_point_load(x, -1 * R_Ia_named_list[1], L0);
 
 		case(2):
 
 			L0 = L_ / 3;
 
-			return f_uniform_load(x, loads_.Ia_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1a()) +
 				f_point_load(x, -1 * R_Ia_named_list[1], L0) +
 				f_point_load(x, -1 * R_Ia_named_list[2], 2 * L0);
 
@@ -136,7 +160,7 @@ double IntForcesCalculator::f_1a(double x)const
 
 			L0 = L_ / 4;
 
-			return f_uniform_load(x, loads_.Ia_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1a()) +
 				f_point_load(x, -1 * R_Ia_named_list[1], L0) +
 				f_point_load(x, -1 * R_Ia_named_list[2], 2 * L0) +
 				f_point_load(x, -1 * R_Ia_named_list[3], 3 * L0);
@@ -145,7 +169,7 @@ double IntForcesCalculator::f_1a(double x)const
 }
 double IntForcesCalculator::f_1b(double x)const
 {
-	std::vector<double> R_Ib_named_list = R_uniform_load(loads_.Ib_LCC(), s_num_);
+	std::vector<double> R_Ib_named_list = R_uniform_load(loads_.LCC_1b(), s_num_);
 
 	double L0 = 0.;
 
@@ -153,20 +177,20 @@ double IntForcesCalculator::f_1b(double x)const
 	{
 		case(0):
 
-		return f_uniform_load(x, loads_.Ib_LCC());
+		return f_uniform_load(x, loads_.LCC_1b());
 
 		case(1):
 
 			L0 = L_ / 2;
 
-			return f_uniform_load(x, loads_.Ib_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1b()) +
 				f_point_load(x, -1 * R_Ib_named_list[1], L0);
 
 		case(2):
 
 			L0 = L_ / 3;
 
-			return f_uniform_load(x, loads_.Ib_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1b()) +
 				f_point_load(x, -1 * R_Ib_named_list[1], L0) +
 				f_point_load(x, -1 * R_Ib_named_list[2], 2 * L0);
 
@@ -174,7 +198,7 @@ double IntForcesCalculator::f_1b(double x)const
 
 			L0 = L_ / 4;
 
-			return f_uniform_load(x, loads_.Ib_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1b()) +
 				f_point_load(x, -1 * R_Ib_named_list[1], L0) +
 				f_point_load(x, -1 * R_Ib_named_list[2], 2 * L0) +
 				f_point_load(x, -1 * R_Ib_named_list[3], 3 * L0);
@@ -182,7 +206,7 @@ double IntForcesCalculator::f_1b(double x)const
 }
 double IntForcesCalculator::f_2c(double x)const
 {
-	std::vector<double> R_Ib_named_list = R_uniform_load(loads_.Ib_LCC(), s_num_);
+	std::vector<double> R_Ib_named_list = R_uniform_load(loads_.LCC_1b(), s_num_);
 
 	double L0 = 0.;
 
@@ -216,7 +240,63 @@ double IntForcesCalculator::f_2c(double x)const
 }
 double IntForcesCalculator::f_2d(double x)const
 {
-	return f_uniform_load(x, loads_.IIb_LCC());
+	return f_uniform_load(x, loads_.LCC_2d());
+}
+double IntForcesCalculator::f_2d_DL(double x)const
+{
+	return f_uniform_load(x, loads_.LCC_2d_DL());
+}
+
+
+double IntForcesCalculator::M_uniform_load(double x, double q, int s_num)const
+{
+	double L0 = 0.;
+	std::vector<double> R = R_uniform_load(q, s_num);
+
+	switch(s_num)
+	{
+		case(0):
+
+			L0 = L_;
+
+			return R[0] * x - q * x * x / 2;
+
+		case(1):
+
+			L0 = L_ / 2;
+
+			if(x <= L0)
+				return R[0] * x - q * x * x / 2;
+			return R[0] * x + R[1] * (x - L0) - q * x * x / 2;
+
+		case(2):
+
+			L0 = L_ / 3;
+
+			if(x <= L0)
+				return R[0] * x - q * x * x / 2;
+			if(L0 < x && x <= 2 * L0)
+				return R[0] * x + R[1] * (x - L0) - q * x * x / 2;
+			return R[0] * x + R[1] * (x - L0) + R[2] * (x - 2 * L0) - q * x * x / 2;
+
+		case(3):
+
+			L0 = L_ / 4;
+
+			if(x <= L0)
+				return R[0] * x - q * x * x / 2;
+			 if(L0 < x && x <= 2 * L0)
+				return R[0] * x + R[1] * (x - L0) - q * x * x / 2;
+			 if(2 * L0 < x && x <= 3 * L0)
+				return R[0] * x + R[1] * (x - L0) + R[2] * (x - 2 * L0) - q * x * x / 2;
+			 return R[0] * x + R[1] * (x - L0) + R[2] * (x - 2 * L0) + R[3] * (x - 3 * L0) - q * x * x / 2;
+	}
+}
+double IntForcesCalculator::M_point_load(double x, double P, double x_P)const
+{
+	if(x < x_P) return P * (L_ - x_P) / L_ * x;
+
+	return P * (L_ - x_P) / L_ * x - P * (x - x_P) ;
 }
 
 std::vector<double> IntForcesCalculator::R_uniform_load(double q, int s_num)const
@@ -270,56 +350,7 @@ std::vector<double> IntForcesCalculator::R_uniform_load(double q, int s_num)cons
 			return R_lst;
 	}
 }
-double IntForcesCalculator::M_uniform_load(double x, double q, int s_num)const
-{
-	double L0 = 0.;
-	std::vector<double> R = R_uniform_load(q, s_num);
 
-	switch(s_num)
-	{
-		case(0):
-
-			L0 = L_;
-
-			return R[0] * x - q * x * x / 2;
-
-		case(1):
-
-			L0 = L_ / 2;
-
-			if(x <= L0)
-				return R[0] * x - q * x * x / 2;
-			return R[0] * x + R[1] * (x - L0) - q * x * x / 2;
-
-		case(2):
-
-			L0 = L_ / 3;
-
-			if(x <= L0)
-				return R[0] * x - q * x * x / 2;
-			if(L0 < x && x <= 2 * L0)
-				return R[0] * x + R[1] * (x - L0) - q * x * x / 2;
-			return R[0] * x + R[1] * (x - L0) + R[2] * (x - 2 * L0) - q * x * x / 2;
-
-		case(3):
-
-			L0 = L_ / 4;
-
-			if(x <= L0)
-				return R[0] * x - q * x * x / 2;
-			 if(L0 < x && x <= 2 * L0)
-				return R[0] * x + R[1] * (x - L0) - q * x * x / 2;
-			 if(2 * L0 < x && x <= 3 * L0)
-				return R[0] * x + R[1] * (x - L0) + R[2] * (x - 2 * L0) - q * x * x / 2;
-			 return R[0] * x + R[1] * (x - L0) + R[2] * (x - 2 * L0) + R[3] * (x - 3 * L0) - q * x * x / 2;
-	}
-}
-double IntForcesCalculator::M_point_load(double x, double P, double x_P)const
-{
-	if(x < x_P) return P * (L_ - x_P) / L_ * x;
-
-	return P * (L_ - x_P) / L_ * x - P * (x - x_P) ;
-}
 double IntForcesCalculator::Q_uniform_load(double x, double q, int s_num)const
 {
 	double L0 = 0.;
@@ -369,15 +400,16 @@ double IntForcesCalculator::Q_point_load(double x, double P, double x_P)const
 	double R = P * (L_ - x_P) / L_;
 	return (x <= x_P) ? 1 * R : (R - P);
 }
+
 double IntForcesCalculator::f_uniform_load(double x, double q)const
 {
 	//https://en.wikipedia.org/wiki/Deflection_(engineering)
-	// ìíîæèòåëü -1 ââåä¸í äëÿ ãàðìîíèçàöèè çíàêîâ ñ Ôåîäîñüåâûì
+	// Ð¼Ð½Ð¾Ð¶Ð¸Ñ‚ÐµÐ»ÑŒ -1 Ð²Ð²ÐµÐ´Ñ‘Ð½ Ð´Ð»Ñ Ð³Ð°Ñ€Ð¼Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð·Ð½Ð°ÐºÐ¾Ð² Ñ Ð¤ÐµÐ¾Ð´Ð¾ÑÑŒÐµÐ²Ñ‹Ð¼
 	return -1 * q * x * (L_ * L_ * L_ - 2 * L_ * x * x + x * x * x) / 24;
 }
 double IntForcesCalculator::f_point_load(double x, double P, double x_P)const
 {
-	//Ôåîäîñüåâ, 7å èçäàíèå, ïðèìåð 4.8, ñòð. 146
+	//Ð¤ÐµÐ¾Ð´Ð¾ÑÑŒÐµÐ², 7Ðµ Ð¸Ð·Ð´Ð°Ð½Ð¸Ðµ, Ð¿Ñ€Ð¸Ð¼ÐµÑ€ 4.8, ÑÑ‚Ñ€. 146
 	if(x <= x_P)
 		return P * (L_ - x_P) / (6 * L_) * (x * x * x - x * x_P * (2 * L_ - x_P));
 	return
@@ -385,43 +417,8 @@ double IntForcesCalculator::f_point_load(double x, double P, double x_P)const
 
 	return 0.;
 }
-double IntForcesCalculator::R_1a(int sup_index)const
-{
-	return R_uniform_load(loads_.Ia_design_LCC(), s_num_)[sup_index];
-}
-double IntForcesCalculator::R_1b(int sup_index)const
-{
-	return R_uniform_load(loads_.Ib_design_LCC(), s_num_)[sup_index];
-}
-double IntForcesCalculator::R_2c(int sup_index)const
-{
-	return R_uniform_load(loads_.Ib_design_LCC(), 0)[sup_index];
-}
-double IntForcesCalculator::R_2d(int sup_index)const
-{
-	return R_uniform_load(loads_.IIb_design_LCC(), 0)[sup_index];
-}
-double IntForcesCalculator::R_total(int sup_index)const
-{
-	return R_uniform_load(loads_.total_design_LCC(), 0)[sup_index];
-}
 
-double IntForcesCalculator::M_1a(double x)const
-{
-	return M_uniform_load(x, loads_.Ia_design_LCC(), s_num_);
-}
-double IntForcesCalculator::M_1b(double x)const
-{
-	return M_uniform_load(x, loads_.Ib_design_LCC(), s_num_);
-}
 
-double IntForcesCalculator::Q_2d(double x)const
-{
-	return Q_uniform_load(x, loads_.IIb_design_LCC(), 0);
-}
-double IntForcesCalculator::Q_total(double x)const
-{
-	return Q_uniform_load(x, loads_.total_design_LCC(), 0);
-}
+
 
 

@@ -7,18 +7,20 @@
 
 namespace units
 {
-//	inline constexpr int mm {1000};
+//Перевод входных данных в единицы измерения программы {Н и мм}
 	inline constexpr int mm2 {1000 * 1000};
     inline constexpr int mm3 {1000 * 1000 * 1000};
-
-
-//	inline constexpr double cm{0.01};
-	inline constexpr double cm2{0.01 * 0.01};
-//	inline constexpr double m{0.001};
-
-//	inline constexpr double kN  {0.001};
 	inline constexpr int N  {1000};
 
+//Перевод единицы измерения программы в выходные данные
+	inline constexpr double cm{0.01};
+	inline constexpr double cm2{0.01 * 0.01};
+	inline constexpr double cm3{0.01 * 0.01 * 0.01};
+	inline constexpr double cm4{0.01 * 0.01 * 0.01 * 0.01};
+	inline constexpr double m{0.001};
+	inline constexpr double m2{0.001 * 0.001};
+
+	inline constexpr double kN  {0.001};
 }
 
 
@@ -32,6 +34,7 @@ enum class LengthUnit{  //mm = 1, cm = 0.1, m = 0.001 лучше?
 	m = 1000,
 };
 
+AnsiString double_to_str(double val, int num_digits = 2);
 
 AnsiString length_to_str(double val, LengthUnit length_unit = LengthUnit::mm, int num_digits = 2);
 AnsiString area_to_str(double val, LengthUnit length_unit = LengthUnit::cm, int num_digits = 2);

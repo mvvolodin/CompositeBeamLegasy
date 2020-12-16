@@ -40,7 +40,7 @@ TCompositeBeamMainForm  *CompositeBeamMainForm;
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 {
 
-	update_GUI(cntrls_state_.rd_grp_code_);
+	update_GUI(cntrls_state_.rd_grp_code_data_);
 	update_all_frms_cntrls();
 
 	calculate_composite_beam();
@@ -221,7 +221,7 @@ void TCompositeBeamMainForm ::update_SW_edts(int code_indx)
 		edt_SW_conc -> Text = force_per_area_to_str(SW_conc, LengthUnit::m, LoadUnit::kN);
 
 		SW_steel_beam = com_beam_input_SP35 -> steel_sect() -> SW();
-		edt_SW_steel_beam -> Text = force_per_length_to_str(SW_steel_beam, LengthUnit::m, LoadUnit::kN);
+		edt_SW_steel_beam -> Text = force_per_length_to_str(SW_steel_beam * units::kN / units::m);
 
 		break;
 	}
@@ -430,111 +430,7 @@ void TCompositeBeamMainForm::generate_report()
 //---------------------------------------------------------------------------
 // Отрисовка эпюр
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm ::draw_diagram()
-{
-//	std::vector<double> M;
-//	std::vector<double> Q;
-//	std::vector<double> R;
-//	std::vector<double> f;
-//
-//	std::vector<double>	coor_supp {};
-//
-//	switch (cmb_bx_impact->ItemIndex)
-//	{
-//	case(0): // Нагрузки Ia стадии
-//
-//		M = composite_beam_calculator_.get_composite_beam().get_M_Ia_design_list(LoadUnit::kN, LengthUnit::m);
-//		Q = composite_beam_calculator_.get_composite_beam().get_Q_Ia_design_list(LoadUnit::kN);
-//		R = composite_beam_calculator_.get_composite_beam().get_R_Ia_design_list(LoadUnit::kN);
-//		f = composite_beam_calculator_.get_composite_beam().get_f_Ia_list(LengthUnit::mm);
-//
-//		coor_supp = composite_beam_calculator_.get_composite_beam().get_support_x_list();
-//
-//		break;
-//	case(1): // Нагрузки Ib стадии
-//
-//		M = composite_beam_calculator_.get_composite_beam().get_M_Ib_design_list(LoadUnit::kN, LengthUnit::m);
-//		Q = composite_beam_calculator_.get_composite_beam().get_Q_Ib_design_list(LoadUnit::kN);
-//		R = composite_beam_calculator_.get_composite_beam().get_R_Ib_design_list(LoadUnit::kN);
-//		f = composite_beam_calculator_.get_composite_beam().get_f_Ib_list(LengthUnit::mm);
-//
-//		coor_supp = composite_beam_calculator_.get_composite_beam().get_support_x_list();
-//
-//		break;
-//	case(2): // Нагрузки IIa стадии
-//
-//		M = composite_beam_calculator_.get_composite_beam().get_M_IIa_design_list(LoadUnit::kN, LengthUnit::m);
-//		Q = composite_beam_calculator_.get_composite_beam().get_Q_IIa_design_list(LoadUnit::kN);
-//		R = composite_beam_calculator_.get_composite_beam().get_P_IIa_design_list(LoadUnit::kN);
-//		f = composite_beam_calculator_.get_composite_beam().get_f_IIa_list(LengthUnit::mm);
-//
-//		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().front());
-//		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().back());
-//
-//		break;
-//
-//	case(3): // Нагрузки IIb стадии
-//
-//		M = composite_beam_calculator_.get_composite_beam().get_M_IIb_design_list(LoadUnit::kN, LengthUnit::m);
-//		Q = composite_beam_calculator_.get_composite_beam().get_Q_IIb_design_list(LoadUnit::kN);
-//		R = composite_beam_calculator_.get_composite_beam().get_R_IIb_design_list(LoadUnit::kN);
-//		f = composite_beam_calculator_.get_composite_beam().get_f_IIb_list(LengthUnit::mm);
-//
-//		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().front());
-//		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().back());
-//
-//		break;
-//
-//	case(4)://Нагрузки полные
-//
-//		M = composite_beam_calculator_.get_composite_beam().get_M_total_design_list(LoadUnit::kN, LengthUnit::m);
-//		Q = composite_beam_calculator_.get_composite_beam().get_Q_total_design_list(LoadUnit::kN);
-//		R = composite_beam_calculator_.get_composite_beam().get_R_total_design_list(LoadUnit::kN);
-//		f = composite_beam_calculator_.get_composite_beam().get_f_total_list(LengthUnit::mm);
-//
-//		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().front());
-//		coor_supp.push_back(composite_beam_calculator_.get_composite_beam().get_support_x_list().back());
-//
-//		break;
-//	}
-//
-//	TImage *Image1=img_static_scheme;
-//	std::vector<double> coor_epur = composite_beam_calculator_.get_composite_beam().get_x_list();
-//
-////флаг отрисовки значений на эпюре
-//	bool flag_sign = true;
-//	int num_digits = 2;
-//	bool con_sign_practice = true;
-//
-//	switch (rd_grp_internal_forces_type->ItemIndex)
-//	{
-//	case(0):
-//
-//		DrawEpur(Image1, M.size(), &coor_epur[0], &M[0], nullptr, coor_supp.size(), &coor_supp[0],
-//			flag_sign, num_digits, con_sign_practice);
-//
-//		break;
-//
-//	case(1):
-//
-//		DrawEpur(Image1, Q.size(), &coor_epur[0], &Q[0], &R[0], coor_supp.size(), &coor_supp[0],
-//			flag_sign, num_digits, con_sign_practice);
-//
-//		break;
-//
-//	case(2):
-//
-//		DrawEpur(Image1, f.size(), &coor_epur[0], &f[0], nullptr, coor_supp.size(), &coor_supp[0],
-//			flag_sign, num_digits, false);
-//
-//		break;
-//	}
-}
-
-//---------------------------------------------------------------------------
-// Отрисовка эпюр
-//---------------------------------------------------------------------------
-void TCompositeBeamMainForm::draw_diagram2()
+void TCompositeBeamMainForm::draw_diagram()
 {
 	std::vector<double> M;
 	std::vector<double> Q;
@@ -550,7 +446,7 @@ void TCompositeBeamMainForm::draw_diagram2()
 		M = com_beam_output_SP35 -> M_1a_lst();
 		Q = com_beam_output_SP35 -> Q_1a_lst();
 		R = com_beam_output_SP35 -> R_1a_lst();
-//		f = composite_beam_calculator_.get_composite_beam().get_f_Ia_list(LengthUnit::mm);
+		f = com_beam_output_SP35 -> f_1a_lst();
 
 		coor_supp = com_beam_output_SP35 -> sup_coord();
 
@@ -560,7 +456,7 @@ void TCompositeBeamMainForm::draw_diagram2()
 		M = com_beam_output_SP35 -> M_1b_lst();
 		Q = com_beam_output_SP35 -> Q_1b_lst();
 		R = com_beam_output_SP35 -> R_1b_lst();
-//		f = composite_beam_calculator_.get_composite_beam().get_f_Ib_list(LengthUnit::mm);
+		f = com_beam_output_SP35 -> f_1b_lst();
 
 		coor_supp = com_beam_output_SP35 -> sup_coord();
 
@@ -570,7 +466,7 @@ void TCompositeBeamMainForm::draw_diagram2()
 		M = com_beam_output_SP35 -> M_2c_lst();
 		Q = com_beam_output_SP35 -> Q_2c_lst();
 		R = com_beam_output_SP35 -> R_2c_lst();
-//		f = composite_beam_calculator_.get_composite_beam().get_f_IIa_list(LengthUnit::mm);
+		f = com_beam_output_SP35 -> f_2c_lst();
 
 		coor_supp = com_beam_output_SP35 -> end_sup_coord();
 
@@ -581,7 +477,7 @@ void TCompositeBeamMainForm::draw_diagram2()
 		M = com_beam_output_SP35 -> M_2d_lst();
 		Q = com_beam_output_SP35 -> Q_2d_lst();
 		R = com_beam_output_SP35 -> R_2d_lst();
-//		f = composite_beam_calculator_.get_composite_beam().get_f_IIb_list(LengthUnit::mm);
+		f = com_beam_output_SP35 -> f_2d_lst();
 
 		coor_supp = com_beam_output_SP35 -> end_sup_coord();
 
@@ -592,14 +488,24 @@ void TCompositeBeamMainForm::draw_diagram2()
 		M = com_beam_output_SP35 -> M_total_lst();
 		Q = com_beam_output_SP35 -> Q_total_lst();
 		R = com_beam_output_SP35 -> R_total_lst();
-//		f = composite_beam_calculator_.get_composite_beam().get_f_total_list(LengthUnit::mm);
+		f = com_beam_output_SP35 -> f_total_lst();
 
 		coor_supp = com_beam_output_SP35 -> end_sup_coord();
 
 		break;
 	}
 
-//	double* Q_ar = Q.data();
+	{
+
+	using namespace units;
+
+	std::transform(M.begin(), M.end(), M.begin(),
+				   [](auto & M0){ return M0 * kN * m ;});
+	std::transform(Q.begin(), Q.end(), Q.begin(),
+				   [](auto & Q0){ return Q0 * kN ;});
+	std::transform(R.begin(), R.end(), R.begin(),
+				   [](auto & R0){ return R0 * kN;});
+	}
 
 	TImage *Image1=img_static_scheme;
 	bool flag_sign = true;
@@ -636,13 +542,13 @@ void TCompositeBeamMainForm::draw_diagram2()
 
 void __fastcall TCompositeBeamMainForm ::cmb_bx_impactChange(TObject *Sender)
 {
-	draw_diagram2();
+	draw_diagram();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObject *Sender)
 {
-	draw_diagram2();
+	draw_diagram();
 }
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
@@ -685,9 +591,7 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 		return;
 	}
 
-
-
-	  draw_diagram2();
+	after_calculation();
 
 }
 void TCompositeBeamMainForm::after_calculation()
@@ -696,7 +600,7 @@ void TCompositeBeamMainForm::after_calculation()
 
 	update_SW_edts(rd_grp_code -> ItemIndex);
 
-	draw_diagram2();
+	draw_diagram();
 
 	btn_report -> Enabled = true;
 	tb_results -> TabVisible = true;
@@ -914,62 +818,63 @@ void __fastcall TCompositeBeamMainForm::HelpClick(TObject *Sender)
 void TCompositeBeamMainForm::update_cntrls()
 {
 	// Геометрия
-	edt_span -> Text = cntrls_state_.edt_span_;
-	edt_width_left -> Text = cntrls_state_.edt_width_left_;
-	edt_width_right -> Text = cntrls_state_.edt_width_right_;
-	chck_bx_end_beam -> Checked = cntrls_state_.chck_bx_end_beam_;
-	cmb_bx_number_propping_supports -> ItemIndex = cntrls_state_.cmb_bx_number_propping_supports_;
+	edt_span -> Text = cntrls_state_.edt_span_data_;
+	edt_width_left -> Text = cntrls_state_.edt_width_left_data_;
+	edt_width_right -> Text = cntrls_state_.edt_width_right_data_;
+	chck_bx_end_beam -> Checked = cntrls_state_.chck_bx_end_beam_data_;
+	cmb_bx_number_propping_supports -> ItemIndex = cntrls_state_.cmb_bx_number_propping_supports_data_;
 
 	// Нагрузки
-	edt_SW_add_concrete -> Text = cntrls_state_.edt_SW_add_concrete_;
-	edt_dead_load_first_stage -> Text = cntrls_state_.edt_dead_load_first_stage_;
-	edt_dead_load_second_stage -> Text = cntrls_state_.edt_dead_load_second_stage_;
-	edt_live_load -> Text = cntrls_state_.edt_live_load_;
+	edt_SW_add_concrete -> Text = cntrls_state_.edt_SW_add_concrete_data_;
+	edt_dead_load_first_stage -> Text = cntrls_state_.edt_dead_load_first_stage_data_;
+	edt_dead_load_second_stage -> Text = cntrls_state_.edt_dead_load_second_stage_data_;
+	edt_live_load -> Text = cntrls_state_.edt_live_load_data_;
 
 	// Коэффициенты надёжности по нагрузке
 
-	edt_gamma_f_st_SW -> Text = cntrls_state_.edt_gamma_f_st_SW_;
-	edt_gamma_f_concrete_SW -> Text = cntrls_state_.edt_gamma_f_concrete_SW_;
-	edt_gamma_f_add_concrete_SW -> Text = cntrls_state_.edt_gamma_f_add_concrete_SW_;
-	edt_gamma_f_DL_I -> Text = cntrls_state_.edt_gamma_f_DL_I_;
-	edt_gamma_f_DL_II -> Text = cntrls_state_.edt_gamma_f_DL_II_;
-	edt_gamma_f_LL -> Text = cntrls_state_.edt_gamma_f_LL_;
+	edt_gamma_f_st_SW -> Text = cntrls_state_.edt_gamma_f_st_SW_data_;
+	edt_gamma_f_concrete_SW -> Text = cntrls_state_.edt_gamma_f_concrete_SW_data_;
+	edt_gamma_f_add_concrete_SW -> Text = cntrls_state_.edt_gamma_f_add_concrete_SW_data_;
+	edt_gamma_f_DL_I -> Text = cntrls_state_.edt_gamma_f_DL_I_data_;
+	edt_gamma_f_DL_II -> Text = cntrls_state_.edt_gamma_f_DL_II_data_;
+	edt_gamma_f_LL -> Text = cntrls_state_.edt_gamma_f_LL_data_;
 
 	// Коэффициенты условий работы
 
-	edt_gamma_c -> Text = cntrls_state_.edt_gamma_c_;
-	edt_gamma_bi -> Text = cntrls_state_.edt_gamma_bi_;
-	edt_gamma_si -> Text = cntrls_state_.edt_gamma_si_;
+	edt_gamma_c -> Text = cntrls_state_.edt_gamma_c_data_;
+	edt_gamma_bi -> Text = cntrls_state_.edt_gamma_bi_data_;
+	edt_gamma_si -> Text = cntrls_state_.edt_gamma_si_data_;
 
-	// Коэффициенты учёт неразрезности настила
+	// Прочие коэффициенты
 
-	edt_sheeting_continuity_coefficient -> Text = cntrls_state_.edt_sheeting_continuity_coefficient_;
+	edt_sheeting_continuity_coefficient -> Text = cntrls_state_.edt_sheeting_continuity_coefficient_data_;
+	edt_fact_quasi_perm_load -> Text = cntrls_state_.edt_fact_quasi_perm_load_data_;
 
 	// Отрисовка эпюр
 
-	cmb_bx_impact -> ItemIndex = cntrls_state_.cmb_bx_impact_;
-	rd_grp_internal_forces_type -> ItemIndex = cntrls_state_.rd_grp_internal_forces_type_;
+	cmb_bx_impact -> ItemIndex = cntrls_state_.cmb_bx_impact_data_;
+	rd_grp_internal_forces_type -> ItemIndex = cntrls_state_.rd_grp_internal_forces_type_data_;
 
 	// Параметры расчёта
 
-	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_;
-	edt_max_elem_length -> Text = cntrls_state_.edt_max_elem_length_;
+	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_data_;
+	edt_max_elem_length -> Text = cntrls_state_.edt_max_elem_length_data_;
 
 	//Тип жб плиты
 
-	rdgrp_slab_type -> ItemIndex = cntrls_state_.rdgrp_slab_type_;
+	rdgrp_slab_type -> ItemIndex = cntrls_state_.rdgrp_slab_type_data_;
 
 	//Плита по настилу
 
-	cmb_bx_corrugated_sheeting_part_number -> ItemIndex = cntrls_state_.cmb_bx_corrugated_sheeting_part_number_;
-	edt_h_f -> Text = cntrls_state_.edt_h_f_;
-	chck_bx_wider_flange_up -> Checked = cntrls_state_.chck_bx_wider_flange_up_;
-	chck_bx_sheet_orient_along -> Checked = cntrls_state_.chck_bx_sheet_orient_along_;
+	cmb_bx_corrugated_sheeting_part_number -> ItemIndex = cntrls_state_.cmb_bx_corrugated_sheeting_part_number_data_;
+	edt_h_f -> Text = cntrls_state_.edt_h_f_data_;
+	chck_bx_wider_flange_up -> Checked = cntrls_state_.chck_bx_wider_flange_up_data_;
+	chck_bx_sheet_orient_along -> Checked = cntrls_state_.chck_bx_sheet_orient_along_data_;
 
 	//Плита плоская
 
-	edt_h_f_flat -> Text = cntrls_state_.edt_h_f_flat_;
-	edt_h_n -> Text = cntrls_state_.edt_h_n_;
+	edt_h_f_flat -> Text = cntrls_state_.edt_h_f_flat_data_;
+	edt_h_n -> Text = cntrls_state_.edt_h_n_data_;
 
     //Панели для отображения данных
 
@@ -987,131 +892,136 @@ void TCompositeBeamMainForm::store_cntrls_state()
 	// Геометрия
 	rc = String_double_plus(lbl_span -> Caption,
 							edt_span -> Text,
-							&cntrls_state_.edt_span_);
+							&cntrls_state_.edt_span_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_plus(lbl_trib_width_left -> Caption,
 							edt_width_left -> Text,
-							&cntrls_state_.edt_width_left_);
+							&cntrls_state_.edt_width_left_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_plus(lbl_trib_width_right -> Caption,
 							edt_width_right -> Text,
-							&cntrls_state_.edt_width_right_);
+							&cntrls_state_.edt_width_right_data_);
 	if(rc > 0) throw(rc);
 
-	cntrls_state_.chck_bx_end_beam_ = chck_bx_end_beam -> Checked;
-	cntrls_state_.cmb_bx_number_propping_supports_ = cmb_bx_number_propping_supports -> ItemIndex;
+	cntrls_state_.chck_bx_end_beam_data_ = chck_bx_end_beam -> Checked;
+	cntrls_state_.cmb_bx_number_propping_supports_data_ = cmb_bx_number_propping_supports -> ItemIndex;
 
 	// Нагрузки
 	rc = String_double_zero_plus(lbl_SW_add_concrete -> Caption,
 								 edt_SW_add_concrete -> Text,
-								 &cntrls_state_.edt_SW_add_concrete_);
+								 &cntrls_state_.edt_SW_add_concrete_data_);
    if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_dead_load_first_stage -> Caption,
 								 edt_dead_load_first_stage -> Text,
-								 &cntrls_state_.edt_dead_load_first_stage_);
+								 &cntrls_state_.edt_dead_load_first_stage_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_dead_load_second_stage -> Caption,
 								 edt_dead_load_second_stage -> Text,
-								 &cntrls_state_.edt_dead_load_second_stage_);
+								 &cntrls_state_.edt_dead_load_second_stage_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_live_load -> Caption,
 								 edt_live_load -> Text,
-								 &cntrls_state_.edt_live_load_);
+								 &cntrls_state_.edt_live_load_data_);
 	if(rc > 0) throw(rc);
 	// Коэффициенты надёжности по нагрузке
 	rc = String_double_zero_plus(lbl_gamma_f_st_SW -> Caption,
 								 edt_gamma_f_st_SW -> Text,
-								 &cntrls_state_.edt_gamma_f_st_SW_);
+								 &cntrls_state_.edt_gamma_f_st_SW_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_gamma_f_concrete_SW -> Caption,
 								 edt_gamma_f_concrete_SW -> Text,
-								 &cntrls_state_.edt_gamma_f_concrete_SW_);
+								 &cntrls_state_.edt_gamma_f_concrete_SW_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_gamma_f_add_concrete_SW -> Caption,
 								 edt_gamma_f_add_concrete_SW -> Text,
-								 &cntrls_state_.edt_gamma_f_add_concrete_SW_);
+								 &cntrls_state_.edt_gamma_f_add_concrete_SW_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_gamma_f_DL_I -> Caption,
 								 edt_gamma_f_DL_I -> Text,
-								 &cntrls_state_.edt_gamma_f_DL_I_);
+								 &cntrls_state_.edt_gamma_f_DL_I_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_gamma_f_DL_II -> Caption,
 								 edt_gamma_f_DL_II -> Text,
-								 &cntrls_state_.edt_gamma_f_DL_II_);
+								 &cntrls_state_.edt_gamma_f_DL_II_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_gamma_f_LL -> Caption,
 								 edt_gamma_f_LL -> Text,
-								 &cntrls_state_.edt_gamma_f_LL_);
+								 &cntrls_state_.edt_gamma_f_LL_data_);
 	if(rc > 0) throw(rc);
 
 	// Коэффициенты условий работы
 
 	rc = String_double_zero_plus(lbl_gamma_c -> Caption,
 								 edt_gamma_c -> Text,
-								 &cntrls_state_.edt_gamma_c_);
+								 &cntrls_state_.edt_gamma_c_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_gamma_bi -> Caption,
 								 edt_gamma_bi -> Text,
-								 &cntrls_state_.edt_gamma_bi_);
+								 &cntrls_state_.edt_gamma_bi_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_gamma_si -> Caption,
 								 edt_gamma_si -> Text,
-								 &cntrls_state_.edt_gamma_si_);
+								 &cntrls_state_.edt_gamma_si_data_);
 	if(rc > 0) throw(rc);
-	// Коэффициенты учёт неразрезности настила
+	// Прочие коэффициенты
 	rc = String_double_zero_plus(lbl_sheeting_continuity_coefficient -> Caption,
 								 edt_sheeting_continuity_coefficient -> Text,
-								 &cntrls_state_.edt_sheeting_continuity_coefficient_);
+								 &cntrls_state_.edt_sheeting_continuity_coefficient_data_);
+	if(rc > 0) throw(rc);
+
+	rc = String_double_zero_plus(lbl_fact_quasi_perm_load -> Caption,
+								 edt_fact_quasi_perm_load -> Text,
+								 &cntrls_state_.edt_fact_quasi_perm_load_data_);
 	if(rc > 0) throw(rc);
 
     // Отрисовка эпюр
 
-	cntrls_state_.cmb_bx_impact_ = cmb_bx_impact -> ItemIndex;
-	cntrls_state_.rd_grp_internal_forces_type_ = rd_grp_internal_forces_type -> ItemIndex;
+	cntrls_state_.cmb_bx_impact_data_ = cmb_bx_impact -> ItemIndex;
+	cntrls_state_.rd_grp_internal_forces_type_data_ = rd_grp_internal_forces_type -> ItemIndex;
 
 	// Параметры расчёта
 
-	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_;
+	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_data_;
 	rc = String_double_zero_plus(lbl_max_elem_length -> Caption,
 								 edt_max_elem_length -> Text,
-								 &cntrls_state_.edt_max_elem_length_);
+								 &cntrls_state_.edt_max_elem_length_data_);
 	if(rc > 0) throw(rc);
 
 	//Тип жб плиты
 
-	cntrls_state_.rdgrp_slab_type_ = rdgrp_slab_type -> ItemIndex ;
+	cntrls_state_.rdgrp_slab_type_data_ = rdgrp_slab_type -> ItemIndex ;
 
 	//Плита по настилу
 	rc = String_double_zero_plus(lbl_h_f -> Caption,
 								 edt_h_f -> Text,
-								 &cntrls_state_.edt_h_f_);
+								 &cntrls_state_.edt_h_f_data_);
 	if(rc > 0) throw(rc);
 
-	cntrls_state_.cmb_bx_corrugated_sheeting_part_number_ = cmb_bx_corrugated_sheeting_part_number -> ItemIndex ;
-	cntrls_state_.chck_bx_wider_flange_up_ = chck_bx_wider_flange_up -> Checked ;
-	cntrls_state_.chck_bx_sheet_orient_along_ = chck_bx_sheet_orient_along -> Checked;
+	cntrls_state_.cmb_bx_corrugated_sheeting_part_number_data_ = cmb_bx_corrugated_sheeting_part_number -> ItemIndex ;
+	cntrls_state_.chck_bx_wider_flange_up_data_ = chck_bx_wider_flange_up -> Checked ;
+	cntrls_state_.chck_bx_sheet_orient_along_data_ = chck_bx_sheet_orient_along -> Checked;
 
 	//Плита плоская
 	rc = String_double_zero_plus(lbl_h_f_flat -> Caption,
 								 edt_h_f_flat -> Text,
-								 &cntrls_state_.edt_h_f_flat_);
+								 &cntrls_state_.edt_h_f_flat_data_);
 	if(rc > 0) throw(rc);
 
 	rc = String_double_zero_plus(lbl_h_n -> Caption,
 								 edt_h_n -> Text,
-								 &cntrls_state_.edt_h_n_);
+								 &cntrls_state_.edt_h_n_data_);
 	if(rc > 0) throw(rc);
 
 }

@@ -184,13 +184,15 @@ __published:	// IDE-managed Components
 	TLabel *lbl_sheeting_continuity_coefficient;
 	TCheckBox *chck_bx_wider_flange_up;
 	TCheckBox *chck_bx_sheet_orient_along;
-	TGroupBox *grp_bx_sheet_cont;
+	TGroupBox *grp_bx_other_coeff;
 	TMenuItem *Help;
 	TRadioGroup *rd_grp_code;
 	TLabel *lbl_SW_conc;
 	TEdit *edt_SW_conc;
 	TLabel *lbl_SW_steel_beam;
 	TEdit *edt_SW_steel_beam;
+	TEdit *edt_fact_quasi_perm_load;
+	TLabel *lbl_fact_quasi_perm_load;
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -251,8 +253,7 @@ private:
 	void update_composite_sect_geometr_grid(int code_indx);
 	void update_results_grid(int code_indx);
 
-	void draw_diagram();//Отрисовка эпюр
-	void draw_diagram2();
+	void draw_diagram();
 
 	void calculate_composite_beam();
 	void calculate_composite_beam_SP266();

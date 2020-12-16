@@ -66,16 +66,16 @@ std::unique_ptr<GeneralConcreteSection const> ComBeamInputSP35::make_concrete_se
 
 	std::unique_ptr<GeneralConcreteSection> con_sect {nullptr};
 
-	if (main_frm_cntrls_state.rdgrp_slab_type_ == 0)
+	if (main_frm_cntrls_state.rdgrp_slab_type_data_ == 0)
 	{
 
-		conc_sect.reset(new SlabConcreteSection{main_frm_cntrls_state.edt_h_f_flat_,
-												main_frm_cntrls_state.edt_h_n_,
-												main_frm_cntrls_state.edt_span_,
-												main_frm_cntrls_state.edt_width_left_,
-												main_frm_cntrls_state.edt_width_right_,
+		conc_sect.reset(new SlabConcreteSection{main_frm_cntrls_state.edt_h_f_flat_data_,
+												main_frm_cntrls_state.edt_h_n_data_,
+												main_frm_cntrls_state.edt_span_data_,
+												main_frm_cntrls_state.edt_width_left_data_,
+												main_frm_cntrls_state.edt_width_right_data_,
 												b_uf,
-												main_frm_cntrls_state.chck_bx_end_beam_,
+												main_frm_cntrls_state.chck_bx_end_beam_data_,
 												rebars});
 	}
 	else
@@ -127,12 +127,12 @@ std::unique_ptr<GeneralSteelSection const> ComBeamInputSP35::make_steel_section(
 }
 GlobGeom ComBeamInputSP35::make_glob_geom(TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state)
 {
-	return {main_frm_cntrls_state.edt_max_elem_length_,
-			static_cast<bool>(main_frm_cntrls_state.chck_bx_end_beam_),
-			main_frm_cntrls_state.edt_span_,
-			main_frm_cntrls_state.edt_width_left_,
-			main_frm_cntrls_state.edt_width_right_,
-			main_frm_cntrls_state.cmb_bx_number_propping_supports_};
+	return {main_frm_cntrls_state.edt_max_elem_length_data_,
+			static_cast<bool>(main_frm_cntrls_state.chck_bx_end_beam_data_),
+			main_frm_cntrls_state.edt_span_data_,
+			main_frm_cntrls_state.edt_width_left_data_,
+			main_frm_cntrls_state.edt_width_right_data_,
+			main_frm_cntrls_state.cmb_bx_number_propping_supports_data_};
 }
 
 Loads ComBeamInputSP35::make_loads(TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state,
@@ -141,17 +141,18 @@ Loads ComBeamInputSP35::make_loads(TCompositeBeamMainFormCntrlsState const & mai
 	return {SW_st_beam,
 			0,
 			SW_conc,
-			main_frm_cntrls_state.edt_SW_add_concrete_,
-			main_frm_cntrls_state.edt_dead_load_first_stage_,
-			main_frm_cntrls_state.edt_dead_load_second_stage_,
-			main_frm_cntrls_state.edt_live_load_,
-			main_frm_cntrls_state.edt_gamma_f_st_SW_,
-			main_frm_cntrls_state.edt_gamma_f_concrete_SW_,
-			main_frm_cntrls_state.edt_gamma_f_add_concrete_SW_,
-			main_frm_cntrls_state.edt_gamma_f_DL_I_,
-			main_frm_cntrls_state.edt_gamma_f_DL_II_,
-			main_frm_cntrls_state.edt_gamma_f_LL_,
+			main_frm_cntrls_state.edt_SW_add_concrete_data_,
+			main_frm_cntrls_state.edt_dead_load_first_stage_data_,
+			main_frm_cntrls_state.edt_dead_load_second_stage_data_,
+			main_frm_cntrls_state.edt_live_load_data_,
+			main_frm_cntrls_state.edt_gamma_f_st_SW_data_,
+			main_frm_cntrls_state.edt_gamma_f_concrete_SW_data_,
+			main_frm_cntrls_state.edt_gamma_f_add_concrete_SW_data_,
+			main_frm_cntrls_state.edt_gamma_f_DL_I_data_,
+			main_frm_cntrls_state.edt_gamma_f_DL_II_data_,
+			main_frm_cntrls_state.edt_gamma_f_LL_data_,
 			1,
+            main_frm_cntrls_state.edt_fact_quasi_perm_load_data_,
 			0,
 			0,
 			B};
@@ -159,9 +160,9 @@ Loads ComBeamInputSP35::make_loads(TCompositeBeamMainFormCntrlsState const & mai
 WorkingConditionsFactors ComBeamInputSP35::make_working_conditions_fctrs(
 TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state)
 {
-	return {main_frm_cntrls_state.edt_gamma_bi_,
-			main_frm_cntrls_state.edt_gamma_si_,
-			main_frm_cntrls_state.edt_gamma_c_};
+	return {main_frm_cntrls_state.edt_gamma_bi_data_,
+			main_frm_cntrls_state.edt_gamma_si_data_,
+			main_frm_cntrls_state.edt_gamma_c_data_};
 }
 
 void ComBeamInputSP35::print(TWord_Automation & report)const
@@ -172,7 +173,5 @@ void ComBeamInputSP35::print(TWord_Automation & report)const
 	steel_.print(report);
 	loads_.print(report);
 	st_sect_ -> print_input(report);
-//    conc_sect_ -> print_input(report);
-
-
+	conc_sect_ -> print_input(report);
 }

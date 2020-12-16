@@ -16,20 +16,20 @@ InternalForcesCalculator::InternalForcesCalculator( const SupportsNumber 	 s_num
 	loads_ (loads){}
 std::map<double, double> InternalForcesCalculator::R_Ia_design()const
 {
-	return R_uniform_load(loads_.Ia_design_LCC(), s_num_);
+	return R_uniform_load(loads_.LCC_1a_des(), s_num_);
 }
 std::map<double, double> InternalForcesCalculator::R_Ib_design()const
 {
-	return R_uniform_load(loads_.Ib_design_LCC(), s_num_);
+	return R_uniform_load(loads_.LCC_1b_des(), s_num_);
 }
 std::map<double, double> InternalForcesCalculator::R_IIa_design()const
 {
-	return R_uniform_load(loads_.Ib_design_LCC(), SupportsNumber::ZERO);
+	return R_uniform_load(loads_.LCC_1b_des(), SupportsNumber::ZERO);
 }
 
 std::map<double, double> InternalForcesCalculator::P_IIa_design()const
 {
-	std::map<double, double> PX = R_uniform_load(loads_.Ib_design_LCC(), s_num_);
+	std::map<double, double> PX = R_uniform_load(loads_.LCC_1b_des(), s_num_);
 
 	PX.at(0) = 0;
 	PX.at(L_) = 0;
@@ -38,27 +38,27 @@ std::map<double, double> InternalForcesCalculator::P_IIa_design()const
 }
 std::map<double, double> InternalForcesCalculator::R_IIb_design()const
 {
-	return R_uniform_load(loads_.IIb_design_LCC(), SupportsNumber::ZERO );
+	return R_uniform_load(loads_.LCC_2d_des(), SupportsNumber::ZERO );
 }
 std::map<double, double> InternalForcesCalculator::R_total_design()const
 {
-	return R_uniform_load(loads_.total_design_LCC(), SupportsNumber::ZERO );
+//	return R_uniform_load(loads_.total_design_LCC(), SupportsNumber::ZERO );
 }
 std::map<double, double> InternalForcesCalculator::R_Ia()const
 {
-	return R_uniform_load(loads_.Ia_LCC(), s_num_);
+	return R_uniform_load(loads_.LCC_1a(), s_num_);
 }
 std::map<double, double> InternalForcesCalculator::R_Ib()const
 {
-	return R_uniform_load(loads_.Ib_LCC(), s_num_);
+	return R_uniform_load(loads_.LCC_1b(), s_num_);
 }
 std::map<double, double> InternalForcesCalculator::R_IIa()const
 {
-	return R_uniform_load(loads_.Ib_LCC(), SupportsNumber::ZERO);
+	return R_uniform_load(loads_.LCC_1b(), SupportsNumber::ZERO);
 }
 std::map<double, double> InternalForcesCalculator::P_IIa()const
 {
-	std::map<double, double> PX = R_uniform_load(loads_.Ib_LCC(), s_num_);
+	std::map<double, double> PX = R_uniform_load(loads_.LCC_1b(), s_num_);
 
 	PX.at(0) = 0;
 	PX.at(L_) = 0;
@@ -67,23 +67,23 @@ std::map<double, double> InternalForcesCalculator::P_IIa()const
 }
 std::map<double, double> InternalForcesCalculator::R_IIb()const
 {
-	return R_uniform_load(loads_.IIb_LCC(), SupportsNumber::ZERO );
+	return R_uniform_load(loads_.LCC_2d(), SupportsNumber::ZERO );
 }
 std::map<double, double> InternalForcesCalculator::R_total()const
 {
-	return R_uniform_load(loads_.total_LCC(), SupportsNumber::ZERO );
+//	return R_uniform_load(loads_.total_LCC(), SupportsNumber::ZERO );
 }
 double InternalForcesCalculator::M_Ia_design(double x)const
 {
-	return M_uniform_load(x, loads_.Ia_design_LCC(), s_num_);
+	return M_uniform_load(x, loads_.LCC_1a_des(), s_num_);
 }
 double InternalForcesCalculator::M_Ib_design(double x)const
 {
-	return M_uniform_load(x, loads_.Ib_design_LCC(), s_num_);
+	return M_uniform_load(x, loads_.LCC_1b_des(), s_num_);
 }
 double InternalForcesCalculator::M_IIa_design(double x)const
 {
-	std::map<double, double> R_Ib_design_named_list = R_uniform_load(loads_.Ib_design_LCC(), s_num_);
+	std::map<double, double> R_Ib_design_named_list = R_uniform_load(loads_.LCC_1b_des(), s_num_);
 
 	double L0 = 0.;
 
@@ -117,7 +117,7 @@ double InternalForcesCalculator::M_IIa_design(double x)const
 }
 double InternalForcesCalculator::M_IIb_design(double x)const
 {
-	return M_uniform_load(x, loads_.IIb_design_LCC(), SupportsNumber::ZERO );
+	return M_uniform_load(x, loads_.LCC_2d_des(), SupportsNumber::ZERO );
 }
 
 double InternalForcesCalculator::M_total_design(double x)const
@@ -126,11 +126,11 @@ double InternalForcesCalculator::M_total_design(double x)const
 }
 double InternalForcesCalculator::Q_Ia_design(double x)const
 {
-	return Q_uniform_load(x, loads_.Ia_design_LCC(), s_num_);
+	return Q_uniform_load(x, loads_.LCC_1a_des(), s_num_);
 }
 double InternalForcesCalculator::Q_Ib_design(double x)const
 {
-	return Q_uniform_load(x, loads_.Ib_design_LCC(), s_num_);
+	return Q_uniform_load(x, loads_.LCC_1b_des(), s_num_);
 }
 double InternalForcesCalculator::Q_IIa_design(double x)const
 {
@@ -166,7 +166,7 @@ double InternalForcesCalculator::Q_IIa_design(double x)const
 }
 double InternalForcesCalculator::Q_IIb_design(double x)const
 {
-	return Q_uniform_load(x, loads_.IIb_design_LCC(), SupportsNumber::ZERO);
+	return Q_uniform_load(x, loads_.LCC_2d_des(), SupportsNumber::ZERO);
 }
 
 double InternalForcesCalculator::Q_total_design(double x)const
@@ -176,7 +176,7 @@ double InternalForcesCalculator::Q_total_design(double x)const
 
 double InternalForcesCalculator::f_Ia(double x)const
 {
-	std::map<double, double> R_Ia_named_list = R_uniform_load(loads_.Ia_LCC(), s_num_);
+	std::map<double, double> R_Ia_named_list = R_uniform_load(loads_.LCC_1a(), s_num_);
 
 	double L0 = 0.;
 
@@ -184,20 +184,20 @@ double InternalForcesCalculator::f_Ia(double x)const
 	{
 		case(SupportsNumber::ZERO):
 
-		return f_uniform_load(x, loads_.Ia_LCC());
+		return f_uniform_load(x, loads_.LCC_1a());
 
 		case(SupportsNumber::ONE):
 
 			L0 = L_ / 2;
 
-			return f_uniform_load(x, loads_.Ia_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1a()) +
 				f_point_load(x, -1 * R_Ia_named_list.at(L0), L0);
 
 		case(SupportsNumber::TWO):
 
 			L0 = L_ / 3;
 
-			return f_uniform_load(x, loads_.Ia_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1a()) +
 				f_point_load(x, -1 * R_Ia_named_list.at(L0), L0) +
 				f_point_load(x, -1 * R_Ia_named_list.at(2 * L0), 2 * L0);
 
@@ -205,7 +205,7 @@ double InternalForcesCalculator::f_Ia(double x)const
 
 			L0 = L_ / 4;
 
-			return f_uniform_load(x, loads_.Ia_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1a()) +
 				f_point_load(x, -1 * R_Ia_named_list.at(L0), L0) +
 				f_point_load(x, -1 * R_Ia_named_list.at(2 * L0), 2 * L0) +
 				f_point_load(x, -1 * R_Ia_named_list.at(3 * L0), 3 * L0);
@@ -214,7 +214,7 @@ double InternalForcesCalculator::f_Ia(double x)const
 }
 double InternalForcesCalculator::f_Ib(double x)const
 {
-	std::map<double, double> R_Ib_named_list = R_uniform_load(loads_.Ib_LCC(), s_num_);
+	std::map<double, double> R_Ib_named_list = R_uniform_load(loads_.LCC_1b(), s_num_);
 
 	double L0 = 0.;
 
@@ -222,20 +222,20 @@ double InternalForcesCalculator::f_Ib(double x)const
 	{
 		case(SupportsNumber::ZERO):
 
-		return f_uniform_load(x, loads_.Ib_LCC());
+		return f_uniform_load(x, loads_.LCC_1b());
 
 		case(SupportsNumber::ONE):
 
 			L0 = L_ / 2;
 
-			return f_uniform_load(x, loads_.Ib_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1b()) +
 				f_point_load(x, -1 * R_Ib_named_list.at(L0), L0);
 
 		case(SupportsNumber::TWO):
 
 			L0 = L_ / 3;
 
-			return f_uniform_load(x, loads_.Ib_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1b()) +
 				f_point_load(x, -1 * R_Ib_named_list.at(L0), L0) +
 				f_point_load(x, -1 * R_Ib_named_list.at(2 * L0), 2 * L0);
 
@@ -243,7 +243,7 @@ double InternalForcesCalculator::f_Ib(double x)const
 
 			L0 = L_ / 4;
 
-			return f_uniform_load(x, loads_.Ib_LCC()) +
+			return f_uniform_load(x, loads_.LCC_1b()) +
 				f_point_load(x, -1 * R_Ib_named_list.at(L0), L0) +
 				f_point_load(x, -1 * R_Ib_named_list.at(2 * L0), 2 * L0) +
 				f_point_load(x, -1 * R_Ib_named_list.at(3 * L0), 3 * L0);
@@ -251,7 +251,7 @@ double InternalForcesCalculator::f_Ib(double x)const
 }
 double InternalForcesCalculator::f_IIa(double x)const
 {
-	std::map<double, double> R_Ib_named_list = R_uniform_load(loads_.Ib_LCC(), s_num_);
+	std::map<double, double> R_Ib_named_list = R_uniform_load(loads_.LCC_1b(), s_num_);
 
 	double L0 = 0.;
 
@@ -285,7 +285,7 @@ double InternalForcesCalculator::f_IIa(double x)const
 }
 double InternalForcesCalculator::f_IIb(double x)const
 {
-	return f_uniform_load(x, loads_.IIb_LCC());
+	return f_uniform_load(x, loads_.LCC_2d());
 }
 double InternalForcesCalculator::f_total(double x)const
 {

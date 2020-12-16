@@ -32,6 +32,7 @@
 								   double const f_1b,
 								   double const f_2c,
 								   double const f_2d,
+								   double const f_total,
 
 								   double const sigma_b_shr,
 								   double const sigma_b_kr,
@@ -77,6 +78,7 @@
 							f_1b_(f_1b),
 							f_2c_(f_2c),
 							f_2d_(f_2d),
+							f_total_(f_total),
 
 							sigma_b_shr_(sigma_b_shr),
 							sigma_b_kr_(sigma_b_kr),
@@ -161,6 +163,26 @@ double ComposSectOutputSP35::R_2d()const
 double ComposSectOutputSP35::R_total()const
 {
 	return R_total_;
+}
+double ComposSectOutputSP35::f_1a()const
+{
+	return f_1a_;
+}
+double ComposSectOutputSP35::f_1b()const
+{
+	return f_1b_;
+}
+double ComposSectOutputSP35::f_2c()const
+{
+	return f_2c_;
+}
+double ComposSectOutputSP35::f_2d()const
+{
+	return f_2d_;
+}
+double ComposSectOutputSP35::f_total()const
+{
+	return f_total_;
 }
 double ComposSectOutputSP35::max_direct_str_ratio()const
 {

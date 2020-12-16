@@ -95,7 +95,7 @@ public:
 	Rebars(Rebar2 const & reb,
 		   double const a_u, double const a_l,
 		   double const b_u, double const b_l);
-	Rebar2 rebar();
+	Rebar2 rebar()const;
 	double a_u()const;
 	double a_l()const;
 	double A_u_r_per_unit()const;

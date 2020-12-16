@@ -32,7 +32,8 @@ public:
 
 	void fill_grid(TStringGrid* str_grid)const;
 
-	void print_data_to_report(TWord_Automation & report)const;
+	void print_input(TWord_Automation & report)const;
+	void print_output(TWord_Automation & report)const;
 
 protected:
 	const double h_f_;

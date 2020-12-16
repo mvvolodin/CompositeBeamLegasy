@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #pragma hdrstop
 #include "uLoads.h"
@@ -20,12 +20,13 @@ Loads::Loads(double SW_steel_beam,
 			 double gamma_f_DL_II,
 			 double gamma_f_LL,
 			 double sheeting_continuity_coefficient,
+			 double fact_quasi_perm_load,
 			 double sigma_bi,
 			 double sigma_si)
 	:SW_steel_beam_(SW_steel_beam),
 	SW_corrugated_sheets_(SW_corrugated_sheets*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	SW_add_concrete_(SW_add_concrete*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
-	DL_I_(DL_I * N/mm2),  //Полезно сделать сеттеры!
+	DL_I_(DL_I * N/mm2),  //РџРѕР»РµР·РЅРѕ СЃРґРµР»Р°С‚СЊ СЃРµС‚С‚РµСЂС‹!
 	DL_II_(DL_II*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	LL_(LL*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	gamma_f_st_SW_(gamma_f_SW),
@@ -35,6 +36,7 @@ Loads::Loads(double SW_steel_beam,
 	gamma_f_DL_II_(gamma_f_DL_II),
 	gamma_f_LL_(gamma_f_LL),
 	sheeting_continuity_coefficient_(sheeting_continuity_coefficient),
+	fact_quasi_perm_load_(fact_quasi_perm_load),
 	sigma_bi_(sigma_bi),
 	sigma_si_(sigma_si){}
 Loads::Loads(double SW_steel_beam,
@@ -51,6 +53,7 @@ Loads::Loads(double SW_steel_beam,
 			 double gamma_f_DL_II,
 			 double gamma_f_LL,
 			 double sheeting_continuity_coefficient,
+			 double fact_quasi_perm_load,
 			 double sigma_bi,
 			 double sigma_si,
 			 double B)
@@ -58,7 +61,7 @@ Loads::Loads(double SW_steel_beam,
 	SW_corrugated_sheets_(SW_corrugated_sheets * N/mm2),
 	SW_concrete_(SW_conc),
 	SW_add_concrete_(SW_add_concrete * N/mm2),
-	DL_I_(DL_I * N/mm2),  //Полезно сделать сеттеры!
+	DL_I_(DL_I * N/mm2),  //РџРѕР»РµР·РЅРѕ СЃРґРµР»Р°С‚СЊ СЃРµС‚С‚РµСЂС‹!
 	DL_II_(DL_II * N/mm2),
 	LL_(LL * N/mm2),
 	gamma_f_st_SW_(gamma_f_SW),
@@ -68,6 +71,7 @@ Loads::Loads(double SW_steel_beam,
 	gamma_f_DL_II_(gamma_f_DL_II),
 	gamma_f_LL_(gamma_f_LL),
 	sheeting_continuity_coefficient_(sheeting_continuity_coefficient),
+	fact_quasi_perm_load_(fact_quasi_perm_load),
 	sigma_bi_(sigma_bi),
 	sigma_si_(sigma_si),
 	B_(B){}
@@ -116,9 +120,9 @@ void Loads::load(std::istream& istr)
 	istr.read((char*)&sheeting_continuity_coefficient_, sizeof(sheeting_continuity_coefficient_));
 }
 //-----------------------------------------------------------------------------
-//Расчёт значения нагрузки от комбинации загружений Ia
+//Р Р°СЃС‡С‘С‚ Р·РЅР°С‡РµРЅРёСЏ РЅР°РіСЂСѓР·РєРё РѕС‚ РєРѕРјР±РёРЅР°С†РёРё Р·Р°РіСЂСѓР¶РµРЅРёР№ 1a
 //-----------------------------------------------------------------------------
-double Loads::Ia_design_LCC()const
+double Loads::LCC_1a_des()const
 {
 	assert(fully_initialized_);
 	return gamma_f_st_SW_ * SW_steel_beam_ +
@@ -128,9 +132,9 @@ double Loads::Ia_design_LCC()const
 		gamma_f_DL_I_ * sheeting_continuity_coefficient_ * DL_I_ * B_;
 }
 //-----------------------------------------------------------------------------
-//Расчёт значения нагрузки от комбинации загружений Ib
+//Р Р°СЃС‡С‘С‚ Р·РЅР°С‡РµРЅРёСЏ РЅР°РіСЂСѓР·РєРё РѕС‚ РєРѕРјР±РёРЅР°С†РёРё Р·Р°РіСЂСѓР¶РµРЅРёР№ 1b
 //-----------------------------------------------------------------------------
-double Loads::Ib_design_LCC()const
+double Loads::LCC_1b_des()const
 {
 	assert(fully_initialized_);
 	return gamma_f_st_SW_ * SW_steel_beam_ +
@@ -139,30 +143,20 @@ double Loads::Ib_design_LCC()const
 		gamma_f_add_concrete_SW_ * sheeting_continuity_coefficient_ * SW_add_concrete_ * B_;
 }
 //-----------------------------------------------------------------------------
-//Расчёт значения нагрузки от комбинации загружений IIb
+//Р Р°СЃС‡С‘С‚ Р·РЅР°С‡РµРЅРёСЏ РЅР°РіСЂСѓР·РєРё РѕС‚ РєРѕРјР±РёРЅР°С†РёРё Р·Р°РіСЂСѓР¶РµРЅРёР№ 2c
 //-----------------------------------------------------------------------------
-double Loads::IIb_design_LCC()const
+double Loads::LCC_2d_des()const
 {
 	assert(fully_initialized_);
 	 return gamma_f_DL_II_ * DL_II_ * B_
 		+ gamma_f_LL_ * LL_ * B_;
 }
-double Loads::design_LCC_2d_DL()const
+double Loads::LCC_2d_DL_des()const
 {
 	return gamma_f_DL_II_ * DL_II_ * B_;
 }
-//-----------------------------------------------------------------------------
-//Расчёт значения нагрузки от полной комбинации загружений
-//-----------------------------------------------------------------------------
-double Loads::total_design_LCC()const
-{
-	assert(fully_initialized_);
-	return gamma_f_st_SW_ * SW_steel_beam_ +
-		gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
-		gamma_f_concrete_SW_ * SW_concrete_ * B_ +
-		gamma_f_DL_II_ * DL_II_ * B_ + gamma_f_LL_ * LL_ * B_;
-}
-double Loads::Ia_LCC()const
+
+double Loads::LCC_1a()const
 {
 	assert(fully_initialized_);
 	return SW_steel_beam_ +
@@ -171,7 +165,7 @@ double Loads::Ia_LCC()const
 		sheeting_continuity_coefficient_ * SW_add_concrete_ * B_ +
 		sheeting_continuity_coefficient_ * DL_I_ * B_;
 }
-double Loads::Ib_LCC()const
+double Loads::LCC_1b()const
 {
 	assert(fully_initialized_);
 	return SW_steel_beam_ +
@@ -180,23 +174,19 @@ double Loads::Ib_LCC()const
 		sheeting_continuity_coefficient_ * SW_add_concrete_ * B_;
 
 }
-double Loads::IIb_LCC()const
+double Loads::LCC_2d()const
 {
 	assert(fully_initialized_);
 	return DL_II_ * B_ +
 		LL_ * B_;
 }
-double Loads::total_LCC()const
+double Loads::LCC_2d_DL()const
 {
-	assert(fully_initialized_);
-	 return gamma_f_st_SW_ * SW_steel_beam_ +
-		gamma_f_st_SW_ * SW_corrugated_sheets_ * B_ +
-		gamma_f_concrete_SW_ * SW_concrete_ * B_ +
-		gamma_f_DL_II_ * DL_II_ * B_ + gamma_f_LL_ * LL_ * B_;
-
+	return DL_II_ * B_;
 }
+
 //-----------------------------------------------------------------------------
-//Присваение данным класса значений по умолчанию
+//РџСЂРёСЃРІР°РµРЅРёРµ РґР°РЅРЅС‹Рј РєР»Р°СЃСЃР° Р·РЅР°С‡РµРЅРёР№ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 //-----------------------------------------------------------------------------
 void Loads::set_default_values()
 {
@@ -233,20 +223,21 @@ void Loads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double S
 
 void Loads::print(TWord_Automation & report)const
 {
-	report.PasteTextPattern(FloatToStrF(get_self_weight(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%steel_beam%");
-	report.PasteTextPattern(FloatToStrF(get_self_weight_sheets(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_sheets%");
-	report.PasteTextPattern(FloatToStrF(get_SW_concrete(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_concrete%");
-	report.PasteTextPattern(FloatToStrF(get_SW_add_concrete(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%SW_add_concrete%");
-	report.PasteTextPattern(FloatToStrF(get_dead_load_first_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_I%");
-	report.PasteTextPattern(FloatToStrF(get_dead_load_second_stage(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%DL_II%");
-	report.PasteTextPattern(FloatToStrF(get_live_load(LoadUnit::kN, LengthUnit::m), ffFixed, 15, 2), "%LL%");
+	report.PasteTextPattern(double_to_str(SW_steel_beam_ * kN / m), "%steel_beam%");
+	report.PasteTextPattern(double_to_str(SW_concrete_ * kN / m2), "%SW_concrete%");
+	report.PasteTextPattern(double_to_str(SW_add_concrete_ * kN / m2), "%SW_add_concrete%");
+	report.PasteTextPattern(double_to_str(DL_I_ * kN / m2), "%DL_I%");
+	report.PasteTextPattern(double_to_str(DL_II_ * kN / m2), "%DL_II%");
+	report.PasteTextPattern(double_to_str(LL_ * kN / m2), "%LL%");
 
-	report.PasteTextPattern(FloatToStrF(get_gamma_f_st_SW(), ffFixed, 15, 2), "%gamma_f_st_SW%");
-	report.PasteTextPattern(FloatToStrF(get_gamma_f_concrete_SW(), ffFixed, 15, 2), "%gamma_f_concrete_SW%");
-	report.PasteTextPattern(FloatToStrF(get_gamma_f_add_concrete_SW(), ffFixed, 15, 2), "%SW gamma_f_add_concr%");
-	report.PasteTextPattern(FloatToStrF(get_gamma_f_DL_I(), ffFixed, 15, 2), "%gamma_f_DL_I%");
-	report.PasteTextPattern(FloatToStrF(get_gamma_f_DL_II(), ffFixed, 15, 2), "%gamma_f_DL_II%");
-	report.PasteTextPattern(FloatToStrF(get_gamma_f_LL(), ffFixed, 15, 2), "%gamma_f_LL%");
+	report.PasteTextPattern(double_to_str(gamma_f_st_SW_), "%gamma_f_st_SW%");
+	report.PasteTextPattern(double_to_str(gamma_f_concrete_SW_), "%gamma_f_concrete_SW%");
+	report.PasteTextPattern(double_to_str(gamma_f_add_concrete_SW_), "%SW gamma_f_add_concr%");
+	report.PasteTextPattern(double_to_str(gamma_f_DL_I_), "%gamma_f_DL_I%");
+	report.PasteTextPattern(double_to_str(gamma_f_DL_II_), "%gamma_f_DL_II%");
+	report.PasteTextPattern(double_to_str(gamma_f_LL_), "%gamma_f_LL%");
+
+	report.PasteTextPattern(double_to_str(sheeting_continuity_coefficient_), "%sheeting_continuity_coeff%");
 
 }
 
