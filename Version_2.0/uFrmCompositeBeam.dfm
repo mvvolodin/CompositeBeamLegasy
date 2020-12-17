@@ -133,8 +133,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtStaticScheme: TTabSheet
       AlignWithMargins = True
       Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
-      ExplicitLeft = 8
-      ExplicitTop = 34
       object GrpBxLoadsSafetyFactors: TGroupBox
         Left = 594
         Top = 3
@@ -594,7 +592,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_sheeting_continuity_coefficient: TLabel
           Left = 12
           Top = 19
-          Width = 105
+          Width = 95
           Height = 26
           Caption = #1059#1095#1105#1090' '#1085#1077#1088#1072#1079#1088#1077#1079#1085#1086#1081' '#1088#1072#1073#1086#1090#1099' '#1085#1072#1089#1090#1080#1083#1072
           WordWrap = True
@@ -602,8 +600,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_fact_quasi_perm_load: TLabel
           Left = 12
           Top = 53
-          Width = 105
-          Height = 38
+          Width = 94
+          Height = 39
           Caption = #1059#1095#1105#1090' '#1076#1083#1080#1090#1077#1083#1100#1085#1086#1081' '#1095#1072#1089#1090#1080' '#1074#1088#1077#1084#1077#1085#1085#1086#1081' '#1085#1072#1075#1088#1091#1079#1082#1080' 2 '#1089#1090#1072#1076#1080#1080
           WordWrap = True
         end
@@ -3054,15 +3052,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       end
     end
   end
-  object btn_logger: TButton
-    Left = 250
-    Top = 599
-    Width = 99
-    Height = 25
-    Caption = #1055#1086#1082#1072#1079#1072#1090#1100' '#1078#1091#1088#1085#1072#1083
-    TabOrder = 6
-    OnClick = btn_loggerClick
-  end
   object rd_grp_code: TRadioGroup
     Left = 355
     Top = 592
@@ -3074,7 +3063,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Items.Strings = (
       #1057#1055' 266.1325800.2016'
       #1057#1055' 35.13330.2011')
-    TabOrder = 7
+    TabOrder = 6
     OnClick = rd_grp_codeClick
   end
   object MainMenu1: TMainMenu

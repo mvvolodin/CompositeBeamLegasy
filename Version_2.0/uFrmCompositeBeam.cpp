@@ -556,11 +556,9 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 	{
 		case 0:
 			calculate_composite_beam_SP266();
-			update_grids(code_indx);
 			break;
 		case 1:
 			calculate_composite_beam_SP35();
-			update_grids(code_indx);
 			break;
 	}
 }
@@ -590,8 +588,6 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 		ShowMessage(str.c_str());
 		return;
 	}
-
-	after_calculation();
 
 }
 void TCompositeBeamMainForm::after_calculation()

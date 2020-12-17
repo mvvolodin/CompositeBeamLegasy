@@ -165,7 +165,6 @@ __published:	// IDE-managed Components
 	TStringGrid *strng_grd_steel_sect_geom_character;
 	TEdit *edt_gamma_f_st_SW;
 	TLabel *lbl_gamma_f_st_SW;
-	TButton *btn_logger;
 	TEdit *edt_h_f;
 	TLabel *lbl_h_f;
 	TLabel *lbl_corrugated_sheet_type;
