@@ -1,5 +1,4 @@
 ﻿//---------------------------------------------------------------------------
-
 #ifndef uFrmsCntrlsStateH
 #define uFrmsCntrlsStateH
 //---------------------------------------------------------------------------
@@ -126,6 +125,21 @@ struct TDefineSteelFormCntrlsState{
 	void save_cntls_state(ostream & os);
 	void load_cntrls_state(istream & is);
 
+};
+//---------------------------------------------------------------------------
+struct TStudDefinitionFormCntrlsState{
+	int cmb_bx_stud_part_number_index_{52};
+	double edt_stud_yield_strength_data_{350};
+	double edt_stud_safety_factor_data_{1.3};
+	double edt_edge_studs_dist_data_{195};
+	int cmb_bx_edge_studs_rows_num_index_{0};
+	int chck_bx_more_than_one_stud_per_corrugation_edge_data_{0};
+	double edt_middle_studs_dist_data_{400};
+	int cmb_bx_middle_studs_rows_num_index_{0};
+	int chck_bx_more_than_one_stud_per_corrugation_middle_data_{0};
+
+	void save_cntls_state(ostream & os);
+	void load_cntrls_state(istream & is);
 };
 //---------------------------------------------------------------------------
 #endif

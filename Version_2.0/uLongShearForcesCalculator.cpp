@@ -24,7 +24,7 @@ double LongShearForcesCalculator::run(double x_l, double x_r)const
 
 
 }
-std::unique_ptr<PiecewiseLinearFunc> LongShearForcesCalculator::build_diag(
+PiecewiseLinearFunc LongShearForcesCalculator::build_diag(
 	IntForcesCalculator const & calc,
 	ComposSectGeomSP35 const & com_sec,
 	double h, double b_sl, double L)
@@ -59,22 +59,16 @@ std::unique_ptr<PiecewiseLinearFunc> LongShearForcesCalculator::build_diag(
 	double const b_5  = S_1Q_overline - sl_5 * (a_e + a_1 / 2 + a_1 / 2);
 
 	double const sl_6 = - S_eQ_overline / (a_e / 2);
-	double const b_6  = - sl_6 * (a_e + a_1 + a_1 + a_e);
+	double const b_6  = - sl_6 * (2 * a_e + 2 * a_1);
 
-	LinearFunc  lf1{sl_1, b_1};
-	LinearFunc  lf2{sl_2, b_2};
-	LinearFunc  lf3{sl_3, b_3};
-	LinearFunc  lf4{sl_4, b_4};
-	LinearFunc  lf5{sl_5, b_5};
-	LinearFunc  lf6{sl_6, b_6};
+	 std::pair<std::pair<double, double>, LinearFunc > p_1 {{0, a_e / 2}, {sl_1, b_1}};
+	 std::pair<std::pair<double, double>, LinearFunc > p_2 {{a_e / 2, a_e}, {sl_2, b_2}};
+	 std::pair<std::pair<double, double>, LinearFunc > p_3 {{a_e, a_1 / 2}, {sl_3, b_3}};
+	 std::pair<std::pair<double, double>, LinearFunc > p_4 {{a_1 / 2, a_1}, {sl_4, b_4}};
+	 std::pair<std::pair<double, double>, LinearFunc > p_5 {{a_1, a_1 + a_1 / 2}, {sl_5, b_5}};
+	 std::pair<std::pair<double, double>, LinearFunc > p_6 {{a_1 + a_1 / 2, 2 * a_e + 2* a_1}, {sl_6, b_6}};
 
-	 std::pair<std::pair<double, double>, LinearFunc > p1   {{-100,-3}, lf1};
-	 std::pair<std::pair<double, double>, LinearFunc > p2   {{-120,-3}, lf2};
-
-	 std::map<std::pair<double, double>, LinearFunc >  m{p1, p2};
-
-
-	return std::make_unique<PiecewiseLinearFunc>(m);
+	return {{p_1, p_2, p_3, p_4, p_5, p_6}};
 }
 
 double LongShearForcesCalculator::S_i(IntForcesCalculator const & calc,

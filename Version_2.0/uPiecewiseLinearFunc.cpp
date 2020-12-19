@@ -7,7 +7,7 @@
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 PiecewiseLinearFunc::PiecewiseLinearFunc (
-	std::map< std::pair<double,double>,  LinearFunc >  & fns):fns_(fns){}
+	std::map< std::pair<double,double>,  LinearFunc> const   & fns):fns_(fns){}
 
 double PiecewiseLinearFunc::operator()( double x )
 {

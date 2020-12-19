@@ -1,7 +1,6 @@
 ﻿//---------------------------------------------------------------------------
-
 #pragma hdrstop
-
+//---------------------------------------------------------------------------
 #include "uFrmsCntrlsState.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -97,7 +96,6 @@ void TCompositeBeamMainFormCntrlsState::load(istream & is)
 }
 
 //---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
 void TSteelSectionFormCntrlsState::save_cntls_state(ostream & os)
 {
 	os << edt_b_f2_ << '\n'
@@ -120,7 +118,6 @@ void TSteelSectionFormCntrlsState::load_cntrls_state(istream & is)
 	   >> rd_grp_rolled_sect_type_;
 }
 //---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
 void TFrmRebarCntrlsState::save_cntls_state(ostream & os)
 {
 	os << cmb_bx_rebar_grade_ << '\n'
@@ -141,7 +138,6 @@ void TFrmRebarCntrlsState::load_cntrls_state(istream & is)
 	   >> edt_a_l_;
 }
 //---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
 void TConcreteDefinitionFormCntrlsState::save_cntls_state(ostream & os)
 {
 	os << cmb_bx_conc_grade_index_ << '\n'
@@ -159,4 +155,29 @@ void TConcreteDefinitionFormCntrlsState::load_cntrls_state(istream & is)
 	   >> edt_gamma_b_data_
 	   >> edt_gamma_bt_data_
 	   >> edt_epsilon_b_lim_data_;
+}
+//---------------------------------------------------------------------------
+void TStudDefinitionFormCntrlsState::save_cntls_state(ostream & os)
+{
+	os << cmb_bx_stud_part_number_index_ << '\n'
+	   << edt_stud_yield_strength_data_ << '\n'
+	   << edt_stud_safety_factor_data_ << '\n'
+	   << edt_edge_studs_dist_data_ << '\n'
+	   << cmb_bx_edge_studs_rows_num_index_ << '\n'
+	   << chck_bx_more_than_one_stud_per_corrugation_edge_data_ << '\n'
+	   << edt_middle_studs_dist_data_ << '\n'
+	   << cmb_bx_middle_studs_rows_num_index_ << '\n'
+	   << chck_bx_more_than_one_stud_per_corrugation_middle_data_ << '\n';
+}
+void TStudDefinitionFormCntrlsState::load_cntrls_state(istream & is)
+{
+	is >> cmb_bx_stud_part_number_index_
+	   >> edt_stud_yield_strength_data_
+	   >> edt_stud_safety_factor_data_
+	   >> edt_edge_studs_dist_data_
+	   >> cmb_bx_edge_studs_rows_num_index_
+	   >> chck_bx_more_than_one_stud_per_corrugation_edge_data_
+	   >> edt_middle_studs_dist_data_
+	   >> cmb_bx_middle_studs_rows_num_index_
+	   >> chck_bx_more_than_one_stud_per_corrugation_middle_data_;
 }

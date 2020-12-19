@@ -56,8 +56,6 @@ void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 	calculate_composite_beam();
 	after_calculation();
 }
-
-
 //---------------------------------------------------------------------------
 //Сформировать и открыть отчёт
 //---------------------------------------------------------------------------
@@ -279,35 +277,6 @@ void TCompositeBeamMainForm ::update_results_grid(int code_indx)
 	}
 
 }
-
-void TCompositeBeamMainForm ::fill_results_grid()
-{
-//	Section max_i_section_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_i_section_ratio_section();
-//
-//	strng_grd_results -> Cells [1][2] = FloatToStrF(std::abs(max_i_section_ratio_section.get_x()), ffFixed, 15, 0);
-//	strng_grd_results -> Cells [1][3] = FloatToStrF(std::abs(max_i_section_ratio_section.get_i_section_ratio()), ffFixed, 15, 2);
-//	Section max_direct_stress_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_direct_stress_ratio_section();
-//
-//	strng_grd_results -> Cells [1][5] = FloatToStrF(std::abs(max_direct_stress_ratio_section.get_x()), ffFixed, 15, 0);
-//	strng_grd_results -> Cells [1][6] = FloatToStrF(std::abs(max_direct_stress_ratio_section.get_upper_fl_ratio()), ffFixed, 15, 2);
-//	strng_grd_results -> Cells [1][7] = FloatToStrF(std::abs(max_direct_stress_ratio_section.get_lower_fl_ratio()), ffFixed, 15, 2);
-//	strng_grd_results -> Cells [1][8] = FloatToStrF(std::abs(max_direct_stress_ratio_section.get_conc_ratio()), ffFixed, 15, 2);
-//
-//	Section max_rigid_plastic_ratio_section = composite_beam_calculator_.get_composite_beam().get_max_rigid_plastic_ratio_section();
-//
-//	strng_grd_results -> Cells [1][10] = FloatToStrF(std::abs(max_rigid_plastic_ratio_section.get_x()), ffFixed, 15, 0);
-//	strng_grd_results -> Cells [1][11] = FloatToStrF(std::abs(max_rigid_plastic_ratio_section.get_rigid_plastic_ratio()), ffFixed, 15, 2);
-//
-//	Section max_shear_stress_section = composite_beam_calculator_.get_composite_beam().get_max_shear_stress_ratio_section();
-//
-//	strng_grd_results -> Cells [1][13] = FloatToStrF(std::abs(max_shear_stress_section .get_x()), ffFixed, 15, 0);
-//	strng_grd_results -> Cells [1][14] = FloatToStrF(std::abs(max_shear_stress_section.get_shear_ratio()), ffFixed, 15, 2);
-//
-//	StudsRow max_ratio_studs_row = composite_beam_calculator_.get_studs_on_beam().get_max_ratio_studs_row();
-//
-//	strng_grd_results -> Cells [1][16] = FloatToStrF(std::abs(max_ratio_studs_row.get_x()), ffFixed, 15, 0);
-//	strng_grd_results -> Cells [1][17] = FloatToStrF(std::abs(max_ratio_studs_row.get_ratio()), ffFixed, 15, 2);
-}
 //---------------------------------------------------------------------------
 //	Функция заполняющая Grid выводящий результаты расчёта композитной балки
 //---------------------------------------------------------------------------
@@ -358,29 +327,17 @@ void TCompositeBeamMainForm ::fill_cmb_bx_corrugated_sheets()
 	cmb_bx_corrugated_sheeting_part_number->ItemIndex = 0;
 }
 //---------------------------------------------------------------------------
-
+void __fastcall TCompositeBeamMainForm ::BtBtnExitClick(TObject *Sender)
+{
+	Close();
+}
+//---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::BtBtnSteelChoiceClick(TObject *Sender)
 {
 	 DefineSteelForm -> ShowModal();
 	 pnl_steel -> Caption = DefineSteelForm -> info();
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TCompositeBeamMainForm ::BtnSteelSectionChoiceClick(TObject *Sender)
-{
-	SteelSectionForm -> ShowModal();
-	pnl_steel_section_viewer -> Caption = SteelSectionForm -> info();
-
-}
-//---------------------------------------------------------------------------
-
-
-void __fastcall TCompositeBeamMainForm ::BtBtnExitClick(TObject *Sender)
-{
-	Close();
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TCompositeBeamMainForm ::BtnConcreteChoiceClick(TObject *Sender)
 {
 	ConcreteDefinitionForm -> ShowModal();
@@ -394,10 +351,17 @@ void __fastcall TCompositeBeamMainForm ::BtBtnRebarsChoiceClick(TObject *Sender)
 	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> info();
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TCompositeBeamMainForm ::BtBtnShearStudsChoiceClick(TObject *Sender)
 {
-	StudDefinitionForm -> Show();
+	StudDefinitionForm -> ShowModal();
+	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> info();
+}
+//---------------------------------------------------------------------------
+void __fastcall TCompositeBeamMainForm ::BtnSteelSectionChoiceClick(TObject *Sender)
+{
+	SteelSectionForm -> ShowModal();
+	pnl_steel_section_viewer -> Caption = SteelSectionForm -> info();
+
 }
 //---------------------------------------------------------------------------
 
@@ -568,7 +532,6 @@ void TCompositeBeamMainForm::calculate_composite_beam_SP266()
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
-
 	store_cntrls_state();
 
 	com_beam_input_SP35.reset(new ComBeamInputSP35{this -> cntrls_state_,
@@ -624,29 +587,35 @@ void __fastcall TCompositeBeamMainForm ::NNewClick(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TCompositeBeamMainForm ::NSaveClick(TObject *Sender)
 {
-//	update_composite_beam(); //актуализируем композитную балку из полей формы
-//   // Получение имени директории, в которой находится исполняемый модуль
-//
-//   if  (strcmp(ModelFile, UNTITLED)==0) {
-//	  if(SaveDialog_Model->Execute())
-//	  {
-//		  FileDir_Name = SaveDialog_Model->FileName;;//поле класс хранит путь полный
-//		  ModelName(FileDir_Name.c_str(), ModelFile); //выделяет имя файла для отображения на форме из пути
-//	  }
-//   }
-//
-//	std::ofstream ofstr {FileDir_Name.c_str(), std::ios::out | std::ios::binary};
-//	calculate_composite_beam();
-//
-//	composite_beam_calculator_.save(ofstr);
-//	ofstr.close();
-//
-//   Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
-//
-//   modify_project = false;
+	store_all_frms_cntrls_state(); //актуализируем композитную балку из полей формы
+   // Получение имени директории, в которой находится исполняемый модуль
+
+   if  (strcmp(ModelFile, UNTITLED)==0) {
+	  if(SaveDialog_Model->Execute())
+	  {
+		  FileDir_Name = SaveDialog_Model->FileName;;//поле класс хранит путь полный
+		  ModelName(FileDir_Name.c_str(), ModelFile); //выделяет имя файла для отображения на форме из пути
+	  }
+   }
+
+	std::ofstream ofs {FileDir_Name.c_str(), std::ios::out | std::ios::binary};
+	calculate_composite_beam();
+
+	cntrls_state_.save(ofs);
+
+	SteelSectionForm -> save(ofs);
+	ConcreteDefinitionForm -> save(ofs);
+	RebarDefinitionForm -> save(ofs);
+	StudDefinitionForm -> save(ofs);
+	SteelSectionForm -> save(ofs);
+
+	ofs.close();
+
+   Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
+
+   modify_project = false;
 }
 
 void __fastcall TCompositeBeamMainForm ::NSaveAsClick(TObject *Sender)
@@ -680,34 +649,40 @@ void ModelName(char * str0, char* ModelFile)
 
 void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 {
+//
+   NNewClick(Sender);
 
-//   NNewClick(Sender);
-//
-//   if(OpenDialog_Model->Execute())
-//   {
-//	  FileDir_Name = OpenDialog_Model->FileName;
-//   }
-//   if (FileDir_Name!="") {
-//
-//	  strcpy(ModelFile, UNTITLED);
-//
-//	  std::ifstream ifstr {FileDir_Name.c_str(), std::ios::in | std::ios::binary};
-//
-//	  composite_beam_calculator_.load(ifstr);
-//
-//	  ifstr.close();
-//
-//	  set_form_controls();
-//
-//      calculate_composite_beam();
-//
-//	  ModelName(FileDir_Name.c_str(), ModelFile);
-//
-//	  Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
-//
-//	  modify_project = false;
-//
-//   }
+   if(OpenDialog_Model->Execute())
+   {
+	  FileDir_Name = OpenDialog_Model->FileName;
+   }
+   if (FileDir_Name!="") {
+
+	  strcpy(ModelFile, UNTITLED);
+
+	  std::ifstream ifs {FileDir_Name.c_str(), std::ios::in | std::ios::binary};
+
+	  cntrls_state_.load(ifs);
+
+	  SteelSectionForm -> load(ifs);
+	  ConcreteDefinitionForm -> load(ifs);
+	  RebarDefinitionForm -> load(ifs);
+	  StudDefinitionForm -> load(ifs);
+	  SteelSectionForm -> load(ifs);
+
+	  ifs.close();
+
+	  update_all_frms_cntrls();
+
+	  calculate_composite_beam();
+
+	  ModelName(FileDir_Name.c_str(), ModelFile);
+
+	  Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
+
+	  modify_project = false;
+
+   }
 
 }
 //---------------------------------------------------------------------------
@@ -874,13 +849,11 @@ void TCompositeBeamMainForm::update_cntrls()
 
     //Панели для отображения данных
 
-//	String set_name = SteelSectionForm -> info();
 	pnl_steel_section_viewer -> Caption = SteelSectionForm -> info();
 	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> info();
 	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> info();
-    pnl_steel -> Caption = DefineSteelForm -> info();
-
-
+	pnl_steel -> Caption = DefineSteelForm -> info();
+	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> info();
 }
 void TCompositeBeamMainForm::store_cntrls_state()
 {
@@ -1025,11 +998,12 @@ void TCompositeBeamMainForm::store_cntrls_state()
 void TCompositeBeamMainForm::store_all_frms_cntrls_state()
 {
 	store_cntrls_state();
+
 	SteelSectionForm -> store_cntrls_state();
 	RebarDefinitionForm -> store_cntrls_state();
 	ConcreteDefinitionForm -> store_cntrls_state();
 	DefineSteelForm -> store_cntrls_state();
-
+	StudDefinitionForm -> store_cntrls_state();
 }
 
 void TCompositeBeamMainForm::update_all_frms_cntrls()
@@ -1075,35 +1049,6 @@ void TCompositeBeamMainForm::set_GUI_SP266()
 	edt_sheeting_continuity_coefficient -> Enabled = true;
 
     ConcreteDefinitionForm -> set_GUI_SP266();
-}
-//---------------------------------------------------------------------------
-void TCompositeBeamMainForm::save()
-{
-	std::ofstream ofs {"test.cb"};
-	cntrls_state_.save(ofs);
-	SteelSectionForm -> save(ofs);
-	RebarDefinitionForm -> save(ofs);
-}
-//---------------------------------------------------------------------------
-void TCompositeBeamMainForm::load()
-{
-	std::ifstream ifs {"test.cb"};
-	cntrls_state_.load(ifs);
-	SteelSectionForm -> load(ifs);
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm::btn_saveClick(TObject *Sender)
-{
-	store_all_frms_cntrls_state();
-	save();
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TCompositeBeamMainForm::btn_loadClick(TObject *Sender)
-{
-	load();
-	update_cntrls();
 }
 //---------------------------------------------------------------------------
 

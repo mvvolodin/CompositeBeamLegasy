@@ -61,7 +61,7 @@ public:		// User declarations
     void store_cntrls_state();
 
 	void save(ostream & os);
-	void load(istream & os);
+	void load(istream & is);
 
 	String info()const;
 	TConcreteDefinitionFormCntrlsState const & cntrls_state(){return cntrls_state_;}

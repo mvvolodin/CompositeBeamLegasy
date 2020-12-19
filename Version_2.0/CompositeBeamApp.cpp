@@ -3,13 +3,13 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
+USEFORM("uFrmSteel.cpp", DefineSteelForm);
 USEFORM("uFrmRebar.cpp", RebarDefinitionForm);
 USEFORM("uFrmLogger.cpp", FormLogger);
+USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
+USEFORM("uFrmStud.cpp", StudDefinitionForm);
 USEFORM("uFrmHelp.cpp", HelpForm);
 USEFORM("uFrmConcrete.cpp", ConcreteDefinitionForm);
-USEFORM("uFrmStud.cpp", StudDefinitionForm);
-USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
-USEFORM("uFrmSteel.cpp", DefineSteelForm);
 USEFORM("uFrmCompositeBeam.cpp", CompositeBeamMainForm);
 USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
 USEFORM("uFrmAboutProg.cpp", AboutProgForm);

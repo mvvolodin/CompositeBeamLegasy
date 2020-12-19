@@ -27,9 +27,6 @@
 #include "uFrmsCntrlsState.h"
 
 #include "uISection.h"
-#include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
-//---------------------------------------------------------------------------
-
 //---------------------------------------------------------------------------
 
 class TSteelSectionForm : public TForm

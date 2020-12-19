@@ -8,14 +8,13 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
 #include <Vcl.Buttons.hpp>
+#include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 #include "uStud.h"
-#include <Vcl.ExtCtrls.hpp>
-
 #include "ObserverPatternInterfaces.h"
-
+#include "uFrmsCntrlsState.h"
 //---------------------------------------------------------------------------
-class TStudDefinitionForm : public TForm, public IPublisher
+class TStudDefinitionForm : public TForm
 {
 __published:	// IDE-managed Components
 	TLabel *lbl_stud_yield_strength;
@@ -44,26 +43,26 @@ __published:	// IDE-managed Components
 	TButton *btn_close;
 	TCheckBox *chck_bx_more_than_one_stud_per_corrugation_edge;
 	TCheckBox *chck_bx_more_than_one_stud_per_corrugation_middle;
-	void __fastcall btn_okClick(TObject *Sender);
-	void __fastcall cmb_bx_stud_part_numberChange(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
+	void __fastcall btn_okClick(TObject *Sender);
 	void __fastcall btn_cancelClick(TObject *Sender);
 	void __fastcall btn_closeClick(TObject *Sender);
+	void __fastcall cmb_bx_stud_part_numberChange(TObject *Sender);
 private:
-	static const Publisher_ID id_ = Publisher_ID::STUDS_FORM;
-	IObserver_* iobserver_;
-	StudsOnBeam studs_on_beam_temp_;
+	TStudDefinitionFormCntrlsState cntrls_state_;
+	void check_input();
+	void update_stud_geom_edts(int index);
 
-	void fill_stud_data();
-	void set_studs();
-	void set_form_controls();
-	virtual String get_information()const override {return studs_on_beam_temp_.get_name();}
-	virtual Publisher_ID get_id()const override {return id_;}
 public:
-	__fastcall TStudDefinitionForm(TComponent* Owner)override;
-	StudsOnBeam get_studs_on_beam()const{return studs_on_beam_temp_;}
-	void register_observer(IObserver_* iobserver) override {iobserver_ = iobserver;}
-	void set_form_controls(StudsOnBeam studs_on_beam);
+	__fastcall TStudDefinitionForm(TComponent* Owner);
+	void update_cntrls_state();
+	void store_cntrls_state();
+
+	void save(ostream & os);
+	void load(istream & is);
+
+	String info()const;
+	TStudDefinitionFormCntrlsState const & cntrls_state(){return cntrls_state_;}
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TStudDefinitionForm *StudDefinitionForm;

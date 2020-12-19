@@ -453,6 +453,11 @@
             <DependentOn>uStudRowSP35Input.h</DependentOn>
             <BuildOrder>69</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uStudsGOSTR55738.cpp">
+            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
+            <DependentOn>uStudsGOSTR55738.h</DependentOn>
+            <BuildOrder>74</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uStudSP35.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
             <DependentOn>uStudSP35.h</DependentOn>
@@ -479,13 +484,13 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
+        <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
+        <FormResources Include="uFrmSteelSection.dfm"/>
+        <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
-        <FormResources Include="uFrmStud.dfm"/>
-        <FormResources Include="uFrmSteelSection.dfm"/>
-        <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
         <FormResources Include="uFrmAboutProg.dfm"/>

@@ -8,12 +8,13 @@
 
 class PiecewiseLinearFunc{
 public:
-	PiecewiseLinearFunc () = delete;
-	PiecewiseLinearFunc (std::map< std::pair<double,double>,  LinearFunc > & fns);
+	PiecewiseLinearFunc () = default;
+	PiecewiseLinearFunc & operator = (const PiecewiseLinearFunc & ) = default;
+	PiecewiseLinearFunc (std::map< std::pair<double,double>,  LinearFunc> const  & fns);
 	double operator()( double x );
 private:
 
-	std::map< std::pair<double,double>,  LinearFunc > fns_;
+	std::map<std::pair<double,double>,  LinearFunc> fns_;
 };
 //---------------------------------------------------------------------------
 #endif

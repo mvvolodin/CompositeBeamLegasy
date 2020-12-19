@@ -224,8 +224,6 @@ __published:	// IDE-managed Components
 	void __fastcall btn_add_impactsClick(TObject *Sender);
 	void __fastcall HelpClick(TObject *Sender);
 	void __fastcall rd_grp_codeClick(TObject *Sender);
-	void __fastcall btn_loadClick(TObject *Sender);
-	void __fastcall btn_saveClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;
@@ -243,7 +241,6 @@ private:
 	void ctor_concrete_sect_geometr_grid();
 	void fill_cmb_bx_impact();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
 	void fill_cmb_bx_corrugated_sheets();
-	void fill_results_grid();
 
 	void update_grids(int code_indx);
 	void update_SW_edts(int code_indx);
@@ -274,9 +271,6 @@ private:
 	void update_all_frms_cntrls();
 	void store_cntrls_state();
 	void store_all_frms_cntrls_state();
-
-	void save();
-	void load();
 
 };
 //---------------------------------------------------------------------------

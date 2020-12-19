@@ -4,7 +4,6 @@
 #define uLongShearForcesCalculatorH
 
 #include <vector>
-#include <memory>
 #include "uIntForcesCalculator.h"
 #include "uComposSectGeomSP35.h"
 #include "uPiecewiseLinearFunc.h"
@@ -18,9 +17,9 @@ public:
 	double run(double x_l, double x_r)const;
 private:
 
-	std::unique_ptr<PiecewiseLinearFunc> diag_;
+	PiecewiseLinearFunc diag_;
 
-	std::unique_ptr<PiecewiseLinearFunc> build_diag(IntForcesCalculator const & calc,
+	PiecewiseLinearFunc build_diag(IntForcesCalculator const & calc,
 		ComposSectGeomSP35 const & com_sec, double h, double b_sl, double L);
 	double S_i(IntForcesCalculator const & calc,
 	ComposSectGeomSP35 const & com_sec, double x_l, double x_r) const;

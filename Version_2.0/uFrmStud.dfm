@@ -134,35 +134,35 @@ object StudDefinitionForm: TStudDefinitionForm
     TabOrder = 3
     object lbl_stud_diameter: TLabel
       Left = 19
-      Top = 104
+      Top = 71
       Width = 63
       Height = 13
       Caption = #1044#1080#1072#1084#1077#1090#1088', '#1084#1084
     end
     object lbl_stud_height: TLabel
       Left = 19
-      Top = 133
+      Top = 98
       Width = 56
       Height = 13
       Caption = #1042#1099#1089#1086#1090#1072', '#1084#1084
     end
     object lbl_stud_safety_factor: TLabel
       Left = 19
-      Top = 159
+      Top = 152
       Width = 155
       Height = 13
       Caption = #1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090' '#1091#1089#1083#1086#1074#1080#1081' '#1088#1072#1073#1086#1090#1099
     end
     object lbl_stud_yield_strength: TLabel
       Left = 19
-      Top = 75
+      Top = 125
       Width = 130
       Height = 13
       Caption = #1055#1088#1077#1076#1077#1083' '#1090#1077#1082#1091#1095#1077#1089#1090#1080', ['#1052#1055#1072']'
     end
     object edt_stud_height: TEdit
       Left = 292
-      Top = 127
+      Top = 94
       Width = 100
       Height = 21
       ReadOnly = True
@@ -170,21 +170,21 @@ object StudDefinitionForm: TStudDefinitionForm
     end
     object edt_stud_safety_factor: TEdit
       Left = 292
-      Top = 154
+      Top = 148
       Width = 100
       Height = 21
       TabOrder = 1
     end
     object edt_stud_yield_strength: TEdit
       Left = 292
-      Top = 73
+      Top = 121
       Width = 100
       Height = 21
       TabOrder = 2
     end
     object edt_stud_diameter: TEdit
       Left = 292
-      Top = 100
+      Top = 67
       Width = 100
       Height = 21
       ReadOnly = True
