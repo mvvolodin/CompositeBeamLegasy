@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef uStudRowSP35InputH
-#define uStudRowSP35InputH
+#ifndef uStudRowInputSP35H
+#define uStudRowInputSP35H
 
 #include "uStudSP35.h"
 

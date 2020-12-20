@@ -1,7 +1,7 @@
 ﻿//---------------------------------------------------------------------------
 #pragma hdrstop
 //---------------------------------------------------------------------------
-#include "uStudsInputSP35_.h"
+#include "uStudsInputSP35.h"
 #include <cmath>
 #include "uStudsGOSTR55738.h"
 #include "uConcrete.h"

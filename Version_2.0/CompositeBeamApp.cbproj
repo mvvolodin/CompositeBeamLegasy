@@ -448,9 +448,9 @@
             <DependentOn>uStudRowCalculatorSP35.h</DependentOn>
             <BuildOrder>67</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uStudRowInputSP35_.cpp">
+        <CppCompile Include="uStudRowInputSP35.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uStudRowInputSP35_.h</DependentOn>
+            <DependentOn>uStudRowInputSP35.h</DependentOn>
             <BuildOrder>76</BuildOrder>
         </CppCompile>
         <CppCompile Include="uStudRowOutputSP35.cpp">
@@ -463,9 +463,14 @@
             <DependentOn>uStudsGOSTR55738.h</DependentOn>
             <BuildOrder>74</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uStudsInputSP35_.cpp">
+        <CppCompile Include="uStudsInputSP35.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uStudsInputSP35_.h</DependentOn>
+            <DependentOn>uStudsInputSP35.h</DependentOn>
+            <BuildOrder>76</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uStudsOutputSP35.cpp">
+            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
+            <DependentOn>uStudsOutputSP35.h</DependentOn>
             <BuildOrder>76</BuildOrder>
         </CppCompile>
         <CppCompile Include="uStudSP35.cpp">
@@ -489,11 +494,11 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
+        <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
-        <FormResources Include="uFrmLogger.dfm"/>
-        <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmStud.dfm"/>
+        <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uFrmAboutProg.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>

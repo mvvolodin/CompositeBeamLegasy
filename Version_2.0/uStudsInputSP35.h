@@ -1,9 +1,9 @@
 ﻿//---------------------------------------------------------------------------
-#ifndef uStudsInputSP35cppH
-#define uStudsInputSP35cppH
+#ifndef uStudsInputSP35H
+#define uStudsInputSP35H
 //---------------------------------------------------------------------------
 #include <vector>
-#include "uStudRowInputSP35_.h"
+#include "uStudRowInputSP35.h"
 #include "uFrmsCntrlsState.h"
 //---------------------------------------------------------------------------
 class StudsInputSP35{
@@ -13,6 +13,7 @@ public:
 			   TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state,
 			   TConcreteDefinitionFormCntrlsState const & con_frm_cntrls_state);
    StudSP35 stud(){return stud_;}
+   std::vector<StudRowInputSP35> rows(){return rows_;}
 private:
 	static StudSP35 stud_;
 	std::vector<StudRowInputSP35> rows_;

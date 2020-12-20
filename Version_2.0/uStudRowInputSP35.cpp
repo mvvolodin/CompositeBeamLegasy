@@ -2,7 +2,7 @@
 
 #pragma hdrstop
 
-#include "uStudRowInputSP35_.h"
+#include "uStudRowInputSP35.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 

@@ -16,8 +16,8 @@
 #include "uSteel.h"
 #include "uWorkingConditionsFactors.h"
 #include "uLongShearForcesCalculator.h"
-#include "uStudRowInputSP35_.h"
-#include "uStudRowOutputSP35.h"
+#include "uStudsInputSP35.h"
+#include "uStudsOutputSP35.h"
 
 #include "uComBeamInputSP35.h"
 
@@ -25,11 +25,11 @@ class StudRowCalculatorSP35{
 public:
 	StudRowCalculatorSP35(ComBeamInputSP35 const & input);
 
-	StudRowOutputSP35 run(StudRowInputSP35 & sr)const;
-	std::vector<StudRowInputSP35> run(std::vector<StudRowInputSP35>  stud_rows_input)const;
-
+	StudsOutputSP35 run(StudsInputSP35 & st_input)const;
 private:
 	LongShearForcesCalculator calc_;
+
+	StudRowOutputSP35 run(StudRowInputSP35 & sri, StudSP35 & st)const;
 
 };
 //---------------------------------------------------------------------------
