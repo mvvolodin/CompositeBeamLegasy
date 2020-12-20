@@ -1,12 +1,12 @@
 //---------------------------------------------------------------------------
 
-#ifndef uStudSP35OutputH
-#define uStudSP35OutputH
+#ifndef uStudRowOutputSP35H
+#define uStudRowOutputSP35H
 
-class StudSP35Output{
+class StudRowOutputSP35{
 public:
-	StudSP35Output() = delete;
-	StudSP35Output(int id, double x, double S_i, double ratio);
+	StudRowOutputSP35() = delete;
+	StudRowOutputSP35(int id, double x, double S_i, double ratio);
 
 	int id()const {return id_;};
 	double x()const {return x_;};

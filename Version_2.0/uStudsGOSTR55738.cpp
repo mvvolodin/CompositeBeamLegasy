@@ -106,6 +106,10 @@ std::vector<std::basic_string<char16_t>> names()
 
 	return names;
 }
+std::u16string const & name (int index)
+{
+	return table[index].name_;
+}
 double d_1(int index)
 {
 	return table[index].d_1_;
@@ -113,9 +117,5 @@ double d_1(int index)
 double l_1(int index)
 {
 	return table[index].l_1_;
-}
-StudGOSTR55738 const & data (int index)
-{
-	return table[index];
 }
 }

@@ -99,8 +99,8 @@ Concrete ComBeamInputSP35::make_concrete(TConcreteDefinitionFormCntrlsState
 
 	return {{ConcreteSP35::grade(conc_frm_cntrls_state.cmb_bx_conc_grade_index_).c_str(),
 				conc_dt.E_b_,
-				conc_dt.R_bn_,
-				conc_dt.R_btn_},
+				conc_dt.R_b_,
+				conc_dt.R_bt_},
 			conc_frm_cntrls_state.edt_density_data_,
 			conc_frm_cntrls_state.edt_phi_b_cr_data_,
 			conc_frm_cntrls_state.edt_gamma_b_data_,

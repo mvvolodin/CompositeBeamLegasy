@@ -17,11 +17,18 @@
 #include "uComposSectGeomSP35.h"
 #include "uIntForcesCalculator.h"
 #include "uComBeamInputSP35.h"
+#include "uStudsInput.h"
 #include "uUnits_new.h"
+#include "uStudRowCalculatorSP35.h"
 
 //---------------------------------------------------------------------------
 std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
 std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
+
+std::unique_ptr<ComBeamInputSP35 const> obj_for_studs_S35_verific {nullptr};
+std::unique_ptr<StudSP35Output const> studs_output {nullptr};
+
+StudsInput studs_input;
 
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 //----------------------------------------------------------------------
@@ -523,6 +530,7 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 			break;
 		case 1:
 			calculate_composite_beam_SP35();
+			calculate_studs();
 			break;
 	}
 }
@@ -551,6 +559,25 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 		ShowMessage(str.c_str());
 		return;
 	}
+
+}
+void TCompositeBeamMainForm::calculate_studs()
+{
+	store_all_frms_cntrls_state();
+
+	obj_for_studs_S35_verific.reset(new ComBeamInputSP35{this -> cntrls_state_,
+												   ConcreteDefinitionForm -> cntrls_state(),
+												   SteelSectionForm -> cntrls_state(),
+												   DefineSteelForm -> cntrls_state(),
+												   RebarDefinitionForm -> cntrls_state()});
+
+	studs_input = {StudDefinitionForm -> cntrls_state(),
+				   this -> cntrls_state_,
+				   ConcreteDefinitionForm -> cntrls_state()};
+
+	StudRowCalculatorSP35 calc {*obj_for_studs_S35_verific};
+
+	studs_output.reset(calc.run(studs_input.rows()));
 
 }
 void TCompositeBeamMainForm::after_calculation()

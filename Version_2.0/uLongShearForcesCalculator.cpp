@@ -11,9 +11,9 @@
 LongShearForcesCalculator::LongShearForcesCalculator(
 	IntForcesCalculator const & calc,
 	ComposSectGeomSP35 const & com_sec,
-	double h, double b_sl, double L)
+	double L)
 {
-	diag_ = build_diag(calc, com_sec, h, b_sl, L);
+	diag_ = build_diag(calc, com_sec, L);
 }
 
 double LongShearForcesCalculator::run(double x_l, double x_r)const
@@ -27,8 +27,11 @@ double LongShearForcesCalculator::run(double x_l, double x_r)const
 PiecewiseLinearFunc LongShearForcesCalculator::build_diag(
 	IntForcesCalculator const & calc,
 	ComposSectGeomSP35 const & com_sec,
-	double h, double b_sl, double L)
+	double L)
 {
+	double b_sl {com_sec.b_sl()};
+	double h {com_sec.h_stb()};
+
 	double const a_e_l = 0.;
 	double const a_e_r = 0.36 * (h + b_sl);
 	double const a_1_l = 0.36 * (h + b_sl);

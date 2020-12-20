@@ -35,6 +35,10 @@ namespace ConcreteSP35
 	{
 		return data_lst[index].grade_;
 	}
+	double R_b(int index)
+	{
+		return data_lst[index].R_b_;
+	}
 }
 
 

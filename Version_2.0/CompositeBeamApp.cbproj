@@ -448,25 +448,30 @@
             <DependentOn>uStudRowCalculatorSP35.h</DependentOn>
             <BuildOrder>67</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uStudRowSP35Input.cpp">
+        <CppCompile Include="uStudRowInputSP35_.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uStudRowSP35Input.h</DependentOn>
-            <BuildOrder>69</BuildOrder>
+            <DependentOn>uStudRowInputSP35_.h</DependentOn>
+            <BuildOrder>76</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uStudRowOutputSP35.cpp">
+            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
+            <DependentOn>uStudRowOutputSP35.h</DependentOn>
+            <BuildOrder>70</BuildOrder>
         </CppCompile>
         <CppCompile Include="uStudsGOSTR55738.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
             <DependentOn>uStudsGOSTR55738.h</DependentOn>
             <BuildOrder>74</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uStudsInputSP35_.cpp">
+            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
+            <DependentOn>uStudsInputSP35_.h</DependentOn>
+            <BuildOrder>76</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uStudSP35.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
             <DependentOn>uStudSP35.h</DependentOn>
             <BuildOrder>71</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uStudSP35Output.cpp">
-            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uStudSP35Output.h</DependentOn>
-            <BuildOrder>70</BuildOrder>
         </CppCompile>
         <CppCompile Include="uUnits_new.cpp">
             <DependentOn>uUnits_new.h</DependentOn>
@@ -489,11 +494,11 @@
         <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmStud.dfm"/>
+        <FormResources Include="uFrmAboutProg.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="uFrmAboutProg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

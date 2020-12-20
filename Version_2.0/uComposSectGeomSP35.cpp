@@ -187,6 +187,10 @@ double ComposSectGeomSP35::eps_b_lim() const
 {
 	return concrete_.get_epsilon_b_lim();
 }
+double ComposSectGeomSP35::h_stb()const
+{
+	return h_stb_;
+}
 double ComposSectGeomSP35::Z_b_s()const
 {
 	return Z_b_s_;
@@ -210,6 +214,10 @@ double ComposSectGeomSP35::A_s2()const
 double ComposSectGeomSP35::A_s1()const
 {
 	return st_sect_ -> A_s1_s();
+}
+double ComposSectGeomSP35::b_sl()const
+{
+    return conc_sect_ -> b_sl();
 }
 double ComposSectGeomSP35::A_s()const
 {

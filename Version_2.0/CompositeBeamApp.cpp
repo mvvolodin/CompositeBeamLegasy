@@ -8,11 +8,11 @@ USEFORM("uFrmRebar.cpp", RebarDefinitionForm);
 USEFORM("uFrmLogger.cpp", FormLogger);
 USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
 USEFORM("uFrmStud.cpp", StudDefinitionForm);
+USEFORM("uFrmAboutProg.cpp", AboutProgForm);
 USEFORM("uFrmHelp.cpp", HelpForm);
 USEFORM("uFrmConcrete.cpp", ConcreteDefinitionForm);
 USEFORM("uFrmCompositeBeam.cpp", CompositeBeamMainForm);
 USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
-USEFORM("uFrmAboutProg.cpp", AboutProgForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

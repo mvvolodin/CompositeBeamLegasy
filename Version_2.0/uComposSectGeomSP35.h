@@ -59,9 +59,11 @@ public:
 	double S_st()const;
     double I_st()const;
 
+	double b_sl()const;
 	double A_b()const;
 	double I_b()const;
 
+	double h_stb()const;
 	double Z_b_s()const;
 	double Z_b_stb()const;
     double Z_b_st()const;

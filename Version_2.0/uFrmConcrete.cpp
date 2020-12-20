@@ -73,8 +73,8 @@ void TConcreteDefinitionForm::update_cntrls_state()
 //---------------------------------------------------------------------------
 void TConcreteDefinitionForm::after_cmb_bx_conc_grade_list_change(int index)
 {
-	edt_R_bn -> Text = ConcreteSP35::concrete(index).R_bn_;
-	edt_R_btn -> Text = ConcreteSP35::concrete(index).R_btn_;
+	edt_R_bn -> Text = ConcreteSP35::concrete(index).R_b_;
+	edt_R_btn -> Text = ConcreteSP35::concrete(index).R_bt_;
 	edt_E_b -> Text = ConcreteSP35::concrete(index).E_b_;
 
 }

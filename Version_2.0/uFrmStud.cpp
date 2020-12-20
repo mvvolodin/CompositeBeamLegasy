@@ -17,6 +17,8 @@ __fastcall TStudDefinitionForm::TStudDefinitionForm(TComponent* Owner)
 	for (auto const & n :StudsGOSTR55738::names()){
 		cmb_bx_stud_part_number -> Items -> Add(n.c_str());
 	}
+
+    update_cntrls_state();
 }
 //---------------------------------------------------------------------------
 void __fastcall TStudDefinitionForm::FormShow(TObject *Sender)

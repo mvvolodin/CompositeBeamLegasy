@@ -16,8 +16,8 @@ namespace ConcreteSP35
 	struct Data{
 		std::basic_string<char16_t> const grade_;
 		double const E_b_;
-		double const R_bn_;
-		double const R_btn_;
+		double const R_b_;
+		double const R_bt_;
         double const c_n;
 	};
 
@@ -26,6 +26,7 @@ namespace ConcreteSP35
 	std::vector<std::basic_string<char16_t>> grades();
 	Data const & concrete (int index);
 	std::basic_string<char16_t> grade(int index);
+    double R_b(int index);
 }
 
 class ConcreteBasic{

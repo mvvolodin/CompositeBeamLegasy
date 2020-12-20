@@ -10,17 +10,17 @@
 
 class LongShearForcesCalculator{
 public:
-	LongShearForcesCalculator() = delete;
+	LongShearForcesCalculator() = default;
 	LongShearForcesCalculator(IntForcesCalculator const & calc,
 							  ComposSectGeomSP35 const & com_sec,
-							  double h, double b_s, double L);
+							  double L);
 	double run(double x_l, double x_r)const;
 private:
 
 	PiecewiseLinearFunc diag_;
 
 	PiecewiseLinearFunc build_diag(IntForcesCalculator const & calc,
-		ComposSectGeomSP35 const & com_sec, double h, double b_sl, double L);
+		ComposSectGeomSP35 const & com_sec, double L);
 	double S_i(IntForcesCalculator const & calc,
 	ComposSectGeomSP35 const & com_sec, double x_l, double x_r) const;
 };

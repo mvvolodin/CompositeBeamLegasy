@@ -252,6 +252,7 @@ private:
 	void draw_diagram();
 
 	void calculate_composite_beam();
+    void calculate_studs();
 	void calculate_composite_beam_SP266();
 	void calculate_composite_beam_SP35();
 	void after_calculation();
