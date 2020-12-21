@@ -26,8 +26,8 @@ StudsInputSP35::StudsInputSP35(TStudDefinitionFormCntrlsState const & st_frm_cnt
 	rows_ = set_rows(main_frm_cntrls_state.edt_span_data_,
 					 st_frm_cntrls_state.edt_edge_studs_dist_data_,
 					 st_frm_cntrls_state.edt_middle_studs_dist_data_,
-					 st_frm_cntrls_state.cmb_bx_edge_studs_rows_num_index_,
-					 st_frm_cntrls_state.cmb_bx_middle_studs_rows_num_index_);
+					 st_frm_cntrls_state.cmb_bx_edge_studs_rows_num_index_ + 1,
+					 st_frm_cntrls_state.cmb_bx_middle_studs_rows_num_index_ + 1);
 }
 
 std::vector<StudRowInputSP35> StudsInputSP35::set_rows(double L, double d_e,

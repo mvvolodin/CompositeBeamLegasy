@@ -29,7 +29,7 @@ public:
 private:
 	LongShearForcesCalculator calc_;
 
-	StudRowOutputSP35 run(StudRowInputSP35 & sri, StudSP35 & st)const;
+	StudRowOutputSP35 run(StudRowInputSP35 const & sri, StudSP35 const & st)const;
 
 };
 //---------------------------------------------------------------------------

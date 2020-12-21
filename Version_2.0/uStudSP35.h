@@ -16,8 +16,8 @@ public:
 	double l_1()const{return l_1_;}
 	double R_y()const{return R_y_;}
 
-	double S_h()const;
-	double S_1()const;
+	double S_h()const{return 1;}
+	double S_1()const{return 1;}
 
 private:
 	std::u16string name_;

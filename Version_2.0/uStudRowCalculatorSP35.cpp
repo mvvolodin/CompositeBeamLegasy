@@ -27,7 +27,7 @@ StudRowCalculatorSP35::StudRowCalculatorSP35(ComBeamInputSP35 const & input)
 
 
 
-StudRowOutputSP35 StudRowCalculatorSP35::run(StudRowInputSP35 & sri, StudSP35 & st)const
+StudRowOutputSP35 StudRowCalculatorSP35::run(StudRowInputSP35 const & sri, StudSP35 const & st)const
 {
 	int const id = sri.id();
 
@@ -40,19 +40,23 @@ StudRowOutputSP35 StudRowCalculatorSP35::run(StudRowInputSP35 & sri, StudSP35 & 
 	double const S_h = st.S_h();
 	double const S_1 = st.S_1();
 
-	double S_i = calc_.run(x_l, x_r);
+	double S_Ed = calc_.S_Ed(x_l, x_r);
 
-	double const ratio = S_i / (st_num * std::min(S_h, S_1));
+	double const ratio = S_Ed / (st_num * std::min(S_h, S_1));
 
-	return {id, x, S_i, ratio};
+	return {id, x, S_Ed, ratio};
 
 }
 StudsOutputSP35 StudRowCalculatorSP35::run(StudsInputSP35 & st_input)const
 {
-	StudsOutputSP35 st_output;
+	std::vector<StudRowOutputSP35> st_rows_output;
+
+	StudSP35 st {st_input.stud()};
 
 	for(auto & sr0:st_input.rows())
-		st_output.emplace_back(run(sr0, st_input.stud()));
+		st_rows_output.emplace_back(run(sr0, st));
 
-	return st_output;
+	StudsOutputSP35::st_ = st;
+
+	return {st_rows_output, calc_.S_overline_lst(), calc_.coord()};
 }

@@ -9,7 +9,7 @@
 PiecewiseLinearFunc::PiecewiseLinearFunc (
 	std::map< std::pair<double,double>,  LinearFunc> const   & fns):fns_(fns){}
 
-double PiecewiseLinearFunc::operator()( double x )
+double PiecewiseLinearFunc::operator()( double x )const
 {
 	auto iter = std::find_if(fns_.cbegin(), fns_.cend(),
 					[=](const std::pair< std::pair<double,double>, LinearFunc>& fn)

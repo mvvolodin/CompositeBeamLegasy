@@ -17,7 +17,8 @@
 #include "uComposSectGeomSP35.h"
 #include "uIntForcesCalculator.h"
 #include "uComBeamInputSP35.h"
-#include "uStudsInput.h"
+#include "uStudsInputSP35.h"
+#include "uStudsOutputSP35.h"
 #include "uUnits_new.h"
 #include "uStudRowCalculatorSP35.h"
 
@@ -26,9 +27,8 @@ std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
 std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
 
 std::unique_ptr<ComBeamInputSP35 const> obj_for_studs_S35_verific {nullptr};
-std::unique_ptr<StudSP35Output const> studs_output {nullptr};
-
-StudsInput studs_input;
+StudsInputSP35 studs_input;
+StudsOutputSP35 studs_output;
 
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 //----------------------------------------------------------------------
@@ -42,6 +42,9 @@ TCompositeBeamMainForm  *CompositeBeamMainForm;
 	fill_cmb_bx_impact();
 	fill_cmb_bx_corrugated_sheets();
 	modify_project = false;
+
+
+
 }
 //----------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
@@ -508,6 +511,20 @@ void TCompositeBeamMainForm::draw_diagram()
 			flag_sign, num_digits, false);
 
 		break;
+	case(3):
+
+		DrawEpur(Image1,
+				 studs_output.S_overline_lst().size(),
+				 studs_output.coord().data(),
+				 studs_output.S_overline_lst().data(),
+				 nullptr,
+				 coor_supp.size(),
+				 coor_supp.data(),
+				 flag_sign,
+				 num_digits,
+				 false);
+
+		break;
 	}
 }
 
@@ -577,7 +594,7 @@ void TCompositeBeamMainForm::calculate_studs()
 
 	StudRowCalculatorSP35 calc {*obj_for_studs_S35_verific};
 
-	studs_output.reset(calc.run(studs_input.rows()));
+	studs_output = {calc.run(studs_input)};
 
 }
 void TCompositeBeamMainForm::after_calculation()
