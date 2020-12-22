@@ -224,7 +224,6 @@ __published:	// IDE-managed Components
 	void __fastcall HelpClick(TObject *Sender);
 	void __fastcall rd_grp_codeClick(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
-
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;
 
@@ -233,11 +232,16 @@ private:
 
 	void set_form_controls();
 	void generate_report();
-	void cotr_ratios_grid(); // Конструирование Grid контрола для вывода результатоа
-	void cotr_comp_sect_geometr_grid(); //Конструирование Grid для вывода геометрических характ. комп. сечения
+	void cotr_ratios_grid_SP266();
+	void cotr_ratios_grid_SP35();
+	void render_ratios_grid_SP35(TStringGrid* str_gr, int ACol,
+		int ARow, TRect &Rect);
+	void render_ratios_grid_SP266(TStringGrid* str_gr, int ACol,
+		int ARow, TRect &Rect);
+	void cotr_comp_sect_geometr_grid();
 	void cotr_steel_sect_geometr_grid();
 	void ctor_concrete_sect_geometr_grid();
-	void fill_cmb_bx_impact();//Заполняем ComboBox названиями случаев загружения и соответствующими объектами типа перечесление случаев загружений
+	void fill_cmb_bx_impact();
 	void fill_cmb_bx_corrugated_sheets();
 
 	void update_grids(int code_indx);
@@ -256,7 +260,7 @@ private:
 	void after_calculation();
 
 	void clean_static_scheme();
-	void clean_grid(TStringGrid* str_grd);
+	void clean_2nd_col_grid(TStringGrid* str_grd);
 	void update_GUI(int code_indx);
 	void set_GUI_SP35();
 	void set_GUI_SP266();
@@ -274,6 +278,8 @@ private:
     #ifndef NDEBUG
 	void print_to_logger();
 	#endif
+
+	void clean_grid(TStringGrid* str_gr);
 
 };
 //---------------------------------------------------------------------------

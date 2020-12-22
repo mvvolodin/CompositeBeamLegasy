@@ -68,6 +68,6 @@ void StudsOutputSP35::fill_grid(TStringGrid* str_grid)const
 
 	using namespace units;
 
-	str_grid -> Cells [1][16] = double_to_str(sr.x(), 0);
-	str_grid -> Cells [1][17] = double_to_str(std::abs(sr.ratio()));
+	str_grid -> Cells [1][13] = double_to_str(sr.x(), 0);
+	str_grid -> Cells [1][14] = double_to_str(std::abs(sr.ratio()));
 }

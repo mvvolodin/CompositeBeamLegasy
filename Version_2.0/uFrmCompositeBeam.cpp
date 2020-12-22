@@ -36,18 +36,19 @@ TCompositeBeamMainForm  *CompositeBeamMainForm;
 	#ifndef NDEBUG
 	btn_logger -> Visible = true;
     #endif
-	cotr_ratios_grid();
+
 	cotr_comp_sect_geometr_grid();
 	cotr_steel_sect_geometr_grid();
-	ctor_concrete_sect_geometr_grid();;
+	ctor_concrete_sect_geometr_grid();
+
 	fill_cmb_bx_impact();
 	fill_cmb_bx_corrugated_sheets();
+
 	modify_project = false;
 }
 //----------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 {
-
 	update_GUI(cntrls_state_.rd_grp_code_data_);
 	update_all_frms_cntrls();
 
@@ -100,61 +101,16 @@ void __fastcall TCompositeBeamMainForm ::strng_grd_results_rendering(TObject *Se
 																int ACol, int ARow,
 																TRect &Rect, TGridDrawState State)
 {
-	TStringGrid* str_grid=static_cast<TStringGrid*>(Sender);
-	if (ARow == 0)
-	{
-		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold;
-		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
-	}
-	if (ARow == 1 && ACol == 0)
-	{
-		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
-		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
-	}
-	if (ARow == 4 && ACol == 0)
-	{
-		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
-		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
-	}
-	if (ARow == 9 && ACol == 0)
-	{
-		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
-		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
-	}
-	if (ARow == 12 && ACol == 0)
-	{
-		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
-		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
-	}
-	if (ARow == 15 && ACol == 0)
-	{
-		str_grid -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
-		str_grid -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_grid -> Cells[ACol][ARow]);
-	}
-	if (ARow == 1 && ACol == 1)
-	{
-		str_grid -> Canvas -> Brush -> Color = clBtnFace;
-		str_grid -> Canvas -> FillRect(Rect);
-	}
-	if (ARow == 4 && ACol == 1)
-	{
-		str_grid -> Canvas -> Brush -> Color = clBtnFace;
-		str_grid -> Canvas -> FillRect(Rect);
-	}
-	if (ARow == 9 && ACol == 1)
-	{
-		str_grid -> Canvas -> Brush -> Color = clBtnFace;
-		str_grid -> Canvas -> FillRect(Rect);
-	}
-	if (ARow == 12 && ACol == 1)
-	{
-		str_grid -> Canvas -> Brush -> Color = clBtnFace;
-		str_grid -> Canvas -> FillRect(Rect);
-	}
-	if (ARow == 15 && ACol == 1)
-	{
-		str_grid -> Canvas -> Brush -> Color = clBtnFace;
-		str_grid -> Canvas -> FillRect(Rect);
+	TStringGrid* str_gr = static_cast<TStringGrid*>(Sender);
+
+	switch (rd_grp_code -> ItemIndex) {
+
+	case(0):
+		render_ratios_grid_SP266(str_gr, ACol, ARow, Rect);
+		break;
+	case(1):
+		render_ratios_grid_SP35(str_gr, ACol, ARow, Rect);
+		break;
 	}
 
 }
@@ -286,11 +242,21 @@ void TCompositeBeamMainForm ::update_results_grid(int code_indx)
 	}
 
 }
+
+void TCompositeBeamMainForm::clean_grid(TStringGrid* str_gr)
+{
+	for( int i = 0; i < str_gr -> ColCount; ++i)
+		str_gr -> Cols[i] -> Clear();
+}
 //---------------------------------------------------------------------------
 //	Функция заполняющая Grid выводящий результаты расчёта композитной балки
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::cotr_ratios_grid()
+void TCompositeBeamMainForm::cotr_ratios_grid_SP266()
 {
+	clean_grid(strng_grd_results);
+
+	strng_grd_results -> RowCount = 18;
+
 	strng_grd_results -> Cells [0][0] = L"Проверка";
 	strng_grd_results -> Cells [0][1] = L"На действие изгибающих моментов при монтаже";
 	strng_grd_results -> Cells [0][2] = L"      Координата критического сечения, мм";
@@ -311,6 +277,33 @@ void TCompositeBeamMainForm::cotr_ratios_grid()
 	strng_grd_results -> Cells [0][17] = L"      Прочность упора";
 
 	strng_grd_results -> Cells [1][0] = L"Коэффициенты Использования (КИ) ";
+}
+//---------------------------------------------------------------------------
+//	Функция заполняющая Grid выводящий результаты расчёта композитной балки
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::cotr_ratios_grid_SP35()
+{
+	clean_grid(strng_grd_results);
+
+	strng_grd_results -> RowCount = 15;
+
+	strng_grd_results -> Cells [0][0] = u"Проверка";
+	strng_grd_results -> Cells [0][1] = u"На действие изгибающих моментов при монтаже";
+	strng_grd_results -> Cells [0][2] = u"      Координата критического сечения, мм";
+	strng_grd_results -> Cells [0][3] = u"      Прочность";
+	strng_grd_results -> Cells [0][4] = u"На действие изгибающих моментов, раздел";
+	strng_grd_results -> Cells [0][5] = u"      Координата критического сечения, мм";
+	strng_grd_results -> Cells [0][6] = u"      Прочность верхнего пояса стального сечения";
+	strng_grd_results -> Cells [0][7] = u"      Прочность нижнего пояса стального сечения";
+	strng_grd_results -> Cells [0][8] = u"      Прочность железобетона";
+	strng_grd_results -> Cells [0][9] = L"Прочности на действие поперечной силы";
+	strng_grd_results -> Cells [0][10] = L"      Координата критического сечения, мм";
+	strng_grd_results -> Cells [0][11] = L"      Прочность сечения, раздел";
+	strng_grd_results -> Cells [0][12] = L"Упоров объединения, раздел";
+	strng_grd_results -> Cells [0][13] = L"      Координата критического упора, мм";
+	strng_grd_results -> Cells [0][14] = L"      Прочность упора";
+
+	strng_grd_results -> Cells [1][0] = u"Коэффициенты Использования (КИ) ";
 }
 //---------------------------------------------------------------------------
 //	Функция заполняющая ComboBox случаями загружений
@@ -622,9 +615,8 @@ void TCompositeBeamMainForm::calculate_studs()
 }
 void TCompositeBeamMainForm::after_calculation()
 {
-	update_grids(rd_grp_code -> ItemIndex);
-
 	update_SW_edts(rd_grp_code -> ItemIndex);
+	update_grids(rd_grp_code -> ItemIndex);
 
 	draw_diagram();
 
@@ -759,7 +751,7 @@ void TCompositeBeamMainForm ::clean_static_scheme()
 	img_static_scheme -> Canvas -> FillRect (img_static_scheme -> Canvas -> ClipRect);
    //img_static_scheme -> Picture = nullptr;  нет ли утечки памяти?
 }
-void TCompositeBeamMainForm ::clean_grid(TStringGrid* str_grd)
+void TCompositeBeamMainForm ::clean_2nd_col_grid(TStringGrid* str_grd)
 {
 	for(int i =1; i < str_grd -> RowCount; ++i)
 	   str_grd -> Cells [1][i] = "";
@@ -771,10 +763,10 @@ void __fastcall TCompositeBeamMainForm::OnControlsChange(TObject *Sender)
 	if(tb_results -> TabVisible)
 		tb_results -> TabVisible=false;
 	clean_static_scheme();
-	clean_grid(strng_grd_compos_sect_geom_character);
-	clean_grid(strng_grd_concrete_sect_geom_character);
-	clean_grid(strng_grd_steel_sect_geom_character);
-	clean_grid(strng_grd_results);
+	clean_2nd_col_grid(strng_grd_compos_sect_geom_character);
+	clean_2nd_col_grid(strng_grd_concrete_sect_geom_character);
+	clean_2nd_col_grid(strng_grd_steel_sect_geom_character);
+	clean_2nd_col_grid(strng_grd_results);
 }
 //---------------------------------------------------------------------------
 
@@ -803,16 +795,6 @@ void __fastcall TCompositeBeamMainForm ::cmb_bx_corrugated_sheeting_part_numberC
 {
 	OnControlsChange(Sender);
 }
-
-//---------------------------------------------------------------------------
-
-//void __fastcall TCompositeBeamMainForm ::btn_loggerClick(TObject *Sender)
-//{
-//	FormLogger->Show();
-//}
-//---------------------------------------------------------------------------
-
-
 void __fastcall TCompositeBeamMainForm ::N8Click(TObject *Sender)
 {
 	AboutProgForm->ShowModal();
@@ -1094,10 +1076,17 @@ void __fastcall TCompositeBeamMainForm::rd_grp_codeClick(TObject *Sender)
 }
 void TCompositeBeamMainForm::set_GUI_SP35()
 {
+    cotr_ratios_grid_SP35();
 	rdgrp_slab_type -> ItemIndex = 0;
-	rdgrp_slab_type -> Buttons [1] -> Enabled = false;
-	btn_add_impacts -> Enabled = false;
-	edt_sheeting_continuity_coefficient -> Enabled = false;
+	rdgrp_slab_type -> Buttons [1] -> Visible = false;
+
+	btn_add_impacts -> Visible = false;
+
+	edt_sheeting_continuity_coefficient -> Visible = false;
+	lbl_sheeting_continuity_coefficient -> Visible = false;
+	edt_fact_quasi_perm_load -> Top = 22;
+	lbl_fact_quasi_perm_load -> Top = 22;
+
 	rdgrp_slab_typeClick(nullptr);
 
 	ConcreteDefinitionForm -> set_GUI_SP35();
@@ -1105,11 +1094,17 @@ void TCompositeBeamMainForm::set_GUI_SP35()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::set_GUI_SP266()
 {
-	rdgrp_slab_type -> Buttons [1] -> Enabled = true;
-	btn_add_impacts -> Enabled = true;
-	edt_sheeting_continuity_coefficient -> Enabled = true;
+	cotr_ratios_grid_SP266();
+	rdgrp_slab_type -> Buttons [1] -> Visible = true;
 
-    ConcreteDefinitionForm -> set_GUI_SP266();
+	btn_add_impacts -> Visible = true;
+
+	edt_sheeting_continuity_coefficient -> Visible = true;
+	lbl_sheeting_continuity_coefficient -> Visible = true;
+	edt_fact_quasi_perm_load -> Top = 62;
+	lbl_fact_quasi_perm_load -> Top = 62;
+
+	ConcreteDefinitionForm -> set_GUI_SP266();
 }
 //---------------------------------------------------------------------------
 
@@ -1127,4 +1122,117 @@ void TCompositeBeamMainForm::print_to_logger()
 }
 #endif
 //---------------------------------------------------------------------------
+void TCompositeBeamMainForm::render_ratios_grid_SP266(TStringGrid* str_gr, int ACol,
+	int ARow, TRect &Rect)
+{
+    	if (ARow == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 1 && ACol == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 4 && ACol == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 9 && ACol == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 12 && ACol == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 15 && ACol == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 1 && ACol == 1)
+	{
+		str_gr -> Canvas -> Brush -> Color = clBtnFace;
+		str_gr -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 4 && ACol == 1)
+	{
+		str_gr -> Canvas -> Brush -> Color = clBtnFace;
+		str_gr -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 9 && ACol == 1)
+	{
+		str_gr -> Canvas -> Brush -> Color = clBtnFace;
+		str_gr -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 12 && ACol == 1)
+	{
+		str_gr -> Canvas -> Brush -> Color = clBtnFace;
+		str_gr -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 15 && ACol == 1)
+	{
+		str_gr -> Canvas -> Brush -> Color = clBtnFace;
+		str_gr -> Canvas -> FillRect(Rect);
+	}
+
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::render_ratios_grid_SP35(TStringGrid* str_gr, int ACol,
+	int ARow, TRect &Rect)
+{
+	if (ARow == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 1 && ACol == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 4 && ACol == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 9 && ACol == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 12 && ACol == 0)
+	{
+		str_gr -> Canvas -> Font -> Style = TFontStyles() << fsBold << fsUnderline << fsItalic;
+		str_gr -> Canvas -> TextOut(Rect.Left+3, Rect.Top+5, str_gr -> Cells[ACol][ARow]);
+	}
+	if (ARow == 1 && ACol == 1)
+	{
+		str_gr -> Canvas -> Brush -> Color = clBtnFace;
+		str_gr -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 4 && ACol == 1)
+	{
+		str_gr -> Canvas -> Brush -> Color = clBtnFace;
+		str_gr -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 9 && ACol == 1)
+	{
+		str_gr -> Canvas -> Brush -> Color = clBtnFace;
+		str_gr -> Canvas -> FillRect(Rect);
+	}
+	if (ARow == 12 && ACol == 1)
+	{
+		str_gr -> Canvas -> Brush -> Color = clBtnFace;
+		str_gr -> Canvas -> FillRect(Rect);
+	}
+}
+
+//---------------------------------------------------------------------------
+
 

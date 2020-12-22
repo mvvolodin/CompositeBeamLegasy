@@ -127,7 +127,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 563
-    ActivePage = tb_results
+    ActivePage = TbShtStaticScheme
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -484,18 +484,19 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       object GrpBxStaticScheme: TGroupBox
         Left = 3
         Top = 248
-        Width = 1042
+        Width = 1052
         Height = 278
         Caption = #1056#1072#1089#1095#1105#1090#1085#1072#1103' '#1089#1093#1077#1084#1072
         TabOrder = 3
         object img_static_scheme: TImage
           Left = 2
           Top = 62
-          Width = 1038
+          Width = 1048
           Height = 214
           Align = alBottom
           ExplicitLeft = 0
           ExplicitTop = 110
+          ExplicitWidth = 1038
         end
         object lblLoadCase: TLabel
           Left = 9
@@ -533,7 +534,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       object grp_bx_working_conditions_factors: TGroupBox
         Left = 851
         Top = 3
-        Width = 192
+        Width = 204
         Height = 126
         Caption = ' '#1050#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090#1099' '#1091#1089#1083#1086#1074#1080#1081' '#1088#1072#1073#1086#1090#1099' '
         TabOrder = 4
@@ -559,7 +560,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Caption = #1040#1088#1084#1072#1090#1091#1088#1072
         end
         object edt_gamma_bi: TEdit
-          Left = 121
+          Left = 149
           Top = 62
           Width = 52
           Height = 21
@@ -567,7 +568,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object edt_gamma_si: TEdit
-          Left = 120
+          Left = 149
           Top = 89
           Width = 52
           Height = 21
@@ -575,8 +576,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object edt_gamma_c: TEdit
-          Left = 121
-          Top = 37
+          Left = 149
+          Top = 35
           Width = 52
           Height = 21
           TabOrder = 2
@@ -586,28 +587,28 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       object grp_bx_other_coeff: TGroupBox
         Left = 851
         Top = 135
-        Width = 192
+        Width = 204
         Height = 107
         Caption = ' '#1055#1088#1086#1095#1080#1077' '#1082#1086#1101#1092#1092#1080#1094#1080#1077#1085#1090#1099' '
         TabOrder = 5
         object lbl_sheeting_continuity_coefficient: TLabel
-          Left = 3
-          Top = 21
-          Width = 95
+          Left = 11
+          Top = 22
+          Width = 118
           Height = 26
-          Caption = #1059#1095#1105#1090' '#1085#1077#1088#1072#1079#1088#1077#1079#1085#1086#1081' '#1088#1072#1073#1086#1090#1099' '#1085#1072#1089#1090#1080#1083#1072
+          Caption = #1059#1095#1105#1090' '#1085#1077#1088#1072#1079#1088#1077#1079#1085#1086#1089#1090#1080' '#1085#1072#1089#1090#1080#1083#1072
           WordWrap = True
         end
         object lbl_fact_quasi_perm_load: TLabel
-          Left = 12
-          Top = 53
-          Width = 94
-          Height = 39
-          Caption = #1059#1095#1105#1090' '#1076#1083#1080#1090#1077#1083#1100#1085#1086#1081' '#1095#1072#1089#1090#1080' '#1074#1088#1077#1084#1077#1085#1085#1086#1081' '#1085#1072#1075#1088#1091#1079#1082#1080' 2 '#1089#1090#1072#1076#1080#1080
+          Left = 11
+          Top = 62
+          Width = 143
+          Height = 26
+          Caption = #1059#1095#1105#1090' '#1076#1083#1080#1090'. '#1095#1072#1089#1090#1080' '#1074#1088#1077#1084'. '#1085#1072#1075#1088#1091#1079#1082#1080' 2 '#1089#1090#1072#1076#1080#1080
           WordWrap = True
         end
         object edt_sheeting_continuity_coefficient: TEdit
-          Left = 123
+          Left = 149
           Top = 22
           Width = 52
           Height = 21
@@ -615,7 +616,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           OnChange = OnControlsChange
         end
         object edt_fact_quasi_perm_load: TEdit
-          Left = 123
+          Left = 149
           Top = 62
           Width = 52
           Height = 21
