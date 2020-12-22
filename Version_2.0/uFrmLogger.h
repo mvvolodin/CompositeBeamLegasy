@@ -27,18 +27,10 @@ public:		// User declarations
 	void print_double(String const & name, double val, String const & unit) const;
 	void print_2_doubles(String const & name1, double val1, String const & unit1,
 						 String const & name2, double val2, String const & unit2) const;
-
-	void print_sections_coordinates(double id, double x);
-	void print_M_X(double x, double M);
-	void print_M_X(std::vector<double> M_list);
-	void print_sigma_b_sigma_s_X(double x, double sigma_b, double sigma_s);
-	void print_ratios(double x, double upper_fl_ratio, double lower_fl_ratio,
-		double conc_ratio, double shear_ratio);
-
-	void print_stud_coordinates(double id, double x, double x_l, double x_r);
-	void print_stud_shear_force(double id, double S);
-	void print_ratio(double id, double ratio);
-
+	void print_4_doubles(String const & name1, double val1, String const & unit1,
+						 String const & name2, double val2, String const & unit2,
+						 String const & name3, double val3, String const & unit3,
+						 String const & name4, double val4, String const & unit4)const;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFormLogger *FormLogger;

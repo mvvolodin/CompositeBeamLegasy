@@ -2,13 +2,9 @@
 #ifndef uRolledSectionH
 #define uRolledSectionH
 //---------------------------------------------------------------------------
-//#define NDEBUG
-#ifndef NDEBUG
-#include "uFrmLogger.h"
-#endif
-//---------------------------------------------------------------------------
 #include "uGeneralSteelSection.h"
 #include <string>
+#include "Logger.h"
 //---------------------------------------------------------------------------
 class RolledSection:public GeneralSteelSection{
 public:

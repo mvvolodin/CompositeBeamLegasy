@@ -3,7 +3,6 @@
 #ifndef uCompositeBeamCalculatorH
 #define uCompositeBeamCalculatorH
 
-
 #include <vector>
 #include <ostream>
 //---------------------------------------------------------------------------

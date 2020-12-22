@@ -6,7 +6,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1050#1086#1084#1073#1080#1085#1080#1088#1086#1074#1072#1085#1085#1072#1103' '#1073#1072#1083#1082#1072
-  ClientHeight = 650
+  ClientHeight = 639
   ClientWidth = 1072
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -127,7 +127,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 563
-    ActivePage = TbShtStaticScheme
+    ActivePage = tb_results
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -3066,6 +3066,16 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
       #1057#1055' 35.13330.2011')
     TabOrder = 6
     OnClick = rd_grp_codeClick
+  end
+  object btn_logger: TButton
+    Left = 250
+    Top = 599
+    Width = 75
+    Height = 25
+    Caption = #1051#1086#1075
+    TabOrder = 7
+    Visible = False
+    OnClick = btn_loggerClick
   end
   object MainMenu1: TMainMenu
     Images = ImageList1

@@ -46,14 +46,12 @@
 
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
-
-
 #include <memory>
-
 #include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
 #include "ICompositeBeam.h"
+#include "Logger.h"
 
-//#define NDEBUG
+
 
 
 
@@ -192,6 +190,8 @@ __published:	// IDE-managed Components
 	TEdit *edt_SW_steel_beam;
 	TEdit *edt_fact_quasi_perm_load;
 	TLabel *lbl_fact_quasi_perm_load;
+	TButton *btn_logger;
+
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
 	void __fastcall btn_reportClick(TObject *Sender);
@@ -217,21 +217,19 @@ __published:	// IDE-managed Components
 	void __fastcall chck_bx_end_beamClick(TObject *Sender);
 	void __fastcall cmb_bx_analysis_theoryChange(TObject *Sender);
 	void __fastcall cmb_bx_corrugated_sheeting_part_numberChange(TObject *Sender);
-	void __fastcall btn_loggerClick(TObject *Sender);
 	void __fastcall N8Click(TObject *Sender);
 	void __fastcall strng_grd_first_raw_bold(TObject *Sender, int ACol,
           int ARow, TRect &Rect, TGridDrawState State);
 	void __fastcall btn_add_impactsClick(TObject *Sender);
 	void __fastcall HelpClick(TObject *Sender);
 	void __fastcall rd_grp_codeClick(TObject *Sender);
+	void __fastcall btn_loggerClick(TObject *Sender);
 
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;
 
 private:
 	TCompositeBeamMainFormCntrlsState cntrls_state_;
-
-	std::unique_ptr<TFormLogger> frm_logger_;
 
 	void set_form_controls();
 	void generate_report();
@@ -272,6 +270,10 @@ private:
 	void update_all_frms_cntrls();
 	void store_cntrls_state();
 	void store_all_frms_cntrls_state();
+
+    #ifndef NDEBUG
+	void print_to_logger();
+	#endif
 
 };
 //---------------------------------------------------------------------------

@@ -8,11 +8,6 @@
 #include "uConcrete.h"
 #include "uSteel.h"
 
-//#define NDEBUG
-
-#ifndef NDEBUG
-#include "uFrmLogger.h"
-#endif
 
 class ComposSectGeomSP266{
 

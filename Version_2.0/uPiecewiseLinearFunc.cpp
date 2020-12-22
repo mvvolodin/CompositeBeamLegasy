@@ -20,6 +20,15 @@ double PiecewiseLinearFunc::operator()( double x )const
 //	   if (iter == fns.end()) throw... //Or something
    return iter -> second(x);
 }
+double PiecewiseLinearFunc::integral(double xl, double xr)const
+{
+	double sum = 0.;
+
+	for (double dx = 1., x = xl + dx / 2; x < xr; x += dx)
+		sum += (*this)(x) * dx;
+
+	return sum;
+}
 
 
 

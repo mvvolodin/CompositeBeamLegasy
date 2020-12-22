@@ -10,9 +10,6 @@
 #include "Constants.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-//---------------------------------------------------------------------------
-//#define NDEBUG
-//---------------------------------------------------------------------------
 
 CompositeBeamCalculator::CompositeBeamCalculator(){}
 //---------------------------------------------------------------------------
@@ -110,41 +107,7 @@ void CompositeBeamCalculator::calculate_composite_beam()
 //расчёт сечений
 	composite_beam_.calculate();
 
-	#ifndef NDEBUG
-	FormLogger -> clean_logger();
-	FormLogger -> add_heading(L"Проверка сечений");
-	FormLogger -> add_heading(L"Координаты сечений");
-	for (const auto& section:composite_beam_.get_section_list())
-		FormLogger -> print_sections_coordinates(section.get_id(), section.get_x());
-	FormLogger -> add_heading(L"Расчётный момент M_Ia");
-	for (const auto& section:composite_beam_.get_section_list())
-		FormLogger -> print_M_X(section.get_x(), section.get_M_Ia_design());
-	FormLogger -> add_heading(L"Расчётный момент M_Ib");
-	for (const auto& section:composite_beam_.get_section_list())
-		FormLogger -> print_M_X(section.get_x(), section.get_M_Ib_design());
-	FormLogger -> add_heading(L"Расчётный момент M_IIa");
-	for (const auto& section:composite_beam_.get_section_list())
-		FormLogger -> print_M_X(section.get_x(), section.get_M_IIa_design());
-	FormLogger -> add_heading(L"Расчётный момент M_IIb");
-	for (const auto& section:composite_beam_.get_section_list())
-		FormLogger -> print_M_X(section.get_x(), section.get_M_IIb_design());
-	FormLogger -> add_heading(L"Расчётный момент полный M_total");
-	for (const auto& section:composite_beam_.get_section_list())
-		FormLogger -> print_M_X(section.get_x(), section.get_M_total_design());
-	FormLogger -> add_heading(L"Расчётная полная поперечная сила Q_total");
-	for (const auto& section:composite_beam_.get_section_list())
-		FormLogger -> print_M_X(section.get_x(), section.get_Q_total_design());
-	FormLogger -> add_heading(L"Напряжения");
-	for (const auto& section:composite_beam_.get_section_list())
-		FormLogger -> print_sigma_b_sigma_s_X(section.get_x(), section.get_sigma_b(), section.get_sigma_s());
-	FormLogger -> add_heading(L"Коэффициенты использования");
-	for (const auto& section:composite_beam_.get_section_list())
-		FormLogger -> print_ratios(section.get_x(),
-								   section.get_upper_fl_ratio(),
-								   section.get_lower_fl_ratio(),
-								   section.get_conc_ratio(),
-								   section.get_shear_ratio());
-	#endif
+
 }
 //---------------------------------------------------------------------------
 //Расчёт гибких упоров композитной балки
@@ -170,31 +133,6 @@ void CompositeBeamCalculator::calculate_studs()
 	studs_on_beam_.calculate_S();
 	studs_on_beam_.calculate_ratios();
 
-	#ifndef NDEBUG
-
-	FormLogger -> add_heading(L"Проверка упоров");
-	FormLogger -> add_heading(L"Координаты упоров");
-
-	for (auto stud:studs_on_beam_.stud_list())
-		FormLogger -> print_stud_coordinates(stud.get_id(),
-										 stud.get_x(),
-										 stud.get_x_l(),
-										 stud.get_x_r());
-
-	FormLogger -> add_heading(L"Усилия в упорах");
-
-	for (auto stud:studs_on_beam_.stud_list())
-
-		FormLogger -> print_stud_shear_force(stud.get_id(),
-										  stud.get_S(LoadUnit::kN));
-
-	FormLogger -> add_heading(L"Коэффициенты использования");
-
-	for (auto stud:studs_on_beam_.stud_list())
-
-		FormLogger -> print_ratio(stud.get_id(),
-							  stud.get_ratio());
-	#endif
 }
 
 

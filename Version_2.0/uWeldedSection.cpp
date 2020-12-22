@@ -173,20 +173,19 @@ double WeldedSection::SW()const
 #ifndef NDEBUG
 void WeldedSection::print_data_to_logger(TFormLogger const & log)const
 {
-	log.add_heading(L"Тип сечения");
-	log.print_string(L"Сварной двутавр");
-	log.add_heading(L"Геометрические размеры");
-	log.print_2_doubles(L"bf2 = ", upper_fl_width(), L" мм",L"tf2 = ", upper_fl_thick(), L" мм");
-	log.print_2_doubles(L"bf1 = ", lower_fl_width(), L" мм",L"tf1 = ", lower_fl_thick(), L" мм");
-	log.print_2_doubles(L"hw = ", web_height(), L" мм",L"tw = ", web_thick(), L" мм");
-	log.add_heading(L"Координаты вершин сварного двутавра");
+	FormLogger -> add_heading(L"Тип сечения");
+	FormLogger -> print_string(L"Сварной двутавр");
+	FormLogger -> add_heading(L"Геометрические размеры");
+	FormLogger -> print_2_doubles(L"bf2 = ", upper_fl_width(), L" мм",L"tf2 = ", upper_fl_thick(), L" мм");
+	FormLogger -> print_2_doubles(L"bf1 = ", lower_fl_width(), L" мм",L"tf1 = ", lower_fl_thick(), L" мм");
+	FormLogger -> print_2_doubles(L"hw = ", web_height(), L" мм",L"tw = ", web_thick(), L" мм");
+	FormLogger -> add_heading(L"Координаты вершин сварного двутавра");
 	for(auto v:vertexes_)
-		log.print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
-	log.add_heading(L"Геометрические характеристики");
-	log.print_double(L"C = ", grav_cent(), L" мм");
-	log.print_double(L"A = ", area(), L" мм2");
-	log.print_double(L"I = ", inertia(), L" мм4");
-
+		FormLogger -> print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
+	FormLogger -> add_heading(L"Геометрические характеристики");
+	FormLogger -> print_double(L"C = ", grav_cent(), L" мм");
+	FormLogger -> print_double(L"A = ", area(), L" мм2");
+	FormLogger -> print_double(L"I = ", inertia(), L" мм4");
 }
 #endif
 std::vector<TPoint> WeldedSection::get_pnts_for_drawing()

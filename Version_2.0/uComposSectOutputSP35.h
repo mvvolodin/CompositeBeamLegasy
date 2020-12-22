@@ -2,16 +2,12 @@
 #ifndef uComposSectOutputSP35H
 #define uComposSectOutputSP35H
 //---------------------------------------------------------------------------
-//#define NDEBUG
-#ifndef NDEBUG
-#include "uFrmLogger.h"
-#endif
-//---------------------------------------------------------------------------
 #include <vector>
 #include <Vcl.Grids.hpp>
 #include "uWord_Automation.h"
 #include "uGlobGeom.h"
 #include "uPlastCoeff.h"
+#include "Logger.h"
 //---------------------------------------------------------------------------
 enum class DesignCase;
 //---------------------------------------------------------------------------
@@ -100,9 +96,9 @@ public:
 
     void fill_grid_with_max_direct_str_data(TStringGrid* str_grid)const;
 
-#ifndef NDEBUG
+	#ifndef NDEBUG
 	void print_data_to_logger(TFormLogger const & log)const;
-#endif
+	#endif
 
 	void print(TWord_Automation & report)const;
 

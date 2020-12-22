@@ -18,17 +18,7 @@ LongShearForcesCalculator::LongShearForcesCalculator(
 
 double LongShearForcesCalculator::S_Ed(double x_l, double x_r)const
 {
-	int dx = 10;//шаг интегрирования
-
-	double x = x_l;
-
-	double sum = 0.;
-
-	while( x < x_r){
-		sum += diag_(x) * dx;
-		x += dx / 2;
-	}
-	return sum;
+	return diag_.integral(x_l, x_r);
 }
 PiecewiseLinearFunc LongShearForcesCalculator::build_diag(
 	IntForcesCalculator const & calc,

@@ -2,14 +2,10 @@
 #ifndef uGeneralSteelSectionH
 #define uGeneralSteelSectionH
 //---------------------------------------------------------------------------
-//#define NDEBUG
-#ifndef NDEBUG
-#include "uFrmLogger.h"
-#endif
-//---------------------------------------------------------------------------
 #include <Vcl.Grids.hpp>
 #include "uFrmLogger.h"
 #include "uWord_Automation.h"
+#include "Logger.h"
 //---------------------------------------------------------------------------
 class GeneralSteelSection{
 public:

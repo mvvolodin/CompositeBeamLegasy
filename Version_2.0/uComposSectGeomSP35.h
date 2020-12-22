@@ -1,11 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef uComposSectGeomSP35H
 #define uComposSectGeomSP35H
- //---------------------------------------------------------------------------
-//#define NDEBUG
-#ifndef NDEBUG
-#include "uFrmLogger.h"
-#endif
 //---------------------------------------------------------------------------
 #include <memory>
 #include <Vcl.Grids.hpp>

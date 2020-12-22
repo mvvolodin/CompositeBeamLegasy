@@ -26,15 +26,16 @@
 std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
 std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
 
-std::unique_ptr<ComBeamInputSP35 const> obj_for_studs_S35_verific {nullptr};
-StudsInputSP35 studs_input;
 StudsOutputSP35 studs_output;
 
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 //----------------------------------------------------------------------
  _fastcall TCompositeBeamMainForm ::TCompositeBeamMainForm (TComponent* Owner)
-	: TForm(Owner), frm_logger_(new TFormLogger(this))
+	: TForm(Owner)
 {
+	#ifndef NDEBUG
+	btn_logger -> Visible = true;
+    #endif
 	cotr_ratios_grid();
 	cotr_comp_sect_geometr_grid();
 	cotr_steel_sect_geometr_grid();
@@ -42,9 +43,6 @@ TCompositeBeamMainForm  *CompositeBeamMainForm;
 	fill_cmb_bx_impact();
 	fill_cmb_bx_corrugated_sheets();
 	modify_project = false;
-
-
-
 }
 //----------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
@@ -283,6 +281,7 @@ void TCompositeBeamMainForm ::update_results_grid(int code_indx)
 		break;
 	case(1):
 		com_beam_output_SP35 -> fill_grid(strng_grd_results);
+		studs_output.fill_grid(strng_grd_results);
 		break;
 	}
 
@@ -398,6 +397,9 @@ void TCompositeBeamMainForm::generate_report()
 	com_beam_input_SP35 -> print(report);
 	com_beam_output_SP35 -> print(report);
 
+	studs_output.print(report);
+
+
 
 }
 
@@ -492,23 +494,44 @@ void TCompositeBeamMainForm::draw_diagram()
 	{
 	case(0):
 
-		DrawEpur(Image1, M.size(), coor_epur.data(), M.data(), nullptr, coor_supp.size(), coor_supp.data(),
-			flag_sign, num_digits, con_sign_practice);
+		DrawEpur(Image1,
+				 M.size(),
+				 coor_epur.data(),
+				 M.data(),
+				 nullptr,
+				 coor_supp.size(),
+				 coor_supp.data(),
+				 flag_sign,
+				 num_digits,
+				 con_sign_practice);
 
 
 		break;
 
 	case(1):
 
-		DrawEpur(Image1, Q.size(), coor_epur.data(), Q.data(), R.data(), coor_supp.size(), coor_supp.data(),
-			flag_sign, num_digits, con_sign_practice);
+		DrawEpur(Image1,
+				 Q.size(),
+				 coor_epur.data(),
+				 Q.data(), R.data(),
+				 coor_supp.size(),
+				 coor_supp.data(),
+				 flag_sign,
+				 num_digits,
+				 con_sign_practice);
 
 		break;
 
 	case(2):
 
-		DrawEpur(Image1, f.size(), coor_epur.data(), f.data(), nullptr, coor_supp.size(), coor_supp.data(),
-			flag_sign, num_digits, false);
+		DrawEpur(Image1,
+				 f.size(),
+				 coor_epur.data(),
+				 f.data(), nullptr,
+				 coor_supp.size(),
+				 coor_supp.data(),
+				 flag_sign, num_digits,
+				 false);
 
 		break;
 	case(3):
@@ -582,17 +605,17 @@ void TCompositeBeamMainForm::calculate_studs()
 {
 	store_all_frms_cntrls_state();
 
-	obj_for_studs_S35_verific.reset(new ComBeamInputSP35{this -> cntrls_state_,
-												   ConcreteDefinitionForm -> cntrls_state(),
-												   SteelSectionForm -> cntrls_state(),
-												   DefineSteelForm -> cntrls_state(),
-												   RebarDefinitionForm -> cntrls_state()});
+	ComBeamInputSP35  obj_for_studs_S35_verific {this -> cntrls_state_,
+												 ConcreteDefinitionForm -> cntrls_state(),
+												 SteelSectionForm -> cntrls_state(),
+												 DefineSteelForm -> cntrls_state(),
+												 RebarDefinitionForm -> cntrls_state()};
 
-	studs_input = {StudDefinitionForm -> cntrls_state(),
-				   this -> cntrls_state_,
-				   ConcreteDefinitionForm -> cntrls_state()};
+	StudRowCalculatorSP35 calc {obj_for_studs_S35_verific};
 
-	StudRowCalculatorSP35 calc {*obj_for_studs_S35_verific};
+	StudsInputSP35 studs_input = {StudDefinitionForm -> cntrls_state(),
+								  this -> cntrls_state_,
+								  ConcreteDefinitionForm -> cntrls_state()};
 
 	studs_output = {calc.run(studs_input)};
 
@@ -783,12 +806,10 @@ void __fastcall TCompositeBeamMainForm ::cmb_bx_corrugated_sheeting_part_numberC
 
 //---------------------------------------------------------------------------
 
-
-void __fastcall TCompositeBeamMainForm ::btn_loggerClick(TObject *Sender)
-{
-   //	FormLogger->Show();
-   frm_logger_ -> Show();
-}
+//void __fastcall TCompositeBeamMainForm ::btn_loggerClick(TObject *Sender)
+//{
+//	FormLogger->Show();
+//}
 //---------------------------------------------------------------------------
 
 
@@ -797,12 +818,8 @@ void __fastcall TCompositeBeamMainForm ::N8Click(TObject *Sender)
 	AboutProgForm->ShowModal();
 }
 //---------------------------------------------------------------------------
-
-
-//---------------------------------------------------------------------------
 //Обработчик события обеспечивающий заполнение первой строки жирным шрифтом
 //---------------------------------------------------------------------------
-
 void __fastcall TCompositeBeamMainForm::strng_grd_first_raw_bold(TObject *Sender,
           int ACol, int ARow, TRect &Rect, TGridDrawState State)
 {
@@ -1096,6 +1113,18 @@ void TCompositeBeamMainForm::set_GUI_SP266()
 }
 //---------------------------------------------------------------------------
 
-
-
+void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
+{
+#ifndef NDEBUG
+	print_to_logger();
+#endif
+}
+#ifndef NDEBUG
+void TCompositeBeamMainForm::print_to_logger()
+{
+	FormLogger -> Show();
+	studs_output.print_to_logger();
+}
+#endif
+//---------------------------------------------------------------------------
 

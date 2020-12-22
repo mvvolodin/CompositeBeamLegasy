@@ -1,16 +1,10 @@
 //---------------------------------------------------------------------------
 #ifndef uWeldedSectionH
 #define uWeldedSectionH
-//---------------------------------------------------------------------------
-//#define NDEBUG
-#ifndef NDEBUG
-#include "uFrmLogger.h"
-#endif
-//---------------------------------------------------------------------------
 #include <Vcl.Graphics.hpp>
 #include <vector>
 #include "uGeneralSteelSection.h"
-#include "uFrmLogger.h"
+#include "Logger.h"
 //---------------------------------------------------------------------------
 class WeldedSection:public GeneralSteelSection{
 struct Vertex{

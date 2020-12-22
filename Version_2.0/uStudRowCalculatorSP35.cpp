@@ -3,15 +3,12 @@
 #pragma hdrstop
 
 #include "uStudRowCalculatorSP35.h"
-#include<algorithm>
 #include "uSteelTableObjects.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
 StudRowCalculatorSP35::StudRowCalculatorSP35(ComBeamInputSP35 const & input)
 {
-
-
 	IntForcesCalculator ifc {input.glob_geom().tmp_sup_num(),
 							 input.glob_geom().span(),
 							 input.loads()};
@@ -24,9 +21,6 @@ StudRowCalculatorSP35::StudRowCalculatorSP35(ComBeamInputSP35 const & input)
 
 	calc_ = {ifc, cs, input.glob_geom().span()};
 }
-
-
-
 StudRowOutputSP35 StudRowCalculatorSP35::run(StudRowInputSP35 const & sri, StudSP35 const & st)const
 {
 	int const id = sri.id();
@@ -37,15 +31,13 @@ StudRowOutputSP35 StudRowCalculatorSP35::run(StudRowInputSP35 const & sri, StudS
 
 	int const st_num = sri.st_num();
 
-	double const S_h = st.S_h();
-	double const S_1 = st.S_1();
+	double const P_Rd = st. P_Rd();
 
-	double S_Ed = calc_.S_Ed(x_l, x_r);
+	double const S_Ed = calc_.S_Ed(x_l, x_r);
 
-	double const ratio = S_Ed / (st_num * std::min(S_h, S_1));
+	double const ratio = S_Ed / (P_Rd * st_num) ;
 
-	return {id, x, S_Ed, ratio};
-
+	return {id, x, st_num, S_Ed, ratio};
 }
 StudsOutputSP35 StudRowCalculatorSP35::run(StudsInputSP35 & st_input)const
 {
@@ -56,7 +48,5 @@ StudsOutputSP35 StudRowCalculatorSP35::run(StudsInputSP35 & st_input)const
 	for(auto & sr0:st_input.rows())
 		st_rows_output.emplace_back(run(sr0, st));
 
-	StudsOutputSP35::st_ = st;
-
-	return {st_rows_output, calc_.S_overline_lst(), calc_.coord()};
+	return {st_input, st_rows_output, calc_.S_overline_lst(), calc_.coord()};
 }

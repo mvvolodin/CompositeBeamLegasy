@@ -190,6 +190,9 @@
         <None Include="ListConst.H">
             <BuildOrder>25</BuildOrder>
         </None>
+        <None Include="Logger.h">
+            <BuildOrder>77</BuildOrder>
+        </None>
         <CppCompile Include="MathFunction.cpp">
             <DependentOn>MathFunction.h</DependentOn>
             <BuildOrder>43</BuildOrder>
