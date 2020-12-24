@@ -72,12 +72,12 @@ public:
     std::vector<Node> nodes_lst()const;
 
 private:
-	double max_el_length_ = -1.;
-	bool end_beam_ = false;
-	double span_ = -1.;
-	double spacing_left_ = -1.;
-	double spacing_right_ = -1.;
-	int tmp_sup_num_ = -1.;
+	double max_el_length_;
+	bool end_beam_;
+	double span_;
+	double spacing_left_;
+	double spacing_right_;
+	int tmp_sup_num_;
 
 	std::vector<Node> nodes_lst_{};
 

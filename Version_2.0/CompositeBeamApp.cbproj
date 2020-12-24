@@ -238,6 +238,11 @@
             <DependentOn>uComBeamOutputSP35.h</DependentOn>
             <BuildOrder>63</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uCompBeamObjsCreatorSP266.cpp">
+            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
+            <DependentOn>uCompBeamObjsCreatorSP266.h</DependentOn>
+            <BuildOrder>78</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uCompositeBeam.cpp">
             <DependentOn>uCompositeBeam.h</DependentOn>
             <BuildOrder>48</BuildOrder>
@@ -254,10 +259,6 @@
             <DependentOn>uComposSectCalculatorS35.h</DependentOn>
             <BuildOrder>51</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uComposSectGeomSP266.cpp">
-            <DependentOn>uComposSectGeomSP266.h</DependentOn>
-            <BuildOrder>61</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uComposSectGeomSP35.cpp">
             <DependentOn>uComposSectGeomSP35.h</DependentOn>
             <BuildOrder>59</BuildOrder>
@@ -265,6 +266,26 @@
         <CppCompile Include="uComposSectOutputSP35.cpp">
             <DependentOn>uComposSectOutputSP35.h</DependentOn>
             <BuildOrder>57</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompSectCalcOutputSP266.cpp">
+            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
+            <DependentOn>uCompSectCalcOutputSP266.h</DependentOn>
+            <BuildOrder>81</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompSectCalculatorSP266.cpp">
+            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
+            <DependentOn>uCompSectCalculatorSP266.h</DependentOn>
+            <BuildOrder>80</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompSectGeomSP266.cpp">
+            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
+            <DependentOn>uCompSectGeomSP266.h</DependentOn>
+            <BuildOrder>61</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompSectOutputSP266.cpp">
+            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
+            <DependentOn>uCompSectOutputSP266.h</DependentOn>
+            <BuildOrder>82</BuildOrder>
         </CppCompile>
         <CppCompile Include="uConcrete.cpp">
             <DependentOn>uConcrete.h</DependentOn>
@@ -497,16 +518,16 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
-        <FormResources Include="uFrmSteelSection.dfm"/>
-        <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
-        <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
-        <FormResources Include="uFrmAboutProg.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
+        <FormResources Include="uFrmStud.dfm"/>
+        <FormResources Include="uFrmSteelSection.dfm"/>
+        <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
+        <FormResources Include="uFrmAboutProg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -534,6 +555,7 @@
                     <Source Name="MainSource">CompositeBeamApp.cpp</Source>
                 </Source>
                 <VFOLDERS>
+                    <VFOLDER ID="{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}" name="CompSectionsSP266"/>
                     <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
                     <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
                     <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>

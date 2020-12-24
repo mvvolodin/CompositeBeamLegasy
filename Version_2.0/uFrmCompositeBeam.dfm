@@ -127,7 +127,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     Top = 23
     Width = 1072
     Height = 563
-    ActivePage = TbShtStaticScheme
+    ActivePage = TbShtSectionMaterials
     Align = alTop
     TabOrder = 5
     object TbShtStaticScheme: TTabSheet
@@ -594,7 +594,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_sheeting_continuity_coefficient: TLabel
           Left = 11
           Top = 22
-          Width = 118
+          Width = 106
           Height = 26
           Caption = #1059#1095#1105#1090' '#1085#1077#1088#1072#1079#1088#1077#1079#1085#1086#1089#1090#1080' '#1085#1072#1089#1090#1080#1083#1072
           WordWrap = True
@@ -602,7 +602,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         object lbl_fact_quasi_perm_load: TLabel
           Left = 11
           Top = 62
-          Width = 143
+          Width = 123
           Height = 26
           Caption = #1059#1095#1105#1090' '#1076#1083#1080#1090'. '#1095#1072#1089#1090#1080' '#1074#1088#1077#1084'. '#1085#1072#1075#1088#1091#1079#1082#1080' 2 '#1089#1090#1072#1076#1080#1080
           WordWrap = True
@@ -628,6 +628,8 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     object TbShtSectionMaterials: TTabSheet
       Caption = #1057#1077#1095#1077#1085#1080#1077' '#1080' '#1084#1072#1090#1077#1088#1080#1072#1083#1099
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 28
       object GrpBxSteelSection: TGroupBox
         Left = -4
         Top = 283
@@ -704,7 +706,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
       end
       object grp_bx_corrugated_slab: TGroupBox
-        Left = 3
+        Left = 0
         Top = 415
         Width = 798
         Height = 60

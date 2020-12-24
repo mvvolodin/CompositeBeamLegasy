@@ -22,6 +22,10 @@
 #include "uUnits_new.h"
 #include "uStudRowCalculatorSP35.h"
 
+#include "uCompBeamObjsCreatorSP266.h"
+#include "uCompSectCalculatorSP266.h"
+#include "uCompSectOutputSP266.h"
+
 //---------------------------------------------------------------------------
 std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
 std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
@@ -45,6 +49,7 @@ TCompositeBeamMainForm  *CompositeBeamMainForm;
 	fill_cmb_bx_corrugated_sheets();
 
 	modify_project = false;
+
 }
 //----------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
@@ -569,11 +574,28 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 }
 void TCompositeBeamMainForm::calculate_composite_beam_SP266()
 {
+	store_all_frms_cntrls_state();
 
+	CompBeamObjsCreatorSP266 creator {
+		this -> cntrls_state_,
+		ConcreteDefinitionForm -> cntrls_state(),
+		SteelSectionForm -> cntrls_state(),
+		DefineSteelForm -> cntrls_state(),
+		RebarDefinitionForm -> cntrls_state()};//объект 432 байта
+
+	CompSectCalculatorSP266 calc {creator};
+
+	CompSectCalcOutputSP266 sect_output {calc.run()};
+
+	size_t sd = sizeof(sect_output);
+
+	CompSectOutputSP266 cs = sect_output.com_sects_output_[20];
+
+	int a = 0;
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
-	store_cntrls_state();
+	store_all_frms_cntrls_state();
 
 	com_beam_input_SP35.reset(new ComBeamInputSP35{this -> cntrls_state_,
 												   ConcreteDefinitionForm -> cntrls_state(),

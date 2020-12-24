@@ -3,7 +3,6 @@
 #define uGeneralSteelSectionH
 //---------------------------------------------------------------------------
 #include <Vcl.Grids.hpp>
-#include "uFrmLogger.h"
 #include "uWord_Automation.h"
 #include "Logger.h"
 //---------------------------------------------------------------------------
