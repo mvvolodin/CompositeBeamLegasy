@@ -267,16 +267,6 @@
             <DependentOn>uComposSectOutputSP35.h</DependentOn>
             <BuildOrder>57</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uCompSectCalcOutputSP266.cpp">
-            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
-            <DependentOn>uCompSectCalcOutputSP266.h</DependentOn>
-            <BuildOrder>81</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uCompSectCalculatorSP266.cpp">
-            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
-            <DependentOn>uCompSectCalculatorSP266.h</DependentOn>
-            <BuildOrder>80</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uCompSectGeomSP266.cpp">
             <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
             <DependentOn>uCompSectGeomSP266.h</DependentOn>
@@ -286,6 +276,16 @@
             <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
             <DependentOn>uCompSectOutputSP266.h</DependentOn>
             <BuildOrder>82</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompSectsCalculatorSP266.cpp">
+            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
+            <DependentOn>uCompSectsCalculatorSP266.h</DependentOn>
+            <BuildOrder>80</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompSectsOutputListSP266.cpp">
+            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
+            <DependentOn>uCompSectsOutputListSP266.h</DependentOn>
+            <BuildOrder>81</BuildOrder>
         </CppCompile>
         <CppCompile Include="uConcrete.cpp">
             <DependentOn>uConcrete.h</DependentOn>

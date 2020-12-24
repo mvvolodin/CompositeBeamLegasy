@@ -1,11 +1,11 @@
 //---------------------------------------------------------------------------
-#ifndef uCompSectCalculatorSP266H
-#define uCompSectCalculatorSP266H
+#ifndef uCompSectsCalculatorSP266H
+#define uCompSectsCalculatorSP266H
 //---------------------------------------------------------------------------
 #include <vector>
 #include <string>
-#include "uCompSectCalcOutputSP266.h"
 #include "uCompSectOutputSP266.h"
+#include "uCompSectsOutputListSP266.h"
 
 #include "uGlobGeom.h"
 #include "uIntForcesCalculator.h"
@@ -23,10 +23,10 @@ enum class DesignCaseSP266{
 	Case_F // случай, когда в бетоне растяжение
 };
 
-class CompSectCalculatorSP266{
+class CompSectsCalculatorSP266{
 public:
-	CompSectCalculatorSP266 (CompBeamObjsCreatorSP266 const & creator);
-	CompSectCalcOutputSP266 run();
+	CompSectsCalculatorSP266 (CompBeamObjsCreatorSP266 const & creator);
+	CompSectsOutputListSP266 run();
 private:
 	CompBeamObjsCreatorSP266 const creator_;
 

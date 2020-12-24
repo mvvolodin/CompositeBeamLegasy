@@ -7,17 +7,18 @@
 //---------------------------------------------------------------------------
  CompSectGeomSP266::CompSectGeomSP266(
 	Steel const & steel,
-	std::unique_ptr<GeneralSteelSection const> st_sect,
+	std::unique_ptr<GeneralSteelSection> st_sect,
 	Concrete const & concrete,
-	std::unique_ptr<GeneralConcreteSection const>  conc_sect):
+	std::unique_ptr<GeneralConcreteSection> conc_sect):
 		steel_(steel),
 		st_sect_(std::move(st_sect)),
 		concrete_(concrete),
 		conc_sect_(std::move(conc_sect))
 {
 	calculate();
-    calc_rigid_plastic_moment();
+	calc_rigid_plastic_moment();
 }
+
 void CompSectGeomSP266::calculate()
 {
 	double const E_b = concrete_.get_E_b_tau();

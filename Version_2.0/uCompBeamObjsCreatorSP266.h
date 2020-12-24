@@ -27,8 +27,8 @@
 class CompBeamObjsCreatorSP266{
 
 public:
-    using SteelSectUPtr = std::unique_ptr<GeneralSteelSection const>;
-	using ConcSectUPtr = std::unique_ptr<GeneralConcreteSection const>;
+	using SteelSectUPtr = std::unique_ptr<GeneralSteelSection>;
+	using ConcSectUPtr = std::unique_ptr<GeneralConcreteSection>;
 
 	CompBeamObjsCreatorSP266() = delete;
 	CompBeamObjsCreatorSP266(

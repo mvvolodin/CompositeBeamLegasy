@@ -20,8 +20,11 @@ struct CompSectOutputSP266{
 				 sigma_bi_, sigma_si_,
 
 				 upper_fl_ratio_, lower_fl_ratio_, conc_ratio_,
+				 rigid_pl_ratio_,
 				 shear_ratio_,
 				 st_sect_ratio_;
+
+	double max_direct_str_ratio()const;
 };
 
 

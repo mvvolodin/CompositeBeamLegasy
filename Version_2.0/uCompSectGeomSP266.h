@@ -20,12 +20,11 @@ class CompSectGeomSP266{
 		double x_na_; //Расстояние от наружней грани сталежелезобетонной балки до нейтральной оси
 	};
 public:
-
+	CompSectGeomSP266() = default;
 	CompSectGeomSP266(Steel const & steel,
-					   std::unique_ptr<GeneralSteelSection const>  st_sect,
+					   std::unique_ptr<GeneralSteelSection>  st_sect,
 					   Concrete const & concrete,
-					   std::unique_ptr<GeneralConcreteSection const>  conc_sect);
-	CompSectGeomSP266(CompSectGeomSP266 && ) = default;
+					   std::unique_ptr<GeneralConcreteSection> conc_sect);
 	double E_s()const {return conc_sect_ -> rebars().rebar().E_s();}
 	double E_b()const{return concrete_.get_E_b();}
 	double E_b_tau()const {return concrete_.get_E_b_tau();}
@@ -51,6 +50,8 @@ public:
 	double A_b()const{return conc_sect_ -> A_b();}
 	double I_b()const{return conc_sect_ -> I_b();}
 
+	double M_Rd()const{return M_Rd_;}
+
 	double Z_b_st()const{return Z_b_st_;}
 
 	double H_red()const{return H_red_;}
@@ -73,10 +74,10 @@ public:
 
 private:
 
-	Steel const steel_;
-	std::unique_ptr<GeneralSteelSection const> const st_sect_;
-	Concrete const concrete_;
-	std::unique_ptr<GeneralConcreteSection const> const conc_sect_;
+	Steel steel_;
+	std::unique_ptr<GeneralSteelSection> st_sect_;
+	Concrete concrete_;
+	std::unique_ptr<GeneralConcreteSection> conc_sect_;
 
 	void calculate();
 	NeutralAxis calc_neutral_axis();

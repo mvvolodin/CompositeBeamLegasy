@@ -143,8 +143,7 @@ CompSectGeomSP266 CompBeamObjsCreatorSP266::comp_sect_geom()const
 	return {steel(),
 			steel_sect(),
 			concrete(),
-			concrete_sect()};		
-
+			concrete_sect()};
 }
 IntForcesCalculator CompBeamObjsCreatorSP266::int_forces_calculator()const
 {

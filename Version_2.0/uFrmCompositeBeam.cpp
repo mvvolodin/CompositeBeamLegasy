@@ -23,14 +23,16 @@
 #include "uStudRowCalculatorSP35.h"
 
 #include "uCompBeamObjsCreatorSP266.h"
-#include "uCompSectCalculatorSP266.h"
-#include "uCompSectOutputSP266.h"
+#include "uCompSectsCalculatorSP266.h"
+#include "uCompSectsOutputListSP266.h"
 
 //---------------------------------------------------------------------------
 std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
 std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
 
 StudsOutputSP35 studs_output;
+
+CompSectsOutputListSP266 comp_sects_output_list_SP266;
 
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 //----------------------------------------------------------------------
@@ -176,9 +178,15 @@ void TCompositeBeamMainForm ::update_SW_edts(int code_indx)
 
 	AnsiString t;
 
+	using namespace units;
+
 	switch (code_indx) {
 
 	case(0):
+		edt_SW_steel_beam -> Text = double_to_str(
+			comp_sects_output_list_SP266.loads_.SW_steel_beam());
+		edt_SW_conc -> Text = double_to_str(
+			comp_sects_output_list_SP266.loads_.SW_concrete()* kN / m2);
 
 		break;
 	case(1):
@@ -238,7 +246,7 @@ void TCompositeBeamMainForm ::update_results_grid(int code_indx)
 	switch (code_indx) {
 
 	case(0):
-
+		comp_sects_output_list_SP266.fill_grid(strng_grd_results);
 		break;
 	case(1):
 		com_beam_output_SP35 -> fill_grid(strng_grd_results);
@@ -561,7 +569,7 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 }
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
-	switch(int code_indx = rd_grp_code-> ItemIndex)
+	switch(int code_indx = rd_grp_code -> ItemIndex)
 	{
 		case 0:
 			calculate_composite_beam_SP266();
@@ -583,15 +591,10 @@ void TCompositeBeamMainForm::calculate_composite_beam_SP266()
 		DefineSteelForm -> cntrls_state(),
 		RebarDefinitionForm -> cntrls_state()};//объект 432 байта
 
-	CompSectCalculatorSP266 calc {creator};
+	CompSectsCalculatorSP266 calculator {creator};
 
-	CompSectCalcOutputSP266 sect_output {calc.run()};
+	comp_sects_output_list_SP266 = calculator.run(); //объект 560 байт
 
-	size_t sd = sizeof(sect_output);
-
-	CompSectOutputSP266 cs = sect_output.com_sects_output_[20];
-
-	int a = 0;
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
@@ -1027,7 +1030,7 @@ void TCompositeBeamMainForm::store_cntrls_state()
 
 	// Параметры расчёта
 
-	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_data_;
+	cntrls_state_.rd_grp_code_data_ = rd_grp_code -> ItemIndex;
 	rc = String_double_zero_plus(lbl_max_elem_length -> Caption,
 								 edt_max_elem_length -> Text,
 								 &cntrls_state_.edt_max_elem_length_data_);

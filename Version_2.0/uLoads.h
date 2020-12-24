@@ -95,31 +95,34 @@ public:
 
 	double get_sheeting_continuity_coefficient(){return sheeting_continuity_coefficient_;}
 
+	double SW_steel_beam()const{return SW_steel_beam_;}
+	double SW_concrete()const{return SW_concrete_;}
+
 	void print(TWord_Automation & report)const;
 
 private:
-	double SW_steel_beam_ = 0.;
-	double SW_corrugated_sheets_ = 0.;
-	double SW_concrete_ = 0.;
-	double SW_add_concrete_ = 0.;
-	double DL_I_ = 0.;
-	double DL_II_ = 0.;
-	double LL_ = 0.;
+	double SW_steel_beam_;
+	double SW_corrugated_sheets_;
+	double SW_concrete_;
+	double SW_add_concrete_;
+	double DL_I_;
+	double DL_II_;
+	double LL_;
 
-	double sigma_bi_ = 0.;
-	double sigma_si_ = 0.;
+	double sigma_bi_;
+	double sigma_si_;
 
-	double gamma_f_st_SW_ = 0.;
-	double gamma_f_concrete_SW_ = 0;
-	double gamma_f_add_concrete_SW_ = 0;
-	double gamma_f_DL_I_ = 0.;
-	double gamma_f_DL_II_ = 0.;
-	double gamma_f_LL_ = 0.;
+	double gamma_f_st_SW_;
+	double gamma_f_concrete_SW_;
+	double gamma_f_add_concrete_SW_;
+	double gamma_f_DL_I_;
+	double gamma_f_DL_II_;
+	double gamma_f_LL_;
 
-	double sheeting_continuity_coefficient_ = 0.;
-	double fact_quasi_perm_load_ = 0.;
+	double sheeting_continuity_coefficient_;
+	double fact_quasi_perm_load_;
 
-	double B_ = 0.;//грузовая площадь
+	double B_;//грузовая площадь
 
 	bool fully_initialized_ = true;
 };
