@@ -34,26 +34,45 @@ Loads CompBeamObjsCreatorSP266::loads()const
 	ConcSectUPtr const conc_sect {concrete_sect()};
 	Concrete const conc {concrete()};
 	GlobGeom glob_geom {glob_geometry()};
-	
-	return {st_sect -> SW(),
-			0,
-			conc_sect -> SW(conc.get_density()),
-			main_frm_cntrls_state_.edt_SW_add_concrete_data_,
-			main_frm_cntrls_state_.edt_dead_load_first_stage_data_,
-			main_frm_cntrls_state_.edt_dead_load_second_stage_data_,
-			main_frm_cntrls_state_.edt_live_load_data_,
-			main_frm_cntrls_state_.edt_gamma_f_st_SW_data_,
-			main_frm_cntrls_state_.edt_gamma_f_concrete_SW_data_,
-			main_frm_cntrls_state_.edt_gamma_f_add_concrete_SW_data_,
-			main_frm_cntrls_state_.edt_gamma_f_DL_I_data_,
-			main_frm_cntrls_state_.edt_gamma_f_DL_II_data_,
-			main_frm_cntrls_state_.edt_gamma_f_LL_data_,
-			1,
-			main_frm_cntrls_state_.edt_fact_quasi_perm_load_data_,
-			0,
-			0,
-			glob_geom.trib_width()};
 
+	if (main_frm_cntrls_state_.rdgrp_slab_type_data_ == 0)
+		return {st_sect -> SW(),
+				0,
+				conc_sect -> SW(conc.get_density()),
+				main_frm_cntrls_state_.edt_SW_add_concrete_data_,
+				main_frm_cntrls_state_.edt_dead_load_first_stage_data_,
+				main_frm_cntrls_state_.edt_dead_load_second_stage_data_,
+				main_frm_cntrls_state_.edt_live_load_data_,
+				main_frm_cntrls_state_.edt_gamma_f_st_SW_data_,
+				main_frm_cntrls_state_.edt_gamma_f_concrete_SW_data_,
+				main_frm_cntrls_state_.edt_gamma_f_add_concrete_SW_data_,
+				main_frm_cntrls_state_.edt_gamma_f_DL_I_data_,
+				main_frm_cntrls_state_.edt_gamma_f_DL_II_data_,
+				main_frm_cntrls_state_.edt_gamma_f_LL_data_,
+				1,
+				main_frm_cntrls_state_.edt_fact_quasi_perm_load_data_,
+				0,
+				0,
+				glob_geom.trib_width()};
+	else
+		return {st_sect -> SW(),
+				0,
+				conc_sect -> SW(conc.get_density()),
+				main_frm_cntrls_state_.edt_SW_add_concrete_data_,
+				main_frm_cntrls_state_.edt_dead_load_first_stage_data_,
+				main_frm_cntrls_state_.edt_dead_load_second_stage_data_,
+				main_frm_cntrls_state_.edt_live_load_data_,
+				main_frm_cntrls_state_.edt_gamma_f_st_SW_data_,
+				main_frm_cntrls_state_.edt_gamma_f_concrete_SW_data_,
+				main_frm_cntrls_state_.edt_gamma_f_add_concrete_SW_data_,
+				main_frm_cntrls_state_.edt_gamma_f_DL_I_data_,
+				main_frm_cntrls_state_.edt_gamma_f_DL_II_data_,
+				main_frm_cntrls_state_.edt_gamma_f_LL_data_,
+				main_frm_cntrls_state_.edt_sheeting_continuity_coefficient_data_,
+				main_frm_cntrls_state_.edt_fact_quasi_perm_load_data_,
+				0,
+				0,
+				glob_geom.trib_width()};
 }
 CompBeamObjsCreatorSP266::SteelSectUPtr
 	CompBeamObjsCreatorSP266::steel_sect()const
@@ -97,8 +116,16 @@ CompBeamObjsCreatorSP266::ConcSectUPtr
 			main_frm_cntrls_state_.chck_bx_end_beam_data_,
 			rebars);
 	else
-		return nullptr;
-
+		return std::make_unique<CorrugatedConcreteSection>(
+			CorrugatedSheetsData::get_corrugated_sheet(
+				main_frm_cntrls_state_.cmb_bx_corrugated_sheeting_part_number_data_),
+			main_frm_cntrls_state_.edt_h_f_flat_data_,
+			main_frm_cntrls_state_.edt_span_data_,
+			main_frm_cntrls_state_.edt_width_left_data_,
+			main_frm_cntrls_state_.edt_width_right_data_,
+			st_sect -> upper_fl_width(),
+			main_frm_cntrls_state_.chck_bx_end_beam_data_,
+			rebars);
 }
 Steel CompBeamObjsCreatorSP266::steel()const
 {

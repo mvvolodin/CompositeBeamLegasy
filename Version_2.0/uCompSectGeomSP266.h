@@ -3,6 +3,7 @@
 #define uCompSectGeomSP266H
 //---------------------------------------------------------------------------
 #include <memory>
+#include <Vcl.Grids.hpp>
 #include "uGeneralConcreteSection.h"
 #include "uGeneralSteelSection.h"
 #include "uConcrete.h"
@@ -64,7 +65,9 @@ public:
 	double A_s()const;
 
 	void print(TWord_Automation & report)const;
-	void fill_grid(TStringGrid* str_grid)const;
+	void fill_steel_sect_grid(TStringGrid* str_grid)const;
+	void fill_conc_sect_grid(TStringGrid* str_grid)const;
+	void fill_comp_sect_grid(TStringGrid* str_grid)const;
 	GeneralSteelSection const * const st_sect()const;
 	GeneralConcreteSection const * const conc_sect()const;
 

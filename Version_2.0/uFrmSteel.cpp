@@ -90,9 +90,8 @@ void TDefineSteelForm::after_cmb_bx_steel_grades_change(int grade_index)
 void TDefineSteelForm::after_cmb_bx_standard_change(int st_table_index)
 {
 	fill_cmb_bx_steel_grades(st_table_index);
-
 	cmb_bx_steel_grades -> ItemIndex = 0;
-	after_cmb_bx_steel_grades_change(cmb_bx_steel_grades -> ItemIndex);
+//	after_cmb_bx_steel_grades_change(cmb_bx_steel_grades -> ItemIndex);
 
 }
 //---------------------------------------------------------------------------
@@ -134,9 +133,9 @@ void TDefineSteelForm::store_cntrls_state()
 void TDefineSteelForm::update_cntrls_state()
 {
 	cmb_bx_standard -> ItemIndex = cntrls_state_.cmb_bx_standard_index_;
-	cmb_bx_steel_grades -> Text = cntrls_state_.cmb_bx_steel_grades_index_;
-
 	after_cmb_bx_standard_change(cntrls_state_.cmb_bx_standard_index_);
+
+	cmb_bx_steel_grades -> ItemIndex = cntrls_state_.cmb_bx_steel_grades_index_;
 	after_cmb_bx_steel_grades_change(cntrls_state_.cmb_bx_steel_grades_index_);
 
 	edt_E -> Text = cntrls_state_.edt_E_data_;
@@ -150,7 +149,15 @@ String TDefineSteelForm::info()const
 	return cmb_bx_steel_grades -> Items -> Strings[cntrls_state_.cmb_bx_steel_grades_index_];
 }
 //---------------------------------------------------------------------------
-
-
+void TDefineSteelForm::save(ostream & os)
+{
+	cntrls_state_.save_cntls_state(os);
+}
 //---------------------------------------------------------------------------
+void TDefineSteelForm::load(istream & is)
+{
+	cntrls_state_.load_cntrls_state(is);
+}
+//---------------------------------------------------------------------------
+
 

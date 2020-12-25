@@ -69,19 +69,29 @@ struct TCompositeBeamMainFormCntrlsState{
 	void load(istream & is);
 
 };
+//---------------------------------------------------------------------------
+struct TDefineSteelFormCntrlsState{
+
+	int cmb_bx_standard_index_{0};
+	int cmb_bx_steel_grades_index_{6};
+	double edt_E_data_{206000};
+	double edt_G_data_{79200};
+	double edt_nu_data_{0.3};
+	double edt_dens_data_{7850};
+	double edt_gamma_m_data_{1.025};
+
+	void save_cntls_state(ostream & os);
+	void load_cntrls_state(istream & is);
+};
 //--------------------------------------------------------------------------
-struct TSteelSectionFormCntrlsState{
+struct TConcreteDefinitionFormCntrlsState{
 
-	double edt_b_f2_ {500};
-	double edt_t_f2_ {24};
-	double edt_b_f1_ {300};
-	double edt_t_f1_ {12};
-	double edt_h_w_  {1200};
-	double edt_t_w_  {12};
-
-	int pg_cntrl_sect_type_ {0};
-	int cmb_bx_rolled_sect_num_ {47};
-	int rd_grp_rolled_sect_type_ {0};
+	int cmb_bx_conc_grade_index_{4};
+	double edt_density_data_{2500};
+	double edt_phi_b_cr_data_{2.3};
+	double edt_gamma_b_data_{1.3};
+	double edt_gamma_bt_data_{1.5};
+	double edt_epsilon_b_lim_data_{0.0016};
 
 	void save_cntls_state(ostream & os);
 	void load_cntrls_state(istream & is);
@@ -100,34 +110,9 @@ struct TFrmRebarCntrlsState{
 	void save_cntls_state(ostream & os);
 	void load_cntrls_state(istream & is);
 };
-//--------------------------------------------------------------------------
-struct TConcreteDefinitionFormCntrlsState{
-	int cmb_bx_conc_grade_index_{4};
-	double edt_density_data_{2500};
-	double edt_phi_b_cr_data_{2.3};
-	double edt_gamma_b_data_{1.3};
-	double edt_gamma_bt_data_{1.5};
-	double edt_epsilon_b_lim_data_{0.0016};
-
-	void save_cntls_state(ostream & os);
-	void load_cntrls_state(istream & is);
-};
-//---------------------------------------------------------------------------
-struct TDefineSteelFormCntrlsState{
-	int cmb_bx_standard_index_{0};
-	int cmb_bx_steel_grades_index_{6};
-	double edt_E_data_{206000};
-	double edt_G_data_{79200};
-	double edt_nu_data_{0.3};
-	double edt_dens_data_{7850};
-	double edt_gamma_m_data_{1.025};
-
-	void save_cntls_state(ostream & os);
-	void load_cntrls_state(istream & is);
-
-};
 //---------------------------------------------------------------------------
 struct TStudDefinitionFormCntrlsState{
+
 	int cmb_bx_stud_part_number_index_{52};
 	double edt_stud_yield_strength_data_{350};
 	double edt_stud_safety_factor_data_{1.3};
@@ -142,6 +127,23 @@ struct TStudDefinitionFormCntrlsState{
 	void load_cntrls_state(istream & is);
 };
 //---------------------------------------------------------------------------
+struct TSteelSectionFormCntrlsState{
+
+	double edt_b_f2_ {500};
+	double edt_t_f2_ {24};
+	double edt_b_f1_ {300};
+	double edt_t_f1_ {12};
+	double edt_h_w_  {1200};
+	double edt_t_w_  {12};
+
+	int pg_cntrl_sect_type_ {0};
+	int cmb_bx_rolled_sect_num_ {47};
+	int rd_grp_rolled_sect_type_ {0};
+
+	void save_cntls_state(ostream & os);
+	void load_cntrls_state(istream & is);
+};
+//--------------------------------------------------------------------------
 #endif
 
 

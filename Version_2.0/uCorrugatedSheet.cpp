@@ -99,6 +99,10 @@ CorrugatedSheet CorrugatedSheetsData::get_corrugated_sheet(const String& name)
 
 	return *corrugated_sheet;
 }
+CorrugatedSheet CorrugatedSheetsData::get_corrugated_sheet(int index)
+{
+    return corrugated_sheets_list_[index];
+}
 double CorrugatedSheet::get_h_b(bool wider_flange_up)const
 {
 	if (wider_flange_up)

@@ -251,7 +251,9 @@ private:
 	void update_composite_sect_geometr_grid(int code_indx);
 	void update_results_grid(int code_indx);
 
-	void draw_diagram();
+	void draw_diagram(int code_index);
+	void draw_diagramSP266();
+	void draw_diagramSP35();
 
 	void calculate_composite_beam();
     void calculate_studs();

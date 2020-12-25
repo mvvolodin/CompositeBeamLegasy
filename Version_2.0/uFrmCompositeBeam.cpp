@@ -171,7 +171,6 @@ void TCompositeBeamMainForm ::update_grids(int code_index)
 }
 void TCompositeBeamMainForm ::update_SW_edts(int code_indx)
 {
-
 	double dens;
 	double SW_conc;
 	double SW_steel_beam;
@@ -231,10 +230,11 @@ void TCompositeBeamMainForm ::update_concrete_sect_geometr_grid(int code_indx)
 }
 void TCompositeBeamMainForm ::update_composite_sect_geometr_grid(int code_indx)
 {
+
 	switch (code_indx) {
 
 	case(0):
-
+		comp_sects_output_list_SP266.fill_comp_sect_grid(strng_grd_compos_sect_geom_character);
 		break;
 	case(1):
 		com_beam_output_SP35 -> com_sect().fill_grid(strng_grd_compos_sect_geom_character);
@@ -412,7 +412,163 @@ void TCompositeBeamMainForm::generate_report()
 //---------------------------------------------------------------------------
 // Отрисовка эпюр
 //---------------------------------------------------------------------------
-void TCompositeBeamMainForm::draw_diagram()
+void TCompositeBeamMainForm::draw_diagram(int code_index)
+{
+	switch (code_index){
+	case(0):
+		draw_diagramSP266();
+		break;
+	case(1):
+		draw_diagramSP35();
+		break;
+	}
+}
+
+void TCompositeBeamMainForm::draw_diagramSP266()
+{
+	std::vector<double> M;
+	std::vector<double> Q;
+	std::vector<double> R;
+	std::vector<double> f;
+
+	std::vector<double>	coor_supp;
+
+	switch (cmb_bx_impact -> ItemIndex)
+	{
+	case(0): // Нагрузки 1a стадии
+
+		M = comp_sects_output_list_SP266.M_1a_lst();
+		Q = comp_sects_output_list_SP266.Q_1a_lst();
+		R = comp_sects_output_list_SP266.R_1a_lst();
+		f = comp_sects_output_list_SP266.f_1a_lst();
+
+		coor_supp = comp_sects_output_list_SP266.sup_coord();
+
+		break;
+	case(1): // Нагрузки 1b стадии
+
+		M = comp_sects_output_list_SP266.M_1b_lst();
+		Q = comp_sects_output_list_SP266.Q_1b_lst();
+		R = comp_sects_output_list_SP266.R_1b_lst();
+		f = comp_sects_output_list_SP266.f_1b_lst();
+
+		coor_supp = comp_sects_output_list_SP266.sup_coord();
+
+		break;
+	case(2): // Нагрузки 2c стадии
+
+		M = comp_sects_output_list_SP266.M_2c_lst();
+		Q = comp_sects_output_list_SP266.Q_2c_lst();
+		R = comp_sects_output_list_SP266.R_2c_lst();
+		f = comp_sects_output_list_SP266.f_2c_lst();
+
+		coor_supp = comp_sects_output_list_SP266.end_sup_coord();
+
+		break;
+
+	case(3): // Нагрузки 2d стадии
+
+		M = comp_sects_output_list_SP266.M_2d_lst();
+		Q = comp_sects_output_list_SP266.Q_2d_lst();
+		R = comp_sects_output_list_SP266.R_2d_lst();
+		f = comp_sects_output_list_SP266.f_2d_lst();
+
+		coor_supp = comp_sects_output_list_SP266.end_sup_coord();
+
+		break;
+
+	case(4)://Нагрузки полные
+
+		M = comp_sects_output_list_SP266.M_total_lst();
+		Q = comp_sects_output_list_SP266.Q_total_lst();
+		R = comp_sects_output_list_SP266.R_total_lst();
+		f = comp_sects_output_list_SP266.f_total_lst();
+
+		coor_supp = comp_sects_output_list_SP266.end_sup_coord();
+
+		break;
+	}
+
+	{
+
+	using namespace units;
+
+	std::transform(M.begin(), M.end(), M.begin(),
+				   [](auto & M0){ return M0 * kN * m ;});
+	std::transform(Q.begin(), Q.end(), Q.begin(),
+				   [](auto & Q0){ return Q0 * kN ;});
+	std::transform(R.begin(), R.end(), R.begin(),
+				   [](auto & R0){ return R0 * kN;});
+	}
+
+	TImage *Image1=img_static_scheme;
+	bool flag_sign = true;
+	int num_digits = 2;
+	bool con_sign_practice = true;
+
+	std::vector<double> coor_epur = comp_sects_output_list_SP266.x_lst();
+
+	switch (rd_grp_internal_forces_type -> ItemIndex)
+	{
+	case(0):
+
+		DrawEpur(Image1,
+				 M.size(),
+				 coor_epur.data(),
+				 M.data(),
+				 nullptr,
+				 coor_supp.size(),
+				 coor_supp.data(),
+				 flag_sign,
+				 num_digits,
+				 con_sign_practice);
+
+
+		break;
+
+	case(1):
+
+		DrawEpur(Image1,
+				 Q.size(),
+				 coor_epur.data(),
+				 Q.data(), R.data(),
+				 coor_supp.size(),
+				 coor_supp.data(),
+				 flag_sign,
+				 num_digits,
+				 con_sign_practice);
+
+		break;
+
+	case(2):
+
+		DrawEpur(Image1,
+				 f.size(),
+				 coor_epur.data(),
+				 f.data(), nullptr,
+				 coor_supp.size(),
+				 coor_supp.data(),
+				 flag_sign, num_digits,
+				 false);
+
+		break;
+	case(3):
+
+		DrawEpur(Image1,
+				 studs_output.S_overline_lst().size(),
+				 studs_output.coord().data(),
+				 studs_output.S_overline_lst().data(),
+				 nullptr,
+				 coor_supp.size(),
+				 coor_supp.data(),
+				 flag_sign,
+				 num_digits,
+				 false);
+
+		break;
+	}
+}
+void TCompositeBeamMainForm::draw_diagramSP35()
 {
 	std::vector<double> M;
 	std::vector<double> Q;
@@ -555,20 +711,22 @@ void TCompositeBeamMainForm::draw_diagram()
 
 		break;
 	}
+
 }
 
 void __fastcall TCompositeBeamMainForm ::cmb_bx_impactChange(TObject *Sender)
 {
-	draw_diagram();
+	draw_diagram(rd_grp_code -> ItemIndex);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObject *Sender)
 {
-	draw_diagram();
+	draw_diagram(rd_grp_code -> ItemIndex);
 }
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
+
 	switch(int code_indx = rd_grp_code -> ItemIndex)
 	{
 		case 0:
@@ -592,6 +750,12 @@ void TCompositeBeamMainForm::calculate_composite_beam_SP266()
 		RebarDefinitionForm -> cntrls_state()};//объект 432 байта
 
 	CompSectsCalculatorSP266 calculator {creator};
+
+	CompSectGeomSP266 cs = creator.comp_sect_geom();
+
+
+
+//	GeneralConcreteSection conc_sect {cs -> conc_sect()};
 
 	comp_sects_output_list_SP266 = calculator.run(); //объект 560 байт
 
@@ -643,7 +807,7 @@ void TCompositeBeamMainForm::after_calculation()
 	update_SW_edts(rd_grp_code -> ItemIndex);
 	update_grids(rd_grp_code -> ItemIndex);
 
-	draw_diagram();
+	draw_diagram(rd_grp_code -> ItemIndex);
 
 	btn_report -> Enabled = true;
 	tb_results -> TabVisible = true;
@@ -668,7 +832,6 @@ void __fastcall TCompositeBeamMainForm ::NNewClick(TObject *Sender)
 	modify_project = false;
 
 	Caption = "Расчет комбинированной балки - [Новый проект]";
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::NSaveClick(TObject *Sender)
@@ -693,7 +856,7 @@ void __fastcall TCompositeBeamMainForm ::NSaveClick(TObject *Sender)
 	ConcreteDefinitionForm -> save(ofs);
 	RebarDefinitionForm -> save(ofs);
 	StudDefinitionForm -> save(ofs);
-	SteelSectionForm -> save(ofs);
+	DefineSteelForm -> save(ofs);
 
 	ofs.close();
 
@@ -752,7 +915,7 @@ void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 	  ConcreteDefinitionForm -> load(ifs);
 	  RebarDefinitionForm -> load(ifs);
 	  StudDefinitionForm -> load(ifs);
-	  SteelSectionForm -> load(ifs);
+	  DefineSteelForm -> load(ifs);
 
 	  ifs.close();
 
@@ -781,6 +944,7 @@ void TCompositeBeamMainForm ::clean_2nd_col_grid(TStringGrid* str_grd)
 	for(int i =1; i < str_grd -> RowCount; ++i)
 	   str_grd -> Cells [1][i] = "";
 }
+
 void __fastcall TCompositeBeamMainForm::OnControlsChange(TObject *Sender)
 {
 	if (btn_report -> Enabled)
@@ -1097,6 +1261,8 @@ void TCompositeBeamMainForm::update_GUI(int code_indx)
 }
 void __fastcall TCompositeBeamMainForm::rd_grp_codeClick(TObject *Sender)
 {
+	OnControlsChange(nullptr);
+
 	update_GUI(static_cast<TRadioGroup*>(Sender) -> ItemIndex);
 }
 void TCompositeBeamMainForm::set_GUI_SP35()

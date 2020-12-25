@@ -209,7 +209,21 @@ void CompSectGeomSP266::print_data_to_logger(TFormLogger const & log)const
 	log.print_double(L"Z_b_red = ", Z_b_red_, L" мм4");
 }
 #endif
-void CompSectGeomSP266::fill_grid(TStringGrid* str_grid)const
+void CompSectGeomSP266::fill_steel_sect_grid(TStringGrid* str_grid)const
+{
+	str_grid -> Cells [1][1] = FloatToStrF(st_sect_ -> area(), ffFixed, 15, 0);
+	str_grid -> Cells [1][2] = FloatToStrF(st_sect_ -> inertia(), ffFixed, 15, 0);
+	str_grid -> Cells [1][3] = FloatToStrF(st_sect_ -> modulus_upper_fl(), ffFixed, 15, 0);
+	str_grid -> Cells [1][4] = FloatToStrF(st_sect_ -> modulus_lower_fl(), ffFixed, 15, 0);
+	str_grid -> Cells [1][5] = FloatToStrF(st_sect_ -> grav_cent_upper_fl_dist(), ffFixed, 15, 0);
+	str_grid -> Cells [1][6] = FloatToStrF(st_sect_ -> grav_cent_lower_fl_dist(), ffFixed, 15, 0);
+
+}
+void CompSectGeomSP266::fill_conc_sect_grid(TStringGrid* str_grid)const
+{
+
+}
+void CompSectGeomSP266::fill_comp_sect_grid(TStringGrid* str_grid)const
 {
 	str_grid -> Cells [1][1] = FloatToStrF(A_red_, ffFixed, 15, 0);
 	str_grid -> Cells [1][2] = FloatToStrF(I_red_, ffFixed, 15, 0);

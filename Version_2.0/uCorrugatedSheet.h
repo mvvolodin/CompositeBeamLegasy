@@ -35,6 +35,7 @@ private:
 class CorrugatedSheetsData{
 public:
 	static CorrugatedSheet get_corrugated_sheet(const String& name);
+	static CorrugatedSheet get_corrugated_sheet(int index);
 	static std::vector<String> get_corrugated_sheet_names();
 private:
 	static std::vector<CorrugatedSheet> corrugated_sheets_list_;

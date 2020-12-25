@@ -94,8 +94,27 @@ void TCompositeBeamMainFormCntrlsState::load(istream & is)
 	   >> edt_h_n_data_;
 
 }
-
 //---------------------------------------------------------------------------
+void TDefineSteelFormCntrlsState::save_cntls_state(ostream & os)
+{
+	os << cmb_bx_standard_index_ << '\n'
+	   << cmb_bx_steel_grades_index_ << '\n'
+	   << edt_E_data_ << '\n'
+	   << edt_G_data_ << '\n'
+	   << edt_nu_data_ << '\n'
+	   << edt_dens_data_ << '\n'
+	   << edt_gamma_m_data_ << '\n';
+}
+void TDefineSteelFormCntrlsState::load_cntrls_state(istream & is)
+{
+	is >> cmb_bx_standard_index_
+	   >> cmb_bx_steel_grades_index_
+	   >> edt_E_data_
+	   >> edt_G_data_
+	   >> edt_nu_data_
+	   >> edt_dens_data_
+	   >> edt_gamma_m_data_;
+}
 void TSteelSectionFormCntrlsState::save_cntls_state(ostream & os)
 {
 	os << edt_b_f2_ << '\n'
