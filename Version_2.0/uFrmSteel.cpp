@@ -39,7 +39,6 @@ void __fastcall TDefineSteelForm::btn_okClick(TObject *Sender)
 {
 	check_input();
 	store_cntrls_state();
-	Close();
 }
 void __fastcall TDefineSteelForm::btn_cancelClick(TObject *Sender)
 {

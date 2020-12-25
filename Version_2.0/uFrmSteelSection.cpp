@@ -267,7 +267,6 @@ void __fastcall TSteelSectionForm::btk_okClick(TObject *Sender)
 {
 	check_input();
 	store_cntrls_state();
-	Close();
 }
 //---------------------------------------------------------------------------
 //

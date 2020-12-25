@@ -110,6 +110,7 @@ object DefineSteelForm: TDefineSteelForm
       Top = 16
       Width = 60
       Height = 21
+      Color = clCream
       ReadOnly = True
       TabOrder = 0
     end
@@ -118,6 +119,7 @@ object DefineSteelForm: TDefineSteelForm
       Top = 48
       Width = 60
       Height = 21
+      Color = clCream
       ReadOnly = True
       TabOrder = 1
     end
@@ -126,6 +128,7 @@ object DefineSteelForm: TDefineSteelForm
       Top = 80
       Width = 60
       Height = 21
+      Color = clCream
       ReadOnly = True
       TabOrder = 2
     end
@@ -164,6 +167,7 @@ object DefineSteelForm: TDefineSteelForm
     Top = 189
     Width = 60
     Height = 21
+    Color = clCream
     ReadOnly = True
     TabOrder = 4
   end
@@ -186,11 +190,10 @@ object DefineSteelForm: TDefineSteelForm
     OnClick = btn_okClick
   end
   object edt_gamma_m: TEdit
-    Left = 477
-    Top = 212
+    Left = 479
+    Top = 216
     Width = 49
     Height = 21
-    ReadOnly = True
     TabOrder = 5
   end
   object btn_cancel: TButton

@@ -378,7 +378,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 60
           Width = 52
           Height = 21
+          Color = clCream
           Enabled = False
+          ReadOnly = True
           TabOrder = 5
           Text = '0'
           OnChange = OnControlsChange
@@ -388,7 +390,9 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
           Top = 33
           Width = 52
           Height = 21
+          Color = clCream
           Enabled = False
+          ReadOnly = True
           TabOrder = 6
           Text = '0'
           OnChange = OnControlsChange
@@ -3024,8 +3028,6 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
               DrawingStyle = gdsClassic
               TabOrder = 0
               OnDrawCell = strng_grd_first_raw_bold
-              ExplicitLeft = -1
-              ExplicitTop = 4
               ColWidths = (
                 305
                 361)

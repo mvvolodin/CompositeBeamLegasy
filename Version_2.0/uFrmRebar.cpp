@@ -40,7 +40,6 @@ void __fastcall TRebarDefinitionForm::bt_btn_OkClick(TObject *Sender)
 {
 	check_input();
 	store_cntrls_state();
-	Close();
 }
 void __fastcall TRebarDefinitionForm::bt_btn_cancelClick(TObject *Sender)
 {

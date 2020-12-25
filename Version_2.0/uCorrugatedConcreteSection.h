@@ -1,9 +1,10 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #ifndef uCorrugatedConcreteSectionH
 #define uCorrugatedConcreteSectionH
 
 #include <string>
+#include "Constants.h"
 #include "uGeneralConcreteSection.h"
 #include "uCorrugatedSheet.h"
 #include "uRebar.h"

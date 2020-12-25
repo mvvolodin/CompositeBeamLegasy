@@ -71,6 +71,7 @@ object RebarDefinitionForm: TRebarDefinitionForm
       Top = 76
       Width = 121
       Height = 21
+      Color = clCream
       ReadOnly = True
       TabOrder = 1
     end

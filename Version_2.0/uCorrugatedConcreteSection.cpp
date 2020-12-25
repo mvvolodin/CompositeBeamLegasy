@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 #pragma hdrstop
 
 #include "uCorrugatedConcreteSection.h"
@@ -23,7 +23,9 @@ CorrugatedConcreteSection::~CorrugatedConcreteSection()
 }
 std::u16string CorrugatedConcreteSection::slab_type()const
 {
-	return u"Плита по настилу";
+	std::wstring w_str = corr_sheet_.get_name().c_str();
+
+	return std::u16string{w_str.begin(),w_str.end()};
 }
 double CorrugatedConcreteSection::h() const
 {
@@ -39,7 +41,7 @@ double CorrugatedConcreteSection::C_b() const
 }
 double CorrugatedConcreteSection::SW(double dens) const
 {
-	return dens * 9.81 * (h_f_ + corr_sheet_.get_h_b(wider_flange_up_));
+	return dens * constants::grav_accelerate * (h_f_ + corr_sheet_.get_h_b(wider_flange_up_));
 }
 CorrugatedSheet CorrugatedConcreteSection::corrugated_sheet()const
 {

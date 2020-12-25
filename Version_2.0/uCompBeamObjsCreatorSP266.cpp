@@ -55,8 +55,9 @@ Loads CompBeamObjsCreatorSP266::loads()const
 				0,
 				glob_geom.trib_width()};
 	else
-		return {st_sect -> SW(),
-				0,
+		return {st_sect -> SW(),0,
+//				static_cast<CorrugatedConcreteSection*>(conc_sect.get()) ->
+//					corrugated_sheet().get_weight() ,
 				conc_sect -> SW(conc.get_density()),
 				main_frm_cntrls_state_.edt_SW_add_concrete_data_,
 				main_frm_cntrls_state_.edt_dead_load_first_stage_data_,
@@ -152,7 +153,8 @@ Concrete CompBeamObjsCreatorSP266::concrete()const
 	return {{ConcreteSP35::grade(conc_frm_cntrls_state_.cmb_bx_conc_grade_index_).c_str(),
 				conc_dt.E_b_,
 				conc_dt.R_b_,
-				conc_dt.R_bt_},
+				conc_dt.R_bt_,
+				conc_dt.c_n_},
 			conc_frm_cntrls_state_.edt_density_data_,
 			conc_frm_cntrls_state_.edt_phi_b_cr_data_,
 			conc_frm_cntrls_state_.edt_gamma_b_data_,

@@ -36,7 +36,6 @@ void __fastcall TStudDefinitionForm::btn_okClick(TObject *Sender)
 {
 	check_input();
 	store_cntrls_state();
-	Close();
 }
 //---------------------------------------------------------------------------
 void __fastcall TStudDefinitionForm::btn_cancelClick(TObject *Sender)

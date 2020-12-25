@@ -69,6 +69,16 @@ ConcreteBasic::ConcreteBasic(String grade,
 								E_b_  (E_b),
 								R_bn_ (R_bn),
 								R_btn_(R_btn){}
+ConcreteBasic::ConcreteBasic(String grade,
+							 double E_b,
+							 double R_bn,
+							 double R_btn,
+							 double c_n):
+								grade_(grade),
+								E_b_  (E_b),
+								R_bn_ (R_bn),
+								R_btn_(R_btn),
+								c_n_(c_n){}
 //---------------------------------------------------------------------------
 Concrete::Concrete()
 	:ConcreteBasic(){}

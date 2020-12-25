@@ -165,6 +165,7 @@ object StudDefinitionForm: TStudDefinitionForm
       Top = 94
       Width = 100
       Height = 21
+      Color = clCream
       ReadOnly = True
       TabOrder = 0
     end
@@ -187,6 +188,7 @@ object StudDefinitionForm: TStudDefinitionForm
       Top = 67
       Width = 100
       Height = 21
+      Color = clCream
       ReadOnly = True
       TabOrder = 3
     end

@@ -18,7 +18,7 @@ namespace ConcreteSP35
 		double const E_b_;
 		double const R_b_;
 		double const R_bt_;
-        double const c_n;
+		double const c_n_;
 	};
 
 	extern std::vector<Data> const data_lst;
@@ -33,15 +33,18 @@ class ConcreteBasic{
 public:
 	ConcreteBasic();
 	ConcreteBasic(String grade, double E_b, double R_b, double R_bt);
+	ConcreteBasic(String grade, double E_b, double R_b, double R_bt, double c_n);
 	String get_grade()const{return grade_;}
 	double get_E_b()const {return E_b_;}
 	double get_R_bn()const {return R_bn_;}
 	double get_R_btn()const {return R_btn_;}
+	double c_n()const {return c_n_;}
 protected:
-	String grade_ = "";
-	double E_b_ = 0. ;
-	double R_bn_ = 0.;
-	double R_btn_ = 0.;
+	String grade_;
+	double E_b_;
+	double R_bn_;
+	double R_btn_;
+	double c_n_;
 	void save(ostream& ostr) const;
 	void load(istream& istr);
 };
@@ -71,13 +74,12 @@ public:
 	double eps_shr()const {return eps_shr_;}
 	void print(TWord_Automation & report)const;
 private:
-	double density_ = 0.;
-	double phi_b_cr_ = 0.;
-	double mater_coeff_ =  0.;
-	double mater_coeff_tens_ = 0.;
-	double epsilon_b_lim_ = 0.;
-	double eps_shr_ = 0.0002;
-	double c_n_ = 0.000084;
+	double density_;
+	double phi_b_cr_;
+	double mater_coeff_;
+	double mater_coeff_tens_;
+	double epsilon_b_lim_;
+	double eps_shr_;
 
 };
 

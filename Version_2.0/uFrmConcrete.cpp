@@ -35,7 +35,6 @@ void __fastcall TConcreteDefinitionForm::btn_OKClick(TObject *Sender)
 {
 	check_input();
 	store_cntrls_state();
-    Close();
 }
 //---------------------------------------------------------------------------
 void __fastcall TConcreteDefinitionForm::btn_cancelClick(TObject *Sender)
@@ -76,6 +75,8 @@ void TConcreteDefinitionForm::after_cmb_bx_conc_grade_list_change(int index)
 	edt_R_bn -> Text = ConcreteSP35::concrete(index).R_b_;
 	edt_R_btn -> Text = ConcreteSP35::concrete(index).R_bt_;
 	edt_E_b -> Text = ConcreteSP35::concrete(index).E_b_;
+	edt_c_n -> Text = ConcreteSP35::concrete(index).c_n_;
+
 
 }
 //---------------------------------------------------------------------------
@@ -103,12 +104,20 @@ String TConcreteDefinitionForm::info()const
 //---------------------------------------------------------------------------
 void TConcreteDefinitionForm::set_GUI_SP35()
 {
-	edt_phi_b_cr -> Enabled = false;
+	edt_phi_b_cr -> Visible = false;
+	lbl_phi_b_cr -> Visible = false;
+
+	edt_c_n -> Visible = true;
+	lbl_c_n -> Visible = true;
 }
 //---------------------------------------------------------------------------
 void TConcreteDefinitionForm::set_GUI_SP266()
 {
-    edt_phi_b_cr -> Enabled = true;
+	edt_phi_b_cr -> Visible = true;
+	lbl_phi_b_cr -> Visible = true;
+
+	edt_c_n -> Visible = false;
+	lbl_c_n -> Visible = false;
 }
 //---------------------------------------------------------------------------
 void TConcreteDefinitionForm::save(ostream & os)
@@ -121,3 +130,4 @@ void TConcreteDefinitionForm::load(istream & is)
 	cntrls_state_.load_cntrls_state(is);
 }
 //---------------------------------------------------------------------------
+
