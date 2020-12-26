@@ -632,6 +632,8 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
 
+    store_all_frms_cntrls_state();
+
 	switch(cntrls_state_.rd_grp_code_data_)
 	{
 		case 0:
