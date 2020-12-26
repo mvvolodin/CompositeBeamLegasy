@@ -45,6 +45,7 @@ public:
 	Steel steel()const;
 	Concrete concrete()const;
 	WorkingConditionsFactors work_cond_factrs()const;
+//	StudRowSP266 make_stud_row()const;
 
 	CompSectGeomSP266 comp_sect_geom()const;
 	IntForcesCalculator int_forces_calculator()const;

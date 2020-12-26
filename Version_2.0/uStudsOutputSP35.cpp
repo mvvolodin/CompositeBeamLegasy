@@ -81,3 +81,28 @@ void StudsOutputSP35::fill_grid_SP35(TStringGrid* str_grid)const
 	str_grid -> Cells [1][14] = double_to_str(std::abs(sr.ratio()));
 }
 
+void StudsOutputSP35::print_SP266(TWord_Automation & report)const
+{
+	StudRowOutputSP35 sr = stud_max_ratio();
+
+	using namespace units;
+
+	report.PasteTextPattern(st_input_.stud().name().c_str(),"%stud_name%");
+	report.PasteTextPattern(double_to_str(st_input_.stud().l_1(), 0),"%l_1%");
+	report.PasteTextPattern(double_to_str(st_input_.stud().d_1(), 0),"%d_1%");
+	report.PasteTextPattern(double_to_str(st_input_.stud().R_y(), 0),"%R_y%");
+	report.PasteTextPattern(double_to_str(st_input_.dist_e(), 0),"%dis_e%");
+	report.PasteTextPattern(double_to_str(st_input_.dist_m(), 0),"%dis_m%");
+	report.PasteTextPattern(double_to_str(st_input_.num_st_row_e(), 0),"%st_re_num%");
+	report.PasteTextPattern(double_to_str(st_input_.num_st_row_m(), 0),"%st_rm_num%");
+//	report.PasteTextPattern(double_to_str(st_input_.num_st_row_m(), 0),"%ed_more_than_one_stud%");
+//	report.PasteTextPattern(double_to_str(st_input_.num_st_row_m(), 0),"%smid_more_than_one_stud%");
+
+	report.PasteTextPattern(double_to_str(sr.x(), 0),"%coord_sr%");
+	report.PasteTextPattern(double_to_str(sr.st_num(), 0),"%st_num%");
+	report.PasteTextPattern(double_to_str(st_input_.stud().P_Rd() * kN),"%P_Rd%");
+	report.PasteTextPattern(double_to_str(std::abs(sr.S_Ed()) * kN),"%S_Ed_r%");
+	report.PasteTextPattern(double_to_str(std::abs(sr.ratio())),"%st_rat%");
+}
+
+

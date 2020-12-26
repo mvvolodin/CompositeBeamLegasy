@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "uConcrete.h"
+#include "uUnits_new.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 namespace ConcreteSP35
@@ -154,17 +155,33 @@ void Concrete::set_default_values()
 	mater_coeff_tens_ = 1.5;
 	epsilon_b_lim_ = 0.0016;
 }
+void Concrete::print_SP266(TWord_Automation & report)const
+{
+	using namespace units;
+
+	report.PasteTextPattern(grade_, "%conc_grade%");
+	report.PasteTextPattern(double_to_str(R_bn_), "%R_bn%");
+	report.PasteTextPattern(double_to_str(R_btn_), "%R_btn%");
+	report.PasteTextPattern(double_to_str(density_ / m3, 0), "%density%");
+	report.PasteTextPattern(double_to_str(phi_b_cr_), "%phi_b_cr%");
+	report.PasteTextPattern(double_to_str(E_b_, 0), "%E_b%");
+	report.PasteTextPattern(double_to_str(mater_coeff_), "%gamma_b%");
+	report.PasteTextPattern(double_to_str(mater_coeff_tens_), "%gamma_bt%");
+	report.PasteTextPattern(double_to_str(epsilon_b_lim_, 4), "%epsilon_b_lim%");
+}
 void Concrete::print(TWord_Automation & report)const
 {
-	report.PasteTextPattern(grade_, "%conc_grade%");
-	report.PasteTextPattern(FloatToStrF(R_bn_, ffFixed, 15, 2), "%R_bn%");
-	report.PasteTextPattern(FloatToStrF(R_btn_, ffFixed, 15, 2), "%R_btn%");
-	report.PasteTextPattern(FloatToStrF(density_, ffFixed, 15, 2), "%density%");
-	report.PasteTextPattern(FloatToStrF(E_b_, ffFixed, 15, 2), "%E_b%");
-	report.PasteTextPattern(FloatToStrF(mater_coeff_, ffFixed, 15, 2), "%gamma_b%");
-	report.PasteTextPattern(FloatToStrF(mater_coeff_tens_, ffFixed, 15, 2), "%gamma_bt%");
-	report.PasteTextPattern(FloatToStrF(epsilon_b_lim_, ffFixed, 15, 2), "%epsilon_b_lim%");
+	using namespace units;
 
+	report.PasteTextPattern(grade_, "%conc_grade%");
+	report.PasteTextPattern(double_to_str(R_bn_), "%R_bn%");
+	report.PasteTextPattern(double_to_str(R_btn_), "%R_btn%");
+	report.PasteTextPattern(double_to_str(density_ / m3, 0), "%density%");
+    report.PasteTextPattern(double_to_str(c_n_, 6), "%c_n%");
+	report.PasteTextPattern(double_to_str(E_b_, 0), "%E_b%");
+	report.PasteTextPattern(double_to_str(mater_coeff_), "%gamma_b%");
+	report.PasteTextPattern(double_to_str(mater_coeff_tens_), "%gamma_bt%");
+	report.PasteTextPattern(double_to_str(epsilon_b_lim_, 4), "%epsilon_b_lim%");
 }
 
 

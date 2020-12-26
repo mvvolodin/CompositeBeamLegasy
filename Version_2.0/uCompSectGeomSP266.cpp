@@ -185,15 +185,17 @@ double CompSectGeomSP266::A_s()const
 }
 void CompSectGeomSP266::print(TWord_Automation & report)const
 {
-	st_sect_ -> print_output(report);
-	conc_sect_ -> print_output(report);
+	st_sect_ -> print_SP266(report);
+	steel_.print_SP266(report);
+	conc_sect_ -> print_SP266(report);
+	concrete_.print_SP266(report);
 
-	report.PasteTextPattern(area_to_str(A_red_),"%A_red%");
-	report.PasteTextPattern(inertia_to_str(I_red_),"%I_red%");
-	report.PasteTextPattern(sect_modul_to_str(W_b_red_),"%W_b_red%");
-	report.PasteTextPattern(length_to_str(Z_b_red_, LengthUnit::cm),"%Z_b_red%");
-	report.PasteTextPattern(length_to_str(Z_st_red_, LengthUnit::cm),"%Z_st_red%");
-	report.PasteTextPattern(length_to_str(Z_b_st_, LengthUnit::cm),"%Z_b_st%");
+	report.PasteTextPattern(area_to_str(A_red_),"%area_com_bm%");
+	report.PasteTextPattern(inertia_to_str(I_red_),"%inertia_com_bm%");
+	report.PasteTextPattern(sect_modul_to_str(W_b_red_),"%modulus_b_com_bm%");
+	report.PasteTextPattern(length_to_str(Z_b_red_, LengthUnit::cm),"%dist_b_com_bm%");
+	report.PasteTextPattern(length_to_str(Z_st_red_, LengthUnit::cm),"%dist_st_com_bm%");
+	report.PasteTextPattern(length_to_str(Z_b_st_, LengthUnit::cm),"%dist_b_st%");
 }
 #ifndef NDEBUG
 void CompSectGeomSP266::print_data_to_logger(TFormLogger const & log)const
@@ -211,17 +213,11 @@ void CompSectGeomSP266::print_data_to_logger(TFormLogger const & log)const
 #endif
 void CompSectGeomSP266::fill_steel_sect_grid(TStringGrid* str_grid)const
 {
-	str_grid -> Cells [1][1] = FloatToStrF(st_sect_ -> area(), ffFixed, 15, 0);
-	str_grid -> Cells [1][2] = FloatToStrF(st_sect_ -> inertia(), ffFixed, 15, 0);
-	str_grid -> Cells [1][3] = FloatToStrF(st_sect_ -> modulus_upper_fl(), ffFixed, 15, 0);
-	str_grid -> Cells [1][4] = FloatToStrF(st_sect_ -> modulus_lower_fl(), ffFixed, 15, 0);
-	str_grid -> Cells [1][5] = FloatToStrF(st_sect_ -> grav_cent_upper_fl_dist(), ffFixed, 15, 0);
-	str_grid -> Cells [1][6] = FloatToStrF(st_sect_ -> grav_cent_lower_fl_dist(), ffFixed, 15, 0);
-
+	st_sect_ -> fill_grid_SP266(str_grid);
 }
 void CompSectGeomSP266::fill_conc_sect_grid(TStringGrid* str_grid)const
 {
-
+	conc_sect_ -> fill_grid_SP266(str_grid);
 }
 void CompSectGeomSP266::fill_comp_sect_grid(TStringGrid* str_grid)const
 {

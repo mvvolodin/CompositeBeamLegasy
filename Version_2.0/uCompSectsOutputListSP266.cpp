@@ -283,6 +283,8 @@ void CompSectsOutputListSP266::fill_comp_sect_grid(TStringGrid* str_grid)const
 }
 void CompSectsOutputListSP266::print(TWord_Automation & report)const
 {
+	comp_sect_geom_.print(report);
+
 	glob_geom_.print(report);
 	loads_.print_SP266(report);
 	work_cond_factrs_.print(report);

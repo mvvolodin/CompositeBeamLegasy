@@ -35,6 +35,7 @@ public:
 	double get_density () const {return density_;}
 	double get_t_max () const {return t_max_;}
 
+    void print_SP266(TWord_Automation & report)const;
 	void print(TWord_Automation & report)const;
 private:
 	String standard_ = "";

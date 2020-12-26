@@ -780,14 +780,14 @@ void TCompositeBeamMainForm::update_steel_sect_geometr_grid_SP35()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_steel_sect_geometr_grid_SP266()
 {
-//	com_beam_output_SP35 -> com_sect().st_sect() ->
-//		fill_grid(strng_grd_steel_sect_geom_character);
+	comp_sects_output_list_SP266.comp_sect_geom_.
+		fill_steel_sect_grid(strng_grd_steel_sect_geom_character);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::update_concrete_sect_geometr_grid_SP266()
 {
-//	com_beam_output_SP35 -> com_sect().conc_sect() ->
-//		fill_grid(strng_grd_concrete_sect_geom_character);
+	comp_sects_output_list_SP266.comp_sect_geom_.
+		fill_conc_sect_grid(strng_grd_concrete_sect_geom_character);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::update_concrete_sect_geometr_grid_SP35()

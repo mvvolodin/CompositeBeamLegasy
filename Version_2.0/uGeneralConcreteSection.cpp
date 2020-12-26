@@ -104,6 +104,13 @@ void GeneralConcreteSection::fill_grid(TStringGrid* str_grid)const
 	str_grid->Cells [1][3]=FloatToStrF(A_b(), ffFixed, 15, 0);
 	str_grid->Cells [1][4]=FloatToStrF(I_b(), ffFixed, 15, 0);
 }
+void GeneralConcreteSection::fill_grid_SP266(TStringGrid* str_grid)const
+{
+	str_grid->Cells [1][1]=FloatToStrF(b_sl(), ffFixed, 15, 0);
+	str_grid->Cells [1][2]=FloatToStrF(C_b(), ffFixed, 15, 0);
+	str_grid->Cells [1][3]=FloatToStrF(A_b(), ffFixed, 15, 0);
+	str_grid->Cells [1][4]=FloatToStrF(I_b(), ffFixed, 15, 0);
+}
 
 void GeneralConcreteSection::print_input(TWord_Automation & report)const
 {
@@ -111,7 +118,7 @@ void GeneralConcreteSection::print_input(TWord_Automation & report)const
 
 	report.PasteTextPattern(slab_type().c_str(),"%slab_type%");
 	report.PasteTextPattern(double_to_str(h_n(),0),"%h_n%");
-	report.PasteTextPattern(double_to_str(h(),0),"%t_sl%");
+	report.PasteTextPattern(double_to_str(h_f(),0),"%t_sl%");
 
 	report.PasteTextPattern(rebars_.rebar().grade().c_str(),"%grade%");
 	report.PasteTextPattern(double_to_str(rebars_.rebar().d_s(),0),"%d%");
@@ -127,6 +134,22 @@ void GeneralConcreteSection::print_output(TWord_Automation & report)const
 	report.PasteTextPattern(double_to_str(C_b() * cm),"%C_b%");
 	report.PasteTextPattern(double_to_str(A_b() * cm2),"%A_b%");
 	report.PasteTextPattern(double_to_str(I_b() * cm4),"%I_b%");
+}
+void GeneralConcreteSection::print_SP266(TWord_Automation & report)const
+{
+	using namespace units;
 
+	report.PasteTextPattern(slab_type().c_str(),"%slab_type%");
+	report.PasteTextPattern(double_to_str(h_n(),0),"%h_n%");
+	report.PasteTextPattern(double_to_str(h_f(),0),"%t_sl%");
+
+	report.PasteTextPattern(rebars_.rebar().grade().c_str(),"%grade%");
+	report.PasteTextPattern(double_to_str(rebars_.rebar().d_s(),0),"%d%");
+	report.PasteTextPattern(double_to_str(rebars_.rebar().R_sn(),0),"%R_sn%");
+
+	report.PasteTextPattern(double_to_str(b_sl_ * cm),"%effect_width%");
+	report.PasteTextPattern(double_to_str(C_b() * cm),"%GC_b%");
+	report.PasteTextPattern(double_to_str(A_b() * cm2),"%area_b%");
+	report.PasteTextPattern(double_to_str(I_b() * cm4),"%inertia_b%");
 }
 

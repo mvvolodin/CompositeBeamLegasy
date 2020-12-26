@@ -275,3 +275,5 @@ void WeldedSection::print_output(TWord_Automation & report)const
 	report.PasteTextPattern(length_to_str(grav_cent_lower_fl_dist(), LengthUnit::cm),"%GC_lower_fl_dist%");
 }
 
+
+

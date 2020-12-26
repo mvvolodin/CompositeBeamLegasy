@@ -423,6 +423,10 @@
             <DependentOn>uLongShearForcesCalculator.h</DependentOn>
             <BuildOrder>68</BuildOrder>
         </CppCompile>
+        <CppCompile Include="Unit1.cpp">
+            <DependentOn>Unit1.h</DependentOn>
+            <BuildOrder>83</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uPiecewiseLinearFunc.cpp">
             <DependentOn>uPiecewiseLinearFunc.h</DependentOn>
             <BuildOrder>73</BuildOrder>
@@ -497,6 +501,11 @@
             <DependentOn>uStudsOutputSP35.h</DependentOn>
             <BuildOrder>76</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uStudSP266.cpp">
+            <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
+            <DependentOn>uStudSP266.h</DependentOn>
+            <BuildOrder>82</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uStudSP35.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
             <DependentOn>uStudSP35.h</DependentOn>
@@ -560,6 +569,7 @@
                     <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
                     <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
                     <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
+                    <VFOLDER ID="{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}" name="StudsSP266"/>
                     <VFOLDER ID="{BAA6577C-FEE2-454E-9C61-62D15EDEA398}" name="StudSP35"/>
                 </VFOLDERS>
                 <Excluded_Packages>

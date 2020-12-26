@@ -94,17 +94,27 @@ void Steel::set_default_values()
 	t_max_ = 11.;
 
 }
-
+void Steel::print_SP266(TWord_Automation & report)const
+{
+	report.PasteTextPattern(steel_grade_, "%steel_grade%");
+	report.PasteTextPattern(double_to_str(R_yn_, 0), "%R_yn%");
+	report.PasteTextPattern(double_to_str(R_un_, 0), "%R_un%");
+	report.PasteTextPattern(double_to_str(E_st_, 0), "%E_st%");
+	report.PasteTextPattern(double_to_str(G_st_, 0), "%G_st%");
+	report.PasteTextPattern(double_to_str(nu_st_), "%nu_st%");
+	report.PasteTextPattern(double_to_str(gamma_m_), "%gamma_m%");
+}
 void Steel::print(TWord_Automation & report)const
 {
 	report.PasteTextPattern(steel_grade_, "%steel_grade%");
-	report.PasteTextPattern(FloatToStrF(R_yn_, ffFixed, 15, 2), "%R_yn%");
-	report.PasteTextPattern(FloatToStrF(R_un_, ffFixed, 15, 2), "%R_un%");
-	report.PasteTextPattern(FloatToStrF(E_st_, ffFixed, 15, 2), "%E_st%");
-	report.PasteTextPattern(FloatToStrF(G_st_, ffFixed, 15, 2), "%G_st%");
-	report.PasteTextPattern(FloatToStrF(nu_st_, ffFixed, 15, 2), "%nu_st%");
-	report.PasteTextPattern(FloatToStrF(gamma_m_, ffFixed, 15, 2), "%gamma_m%");
+	report.PasteTextPattern(double_to_str(R_yn_, 0), "%R_yn%");
+	report.PasteTextPattern(double_to_str(R_un_, 0), "%R_un%");
+	report.PasteTextPattern(double_to_str(E_st_, 0), "%E_st%");
+	report.PasteTextPattern(double_to_str(G_st_, 0), "%G_st%");
+	report.PasteTextPattern(double_to_str(nu_st_), "%nu_st%");
+	report.PasteTextPattern(double_to_str(gamma_m_), "%gamma_m%");
 }
+
 
 
 

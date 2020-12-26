@@ -13,12 +13,13 @@ namespace units
 	inline constexpr int N  {1000};
 
 //Перевод единицы измерения программы в выходные данные
-	inline constexpr double cm{0.01};
-	inline constexpr double cm2{0.01 * 0.01};
-	inline constexpr double cm3{0.01 * 0.01 * 0.01};
-	inline constexpr double cm4{0.01 * 0.01 * 0.01 * 0.01};
+	inline constexpr double cm{0.1};
+	inline constexpr double cm2{0.1 * 0.1};
+	inline constexpr double cm3{0.1 * 0.1 * 0.1};
+	inline constexpr double cm4{0.1 * 0.1 * 0.1 * 0.1};
 	inline constexpr double m{0.001};
 	inline constexpr double m2{0.001 * 0.001};
+	inline constexpr double m3{0.001 * 0.001 * 0.001};
 
 	inline constexpr double kN  {0.001};
 }

@@ -72,6 +72,7 @@ public:
 	double get_E_b_tau()const {return E_b_ / (1 + phi_b_cr_);}
 	double get_R_b()const {return R_bn_ / mater_coeff_;}
 	double eps_shr()const {return eps_shr_;}
+    void print_SP266(TWord_Automation & report)const;
 	void print(TWord_Automation & report)const;
 private:
 	double density_;
