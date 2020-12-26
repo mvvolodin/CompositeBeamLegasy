@@ -98,7 +98,8 @@ public:
 	double SW_steel_beam()const{return SW_steel_beam_;}
 	double SW_concrete()const{return SW_concrete_;}
 
-	void print(TWord_Automation & report)const;
+	void print_SP266(TWord_Automation & report)const;
+	void print_SP35(TWord_Automation & report)const;
 
 private:
 	double SW_steel_beam_;

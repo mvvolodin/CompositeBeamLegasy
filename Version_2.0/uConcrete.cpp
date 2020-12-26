@@ -40,8 +40,6 @@ namespace ConcreteSP35
 		return data_lst[index].R_b_;
 	}
 }
-
-
 std::vector <ConcreteBasic> concrete_basic
 {
 	{"B10", 19000, 7.5, 0.85},   //Марка, E_b, R_b, R-bt

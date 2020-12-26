@@ -24,7 +24,7 @@ Loads::Loads(double SW_steel_beam,
 			 double sigma_bi,
 			 double sigma_si)
 	:SW_steel_beam_(SW_steel_beam),
-	SW_corrugated_sheets_(SW_corrugated_sheets*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
+	SW_corrugated_sheets_(SW_corrugated_sheets),
 	SW_add_concrete_(SW_add_concrete*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
 	DL_I_(DL_I * N/mm2),  //Полезно сделать сеттеры!
 	DL_II_(DL_II*static_cast<int>(LoadUnit::kN)/std::pow(static_cast<int>(LengthUnit::m),2)),
@@ -58,7 +58,7 @@ Loads::Loads(double SW_steel_beam,
 			 double sigma_si,
 			 double B)
 	:SW_steel_beam_(SW_steel_beam),
-	SW_corrugated_sheets_(SW_corrugated_sheets * N/mm2),
+	SW_corrugated_sheets_(SW_corrugated_sheets),
 	SW_concrete_(SW_conc),
 	SW_add_concrete_(SW_add_concrete * N/mm2),
 	DL_I_(DL_I * N/mm2),  //Полезно сделать сеттеры!
@@ -220,8 +220,27 @@ void Loads::set_data(double SW_steel_beam, double SW_corrugated_sheets, double S
 
 	fully_initialized_ = true;
 }
+void Loads::print_SP266(TWord_Automation & report)const
+{
+	report.PasteTextPattern(double_to_str(SW_steel_beam_ * kN / m), "%steel_beam%");
+	report.PasteTextPattern(double_to_str(SW_corrugated_sheets_ * kN / m2), "%SW_sheets%");
+	report.PasteTextPattern(double_to_str(SW_concrete_ * kN / m2), "%SW_concrete%");
+	report.PasteTextPattern(double_to_str(SW_add_concrete_ * kN / m2), "%SW_add_concrete%");
+	report.PasteTextPattern(double_to_str(DL_I_ * kN / m2), "%DL_I%");
+	report.PasteTextPattern(double_to_str(DL_II_ * kN / m2), "%DL_II%");
+	report.PasteTextPattern(double_to_str(LL_ * kN / m2), "%LL%");
 
-void Loads::print(TWord_Automation & report)const
+	report.PasteTextPattern(double_to_str(gamma_f_st_SW_), "%gamma_f_st_SW%");
+	report.PasteTextPattern(double_to_str(gamma_f_concrete_SW_), "%gamma_f_concrete_SW%");
+	report.PasteTextPattern(double_to_str(gamma_f_add_concrete_SW_), "%SW gamma_f_add_concr%");
+	report.PasteTextPattern(double_to_str(gamma_f_DL_I_), "%gamma_f_DL_I%");
+	report.PasteTextPattern(double_to_str(gamma_f_DL_II_), "%gamma_f_DL_II%");
+	report.PasteTextPattern(double_to_str(gamma_f_LL_), "%gamma_f_LL%");
+
+	report.PasteTextPattern(double_to_str(sheeting_continuity_coefficient_), "%sheeting_continuity_coeff%");
+}
+
+void Loads::print_SP35(TWord_Automation & report)const
 {
 	report.PasteTextPattern(double_to_str(SW_steel_beam_ * kN / m), "%steel_beam%");
 	report.PasteTextPattern(double_to_str(SW_concrete_ * kN / m2), "%SW_concrete%");

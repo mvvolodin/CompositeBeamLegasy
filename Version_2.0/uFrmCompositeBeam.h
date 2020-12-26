@@ -231,41 +231,55 @@ private:
 	TCompositeBeamMainFormCntrlsState cntrls_state_;
 
 	void set_form_controls();
-	void generate_report();
+
 	void cotr_ratios_grid_SP266();
 	void cotr_ratios_grid_SP35();
+
 	void render_ratios_grid_SP35(TStringGrid* str_gr, int ACol,
 		int ARow, TRect &Rect);
 	void render_ratios_grid_SP266(TStringGrid* str_gr, int ACol,
 		int ARow, TRect &Rect);
+
 	void cotr_comp_sect_geometr_grid();
 	void cotr_steel_sect_geometr_grid();
 	void ctor_concrete_sect_geometr_grid();
 	void fill_cmb_bx_impact();
 	void fill_cmb_bx_corrugated_sheets();
 
-	void update_grids(int code_indx);
-	void update_SW_edts(int code_indx);
-	void update_steel_sect_geometr_grid(int code_indx);
-	void update_concrete_sect_geometr_grid(int code_indx);
-	void update_composite_sect_geometr_grid(int code_indx);
-	void update_results_grid(int code_indx);
+	void clean_static_scheme();
+	void clean_2nd_col_grid(TStringGrid* str_grd);
 
-	void draw_diagram(int code_index);
-	void draw_diagramSP266();
-	void draw_diagramSP35();
+	void update_GUI(int code_indx);
+	void set_GUI_SP35();
+	void set_GUI_SP266();
 
 	void calculate_composite_beam();
     void calculate_studs();
 	void calculate_composite_beam_SP266();
 	void calculate_composite_beam_SP35();
+
 	void after_calculation();
 
-	void clean_static_scheme();
-	void clean_2nd_col_grid(TStringGrid* str_grd);
-	void update_GUI(int code_indx);
-	void set_GUI_SP35();
-	void set_GUI_SP266();
+	void draw_diagram_SP266();
+	void draw_diagram_SP35();
+
+	void update_SW_edts_SP266();
+	void update_SW_edts_SP35();
+
+	void update_results_grid_SP266();
+	void update_results_grid_SP35();
+
+	void update_steel_sect_geometr_grid_SP266();
+	void update_steel_sect_geometr_grid_SP35();
+
+	void update_concrete_sect_geometr_grid_SP266();
+	void update_concrete_sect_geometr_grid_SP35();
+
+	void update_composite_sect_geometr_grid_SP266();
+	void update_composite_sect_geometr_grid_SP35();
+
+	void generate_report_SP266();
+	void generate_report_SP35();
 
 	#define UNTITLED  "Без имени"
 	bool modify_project;  // признак изменения проекта после сохранения

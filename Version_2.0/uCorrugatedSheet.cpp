@@ -3,8 +3,13 @@
 #pragma hdrstop
 
 #include "uCorrugatedSheet.h"
+#include "uUnits_new.h"
+#include "Constants.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+
+using namespace units;
+using namespace constants;
 
 std::vector<CorrugatedSheet> CorrugatedSheetsData::corrugated_sheets_list_
 {
@@ -139,5 +144,5 @@ CorrugatedSheet::CorrugatedSheet (String name, double h_n, double t,
 	b_wider_fl_(b_wider_fl),
 	b_narrower_fl_(b_narrower_fl),
 	S_n_(S_n),
-	w_(w){}
+	w_(w * grav_accelerate / mm2){}
 

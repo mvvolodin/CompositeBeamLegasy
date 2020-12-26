@@ -62,7 +62,16 @@ StudRowOutputSP35 StudsOutputSP35::stud_max_ratio()const
 	[](auto const &  sr1, auto const &  sr2){
 		return std::abs(sr1.ratio()) < std::abs(sr2.ratio());});
 }
-void StudsOutputSP35::fill_grid(TStringGrid* str_grid)const
+void StudsOutputSP35::fill_grid_SP266(TStringGrid* str_grid)const
+{
+	StudRowOutputSP35 sr = stud_max_ratio();
+
+	using namespace units;
+
+	str_grid -> Cells [1][16] = double_to_str(sr.x(), 0);
+	str_grid -> Cells [1][17] = double_to_str(std::abs(sr.ratio()));
+}
+void StudsOutputSP35::fill_grid_SP35(TStringGrid* str_grid)const
 {
 	StudRowOutputSP35 sr = stud_max_ratio();
 
@@ -71,3 +80,4 @@ void StudsOutputSP35::fill_grid(TStringGrid* str_grid)const
 	str_grid -> Cells [1][13] = double_to_str(sr.x(), 0);
 	str_grid -> Cells [1][14] = double_to_str(std::abs(sr.ratio()));
 }
+

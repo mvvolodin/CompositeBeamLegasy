@@ -55,9 +55,9 @@ Loads CompBeamObjsCreatorSP266::loads()const
 				0,
 				glob_geom.trib_width()};
 	else
-		return {st_sect -> SW(),0,
-//				static_cast<CorrugatedConcreteSection*>(conc_sect.get()) ->
-//					corrugated_sheet().get_weight() ,
+		return {st_sect -> SW(),
+				static_cast<CorrugatedConcreteSection*>(conc_sect.get()) ->
+					corrugated_sheet().get_weight() ,
 				conc_sect -> SW(conc.get_density()),
 				main_frm_cntrls_state_.edt_SW_add_concrete_data_,
 				main_frm_cntrls_state_.edt_dead_load_first_stage_data_,
@@ -120,7 +120,7 @@ CompBeamObjsCreatorSP266::ConcSectUPtr
 		return std::make_unique<CorrugatedConcreteSection>(
 			CorrugatedSheetsData::get_corrugated_sheet(
 				main_frm_cntrls_state_.cmb_bx_corrugated_sheeting_part_number_data_),
-			main_frm_cntrls_state_.edt_h_f_flat_data_,
+			main_frm_cntrls_state_.edt_h_f_data_,
 			main_frm_cntrls_state_.edt_span_data_,
 			main_frm_cntrls_state_.edt_width_left_data_,
 			main_frm_cntrls_state_.edt_width_right_data_,

@@ -708,7 +708,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
         end
       end
       object grp_bx_corrugated_slab: TGroupBox
-        Left = 0
+        Left = -4
         Top = 415
         Width = 798
         Height = 60

@@ -27,7 +27,6 @@ ComBeamInputSP35::ComBeamInputSP35(TCompositeBeamMainFormCntrlsState const & mai
 						conc_sect_ -> SW(conc_.get_density()),
 						glob_geom_.trib_width());
 	work_cond_fctrs_ = make_working_conditions_fctrs(main_frm_cntrls_state);
-
 }
 Steel ComBeamInputSP35::make_steel(TDefineSteelFormCntrlsState const & st_frm_cntrls_state,
 	double t_max)
@@ -100,7 +99,8 @@ Concrete ComBeamInputSP35::make_concrete(TConcreteDefinitionFormCntrlsState
 	return {{ConcreteSP35::grade(conc_frm_cntrls_state.cmb_bx_conc_grade_index_).c_str(),
 				conc_dt.E_b_,
 				conc_dt.R_b_,
-				conc_dt.R_bt_},
+				conc_dt.R_bt_,
+				conc_dt.c_n_},
 			conc_frm_cntrls_state.edt_density_data_,
 			conc_frm_cntrls_state.edt_phi_b_cr_data_,
 			conc_frm_cntrls_state.edt_gamma_b_data_,
@@ -171,7 +171,7 @@ void ComBeamInputSP35::print(TWord_Automation & report)const
 	work_cond_fctrs_.print(report);
 	conc_.print(report);
 	steel_.print(report);
-	loads_.print(report);
+	loads_.print_SP35(report);
 	st_sect_ -> print_input(report);
 	conc_sect_ -> print_input(report);
 }

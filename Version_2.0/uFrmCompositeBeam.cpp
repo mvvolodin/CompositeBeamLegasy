@@ -61,7 +61,6 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 
 	calculate_composite_beam();
 	after_calculation();
-
 }
 
 //---------------------------------------------------------------------------
@@ -69,6 +68,7 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 {
+    store_all_frms_cntrls_state();
 	calculate_composite_beam();
 	after_calculation();
 }
@@ -77,9 +77,16 @@ void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::btn_reportClick(TObject *Sender)
 {
-	Screen->Cursor = crHourGlass;//На время создания отчёта присвоем курсору вид часов
-	generate_report();
-	Screen->Cursor = crDefault;//Возвращаем курсору вид по умолчанию
+	Screen -> Cursor = crHourGlass;//На время создания отчёта присвоем курсору вид часов
+	switch(cntrls_state_.rd_grp_code_data_)
+	{
+		case 0: generate_report_SP266();
+				break;
+
+		case 1:  generate_report_SP35();
+				break;
+	}
+	Screen -> Cursor = crDefault;//Возвращаем курсору вид по умолчанию
 }
 //---------------------------------------------------------------------------
 //	Активация контролов для внесения данных о бетонном сечении в зависимости
@@ -160,102 +167,7 @@ void TCompositeBeamMainForm ::ctor_concrete_sect_geometr_grid()
 	strng_grd_concrete_sect_geom_character->Cells [0][2]=L"Расстояние от нижней грани до центра тяжести, мм";
 	strng_grd_concrete_sect_geom_character->Cells [0][3]=L"Площадь, мм2";
 	strng_grd_concrete_sect_geom_character->Cells [0][4]=L"Момент инерции, мм4";
-   //	strng_grd_concrete_sect_geom_character->Cells [0][6]=L"Момент сопротивления";
 }
-void TCompositeBeamMainForm ::update_grids(int code_index)
-{
-	update_steel_sect_geometr_grid(code_index);
-	update_concrete_sect_geometr_grid(code_index);
-	update_composite_sect_geometr_grid(code_index);
-	update_results_grid(code_index);
-}
-void TCompositeBeamMainForm ::update_SW_edts(int code_indx)
-{
-	double dens;
-	double SW_conc;
-	double SW_steel_beam;
-
-	AnsiString t;
-
-	using namespace units;
-
-	switch (code_indx) {
-
-	case(0):
-		edt_SW_steel_beam -> Text = double_to_str(
-			comp_sects_output_list_SP266.loads_.SW_steel_beam());
-		edt_SW_conc -> Text = double_to_str(
-			comp_sects_output_list_SP266.loads_.SW_concrete()* kN / m2);
-
-		break;
-	case(1):
-
-		dens = com_beam_input_SP35 -> concrete().get_density();
-		SW_conc = com_beam_input_SP35 -> concrete_sect() -> SW(dens);
-		edt_SW_conc -> Text = force_per_area_to_str(SW_conc, LengthUnit::m, LoadUnit::kN);
-
-		SW_steel_beam = com_beam_input_SP35 -> steel_sect() -> SW();
-		edt_SW_steel_beam -> Text = force_per_length_to_str(SW_steel_beam * units::kN / units::m);
-
-		break;
-	}
-}
-
-void TCompositeBeamMainForm ::update_steel_sect_geometr_grid(int code_indx)
-{
-	switch (code_indx) {
-
-	case(0):
-
-		break;
-	case(1):
-		com_beam_output_SP35 -> com_sect().st_sect() ->
-			fill_grid(strng_grd_steel_sect_geom_character);
-		break;
-	}
-
-}
-void TCompositeBeamMainForm ::update_concrete_sect_geometr_grid(int code_indx)
-{
-	switch (code_indx) {
-
-	case(0):
-
-		break;
-	case(1):
-		com_beam_output_SP35 -> com_sect().conc_sect() ->
-			fill_grid(strng_grd_concrete_sect_geom_character);
-		break;
-	}
-}
-void TCompositeBeamMainForm ::update_composite_sect_geometr_grid(int code_indx)
-{
-
-	switch (code_indx) {
-
-	case(0):
-		comp_sects_output_list_SP266.fill_comp_sect_grid(strng_grd_compos_sect_geom_character);
-		break;
-	case(1):
-		com_beam_output_SP35 -> com_sect().fill_grid(strng_grd_compos_sect_geom_character);
-		break;
-	}
-}
-void TCompositeBeamMainForm ::update_results_grid(int code_indx)
-{
-	switch (code_indx) {
-
-	case(0):
-		comp_sects_output_list_SP266.fill_grid(strng_grd_results);
-		break;
-	case(1):
-		com_beam_output_SP35 -> fill_grid(strng_grd_results);
-		studs_output.fill_grid(strng_grd_results);
-		break;
-	}
-
-}
-
 void TCompositeBeamMainForm::clean_grid(TStringGrid* str_gr)
 {
 	for( int i = 0; i < str_gr -> ColCount; ++i)
@@ -337,7 +249,7 @@ void TCompositeBeamMainForm ::fill_cmb_bx_impact()
 void TCompositeBeamMainForm ::fill_cmb_bx_corrugated_sheets()
 {
 	for(auto corrugated_sheet:CorrugatedSheetsData::get_corrugated_sheet_names())
-		cmb_bx_corrugated_sheeting_part_number->Items->Add(corrugated_sheet);
+		cmb_bx_corrugated_sheeting_part_number -> Items -> Add(corrugated_sheet);
 
 	cmb_bx_corrugated_sheeting_part_number->ItemIndex = 0;
 }
@@ -382,7 +294,7 @@ void __fastcall TCompositeBeamMainForm ::BtnSteelSectionChoiceClick(TObject *Sen
 
 void __fastcall TCompositeBeamMainForm ::NOutReportClick(TObject *Sender)
 {
-	generate_report();
+	btn_reportClick(nullptr);
 }
 //---------------------------------------------------------------------------
 
@@ -391,40 +303,22 @@ void __fastcall TCompositeBeamMainForm ::NExitClick(TObject *Sender)
 	Close();
 }
 
-void TCompositeBeamMainForm::generate_report()
+void TCompositeBeamMainForm::generate_report_SP35()
 {
-	if(!com_beam_output_SP35){
-		ShowMessage(u"Данные для отчёта отсутствуют! Необходимо выполнить расчёт.");
-		return;
-	}
-
 	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.docx");
 
 	com_beam_input_SP35 -> print(report);
 	com_beam_output_SP35 -> print(report);
 
 	studs_output.print(report);
-
-
-
 }
-
-//---------------------------------------------------------------------------
-// Отрисовка эпюр
-//---------------------------------------------------------------------------
-void TCompositeBeamMainForm::draw_diagram(int code_index)
+void TCompositeBeamMainForm::generate_report_SP266()
 {
-	switch (code_index){
-	case(0):
-		draw_diagramSP266();
-		break;
-	case(1):
-		draw_diagramSP35();
-		break;
-	}
-}
+	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP266.docx");
 
-void TCompositeBeamMainForm::draw_diagramSP266()
+	comp_sects_output_list_SP266.print(report);
+}
+void TCompositeBeamMainForm::draw_diagram_SP266()
 {
 	std::vector<double> M;
 	std::vector<double> Q;
@@ -568,7 +462,7 @@ void TCompositeBeamMainForm::draw_diagramSP266()
 		break;
 	}
 }
-void TCompositeBeamMainForm::draw_diagramSP35()
+void TCompositeBeamMainForm::draw_diagram_SP35()
 {
 	std::vector<double> M;
 	std::vector<double> Q;
@@ -716,21 +610,33 @@ void TCompositeBeamMainForm::draw_diagramSP35()
 
 void __fastcall TCompositeBeamMainForm ::cmb_bx_impactChange(TObject *Sender)
 {
-	draw_diagram(rd_grp_code -> ItemIndex);
+	switch(cntrls_state_.rd_grp_code_data_){
+		case 0: draw_diagram_SP266();
+				break;
+
+		case 1:	draw_diagram_SP35();
+	}
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObject *Sender)
 {
-	draw_diagram(rd_grp_code -> ItemIndex);
+	switch(cntrls_state_.rd_grp_code_data_){
+		case 0: draw_diagram_SP266();
+				break;
+
+		case 1:	draw_diagram_SP35();
+				break;
+	}
 }
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
 
-	switch(int code_indx = rd_grp_code -> ItemIndex)
+	switch(cntrls_state_.rd_grp_code_data_)
 	{
 		case 0:
 			calculate_composite_beam_SP266();
+//            calculate_studs();
 			break;
 		case 1:
 			calculate_composite_beam_SP35();
@@ -740,7 +646,6 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 }
 void TCompositeBeamMainForm::calculate_composite_beam_SP266()
 {
-	store_all_frms_cntrls_state();
 
 	CompBeamObjsCreatorSP266 creator {
 		this -> cntrls_state_,
@@ -753,16 +658,11 @@ void TCompositeBeamMainForm::calculate_composite_beam_SP266()
 
 	CompSectGeomSP266 cs = creator.comp_sect_geom();
 
-
-
-//	GeneralConcreteSection conc_sect {cs -> conc_sect()};
-
 	comp_sects_output_list_SP266 = calculator.run(); //объект 560 байт
 
 }
 void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 {
-	store_all_frms_cntrls_state();
 
 	com_beam_input_SP35.reset(new ComBeamInputSP35{this -> cntrls_state_,
 												   ConcreteDefinitionForm -> cntrls_state(),
@@ -773,7 +673,6 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 	try {
 		ComposSectCalculatorSP35 com_beam_calc {*com_beam_input_SP35};
 		std::vector<Node> nodes_lst {com_beam_input_SP35 -> glob_geom().nodes_lst()};
-//		nodes_lst.push_back({8942.5, false, true});
 
 		com_beam_output_SP35.reset(new ComBeamOutputSP35{com_beam_calc.calculate(nodes_lst)});
 
@@ -802,24 +701,109 @@ void TCompositeBeamMainForm::calculate_studs()
 	studs_output = {calc.run(studs_input)};
 
 }
+//---------------------------------------------------------------------------
 void TCompositeBeamMainForm::after_calculation()
 {
-	update_SW_edts(rd_grp_code -> ItemIndex);
-	update_grids(rd_grp_code -> ItemIndex);
+	switch(cntrls_state_.rd_grp_code_data_)
+	{
+		case 0:	update_SW_edts_SP266();
 
-	draw_diagram(rd_grp_code -> ItemIndex);
+				draw_diagram_SP266();
 
+				update_steel_sect_geometr_grid_SP266();
+				update_concrete_sect_geometr_grid_SP266();
+				update_composite_sect_geometr_grid_SP266();
+
+				update_results_grid_SP266();
+				break;
+
+		case 1: update_SW_edts_SP35();
+
+				draw_diagram_SP35();
+
+				update_steel_sect_geometr_grid_SP35();
+				update_concrete_sect_geometr_grid_SP35();
+				update_composite_sect_geometr_grid_SP35();
+
+				update_results_grid_SP35();
+				break;
+	}
 	btn_report -> Enabled = true;
 	tb_results -> TabVisible = true;
 
 	PgCntrlCompositeBeam -> ActivePage = TbShtStaticScheme;
 }
-
-
 //---------------------------------------------------------------------------
+void TCompositeBeamMainForm ::update_SW_edts_SP266()
+{
+	using namespace units;
+	edt_SW_steel_beam -> Text = double_to_str(
+		comp_sects_output_list_SP266.loads_.SW_steel_beam());
+	edt_SW_conc -> Text = double_to_str(
+		comp_sects_output_list_SP266.loads_.SW_concrete()* kN / m2);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm ::update_SW_edts_SP35()
+{
+	double dens;
+	double SW_conc;
+	double SW_steel_beam;
 
+	AnsiString t;
+	dens = com_beam_input_SP35 -> concrete().get_density();
+	SW_conc = com_beam_input_SP35 -> concrete_sect() -> SW(dens);
+	edt_SW_conc -> Text = force_per_area_to_str(SW_conc, LengthUnit::m, LoadUnit::kN);
 
-
+	SW_steel_beam = com_beam_input_SP35 -> steel_sect() -> SW();
+	edt_SW_steel_beam -> Text = force_per_length_to_str(SW_steel_beam * units::kN / units::m);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::update_results_grid_SP266()
+{
+	comp_sects_output_list_SP266.fill_grid(strng_grd_results);
+	studs_output.fill_grid_SP266(strng_grd_results);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::update_results_grid_SP35()
+{
+	com_beam_output_SP35 -> fill_grid(strng_grd_results);
+	studs_output.fill_grid_SP35(strng_grd_results);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::update_steel_sect_geometr_grid_SP35()
+{
+	com_beam_output_SP35 -> com_sect().st_sect() ->
+		fill_grid(strng_grd_steel_sect_geom_character);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::update_steel_sect_geometr_grid_SP266()
+{
+//	com_beam_output_SP35 -> com_sect().st_sect() ->
+//		fill_grid(strng_grd_steel_sect_geom_character);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm ::update_concrete_sect_geometr_grid_SP266()
+{
+//	com_beam_output_SP35 -> com_sect().conc_sect() ->
+//		fill_grid(strng_grd_concrete_sect_geom_character);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm ::update_concrete_sect_geometr_grid_SP35()
+{
+	com_beam_output_SP35 -> com_sect().conc_sect() ->
+		fill_grid(strng_grd_concrete_sect_geom_character);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::update_composite_sect_geometr_grid_SP266()
+{
+	comp_sects_output_list_SP266.fill_comp_sect_grid(strng_grd_compos_sect_geom_character);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::update_composite_sect_geometr_grid_SP35()
+{
+	com_beam_output_SP35 -> com_sect().fill_grid(strng_grd_compos_sect_geom_character);
+}
+//---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::NNewClick(TObject *Sender)
 {
 	int i;
@@ -923,6 +907,8 @@ void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 
 	  calculate_composite_beam();
 
+      after_calculation();
+
 	  ModelName(FileDir_Name.c_str(), ModelFile);
 
 	  Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
@@ -1020,6 +1006,10 @@ void __fastcall TCompositeBeamMainForm::HelpClick(TObject *Sender)
 
 void TCompositeBeamMainForm::update_cntrls()
 {
+	// Параметры расчёта
+	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_data_;
+	edt_max_elem_length -> Text = cntrls_state_.edt_max_elem_length_data_;
+
 	// Геометрия
 	edt_span -> Text = cntrls_state_.edt_span_data_;
 	edt_width_left -> Text = cntrls_state_.edt_width_left_data_;
@@ -1057,11 +1047,6 @@ void TCompositeBeamMainForm::update_cntrls()
 
 	cmb_bx_impact -> ItemIndex = cntrls_state_.cmb_bx_impact_data_;
 	rd_grp_internal_forces_type -> ItemIndex = cntrls_state_.rd_grp_internal_forces_type_data_;
-
-	// Параметры расчёта
-
-	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_data_;
-	edt_max_elem_length -> Text = cntrls_state_.edt_max_elem_length_data_;
 
 	//Тип жб плиты
 

@@ -26,7 +26,8 @@ public:
 	std::vector<double> S_overline_lst()const{return S_overline_lst_;}
 	std::vector<double> coord()const{return coord_;}
 	void print(TWord_Automation & report)const;
-	void fill_grid(TStringGrid* str_grid)const;
+	void fill_grid_SP266(TStringGrid* str_grid)const;
+    void fill_grid_SP35(TStringGrid* str_grid)const;
 #ifndef NDEBUG
 	void print_to_logger()const;
 #endif
