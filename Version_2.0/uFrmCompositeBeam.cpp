@@ -310,7 +310,7 @@ void __fastcall TCompositeBeamMainForm ::NExitClick(TObject *Sender)
 
 void TCompositeBeamMainForm::generate_report_SP35()
 {
-	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.docx");
+	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.dotx");
 
 	com_beam_input_SP35 -> print(report);
 	com_beam_output_SP35 -> print(report);
@@ -319,7 +319,7 @@ void TCompositeBeamMainForm::generate_report_SP35()
 }
 void TCompositeBeamMainForm::generate_report_SP266()
 {
-	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP266.docx");
+	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP266.dotx");
 
 	comp_sects_output_list_SP266.print(report);
 	studs_SP266_output.print(report);
