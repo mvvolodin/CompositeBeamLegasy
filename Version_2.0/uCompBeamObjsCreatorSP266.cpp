@@ -4,6 +4,7 @@
 
 #include "uCompBeamObjsCreatorSP266.h"
 #include "uSteelTableObjects.h"
+#include "uStudsGOSTR55738.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -12,12 +13,14 @@ CompBeamObjsCreatorSP266::CompBeamObjsCreatorSP266(
 	TConcreteDefinitionFormCntrlsState const & conc_frm_cntrls_state,
 	TSteelSectionFormCntrlsState const & st_sect_frm_cntrls_state,
 	TDefineSteelFormCntrlsState const & st_frm_cntrls_state,
-	TFrmRebarCntrlsState const & rebar_frm_cntrls_state):
+	TFrmRebarCntrlsState const & rebar_frm_cntrls_state,
+	TStudDefinitionFormCntrlsState const & studs_frm_cntrls_state):
 		main_frm_cntrls_state_(main_frm_cntrls_state),
 		conc_frm_cntrls_state_(conc_frm_cntrls_state),
 		st_sect_frm_cntrls_state_(st_sect_frm_cntrls_state),
 		st_frm_cntrls_state_(st_frm_cntrls_state),
-		rebar_frm_cntrls_state_(rebar_frm_cntrls_state){}
+		rebar_frm_cntrls_state_(rebar_frm_cntrls_state),
+		studs_frm_cntrls_state_(studs_frm_cntrls_state){}
 
 GlobGeom CompBeamObjsCreatorSP266::glob_geometry()const
 {
@@ -167,12 +170,13 @@ WorkingConditionsFactors CompBeamObjsCreatorSP266::work_cond_factrs()const
 			main_frm_cntrls_state_.edt_gamma_si_data_,
 			main_frm_cntrls_state_.edt_gamma_c_data_};
 }
-CompSectGeomSP266 CompBeamObjsCreatorSP266::comp_sect_geom()const
+CompSectGeomSP266 CompBeamObjsCreatorSP266::comp_sect_geom(bool is_Eb_reduced)const
 {
 	return {steel(),
 			steel_sect(),
 			concrete(),
-			concrete_sect()};
+			concrete_sect(),
+			is_Eb_reduced};
 }
 IntForcesCalculator CompBeamObjsCreatorSP266::int_forces_calculator()const
 {
@@ -181,6 +185,37 @@ IntForcesCalculator CompBeamObjsCreatorSP266::int_forces_calculator()const
 	return{glob_geom.tmp_sup_num(),
 		   glob_geom.span(),
 		   loads()};
+}
+StudsSP266 CompBeamObjsCreatorSP266::studs()const
+{
+	GlobGeom const glob_geom {glob_geometry()};
+	Concrete const conc {concrete()};
+
+	int const st_index = studs_frm_cntrls_state_.cmb_bx_stud_part_number_index_;
+
+	StudSP266 stud {StudsGOSTR55738::name(st_index),
+					StudsGOSTR55738::d_1(st_index),
+					StudsGOSTR55738::l_1(st_index),
+					studs_frm_cntrls_state_.edt_stud_yield_strength_data_,
+					conc.get_R_b(),
+					studs_frm_cntrls_state_.edt_stud_safety_factor_data_};
+
+	bool const is_corr_slab =
+		(main_frm_cntrls_state_.rdgrp_slab_type_data_ == 0)? false: true;
+
+	return{stud,
+		   glob_geom.span(),
+		   studs_frm_cntrls_state_.edt_edge_studs_dist_data_,
+		   studs_frm_cntrls_state_.edt_middle_studs_dist_data_,
+		   studs_frm_cntrls_state_.cmb_bx_edge_studs_rows_num_index_ + 1,
+		   studs_frm_cntrls_state_.cmb_bx_middle_studs_rows_num_index_ + 1,
+		   studs_frm_cntrls_state_.chck_bx_more_than_one_stud_per_corrugation_edge_data_,
+		   studs_frm_cntrls_state_.chck_bx_more_than_one_stud_per_corrugation_middle_data_,
+		   is_corr_slab,
+		   CorrugatedSheetsData::get_corrugated_sheet(
+				main_frm_cntrls_state_.cmb_bx_corrugated_sheeting_part_number_data_),
+		   main_frm_cntrls_state_.chck_bx_wider_flange_up_data_,
+		   main_frm_cntrls_state_.chck_bx_sheet_orient_along_data_};
 }
 
 

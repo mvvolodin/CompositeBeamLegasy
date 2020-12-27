@@ -68,6 +68,15 @@ public:
 	double M_2d()const;
 	double M_total()const;
 
+	double const sigma_b_shr()const{return sigma_b_shr_;}
+	double const sigma_b_kr()const{return sigma_b_kr_;}
+	double const sigma_r_shr()const{return sigma_r_shr_;}
+	double const sigma_r_kr()const{return sigma_r_kr_;};
+	double const sigma_b()const{return sigma_b_;}
+	double const sigma_r()const{return sigma_r_;}
+
+	PlastCoeffList pl_coeff()const {return pl_coeff_;}
+
 	double Q_1a()const;
 	double Q_1b()const;
 	double Q_2c()const;
@@ -150,7 +159,6 @@ private:
 	double const st_sect_ratio_ = 0.0;
 
 	void print_max_direct_str_ratio_sect(TWord_Automation &)const;
-
 };
 
 

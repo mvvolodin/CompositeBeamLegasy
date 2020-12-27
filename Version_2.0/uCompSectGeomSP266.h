@@ -25,7 +25,8 @@ public:
 	CompSectGeomSP266(Steel const & steel,
 					   std::unique_ptr<GeneralSteelSection>  st_sect,
 					   Concrete const & concrete,
-					   std::unique_ptr<GeneralConcreteSection> conc_sect);
+					   std::unique_ptr<GeneralConcreteSection> conc_sect,
+					   bool is_E_b_reduced);
 	double E_s()const {return conc_sect_ -> rebars().rebar().E_s();}
 	double E_b()const{return concrete_.get_E_b();}
 	double E_b_tau()const {return concrete_.get_E_b_tau();}
@@ -81,6 +82,8 @@ private:
 	std::unique_ptr<GeneralSteelSection> st_sect_;
 	Concrete concrete_;
 	std::unique_ptr<GeneralConcreteSection> conc_sect_;
+
+	bool is_E_b_reduced_;
 
 	void calculate();
 	NeutralAxis calc_neutral_axis();

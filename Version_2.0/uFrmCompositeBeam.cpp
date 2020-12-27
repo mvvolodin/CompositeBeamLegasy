@@ -26,15 +26,20 @@
 #include "uCompSectsCalculatorSP266.h"
 #include "uCompSectsOutputListSP266.h"
 
+#include "uStudsSP266.h"
+#include "uStudsSP266Calculator.h"
+#include "uStudsSP266Calculated.h"
+
 //---------------------------------------------------------------------------
+TCompositeBeamMainForm  *CompositeBeamMainForm;
+
 std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
 std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
-
 StudsOutputSP35 studs_output;
 
 CompSectsOutputListSP266 comp_sects_output_list_SP266;
+StudsSP266Calculated studs_SP266_output;
 
-TCompositeBeamMainForm  *CompositeBeamMainForm;
 //----------------------------------------------------------------------
  _fastcall TCompositeBeamMainForm ::TCompositeBeamMainForm (TComponent* Owner)
 	: TForm(Owner)
@@ -317,6 +322,7 @@ void TCompositeBeamMainForm::generate_report_SP266()
 	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP266.docx");
 
 	comp_sects_output_list_SP266.print(report);
+	studs_SP266_output.print(report);
 }
 void TCompositeBeamMainForm::draw_diagram_SP266()
 {
@@ -449,9 +455,9 @@ void TCompositeBeamMainForm::draw_diagram_SP266()
 	case(3):
 
 		DrawEpur(Image1,
-				 studs_output.S_overline_lst().size(),
-				 studs_output.coord().data(),
-				 studs_output.S_overline_lst().data(),
+				 studs_SP266_output.S_overline_lst_.size(),
+				 studs_SP266_output.coord_.data(),
+				 studs_SP266_output.S_overline_lst_.data(),
 				 nullptr,
 				 coor_supp.size(),
 				 coor_supp.data(),
@@ -637,16 +643,16 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 	switch(cntrls_state_.rd_grp_code_data_)
 	{
 		case 0:
-			calculate_composite_beam_SP266();
-//            calculate_studs();
+			calculate_composite_sections_SP266();
+			calculate_studs_SP266();
 			break;
 		case 1:
-			calculate_composite_beam_SP35();
-			calculate_studs();
+			calculate_composite_sections_SP35();
+			calculate_studs_SP35();
 			break;
 	}
 }
-void TCompositeBeamMainForm::calculate_composite_beam_SP266()
+void TCompositeBeamMainForm::calculate_composite_sections_SP266()
 {
 
 	CompBeamObjsCreatorSP266 creator {
@@ -654,16 +660,30 @@ void TCompositeBeamMainForm::calculate_composite_beam_SP266()
 		ConcreteDefinitionForm -> cntrls_state(),
 		SteelSectionForm -> cntrls_state(),
 		DefineSteelForm -> cntrls_state(),
-		RebarDefinitionForm -> cntrls_state()};//объект 432 байта
+		RebarDefinitionForm -> cntrls_state(),
+		StudDefinitionForm -> cntrls_state()}; //объект 488 байта
 
 	CompSectsCalculatorSP266 calculator {creator};
-
-	CompSectGeomSP266 cs = creator.comp_sect_geom();
-
 	comp_sects_output_list_SP266 = calculator.run(); //объект 560 байт
 
+//	CompSectGeomSP266 cs = creator.comp_sect_geom();
+//
+
+
 }
-void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
+void TCompositeBeamMainForm::calculate_studs_SP266()
+{
+	CompBeamObjsCreatorSP266 creator {this -> cntrls_state_,
+		ConcreteDefinitionForm -> cntrls_state(),
+		SteelSectionForm -> cntrls_state(),
+		DefineSteelForm -> cntrls_state(),
+		RebarDefinitionForm -> cntrls_state(),
+		StudDefinitionForm -> cntrls_state()};//объект 488 байта
+
+		StudsSP266Calculator calculator {creator};
+		studs_SP266_output = calculator.run();
+}
+void TCompositeBeamMainForm ::calculate_composite_sections_SP35()
 {
 
 	com_beam_input_SP35.reset(new ComBeamInputSP35{this -> cntrls_state_,
@@ -684,7 +704,8 @@ void TCompositeBeamMainForm ::calculate_composite_beam_SP35()
 	}
 
 }
-void TCompositeBeamMainForm::calculate_studs()
+
+void TCompositeBeamMainForm::calculate_studs_SP35()
 {
 	store_all_frms_cntrls_state();
 
@@ -763,7 +784,7 @@ void TCompositeBeamMainForm ::update_SW_edts_SP35()
 void TCompositeBeamMainForm::update_results_grid_SP266()
 {
 	comp_sects_output_list_SP266.fill_grid(strng_grd_results);
-	studs_output.fill_grid_SP266(strng_grd_results);
+	studs_SP266_output.fill_grid(strng_grd_results);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_results_grid_SP35()
@@ -1296,7 +1317,8 @@ void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
 void TCompositeBeamMainForm::print_to_logger()
 {
 	FormLogger -> Show();
-	studs_output.print_to_logger();
+	 // Исходные данные для расчёта упроров по СП266
+	studs_SP266_output.input_ -> print_to_logger();
 }
 #endif
 //---------------------------------------------------------------------------

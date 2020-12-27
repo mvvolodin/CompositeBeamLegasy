@@ -62,3 +62,7 @@ AnsiString double_to_str(double val, int num_digits)
 {
 	return FloatToStrF(val, ffFixed, 15, num_digits);
 }
+AnsiString bool_to_str(bool val)
+{
+	return (val)? "Да": "Нет";
+}

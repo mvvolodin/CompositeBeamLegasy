@@ -9,11 +9,13 @@
 	Steel const & steel,
 	std::unique_ptr<GeneralSteelSection> st_sect,
 	Concrete const & concrete,
-	std::unique_ptr<GeneralConcreteSection> conc_sect):
+	std::unique_ptr<GeneralConcreteSection> conc_sect,
+	bool is_E_b_reduced):
 		steel_(steel),
 		st_sect_(std::move(st_sect)),
 		concrete_(concrete),
-		conc_sect_(std::move(conc_sect))
+		conc_sect_(std::move(conc_sect)),
+		is_E_b_reduced_(is_E_b_reduced)
 {
 	calculate();
 	calc_rigid_plastic_moment();
@@ -21,7 +23,8 @@
 
 void CompSectGeomSP266::calculate()
 {
-	double const E_b = concrete_.get_E_b_tau();
+	double const E_b =
+		(is_E_b_reduced_)? concrete_.get_E_b_tau():concrete_.get_E_b();
 	double const E_st = steel_.get_E_st();
 	double const E_s = conc_sect_ -> rebars().rebar().E_s();
 

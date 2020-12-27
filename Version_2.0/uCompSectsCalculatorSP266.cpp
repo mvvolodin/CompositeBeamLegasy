@@ -9,7 +9,7 @@ CompSectsCalculatorSP266::CompSectsCalculatorSP266(
 	CompBeamObjsCreatorSP266 const & creator):
 	creator_(creator),
 	intr_frcs_calculator_(creator.int_forces_calculator()),
-	comp_sect_(creator.comp_sect_geom()),
+	comp_sect_(creator.comp_sect_geom(true)),
 	work_cond_factors_(creator.work_cond_factrs()){}
 CompSectsOutputListSP266 CompSectsCalculatorSP266::run()
 {
@@ -25,7 +25,7 @@ CompSectsOutputListSP266 CompSectsCalculatorSP266::run()
 	return{glob_geom,
 		   creator_.loads(),
 		   creator_.work_cond_factrs(),
-		   creator_.comp_sect_geom(),
+		   creator_.comp_sect_geom(true),
 		   cso};
 }
 CompSectOutputSP266 CompSectsCalculatorSP266::calculate(Node const & node)

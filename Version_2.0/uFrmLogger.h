@@ -31,6 +31,12 @@ public:		// User declarations
 						 String const & name2, double val2, String const & unit2,
 						 String const & name3, double val3, String const & unit3,
 						 String const & name4, double val4, String const & unit4)const;
+	void print_6_doubles(String const & name1, double val1, String const & unit1,
+						 String const & name2, double val2, String const & unit2,
+						 String const & name3, double val3, String const & unit3,
+						 String const & name4, double val4, String const & unit4,
+						 String const & name5, double val5, String const & unit5,
+						 String const & name6, double val6, String const & unit6)const;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFormLogger *FormLogger;

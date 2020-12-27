@@ -196,49 +196,47 @@ void ComposSectOutputSP35::fill_grid_with_max_direct_str_data(TStringGrid* str_g
 	str_grid -> Cells [1][6] = FloatToStrF(upper_fl_ratio_, ffFixed, 15, 2);
 	str_grid -> Cells [1][7] = FloatToStrF(lower_fl_ratio_, ffFixed, 15, 2);
 	str_grid -> Cells [1][8] = FloatToStrF(conc_ratio_, ffFixed, 15, 2);
-//       std::abs(
-
 }
 void ComposSectOutputSP35::print(TWord_Automation & report)const
 {
-	pl_coeff_.print(report);
+//	pl_coeff_.print(report);
 //	print_max_direct_str_ratio_sect(report);
 
-// Печать моментов
-	report.PasteTextPattern(length_to_str(nd_.x()),"%cs_x%");
-	report.PasteTextPattern(moment_to_str(M_1a_),"%M_1a%");
-	report.PasteTextPattern(moment_to_str(M_1b_),"%M_1b%");
-	report.PasteTextPattern(moment_to_str(M_2c_),"%M_2c%");
-	report.PasteTextPattern(moment_to_str(M_2d_),"%M_2d%");
-	report.PasteTextPattern(moment_to_str(M_total_),"%M_total%");
-
- // Печать напряжений
-
-	report.PasteTextPattern(FloatToStrF(sigma_b_kr_, ffFixed, 15, 2),"%sigma_b_kr%");
-	report.PasteTextPattern(FloatToStrF(sigma_r_kr_, ffFixed, 15, 2),"%sigma_r_kr%");
-	report.PasteTextPattern(FloatToStrF(sigma_b_shr_, ffFixed, 15, 2),"%sigma_b_shr%");
-	report.PasteTextPattern(FloatToStrF(sigma_r_shr_, ffFixed, 15, 2),"%sigma_r_shr%");
-
-	report.PasteTextPattern(FloatToStrF(sigma_b_, ffFixed, 15, 2),"%sigma_b%");
-	report.PasteTextPattern(FloatToStrF(sigma_r_, ffFixed, 15, 2),"%sigma_r%");
-
-//Печать Коэффициентов Использования
-	report.PasteTextPattern(FloatToStrF(nd_.x(), ffFixed, 15, 2),"%x_M%");
-	report.PasteTextPattern(FloatToStrF(upper_fl_ratio_, ffFixed, 15, 2),"%uf_ratio%");
-	report.PasteTextPattern(FloatToStrF(lower_fl_ratio_, ffFixed, 15, 2),"%lf_ratio%");
-	report.PasteTextPattern(FloatToStrF(conc_ratio_, ffFixed, 15, 2),"%conc_ratio%");
+//// Печать моментов
+//	report.PasteTextPattern(length_to_str(nd_.x()),"%cs_x%");
+//	report.PasteTextPattern(moment_to_str(M_1a_),"%M_1a%");
+//	report.PasteTextPattern(moment_to_str(M_1b_),"%M_1b%");
+//	report.PasteTextPattern(moment_to_str(M_2c_),"%M_2c%");
+//	report.PasteTextPattern(moment_to_str(M_2d_),"%M_2d%");
+//	report.PasteTextPattern(moment_to_str(M_total_),"%M_total%");
+//
+// // Печать напряжений
+//
+//	report.PasteTextPattern(FloatToStrF(sigma_b_kr_, ffFixed, 15, 2),"%sigma_b_kr%");
+//	report.PasteTextPattern(FloatToStrF(sigma_r_kr_, ffFixed, 15, 2),"%sigma_r_kr%");
+//	report.PasteTextPattern(FloatToStrF(sigma_b_shr_, ffFixed, 15, 2),"%sigma_b_shr%");
+//	report.PasteTextPattern(FloatToStrF(sigma_r_shr_, ffFixed, 15, 2),"%sigma_r_shr%");
+//
+//	report.PasteTextPattern(FloatToStrF(sigma_b_, ffFixed, 15, 2),"%sigma_b%");
+//	report.PasteTextPattern(FloatToStrF(sigma_r_, ffFixed, 15, 2),"%sigma_r%");
+//
+////Печать Коэффициентов Использования
+//	report.PasteTextPattern(FloatToStrF(nd_.x(), ffFixed, 15, 2),"%x_M%");
+//	report.PasteTextPattern(FloatToStrF(upper_fl_ratio_, ffFixed, 15, 2),"%uf_ratio%");
+//	report.PasteTextPattern(FloatToStrF(lower_fl_ratio_, ffFixed, 15, 2),"%lf_ratio%");
+//	report.PasteTextPattern(FloatToStrF(conc_ratio_, ffFixed, 15, 2),"%conc_ratio%");
 
 
 	//report.PasteTextPattern(FloatToStrF(x_, ffFixed, 15, 2),"%cs_x%");  //координата
 	 //  PasteTextPattern(FloatToStrF(max_direct_stress_ratio_section.get_x(), ffFixed, 15, 0),"%cs_x%");
 }
-void ComposSectOutputSP35::print_max_direct_str_ratio_sect(TWord_Automation & report)const
-{
-	report.PasteTextPattern(FloatToStrF(nd_.x(), ffFixed, 15, 2),"%x_M%");
-	report.PasteTextPattern(FloatToStrF(upper_fl_ratio_, ffFixed, 15, 2),"%uf_ratio%");
-	report.PasteTextPattern(FloatToStrF(lower_fl_ratio_, ffFixed, 15, 2),"%lf_ratio%");
-	report.PasteTextPattern(FloatToStrF(conc_ratio_, ffFixed, 15, 2),"%conc_ratio%");
-}
+//void ComposSectOutputSP35::print_max_direct_str_ratio_sect(TWord_Automation & report)const
+//{
+//	report.PasteTextPattern(FloatToStrF(nd_.x(), ffFixed, 15, 2),"%x_M%");
+//	report.PasteTextPattern(FloatToStrF(upper_fl_ratio_, ffFixed, 15, 2),"%uf_ratio%");
+//	report.PasteTextPattern(FloatToStrF(lower_fl_ratio_, ffFixed, 15, 2),"%lf_ratio%");
+//	report.PasteTextPattern(FloatToStrF(conc_ratio_, ffFixed, 15, 2),"%conc_ratio%");
+//}
 #ifndef NDEBUG
 void ComposSectOutputSP35::print_data_to_logger(TFormLogger const & log)const
 {

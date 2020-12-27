@@ -255,7 +255,7 @@ CompSectOutputSP266 const & CompSectsOutputListSP266::max_rigid_pl_sect()const
 }
 void CompSectsOutputListSP266::fill_grid(TStringGrid* str_grid)const
 {
-	CompSectOutputSP266 sect1 = max_direct_str_ratio_sect();
+	CompSectOutputSP266 sect1 = max_st_sect_ratio_sect();
 
 	str_grid -> Cells [1][2] = FloatToStrF(sect1.nd_.x(), ffFixed, 15, 0);
 	str_grid -> Cells [1][3] = FloatToStrF(sect1.st_sect_ratio_, ffFixed, 15, 2);
@@ -284,21 +284,30 @@ void CompSectsOutputListSP266::fill_comp_sect_grid(TStringGrid* str_grid)const
 void CompSectsOutputListSP266::print(TWord_Automation & report)const
 {
 	comp_sect_geom_.print(report);
-
 	glob_geom_.print(report);
 	loads_.print_SP266(report);
 	work_cond_factrs_.print(report);
 
-//		glob_geom_.
-//	work_cond_fctrs_.print(report);
-//	conc_.print(report);
-//	steel_.print(report);
-//	loads_.print(report);
-//	st_sect_ -> print_input(report);
-//	conc_sect_ -> print_input(report);
+	CompSectOutputSP266 sect1 = max_st_sect_ratio_sect();
 
-//	com_sect_.print(report);
-//	max_direct_str_ratio_sect().print(report);
+	report.PasteTextPattern(double_to_str(sect1.nd_.x(),0),"%x_M%");
+	report.PasteTextPattern(double_to_str(sect1.upper_fl_ratio_),"%uf_ratio%");
+	report.PasteTextPattern(double_to_str(sect1.lower_fl_ratio_),"%lf_ratio%");
+	report.PasteTextPattern(double_to_str(sect1.conc_ratio_),"%conc_ratio%");
 
+	CompSectOutputSP266 sect2 = max_direct_str_ratio_sect();
+
+	report.PasteTextPattern(double_to_str(sect2.nd_.x(), 0),"%x_M_I%");
+	report.PasteTextPattern(double_to_str(sect2.st_sect_ratio_),"%i_section_ratio%");
+
+	CompSectOutputSP266 sect3 = max_rigid_pl_sect();
+
+	report.PasteTextPattern(double_to_str(sect3.nd_.x(), 0),"%x_rigid_plastic%");
+	report.PasteTextPattern(double_to_str(sect3.rigid_pl_ratio_),"%rigid_plastic_ratio%");
+
+	CompSectOutputSP266 sect4 = max_shear_str_ratio_sect();
+
+	report.PasteTextPattern(double_to_str(sect4.nd_.x(), 0),"%x_Q%");
+	report.PasteTextPattern(double_to_str(sect4.shear_ratio_),"%ratio_shear%");
 }
 

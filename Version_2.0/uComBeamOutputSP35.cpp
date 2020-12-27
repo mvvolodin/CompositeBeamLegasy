@@ -19,8 +19,46 @@ void ComBeamOutputSP35::print(TWord_Automation & report)const
 {
 
 	com_sect_.print(report);
-	max_direct_str_ratio_sect().print(report);
 
+	ComposSectOutputSP35 sect1 = max_direct_str_ratio_sect();
+
+    //Печать коэффициентоа пластичности
+	sect1.pl_coeff().print(report);
+
+	// Печать моментов
+	report.PasteTextPattern(length_to_str(sect1.node().x()),"%cs_x%");
+	report.PasteTextPattern(moment_to_str(sect1.M_1a()),"%M_1a%");
+	report.PasteTextPattern(moment_to_str(sect1.M_1b()),"%M_1b%");
+	report.PasteTextPattern(moment_to_str(sect1.M_2c()),"%M_2c%");
+	report.PasteTextPattern(moment_to_str(sect1.M_2d()),"%M_2d%");
+	report.PasteTextPattern(moment_to_str(sect1.M_total()),"%M_total%");
+
+ // Печать напряжений
+
+	report.PasteTextPattern(FloatToStrF(sect1.sigma_b_kr(), ffFixed, 15, 2),"%sigma_b_kr%");
+	report.PasteTextPattern(FloatToStrF(sect1.sigma_r_kr(), ffFixed, 15, 2),"%sigma_r_kr%");
+	report.PasteTextPattern(FloatToStrF(sect1.sigma_b_shr(), ffFixed, 15, 2),"%sigma_b_shr%");
+	report.PasteTextPattern(FloatToStrF(sect1.sigma_r_shr(), ffFixed, 15, 2),"%sigma_r_shr%");
+
+	report.PasteTextPattern(FloatToStrF(sect1.sigma_b(), ffFixed, 15, 2),"%sigma_b%");
+	report.PasteTextPattern(FloatToStrF(sect1.sigma_r(), ffFixed, 15, 2),"%sigma_r%");
+
+//Печать Коэффициентов Использования
+
+	report.PasteTextPattern(FloatToStrF(sect1.node().x(), ffFixed, 15, 2),"%x_M%");
+	report.PasteTextPattern(FloatToStrF(sect1.upper_fl_ratio(), ffFixed, 15, 2),"%uf_ratio%");
+	report.PasteTextPattern(FloatToStrF(sect1.lower_fl_ratio(), ffFixed, 15, 2),"%lf_ratio%");
+	report.PasteTextPattern(FloatToStrF(sect1.conc_ratio(), ffFixed, 15, 2),"%conc_ratio%");
+
+	ComposSectOutputSP35 sect2 = max_direct_str_ratio_sect();
+
+	report.PasteTextPattern(FloatToStrF(sect2.node().x(), ffFixed, 15, 2),"%x_M_I%");
+	report.PasteTextPattern(FloatToStrF(sect2.st_sect_ratio(), ffFixed, 15, 2),"%i_section_ratio%");
+
+	ComposSectOutputSP35 sect3 = max_shear_str_ratio_sect();
+
+	report.PasteTextPattern(FloatToStrF(sect3.node().x(), ffFixed, 15, 2),"%x_Q%");
+	report.PasteTextPattern(FloatToStrF(sect3.shear_ratio(), ffFixed, 15, 2),"%ratio_shear%");
 }
 std::vector<double> ComBeamOutputSP35::x_lst()const
 {

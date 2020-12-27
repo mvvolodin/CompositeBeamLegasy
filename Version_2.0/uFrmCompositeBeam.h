@@ -230,21 +230,20 @@ public:		// User declarations
 private:
 	TCompositeBeamMainFormCntrlsState cntrls_state_;
 
-	void set_form_controls();
-
-	void cotr_ratios_grid_SP266();
-	void cotr_ratios_grid_SP35();
-
-	void render_ratios_grid_SP35(TStringGrid* str_gr, int ACol,
-		int ARow, TRect &Rect);
-	void render_ratios_grid_SP266(TStringGrid* str_gr, int ACol,
-		int ARow, TRect &Rect);
+	void fill_cmb_bx_impact();
+	void fill_cmb_bx_corrugated_sheets();
 
 	void cotr_comp_sect_geometr_grid();
 	void cotr_steel_sect_geometr_grid();
 	void ctor_concrete_sect_geometr_grid();
-	void fill_cmb_bx_impact();
-	void fill_cmb_bx_corrugated_sheets();
+
+	void cotr_ratios_grid_SP266();
+	void render_ratios_grid_SP266(TStringGrid* str_gr, int ACol,
+		int ARow, TRect &Rect);
+	void cotr_ratios_grid_SP35();
+
+	void render_ratios_grid_SP35(TStringGrid* str_gr, int ACol,
+		int ARow, TRect &Rect);
 
 	void clean_static_scheme();
 	void clean_2nd_col_grid(TStringGrid* str_grd);
@@ -254,9 +253,12 @@ private:
 	void set_GUI_SP266();
 
 	void calculate_composite_beam();
-    void calculate_studs();
-	void calculate_composite_beam_SP266();
-	void calculate_composite_beam_SP35();
+
+	void calculate_studs_SP266();
+	void calculate_studs_SP35();
+
+	void calculate_composite_sections_SP266();
+	void calculate_composite_sections_SP35();
 
 	void after_calculation();
 

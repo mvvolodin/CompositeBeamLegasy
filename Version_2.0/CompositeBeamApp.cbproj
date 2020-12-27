@@ -423,9 +423,10 @@
             <DependentOn>uLongShearForcesCalculator.h</DependentOn>
             <BuildOrder>68</BuildOrder>
         </CppCompile>
-        <CppCompile Include="Unit1.cpp">
-            <DependentOn>Unit1.h</DependentOn>
-            <BuildOrder>83</BuildOrder>
+        <CppCompile Include="uLongShearForcesCalculatorSP266.cpp">
+            <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
+            <DependentOn>uLongShearForcesCalculatorSP266.h</DependentOn>
+            <BuildOrder>88</BuildOrder>
         </CppCompile>
         <CppCompile Include="uPiecewiseLinearFunc.cpp">
             <DependentOn>uPiecewiseLinearFunc.h</DependentOn>
@@ -486,6 +487,16 @@
             <DependentOn>uStudRowOutputSP35.h</DependentOn>
             <BuildOrder>70</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uStudRowSP266.cpp">
+            <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
+            <DependentOn>uStudRowSP266.h</DependentOn>
+            <BuildOrder>84</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uStudRowSP266Calculated.cpp">
+            <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
+            <DependentOn>uStudRowSP266Calculated.h</DependentOn>
+            <BuildOrder>86</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uStudsGOSTR55738.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
             <DependentOn>uStudsGOSTR55738.h</DependentOn>
@@ -511,6 +522,21 @@
             <DependentOn>uStudSP35.h</DependentOn>
             <BuildOrder>71</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uStudsSP266.cpp">
+            <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
+            <DependentOn>uStudsSP266.h</DependentOn>
+            <BuildOrder>83</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uStudsSP266Calculated.cpp">
+            <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
+            <DependentOn>uStudsSP266Calculated.h</DependentOn>
+            <BuildOrder>87</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uStudsSP266Calculator.cpp">
+            <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
+            <DependentOn>uStudsSP266Calculator.h</DependentOn>
+            <BuildOrder>85</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uUnits_new.cpp">
             <DependentOn>uUnits_new.h</DependentOn>
             <BuildOrder>66</BuildOrder>
@@ -527,13 +553,13 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
-        <FormResources Include="uFrmRebar.dfm"/>
-        <FormResources Include="uFrmLogger.dfm"/>
-        <FormResources Include="uFrmHelp.dfm"/>
-        <FormResources Include="uFrmConcrete.dfm"/>
-        <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmSteel.dfm"/>
+        <FormResources Include="uFrmRebar.dfm"/>
+        <FormResources Include="uFrmLogger.dfm"/>
+        <FormResources Include="uFrmStud.dfm"/>
+        <FormResources Include="uFrmHelp.dfm"/>
+        <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
         <FormResources Include="uFrmAboutProg.dfm"/>
@@ -569,8 +595,8 @@
                     <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
                     <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
                     <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
-                    <VFOLDER ID="{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}" name="StudsSP266"/>
                     <VFOLDER ID="{BAA6577C-FEE2-454E-9C61-62D15EDEA398}" name="StudSP35"/>
+                    <VFOLDER ID="{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}" name="StudsSP266"/>
                 </VFOLDERS>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>

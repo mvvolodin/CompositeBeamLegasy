@@ -36,6 +36,7 @@ enum class LengthUnit{  //mm = 1, cm = 0.1, m = 0.001 лучше?
 };
 
 AnsiString double_to_str(double val, int num_digits = 2);
+AnsiString bool_to_str(bool val);
 
 AnsiString length_to_str(double val, LengthUnit length_unit = LengthUnit::mm, int num_digits = 2);
 AnsiString area_to_str(double val, LengthUnit length_unit = LengthUnit::cm, int num_digits = 2);
