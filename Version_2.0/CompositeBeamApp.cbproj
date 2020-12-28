@@ -184,9 +184,6 @@
             <DependentOn>Get_param_sect_func.h</DependentOn>
             <BuildOrder>30</BuildOrder>
         </CppCompile>
-        <None Include="ICompositeBeam.h">
-            <BuildOrder>49</BuildOrder>
-        </None>
         <None Include="ListConst.H">
             <BuildOrder>25</BuildOrder>
         </None>
@@ -197,9 +194,6 @@
             <DependentOn>MathFunction.h</DependentOn>
             <BuildOrder>43</BuildOrder>
         </CppCompile>
-        <None Include="ObserverPatternInterfaces.h">
-            <BuildOrder>48</BuildOrder>
-        </None>
         <CppCompile Include="pCanvas_func.cpp">
             <VirtualFolder>{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}</VirtualFolder>
             <DependentOn>pCanvas_func.h</DependentOn>
@@ -369,10 +363,6 @@
             <DependentOn>uGeneralSteelSection.h</DependentOn>
             <BuildOrder>52</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uGeometry.cpp">
-            <DependentOn>uGeometry.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uGlobGeom.cpp">
             <DependentOn>uGlobGeom.h</DependentOn>
             <BuildOrder>64</BuildOrder>
@@ -382,17 +372,9 @@
             <DependentOn>uGraphicObjects.h</DependentOn>
             <BuildOrder>60</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uInternalForcesCalculator.cpp">
-            <DependentOn>uInternalForcesCalculator.h</DependentOn>
-            <BuildOrder>48</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uIntForcesCalculator.cpp">
             <DependentOn>uIntForcesCalculator.h</DependentOn>
             <BuildOrder>58</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uISection.cpp">
-            <DependentOn>uISection.h</DependentOn>
-            <BuildOrder>11</BuildOrder>
         </CppCompile>
         <CppCompile Include="uLinearFunc.cpp">
             <DependentOn>uLinearFunc.h</DependentOn>
@@ -435,10 +417,6 @@
         <CppCompile Include="uSteel.cpp">
             <DependentOn>uSteel.h</DependentOn>
             <BuildOrder>38</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uSteelPart.cpp">
-            <DependentOn>uSteelPart.h</DependentOn>
-            <BuildOrder>44</BuildOrder>
         </CppCompile>
         <CppCompile Include="uSteelTable.cpp">
             <DependentOn>uSteelTable.h</DependentOn>
@@ -532,13 +510,13 @@
         <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmSteel.dfm"/>
-        <FormResources Include="uFrmRebar.dfm"/>
+        <FormResources Include="uFrmAddImacts.dfm"/>
         <FormResources Include="uFrmAboutProg.dfm"/>
+        <FormResources Include="uFrmRebar.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
-        <FormResources Include="uFrmAddImacts.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -25,8 +25,6 @@
 // Пользовательские заголовочные файлы
 //---------------------------------------------------------------------------
 
-
-#include "uCompositeBeamCalculator.h"//Подключаем логику
 #include "uFrmStud.h"
 #include "uFrmConcrete.h"
 #include "uFrmRebar.h"

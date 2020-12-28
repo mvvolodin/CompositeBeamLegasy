@@ -10,7 +10,6 @@
 #include <Vcl.Buttons.hpp>
 #include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-#include "uStud.h"
 #include "ObserverPatternInterfaces.h"
 #include "uFrmsCntrlsState.h"
 //---------------------------------------------------------------------------

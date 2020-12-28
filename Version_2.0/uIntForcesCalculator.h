@@ -4,8 +4,8 @@
 #define uIntForcesCalculatorH
 
 #include <map>
+#include <vector>
 #include "uLoads.h"
-#include "uGeometry.h"
 
 //---------------------------------------------------------------------------
 class IntForcesCalculator{
