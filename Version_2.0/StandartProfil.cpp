@@ -102,23 +102,23 @@ void  TStandartProfil::SetProfil(int index) //
    double Channel_Sector[18][8] = CHANNEL_SECTOR;
    AnsiString Name_Channel[18] = NAME_CHANNEL;
 
-   double Gost_G57837DB[55][14] = GOST_G57837DB;
-   AnsiString Name_Gost_G57837DB[55] = NAME_GOST_G57837DB;
+   double Gost_G57837DB[77][14] = GOST_G57837DB;
+   AnsiString Name_Gost_G57837DB[77] = NAME_GOST_G57837DB;
 
    double Gost_G57837_K[89][14] = GOST_G57837_K;
    AnsiString Name_Gost_G57837_K[89] = NAME_GOST_G57837_K;
 
-   double Gost_G57837_B[50][14] = GOST_G57837_B;
-   AnsiString Name_Gost_G57837_B[50] = NAME_GOST_G57837_B;
+   double Gost_G57837_B[49][14] = GOST_G57837_B;
+   AnsiString Name_Gost_G57837_B[49] = NAME_GOST_G57837_B;
 
-   double Gost_G57837Sh[66][14] = GOST_G57837Sh;
-   AnsiString Name_Gost_G57837Sh[66] = NAME_GOST_G57837Sh;
+   double Gost_G57837Sh[74][14] = GOST_G57837Sh;
+   AnsiString Name_Gost_G57837Sh[74] = NAME_GOST_G57837Sh;
 
    double Gost_G57837_S[14][14] = GOST_G57837_S;
    AnsiString Name_Gost_G57837_S[14] = NAME_GOST_G57837_S;
 
-   double Gost_G57837DK[28][14] = GOST_G57837DK;
-   AnsiString Name_Gost_G57837DK[28] = NAME_GOST_G57837DK;
+   double Gost_G57837DK[37][14] = GOST_G57837DK;
+   AnsiString Name_Gost_G57837DK[37] = NAME_GOST_G57837DK;
 
    n_Profil = 0;
 
