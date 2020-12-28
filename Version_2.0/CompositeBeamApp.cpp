@@ -7,9 +7,9 @@
 USEFORM("uFrmStud.cpp", StudDefinitionForm);
 USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
 USEFORM("uFrmSteel.cpp", DefineSteelForm);
-USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
-USEFORM("uFrmAboutProg.cpp", AboutProgForm);
 USEFORM("uFrmRebar.cpp", RebarDefinitionForm);
+USEFORM("uFrmAboutProg.cpp", AboutProgForm);
+USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
 USEFORM("uFrmLogger.cpp", FormLogger);
 USEFORM("uFrmHelp.cpp", HelpForm);
 USEFORM("uFrmConcrete.cpp", ConcreteDefinitionForm);

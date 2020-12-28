@@ -184,9 +184,6 @@
             <DependentOn>Get_param_sect_func.h</DependentOn>
             <BuildOrder>30</BuildOrder>
         </CppCompile>
-        <None Include="ListConst.H">
-            <BuildOrder>25</BuildOrder>
-        </None>
         <None Include="Logger.h">
             <BuildOrder>77</BuildOrder>
         </None>
@@ -217,9 +214,6 @@
             <DependentOn>String_doubleUnit.h</DependentOn>
             <BuildOrder>42</BuildOrder>
         </CppCompile>
-        <None Include="TypeData.h">
-            <BuildOrder>34</BuildOrder>
-        </None>
         <CppCompile Include="uBilinearInterp.cpp">
             <DependentOn>uBilinearInterp.h</DependentOn>
             <BuildOrder>56</BuildOrder>
@@ -510,9 +504,9 @@
         <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmSteel.dfm"/>
-        <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="uFrmAboutProg.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
+        <FormResources Include="uFrmAboutProg.dfm"/>
+        <FormResources Include="uFrmAddImacts.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>

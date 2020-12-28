@@ -10,7 +10,6 @@
 #include <Vcl.Buttons.hpp>
 #include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-#include "ObserverPatternInterfaces.h"
 #include "uFrmsCntrlsState.h"
 //---------------------------------------------------------------------------
 class TStudDefinitionForm : public TForm

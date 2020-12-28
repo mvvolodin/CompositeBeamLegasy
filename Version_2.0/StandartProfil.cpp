@@ -4,7 +4,7 @@
 
 
 #include "StandartProfil.h"
-#include "ListConst.h"
+#include "Constants.h"
 #include "ProcExt.h"
 #include "Get_param_sect_func.h"
 
@@ -283,7 +283,7 @@ void  TStandartProfil::SetProfil(int index) //
 	 #ifdef EMBRAC
 	 i = Application->MessageBox((L"Ошибочный тип профиля двутавра "+IntToStr(index)).c_str(), L"SetProfil", MB_OK | MB_ICONERROR);
 	 #else
-	 i = Application->MessageBox(("Ошибочный тип профиля двутавра "+IntToStr(index)).c_str(), "SetProfil", MB_OK | MB_ICONERROR);
+	 i = Application->MessageBox((L"Ошибочный тип профиля двутавра "+IntToStr(index)).c_str(), L"SetProfil", MB_OK | MB_ICONERROR);
 	 #endif
 	 n_Profil = 0;
      return;

@@ -25,8 +25,6 @@
 #include "String_doubleUnit.h"
 #include "GArrow.h"
 #include "uFrmsCntrlsState.h"
-
-#include "uISection.h"
 //---------------------------------------------------------------------------
 
 class TSteelSectionForm : public TForm

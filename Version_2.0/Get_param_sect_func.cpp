@@ -11,7 +11,7 @@
 #pragma package(smart_init)
 
 #include "Data_Profil.h"
-#include "ListConst.h"
+#include "Constants.h"
 #include "ProcExt.h"
 #include "StandartProfil.h"
 
@@ -47,8 +47,8 @@ void Get_param_sect(SECT_DVUTAVR* section, GEOM_PARAM_SECT *param_sect) {
 	  rc = Application->MessageBox(L"Get_param_sect:Программная ошибка. Номер группы стандартного сечения > 1000",
 			   L"Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
 	  #else
-	  rc = Application->MessageBox("Get_param_sect:Программная ошибка. Номер группы стандартного сечения > 1000",
-			   "Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
+	  rc = Application->MessageBox(L"Get_param_sect:Программная ошибка. Номер группы стандартного сечения > 1000",
+			   L"Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
 	  #endif
 	  return;
    }
@@ -444,8 +444,8 @@ void Get_param_sect_comm(int type, COMMON_SECT* section, GEOM_PARAM_SECT *param_
 	   int rc = Application->MessageBox(L"Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
 			   L"Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
 	  #else
-	   int rc = Application->MessageBox("Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
-			   "Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
+	   int rc = Application->MessageBox(L"Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
+			   L"Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
 	  #endif
 	   return;
      }
@@ -521,8 +521,8 @@ void Get_param_sect_comm(int type, COMMON_SECT* section, GEOM_PARAM_SECT *param_
 		int rc = Application->MessageBox(L"Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
 			   L"Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
 	  #else
-		int rc = Application->MessageBox("Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
-			   "Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
+		int rc = Application->MessageBox(L"Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
+			   L"Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
 	  #endif
 		return;
       }
@@ -601,8 +601,8 @@ void Get_param_sect_comm(int type, COMMON_SECT* section, GEOM_PARAM_SECT *param_
 		int rc = Application->MessageBox(L"Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
 			   L"Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
 	  #else
-		int rc = Application->MessageBox("Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
-			   "Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
+		int rc = Application->MessageBox(L"Get_param_sect_comm:Программная ошибка. Номер группы и/или номер профиля неверны",
+			   L"Вычисление геометрических параметров сечения ", MB_OK | MB_ICONERROR);
 	  #endif
 		return;
       }

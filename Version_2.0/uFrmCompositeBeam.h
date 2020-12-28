@@ -19,11 +19,16 @@
 #include <Vcl.ImgList.hpp>
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Graphics.hpp>
+#include <Vcl.Imaging.pngimage.hpp>
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 // Пользовательские заголовочные файлы
 //---------------------------------------------------------------------------
+
+#include <memory>
+#include <Vcl.Imaging.jpeg.hpp>
+#include <Vcl.Imaging.pngimage.hpp>
 
 #include "uFrmStud.h"
 #include "uFrmConcrete.h"
@@ -42,11 +47,6 @@
 #include "uComposSectCalculatorS35.h"
 #include "uGlobGeom.h"
 
-#include <Vcl.Imaging.jpeg.hpp>
-#include <Vcl.Imaging.pngimage.hpp>
-#include <memory>
-#include "ObserverPatternInterfaces.h"//подключаем интерфейсы шаблона Наблюдатель
-#include "ICompositeBeam.h"
 #include "Logger.h"
 
 
