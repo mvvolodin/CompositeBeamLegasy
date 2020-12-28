@@ -243,18 +243,6 @@
             <DependentOn>uCompBeamObjsCreatorSP266.h</DependentOn>
             <BuildOrder>78</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uCompositeBeam.cpp">
-            <DependentOn>uCompositeBeam.h</DependentOn>
-            <BuildOrder>48</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uCompositeBeamCalculator.cpp">
-            <DependentOn>uCompositeBeamCalculator.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uCompositeSectionGeometry.cpp">
-            <DependentOn>uCompositeSectionGeometry.h</DependentOn>
-            <BuildOrder>11</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uComposSectCalculatorS35.cpp">
             <DependentOn>uComposSectCalculatorS35.h</DependentOn>
             <BuildOrder>51</BuildOrder>
@@ -290,10 +278,6 @@
         <CppCompile Include="uConcrete.cpp">
             <DependentOn>uConcrete.h</DependentOn>
             <BuildOrder>39</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uConcretePart.cpp">
-            <DependentOn>uConcretePart.h</DependentOn>
-            <BuildOrder>15</BuildOrder>
         </CppCompile>
         <CppCompile Include="uCorrugatedConcreteSection.cpp">
             <DependentOn>uCorrugatedConcreteSection.h</DependentOn>
@@ -444,10 +428,6 @@
             <DependentOn>uRolledSection.h</DependentOn>
             <BuildOrder>49</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uSection.cpp">
-            <DependentOn>uSection.h</DependentOn>
-            <BuildOrder>50</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uSlabConcreteSection.cpp">
             <DependentOn>uSlabConcreteSection.h</DependentOn>
             <BuildOrder>53</BuildOrder>
@@ -467,10 +447,6 @@
         <CppCompile Include="uSteelTableObjects.cpp">
             <DependentOn>uSteelTableObjects.h</DependentOn>
             <BuildOrder>64</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uStud.cpp">
-            <DependentOn>uStud.h</DependentOn>
-            <BuildOrder>42</BuildOrder>
         </CppCompile>
         <CppCompile Include="uStudRowCalculatorSP35.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>

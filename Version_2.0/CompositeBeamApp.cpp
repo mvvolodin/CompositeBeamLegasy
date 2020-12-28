@@ -4,18 +4,17 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
+USEFORM("uFrmStud.cpp", StudDefinitionForm);
 USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
 USEFORM("uFrmSteel.cpp", DefineSteelForm);
 USEFORM("uFrmRebar.cpp", RebarDefinitionForm);
+USEFORM("uFrmAboutProg.cpp", AboutProgForm);
 USEFORM("uFrmLogger.cpp", FormLogger);
-USEFORM("uFrmStud.cpp", StudDefinitionForm);
 USEFORM("uFrmHelp.cpp", HelpForm);
 USEFORM("uFrmConcrete.cpp", ConcreteDefinitionForm);
 USEFORM("uFrmCompositeBeam.cpp", CompositeBeamMainForm);
 USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
-USEFORM("uFrmAboutProg.cpp", AboutProgForm);
 //---------------------------------------------------------------------------
-
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
