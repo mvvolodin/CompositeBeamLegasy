@@ -24,7 +24,7 @@
 #include "uCompSectGeomSP266.h"
 #include "uIntForcesCalculator.h"
 
-#include "uStudsSP266.cpp"
+#include "uStudsSP266.h"
 
 class CompBeamObjsCreatorSP266{
 
