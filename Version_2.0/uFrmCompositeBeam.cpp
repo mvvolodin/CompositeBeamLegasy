@@ -33,6 +33,8 @@
 //---------------------------------------------------------------------------
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 
+extern std::wstring file_path;
+
 std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
 std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
 StudsOutputSP35 studs_output;
@@ -54,13 +56,29 @@ StudsSP266Calculated studs_SP266_output;
 
 	fill_cmb_bx_impact();
 	fill_cmb_bx_corrugated_sheets();
+}
+void TCompositeBeamMainForm::open(std::wstring const & fp)
+{
+	std::ifstream ifs {fp, std::ios::in | std::ios::binary};
 
-	modify_project = false;
+	cntrls_state_.load(ifs);
+	SteelSectionForm -> load(ifs);
+	ConcreteDefinitionForm -> load(ifs);
+	RebarDefinitionForm -> load(ifs);
+	StudDefinitionForm -> load(ifs);
+	DefineSteelForm -> load(ifs);
 
+	ifs.close();
+
+	Caption = L"Расчет комбинированной балки - " + String{fp.c_str()};
 }
 //----------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 {
+	if(!file_path.empty())
+		open(file_path);
+	file_path.clear();//чтобы не загрузить данные снова в случае события FormShow
+
 	update_GUI(cntrls_state_.rd_grp_code_data_);
 	update_all_frms_cntrls();
 
@@ -830,13 +848,13 @@ void TCompositeBeamMainForm::update_composite_sect_geometr_grid_SP35()
 void __fastcall TCompositeBeamMainForm ::NNewClick(TObject *Sender)
 {
 	int i;
-	if (modify_project) {
+	if (is_proj_modified) {
 		 i=Application->MessageBox(L"Сохранить текущий проект?", L" ",
 				  MB_YESNO | MB_ICONQUESTION);
 		 if (i==IDYES) NSaveClick(Sender);
 	}
 	strcpy(ModelFile, UNTITLED);
-	modify_project = false;
+	is_proj_modified = false;
 
 	Caption = "Расчет комбинированной балки - [Новый проект]";
 }
@@ -869,7 +887,7 @@ void __fastcall TCompositeBeamMainForm ::NSaveClick(TObject *Sender)
 
    Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
 
-   modify_project = false;
+   is_proj_modified = false;
 }
 
 void __fastcall TCompositeBeamMainForm ::NSaveAsClick(TObject *Sender)
@@ -903,7 +921,7 @@ void ModelName(char * str0, char* ModelFile)
 
 void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 {
-//
+
    NNewClick(Sender);
 
    if(OpenDialog_Model->Execute())
@@ -936,9 +954,10 @@ void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 
 	  Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
 
-	  modify_project = false;
+	  is_proj_modified = false;
 
    }
+
 
 }
 //---------------------------------------------------------------------------
@@ -965,6 +984,8 @@ void __fastcall TCompositeBeamMainForm::OnControlsChange(TObject *Sender)
 	clean_2nd_col_grid(strng_grd_concrete_sect_geom_character);
 	clean_2nd_col_grid(strng_grd_steel_sect_geom_character);
 	clean_2nd_col_grid(strng_grd_results);
+
+    is_proj_modified = true;
 }
 //---------------------------------------------------------------------------
 
@@ -1252,6 +1273,7 @@ void TCompositeBeamMainForm::update_all_frms_cntrls()
 	RebarDefinitionForm -> update_cntrls_state();
 	ConcreteDefinitionForm -> update_cntrls_state();
 	DefineSteelForm -> update_cntrls_state();
+	StudDefinitionForm -> update_cntrls_state();
 	//второстепенные формы обновляются первыми для того, чтобы верно отобразить информацию на панелях
 	update_cntrls();
 }

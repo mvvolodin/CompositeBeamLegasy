@@ -49,10 +49,6 @@
 
 #include "Logger.h"
 
-
-
-
-
 void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
 
 class TCompositeBeamMainForm : public TForm
@@ -282,7 +278,7 @@ private:
 	void generate_report_SP35();
 
 	#define UNTITLED  "Без имени"
-	bool modify_project;  // признак изменения проекта после сохранения
+    bool is_proj_modified;
 	char ModelFile[240]; //Это имя файла?
 	AnsiString FileDir_Name; //Это имя директории?
 
@@ -296,6 +292,10 @@ private:
 	#endif
 
 	void clean_grid(TStringGrid* str_gr);
+
+	void open(std::wstring const & fp);
+
+
 
 };
 //---------------------------------------------------------------------------

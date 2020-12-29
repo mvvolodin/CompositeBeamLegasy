@@ -48,6 +48,6 @@ object AboutProgForm: TAboutProgForm
     Top = 35
     Width = 64
     Height = 13
-    Caption = #1042#1077#1088#1089#1080#1103' 1.0.0'
+    Caption = #1042#1077#1088#1089#1080#1103' 2.0.0'
   end
 end
