@@ -61,6 +61,9 @@ public:
 
 	String info()const;
 	TStudDefinitionFormCntrlsState const & cntrls_state(){return cntrls_state_;}
+
+	void set_GUI_SP266();
+	void set_GUI_SP35();
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TStudDefinitionForm *StudDefinitionForm;

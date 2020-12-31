@@ -125,4 +125,23 @@ void TStudDefinitionForm::load(istream & is)
 {
 	cntrls_state_.load_cntrls_state(is);
 }
+void TStudDefinitionForm::set_GUI_SP266()
+{
+	int const cntrls_shift = 25;
+
+	lbl_middle_studs_dist -> Top -= cntrls_shift;
+	edt_middle_studs_dist -> Top -= cntrls_shift;
+	chck_bx_more_than_one_stud_per_corrugation_edge -> Visible = true;
+	chck_bx_more_than_one_stud_per_corrugation_middle -> Visible = true;
+}
+void TStudDefinitionForm::set_GUI_SP35()
+{
+	int const cntrls_shift = 25;
+
+	lbl_middle_studs_dist -> Top += cntrls_shift;
+	edt_middle_studs_dist -> Top += cntrls_shift;
+	chck_bx_more_than_one_stud_per_corrugation_edge -> Visible = false;
+	chck_bx_more_than_one_stud_per_corrugation_middle -> Visible = false;
+}
+
 

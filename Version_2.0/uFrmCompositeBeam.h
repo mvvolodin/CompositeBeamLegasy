@@ -49,7 +49,7 @@
 
 #include "Logger.h"
 
-void ModelName(char * str0, char *ModelFile);  // Выделение из имени файла в имени модели
+void ModelName(wchar_t * str0, wchar_t *ModelFile);  // Выделение из имени файла в имени модели
 
 class TCompositeBeamMainForm : public TForm
 {
@@ -78,7 +78,7 @@ __published:	// IDE-managed Components
 	TBitBtn *BtBtnExit;
 	TMenuItem *NNew;
 	TMenuItem *NExit;
-	TMenuItem *N2;
+	TMenuItem *mru_separ_begin;
 	TToolButton *ToolButton1;
 	TPageControl *PgCntrlCompositeBeam;
 	TTabSheet *TbShtStaticScheme;
@@ -185,6 +185,12 @@ __published:	// IDE-managed Components
 	TEdit *edt_fact_quasi_perm_load;
 	TLabel *lbl_fact_quasi_perm_load;
 	TButton *btn_logger;
+	TMenuItem *mru4;
+	TMenuItem *mru3;
+	TMenuItem *mru1;
+	TMenuItem *mru0;
+	TMenuItem *mru2;
+	TMenuItem *mru_separ_end;
 
 
 	void __fastcall BtnCalculateClick(TObject *Sender);
@@ -218,11 +224,26 @@ __published:	// IDE-managed Components
 	void __fastcall HelpClick(TObject *Sender);
 	void __fastcall rd_grp_codeClick(TObject *Sender);
 	void __fastcall btn_loggerClick(TObject *Sender);
+	void __fastcall mru_file_path_click(TObject *Sender);
+	void __fastcall NFileClick(TObject *Sender);
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;
+	__fastcall ~TCompositeBeamMainForm()override;
 
 private:
+	enum class GUI{
+		SP266,
+		SP35
+	};
+    GUI gui_;
 	TCompositeBeamMainFormCntrlsState cntrls_state_;
+
+	std::vector<std::wstring> mru_files_;
+	int const num_mru_files_ = 5;
+	void add_mru_file(std::wstring const & fp);
+	void fill_mru_files_list();
+	void read_mru_files_list();
+	void write_mru_files_list();
 
 	void fill_cmb_bx_impact();
 	void fill_cmb_bx_corrugated_sheets();
@@ -242,7 +263,7 @@ private:
 	void clean_static_scheme();
 	void clean_2nd_col_grid(TStringGrid* str_grd);
 
-	void update_GUI(int code_indx);
+	void update_GUI(GUI new_gui);
 	void set_GUI_SP35();
 	void set_GUI_SP266();
 
@@ -277,10 +298,10 @@ private:
 	void generate_report_SP266();
 	void generate_report_SP35();
 
-	#define UNTITLED  "Без имени"
-    bool is_proj_modified;
-	char ModelFile[240]; //Это имя файла?
-	AnsiString FileDir_Name; //Это имя директории?
+	#define UNTITLED  L"Без имени"
+	bool is_proj_modified;
+	wchar_t ModelFile[240]; //Это имя файла?
+	String FileDir_Name; //Это имя директории?
 
 	void update_cntrls();
 	void update_all_frms_cntrls();
@@ -294,6 +315,7 @@ private:
 	void clean_grid(TStringGrid* str_gr);
 
 	void open(std::wstring const & fp);
+    bool is_already_opened(std::wstring const & fp);
 
 
 

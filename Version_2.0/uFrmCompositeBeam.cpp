@@ -30,10 +30,13 @@
 #include "uStudsSP266Calculator.h"
 #include "uStudsSP266Calculated.h"
 
+#include <System.Win.Registry.hpp>
+
 //---------------------------------------------------------------------------
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 
 extern std::wstring file_path;
+const wchar_t* RegKey = L"Software\\CompositeBeam_v_2.0";
 
 std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
 std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
@@ -48,7 +51,9 @@ StudsSP266Calculated studs_SP266_output;
 {
 	#ifndef NDEBUG
 	btn_logger -> Visible = true;
-    #endif
+	#endif
+
+	read_mru_files_list();
 
 	cotr_comp_sect_geometr_grid();
 	cotr_steel_sect_geometr_grid();
@@ -56,6 +61,26 @@ StudsSP266Calculated studs_SP266_output;
 
 	fill_cmb_bx_impact();
 	fill_cmb_bx_corrugated_sheets();
+}
+ _fastcall TCompositeBeamMainForm ::~TCompositeBeamMainForm ()
+{
+	write_mru_files_list();
+}
+//----------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
+{
+	if(!file_path.empty())
+		open(file_path);
+	file_path.clear();//чтобы не загрузить данные снова в случае события FormShow
+
+	gui_ = GUI::SP266; //стартовый GUI
+
+	update_all_frms_cntrls();
+	update_GUI(static_cast<GUI>(cntrls_state_.rd_grp_code_data_));
+
+	calculate_composite_beam();
+	after_calculation();
 }
 void TCompositeBeamMainForm::open(std::wstring const & fp)
 {
@@ -72,22 +97,6 @@ void TCompositeBeamMainForm::open(std::wstring const & fp)
 
 	Caption = L"Расчет комбинированной балки - " + String{fp.c_str()};
 }
-//----------------------------------------------------------------------
-void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
-{
-	if(!file_path.empty())
-		open(file_path);
-	file_path.clear();//чтобы не загрузить данные снова в случае события FormShow
-
-	update_GUI(cntrls_state_.rd_grp_code_data_);
-	update_all_frms_cntrls();
-
-	calculate_composite_beam();
-	after_calculation();
-}
-
-//---------------------------------------------------------------------------
-//	Функция запускающая расчёт композитной балки
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 {
@@ -95,8 +104,6 @@ void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 	calculate_composite_beam();
 	after_calculation();
 }
-//---------------------------------------------------------------------------
-//Сформировать и открыть отчёт
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::btn_reportClick(TObject *Sender)
 {
@@ -853,7 +860,7 @@ void __fastcall TCompositeBeamMainForm ::NNewClick(TObject *Sender)
 				  MB_YESNO | MB_ICONQUESTION);
 		 if (i==IDYES) NSaveClick(Sender);
 	}
-	strcpy(ModelFile, UNTITLED);
+	wcscpy(ModelFile, UNTITLED);
 	is_proj_modified = false;
 
 	Caption = "Расчет комбинированной балки - [Новый проект]";
@@ -864,7 +871,7 @@ void __fastcall TCompositeBeamMainForm ::NSaveClick(TObject *Sender)
 	store_all_frms_cntrls_state(); //актуализируем композитную балку из полей формы
    // Получение имени директории, в которой находится исполняемый модуль
 
-   if  (strcmp(ModelFile, UNTITLED)==0) {
+   if  (wcscmp(ModelFile, UNTITLED)==0) {
 	  if(SaveDialog_Model->Execute())
 	  {
 		  FileDir_Name = SaveDialog_Model->FileName;;//поле класс хранит путь полный
@@ -892,47 +899,52 @@ void __fastcall TCompositeBeamMainForm ::NSaveClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm ::NSaveAsClick(TObject *Sender)
 {
-	strcpy(ModelFile, UNTITLED);
+	wcscpy(ModelFile, UNTITLED);
 	NSaveClick(Sender);
 }
 //---------------------------------------------------------------------------
 //@--------------------------------------------------------------------------
 // Выделение из имени файла в имени модели
-void ModelName(char * str0, char* ModelFile)
+void ModelName(wchar_t * str0, wchar_t* ModelFile)
 {
-	  char *ptr1, *ptr2;
+	  wchar_t *ptr1, *ptr2;
 	 // char i, str[240];
-	 char str[240]; //MV 15.04.2020
+	 wchar_t str[240]; //MV 15.04.2020
 
-	  if  (strcmp(ModelFile, UNTITLED)==0) {
+	  if  (wcscmp(ModelFile, UNTITLED)==0) {
 	   //i= 240<strlen(str0) ? 240 : strlen(str0);
-	   240<strlen(str0) ? 240 : strlen(str0); //MV 15.04.2020
-	   strcpy(str,str0);
-	   ptr1 = strrchr(str,'\\');
-	   ptr2 = strrchr(ptr1,'.');
+	   240<wcslen(str0) ? 240 : wcslen(str0); //MV 15.04.2020
+	   wcscpy(str,str0);
+	   ptr1 = wcsrchr(str,'\\');
+	   ptr2 = wcsrchr(ptr1,'.');
 	   if (ptr2!=NULL)
 		 *ptr2='\0';
 	   if (ptr1==NULL)
-		 strcpy(ModelFile, str);
+		 wcscpy(ModelFile, str);
 	   else
-		 strcpy(ModelFile, ptr1+1);
+		 wcscpy(ModelFile, ptr1+1);
 	  }
 }
-
+bool TCompositeBeamMainForm ::is_already_opened(std::wstring const & fp)
+{
+	bool b = (fp == mru_files_.back());
+	return fp == mru_files_.back();
+}
 void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 {
-
    NNewClick(Sender);
 
    if(OpenDialog_Model->Execute())
-   {
-	  FileDir_Name = OpenDialog_Model->FileName;
-   }
+	  FileDir_Name = OpenDialog_Model -> FileName;
+
+   if (is_already_opened(FileDir_Name.c_str()))
+		return;
+
    if (FileDir_Name!="") {
 
-	  strcpy(ModelFile, UNTITLED);
-
 	  std::ifstream ifs {FileDir_Name.c_str(), std::ios::in | std::ios::binary};
+
+	  add_mru_file(FileDir_Name.c_str());
 
 	  cntrls_state_.load(ifs);
 
@@ -948,7 +960,9 @@ void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 
 	  calculate_composite_beam();
 
-      after_calculation();
+	  after_calculation();
+
+	  wcscpy(ModelFile, UNTITLED);
 
 	  ModelName(FileDir_Name.c_str(), ModelFile);
 
@@ -1278,26 +1292,30 @@ void TCompositeBeamMainForm::update_all_frms_cntrls()
 	update_cntrls();
 }
 
-void TCompositeBeamMainForm::update_GUI(int code_indx)
+void TCompositeBeamMainForm::update_GUI(GUI new_gui)
 {
-	switch (code_indx){
-	case(0):
+	switch (new_gui){
+	case(GUI::SP266):
 		set_GUI_SP266();
 		break;
-	case(1):
+	case(GUI::SP35):
 		set_GUI_SP35();
 		break;
 	}
+
+	gui_ = new_gui;
 }
 void __fastcall TCompositeBeamMainForm::rd_grp_codeClick(TObject *Sender)
 {
 	OnControlsChange(nullptr);
 
-	update_GUI(static_cast<TRadioGroup*>(Sender) -> ItemIndex);
+	int const code_index = static_cast<TRadioGroup*>(Sender) -> ItemIndex;
+
+	update_GUI(static_cast<GUI>(code_index));
 }
 void TCompositeBeamMainForm::set_GUI_SP35()
 {
-    cotr_ratios_grid_SP35();
+	cotr_ratios_grid_SP35();
 	rdgrp_slab_type -> ItemIndex = 0;
 	rdgrp_slab_type -> Buttons [1] -> Visible = false;
 
@@ -1311,6 +1329,7 @@ void TCompositeBeamMainForm::set_GUI_SP35()
 	rdgrp_slab_typeClick(nullptr);
 
 	ConcreteDefinitionForm -> set_GUI_SP35();
+	StudDefinitionForm -> set_GUI_SP35();
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::set_GUI_SP266()
@@ -1326,6 +1345,7 @@ void TCompositeBeamMainForm::set_GUI_SP266()
 	lbl_fact_quasi_perm_load -> Top = 62;
 
 	ConcreteDefinitionForm -> set_GUI_SP266();
+	StudDefinitionForm -> set_GUI_SP266();
 }
 //---------------------------------------------------------------------------
 
@@ -1455,6 +1475,90 @@ void TCompositeBeamMainForm::render_ratios_grid_SP35(TStringGrid* str_gr, int AC
 	}
 }
 
+//---------------------------------------------------------------------------
+
+void __fastcall TCompositeBeamMainForm::mru_file_path_click(TObject *Sender)
+{
+	TMenuItem* item_clicked  {dynamic_cast<TMenuItem*>(Sender)};
+
+	int const index = mru0 -> MenuIndex - item_clicked -> MenuIndex;
+	std::wstring const file_path {mru_files_[index]};
+
+	open(file_path);
+
+	update_all_frms_cntrls();
+	update_GUI(static_cast<GUI>(cntrls_state_.rd_grp_code_data_));
+
+	calculate_composite_beam();
+
+	after_calculation();
+}
+void TCompositeBeamMainForm::add_mru_file(std::wstring const & fp)
+{
+	if (mru_files_.size() == num_mru_files_)
+		mru_files_.erase(mru_files_.begin());
+
+	mru_files_.emplace_back(fp);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::fill_mru_files_list()
+{
+	if(mru_files_.empty())
+		return;
+
+	MainMenu1-> Items -> Items[0] ->
+		Items[mru4 -> MenuIndex - 1] -> Visible = true;
+
+	for(int i = 0; i < mru_files_.size(); ++i)
+		if(mru_files_[i] != L""){
+			MainMenu1-> Items -> Items[0] -> Items[mru0 -> MenuIndex - i] ->
+				Caption = mru_files_[i].c_str();
+			MainMenu1-> Items -> Items[0] -> Items[mru0 -> MenuIndex - i] -> Visible = true;
+		}
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::write_mru_files_list()
+{
+	std::unique_ptr<TRegistry> reg = std::make_unique<TRegistry>();
+
+	reg -> OpenKey(RegKey, true);
+
+	std::wstring str1 = mru_files_[0];
+	std::wstring str2 = mru_files_[1];
+	std::wstring str3 = mru_files_[2];
+	std::wstring str4 = mru_files_[3];
+	std::wstring str5 = mru_files_[4];
+
+	reg -> WriteString("MRU1", mru_files_[0].c_str());
+	reg -> WriteString("MRU2", mru_files_[1].c_str());
+	reg -> WriteString("MRU3", mru_files_[2].c_str());
+	reg -> WriteString("MRU4", mru_files_[3].c_str());
+	reg -> WriteString("MRU5", mru_files_[4].c_str());
+}
+void TCompositeBeamMainForm::read_mru_files_list()
+{
+	std::unique_ptr<TRegistry> reg = std::make_unique<TRegistry>();
+
+	if (!reg -> OpenKey(RegKey, false)){
+	reg -> OpenKey(RegKey, true);
+	reg -> WriteString("MRU1", "");
+	reg -> WriteString("MRU2", "");
+	reg -> WriteString("MRU3", "");
+	reg -> WriteString("MRU4", "");
+	reg -> WriteString("MRU5", "");
+	}
+
+	mru_files_.push_back(reg -> ReadString("MRU1").c_str());
+	mru_files_.push_back(reg -> ReadString("MRU2").c_str());
+	mru_files_.push_back(reg -> ReadString("MRU3").c_str());
+	mru_files_.push_back(reg -> ReadString("MRU4").c_str());
+	mru_files_.push_back(reg -> ReadString("MRU5").c_str());
+}
+
+void __fastcall TCompositeBeamMainForm::NFileClick(TObject *Sender)
+{
+	fill_mru_files_list();
+}
 //---------------------------------------------------------------------------
 
 

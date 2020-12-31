@@ -47,7 +47,7 @@ void __fastcall TAboutProgForm::FormShow(TObject *Sender)
           ft.ft_hour, min
        );
      // напечатать дату
-	   Label_Prog->Caption = "Версия 1.0 от " + AnsiString(stroka);
+	   Label_Prog->Caption = "Версия 2.0 от " + AnsiString(stroka);
      }
      else {
         //InfMessage("Невозможно установить дату исполняемого файла ");
