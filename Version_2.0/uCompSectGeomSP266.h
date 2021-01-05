@@ -6,7 +6,7 @@
 #include <Vcl.Grids.hpp>
 #include "uGeneralConcreteSection.h"
 #include "uGeneralSteelSection.h"
-#include "uConcrete.h"
+#include "uConcreteSP266.h"
 #include "uSteel.h"
 //---------------------------------------------------------------------------
 class CompSectGeomSP266{
@@ -24,22 +24,22 @@ public:
 	CompSectGeomSP266() = default;
 	CompSectGeomSP266(Steel const & steel,
 					   std::unique_ptr<GeneralSteelSection>  st_sect,
-					   Concrete const & concrete,
+					   ConcreteSP266 const & concrete,
 					   std::unique_ptr<GeneralConcreteSection> conc_sect,
 					   bool is_E_b_reduced);
 	double E_s()const {return conc_sect_ -> rebars().rebar().E_s();}
-	double E_b()const{return concrete_.get_E_b();}
-	double E_b_tau()const {return concrete_.get_E_b_tau();}
+	double E_b()const{return concrete_.E_b();}
+	double E_b_tau()const {return concrete_.E_b_tau();}
 	double E_st()const {return steel_.get_E_st();}
 
 	double alpha_b()const {return alpha_b_;}
 	double alpha_s()const {return alpha_s_;}
 
 	double R_y()const {return steel_.get_R_y();}
-	double R_b()const {return concrete_.get_R_b();}
+	double R_b()const {return concrete_.R_b();}
 	double R_s()const {return conc_sect_ -> rebars().rebar().R_s();}
 
-	double eps_b_lim() const {return concrete_.get_epsilon_b_lim();}
+	double eps_b_lim() const {return concrete_.eps_b_lim();}
 
 	double A_st()const {return st_sect_ -> area();}
 	double A_f2()const {return st_sect_ -> area_upper_fl();}
@@ -61,7 +61,6 @@ public:
 	double W_b_red()const{return W_b_red_;}
 	double W_b_st()const{return W_b_st_;}
 	double I_red()const{return I_red_;}
-	double eps_shr()const{return concrete_.eps_shr();}
 
 	double A_s()const;
 
@@ -80,7 +79,7 @@ private:
 
 	Steel steel_;
 	std::unique_ptr<GeneralSteelSection> st_sect_;
-	Concrete concrete_;
+	ConcreteSP266 concrete_;
 	std::unique_ptr<GeneralConcreteSection> conc_sect_;
 
 	bool is_E_b_reduced_;

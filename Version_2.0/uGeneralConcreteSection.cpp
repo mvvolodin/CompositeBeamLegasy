@@ -5,7 +5,7 @@
 #include "uGeneralConcreteSection.h"
 #include "MathFunction.h"
 #include <algorithm>
-#include "uUnits_new.h"
+#include "uUnits.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 GeneralConcreteSection::GeneralConcreteSection(double const h_f,

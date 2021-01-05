@@ -8,7 +8,7 @@
  CompSectGeomSP266::CompSectGeomSP266(
 	Steel const & steel,
 	std::unique_ptr<GeneralSteelSection> st_sect,
-	Concrete const & concrete,
+	ConcreteSP266 const & concrete,
 	std::unique_ptr<GeneralConcreteSection> conc_sect,
 	bool is_E_b_reduced):
 		steel_(steel),
@@ -24,7 +24,7 @@
 void CompSectGeomSP266::calculate()
 {
 	double const E_b =
-		(is_E_b_reduced_)? concrete_.get_E_b_tau():concrete_.get_E_b();
+		(is_E_b_reduced_)? concrete_.E_b_tau():concrete_.E_b();
 	double const E_st = steel_.get_E_st();
 	double const E_s = conc_sect_ -> rebars().rebar().E_s();
 
@@ -80,7 +80,7 @@ CompSectGeomSP266::NeutralAxis CompSectGeomSP266::calc_neutral_axis()
 	double x_w = 0.;
 
 	const double b_sl = conc_sect_ -> b_sl();
-	const double R_b = concrete_.get_R_b();
+	const double R_b = concrete_.R_b();
 	const double R_y = steel_.get_R_y();
 
 	const double A_st = st_sect_ -> area();
@@ -123,7 +123,7 @@ CompSectGeomSP266::NeutralAxis CompSectGeomSP266::calc_neutral_axis()
 void CompSectGeomSP266::calc_rigid_plastic_moment()
 {
 	auto [na_location, x_na] {calc_neutral_axis()};
-	const double R_b = concrete_.get_R_b();
+	const double R_b = concrete_.R_b();
 	const double C_b = conc_sect_ -> C_b();
 	const double b_sl = conc_sect_ -> b_sl();
 	const double h = conc_sect_ -> h();
@@ -191,7 +191,7 @@ void CompSectGeomSP266::print(TWord_Automation & report)const
 	st_sect_ -> print_SP266(report);
 	steel_.print_SP266(report);
 	conc_sect_ -> print_SP266(report);
-	concrete_.print_SP266(report);
+	concrete_.print(report);
 
 	report.PasteTextPattern(area_to_str(A_red_),"%area_com_bm%");
 	report.PasteTextPattern(inertia_to_str(I_red_),"%inertia_com_bm%");

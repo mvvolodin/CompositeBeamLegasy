@@ -18,6 +18,7 @@
 #include "uCorrugatedConcreteSection.h"
 
 #include "uConcrete.h"
+#include "uConcreteSP266.h"
 #include "uSteel.h"
 #include "uWorkingConditionsFactors.h"
 
@@ -46,9 +47,9 @@ public:
 	SteelSectUPtr steel_sect()const;
 	ConcSectUPtr concrete_sect()const;
 	Steel steel()const;
-	Concrete concrete()const;
 	WorkingConditionsFactors work_cond_factrs()const;
 	StudsSP266 studs()const;
+	ConcreteSP266 concrete()const;
 
 	CompSectGeomSP266 comp_sect_geom(bool is_Eb_reduced)const;
 	IntForcesCalculator int_forces_calculator()const;

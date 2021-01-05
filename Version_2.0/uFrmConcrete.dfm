@@ -8,7 +8,6 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
   Color = clBtnFace
   ParentFont = True
   OldCreateOrder = False
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object pnl_concrete_grade: TPanel
@@ -122,7 +121,21 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
       Height = 13
       Caption = #1053#1086#1088#1084#1072#1090#1080#1074#1085#1072#1103' '#1076#1077#1092#1086#1088#1084#1072#1094#1080#1103' '#1087#1086#1083#1079#1091#1095#1077#1089#1090#1080' '#1073#1077#1090#1086#1085#1072
     end
-    object edt_R_bn: TEdit
+    object lbl_R_b: TLabel
+      Left = 16
+      Top = 22
+      Width = 281
+      Height = 13
+      Caption = #1056#1072#1089#1095#1105#1090#1085#1086#1077' '#1089#1086#1087#1088#1086#1090#1080#1074#1083#1077#1085#1080#1077' '#1073#1077#1090#1086#1085#1072' '#1087#1088#1080' '#1089#1078#1072#1090#1080#1080' Rb, '#1052#1055#1072':'
+    end
+    object lbl_R_bt: TLabel
+      Left = 16
+      Top = 50
+      Width = 309
+      Height = 13
+      Caption = #1056#1072#1089#1095#1105#1090#1085#1086#1077' '#1089#1086#1087#1088#1086#1090#1080#1074#1083#1077#1085#1080#1077' '#1073#1077#1090#1086#1085#1072' '#1087#1088#1080' '#1088#1072#1089#1090#1103#1078#1077#1085#1080#1080' Rbt, '#1052#1055#1072':'
+    end
+    object edt_comp_strength: TEdit
       Left = 373
       Top = 19
       Width = 52
@@ -131,7 +144,7 @@ object ConcreteDefinitionForm: TConcreteDefinitionForm
       ReadOnly = True
       TabOrder = 0
     end
-    object edt_R_btn: TEdit
+    object edt_tens_strength: TEdit
       Left = 373
       Top = 46
       Width = 52

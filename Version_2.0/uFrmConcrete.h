@@ -8,19 +8,20 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Buttons.hpp>
 #include <Vcl.ExtCtrls.hpp>
-#include <map>
 //---------------------------------------------------------------------------
+#include <map>
 #include "uConcrete.h"
 #include "uFrmsCntrlsState.h"
+#include "uGUI.h"
 //---------------------------------------------------------------------------
 class TConcreteDefinitionForm : public TForm
 {
 __published:	// IDE-managed Components
 	TLabel *lbl_R_bn;
 	TLabel *lbl_E_b;
-	TEdit *edt_R_bn;
+	TEdit *edt_comp_strength;
 	TEdit *edt_E_b;
-	TEdit *edt_R_btn;
+	TEdit *edt_tens_strength;
 	TLabel *lbl_R_btn;
 	TComboBox *cmb_bx_concrete_grade_list;
 	TLabel *lbl_concrete_grade;
@@ -41,17 +42,24 @@ __published:	// IDE-managed Components
 	TButton *btn_OK;
 	TEdit *edt_c_n;
 	TLabel *lbl_c_n;
+	TLabel *lbl_R_b;
+	TLabel *lbl_R_bt;
 	void __fastcall cmb_bx_concrete_grade_listChange(TObject *Sender);
-	void __fastcall FormShow(TObject *Sender);
-    void __fastcall btn_OKClick(TObject *Sender);
+	void __fastcall btn_OKClick(TObject *Sender);
 	void __fastcall btn_cancelClick(TObject *Sender);
 	void __fastcall btn_closeClick(TObject *Sender);
 
 private:	// User declarations
 	TConcreteDefinitionFormCntrlsState cntrls_state_;
+    GUI gui_;
+
 	void check_input();
 
-	void after_cmb_bx_conc_grade_list_change(int index);
+	void after_cmb_bx_conc_grade_list_change_SP266(unsigned int index);
+	void after_cmb_bx_conc_grade_list_change_SP35(unsigned int index);
+
+	void fill_cmb_bx_conc_grades_SP266();
+	void fill_cmb_bx_conc_grades_SP35();
 
 public:		// User declarations
 	__fastcall TConcreteDefinitionForm(TComponent* Owner);
@@ -64,6 +72,7 @@ public:		// User declarations
 
 	String info()const;
 	TConcreteDefinitionFormCntrlsState const & cntrls_state(){return cntrls_state_;}
+
 	void set_GUI_SP35();
 	void set_GUI_SP266();
 };

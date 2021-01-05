@@ -9,11 +9,11 @@ USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
 USEFORM("uFrmSteel.cpp", DefineSteelForm);
 USEFORM("uFrmRebar.cpp", RebarDefinitionForm);
 USEFORM("uFrmAboutProg.cpp", AboutProgForm);
-USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
 USEFORM("uFrmLogger.cpp", FormLogger);
 USEFORM("uFrmHelp.cpp", HelpForm);
 USEFORM("uFrmConcrete.cpp", ConcreteDefinitionForm);
 USEFORM("uFrmCompositeBeam.cpp", CompositeBeamMainForm);
+USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
 //---------------------------------------------------------------------------
 std::wstring file_path;
 

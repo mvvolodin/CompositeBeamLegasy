@@ -86,7 +86,7 @@ struct TDefineSteelFormCntrlsState{
 //--------------------------------------------------------------------------
 struct TConcreteDefinitionFormCntrlsState{
 
-	int cmb_bx_conc_grade_index_{4};
+	unsigned int cmb_bx_conc_grade_index_{4};
 	double edt_density_data_{2500};
 	double edt_phi_b_cr_data_{2.3};
 	double edt_gamma_b_data_{1.3};

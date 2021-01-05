@@ -19,7 +19,7 @@
 #include "uComBeamInputSP35.h"
 #include "uStudsInputSP35.h"
 #include "uStudsOutputSP35.h"
-#include "uUnits_new.h"
+#include "uUnits.h"
 #include "uStudRowCalculatorSP35.h"
 
 #include "uCompBeamObjsCreatorSP266.h"
@@ -60,7 +60,9 @@ StudsSP266Calculated studs_SP266_output;
 	ctor_concrete_sect_geometr_grid();
 
 	fill_cmb_bx_impact();
+
 	fill_cmb_bx_corrugated_sheets();
+
 }
  _fastcall TCompositeBeamMainForm ::~TCompositeBeamMainForm ()
 {
@@ -74,10 +76,8 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 		open(file_path);
 	file_path.clear();//чтобы не загрузить данные снова в случае события FormShow
 
-	gui_ = GUI::SP266; //стартовый GUI
-
-	update_all_frms_cntrls();
 	update_GUI(static_cast<GUI>(cntrls_state_.rd_grp_code_data_));
+    update_all_frms_cntrls();
 
 	calculate_composite_beam();
 	after_calculation();
@@ -663,7 +663,7 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
 
-    store_all_frms_cntrls_state();
+	store_all_frms_cntrls_state();
 
 	switch(cntrls_state_.rd_grp_code_data_)
 	{
@@ -1295,11 +1295,20 @@ void TCompositeBeamMainForm::update_all_frms_cntrls()
 void TCompositeBeamMainForm::update_GUI(GUI new_gui)
 {
 	switch (new_gui){
+
 	case(GUI::SP266):
+
 		set_GUI_SP266();
+		ConcreteDefinitionForm -> set_GUI_SP266();
+		StudDefinitionForm -> set_GUI_SP266();
+
 		break;
 	case(GUI::SP35):
+
 		set_GUI_SP35();
+		ConcreteDefinitionForm -> set_GUI_SP35();
+		StudDefinitionForm -> set_GUI_SP35();
+
 		break;
 	}
 
@@ -1326,15 +1335,14 @@ void TCompositeBeamMainForm::set_GUI_SP35()
 	edt_fact_quasi_perm_load -> Top = 22;
 	lbl_fact_quasi_perm_load -> Top = 22;
 
-	rdgrp_slab_typeClick(nullptr);
-
-	ConcreteDefinitionForm -> set_GUI_SP35();
-	StudDefinitionForm -> set_GUI_SP35();
+//	rdgrp_slab_typeClick(nullptr);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::set_GUI_SP266()
 {
 	cotr_ratios_grid_SP266();
+
+	rdgrp_slab_type -> ItemIndex = 0;
 	rdgrp_slab_type -> Buttons [1] -> Visible = true;
 
 	btn_add_impacts -> Visible = true;
@@ -1343,9 +1351,6 @@ void TCompositeBeamMainForm::set_GUI_SP266()
 	lbl_sheeting_continuity_coefficient -> Visible = true;
 	edt_fact_quasi_perm_load -> Top = 62;
 	lbl_fact_quasi_perm_load -> Top = 62;
-
-	ConcreteDefinitionForm -> set_GUI_SP266();
-	StudDefinitionForm -> set_GUI_SP266();
 }
 //---------------------------------------------------------------------------
 

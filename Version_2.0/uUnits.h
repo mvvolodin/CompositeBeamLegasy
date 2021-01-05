@@ -1,7 +1,7 @@
 ﻿//---------------------------------------------------------------------------
 
-#ifndef uUnits_newH
-#define uUnits_newH
+#ifndef uUnitsH
+#define uUnitsH
 
 #include <system.hpp>
 

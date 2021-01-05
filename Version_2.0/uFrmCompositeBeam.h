@@ -46,6 +46,7 @@
 #include "uFrmsCntrlsState.h"
 #include "uComposSectCalculatorS35.h"
 #include "uGlobGeom.h"
+#include "uGUI.h"
 
 #include "Logger.h"
 
@@ -231,10 +232,6 @@ public:		// User declarations
 	__fastcall ~TCompositeBeamMainForm()override;
 
 private:
-	enum class GUI{
-		SP266,
-		SP35
-	};
     GUI gui_;
 	TCompositeBeamMainFormCntrlsState cntrls_state_;
 
