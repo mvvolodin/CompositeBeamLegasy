@@ -66,11 +66,8 @@ public:
 	double W_s2_s() const {return modulus_upper_fl();}
 	double W_s1_s() const {return modulus_lower_fl();}
 
-	virtual void print_input(TWord_Automation & report)const = 0;
-	virtual void print_output(TWord_Automation & report)const = 0;
-	virtual void print_SP266(TWord_Automation & report)const;
+	virtual void print(TWord_Automation & report)const;
 
-	void fill_grid_SP266(TStringGrid* str_grid)const;
 	void fill_grid(TStringGrid* str_grid)const;
 #ifndef NDEBUG
 	virtual void print_data_to_logger(TFormLogger const & log)const = 0;

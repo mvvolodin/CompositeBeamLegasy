@@ -37,8 +37,6 @@ public:
 	double smaller_fl_area_plus_web_area_to_total_area_ratio()const override;
 	double SW()const override;
     double radius()const;
-	void print_input(TWord_Automation & report)const override;
-	void print_output(TWord_Automation & report)const override;
 #ifndef NDEBUG
 	void print_data_to_logger(TFormLogger const & log)const override;
 #endif

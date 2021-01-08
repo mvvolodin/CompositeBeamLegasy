@@ -1,7 +1,7 @@
 ﻿//---------------------------------------------------------------------------
 
-#ifndef uCompBeamObjsCreatorSP266H
-#define uCompBeamObjsCreatorSP266H
+#ifndef uCompBeamObjsCreatorSP35H
+#define uCompBeamObjsCreatorSP35H
 
 #include <memory>
 #include "uFrmsCntrlsState.h"
@@ -18,23 +18,21 @@
 #include "uCorrugatedConcreteSection.h"
 
 #include "uConcrete.h"
-#include "uConcreteSP266.h"
+#include "uConcreteSP35.h"
 #include "uSteel.h"
 #include "uWorkingConditionsFactors.h"
 
-#include "uCompSectGeomSP266.h"
+#include "uCompSectGeomSP35.h"
 #include "uIntForcesCalculator.h"
 
-#include "uStudsSP266.h"
-
-class CompBeamObjsCreatorSP266{
+class CompBeamObjsCreatorSP35{
 
 public:
 	using SteelSectUPtr = std::unique_ptr<GeneralSteelSection>;
 	using ConcSectUPtr = std::unique_ptr<GeneralConcreteSection>;
 
-	CompBeamObjsCreatorSP266() = delete;
-	CompBeamObjsCreatorSP266(
+	CompBeamObjsCreatorSP35() = delete;
+	CompBeamObjsCreatorSP35(
 		TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state,
 		TConcreteDefinitionFormCntrlsState const & conc_frm_cntrls_state,
 		TSteelSectionFormCntrlsState const & st_sect_frm_cntrls_state,
@@ -48,10 +46,10 @@ public:
 	ConcSectUPtr concrete_sect()const;
 	Steel steel()const;
 	WorkingConditionsFactors work_cond_factrs()const;
-	StudsSP266 studs()const;
-	ConcreteSP266 concrete()const;
+	ConcreteSP35 concrete()const;
 
-	CompSectGeomSP266 comp_sect_geom(bool is_Eb_reduced)const;
+	CompSectGeomSP35 comp_sect_geom(
+		CompSectGeomSP35::ConcStateConsid state)const;
 	IntForcesCalculator int_forces_calculator()const;
 
 private:

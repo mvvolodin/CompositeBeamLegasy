@@ -31,7 +31,7 @@ public:
 	virtual double SW(double dens) const = 0;
 
 	void fill_grid(TStringGrid* str_grid)const;
-	void fill_grid_SP266(TStringGrid* str_grid)const;
+//	void fill_grid_SP266(TStringGrid* str_grid)const;
     void print_SP266(TWord_Automation & report)const;
 	void print_input(TWord_Automation & report)const;
 	void print_output(TWord_Automation & report)const;

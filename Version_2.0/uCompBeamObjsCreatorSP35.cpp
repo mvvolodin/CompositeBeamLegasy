@@ -1,14 +1,12 @@
 ﻿//---------------------------------------------------------------------------
-
 #pragma hdrstop
-
-#include "uCompBeamObjsCreatorSP266.h"
+#include "uCompBeamObjsCreatorSP35.h"
 #include "uSteelTableObjects.h"
 #include "uStudsGOSTR55738.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-CompBeamObjsCreatorSP266::CompBeamObjsCreatorSP266(
+CompBeamObjsCreatorSP35::CompBeamObjsCreatorSP35(
 	TCompositeBeamMainFormCntrlsState const & main_frm_cntrls_state,
 	TConcreteDefinitionFormCntrlsState const & conc_frm_cntrls_state,
 	TSteelSectionFormCntrlsState const & st_sect_frm_cntrls_state,
@@ -22,7 +20,7 @@ CompBeamObjsCreatorSP266::CompBeamObjsCreatorSP266(
 		rebar_frm_cntrls_state_(rebar_frm_cntrls_state),
 		studs_frm_cntrls_state_(studs_frm_cntrls_state){}
 
-GlobGeom CompBeamObjsCreatorSP266::glob_geometry()const
+GlobGeom CompBeamObjsCreatorSP35::glob_geometry()const
 {
 	return {main_frm_cntrls_state_.edt_max_elem_length_data_,
 			static_cast<bool>(main_frm_cntrls_state_.chck_bx_end_beam_data_),
@@ -31,11 +29,11 @@ GlobGeom CompBeamObjsCreatorSP266::glob_geometry()const
 			main_frm_cntrls_state_.edt_width_right_data_,
 			main_frm_cntrls_state_.cmb_bx_number_propping_supports_data_};
 }
-Loads CompBeamObjsCreatorSP266::loads()const
+Loads CompBeamObjsCreatorSP35::loads()const
 {
 	SteelSectUPtr const st_sect {steel_sect()};
 	ConcSectUPtr const conc_sect {concrete_sect()};
-	ConcreteSP266 const conc {concrete()};
+	ConcreteSP35 const conc {concrete()};
 	GlobGeom glob_geom {glob_geometry()};
 
 	if (main_frm_cntrls_state_.rdgrp_slab_type_data_ == 0)
@@ -78,8 +76,8 @@ Loads CompBeamObjsCreatorSP266::loads()const
 				0,
 				glob_geom.trib_width()};
 }
-CompBeamObjsCreatorSP266::SteelSectUPtr
-	CompBeamObjsCreatorSP266::steel_sect()const
+CompBeamObjsCreatorSP35::SteelSectUPtr
+	CompBeamObjsCreatorSP35::steel_sect()const
 {
 	if(st_sect_frm_cntrls_state_.pg_cntrl_sect_type_ == 0)
 		return std::make_unique<RolledSection>(
@@ -94,8 +92,8 @@ CompBeamObjsCreatorSP266::SteelSectUPtr
 			st_sect_frm_cntrls_state_.edt_h_w_,
 			st_sect_frm_cntrls_state_.edt_t_w_);
 }
-CompBeamObjsCreatorSP266::ConcSectUPtr
-	CompBeamObjsCreatorSP266::concrete_sect()const
+CompBeamObjsCreatorSP35::ConcSectUPtr
+	CompBeamObjsCreatorSP35::concrete_sect()const
 {
 	Rebars rebars{{rebar_frm_cntrls_state_.cmb_bx_rebar_grade_,
 				   rebar_frm_cntrls_state_.edt_E_s_,
@@ -131,7 +129,7 @@ CompBeamObjsCreatorSP266::ConcSectUPtr
 			main_frm_cntrls_state_.chck_bx_end_beam_data_,
 			rebars);
 }
-Steel CompBeamObjsCreatorSP266::steel()const
+Steel CompBeamObjsCreatorSP35::steel()const
 {
 	SteelTableRow const & st_table_row {steel_tables[st_frm_cntrls_state_.cmb_bx_standard_index_]
 													[st_frm_cntrls_state_.cmb_bx_steel_grades_index_]};
@@ -148,21 +146,22 @@ Steel CompBeamObjsCreatorSP266::steel()const
 			st_frm_cntrls_state_.edt_dens_data_,
 			st_frm_cntrls_state_.edt_gamma_m_data_};
 }
-WorkingConditionsFactors CompBeamObjsCreatorSP266::work_cond_factrs()const
+WorkingConditionsFactors CompBeamObjsCreatorSP35::work_cond_factrs()const
 {
 	return {main_frm_cntrls_state_.edt_gamma_bi_data_,
 			main_frm_cntrls_state_.edt_gamma_si_data_,
 			main_frm_cntrls_state_.edt_gamma_c_data_};
 }
-CompSectGeomSP266 CompBeamObjsCreatorSP266::comp_sect_geom(bool is_Eb_reduced)const
+CompSectGeomSP35 CompBeamObjsCreatorSP35::comp_sect_geom(
+	CompSectGeomSP35::ConcStateConsid state)const
 {
 	return {steel(),
 			steel_sect(),
 			concrete(),
 			concrete_sect(),
-			is_Eb_reduced};
+			state};
 }
-IntForcesCalculator CompBeamObjsCreatorSP266::int_forces_calculator()const
+IntForcesCalculator CompBeamObjsCreatorSP35::int_forces_calculator()const
 {
 	GlobGeom const glob_geom = glob_geometry();
 
@@ -170,38 +169,8 @@ IntForcesCalculator CompBeamObjsCreatorSP266::int_forces_calculator()const
 		   glob_geom.span(),
 		   loads()};
 }
-StudsSP266 CompBeamObjsCreatorSP266::studs()const
-{
-	GlobGeom const glob_geom {glob_geometry()};
-	ConcreteSP266 const conc {concrete()};
 
-	int const st_index = studs_frm_cntrls_state_.cmb_bx_stud_part_number_index_;
-
-	StudSP266 stud {StudsGOSTR55738::name(st_index),
-					StudsGOSTR55738::d_1(st_index),
-					StudsGOSTR55738::l_1(st_index),
-					studs_frm_cntrls_state_.edt_stud_yield_strength_data_,
-					conc.R_b(),
-					studs_frm_cntrls_state_.edt_stud_safety_factor_data_};
-
-	bool const is_corr_slab =
-		(main_frm_cntrls_state_.rdgrp_slab_type_data_ == 0)? false: true;
-
-	return{stud,
-		   glob_geom.span(),
-		   studs_frm_cntrls_state_.edt_edge_studs_dist_data_,
-		   studs_frm_cntrls_state_.edt_middle_studs_dist_data_,
-		   studs_frm_cntrls_state_.cmb_bx_edge_studs_rows_num_index_ + 1,
-		   studs_frm_cntrls_state_.cmb_bx_middle_studs_rows_num_index_ + 1,
-		   studs_frm_cntrls_state_.chck_bx_more_than_one_stud_per_corrugation_edge_data_,
-		   studs_frm_cntrls_state_.chck_bx_more_than_one_stud_per_corrugation_middle_data_,
-		   is_corr_slab,
-		   CorrugatedSheetsData::get_corrugated_sheet(
-				main_frm_cntrls_state_.cmb_bx_corrugated_sheeting_part_number_data_),
-		   main_frm_cntrls_state_.chck_bx_wider_flange_up_data_,
-		   main_frm_cntrls_state_.chck_bx_sheet_orient_along_data_};
-}
-ConcreteSP266 CompBeamObjsCreatorSP266::concrete()const
+ConcreteSP35 CompBeamObjsCreatorSP35::concrete()const
 {
 	return {conc_frm_cntrls_state_.cmb_bx_conc_grade_index_,
 		conc_frm_cntrls_state_.edt_epsilon_b_lim_data_,
@@ -210,8 +179,4 @@ ConcreteSP266 CompBeamObjsCreatorSP266::concrete()const
 		conc_frm_cntrls_state_.edt_gamma_b_data_,
 		conc_frm_cntrls_state_.edt_gamma_bt_data_};
 }
-
-
-
-
 

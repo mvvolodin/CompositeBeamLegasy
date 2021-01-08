@@ -136,7 +136,6 @@
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <UsePackages>false</UsePackages>
         <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;xmlrtl.lib;vclimg.lib;bcbie.lib</LinkPackageStatics>
-        <Debugger_RunParams>C:\Users\mvolodin\Documents\Embarcadero\Studio\Projects\Composite Beam\Version_2.0\Верификация\Tests\ARSS_example_from_book.arsC</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -229,9 +228,14 @@
             <BuildOrder>63</BuildOrder>
         </CppCompile>
         <CppCompile Include="uCompBeamObjsCreatorSP266.cpp">
-            <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
+            <VirtualFolder>{9161B14D-5039-483E-83D5-95C8807DE09B}</VirtualFolder>
             <DependentOn>uCompBeamObjsCreatorSP266.h</DependentOn>
             <BuildOrder>78</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompBeamObjsCreatorSP35.cpp">
+            <VirtualFolder>{9161B14D-5039-483E-83D5-95C8807DE09B}</VirtualFolder>
+            <DependentOn>uCompBeamObjsCreatorSP35.h</DependentOn>
+            <BuildOrder>84</BuildOrder>
         </CppCompile>
         <CppCompile Include="uComposSectCalculatorS35.cpp">
             <DependentOn>uComposSectCalculatorS35.h</DependentOn>
@@ -250,9 +254,19 @@
             <DependentOn>uCompSectGeomSP266.h</DependentOn>
             <BuildOrder>61</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uCompSectGeomSP35.cpp">
+            <VirtualFolder>{3B613BDD-D8D4-42B3-83FE-742360B6D73F}</VirtualFolder>
+            <DependentOn>uCompSectGeomSP35.h</DependentOn>
+            <BuildOrder>85</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uCompSectOutputSP266.cpp">
             <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
             <DependentOn>uCompSectOutputSP266.h</DependentOn>
+            <BuildOrder>82</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompSectOutputSP35.cpp">
+            <VirtualFolder>{3B613BDD-D8D4-42B3-83FE-742360B6D73F}</VirtualFolder>
+            <DependentOn>uCompSectOutputSP35.h</DependentOn>
             <BuildOrder>82</BuildOrder>
         </CppCompile>
         <CppCompile Include="uCompSectsCalculatorSP266.cpp">
@@ -260,9 +274,19 @@
             <DependentOn>uCompSectsCalculatorSP266.h</DependentOn>
             <BuildOrder>80</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uCompSectsCalculatorSP35.cpp">
+            <VirtualFolder>{3B613BDD-D8D4-42B3-83FE-742360B6D73F}</VirtualFolder>
+            <DependentOn>uCompSectsCalculatorSP35.h</DependentOn>
+            <BuildOrder>83</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uCompSectsOutputListSP266.cpp">
             <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
             <DependentOn>uCompSectsOutputListSP266.h</DependentOn>
+            <BuildOrder>81</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uCompSectsOutputSP35.cpp">
+            <VirtualFolder>{3B613BDD-D8D4-42B3-83FE-742360B6D73F}</VirtualFolder>
+            <DependentOn>uCompSectsOutputSP35.h</DependentOn>
             <BuildOrder>81</BuildOrder>
         </CppCompile>
         <CppCompile Include="uConcrete.cpp">
@@ -511,6 +535,10 @@
             <DependentOn>uStudsSP266Calculator.h</DependentOn>
             <BuildOrder>85</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uStudsSP35Calculated.cpp">
+            <DependentOn>uStudsSP35Calculated.h</DependentOn>
+            <BuildOrder>86</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uUnits.cpp">
             <DependentOn>uUnits.h</DependentOn>
             <BuildOrder>66</BuildOrder>
@@ -527,16 +555,16 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
-        <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
-        <FormResources Include="uFrmAboutProg.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
+        <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
+        <FormResources Include="uFrmAboutProg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -564,13 +592,15 @@
                     <Source Name="MainSource">CompositeBeamApp.cpp</Source>
                 </Source>
                 <VFOLDERS>
-                    <VFOLDER ID="{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}" name="CompSectionsSP266"/>
-                    <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
                     <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
+                    <VFOLDER ID="{9161B14D-5039-483E-83D5-95C8807DE09B}" name="Creators"/>
+                    <VFOLDER ID="{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}" name="CompSectionsSP266"/>
+                    <VFOLDER ID="{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}" name="StudsSP266"/>
+                    <VFOLDER ID="{3B613BDD-D8D4-42B3-83FE-742360B6D73F}" name="CompSectionsSP35"/>
+                    <VFOLDER ID="{BAA6577C-FEE2-454E-9C61-62D15EDEA398}" name="StudsSP35"/>
+                    <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
                     <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
                     <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
-                    <VFOLDER ID="{BAA6577C-FEE2-454E-9C61-62D15EDEA398}" name="StudSP35"/>
-                    <VFOLDER ID="{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}" name="StudsSP266"/>
                 </VFOLDERS>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>

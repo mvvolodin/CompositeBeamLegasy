@@ -188,7 +188,7 @@ double CompSectGeomSP266::A_s()const
 }
 void CompSectGeomSP266::print(TWord_Automation & report)const
 {
-	st_sect_ -> print_SP266(report);
+	st_sect_ -> print(report);
 	steel_.print_SP266(report);
 	conc_sect_ -> print_SP266(report);
 	concrete_.print(report);
@@ -216,11 +216,11 @@ void CompSectGeomSP266::print_data_to_logger(TFormLogger const & log)const
 #endif
 void CompSectGeomSP266::fill_steel_sect_grid(TStringGrid* str_grid)const
 {
-	st_sect_ -> fill_grid_SP266(str_grid);
+	st_sect_ -> fill_grid(str_grid);
 }
 void CompSectGeomSP266::fill_conc_sect_grid(TStringGrid* str_grid)const
 {
-	conc_sect_ -> fill_grid_SP266(str_grid);
+	conc_sect_ -> fill_grid(str_grid);
 }
 void CompSectGeomSP266::fill_comp_sect_grid(TStringGrid* str_grid)const
 {

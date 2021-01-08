@@ -104,13 +104,13 @@ void GeneralConcreteSection::fill_grid(TStringGrid* str_grid)const
 	str_grid->Cells [1][3]=FloatToStrF(A_b(), ffFixed, 15, 0);
 	str_grid->Cells [1][4]=FloatToStrF(I_b(), ffFixed, 15, 0);
 }
-void GeneralConcreteSection::fill_grid_SP266(TStringGrid* str_grid)const
-{
-	str_grid->Cells [1][1]=FloatToStrF(b_sl(), ffFixed, 15, 0);
-	str_grid->Cells [1][2]=FloatToStrF(C_b(), ffFixed, 15, 0);
-	str_grid->Cells [1][3]=FloatToStrF(A_b(), ffFixed, 15, 0);
-	str_grid->Cells [1][4]=FloatToStrF(I_b(), ffFixed, 15, 0);
-}
+//void GeneralConcreteSection::fill_grid_SP266(TStringGrid* str_grid)const
+//{
+//	str_grid->Cells [1][1]=FloatToStrF(b_sl(), ffFixed, 15, 0);
+//	str_grid->Cells [1][2]=FloatToStrF(C_b(), ffFixed, 15, 0);
+//	str_grid->Cells [1][3]=FloatToStrF(A_b(), ffFixed, 15, 0);
+//	str_grid->Cells [1][4]=FloatToStrF(I_b(), ffFixed, 15, 0);
+//}
 
 void GeneralConcreteSection::print_input(TWord_Automation & report)const
 {

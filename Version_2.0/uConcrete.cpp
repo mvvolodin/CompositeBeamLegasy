@@ -6,41 +6,41 @@
 #include "uUnits.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-namespace ConcreteSP35
-{                                            //Марка, E_b, R_b, R-bt, c_n
-	extern std::vector<Data> const data_lst{{u"B20"  , 27000, 15.0, 1.35, 115e-6},
-											{u"B22.5", 28500, 15.0, 1.35, 107e-6},
-											{u"B25"  , 30000, 18.5, 1.55, 100e-6},
-											{u"B27.5", 31500, 18.5, 1.55, 92e-6},
-											{u"B30"  , 32500, 22.1, 1.75, 84e-6},
-											{u"B35"  , 34500, 25.5, 1.95, 75e-6},
-											{u"B40"  , 36000, 29.0, 2.10, 67e-6},
-											{u"B45"  , 37500, 32.0, 2.25, 55e-6},
-											{u"B50"  , 39000, 36.0, 2.45, 50e-6},
-											{u"B55"  , 39500, 36.0, 2.60, 41e-6},
-											{u"B60"  , 40000, 39.5, 2.75, 39e-6}};
-
-	std::vector<std::basic_string<char16_t>> grades()
-	{
-		std::vector<std::basic_string<char16_t>> grades;
-		for(auto const & conc:data_lst)
-			grades.emplace_back(conc.grade_);
-
-		return std::move(grades);
-    }
-	Data const & concrete (int index)
-	{
-		return data_lst[index];
-	}
-	std::basic_string<char16_t> grade(int index)
-	{
-		return data_lst[index].grade_;
-	}
-	double R_b(int index)
-	{
-		return data_lst[index].R_b_;
-	}
-}
+//namespace ConcreteSP35
+//{                                            //Марка, E_b, R_b, R-bt, c_n
+//	extern std::vector<Data> const data_lst{{u"B20"  , 27000, 15.0, 1.35, 115e-6},
+//											{u"B22.5", 28500, 15.0, 1.35, 107e-6},
+//											{u"B25"  , 30000, 18.5, 1.55, 100e-6},
+//											{u"B27.5", 31500, 18.5, 1.55, 92e-6},
+//											{u"B30"  , 32500, 22.1, 1.75, 84e-6},
+//											{u"B35"  , 34500, 25.5, 1.95, 75e-6},
+//											{u"B40"  , 36000, 29.0, 2.10, 67e-6},
+//											{u"B45"  , 37500, 32.0, 2.25, 55e-6},
+//											{u"B50"  , 39000, 36.0, 2.45, 50e-6},
+//											{u"B55"  , 39500, 36.0, 2.60, 41e-6},
+//											{u"B60"  , 40000, 39.5, 2.75, 39e-6}};
+//
+//	std::vector<std::basic_string<char16_t>> grades()
+//	{
+//		std::vector<std::basic_string<char16_t>> grades;
+//		for(auto const & conc:data_lst)
+//			grades.emplace_back(conc.grade_);
+//
+//		return std::move(grades);
+//    }
+//	Data const & concrete (int index)
+//	{
+//		return data_lst[index];
+//	}
+//	std::basic_string<char16_t> grade(int index)
+//	{
+//		return data_lst[index].grade_;
+//	}
+//	double R_b(int index)
+//	{
+//		return data_lst[index].R_b_;
+//	}
+//}
 std::vector <ConcreteBasic> concrete_basic
 {
 	{"B10", 19000, 7.5, 0.85},   //Марка, E_b, R_b, R-bt

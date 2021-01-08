@@ -1,6 +1,6 @@
 ﻿//---------------------------------------------------------------------------
-#ifndef uComposSectGeomSP35H
-#define uComposSectGeomSP35H
+#ifndef uCompSectGeomSP35H
+#define uCompSectGeomSP35H
 //---------------------------------------------------------------------------
 #include <memory>
 #include <Vcl.Grids.hpp>
@@ -10,7 +10,7 @@
 #include "uSteel.h"
 #include "uWord_Automation.h"
 //---------------------------------------------------------------------------
-class ComposSectGeomSP35{
+class CompSectGeomSP35{
 
 public:
 
@@ -19,13 +19,12 @@ public:
 		shrink,
 		creep,
 	};
-	ComposSectGeomSP35() = default;
-
-	ComposSectGeomSP35(Steel const & steel,
-					   GeneralSteelSection const * const st_sect,
-					   ConcreteSP35 const & concrete,
-					   GeneralConcreteSection const * const conc_sect,
-					   ConcStateConsid const conc_st_consid);
+	CompSectGeomSP35() = default;
+	CompSectGeomSP35(Steel const & steel,
+		std::unique_ptr<GeneralSteelSection> st_sect,
+		ConcreteSP35 const & concrete,
+		std::unique_ptr<GeneralConcreteSection> conc_sect,
+		ConcStateConsid const state);
 
 	double E_rs()const;
 	double E_b()const;
@@ -48,6 +47,12 @@ public:
 	double W_s1_s()const;
 	double W_s2_s()const;
 	double I_s()const;
+	double smaller_fl_to_larger_fl_ratio() const {return st_sect_ ->
+		smaller_fl_to_larger_fl_ratio(); }
+	double smaller_fl_area_to_web_area_ratio()const {return st_sect_ ->
+		smaller_fl_area_to_web_area_ratio();}
+	double smaller_fl_area_plus_web_area_to_total_area_ratio() const {
+		return st_sect_ -> smaller_fl_area_plus_web_area_to_total_area_ratio();}
 
 	double A_st()const;
 	double S_st()const;
@@ -72,9 +77,10 @@ public:
 	double A_r()const;
 
 	void print(TWord_Automation & report)const;
-	void fill_grid(TStringGrid* str_grid)const;
-	GeneralSteelSection const * const st_sect()const;
-	GeneralConcreteSection const * const conc_sect()const;
+
+	void fill_steel_sect_grid(TStringGrid* str_grid)const;
+	void fill_conc_sect_grid(TStringGrid* str_grid)const;
+	void fill_comp_sect_grid(TStringGrid* str_grid)const;
 
 #ifndef NDEBUG
 	void print_data_to_logger(TFormLogger const & log)const;
@@ -82,10 +88,10 @@ public:
 
 private:
 
-	Steel const & steel_;
-	GeneralSteelSection const * const st_sect_;
-	ConcreteSP35 const & concrete_;
-	GeneralConcreteSection const * const conc_sect_;
+	Steel steel_;
+	std::unique_ptr<GeneralSteelSection> st_sect_;
+	ConcreteSP35 concrete_;
+	std::unique_ptr<GeneralConcreteSection> conc_sect_;
 
 	void calculate(double const E_b);
 	void calculate(ConcStateConsid conc_st_consid);
@@ -118,8 +124,6 @@ private:
 	double Z_b_stb_;  //Расстояние между Ц.Т. бетонного и сталежелезобетонного сечения
 	double Z_r_u_stb_;//Расстояние между Ц.Т. сталежелезобетонного сечения и верхней арматурой
 	double Z_r_l_stb_;//Расстояние между Ц.Т. сталежелезобетонного сечения и нижней арматурой
-
-
 };
 
 //---------------------------------------------------------------------------

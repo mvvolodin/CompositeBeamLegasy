@@ -252,28 +252,5 @@ void WeldedSection::draw(TCanvas* cnvs)
 }
 
 
-void WeldedSection::print_input(TWord_Automation & report)const
-{
-	report.PasteTextPattern(name().c_str() ,"%name%");
-	report.PasteTextPattern(length_to_str(sect_height()), "%sect_height%");
-	report.PasteTextPattern(length_to_str(upper_fl_width()),"%upper_fl_width%");
-	report.PasteTextPattern(length_to_str(upper_fl_thick()),"%upper_fl_thick%");
-	report.PasteTextPattern(length_to_str(lower_fl_width()),"%lower_fl_width%");
-	report.PasteTextPattern(length_to_str(lower_fl_thick()),"%lower_fl_thick%");
-	report.PasteTextPattern(length_to_str(web_height()),"%web_height%");
-	report.PasteTextPattern(length_to_str(web_thick()),"%web_thick%");
-	report.PasteTextPattern(length_to_str(0),"%radius%");
-
-}
-void WeldedSection::print_output(TWord_Automation & report)const
-{
-	report.PasteTextPattern(area_to_str(area(), LengthUnit::cm),"%area%");
-	report.PasteTextPattern(inertia_to_str(inertia(), LengthUnit::cm),"%inertia%");
-	report.PasteTextPattern(sect_modul_to_str(modulus_upper_fl(), LengthUnit::cm),"%modulus_upper_fl%");
-	report.PasteTextPattern(sect_modul_to_str(modulus_lower_fl(), LengthUnit::cm),"%modulus_lower_fl%");
-	report.PasteTextPattern(length_to_str(grav_cent_upper_fl_dist(), LengthUnit::cm),"%GC_upper_fl_dist%");
-	report.PasteTextPattern(length_to_str(grav_cent_lower_fl_dist(), LengthUnit::cm),"%GC_lower_fl_dist%");
-}
-
 
 

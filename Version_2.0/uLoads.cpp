@@ -255,9 +255,6 @@ void Loads::print_SP35(TWord_Automation & report)const
 	report.PasteTextPattern(double_to_str(gamma_f_DL_I_), "%gamma_f_DL_I%");
 	report.PasteTextPattern(double_to_str(gamma_f_DL_II_), "%gamma_f_DL_II%");
 	report.PasteTextPattern(double_to_str(gamma_f_LL_), "%gamma_f_LL%");
-
-	report.PasteTextPattern(double_to_str(sheeting_continuity_coefficient_), "%sheeting_continuity_coeff%");
-
 }
 
 

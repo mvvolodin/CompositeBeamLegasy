@@ -1,25 +1,26 @@
 ﻿//---------------------------------------------------------------------------
-#ifndef uCompSectsOutputListSP266H
-#define uCompSectsOutputListSP266H
+
+#ifndef uCompSectsOutputSP35H
+#define uCompSectsOutputSP35H
 //---------------------------------------------------------------------------
 #include <vector>
 #include <Vcl.Grids.hpp>
 #include "uGlobGeom.h"
 #include "uLoads.h"
 #include "uWorkingConditionsFactors.h"
-#include "uCompSectGeomSP266.h"
-#include "uCompSectOutputSP266.h"
+#include "uCompSectGeomSP35.h"
+#include "uCompSectOutputSP35.h"
 #include "uWord_Automation.h"
 //---------------------------------------------------------------------------
-class CompSectsOutputListSP266{
+class CompSectsOutputSP35{
 public:
 
 	GlobGeom glob_geom_;
 	Loads loads_;
 	WorkingConditionsFactors work_cond_factrs_ ;
 
-	CompSectGeomSP266 comp_sect_geom_;
-	std::vector<CompSectOutputSP266> com_sects_;
+	CompSectGeomSP35 comp_sect_geom_;
+	std::vector<CompSectOutputSP35> com_sects_;
 
 	std::vector<double> x_lst()const;
 
@@ -51,18 +52,16 @@ public:
 	std::vector<double> f_2d_lst()const;
 	std::vector<double> f_total_lst()const;
 
-	CompSectOutputSP266 const & max_st_sect_ratio_sect()const;
-	CompSectOutputSP266 const & max_direct_str_ratio_sect()const;
-	CompSectOutputSP266 const & max_shear_str_ratio_sect()const;
-	CompSectOutputSP266 const & max_rigid_pl_sect()const;
+	CompSectOutputSP35 const & max_st_sect_ratio_sect()const;
+	CompSectOutputSP35 const & max_direct_str_ratio_sect()const;
+	CompSectOutputSP35 const & max_shear_str_ratio_sect()const;
 
 	void fill_ratios_grid(TStringGrid* str_grid)const;
-	void fill_steel_sect_grid(TStringGrid* str_grid) const;
-	void fill_conc_sect_grid(TStringGrid* str_grid) const;
+	void fill_steel_sect_grid(TStringGrid* str_grid)const;
+    void fill_conc_sect_grid(TStringGrid* str_grid)const;
 	void fill_comp_sect_grid(TStringGrid* str_grid)const;
 
 	void print(TWord_Automation & report)const;
 };
 //---------------------------------------------------------------------------
 #endif
-

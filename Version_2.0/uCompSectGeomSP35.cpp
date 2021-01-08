@@ -1,26 +1,20 @@
 ﻿//---------------------------------------------------------------------------
-
 #pragma hdrstop
-
-#include "uComposSectGeomSP35.h"
-//---------------------------------------------------------------------------
+#include "uCompSectGeomSP35.h"
 #pragma package(smart_init)
+//---------------------------------------------------------------------------
+CompSectGeomSP35::CompSectGeomSP35(Steel const & steel,
+	std::unique_ptr<GeneralSteelSection> st_sect,
+	ConcreteSP35 const & concrete,
+	std::unique_ptr<GeneralConcreteSection> conc_sect,
+	ConcStateConsid const state):
+		steel_(steel), st_sect_(std::move(st_sect)),
+		concrete_(concrete), conc_sect_(std::move(conc_sect))
+{
+	calculate(state);
+}
 
-
- ComposSectGeomSP35::ComposSectGeomSP35(Steel const & steel,
-										GeneralSteelSection const * const st_sect,
-										ConcreteSP35 const & concrete,
-										GeneralConcreteSection const * const conc_sect,
-										ConcStateConsid const conc_st_consid)
-								:steel_(steel),
-								 st_sect_(st_sect),
-								 concrete_(concrete),
-								 conc_sect_(conc_sect)
- {
-	calculate(conc_st_consid);
- }
-
-double ComposSectGeomSP35::E_ef_kr()const
+double CompSectGeomSP35::E_ef_kr()const
 {
 	double const E_st = steel_.get_E_st();
 	double const E_b = concrete_.E_b();
@@ -67,7 +61,7 @@ double ComposSectGeomSP35::E_ef_kr()const
 
 	return (nu - 0.5 * phi_kr + 1) / ((1 + phi_kr) * nu + 0.5 * phi_kr + 1) * E_b;
 }
-void ComposSectGeomSP35::calculate(ConcStateConsid conc_st_consid)
+void CompSectGeomSP35::calculate(ConcStateConsid conc_st_consid)
 {
 	double const E_b = concrete_.E_b();
 
@@ -88,7 +82,7 @@ void ComposSectGeomSP35::calculate(ConcStateConsid conc_st_consid)
 
 }
 
-void ComposSectGeomSP35::calculate(double const E_b)
+void CompSectGeomSP35::calculate(double const E_b)
 {
 
 	double const E_st = steel_.get_E_st();
@@ -138,111 +132,111 @@ void ComposSectGeomSP35::calculate(double const E_b)
 	W_b_s_ = I_s / Z_b_s_;
 
 }
-double ComposSectGeomSP35::E_b()const
+double CompSectGeomSP35::E_b()const
 {
 	return concrete_.E_b();
 }
-double ComposSectGeomSP35::E_b_shr()const
+double CompSectGeomSP35::E_b_shr()const
 {
 	return concrete_.E_b_shr();
 }
-double ComposSectGeomSP35::I_b()const
+double CompSectGeomSP35::I_b()const
 {
 	return conc_sect_ -> I_b();
 }
-double ComposSectGeomSP35::E_st()const
+double CompSectGeomSP35::E_st()const
 {
 	return steel_.get_E_st();
 }
-double ComposSectGeomSP35::I_s()const
+double CompSectGeomSP35::I_s()const
 {
 	return st_sect_ -> I_s();
 }
-double ComposSectGeomSP35::W_b_stb()const
+double CompSectGeomSP35::W_b_stb()const
 {
 	return W_b_stb_;
 }
-double ComposSectGeomSP35::W_b_s()const
+double CompSectGeomSP35::W_b_s()const
 {
 	return W_b_s_;
 }
-double ComposSectGeomSP35::n_b()const
+double CompSectGeomSP35::n_b()const
 {
 	return n_b_;
 }
-double ComposSectGeomSP35::n_r()const
+double CompSectGeomSP35::n_r()const
 {
 	return n_r_;
 }
-double ComposSectGeomSP35::R_b()const
+double CompSectGeomSP35::R_b()const
 {
 	return concrete_.R_b();
 }
 
-double ComposSectGeomSP35::R_r()const
+double CompSectGeomSP35::R_r()const
 {
 	return conc_sect_ -> rebars().rebar().R_s();
 }
-double ComposSectGeomSP35::eps_b_lim() const
+double CompSectGeomSP35::eps_b_lim() const
 {
 	return concrete_.eps_b_lim();
 }
-double ComposSectGeomSP35::h_stb()const
+double CompSectGeomSP35::h_stb()const
 {
 	return h_stb_;
 }
-double ComposSectGeomSP35::Z_b_s()const
+double CompSectGeomSP35::Z_b_s()const
 {
 	return Z_b_s_;
 }
-double ComposSectGeomSP35::W_s2_s()const
+double CompSectGeomSP35::W_s2_s()const
 {
 	return st_sect_ -> W_s2_s();
 }
-double ComposSectGeomSP35::W_s1_s()const
+double CompSectGeomSP35::W_s1_s()const
 {
 	return st_sect_ -> W_s1_s();
 }
-double ComposSectGeomSP35::A_w()const
+double CompSectGeomSP35::A_w()const
 {
 	return st_sect_ -> A_w();
 }
-double ComposSectGeomSP35::A_s2()const
+double CompSectGeomSP35::A_s2()const
 {
 	return st_sect_ -> A_s2_s();
 }
-double ComposSectGeomSP35::A_s1()const
+double CompSectGeomSP35::A_s1()const
 {
 	return st_sect_ -> A_s1_s();
 }
-double ComposSectGeomSP35::b_sl()const
+double CompSectGeomSP35::b_sl()const
 {
     return conc_sect_ -> b_sl();
 }
-double ComposSectGeomSP35::A_s()const
+double CompSectGeomSP35::A_s()const
 {
 	return st_sect_ -> A_s() ;
 }
-double ComposSectGeomSP35::A_b()const
+double CompSectGeomSP35::A_b()const
 {
 	return conc_sect_ -> A_b();
 }
-double ComposSectGeomSP35::A_r()const
+double CompSectGeomSP35::A_r()const
 {
 	return conc_sect_ -> rebars().A_u_r_per_unit() * conc_sect_ -> b_sl() +
 		   conc_sect_ -> rebars().A_l_r_per_unit() * conc_sect_ -> b_sl();
 }
 
-double ComposSectGeomSP35::E_rs()const
+double CompSectGeomSP35::E_rs()const
 {
 	return conc_sect_ -> rebars().rebar().E_rs();
 }
-double ComposSectGeomSP35::R_y()const
+double CompSectGeomSP35::R_y()const
 {
 	return steel_.get_R_y();
 }
 
-double ComposSectGeomSP35::A_st()const
+double CompSectGeomSP35::A_st()const
 {
 	double const E_st = steel_.get_E_st();
 	double const E_rs = conc_sect_ -> rebars().rebar().E_s();
@@ -255,7 +249,7 @@ double ComposSectGeomSP35::A_st()const
 	return  A_s + A_u_r / n_r + A_l_r / n_r;
 }
 
-double ComposSectGeomSP35::S_st()const  //в норме обозначение S_shr
+double CompSectGeomSP35::S_st()const  //в норме обозначение S_shr
 {
 	double const E_st = steel_.get_E_st();
 	double const E_rs = conc_sect_ -> rebars().rebar().E_s();
@@ -276,44 +270,46 @@ double ComposSectGeomSP35::S_st()const  //в норме обозначение S
 
 	return A_st() * Z_st_stb;
 }
-double ComposSectGeomSP35::I_st()const
+double CompSectGeomSP35::I_st()const
 {
 	return I_st_;
 }
 
-double ComposSectGeomSP35::A_stb()const
+double CompSectGeomSP35::A_stb()const
 {
 	return A_stb_;
 }
-double ComposSectGeomSP35::I_stb()const
+double CompSectGeomSP35::I_stb()const
 {
 	return I_stb_;
 }
-double ComposSectGeomSP35::Z_s_stb()const
+double CompSectGeomSP35::Z_s_stb()const
 {
 	return Z_s_stb_;
 }
-double ComposSectGeomSP35::Z_b_st()const
+double CompSectGeomSP35::Z_b_st()const
 {
 	return Z_b_st_;
 }
-double ComposSectGeomSP35::Z_b_stb()const
+double CompSectGeomSP35::Z_b_stb()const
 {
 	return Z_b_stb_;
 }
-double ComposSectGeomSP35::Z_r_stb()const
+double CompSectGeomSP35::Z_r_stb()const
 {
 	return (Z_r_l_stb_ + Z_r_u_stb_) / 2;
 }
-double ComposSectGeomSP35::eps_shr()const
+double CompSectGeomSP35::eps_shr()const
 {
 	return concrete_.eps_shr();
 }
 
-void ComposSectGeomSP35::print(TWord_Automation & report)const
+void CompSectGeomSP35::print(TWord_Automation & report)const
 {
-//	st_sect_ -> print_output(report);
-//	conc_sect_ -> print_output(report);
+	st_sect_ -> print(report);
+	steel_.print_SP266(report);
+	conc_sect_ -> print_SP266(report);
+	concrete_.print(report);
 
 	report.PasteTextPattern(area_to_str(A_stb_),"%A_stb%");
 	report.PasteTextPattern(inertia_to_str(I_stb_),"%I_stb%");
@@ -323,7 +319,7 @@ void ComposSectGeomSP35::print(TWord_Automation & report)const
 	report.PasteTextPattern(length_to_str(Z_b_s_, LengthUnit::cm),"%Z_b_s%");
 }
 #ifndef NDEBUG
-void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
+void CompSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
 {
 	log.add_heading(L"Геометрические характеристики композитного сечения");
 	log.print_double(L"n_r = ", n_r_, L" ");
@@ -334,21 +330,17 @@ void ComposSectGeomSP35::print_data_to_logger(TFormLogger const & log)const
 	log.print_double(L"I_stb = ", I_stb_, L" мм4");
 	log.print_double(L"Z_s_stb = ", Z_s_stb_, L" мм");
 	log.print_double(L"Z_b_stb = ", Z_b_stb_, L" мм");
-
 }
 #endif
-
-GeneralSteelSection const * const ComposSectGeomSP35::st_sect()const
+void CompSectGeomSP35::fill_steel_sect_grid(TStringGrid* str_grid)const
 {
-	return st_sect_;
+	st_sect_ -> fill_grid(str_grid);
 }
-
-GeneralConcreteSection const * const ComposSectGeomSP35::conc_sect()const
+void CompSectGeomSP35::fill_conc_sect_grid(TStringGrid* str_grid)const
 {
-	return conc_sect_;
+	conc_sect_ -> fill_grid(str_grid);
 }
-
-void ComposSectGeomSP35::fill_grid(TStringGrid* str_grid)const
+void CompSectGeomSP35::fill_comp_sect_grid(TStringGrid* str_grid)const
 {
 	str_grid -> Cells [1][1] = FloatToStrF(A_stb_, ffFixed, 15, 0);
 	str_grid -> Cells [1][2] = FloatToStrF(I_stb_, ffFixed, 15, 0);
@@ -357,3 +349,5 @@ void ComposSectGeomSP35::fill_grid(TStringGrid* str_grid)const
 	str_grid -> Cells [1][5] = FloatToStrF(Z_s_stb_, ffFixed, 15, 0);
 	str_grid -> Cells [1][6] = FloatToStrF(Z_b_s_, ffFixed, 15, 0);
 }
+//---------------------------------------------------------------------------
+

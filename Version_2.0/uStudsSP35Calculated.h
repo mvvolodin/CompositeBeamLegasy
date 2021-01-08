@@ -1,13 +1,13 @@
 ﻿//---------------------------------------------------------------------------
-#ifndef uStudsSP266CalculatedH
-#define uStudsSP266CalculatedH
+#ifndef uStudsSP35CalculatedH
+#define uStudsSP35CalculatedH
 #include <vector>
 #include <Vcl.Grids.hpp>
 #include "uStudsSP266.h"
 #include "uStudRowSP266Calculated.h"
 #include "uWord_Automation.h"
 //---------------------------------------------------------------------------
-struct StudsSP266Calculated{
+struct StudsSP35Calculated{
 	StudsSP266* input_;
 
 	std::vector<double> S_overline_lst_;

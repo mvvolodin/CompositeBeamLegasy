@@ -83,20 +83,17 @@ void TConcreteDefinitionForm::after_cmb_bx_conc_grade_list_change_SP266(unsigned
 {
 	std::map<std::string, double> props {ConcreteDataSP266::properties(index)};
 
-	double E_b = props.at("E_b");
-	double R_bn = props.at("R_bn");
-	double R_btn = props.at("R_btn");
-	edt_comp_strength -> Text = R_bn;
-	edt_tens_strength -> Text = R_btn;
-	edt_E_b -> Text =  E_b;
+	edt_comp_strength -> Text = props.at("R_bn");
+	edt_tens_strength -> Text = props.at("R_btn");
+	edt_E_b -> Text = props.at("E_b");
 }
 void TConcreteDefinitionForm::after_cmb_bx_conc_grade_list_change_SP35(unsigned int index)
 {
 	std::map<std::string, double> props {ConcreteDataSP35::properties(index)};
 
-	edt_comp_strength -> Text = props.at("E_b");
-	edt_tens_strength -> Text = props.at("R_b");
-	edt_E_b -> Text = props.at("R_bt");
+	edt_comp_strength -> Text = props.at("R_b");
+	edt_tens_strength -> Text = props.at("R_bt");
+	edt_E_b -> Text = props.at("E_b");
 	edt_c_n -> Text = props.at("c_n");
 }
 //---------------------------------------------------------------------------

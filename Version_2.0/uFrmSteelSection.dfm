@@ -96,10 +96,6 @@ object SteelSectionForm: TSteelSectionForm
     object tb_sheet_welded_profile: TTabSheet
       Caption = #1057#1074#1072#1088#1085#1086#1081' '#1076#1074#1091#1090#1072#1074#1088
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object img_weld_sect: TImage
         Left = 311
         Top = 9

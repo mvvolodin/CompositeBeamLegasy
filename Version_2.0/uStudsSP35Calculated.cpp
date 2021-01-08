@@ -1,19 +1,19 @@
 ﻿//---------------------------------------------------------------------------
 #pragma hdrstop
-#include "uStudsSP266Calculated.h"
+#include "uStudsSP35Calculated.h"
 #include <algorithm>
 #include "uUnits.h"
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 
-StudRowSP266Calculated StudsSP266Calculated::stud_max_ratio()const
+StudRowSP266Calculated StudsSP35Calculated::stud_max_ratio()const
 {
 	return *std::max_element(rows_.cbegin(), rows_.cend(),
 	[](auto const &  sr1, auto const &  sr2){
 		return std::abs(sr1.ratio_) < std::abs(sr2.ratio_);});
 }
 
-void StudsSP266Calculated::fill_grid(TStringGrid* str_grid)const
+void StudsSP35Calculated::fill_grid(TStringGrid* str_grid)const
 {
 	StudRowSP266Calculated sr = stud_max_ratio();
 
@@ -23,7 +23,7 @@ void StudsSP266Calculated::fill_grid(TStringGrid* str_grid)const
 	str_grid -> Cells [1][17] = double_to_str(std::abs(sr.ratio_));
 }
 
-void StudsSP266Calculated::print(TWord_Automation & report)const
+void StudsSP35Calculated::print(TWord_Automation & report)const
 {
 	StudRowSP266Calculated sr = stud_max_ratio();
 

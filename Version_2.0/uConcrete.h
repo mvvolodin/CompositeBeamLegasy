@@ -11,23 +11,23 @@
 #include "uWord_Automation.h"
 
 //---------------------------------------------------------------------------
-namespace ConcreteSP35
-{
-	struct Data{
-		std::basic_string<char16_t> const grade_;
-		double const E_b_;
-		double const R_b_;
-		double const R_bt_;
-		double const c_n_;
-	};
-
-	extern std::vector<Data> const data_lst;
-
-	std::vector<std::basic_string<char16_t>> grades();
-	Data const & concrete (int index);
-	std::basic_string<char16_t> grade(int index);
-    double R_b(int index);
-}
+//namespace ConcreteSP35
+//{
+//	struct Data{
+//		std::basic_string<char16_t> const grade_;
+//		double const E_b_;
+//		double const R_b_;
+//		double const R_bt_;
+//		double const c_n_;
+//	};
+//
+//	extern std::vector<Data> const data_lst;
+//
+//	std::vector<std::basic_string<char16_t>> grades();
+//	Data const & concrete (int index);
+//	std::basic_string<char16_t> grade(int index);
+//    double R_b(int index);
+//}
 
 class ConcreteBasic{
 public:

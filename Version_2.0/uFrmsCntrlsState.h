@@ -137,7 +137,7 @@ struct TSteelSectionFormCntrlsState{
 	double edt_t_w_  {12};
 
 	int pg_cntrl_sect_type_ {0};
-	int cmb_bx_rolled_sect_num_ {47};
+	int cmb_bx_rolled_sect_num_ {46};
 	int rd_grp_rolled_sect_type_ {0};
 
 	void save_cntls_state(ostream & os);

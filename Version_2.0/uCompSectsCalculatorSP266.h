@@ -9,7 +9,7 @@
 
 #include "uGlobGeom.h"
 #include "uIntForcesCalculator.h"
-#include "uCompSectGeomSP266.h"
+#include "uPlastCoeff.h"
 
 #include "uComposSectGeomSP35.h"
 #include "uWorkingConditionsFactors.h"

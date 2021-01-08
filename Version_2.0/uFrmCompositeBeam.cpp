@@ -22,6 +22,14 @@
 #include "uUnits.h"
 #include "uStudRowCalculatorSP35.h"
 
+#include "uCompBeamObjsCreatorSP35.h"
+#include "uCompSectsCalculatorSP35.h"
+#include "uCompSectsOutputSP35.h"
+
+//#include "uStudsSP35.h"
+//#include "uStudsSP35Calculator.h"
+#include "uStudsSP35Calculated.h"
+
 #include "uCompBeamObjsCreatorSP266.h"
 #include "uCompSectsCalculatorSP266.h"
 #include "uCompSectsOutputListSP266.h"
@@ -38,9 +46,8 @@ TCompositeBeamMainForm  *CompositeBeamMainForm;
 extern std::wstring file_path;
 const wchar_t* RegKey = L"Software\\CompositeBeam_v_2.0";
 
-std::unique_ptr<ComBeamOutputSP35 const> com_beam_output_SP35 {nullptr};
-std::unique_ptr<ComBeamInputSP35 const> com_beam_input_SP35 {nullptr};
-StudsOutputSP35 studs_output;
+CompSectsOutputSP35 comp_sects_output_SP35;
+StudsSP35Calculated studs_SP35_output;
 
 CompSectsOutputListSP266 comp_sects_output_list_SP266;
 StudsSP266Calculated studs_SP266_output;
@@ -77,7 +84,7 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 	file_path.clear();//чтобы не загрузить данные снова в случае события FormShow
 
 	update_GUI(static_cast<GUI>(cntrls_state_.rd_grp_code_data_));
-    update_all_frms_cntrls();
+	update_all_frms_cntrls();
 
 	calculate_composite_beam();
 	after_calculation();
@@ -337,10 +344,9 @@ void TCompositeBeamMainForm::generate_report_SP35()
 {
 	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.dotx");
 
-	com_beam_input_SP35 -> print(report);
-	com_beam_output_SP35 -> print(report);
+	comp_sects_output_SP35.print(report);
 
-	studs_output.print(report);
+//	studs_output.print(report);
 }
 void TCompositeBeamMainForm::generate_report_SP266()
 {
@@ -506,54 +512,54 @@ void TCompositeBeamMainForm::draw_diagram_SP35()
 	{
 	case(0): // Нагрузки 1a стадии
 
-		M = com_beam_output_SP35 -> M_1a_lst();
-		Q = com_beam_output_SP35 -> Q_1a_lst();
-		R = com_beam_output_SP35 -> R_1a_lst();
-		f = com_beam_output_SP35 -> f_1a_lst();
+		M = comp_sects_output_SP35.M_1a_lst();
+		Q = comp_sects_output_SP35.Q_1a_lst();
+		R = comp_sects_output_SP35.R_1a_lst();
+		f = comp_sects_output_SP35.f_1a_lst();
 
-		coor_supp = com_beam_output_SP35 -> sup_coord();
+		coor_supp = comp_sects_output_SP35.sup_coord();
 
 		break;
 	case(1): // Нагрузки 1b стадии
 
-		M = com_beam_output_SP35 -> M_1b_lst();
-		Q = com_beam_output_SP35 -> Q_1b_lst();
-		R = com_beam_output_SP35 -> R_1b_lst();
-		f = com_beam_output_SP35 -> f_1b_lst();
+		M = comp_sects_output_SP35.M_1b_lst();
+		Q = comp_sects_output_SP35.Q_1b_lst();
+		R = comp_sects_output_SP35.R_1b_lst();
+		f = comp_sects_output_SP35.f_1b_lst();
 
-		coor_supp = com_beam_output_SP35 -> sup_coord();
+		coor_supp = comp_sects_output_SP35.sup_coord();
 
 		break;
 	case(2): // Нагрузки 2c стадии
 
-		M = com_beam_output_SP35 -> M_2c_lst();
-		Q = com_beam_output_SP35 -> Q_2c_lst();
-		R = com_beam_output_SP35 -> R_2c_lst();
-		f = com_beam_output_SP35 -> f_2c_lst();
+		M = comp_sects_output_SP35.M_2c_lst();
+		Q = comp_sects_output_SP35.Q_2c_lst();
+		R = comp_sects_output_SP35.R_2c_lst();
+		f = comp_sects_output_SP35.f_2c_lst();
 
-		coor_supp = com_beam_output_SP35 -> end_sup_coord();
+		coor_supp = comp_sects_output_SP35.end_sup_coord();
 
 		break;
 
 	case(3): // Нагрузки 2d стадии
 
-		M = com_beam_output_SP35 -> M_2d_lst();
-		Q = com_beam_output_SP35 -> Q_2d_lst();
-		R = com_beam_output_SP35 -> R_2d_lst();
-		f = com_beam_output_SP35 -> f_2d_lst();
+		M = comp_sects_output_SP35.M_2d_lst();
+		Q = comp_sects_output_SP35.Q_2d_lst();
+		R = comp_sects_output_SP35.R_2d_lst();
+		f = comp_sects_output_SP35.f_2d_lst();
 
-		coor_supp = com_beam_output_SP35 -> end_sup_coord();
+		coor_supp = comp_sects_output_SP35.end_sup_coord();
 
 		break;
 
 	case(4)://Нагрузки полные
 
-		M = com_beam_output_SP35 -> M_total_lst();
-		Q = com_beam_output_SP35 -> Q_total_lst();
-		R = com_beam_output_SP35 -> R_total_lst();
-		f = com_beam_output_SP35 -> f_total_lst();
+		M = comp_sects_output_SP35.M_total_lst();
+		Q = comp_sects_output_SP35.Q_total_lst();
+		R = comp_sects_output_SP35.R_total_lst();
+		f = comp_sects_output_SP35.f_total_lst();
 
-		coor_supp = com_beam_output_SP35 -> end_sup_coord();
+		coor_supp = comp_sects_output_SP35.end_sup_coord();
 
 		break;
 	}
@@ -575,7 +581,7 @@ void TCompositeBeamMainForm::draw_diagram_SP35()
 	int num_digits = 2;
 	bool con_sign_practice = true;
 
-	std::vector<double> coor_epur = com_beam_output_SP35 -> x_lst();
+	std::vector<double> coor_epur = comp_sects_output_SP35.x_lst();
 
 	switch (rd_grp_internal_forces_type -> ItemIndex)
 	{
@@ -624,9 +630,9 @@ void TCompositeBeamMainForm::draw_diagram_SP35()
 	case(3):
 
 		DrawEpur(Image1,
-				 studs_output.S_overline_lst().size(),
-				 studs_output.coord().data(),
-				 studs_output.S_overline_lst().data(),
+				 studs_SP35_output.S_overline_lst_.size(),
+				 studs_SP35_output.coord_.data(),
+				 studs_SP35_output.S_overline_lst_.data(),
 				 nullptr,
 				 coor_supp.size(),
 				 coor_supp.data(),
@@ -679,7 +685,6 @@ void TCompositeBeamMainForm::calculate_composite_beam()
 }
 void TCompositeBeamMainForm::calculate_composite_sections_SP266()
 {
-
 	CompBeamObjsCreatorSP266 creator {
 		this -> cntrls_state_,
 		ConcreteDefinitionForm -> cntrls_state(),
@@ -690,11 +695,6 @@ void TCompositeBeamMainForm::calculate_composite_sections_SP266()
 
 	CompSectsCalculatorSP266 calculator {creator};
 	comp_sects_output_list_SP266 = calculator.run(); //объект 560 байт
-
-//	CompSectGeomSP266 cs = creator.comp_sect_geom();
-//
-
-
 }
 void TCompositeBeamMainForm::calculate_studs_SP266()
 {
@@ -710,43 +710,35 @@ void TCompositeBeamMainForm::calculate_studs_SP266()
 }
 void TCompositeBeamMainForm ::calculate_composite_sections_SP35()
 {
+	CompBeamObjsCreatorSP35 creator {
+		this -> cntrls_state_,
+		ConcreteDefinitionForm -> cntrls_state(),
+		SteelSectionForm -> cntrls_state(),
+		DefineSteelForm -> cntrls_state(),
+		RebarDefinitionForm -> cntrls_state(),
+		StudDefinitionForm -> cntrls_state()};
 
-	com_beam_input_SP35.reset(new ComBeamInputSP35{this -> cntrls_state_,
-												   ConcreteDefinitionForm -> cntrls_state(),
-												   SteelSectionForm -> cntrls_state(),
-												   DefineSteelForm -> cntrls_state(),
-												   RebarDefinitionForm -> cntrls_state()});
-
-	try {
-		ComposSectCalculatorSP35 com_beam_calc {*com_beam_input_SP35};
-		std::vector<Node> nodes_lst {com_beam_input_SP35 -> glob_geom().nodes_lst()};
-
-		com_beam_output_SP35.reset(new ComBeamOutputSP35{com_beam_calc.calculate(nodes_lst)});
-
-	} catch (std::u16string const & str) {
-		ShowMessage(str.c_str());
-		return;
-	}
-
+	CompSectsCalculatorSP35 calculator {creator};
+	comp_sects_output_SP35 = calculator.run();
 }
 
 void TCompositeBeamMainForm::calculate_studs_SP35()
 {
-	store_all_frms_cntrls_state();
-
-	ComBeamInputSP35  obj_for_studs_S35_verific {this -> cntrls_state_,
-												 ConcreteDefinitionForm -> cntrls_state(),
-												 SteelSectionForm -> cntrls_state(),
-												 DefineSteelForm -> cntrls_state(),
-												 RebarDefinitionForm -> cntrls_state()};
-
-	StudRowCalculatorSP35 calc {obj_for_studs_S35_verific};
-
-	StudsInputSP35 studs_input = {StudDefinitionForm -> cntrls_state(),
-								  this -> cntrls_state_,
-								  ConcreteDefinitionForm -> cntrls_state()};
-
-	studs_output = {calc.run(studs_input)};
+//	store_all_frms_cntrls_state();
+//
+//	ComBeamInputSP35  obj_for_studs_S35_verific {this -> cntrls_state_,
+//												 ConcreteDefinitionForm -> cntrls_state(),
+//												 SteelSectionForm -> cntrls_state(),
+//												 DefineSteelForm -> cntrls_state(),
+//												 RebarDefinitionForm -> cntrls_state()};
+//
+//	StudRowCalculatorSP35 calc {obj_for_studs_S35_verific};
+//
+//	StudsInputSP35 studs_input = {StudDefinitionForm -> cntrls_state(),
+//								  this -> cntrls_state_,
+//								  ConcreteDefinitionForm -> cntrls_state()};
+//
+//	studs_output = {calc.run(studs_input)};
 
 }
 //---------------------------------------------------------------------------
@@ -793,63 +785,59 @@ void TCompositeBeamMainForm ::update_SW_edts_SP266()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::update_SW_edts_SP35()
 {
-	double dens;
-	double SW_conc;
-	double SW_steel_beam;
-
-	AnsiString t;
-	dens = com_beam_input_SP35 -> concrete().get_density();
-	SW_conc = com_beam_input_SP35 -> concrete_sect() -> SW(dens);
-	edt_SW_conc -> Text = force_per_area_to_str(SW_conc, LengthUnit::m, LoadUnit::kN);
-
-	SW_steel_beam = com_beam_input_SP35 -> steel_sect() -> SW();
-	edt_SW_steel_beam -> Text = force_per_length_to_str(SW_steel_beam * units::kN / units::m);
+	using namespace units;
+	edt_SW_steel_beam -> Text = double_to_str(
+		comp_sects_output_SP35.loads_.SW_steel_beam());
+	edt_SW_conc -> Text = double_to_str(
+		comp_sects_output_SP35.loads_.SW_concrete()* kN / m2);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_results_grid_SP266()
 {
-	comp_sects_output_list_SP266.fill_grid(strng_grd_results);
+	comp_sects_output_list_SP266.fill_ratios_grid(strng_grd_results);
 	studs_SP266_output.fill_grid(strng_grd_results);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_results_grid_SP35()
 {
-	com_beam_output_SP35 -> fill_grid(strng_grd_results);
-	studs_output.fill_grid_SP35(strng_grd_results);
+	comp_sects_output_SP35.fill_ratios_grid(strng_grd_results);
+//	studs_SP35_output.fill_grid_SP35(strng_grd_results);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_steel_sect_geometr_grid_SP35()
 {
-	com_beam_output_SP35 -> com_sect().st_sect() ->
-		fill_grid(strng_grd_steel_sect_geom_character);
+	comp_sects_output_SP35.
+		fill_comp_sect_grid(strng_grd_steel_sect_geom_character);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_steel_sect_geometr_grid_SP266()
 {
-	comp_sects_output_list_SP266.comp_sect_geom_.
+	comp_sects_output_list_SP266.
 		fill_steel_sect_grid(strng_grd_steel_sect_geom_character);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::update_concrete_sect_geometr_grid_SP266()
 {
-	comp_sects_output_list_SP266.comp_sect_geom_.
+	comp_sects_output_list_SP266.
 		fill_conc_sect_grid(strng_grd_concrete_sect_geom_character);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm ::update_concrete_sect_geometr_grid_SP35()
 {
-	com_beam_output_SP35 -> com_sect().conc_sect() ->
-		fill_grid(strng_grd_concrete_sect_geom_character);
+	comp_sects_output_SP35.
+		fill_conc_sect_grid(strng_grd_concrete_sect_geom_character);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_composite_sect_geometr_grid_SP266()
 {
-	comp_sects_output_list_SP266.fill_comp_sect_grid(strng_grd_compos_sect_geom_character);
+	comp_sects_output_list_SP266.comp_sect_geom_.
+		fill_comp_sect_grid(strng_grd_compos_sect_geom_character);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_composite_sect_geometr_grid_SP35()
 {
-	com_beam_output_SP35 -> com_sect().fill_grid(strng_grd_compos_sect_geom_character);
+	comp_sects_output_SP35.
+		fill_comp_sect_grid(strng_grd_compos_sect_geom_character);
 }
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::NNewClick(TObject *Sender)
@@ -1294,6 +1282,9 @@ void TCompositeBeamMainForm::update_all_frms_cntrls()
 
 void TCompositeBeamMainForm::update_GUI(GUI new_gui)
 {
+	if(new_gui == gui_)
+		return;
+
 	switch (new_gui){
 
 	case(GUI::SP266):

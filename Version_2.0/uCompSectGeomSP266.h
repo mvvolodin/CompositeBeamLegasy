@@ -68,8 +68,6 @@ public:
 	void fill_steel_sect_grid(TStringGrid* str_grid)const;
 	void fill_conc_sect_grid(TStringGrid* str_grid)const;
 	void fill_comp_sect_grid(TStringGrid* str_grid)const;
-	GeneralSteelSection const * const st_sect()const;
-	GeneralConcreteSection const * const conc_sect()const;
 
 #ifndef NDEBUG
 	void print_data_to_logger(TFormLogger const & log)const;
