@@ -11,7 +11,6 @@
 #include "uIntForcesCalculator.h"
 #include "uPlastCoeff.h"
 
-#include "uComposSectGeomSP35.h"
 #include "uWorkingConditionsFactors.h"
 
 #include "uCompBeamObjsCreatorSP266.h"

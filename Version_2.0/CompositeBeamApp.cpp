@@ -4,16 +4,16 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("uFrmStud.cpp", StudDefinitionForm);
-USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
 USEFORM("uFrmSteel.cpp", DefineSteelForm);
 USEFORM("uFrmRebar.cpp", RebarDefinitionForm);
-USEFORM("uFrmAboutProg.cpp", AboutProgForm);
 USEFORM("uFrmLogger.cpp", FormLogger);
 USEFORM("uFrmHelp.cpp", HelpForm);
+USEFORM("uFrmStud.cpp", StudDefinitionForm);
+USEFORM("uFrmSteelSection.cpp", SteelSectionForm);
 USEFORM("uFrmConcrete.cpp", ConcreteDefinitionForm);
 USEFORM("uFrmCompositeBeam.cpp", CompositeBeamMainForm);
 USEFORM("uFrmAddImacts.cpp", FrmAddImpacts);
+USEFORM("uFrmAboutProg.cpp", AboutProgForm);
 //---------------------------------------------------------------------------
 std::wstring file_path;
 

@@ -13,7 +13,6 @@
 #include "uCompSectGeomSP266.h"
 #include "uPlastCoeff.h"
 
-#include "uComposSectGeomSP35.h"
 #include "uWorkingConditionsFactors.h"
 
 #include "uCompBeamObjsCreatorSP35.h"

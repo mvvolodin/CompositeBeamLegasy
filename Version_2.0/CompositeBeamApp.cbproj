@@ -222,10 +222,6 @@
             <DependentOn>uComBeamInputSP35.h</DependentOn>
             <BuildOrder>65</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uComBeamOutputSP35.cpp">
-            <DependentOn>uComBeamOutputSP35.h</DependentOn>
-            <BuildOrder>63</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uCompBeamObjsCreatorSP266.cpp">
             <VirtualFolder>{9161B14D-5039-483E-83D5-95C8807DE09B}</VirtualFolder>
             <DependentOn>uCompBeamObjsCreatorSP266.h</DependentOn>
@@ -235,18 +231,6 @@
             <VirtualFolder>{9161B14D-5039-483E-83D5-95C8807DE09B}</VirtualFolder>
             <DependentOn>uCompBeamObjsCreatorSP35.h</DependentOn>
             <BuildOrder>84</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uComposSectCalculatorS35.cpp">
-            <DependentOn>uComposSectCalculatorS35.h</DependentOn>
-            <BuildOrder>51</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uComposSectGeomSP35.cpp">
-            <DependentOn>uComposSectGeomSP35.h</DependentOn>
-            <BuildOrder>59</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uComposSectOutputSP35.cpp">
-            <DependentOn>uComposSectOutputSP35.h</DependentOn>
-            <BuildOrder>57</BuildOrder>
         </CppCompile>
         <CppCompile Include="uCompSectGeomSP266.cpp">
             <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
@@ -486,7 +470,6 @@
             <BuildOrder>88</BuildOrder>
         </CppCompile>
         <CppCompile Include="uStudsGOSTR55738.cpp">
-            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
             <DependentOn>uStudsGOSTR55738.h</DependentOn>
             <BuildOrder>74</BuildOrder>
         </CppCompile>
@@ -546,16 +529,16 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
-        <FormResources Include="uFrmStud.dfm"/>
-        <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
-        <FormResources Include="uFrmAboutProg.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
+        <FormResources Include="uFrmStud.dfm"/>
+        <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
+        <FormResources Include="uFrmAboutProg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -590,9 +573,8 @@
                     <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
                     <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
                     <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
-                    <VFOLDER ID="{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}" name="StudsSP35_NEW"/>
+                    <VFOLDER ID="{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}" name="StudsSP35"/>
                     <VFOLDER ID="{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}" name="StudsSP266"/>
-                    <VFOLDER ID="{BAA6577C-FEE2-454E-9C61-62D15EDEA398}" name="StudsSP35"/>
                 </VFOLDERS>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
