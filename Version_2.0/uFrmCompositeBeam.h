@@ -20,15 +20,6 @@
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Graphics.hpp>
 #include <Vcl.Imaging.pngimage.hpp>
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-// Пользовательские заголовочные файлы
-//---------------------------------------------------------------------------
-
-#include <memory>
-#include <Vcl.Imaging.jpeg.hpp>
-#include <Vcl.Imaging.pngimage.hpp>
 
 #include "uFrmStud.h"
 #include "uFrmConcrete.h"
@@ -37,16 +28,10 @@
 #include "uFrmHelp.h"
 #include "uFrmSteel.h"
 #include "uFrmAddImacts.h"
-#include "uFrmLogger.h"
-#include "DrawEpurMain.h" //Подключаем функцию отрисовки эпюр
+#include "uFrmAboutProg.h"
+
+#include "DrawEpurMain.h"
 #include "uWord_Automation.h"
-#include "uGeneralConcreteSection.h"
-#include "uSlabConcreteSection.h"
-#include "uCorrugatedConcreteSection.h"
-#include "uFrmsCntrlsState.h"
-#include "uComposSectCalculatorS35.h"
-#include "uGlobGeom.h"
-#include "uGUI.h"
 
 #include "Logger.h"
 

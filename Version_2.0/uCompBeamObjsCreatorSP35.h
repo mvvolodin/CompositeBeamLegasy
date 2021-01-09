@@ -25,6 +25,8 @@
 #include "uCompSectGeomSP35.h"
 #include "uIntForcesCalculator.h"
 
+#include "uStudsSP35.h"
+
 class CompBeamObjsCreatorSP35{
 
 public:
@@ -46,6 +48,7 @@ public:
 	ConcSectUPtr concrete_sect()const;
 	Steel steel()const;
 	WorkingConditionsFactors work_cond_factrs()const;
+    StudsSP35 studs()const;
 	ConcreteSP35 concrete()const;
 
 	CompSectGeomSP35 comp_sect_geom(

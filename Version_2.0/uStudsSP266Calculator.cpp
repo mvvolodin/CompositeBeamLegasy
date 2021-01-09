@@ -2,6 +2,7 @@
 #pragma hdrstop
 #include "uStudsSP266Calculator.h"
 #pragma package(smart_init)
+
 StudsSP266Calculator::StudsSP266Calculator(CompBeamObjsCreatorSP266 const & creator):
 	creator_(creator)
 {

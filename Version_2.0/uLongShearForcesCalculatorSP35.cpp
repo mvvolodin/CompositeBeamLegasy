@@ -1,28 +1,28 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #pragma hdrstop
 
 
-#include "uLongShearForcesCalculator.h"
+#include "uLongShearForcesCalculatorSP35.h"
 #include <algorithm>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-LongShearForcesCalculator::LongShearForcesCalculator(
+LongShearForcesCalculatorSP35::LongShearForcesCalculatorSP35(
 	IntForcesCalculator const & calc,
-	ComposSectGeomSP35 const & com_sec,
+	CompSectGeomSP35 const & com_sec,
 	double L)
 {
 	diag_ = build_diag(calc, com_sec, L);
 }
 
-double LongShearForcesCalculator::S_Ed(double x_l, double x_r)const
+double LongShearForcesCalculatorSP35::S_Ed(double x_l, double x_r)const
 {
 	return diag_.integral(x_l, x_r);
 }
-PiecewiseLinearFunc LongShearForcesCalculator::build_diag(
+PiecewiseLinearFunc LongShearForcesCalculatorSP35::build_diag(
 	IntForcesCalculator const & calc,
-	ComposSectGeomSP35 const & com_sec,
+	CompSectGeomSP35 const & com_sec,
 	double L)
 {
 	double b_sl {com_sec.b_sl()};
@@ -86,8 +86,8 @@ PiecewiseLinearFunc LongShearForcesCalculator::build_diag(
 
 	return {{p_1, p_2, p_3, p_4, p_5, p_6}};
 }
-double LongShearForcesCalculator::S_i(IntForcesCalculator const & calc,
-	ComposSectGeomSP35 const & com_sec, double x_l, double x_r)const
+double LongShearForcesCalculatorSP35::S_i(IntForcesCalculator const & calc,
+	CompSectGeomSP35 const & com_sec, double x_l, double x_r)const
 {
 	double const M_2c_l = calc.M_2c(x_l);
 	double const M_2d_l = calc.M_2d(x_l);
@@ -111,12 +111,12 @@ double LongShearForcesCalculator::S_i(IntForcesCalculator const & calc,
 	double const sigma_b_l = M_2_l / (n_b * W_b_stb);
 	double const sigma_r_l = M_2_l / (n_r * W_b_stb);
 
-	double const sigma_b_r = M_2_r / (n_b * W_b_stb); //для повышения точности расчёта
-	double const sigma_r_r = M_2_r / (n_r * W_b_stb); //расчёт напряжений в арматуре следует
+	double const sigma_b_r = M_2_r / (n_b * W_b_stb); //РґР»СЏ РїРѕРІС‹С€РµРЅРёСЏ С‚РѕС‡РЅРѕСЃС‚Рё СЂР°СЃС‡С‘С‚Р°
+	double const sigma_r_r = M_2_r / (n_r * W_b_stb); //СЂР°СЃС‡С‘С‚ РЅР°РїСЂСЏР¶РµРЅРёР№ РІ Р°СЂРјР°С‚СѓСЂРµ СЃР»РµРґСѓРµС‚
 
 	double x = ((std::min(sigma_b_r, R_b) * A_b + std::min(sigma_r_r, R_r) * A_r)-
 		 ((std::min(sigma_b_l, R_b) * A_b + std::min(sigma_r_l, R_r) * A_r)));
-											 // определять в Ц.Т. арматуре, а не в Ц.Т. бетона
+											 // РѕРїСЂРµРґРµР»СЏС‚СЊ РІ Р¦.Рў. Р°СЂРјР°С‚СѓСЂРµ, Р° РЅРµ РІ Р¦.Рў. Р±РµС‚РѕРЅР°
 	return ((std::min(sigma_b_r, R_b) * A_b + std::min(sigma_r_r, R_r) * A_r)-
 		 ((std::min(sigma_b_l, R_b) * A_b + std::min(sigma_r_l, R_r) * A_r)));
 }

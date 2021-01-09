@@ -4,6 +4,7 @@
 
 #include "uCompSectsOutputListSP266.h"
 #include <algorithm>
+#include "uUnits.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -291,12 +292,21 @@ void CompSectsOutputListSP266::fill_comp_sect_grid(TStringGrid* str_grid)const
 }
 void CompSectsOutputListSP266::print(TWord_Automation & report)const
 {
+	using namespace units;
+
 	comp_sect_geom_.print(report);
 	glob_geom_.print(report);
 	loads_.print_SP266(report);
 	work_cond_factrs_.print(report);
 
 	CompSectOutputSP266 sect1 = max_st_sect_ratio_sect();
+
+	report.PasteTextPattern(double_to_str(sect1.nd_.x(), 0),"%cs_x%");
+	report.PasteTextPattern(double_to_str(sect1.M_1a_ * kN * m),"%M_1a%");
+	report.PasteTextPattern(double_to_str(sect1.M_1b_ * kN * m),"%M_1b%");
+	report.PasteTextPattern(double_to_str(sect1.M_2c_ * kN * m),"%M_2c%");
+	report.PasteTextPattern(double_to_str(sect1.M_2d_ * kN * m),"%M_2d%");
+	report.PasteTextPattern(double_to_str(sect1.M_total_ * kN * m),"%M_total%");
 
 	report.PasteTextPattern(double_to_str(sect1.nd_.x(),0),"%x_M%");
 	report.PasteTextPattern(double_to_str(sect1.upper_fl_ratio_),"%uf_ratio%");

@@ -88,7 +88,6 @@
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <BCC_PCHName_Clang>CompositeBeamAppPCH.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CloudService;CustomIPTransport;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;DBXSqliteDriver;dsnap;dsnapcon;dsnapxml;FireDAC;FireDACADSDriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACIBDriver;FireDACMSAccDriver;FireDACMySQLDriver;FireDACPgDriver;FireDACSqliteDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;tethering;vcl;vclactnband;vcldb;vcldsnap;vclFireDAC;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -424,15 +423,15 @@
             <DependentOn>uLoads.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uLongShearForcesCalculator.cpp">
-            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uLongShearForcesCalculator.h</DependentOn>
-            <BuildOrder>68</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uLongShearForcesCalculatorSP266.cpp">
             <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
             <DependentOn>uLongShearForcesCalculatorSP266.h</DependentOn>
             <BuildOrder>88</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uLongShearForcesCalculatorSP35.cpp">
+            <VirtualFolder>{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}</VirtualFolder>
+            <DependentOn>uLongShearForcesCalculatorSP35.h</DependentOn>
+            <BuildOrder>68</BuildOrder>
         </CppCompile>
         <CppCompile Include="uPiecewiseLinearFunc.cpp">
             <DependentOn>uPiecewiseLinearFunc.h</DependentOn>
@@ -450,10 +449,6 @@
             <DependentOn>uRolledSection.h</DependentOn>
             <BuildOrder>49</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uRolledSectionsGOSTR57837.cpp">
-            <DependentOn>uRolledSectionsGOSTR57837.h</DependentOn>
-            <BuildOrder>75</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uSlabConcreteSection.cpp">
             <DependentOn>uSlabConcreteSection.h</DependentOn>
             <BuildOrder>53</BuildOrder>
@@ -470,21 +465,6 @@
             <DependentOn>uSteelTableObjects.h</DependentOn>
             <BuildOrder>64</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uStudRowCalculatorSP35.cpp">
-            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uStudRowCalculatorSP35.h</DependentOn>
-            <BuildOrder>67</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uStudRowInputSP35.cpp">
-            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uStudRowInputSP35.h</DependentOn>
-            <BuildOrder>76</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uStudRowOutputSP35.cpp">
-            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uStudRowOutputSP35.h</DependentOn>
-            <BuildOrder>70</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uStudRowSP266.cpp">
             <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
             <DependentOn>uStudRowSP266.h</DependentOn>
@@ -495,20 +475,20 @@
             <DependentOn>uStudRowSP266Calculated.h</DependentOn>
             <BuildOrder>86</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uStudRowSP35.cpp">
+            <VirtualFolder>{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}</VirtualFolder>
+            <DependentOn>uStudRowSP35.h</DependentOn>
+            <BuildOrder>89</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uStudRowSP35Calculated.cpp">
+            <VirtualFolder>{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}</VirtualFolder>
+            <DependentOn>uStudRowSP35Calculated.h</DependentOn>
+            <BuildOrder>88</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uStudsGOSTR55738.cpp">
             <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
             <DependentOn>uStudsGOSTR55738.h</DependentOn>
             <BuildOrder>74</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uStudsInputSP35.cpp">
-            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uStudsInputSP35.h</DependentOn>
-            <BuildOrder>76</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="uStudsOutputSP35.cpp">
-            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
-            <DependentOn>uStudsOutputSP35.h</DependentOn>
-            <BuildOrder>76</BuildOrder>
         </CppCompile>
         <CppCompile Include="uStudSP266.cpp">
             <VirtualFolder>{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}</VirtualFolder>
@@ -516,7 +496,7 @@
             <BuildOrder>82</BuildOrder>
         </CppCompile>
         <CppCompile Include="uStudSP35.cpp">
-            <VirtualFolder>{BAA6577C-FEE2-454E-9C61-62D15EDEA398}</VirtualFolder>
+            <VirtualFolder>{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}</VirtualFolder>
             <DependentOn>uStudSP35.h</DependentOn>
             <BuildOrder>71</BuildOrder>
         </CppCompile>
@@ -535,9 +515,20 @@
             <DependentOn>uStudsSP266Calculator.h</DependentOn>
             <BuildOrder>85</BuildOrder>
         </CppCompile>
+        <CppCompile Include="uStudsSP35.cpp">
+            <VirtualFolder>{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}</VirtualFolder>
+            <DependentOn>uStudsSP35.h</DependentOn>
+            <BuildOrder>76</BuildOrder>
+        </CppCompile>
         <CppCompile Include="uStudsSP35Calculated.cpp">
+            <VirtualFolder>{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}</VirtualFolder>
             <DependentOn>uStudsSP35Calculated.h</DependentOn>
             <BuildOrder>86</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="uStudsSP35Calculator.cpp">
+            <VirtualFolder>{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}</VirtualFolder>
+            <DependentOn>uStudsSP35Calculator.h</DependentOn>
+            <BuildOrder>87</BuildOrder>
         </CppCompile>
         <CppCompile Include="uUnits.cpp">
             <DependentOn>uUnits.h</DependentOn>
@@ -555,16 +546,16 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
+        <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
         <FormResources Include="uFrmSteel.dfm"/>
         <FormResources Include="uFrmRebar.dfm"/>
+        <FormResources Include="uFrmAboutProg.dfm"/>
         <FormResources Include="uFrmLogger.dfm"/>
-        <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="uFrmAboutProg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -592,15 +583,16 @@
                     <Source Name="MainSource">CompositeBeamApp.cpp</Source>
                 </Source>
                 <VFOLDERS>
-                    <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
-                    <VFOLDER ID="{9161B14D-5039-483E-83D5-95C8807DE09B}" name="Creators"/>
                     <VFOLDER ID="{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}" name="CompSectionsSP266"/>
-                    <VFOLDER ID="{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}" name="StudsSP266"/>
                     <VFOLDER ID="{3B613BDD-D8D4-42B3-83FE-742360B6D73F}" name="CompSectionsSP35"/>
-                    <VFOLDER ID="{BAA6577C-FEE2-454E-9C61-62D15EDEA398}" name="StudsSP35"/>
+                    <VFOLDER ID="{9161B14D-5039-483E-83D5-95C8807DE09B}" name="Creators"/>
                     <VFOLDER ID="{BE3875C0-F289-4034-AA3A-BA134AF0C2BA}" name="Draw Diagrams"/>
+                    <VFOLDER ID="{FECC496F-C25B-475C-B742-DA879DE8382E}" name="Forms"/>
                     <VFOLDER ID="{5FF06B42-F393-44F4-B2A7-3B7240E7B578}" name="Graphics"/>
                     <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
+                    <VFOLDER ID="{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}" name="StudsSP35_NEW"/>
+                    <VFOLDER ID="{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}" name="StudsSP266"/>
+                    <VFOLDER ID="{BAA6577C-FEE2-454E-9C61-62D15EDEA398}" name="StudsSP35"/>
                 </VFOLDERS>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>

@@ -1,45 +1,27 @@
 ﻿//---------------------------------------------------------------------------
 #include <vcl.h>
-#include<ComObj.hpp>
-#include <ostream>
-#include <fstream>
 #pragma hdrstop
-#include<vector>
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 
 #include "uFrmCompositeBeam.h"
-#include "String_doubleUnit.h"
-#include "uWord_Automation.h"
-#include "uFrmAboutProg.h"
-#include "uComposSectGeomSP35.h"
-#include "uIntForcesCalculator.h"
-#include "uComBeamInputSP35.h"
-#include "uStudsInputSP35.h"
-#include "uStudsOutputSP35.h"
-#include "uUnits.h"
-#include "uStudRowCalculatorSP35.h"
+#include <fstream>
+#include <System.Win.Registry.hpp>
 
 #include "uCompBeamObjsCreatorSP35.h"
+
 #include "uCompSectsCalculatorSP35.h"
 #include "uCompSectsOutputSP35.h"
-
-//#include "uStudsSP35.h"
-//#include "uStudsSP35Calculator.h"
+#include "uStudsSP35Calculator.h"
 #include "uStudsSP35Calculated.h"
 
 #include "uCompBeamObjsCreatorSP266.h"
 #include "uCompSectsCalculatorSP266.h"
 #include "uCompSectsOutputListSP266.h"
-
-#include "uStudsSP266.h"
 #include "uStudsSP266Calculator.h"
 #include "uStudsSP266Calculated.h"
-
-#include <System.Win.Registry.hpp>
-
 //---------------------------------------------------------------------------
 TCompositeBeamMainForm  *CompositeBeamMainForm;
 
@@ -342,15 +324,15 @@ void __fastcall TCompositeBeamMainForm ::NExitClick(TObject *Sender)
 
 void TCompositeBeamMainForm::generate_report_SP35()
 {
-	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.dotx");
+	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.docx");
 
 	comp_sects_output_SP35.print(report);
 
-//	studs_output.print(report);
+	studs_SP35_output.print(report);
 }
 void TCompositeBeamMainForm::generate_report_SP266()
 {
-	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP266.dotx");
+	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP266.docx");
 
 	comp_sects_output_list_SP266.print(report);
 	studs_SP266_output.print(report);
@@ -724,22 +706,15 @@ void TCompositeBeamMainForm ::calculate_composite_sections_SP35()
 
 void TCompositeBeamMainForm::calculate_studs_SP35()
 {
-//	store_all_frms_cntrls_state();
-//
-//	ComBeamInputSP35  obj_for_studs_S35_verific {this -> cntrls_state_,
-//												 ConcreteDefinitionForm -> cntrls_state(),
-//												 SteelSectionForm -> cntrls_state(),
-//												 DefineSteelForm -> cntrls_state(),
-//												 RebarDefinitionForm -> cntrls_state()};
-//
-//	StudRowCalculatorSP35 calc {obj_for_studs_S35_verific};
-//
-//	StudsInputSP35 studs_input = {StudDefinitionForm -> cntrls_state(),
-//								  this -> cntrls_state_,
-//								  ConcreteDefinitionForm -> cntrls_state()};
-//
-//	studs_output = {calc.run(studs_input)};
+	CompBeamObjsCreatorSP35 creator {this -> cntrls_state_,
+		ConcreteDefinitionForm -> cntrls_state(),
+		SteelSectionForm -> cntrls_state(),
+		DefineSteelForm -> cntrls_state(),
+		RebarDefinitionForm -> cntrls_state(),
+		StudDefinitionForm -> cntrls_state()};
 
+	StudsSP35Calculator calculator {creator};
+	studs_SP35_output = calculator.run();
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::after_calculation()
@@ -801,7 +776,7 @@ void TCompositeBeamMainForm::update_results_grid_SP266()
 void TCompositeBeamMainForm::update_results_grid_SP35()
 {
 	comp_sects_output_SP35.fill_ratios_grid(strng_grd_results);
-//	studs_SP35_output.fill_grid_SP35(strng_grd_results);
+	studs_SP35_output.fill_grid(strng_grd_results);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::update_steel_sect_geometr_grid_SP35()

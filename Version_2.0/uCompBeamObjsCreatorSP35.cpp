@@ -169,7 +169,28 @@ IntForcesCalculator CompBeamObjsCreatorSP35::int_forces_calculator()const
 		   glob_geom.span(),
 		   loads()};
 }
+StudsSP35 CompBeamObjsCreatorSP35::studs()const
+{
+	GlobGeom const glob_geom {glob_geometry()};
+	ConcreteSP35 const conc {concrete()};
 
+	int const st_index = studs_frm_cntrls_state_.cmb_bx_stud_part_number_index_;
+
+	StudSP35 stud {StudsGOSTR55738::name(st_index),
+				   StudsGOSTR55738::d_1(st_index),
+				   StudsGOSTR55738::l_1(st_index),
+				   studs_frm_cntrls_state_.edt_stud_yield_strength_data_,
+				   conc.R_b(),
+				   studs_frm_cntrls_state_.edt_stud_safety_factor_data_};
+
+	return{stud,
+		   glob_geom.span(),
+		   studs_frm_cntrls_state_.edt_edge_studs_dist_data_,
+		   studs_frm_cntrls_state_.edt_middle_studs_dist_data_,
+		   studs_frm_cntrls_state_.cmb_bx_edge_studs_rows_num_index_ + 1,
+		   studs_frm_cntrls_state_.cmb_bx_middle_studs_rows_num_index_ + 1};
+
+}
 ConcreteSP35 CompBeamObjsCreatorSP35::concrete()const
 {
 	return {conc_frm_cntrls_state_.cmb_bx_conc_grade_index_,

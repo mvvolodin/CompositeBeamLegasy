@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #pragma hdrstop
 #include <algorithm>
@@ -7,7 +7,7 @@
 #pragma package(smart_init)
 StudsSP266::StudsSP266(StudSP266 stud, double L,
 					   double dist_e, double dist_m,
-					   int num_st_row_e, int num_st_row_m,
+					   unsigned int num_st_row_e, unsigned int num_st_row_m,
 					   bool is_not_one_stud_per_corr_e, bool is_not_one_stud_per_corr_m,
 					   bool const is_corr_slab,
 					   CorrugatedSheet const & corr_sheet,
@@ -93,7 +93,7 @@ double StudsSP266::k(double b_0, double h_n, double l_1,
 
 	if(h_an == h_n)
 		throw std::u16string{
-			u"При равенстве высоты упора и настила, коэффициент k ф.(9.7а) или ф.(9.7б) равен нулю."};
+			u"РџСЂРё СЂР°РІРµРЅСЃС‚РІРµ РІС‹СЃРѕС‚С‹ СѓРїРѕСЂР° Рё РЅР°СЃС‚РёР»Р°, РєРѕСЌС„С„РёС†РёРµРЅС‚ k С„.(9.7Р°) РёР»Рё С„.(9.7Р±) СЂР°РІРµРЅ РЅСѓР»СЋ."};
 
 	double n_r = (is_not_one_stud_per_corr)? 2: 1;
 
@@ -115,21 +115,21 @@ double StudsSP266::k(double b_0, double h_n, double l_1,
 #ifndef NDEBUG
 void StudsSP266::print_to_logger()const
 {
-	FormLogger -> add_heading(u"Параметры упора Нельсона");
+	FormLogger -> add_heading(u"РџР°СЂР°РјРµС‚СЂС‹ СѓРїРѕСЂР° РќРµР»СЊСЃРѕРЅР°");
 	FormLogger -> print_string(stud_.name().c_str());
-	FormLogger -> print_double(u"d_1 = ", stud_.d_1(), u" мм");
-	FormLogger -> print_double(u"l_1 = ", stud_.l_1(), u" мм");
-	FormLogger -> print_double(u"R_y = ", stud_.R_y(), u" мм");
-	FormLogger -> print_double(u"P_Rd = ", stud_.P_Rd(), u" Н");
+	FormLogger -> print_double(u"d_1 = ", stud_.d_1(), u" РјРј");
+	FormLogger -> print_double(u"l_1 = ", stud_.l_1(), u" РјРј");
+	FormLogger -> print_double(u"R_y = ", stud_.R_y(), u" РјРј");
+	FormLogger -> print_double(u"P_Rd = ", stud_.P_Rd(), u" Рќ");
 
-	FormLogger -> add_heading(u"Параметры рядов упоров Нельсона");
+	FormLogger -> add_heading(u"РџР°СЂР°РјРµС‚СЂС‹ СЂСЏРґРѕРІ СѓРїРѕСЂРѕРІ РќРµР»СЊСЃРѕРЅР°");
 	for(auto const & r:rows_)
 		FormLogger -> print_6_doubles(
 			u"id = ", 	  r.id_,     u"  ",
 			u"st_num = ", r.st_num_, u"  ",
-			u"x = " ,     r.x_,      u" мм",
-			u"x_l = " ,   r.x_l_,    u" мм",
-			u"x_r = " ,   r.x_r_,    u" мм",
+			u"x = " ,     r.x_,      u" РјРј",
+			u"x_l = " ,   r.x_l_,    u" РјРј",
+			u"x_r = " ,   r.x_r_,    u" РјРј",
 			u"k = " ,     r.k_,      u" ");
 }
 #endif
