@@ -2,8 +2,8 @@
 //---------------------------------------------------------------------------
 #define DEBUG_SP_35 // DEBUG_SP_266 | DEBUG_SP_35
 //---------------------------------------------------------------------------
-#define DEBUG_STEEL_SECT
-#define DEBUG_CONC_SECT
+//#define DEBUG_STEEL_SECT
+//#define DEBUG_CONC_SECT
 #define DEBUG_COMP_SECT
 #define DEBUG_STUDS
 //---------------------------------------------------------------------------

@@ -15,14 +15,14 @@ struct TCompositeBeamMainFormCntrlsState{
 
 	// Нагрузки
 	double edt_SW_add_concrete_data_ {0};
-	double edt_dead_load_first_stage_data_ {0};
+	double edt_dead_load_first_stage_data_ {0.5};
 	double edt_dead_load_second_stage_data_ {2};
 	double edt_live_load_data_ {4};
 
 	// Коэффициенты надёжности по нагрузке
 
 	double edt_gamma_f_st_SW_data_ {1.05};
-	double edt_gamma_f_concrete_SW_data_ {1.1};
+	double edt_gamma_f_concrete_SW_data_ {1.2};
 	double edt_gamma_f_add_concrete_SW_data_ {1.1};
 	double edt_gamma_f_DL_I_data_ {1.3};
 	double edt_gamma_f_DL_II_data_ {1.2};
@@ -100,7 +100,7 @@ struct TConcreteDefinitionFormCntrlsState{
 struct TFrmRebarCntrlsState{
 
 	int cmb_bx_rebar_grade_ {0};
-	double edt_E_s_ {200000};
+	double edt_E_s_ {210000};
 	double edt_safety_factor_ {1.15};
 	double edt_diameter_ {6};
 	double edt_b_ {100};

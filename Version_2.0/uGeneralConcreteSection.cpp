@@ -90,11 +90,11 @@ Rebars GeneralConcreteSection::rebars()const
 }
 double GeneralConcreteSection::area() const
 {
-	return des_height_ * des_height_ ;
+	return des_height_ * des_width_ ;
 }
 double GeneralConcreteSection::inertia() const
 {
-	return des_height_ * des_height_ * des_height_ * des_height_ / 12;
+	return des_width_ * des_height_ * des_height_ * des_height_ / 12;
 }
 
 void GeneralConcreteSection::fill_grid(TStringGrid* str_grid)const
@@ -158,8 +158,8 @@ void GeneralConcreteSection::log()const
 		 "*****************************",
 		 "Расч. толщина = " + FloatToStr(des_height()) + " мм",
 		 "Расч. ширина = " + FloatToStr(des_width()) + " мм",
-		 "Площадь = " + FloatToStr(des_width()) + " мм2",
-		 "Инерция = " + FloatToStr(des_width()) + " мм4"
+		 "Площадь = " + FloatToStr(area()) + " мм2",
+		 "Инерция = " + FloatToStr(inertia()) + " мм4"
 		 });
 }
 #endif

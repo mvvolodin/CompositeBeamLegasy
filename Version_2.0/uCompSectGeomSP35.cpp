@@ -100,7 +100,7 @@ void CompSectGeomSP35::calculate(double const E_b)
 
 	A_stb_= A_s + A_b / n_b_ + A_u_r / n_r_ + A_l_r / n_r_;
 
-	double const h_s = st_sect_ -> h_s();
+	double const h_sect = st_sect_ -> sect_height();
 	double const h_n = conc_sect_ -> h_n();
 	double const h_f = conc_sect_ -> des_height();
 	double const a_l_r = conc_sect_ -> rebars().a_l();
@@ -108,7 +108,7 @@ void CompSectGeomSP35::calculate(double const E_b)
 	double const Z_s2_s = st_sect_ -> Z_s2_s();
 	double const C_b = conc_sect_ -> C_b();
 
-	H_stb_ = h_s + h_n + h_f;
+	H_stb_ = h_sect + h_n + h_f;
 
 	Z_b_s_ = C_b + Z_s2_s;
 	Z_r_u_s_ = Z_s2_s + h_n + h_f - a_u_r;
@@ -177,10 +177,12 @@ void CompSectGeomSP35::log()const
 		 "H_stb = " + FloatToStr(H_stb_) + L" мм",
 		 "A_stb = " + FloatToStr(A_stb_) + L" мм2",
 		 "S_stb = " + FloatToStr(S_stb_) + L" мм3",
+		 "W_b_stb = " + FloatToStr(W_b_stb_) + L" мм3",
+         "W_b_s = " + FloatToStr(W_b_s_) + L" мм3",
 		 "I_stb = " + FloatToStr(I_stb_) + L" мм4",
 		 "Z_s_stb = " + FloatToStr(Z_s_stb_) + L" мм",
 		 "Z_b_stb = " + FloatToStr(Z_b_stb_) + L" мм",
-		 "Z_b_s = " + FloatToStr(Z_b_stb_) + L" мм"
+		 "Z_b_s = " + FloatToStr(Z_b_s_) + L" мм"
 		 });
 }
 #endif

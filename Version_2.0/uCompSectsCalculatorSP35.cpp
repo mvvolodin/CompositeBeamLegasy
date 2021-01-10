@@ -32,6 +32,8 @@ CompSectsOutputSP35 CompSectsCalculatorSP35::run()
 		cso.push_back(calculate(node));
 	#ifdef DEBUG_COMP_SECT_SP35
 	com_sect_.log();
+	com_sect_shr_.log();
+	com_sect_kr_.log();
 	#endif
 
 	return {glob_geom,
@@ -182,7 +184,7 @@ CompSectOutputSP35 CompSectsCalculatorSP35::calculate(Node const & node)
 	double const m_1 = std::min(1 + (m_b * R_b - sigma_b) / (m * R_y) * A_b / A_s2, 1.2);
 	double const omega_4_br = omega_3_br / m_1;
 
-	double const k = 1.0;
+	double const k = 1.0;/* TODO 1 -oMV : Реализовать расчёт k */
 
 	double const st_sect_ratio = M_1a / (std::min(W_s1_s,W_s2_s) * R_y * m);
 	double const shear_ratio = Q / (0.58 * R_y * A_w * m);

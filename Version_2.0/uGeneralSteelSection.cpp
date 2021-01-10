@@ -61,14 +61,17 @@ void GeneralSteelSection::log()const
 		 "*****************************",
 		 "Геометрические характеристики",
 		 "*****************************",
-		 "bf2 = " + FloatToStr(upper_fl_width()) + " мм ; " +
-			"tf2 = " + FloatToStr(upper_fl_thick()) + " мм",
-		 "bf1 = " + FloatToStr(lower_fl_width()) + " мм ; " +
-			"tf1 = " + FloatToStr(lower_fl_thick()) + " мм",
-		 "hw = " + FloatToStr(web_height()) + " мм ; " +
+		 "h_sect = " + FloatToStr(sect_height()) + " мм; ",
+		 "buf = " + FloatToStr(upper_fl_width()) + " мм; " +
+			"tuf = " + FloatToStr(upper_fl_thick()) + " мм",
+		 "blf = " + FloatToStr(lower_fl_width()) + " мм; " +
+			"tlf = " + FloatToStr(lower_fl_thick()) + " мм",
+		 "hw = " + FloatToStr(web_height()) + " мм; " +
 			"tw = " + FloatToStr(web_thick()) + " мм",
 		 "C = " + FloatToStr(grav_cent()) + " мм",
 		 "A = " + FloatToStr(area()) + " мм2",
+		 "Wuf = " + FloatToStr(modulus_upper_fl()) + " мм3",
+		 "Wlf = " + FloatToStr(modulus_lower_fl()) + " мм3",
 		 "I = " + FloatToStr(inertia()) + " мм2"});
 }
 #endif

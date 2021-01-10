@@ -53,7 +53,7 @@ public:
 	double t_s1() const {return lower_fl_thick();}
 	double b_s2() const {return upper_fl_width();}
 	double t_s2() const {return upper_fl_thick();}
-	double h_s() const {return web_height();}
+	double h_s() const {return sect_height();}
 
 	double Z_s2_s() const {return grav_cent_upper_fl_dist();}
 	double Z_s1_s() const {return grav_cent_lower_fl_dist();}
