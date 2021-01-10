@@ -29,7 +29,7 @@ std::u16string CorrugatedConcreteSection::slab_type()const
 }
 double CorrugatedConcreteSection::h() const
 {
-	return corr_sheet_.get_height() + h_f_;
+	return corr_sheet_.get_height() + des_height_;
 }
 double CorrugatedConcreteSection::h_n() const
 {
@@ -37,13 +37,26 @@ double CorrugatedConcreteSection::h_n() const
 }
 double CorrugatedConcreteSection::C_b() const
 {
-	return corr_sheet_.get_height() + h_f_ / 2;
+	return corr_sheet_.get_height() + des_height_ / 2;
 }
 double CorrugatedConcreteSection::SW(double dens) const
 {
-	return dens * constants::grav_accelerate * (h_f_ + corr_sheet_.get_h_b(wider_flange_up_));
+	return dens * constants::grav_accelerate * (des_height_ + corr_sheet_.get_h_b(wider_flange_up_));
 }
 CorrugatedSheet CorrugatedConcreteSection::corrugated_sheet()const
 {
 	return corr_sheet_;
 }
+#ifdef DEBUG_CONC_SECT
+void CorrugatedConcreteSection::log()const
+{
+		FormLogger -> print(
+		{
+		 "********************",
+		 "Железобетонная плита",
+		 "********************",
+		 "Тип плиты: по настилу"
+		 });
+	GeneralConcreteSection::log();
+}
+#endif

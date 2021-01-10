@@ -26,7 +26,7 @@ std::u16string SlabConcreteSection::slab_type()const
 }
 double SlabConcreteSection::h() const
 {
-	return h_n_ + h_f_;
+	return h_n_ + des_height_;
 }
 double SlabConcreteSection::h_n() const
 {
@@ -34,10 +34,23 @@ double SlabConcreteSection::h_n() const
 }
 double SlabConcreteSection::C_b() const
 {
-	return h_n_ + h_f_ / 2;
+	return h_n_ + des_height_ / 2;
 }
 double SlabConcreteSection::SW(double dens)const
 {
-	return dens * 9.81 * h_f_;
+	return dens * 9.81 * des_height_;
 }
+#ifdef DEBUG_CONC_SECT
+void SlabConcreteSection::log()const
+{
+		FormLogger -> print(
+		{
+		 "********************",
+		 "Железобетонная плита",
+		 "********************",
+		 "Тип плиты: плоская"
+		 });
+	GeneralConcreteSection::log();
+}
+#endif
 

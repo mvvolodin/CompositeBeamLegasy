@@ -209,9 +209,9 @@ __published:	// IDE-managed Components
 	void __fastcall btn_add_impactsClick(TObject *Sender);
 	void __fastcall HelpClick(TObject *Sender);
 	void __fastcall rd_grp_codeClick(TObject *Sender);
-	void __fastcall btn_loggerClick(TObject *Sender);
 	void __fastcall mru_file_path_click(TObject *Sender);
 	void __fastcall NFileClick(TObject *Sender);
+	void __fastcall btn_loggerClick(TObject *Sender);
 public:		// User declarations
 	__fastcall TCompositeBeamMainForm(TComponent* Owner)override;
 	__fastcall ~TCompositeBeamMainForm()override;
@@ -289,10 +289,6 @@ private:
 	void update_all_frms_cntrls();
 	void store_cntrls_state();
 	void store_all_frms_cntrls_state();
-
-    #ifndef NDEBUG
-	void print_to_logger();
-	#endif
 
 	void clean_grid(TStringGrid* str_gr);
 

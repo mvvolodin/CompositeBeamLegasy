@@ -218,10 +218,6 @@
             <DependentOn>uBilinearInterp.h</DependentOn>
             <BuildOrder>56</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uComBeamInputSP35.cpp">
-            <DependentOn>uComBeamInputSP35.h</DependentOn>
-            <BuildOrder>65</BuildOrder>
-        </CppCompile>
         <CppCompile Include="uCompBeamObjsCreatorSP266.cpp">
             <VirtualFolder>{9161B14D-5039-483E-83D5-95C8807DE09B}</VirtualFolder>
             <DependentOn>uCompBeamObjsCreatorSP266.h</DependentOn>
@@ -262,9 +258,9 @@
             <DependentOn>uCompSectsCalculatorSP35.h</DependentOn>
             <BuildOrder>83</BuildOrder>
         </CppCompile>
-        <CppCompile Include="uCompSectsOutputListSP266.cpp">
+        <CppCompile Include="uCompSectsOutputSP266.cpp">
             <VirtualFolder>{E18D88A0-5616-4EE8-990D-154D4AC5B7A1}</VirtualFolder>
-            <DependentOn>uCompSectsOutputListSP266.h</DependentOn>
+            <DependentOn>uCompSectsOutputSP266.h</DependentOn>
             <BuildOrder>81</BuildOrder>
         </CppCompile>
         <CppCompile Include="uCompSectsOutputSP35.cpp">
@@ -293,6 +289,7 @@
             <BuildOrder>79</BuildOrder>
         </CppCompile>
         <CppCompile Include="uCorrugatedConcreteSection.cpp">
+            <VirtualFolder>{5E11D3F8-F6A7-4F0E-9D70-A9665D31DD99}</VirtualFolder>
             <DependentOn>uCorrugatedConcreteSection.h</DependentOn>
             <BuildOrder>55</BuildOrder>
         </CppCompile>
@@ -375,10 +372,12 @@
             <BuildOrder>40</BuildOrder>
         </CppCompile>
         <CppCompile Include="uGeneralConcreteSection.cpp">
+            <VirtualFolder>{5E11D3F8-F6A7-4F0E-9D70-A9665D31DD99}</VirtualFolder>
             <DependentOn>uGeneralConcreteSection.h</DependentOn>
             <BuildOrder>55</BuildOrder>
         </CppCompile>
         <CppCompile Include="uGeneralSteelSection.cpp">
+            <VirtualFolder>{6482D9EC-DD47-44B1-8630-6B30BDAE4807}</VirtualFolder>
             <DependentOn>uGeneralSteelSection.h</DependentOn>
             <BuildOrder>52</BuildOrder>
         </CppCompile>
@@ -430,10 +429,12 @@
             <BuildOrder>16</BuildOrder>
         </CppCompile>
         <CppCompile Include="uRolledSection.cpp">
+            <VirtualFolder>{6482D9EC-DD47-44B1-8630-6B30BDAE4807}</VirtualFolder>
             <DependentOn>uRolledSection.h</DependentOn>
             <BuildOrder>49</BuildOrder>
         </CppCompile>
         <CppCompile Include="uSlabConcreteSection.cpp">
+            <VirtualFolder>{5E11D3F8-F6A7-4F0E-9D70-A9665D31DD99}</VirtualFolder>
             <DependentOn>uSlabConcreteSection.h</DependentOn>
             <BuildOrder>53</BuildOrder>
         </CppCompile>
@@ -518,6 +519,7 @@
             <BuildOrder>66</BuildOrder>
         </CppCompile>
         <CppCompile Include="uWeldedSection.cpp">
+            <VirtualFolder>{6482D9EC-DD47-44B1-8630-6B30BDAE4807}</VirtualFolder>
             <DependentOn>uWeldedSection.h</DependentOn>
             <BuildOrder>50</BuildOrder>
         </CppCompile>
@@ -529,16 +531,16 @@
             <DependentOn>uWorkingConditionsFactors.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
-        <FormResources Include="uFrmSteel.dfm"/>
-        <FormResources Include="uFrmRebar.dfm"/>
-        <FormResources Include="uFrmLogger.dfm"/>
-        <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmStud.dfm"/>
         <FormResources Include="uFrmSteelSection.dfm"/>
+        <FormResources Include="uFrmSteel.dfm"/>
+        <FormResources Include="uFrmRebar.dfm"/>
+        <FormResources Include="uFrmAboutProg.dfm"/>
+        <FormResources Include="uFrmLogger.dfm"/>
+        <FormResources Include="uFrmHelp.dfm"/>
         <FormResources Include="uFrmConcrete.dfm"/>
         <FormResources Include="uFrmCompositeBeam.dfm"/>
         <FormResources Include="uFrmAddImacts.dfm"/>
-        <FormResources Include="uFrmAboutProg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -575,6 +577,8 @@
                     <VFOLDER ID="{180C2F3E-0915-4A09-9C20-078BD4F933E8}" name="Input Check Global Functions"/>
                     <VFOLDER ID="{DDC61D11-C46F-41CF-A50E-FDEC94FF1D74}" name="StudsSP35"/>
                     <VFOLDER ID="{1FCAE3EA-6DDC-4EC8-A8F8-C4237B54E7B9}" name="StudsSP266"/>
+                    <VFOLDER ID="{6482D9EC-DD47-44B1-8630-6B30BDAE4807}" name="SteelSection"/>
+                    <VFOLDER ID="{5E11D3F8-F6A7-4F0E-9D70-A9665D31DD99}" name="ConcSection"/>
                 </VFOLDERS>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>

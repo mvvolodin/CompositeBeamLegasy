@@ -1,6 +1,6 @@
 ﻿//---------------------------------------------------------------------------
-#ifndef uCompSectsOutputListSP266H
-#define uCompSectsOutputListSP266H
+#ifndef uCompSectsOutputSP266H
+#define uCompSectsOutputSP266H
 //---------------------------------------------------------------------------
 #include <vector>
 #include <Vcl.Grids.hpp>
@@ -11,7 +11,7 @@
 #include "uCompSectOutputSP266.h"
 #include "uWord_Automation.h"
 //---------------------------------------------------------------------------
-class CompSectsOutputListSP266{
+class CompSectsOutputSP266{
 public:
 
 	GlobGeom glob_geom_;

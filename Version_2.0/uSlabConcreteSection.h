@@ -23,6 +23,9 @@ public:
 	double h_n() const override;
 	double C_b() const override;
 	double SW(double dens) const override;
+	#ifdef DEBUG_CONC_SECT
+	virtual void log()const override;
+	#endif
 private:
 	double const h_n_;
 

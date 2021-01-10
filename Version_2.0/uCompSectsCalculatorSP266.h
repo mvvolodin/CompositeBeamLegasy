@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include "uCompSectOutputSP266.h"
-#include "uCompSectsOutputListSP266.h"
+#include "uCompSectsOutputSP266.h"
 
 #include "uGlobGeom.h"
 #include "uIntForcesCalculator.h"
@@ -25,7 +25,7 @@ enum class DesignCaseSP266{
 class CompSectsCalculatorSP266{
 public:
 	CompSectsCalculatorSP266 (CompBeamObjsCreatorSP266 const & creator);
-	CompSectsOutputListSP266 run();
+	CompSectsOutputSP266 run();
 private:
 	CompBeamObjsCreatorSP266 const creator_;
 

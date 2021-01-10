@@ -146,10 +146,17 @@ double RolledSection::radius()const
 {
 	return rad_;
 }
-#ifndef NDEBUG
-void RolledSection::print_data_to_logger(TFormLogger const & log)const
+#ifdef DEBUG_STEEL_SECT
+void RolledSection::log()const
 {
-	log.add_heading(L"Тип сечения");
-	log.print_string(L"Прокатный двутавр");;
+	FormLogger -> print(
+		{"****************",
+		 "Стальное сечение",
+		 "****************",
+		 "Тип: прокатное ",
+		 "Номер профиля: " + String{prof_num_.c_str()},
+		 });
+
+	GeneralSteelSection::log();
 }
 #endif

@@ -79,5 +79,10 @@ void TFormLogger::print_6_doubles(String const & name1, double val1, String cons
 							  name5 + val5 + unit5 + L"    " +
 							  name6 + val6 + unit6 + L"    ");
 }
+void TFormLogger::print(std::vector<String> const & strs)const
+{
+	for(auto const & s:strs)
+		mm_logger -> Lines -> Add(s);
+}
 //---------------------------------------------------------------------------
 

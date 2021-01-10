@@ -37,6 +37,7 @@ public:		// User declarations
 						 String const & name4, double val4, String const & unit4,
 						 String const & name5, double val5, String const & unit5,
 						 String const & name6, double val6, String const & unit6)const;
+	void print(std::vector<String> const & strs)const;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFormLogger *FormLogger;

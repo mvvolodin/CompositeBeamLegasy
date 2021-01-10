@@ -27,9 +27,9 @@ public:
    bool is_not_one_stud_per_corr_e()const{return is_not_one_stud_per_corr_e_;}
    bool is_not_one_stud_per_corr_m()const{return is_not_one_stud_per_corr_m_;}
    std::vector<StudRowSP266> rows()const{return rows_;}
-#ifndef NDEBUG
-	void print_to_logger()const;
-#endif
+	#ifdef DEBUG_STUDS_SP35
+	void log()const;
+	#endif
 private:
 	StudSP266 const stud_;
 	double const dist_e_;

@@ -11,7 +11,7 @@ CompSectsCalculatorSP266::CompSectsCalculatorSP266(
 	intr_frcs_calculator_(creator.int_forces_calculator()),
 	comp_sect_(creator.comp_sect_geom(true)),
 	work_cond_factors_(creator.work_cond_factrs()){}
-CompSectsOutputListSP266 CompSectsCalculatorSP266::run()
+CompSectsOutputSP266 CompSectsCalculatorSP266::run()
 {
 	GlobGeom const glob_geom {creator_.glob_geometry()};
 

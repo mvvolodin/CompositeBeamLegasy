@@ -26,7 +26,7 @@ PiecewiseLinearFunc LongShearForcesCalculatorSP35::build_diag(
 	double L)
 {
 	double b_sl {com_sec.b_sl()};
-	double h {com_sec.h_stb()};
+	double h {com_sec.H_stb()};
 
 	double const a_e_l = 0.;
 	double const a_e_r = 0.36 * (h + b_sl);

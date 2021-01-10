@@ -32,15 +32,15 @@ void CompSectGeomSP266::calculate()
 	alpha_s_ = E_st / E_s;
 
 	double const A_st = st_sect_ -> A_st();
-	double const A_b = conc_sect_ -> A_b();
-	double const A_u_s = conc_sect_ -> rebars().A_u_r_per_unit() * conc_sect_ -> b_sl();
-	double const A_l_s = conc_sect_ -> rebars().A_l_r_per_unit() * conc_sect_ -> b_sl();
+	double const A_b = conc_sect_ -> area();
+	double const A_u_s = conc_sect_ -> rebars().A_u_r_per_unit() * conc_sect_ -> des_width();
+	double const A_l_s = conc_sect_ -> rebars().A_l_r_per_unit() * conc_sect_ -> des_width();
 
 	A_red_= A_st + A_b / alpha_b_ + A_u_s / alpha_s_ + A_l_s / alpha_s_;
 
 	double const h_st = st_sect_ -> h_s();
 	double const h_n = conc_sect_ -> h_n();
-	double const h_f = conc_sect_ -> h_f();
+	double const h_f = conc_sect_ -> des_height();
 	double const a_l_s = conc_sect_ -> rebars().a_l();
 	double const a_u_s = conc_sect_ -> rebars().a_u();
 	double const Z_f2_st = st_sect_ -> Z_s2_s();
@@ -60,7 +60,7 @@ void CompSectGeomSP266::calculate()
 	Z_s_l_red_ = Z_b_red_ - C_b + h_n + a_l_s;
 
 	double const I_st = st_sect_ -> I_st();
-	double const I_b = conc_sect_ -> I_b();
+	double const I_b = conc_sect_ -> inertia();
 
 	I_red_ = I_st + A_st * Z_st_red_ * Z_st_red_ +
 			 I_b / alpha_b_ + A_b * Z_b_red_ * Z_b_red_ / alpha_b_ +
@@ -79,7 +79,7 @@ CompSectGeomSP266::NeutralAxis CompSectGeomSP266::calc_neutral_axis()
 	double x_f2 = 0.;
 	double x_w = 0.;
 
-	const double b_sl = conc_sect_ -> b_sl();
+	const double b_sl = conc_sect_ -> des_width();
 	const double R_b = concrete_.R_b();
 	const double R_y = steel_.get_R_y();
 
@@ -88,7 +88,7 @@ CompSectGeomSP266::NeutralAxis CompSectGeomSP266::calc_neutral_axis()
 	const double A_f1_st = st_sect_ -> area_lower_fl();
 	const double A_f2_st = st_sect_ -> area_upper_fl();
 
-	const double h_f = conc_sect_ -> h_f();
+	const double h_f = conc_sect_ -> des_height();
 	const double h = conc_sect_ -> h();
 	const double t_f2 = st_sect_ -> upper_fl_thick();
 	const double b_f2 = st_sect_ -> upper_fl_width();
@@ -96,7 +96,7 @@ CompSectGeomSP266::NeutralAxis CompSectGeomSP266::calc_neutral_axis()
 	const double h_w = st_sect_ -> web_height();
 	const double t_w = st_sect_ -> web_thick();
 	const double h_st = st_sect_ -> sect_height();
-	const double A_b = conc_sect_ -> A_b();
+	const double A_b = conc_sect_ -> area();
 	const double C_b = conc_sect_ -> C_b();
 
 
@@ -125,9 +125,9 @@ void CompSectGeomSP266::calc_rigid_plastic_moment()
 	auto [na_location, x_na] {calc_neutral_axis()};
 	const double R_b = concrete_.R_b();
 	const double C_b = conc_sect_ -> C_b();
-	const double b_sl = conc_sect_ -> b_sl();
+	const double b_sl = conc_sect_ -> des_width();
 	const double h = conc_sect_ -> h();
-	const double h_f = conc_sect_ -> h_f();
+	const double h_f = conc_sect_ -> des_height();
 	const double R_y = steel_.get_R_y();
 
 	const double h_st = st_sect_ -> sect_height();
@@ -183,14 +183,14 @@ void CompSectGeomSP266::calc_rigid_plastic_moment()
 
 double CompSectGeomSP266::A_s()const
 {
-	return conc_sect_ -> rebars().A_u_r_per_unit() * conc_sect_ -> b_sl() +
-		   conc_sect_ -> rebars().A_l_r_per_unit() * conc_sect_ -> b_sl();
+	return conc_sect_ -> rebars().A_u_r_per_unit() * conc_sect_ -> des_width() +
+		   conc_sect_ -> rebars().A_l_r_per_unit() * conc_sect_ -> des_width();
 }
 void CompSectGeomSP266::print(TWord_Automation & report)const
 {
 	st_sect_ -> print(report);
 	steel_.print_SP266(report);
-	conc_sect_ -> print_SP266(report);
+	conc_sect_ -> print(report);
 	concrete_.print(report);
 
 	report.PasteTextPattern(area_to_str(A_red_),"%area_com_bm%");
@@ -200,18 +200,20 @@ void CompSectGeomSP266::print(TWord_Automation & report)const
 	report.PasteTextPattern(length_to_str(Z_st_red_, LengthUnit::cm),"%dist_st_com_bm%");
 	report.PasteTextPattern(length_to_str(Z_b_st_, LengthUnit::cm),"%dist_b_st%");
 }
-#ifndef NDEBUG
-void CompSectGeomSP266::print_data_to_logger(TFormLogger const & log)const
+#ifdef DEBUG_COMP_SECT_SP266
+void CompSectGeomSP266::log()const
 {
-	log.add_heading(L"Геометрические характеристики композитного сечения");
-	log.print_double(L"alpha_s = ", alpha_s_, L" ");
-	log.print_double(L"alpha_b = ", alpha_b_, L" ");
-	log.print_double(L"H_red = ", H_red_, L" мм");
-	log.print_double(L"A_red = ", A_red_, L" мм2");
-	log.print_double(L"S_red = ", S_red_, L" мм3");
-	log.print_double(L"I_red = ", I_red_, L" мм4");
-	log.print_double(L"Z_st_red = ", Z_st_red_, L" мм3");
-	log.print_double(L"Z_b_red = ", Z_b_red_, L" мм4");
+	FormLogger -> add_heading(L"Геометрические характеристики композитного сечения");
+
+	FormLogger -> print(
+		{L"alpha_s = " + FloatToStr(alpha_s_),
+		 L"alpha_b = " + FloatToStr(alpha_b_),
+		 L"H_red = " + FloatToStr(H_red_) + L" мм",
+		 L"A_red = " + FloatToStr(A_red_) + L" мм2",
+		 L"S_red = " + FloatToStr(S_red_) + L" мм3",
+		 L"I_red = " + FloatToStr(I_red_) + L" мм4",
+		 L"Z_st_red = " + FloatToStr(Z_st_red_) + L" мм",
+		 L"Z_b_red = " + FloatToStr(Z_b_red_) + L" мм"});
 }
 #endif
 void CompSectGeomSP266::fill_steel_sect_grid(TStringGrid* str_grid)const

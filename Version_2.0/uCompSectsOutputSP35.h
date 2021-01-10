@@ -20,6 +20,9 @@ public:
 	WorkingConditionsFactors work_cond_factrs_ ;
 
 	CompSectGeomSP35 comp_sect_geom_;
+	CompSectGeomSP35 com_sect_shr_;
+	CompSectGeomSP35 com_sect_kr_;
+
 	std::vector<CompSectOutputSP35> com_sects_;
 
 	std::vector<double> x_lst()const;

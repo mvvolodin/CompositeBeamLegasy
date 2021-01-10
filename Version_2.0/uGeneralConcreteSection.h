@@ -7,10 +7,11 @@
 #include <Vcl.Grids.hpp>
 #include "uRebar.h"
 #include "uWord_Automation.h"
+#include "Logger.h"
 
 class GeneralConcreteSection{
 public:
-	GeneralConcreteSection(double const h_f,
+	GeneralConcreteSection(double const des_height,
 						   double const L,
 						   double const B_l,
 						   double const B_r,
@@ -18,11 +19,12 @@ public:
 						   bool const is_end_beam,
 						   Rebars const & rebars);
 	virtual ~ GeneralConcreteSection();
-	double h_f() const; // расчётная толщина железобетонной плиты
-	double b_sl() const; // расчётная ширина бетона
+	double des_height() const; // расчётная толщина железобетонной плиты
+	double des_width() const; // расчётная ширина бетона
 	Rebars rebars()const;
-	double A_b() const;// площадь бетона
-	double I_b() const;// момент инерции бетона
+	double area() const;// площадь бетона
+	double inertia() const;// момент инерции бетона
+	double rebars_area()const;
 
 	virtual std::u16string slab_type()const = 0;//название плиты
 	virtual double h() const = 0; //высота железобетонной плиты
@@ -31,16 +33,18 @@ public:
 	virtual double SW(double dens) const = 0;
 
 	void fill_grid(TStringGrid* str_grid)const;
-//	void fill_grid_SP266(TStringGrid* str_grid)const;
-    void print_SP266(TWord_Automation & report)const;
+	void print(TWord_Automation & report)const;
 	void print_input(TWord_Automation & report)const;
 	void print_output(TWord_Automation & report)const;
+	#ifdef DEBUG_CONC_SECT
+	virtual void log()const;
+	#endif
 
 protected:
-	const double h_f_;
+	const double des_height_;
 
 private:
-	const double b_sl_;
+	const double des_width_;
 	const Rebars rebars_;
 	double calc_b_sl(const double L, const double B_l, const double B_r,
 					 const double h_f, const double b_uf, const bool end_beam) const;

@@ -2,13 +2,13 @@
 
 #pragma hdrstop
 
-#include "uCompSectsOutputListSP266.h"
+#include "uCompSectsOutputSP266.h"
 #include <algorithm>
 #include "uUnits.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-std::vector<double> CompSectsOutputListSP266::x_lst()const
+std::vector<double> CompSectsOutputSP266::x_lst()const
 {
 	std::vector<double> x;
 
@@ -17,7 +17,7 @@ std::vector<double> CompSectsOutputListSP266::x_lst()const
 
 	return x;
 }
-std::vector<double> CompSectsOutputListSP266::end_sup_coord()const
+std::vector<double> CompSectsOutputSP266::end_sup_coord()const
 {
 	std::vector<double> coord;
 	for(auto const & s:com_sects_)
@@ -26,7 +26,7 @@ std::vector<double> CompSectsOutputListSP266::end_sup_coord()const
 
    return coord;
 }
-std::vector<double> CompSectsOutputListSP266::inter_sup_coord()const
+std::vector<double> CompSectsOutputSP266::inter_sup_coord()const
 {
 	std::vector<double> coord;
 
@@ -36,7 +36,7 @@ std::vector<double> CompSectsOutputListSP266::inter_sup_coord()const
 
    return coord;
 }
-std::vector<double> CompSectsOutputListSP266::sup_coord()const
+std::vector<double> CompSectsOutputSP266::sup_coord()const
 {
 	std::vector<double> coord;
 
@@ -46,7 +46,7 @@ std::vector<double> CompSectsOutputListSP266::sup_coord()const
 
    return coord;
 }
-std::vector<double> CompSectsOutputListSP266::M_1a_lst()const
+std::vector<double> CompSectsOutputSP266::M_1a_lst()const
 {
 	std::vector<double> E;
 
@@ -55,7 +55,7 @@ std::vector<double> CompSectsOutputListSP266::M_1a_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::M_1b_lst()const
+std::vector<double> CompSectsOutputSP266::M_1b_lst()const
 {
     	std::vector<double> E;
 
@@ -65,7 +65,7 @@ std::vector<double> CompSectsOutputListSP266::M_1b_lst()const
 	return E;
 
 }
-std::vector<double> CompSectsOutputListSP266::M_2c_lst()const
+std::vector<double> CompSectsOutputSP266::M_2c_lst()const
 {
 	std::vector<double> E;
 
@@ -74,7 +74,7 @@ std::vector<double> CompSectsOutputListSP266::M_2c_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::M_2d_lst()const
+std::vector<double> CompSectsOutputSP266::M_2d_lst()const
 {
 	std::vector<double> E;
 
@@ -83,7 +83,7 @@ std::vector<double> CompSectsOutputListSP266::M_2d_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::M_total_lst()const
+std::vector<double> CompSectsOutputSP266::M_total_lst()const
 {
 	std::vector<double> E;
 
@@ -92,7 +92,7 @@ std::vector<double> CompSectsOutputListSP266::M_total_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::Q_1a_lst()const
+std::vector<double> CompSectsOutputSP266::Q_1a_lst()const
 {
 	std::vector<double> E;
 
@@ -101,7 +101,7 @@ std::vector<double> CompSectsOutputListSP266::Q_1a_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::Q_1b_lst()const
+std::vector<double> CompSectsOutputSP266::Q_1b_lst()const
 {
 	std::vector<double> E;
 
@@ -110,7 +110,7 @@ std::vector<double> CompSectsOutputListSP266::Q_1b_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::Q_2c_lst()const
+std::vector<double> CompSectsOutputSP266::Q_2c_lst()const
 {
 	std::vector<double> E;
 
@@ -119,7 +119,7 @@ std::vector<double> CompSectsOutputListSP266::Q_2c_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::Q_2d_lst()const
+std::vector<double> CompSectsOutputSP266::Q_2d_lst()const
 {
 	std::vector<double> E;
 
@@ -128,7 +128,7 @@ std::vector<double> CompSectsOutputListSP266::Q_2d_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::Q_total_lst()const
+std::vector<double> CompSectsOutputSP266::Q_total_lst()const
 {
 	std::vector<double> E;
 
@@ -138,7 +138,7 @@ std::vector<double> CompSectsOutputListSP266::Q_total_lst()const
 	return E;
 }
 
-std::vector<double> CompSectsOutputListSP266::R_1a_lst()const
+std::vector<double> CompSectsOutputSP266::R_1a_lst()const
 {
 	std::vector<double> E;
 
@@ -147,7 +147,7 @@ std::vector<double> CompSectsOutputListSP266::R_1a_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::R_1b_lst()const
+std::vector<double> CompSectsOutputSP266::R_1b_lst()const
 {
 	std::vector<double> E;
 
@@ -156,7 +156,7 @@ std::vector<double> CompSectsOutputListSP266::R_1b_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::R_2c_lst()const
+std::vector<double> CompSectsOutputSP266::R_2c_lst()const
 {
 	std::vector<double> E;
 
@@ -165,7 +165,7 @@ std::vector<double> CompSectsOutputListSP266::R_2c_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::R_2d_lst()const
+std::vector<double> CompSectsOutputSP266::R_2d_lst()const
 {
 	std::vector<double> E;
 
@@ -174,7 +174,7 @@ std::vector<double> CompSectsOutputListSP266::R_2d_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::R_total_lst()const
+std::vector<double> CompSectsOutputSP266::R_total_lst()const
 {
 	std::vector<double> E;
 
@@ -184,7 +184,7 @@ std::vector<double> CompSectsOutputListSP266::R_total_lst()const
 	return E;
 }
 
-std::vector<double> CompSectsOutputListSP266::f_1a_lst()const
+std::vector<double> CompSectsOutputSP266::f_1a_lst()const
 {
 	std::vector<double> E;
 
@@ -193,7 +193,7 @@ std::vector<double> CompSectsOutputListSP266::f_1a_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::f_1b_lst()const
+std::vector<double> CompSectsOutputSP266::f_1b_lst()const
 {
 	std::vector<double> E;
 
@@ -202,7 +202,7 @@ std::vector<double> CompSectsOutputListSP266::f_1b_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::f_2c_lst()const
+std::vector<double> CompSectsOutputSP266::f_2c_lst()const
 {
 	std::vector<double> E;
 
@@ -211,7 +211,7 @@ std::vector<double> CompSectsOutputListSP266::f_2c_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::f_2d_lst()const
+std::vector<double> CompSectsOutputSP266::f_2d_lst()const
 {
 	std::vector<double> E;
 
@@ -220,7 +220,7 @@ std::vector<double> CompSectsOutputListSP266::f_2d_lst()const
 
 	return E;
 }
-std::vector<double> CompSectsOutputListSP266::f_total_lst()const
+std::vector<double> CompSectsOutputSP266::f_total_lst()const
 {
 	std::vector<double> E;
 
@@ -229,32 +229,32 @@ std::vector<double> CompSectsOutputListSP266::f_total_lst()const
 
 	return E;
 }
-CompSectOutputSP266 const & CompSectsOutputListSP266::max_st_sect_ratio_sect()const
+CompSectOutputSP266 const & CompSectsOutputSP266::max_st_sect_ratio_sect()const
 {
 	return *std::max_element(com_sects_.begin(), com_sects_.end(),
 		[](auto const &  sect_output1, auto const & sect_output2)
 		{return sect_output1.st_sect_ratio_ < sect_output2.st_sect_ratio_;});
 }
-CompSectOutputSP266 const & CompSectsOutputListSP266::max_direct_str_ratio_sect()const
+CompSectOutputSP266 const & CompSectsOutputSP266::max_direct_str_ratio_sect()const
 {
 	return *std::max_element(com_sects_.begin(), com_sects_.end(),
 		[](auto const &  sect_output1, auto const & sect_output2)
 		{return sect_output1.max_direct_str_ratio() < sect_output2.max_direct_str_ratio();});
 }
 
-CompSectOutputSP266 const & CompSectsOutputListSP266::max_shear_str_ratio_sect()const
+CompSectOutputSP266 const & CompSectsOutputSP266::max_shear_str_ratio_sect()const
 {
 	return *std::max_element(com_sects_.begin(), com_sects_.end(),
 		[](auto const &  sect_output1, auto const & sect_output2)
 		{return sect_output1.shear_ratio_ < sect_output2.shear_ratio_;});
 }
-CompSectOutputSP266 const & CompSectsOutputListSP266::max_rigid_pl_sect()const
+CompSectOutputSP266 const & CompSectsOutputSP266::max_rigid_pl_sect()const
 {
 	return *std::max_element(com_sects_.begin(), com_sects_.end(),
 		[](auto const &  sect_output1, auto const & sect_output2)
 		{return sect_output1.rigid_pl_ratio_ < sect_output2.rigid_pl_ratio_;});
 }
-void CompSectsOutputListSP266::fill_ratios_grid(TStringGrid* str_grid)const
+void CompSectsOutputSP266::fill_ratios_grid(TStringGrid* str_grid)const
 {
 	CompSectOutputSP266 sect1 = max_st_sect_ratio_sect();
 
@@ -278,19 +278,19 @@ void CompSectsOutputListSP266::fill_ratios_grid(TStringGrid* str_grid)const
 	str_grid -> Cells [1][13] = FloatToStrF(sect4.nd_.x(), ffFixed, 15, 0);
 	str_grid -> Cells [1][14] = FloatToStrF(sect4.shear_ratio_, ffFixed, 15, 2);
 }
-void CompSectsOutputListSP266::fill_steel_sect_grid(TStringGrid* str_grid) const
+void CompSectsOutputSP266::fill_steel_sect_grid(TStringGrid* str_grid) const
 {
 	comp_sect_geom_.fill_steel_sect_grid(str_grid);
 }
-void CompSectsOutputListSP266::fill_conc_sect_grid(TStringGrid* str_grid) const
+void CompSectsOutputSP266::fill_conc_sect_grid(TStringGrid* str_grid) const
 {
 	comp_sect_geom_.fill_conc_sect_grid(str_grid);
 }
-void CompSectsOutputListSP266::fill_comp_sect_grid(TStringGrid* str_grid)const
+void CompSectsOutputSP266::fill_comp_sect_grid(TStringGrid* str_grid)const
 {
 	comp_sect_geom_.fill_comp_sect_grid(str_grid);
 }
-void CompSectsOutputListSP266::print(TWord_Automation & report)const
+void CompSectsOutputSP266::print(TWord_Automation & report)const
 {
 	using namespace units;
 
@@ -307,6 +307,9 @@ void CompSectsOutputListSP266::print(TWord_Automation & report)const
 	report.PasteTextPattern(double_to_str(sect1.M_2c_ * kN * m),"%M_2c%");
 	report.PasteTextPattern(double_to_str(sect1.M_2d_ * kN * m),"%M_2d%");
 	report.PasteTextPattern(double_to_str(sect1.M_total_ * kN * m),"%M_total%");
+
+	report.PasteTextPattern(double_to_str(sect1.sigma_b_),"%sigma_b%");
+	report.PasteTextPattern(double_to_str(sect1.sigma_s_),"%sigma_s%");
 
 	report.PasteTextPattern(double_to_str(sect1.nd_.x(),0),"%x_M%");
 	report.PasteTextPattern(double_to_str(sect1.upper_fl_ratio_),"%uf_ratio%");

@@ -36,10 +36,10 @@ public:
 	double smaller_fl_area_to_web_area_ratio()const override;
 	double smaller_fl_area_plus_web_area_to_total_area_ratio()const override;
 	double SW()const override;
-    double radius()const;
-#ifndef NDEBUG
-	void print_data_to_logger(TFormLogger const & log)const override;
-#endif
+	double radius()const;
+	#ifdef DEBUG_STEEL_SECT
+	void log()const override;
+	#endif
 private:
 	std::wstring prof_num_;
 	double lower_fl_width_;

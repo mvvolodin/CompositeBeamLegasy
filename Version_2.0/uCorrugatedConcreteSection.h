@@ -29,9 +29,9 @@ public:
 	double C_b() const override;
 	double SW(double dens) const override;
 	CorrugatedSheet corrugated_sheet()const;
-
-
-
+	#ifdef DEBUG_CONC_SECT
+	void log()const override;
+	#endif
 private:
 	CorrugatedSheet corr_sheet_;
 	bool wider_flange_up_ = false;

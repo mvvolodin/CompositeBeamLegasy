@@ -11,11 +11,9 @@
 
 GeneralSteelSection::GeneralSteelSection()
 {
-	std::cout << "ISection::ISection()" << std::endl;
 }
 GeneralSteelSection:: ~ GeneralSteelSection()
 {
-	std::cout << "ISection:: ~ ISection()" << std::endl;
 }
 
 double GeneralSteelSection::t_max()const
@@ -55,6 +53,25 @@ void GeneralSteelSection::print(TWord_Automation & report)const
 	report.PasteTextPattern(double_to_str(grav_cent_upper_fl_dist()),"%GC_upper_fl_dist%");
 	report.PasteTextPattern(double_to_str(grav_cent_lower_fl_dist()),"%GC_lower_fl_dist%");
 }
+#ifdef DEBUG_STEEL_SECT
+void GeneralSteelSection::log()const
+{
+	FormLogger -> print(
+		{
+		 "*****************************",
+		 "Геометрические характеристики",
+		 "*****************************",
+		 "bf2 = " + FloatToStr(upper_fl_width()) + " мм ; " +
+			"tf2 = " + FloatToStr(upper_fl_thick()) + " мм",
+		 "bf1 = " + FloatToStr(lower_fl_width()) + " мм ; " +
+			"tf1 = " + FloatToStr(lower_fl_thick()) + " мм",
+		 "hw = " + FloatToStr(web_height()) + " мм ; " +
+			"tw = " + FloatToStr(web_thick()) + " мм",
+		 "C = " + FloatToStr(grav_cent()) + " мм",
+		 "A = " + FloatToStr(area()) + " мм2",
+		 "I = " + FloatToStr(inertia()) + " мм2"});
+}
+#endif
 
 
 

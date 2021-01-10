@@ -48,9 +48,9 @@ public:
 	double W_f2_st()const{return st_sect_ -> modulus_upper_fl();}
 	double I_st()const{return st_sect_ -> inertia();}
 
-	double b_sl()const{return conc_sect_ -> b_sl();}
-	double A_b()const{return conc_sect_ -> A_b();}
-	double I_b()const{return conc_sect_ -> I_b();}
+	double b_sl()const{return conc_sect_ -> des_width();}
+	double A_b()const{return conc_sect_ -> area();}
+	double I_b()const{return conc_sect_ -> inertia();}
 
 	double M_Rd()const{return M_Rd_;}
 
@@ -69,9 +69,9 @@ public:
 	void fill_conc_sect_grid(TStringGrid* str_grid)const;
 	void fill_comp_sect_grid(TStringGrid* str_grid)const;
 
-#ifndef NDEBUG
-	void print_data_to_logger(TFormLogger const & log)const;
-#endif
+	#ifdef DEBUG_COMP_SECT_SP266
+	void log()const;
+	#endif
 
 private:
 

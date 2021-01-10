@@ -42,9 +42,9 @@ public:
 	double smaller_fl_area_plus_web_area_to_total_area_ratio() const override;
 	double smaller_fl_to_larger_fl_ratio()const override;
 	double SW()const override;
-#ifndef NDEBUG
-	void print_data_to_logger(TFormLogger const & log)const override;
-#endif
+	#ifdef DEBUG_STEEL_SECT
+	void log()const override;
+	#endif
 	void draw(TCanvas* cnvs);
 private:
 	std::vector<Vertex> vertexes_;

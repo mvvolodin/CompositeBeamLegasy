@@ -64,25 +64,29 @@ std::vector<StudRowSP35> StudsSP35::set_rows(double L, double d_e,
 
 	return v;
 }
-#ifndef NDEBUG
-void StudsSP35::print_to_logger()const
+#ifdef DEBUG_STUDS_SP35
+void StudsSP35::log()const
 {
 	FormLogger -> add_heading(u"Параметры упора Нельсона");
-	FormLogger -> print_string(stud_.name().c_str());
-	FormLogger -> print_double(u"d_1 = ", stud_.d_1(), u" мм");
-	FormLogger -> print_double(u"l_1 = ", stud_.l_1(), u" мм");
-	FormLogger -> print_double(u"R_y = ", stud_.R_y(), u" мм");
-	FormLogger -> print_double(u"P_Rd = ", stud_.P_Rd(), u" Н");
+
+	FormLogger -> print({
+		stud_.name().c_str(),
+		"d_1 = " + FloatToStr(stud_.d_1()) + " мм",
+		"l_1 = " + FloatToStr(stud_.l_1()) + " мм",
+		"R_y = " + FloatToStr(stud_.R_y()) + " мм",
+		"P_Rd = " + FloatToStr(stud_.P_Rd()) + " H",
+	});
 
 	FormLogger -> add_heading(u"Параметры рядов упоров Нельсона");
+
 	for(auto const & r:rows_)
-		FormLogger -> print_6_doubles(
-			u"id = ", 	  r.id_,     u"  ",
-			u"st_num = ", r.st_num_, u"  ",
-			u"x = " ,     r.x_,      u" мм",
-			u"x_l = " ,   r.x_l_,    u" мм",
-			u"x_r = " ,   r.x_r_,    u" мм",
-			u"k = " ,     r.k_,      u" ");
+		FormLogger -> print({
+			u"id = " + FloatToStr(r.id_),
+			u"st_num = " + FloatToStr(r.st_num_),
+			u"x = " + FloatToStr(r.x_) + " мм",
+			u"x_l = " + FloatToStr(r.x_l_) + " мм",
+			u"x_r = " + FloatToStr(r.x_r_) + " мм",
+		});
 }
 #endif
 

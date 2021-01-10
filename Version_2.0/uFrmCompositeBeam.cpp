@@ -19,7 +19,7 @@
 
 #include "uCompBeamObjsCreatorSP266.h"
 #include "uCompSectsCalculatorSP266.h"
-#include "uCompSectsOutputListSP266.h"
+#include "uCompSectsOutputSP266.h"
 #include "uStudsSP266Calculator.h"
 #include "uStudsSP266Calculated.h"
 //---------------------------------------------------------------------------
@@ -31,17 +31,16 @@ const wchar_t* RegKey = L"Software\\CompositeBeam_v_2.0";
 CompSectsOutputSP35 comp_sects_output_SP35;
 StudsSP35Calculated studs_SP35_output;
 
-CompSectsOutputListSP266 comp_sects_output_list_SP266;
+CompSectsOutputSP266 comp_sects_output_list_SP266;
 StudsSP266Calculated studs_SP266_output;
 
 //----------------------------------------------------------------------
  _fastcall TCompositeBeamMainForm ::TCompositeBeamMainForm (TComponent* Owner)
 	: TForm(Owner)
 {
-	#ifndef NDEBUG
-	btn_logger -> Visible = true;
+	#ifdef DEBUG_ENABLED
+    btn_logger -> Visible = true;
 	#endif
-
 	read_mru_files_list();
 
 	cotr_comp_sect_geometr_grid();
@@ -70,6 +69,9 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 
 	calculate_composite_beam();
 	after_calculation();
+#ifdef DEBUG_ENABLED
+	FormLogger -> Show();
+#endif
 }
 void TCompositeBeamMainForm::open(std::wstring const & fp)
 {
@@ -1320,21 +1322,6 @@ void TCompositeBeamMainForm::set_GUI_SP266()
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
-{
-#ifndef NDEBUG
-	print_to_logger();
-#endif
-}
-#ifndef NDEBUG
-void TCompositeBeamMainForm::print_to_logger()
-{
-	FormLogger -> Show();
-	 // Исходные данные для расчёта упроров по СП266
-	studs_SP266_output.input_ -> print_to_logger();
-}
-#endif
-//---------------------------------------------------------------------------
 void TCompositeBeamMainForm::render_ratios_grid_SP266(TStringGrid* str_gr, int ACol,
 	int ARow, TRect &Rect)
 {
@@ -1532,4 +1519,11 @@ void __fastcall TCompositeBeamMainForm::NFileClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+#ifdef DEBUG_ENABLED
+void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
+{
+	FormLogger -> Show();
+}
+#endif
+//---------------------------------------------------------------------------
 

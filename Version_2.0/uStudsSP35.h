@@ -19,9 +19,9 @@ public:
    double num_st_row_e()const{return num_st_row_e_;}
    double num_st_row_m()const{return num_st_row_m_;}
    std::vector<StudRowSP35> rows()const{return rows_;}
-#ifndef NDEBUG
-	void print_to_logger()const;
-#endif
+	#ifdef DEBUG_STUDS_SP35
+	void log()const;
+	#endif
 private:
 	StudSP35 const stud_;
 	double const dist_e_;

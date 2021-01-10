@@ -170,22 +170,23 @@ double WeldedSection::SW()const
 {
 	return area() * constants::steel_density / mm3 * constants::grav_accelerate;
 }
-#ifndef NDEBUG
-void WeldedSection::print_data_to_logger(TFormLogger const & log)const
+#ifdef DEBUG_STEEL_SECT
+void WeldedSection::log()const
 {
-	FormLogger -> add_heading(L"Тип сечения");
-	FormLogger -> print_string(L"Сварной двутавр");
-	FormLogger -> add_heading(L"Геометрические размеры");
-	FormLogger -> print_2_doubles(L"bf2 = ", upper_fl_width(), L" мм",L"tf2 = ", upper_fl_thick(), L" мм");
-	FormLogger -> print_2_doubles(L"bf1 = ", lower_fl_width(), L" мм",L"tf1 = ", lower_fl_thick(), L" мм");
-	FormLogger -> print_2_doubles(L"hw = ", web_height(), L" мм",L"tw = ", web_thick(), L" мм");
-	FormLogger -> add_heading(L"Координаты вершин сварного двутавра");
+	FormLogger -> print(
+		{"****************",
+		 "Стальное сечение",
+		 "****************",
+		 "Тип: сварное ",
+		 "***********************************",
+		 "Координаты вершин сварного двутавра",
+		 "***********************************",
+		 });
+
 	for(auto v:vertexes_)
-		FormLogger -> print_2_doubles(L"X = ", v.X, L" мм",L"Y = ", v.Y, L" мм");
-	FormLogger -> add_heading(L"Геометрические характеристики");
-	FormLogger -> print_double(L"C = ", grav_cent(), L" мм");
-	FormLogger -> print_double(L"A = ", area(), L" мм2");
-	FormLogger -> print_double(L"I = ", inertia(), L" мм4");
+		FormLogger -> print({"X = " + FloatToStr(v.X) + " мм; " +
+			"Y = " + FloatToStr(v.Y) + " мм"});
+	GeneralSteelSection::log();
 }
 #endif
 std::vector<TPoint> WeldedSection::get_pnts_for_drawing()

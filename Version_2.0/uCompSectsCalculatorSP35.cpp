@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <cmath>
 #include "uBilinearInterp.h"
+
+#include "Logger.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -17,6 +19,7 @@ CompSectsCalculatorSP35::CompSectsCalculatorSP35(
 	com_sect_(creator.comp_sect_geom(CompSectGeomSP35::ConcStateConsid::normal)),
 	com_sect_shr_(creator.comp_sect_geom(CompSectGeomSP35::ConcStateConsid::shrink)),
 	com_sect_kr_(creator.comp_sect_geom(CompSectGeomSP35::ConcStateConsid::creep)){}
+//---------------------------------------------------------------------------
 CompSectsOutputSP35 CompSectsCalculatorSP35::run()
 {
 	GlobGeom const glob_geom {creator_.glob_geometry()};
@@ -27,13 +30,19 @@ CompSectsOutputSP35 CompSectsCalculatorSP35::run()
 
 	for(auto const & node:nodes_lst)
 		cso.push_back(calculate(node));
+	#ifdef DEBUG_COMP_SECT_SP35
+	com_sect_.log();
+	#endif
 
 	return {glob_geom,
 		   creator_.loads(),
 		   creator_.work_cond_factrs(),
 		   creator_.comp_sect_geom(CompSectGeomSP35::ConcStateConsid::normal),
+		   creator_.comp_sect_geom(CompSectGeomSP35::ConcStateConsid::shrink),
+		   creator_.comp_sect_geom(CompSectGeomSP35::ConcStateConsid::creep),
 		   cso};
 }
+//---------------------------------------------------------------------------
 CompSectOutputSP35 CompSectsCalculatorSP35::calculate(Node const & node)
 {
 	double const n_b = com_sect_.n_b();
@@ -286,6 +295,7 @@ CompSectOutputSP35 CompSectsCalculatorSP35::calculate(Node const & node)
 			   st_sect_ratio};
    }
 }
+//---------------------------------------------------------------------------
 double CompSectsCalculatorSP35::creep_stress(double M, CreepStressIn const cr_str_in)const
 {
 	double const n_b = com_sect_.n_b();
@@ -309,7 +319,7 @@ double CompSectsCalculatorSP35::creep_stress(double M, CreepStressIn const cr_st
 		return std::abs(M / (n_r * W_b_stb_kr) - M / (n_r * W_b_stb));
 	}
 }
-
+//---------------------------------------------------------------------------
 double CompSectsCalculatorSP35::shrink_stress(ShrinkStressIn const shr_str_in)const
 {
 	switch (shr_str_in) {
@@ -318,10 +328,10 @@ double CompSectsCalculatorSP35::shrink_stress(ShrinkStressIn const shr_str_in)co
 		return shrink_stress(com_sect_shr_.E_b_shr(), -1 * com_sect_shr_.Z_b_stb(), 0);
 
 	case ShrinkStressIn::rebar:
-		return shrink_stress(com_sect_shr_.E_rs(), -1 * com_sect_shr_.Z_r_stb(), 1);
+		return shrink_stress(com_sect_shr_.E_rs(), -1 * com_sect_shr_.Z_b_stb(), 1);
 	}
 }
-
+//---------------------------------------------------------------------------
 double CompSectsCalculatorSP35::shrink_stress(double const E, double Z, double const nu)const
 {
 	double const eps_shr = com_sect_shr_.eps_shr();
@@ -332,7 +342,7 @@ double CompSectsCalculatorSP35::shrink_stress(double const E, double Z, double c
 
 	return std::abs(eps_shr * E * (A_st / A_stb_shr + S_st / I_stb_shr * Z - nu));
 }
-
+//---------------------------------------------------------------------------
 DesignCaseSP35 CompSectsCalculatorSP35::design_case(double const sigma_b, double const sigma_r)
 {
 	double const E_b = com_sect_.E_b();
@@ -360,3 +370,4 @@ DesignCaseSP35 CompSectsCalculatorSP35::design_case(double const sigma_b, double
 	if (sigma_b < 0)
 		return DesignCaseSP35::Case_F;
 }
+

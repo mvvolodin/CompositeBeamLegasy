@@ -69,9 +69,9 @@ public:
 	virtual void print(TWord_Automation & report)const;
 
 	void fill_grid(TStringGrid* str_grid)const;
-#ifndef NDEBUG
-	virtual void print_data_to_logger(TFormLogger const & log)const = 0;
- #endif
+	#ifdef DEBUG_STEEL_SECT
+	virtual void log()const;
+	#endif
 };
 //---------------------------------------------------------------------------
 #endif
