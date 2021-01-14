@@ -64,9 +64,10 @@ void __fastcall TCompositeBeamMainForm::FormShow(TObject *Sender)
 		open(file_path);
 	file_path.clear();//чтобы не загрузить данные снова в случае события FormShow
 
-	update_GUI(static_cast<GUI>(cntrls_state_.rd_grp_code_data_));
-	update_all_frms_cntrls();
+	initialize_GUI();
+	initialize_forms_controls();
 
+    store_forms_controls();
 	calculate_composite_beam();
 	after_calculation();
 #ifdef DEBUG_ENABLED
@@ -91,7 +92,13 @@ void TCompositeBeamMainForm::open(std::wstring const & fp)
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 {
-    store_all_frms_cntrls_state();
+	try {
+		store_forms_controls();
+
+	} catch (int rc) {
+		ShowMessage("rc = " + AnsiString{rc} + " BtnCalculateClick(TObject *Sender)");
+		return;
+	}
 	calculate_composite_beam();
 	after_calculation();
 }
@@ -242,12 +249,12 @@ void TCompositeBeamMainForm::cotr_ratios_grid_SP35()
 	strng_grd_results -> Cells [0][6] = u"      Прочность верхнего пояса стального сечения";
 	strng_grd_results -> Cells [0][7] = u"      Прочность нижнего пояса стального сечения";
 	strng_grd_results -> Cells [0][8] = u"      Прочность железобетона";
-	strng_grd_results -> Cells [0][9] = L"Прочности на действие поперечной силы";
-	strng_grd_results -> Cells [0][10] = L"      Координата критического сечения, мм";
-	strng_grd_results -> Cells [0][11] = L"      Прочность сечения, раздел";
-	strng_grd_results -> Cells [0][12] = L"Упоров объединения, раздел";
-	strng_grd_results -> Cells [0][13] = L"      Координата критического упора, мм";
-	strng_grd_results -> Cells [0][14] = L"      Прочность упора";
+	strng_grd_results -> Cells [0][9] = u"Прочности на действие поперечной силы";
+	strng_grd_results -> Cells [0][10] = u"      Координата критического сечения, мм";
+	strng_grd_results -> Cells [0][11] = u"      Прочность сечения, раздел";
+	strng_grd_results -> Cells [0][12] = u"Упоров объединения";
+	strng_grd_results -> Cells [0][13] = u"      Координата критического упора, мм";
+	strng_grd_results -> Cells [0][14] = u"      Прочность упора";
 
 	strng_grd_results -> Cells [1][0] = u"Коэффициенты Использования (КИ) ";
 }
@@ -653,8 +660,6 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
 
-	store_all_frms_cntrls_state();
-
 	switch(cntrls_state_.rd_grp_code_data_)
 	{
 		case 0:
@@ -833,7 +838,7 @@ void __fastcall TCompositeBeamMainForm ::NNewClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TCompositeBeamMainForm ::NSaveClick(TObject *Sender)
 {
-	store_all_frms_cntrls_state(); //актуализируем композитную балку из полей формы
+	store_forms_controls(); //актуализируем композитную балку из полей формы
    // Получение имени директории, в которой находится исполняемый модуль
 
    if  (wcscmp(ModelFile, UNTITLED)==0) {
@@ -921,7 +926,7 @@ void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 
 	  ifs.close();
 
-	  update_all_frms_cntrls();
+	  update_forms_controls();
 
 	  calculate_composite_beam();
 
@@ -1027,7 +1032,27 @@ void __fastcall TCompositeBeamMainForm::HelpClick(TObject *Sender)
 	HelpForm -> Show();
 }
 
-void TCompositeBeamMainForm::update_cntrls()
+void TCompositeBeamMainForm::update_panels_info()
+{
+	pnl_steel_section_viewer -> Caption = SteelSectionForm -> info();
+	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> info();
+	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> info();
+	pnl_steel -> Caption = DefineSteelForm -> info();
+	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> info();
+}
+
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::initialize_controls()
+{
+	set_controls();
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::update_controls()
+{
+	set_controls();
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::set_controls()
 {
 	// Параметры расчёта
 	rd_grp_code -> ItemIndex = cntrls_state_.rd_grp_code_data_;
@@ -1087,15 +1112,11 @@ void TCompositeBeamMainForm::update_cntrls()
 	edt_h_f_flat -> Text = cntrls_state_.edt_h_f_flat_data_;
 	edt_h_n -> Text = cntrls_state_.edt_h_n_data_;
 
-    //Панели для отображения данных
-
-	pnl_steel_section_viewer -> Caption = SteelSectionForm -> info();
-	pnl_rebar_viewer -> Caption = RebarDefinitionForm -> info();
-	pnl_concrete_grade -> Caption = ConcreteDefinitionForm -> info();
-	pnl_steel -> Caption = DefineSteelForm -> info();
-	pnl_shear_stud_viewer -> Caption = StudDefinitionForm -> info();
+	//Панели для отображения данных
+	update_panels_info();
 }
-void TCompositeBeamMainForm::store_cntrls_state()
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::store_controls()
 {
 	int rc = 0;
 	// Геометрия
@@ -1234,19 +1255,18 @@ void TCompositeBeamMainForm::store_cntrls_state()
 	if(rc > 0) throw(rc);
 
 }
-//---------------------------------------------------------------------------
-void TCompositeBeamMainForm::store_all_frms_cntrls_state()
+void TCompositeBeamMainForm::initialize_forms_controls()
 {
-	store_cntrls_state();
+	SteelSectionForm -> update_cntrls_state();
+	RebarDefinitionForm -> update_cntrls_state();
+	ConcreteDefinitionForm -> update_cntrls_state();
+	DefineSteelForm -> update_cntrls_state();
+	StudDefinitionForm -> update_cntrls_state();
 
-	SteelSectionForm -> store_cntrls_state();
-	RebarDefinitionForm -> store_cntrls_state();
-	ConcreteDefinitionForm -> store_cntrls_state();
-	DefineSteelForm -> store_cntrls_state();
-	StudDefinitionForm -> store_cntrls_state();
+	initialize_controls();
 }
-
-void TCompositeBeamMainForm::update_all_frms_cntrls()
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::update_forms_controls()
 {
 	SteelSectionForm -> update_cntrls_state();
 	RebarDefinitionForm -> update_cntrls_state();
@@ -1254,15 +1274,41 @@ void TCompositeBeamMainForm::update_all_frms_cntrls()
 	DefineSteelForm -> update_cntrls_state();
 	StudDefinitionForm -> update_cntrls_state();
 	//второстепенные формы обновляются первыми для того, чтобы верно отобразить информацию на панелях
-	update_cntrls();
+	update_controls();
 }
-
-void TCompositeBeamMainForm::update_GUI(GUI new_gui)
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::set_forms_controls()
 {
-	if(new_gui == gui_)
-		return;
+	SteelSectionForm -> update_cntrls_state();
+	RebarDefinitionForm -> update_cntrls_state();
+	ConcreteDefinitionForm -> update_cntrls_state();
+	DefineSteelForm -> update_cntrls_state();
+	StudDefinitionForm -> update_cntrls_state();
+	//второстепенные формы обновляются первыми для того, чтобы верно отобразить информацию на панелях
+	set_controls();
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::store_forms_controls()
+{
+	try{
+		store_controls();
 
-	switch (new_gui){
+		SteelSectionForm -> store_cntrls_state();
+		RebarDefinitionForm -> store_cntrls_state();
+		ConcreteDefinitionForm -> store_cntrls_state();
+		DefineSteelForm -> store_cntrls_state();
+		StudDefinitionForm -> store_cntrls_state();
+	} catch (int rc){
+		ShowMessage("rc = " + AnsiString{rc} + " from store_forms_controls()");
+		throw 2;
+	}
+
+}
+void TCompositeBeamMainForm::initialize_GUI()
+{
+	GUI const init = static_cast<GUI>(cntrls_state_.rd_grp_code_data_);
+
+	switch (init){
 
 	case(GUI::SP266):
 
@@ -1280,6 +1326,34 @@ void TCompositeBeamMainForm::update_GUI(GUI new_gui)
 		break;
 	}
 
+	gui_ = init;
+}
+
+
+void TCompositeBeamMainForm::update_GUI(GUI new_gui)
+{
+	switch (new_gui){
+
+	case(GUI::SP266):
+
+		set_GUI_SP266();
+		ConcreteDefinitionForm -> set_GUI_SP266();
+		StudDefinitionForm -> set_GUI_SP266();
+		update_panels_info();
+		messages_after_GUI_SP266_set();
+
+		break;
+	case(GUI::SP35):
+
+		set_GUI_SP35();
+		ConcreteDefinitionForm -> set_GUI_SP35();
+		StudDefinitionForm -> set_GUI_SP35();
+        update_panels_info();
+		messages_after_GUI_SP35_set();
+
+		break;
+	}
+
 	gui_ = new_gui;
 }
 void __fastcall TCompositeBeamMainForm::rd_grp_codeClick(TObject *Sender)
@@ -1293,8 +1367,11 @@ void __fastcall TCompositeBeamMainForm::rd_grp_codeClick(TObject *Sender)
 void TCompositeBeamMainForm::set_GUI_SP35()
 {
 	cotr_ratios_grid_SP35();
+
 	rdgrp_slab_type -> ItemIndex = 0;
 	rdgrp_slab_type -> Buttons [1] -> Visible = false;
+
+	grp_bx_corrugated_slab -> Visible = false;
 
 	btn_add_impacts -> Visible = false;
 
@@ -1302,8 +1379,6 @@ void TCompositeBeamMainForm::set_GUI_SP35()
 	lbl_sheeting_continuity_coefficient -> Visible = false;
 	edt_fact_quasi_perm_load -> Top = 22;
 	lbl_fact_quasi_perm_load -> Top = 22;
-
-//	rdgrp_slab_typeClick(nullptr);
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::set_GUI_SP266()
@@ -1313,15 +1388,29 @@ void TCompositeBeamMainForm::set_GUI_SP266()
 	rdgrp_slab_type -> ItemIndex = 0;
 	rdgrp_slab_type -> Buttons [1] -> Visible = true;
 
+	grp_bx_corrugated_slab -> Visible = true;
+
 	btn_add_impacts -> Visible = true;
 
 	edt_sheeting_continuity_coefficient -> Visible = true;
 	lbl_sheeting_continuity_coefficient -> Visible = true;
 	edt_fact_quasi_perm_load -> Top = 62;
 	lbl_fact_quasi_perm_load -> Top = 62;
+
 }
 //---------------------------------------------------------------------------
-
+void TCompositeBeamMainForm::messages_after_GUI_SP266_set()
+{
+	Application -> MessageBox(L"Класс прочности бетона изменён на \"B10\"!",
+		L"Предупреждение!", MB_OK | MB_ICONWARNING);
+}
+//---------------------------------------------------------------------------
+void TCompositeBeamMainForm::messages_after_GUI_SP35_set()
+{
+	Application -> MessageBox(L"Класс прочности бетона изменён на \"B20\"!",
+		L"Предупреждение!", MB_OK | MB_ICONWARNING);
+}
+//---------------------------------------------------------------------------
 void TCompositeBeamMainForm::render_ratios_grid_SP266(TStringGrid* str_gr, int ACol,
 	int ARow, TRect &Rect)
 {
@@ -1444,7 +1533,7 @@ void __fastcall TCompositeBeamMainForm::mru_file_path_click(TObject *Sender)
 
 	open(file_path);
 
-	update_all_frms_cntrls();
+	update_forms_controls();
 	update_GUI(static_cast<GUI>(cntrls_state_.rd_grp_code_data_));
 
 	calculate_composite_beam();

@@ -245,9 +245,23 @@ private:
 	void clean_static_scheme();
 	void clean_2nd_col_grid(TStringGrid* str_grd);
 
+	void initialize_GUI();
+;
 	void update_GUI(GUI new_gui);
 	void set_GUI_SP35();
 	void set_GUI_SP266();
+	void messages_after_GUI_SP35_set();
+	void messages_after_GUI_SP266_set();
+
+	void initialize_forms_controls();
+	void update_forms_controls();
+	void set_forms_controls();
+	void store_forms_controls();
+
+	void initialize_controls();
+	void update_controls();
+	void set_controls();
+    void store_controls();
 
 	void calculate_composite_beam();
 
@@ -285,17 +299,13 @@ private:
 	wchar_t ModelFile[240]; //Это имя файла?
 	String FileDir_Name; //Это имя директории?
 
-	void update_cntrls();
-	void update_all_frms_cntrls();
-	void store_cntrls_state();
-	void store_all_frms_cntrls_state();
+
+	void update_panels_info();
 
 	void clean_grid(TStringGrid* str_gr);
 
 	void open(std::wstring const & fp);
     bool is_already_opened(std::wstring const & fp);
-
-
 
 };
 //---------------------------------------------------------------------------

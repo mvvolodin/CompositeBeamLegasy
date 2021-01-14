@@ -96,7 +96,7 @@ object CompositeBeamMainForm: TCompositeBeamMainForm
     OnClick = OnControlsChange
   end
   object BtnCalculate: TButton
-    Left = 8
+    Left = 7
     Top = 599
     Width = 75
     Height = 25
