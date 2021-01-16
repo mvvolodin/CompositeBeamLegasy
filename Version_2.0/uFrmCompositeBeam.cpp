@@ -96,7 +96,6 @@ void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 		store_forms_controls();
 
 	} catch (int rc) {
-		ShowMessage("rc = " + AnsiString{rc} + " BtnCalculateClick(TObject *Sender)");
 		return;
 	}
 	calculate_composite_beam();
@@ -897,48 +896,38 @@ void ModelName(wchar_t * str0, wchar_t* ModelFile)
 }
 bool TCompositeBeamMainForm ::is_already_opened(std::wstring const & fp)
 {
-	bool b = (fp == mru_files_.back());
 	return fp == mru_files_.back();
 }
 void __fastcall TCompositeBeamMainForm ::NOpenClick(TObject *Sender)
 {
-   NNewClick(Sender);
+//   NNewClick(Sender);
 
    if(OpenDialog_Model->Execute())
 	  FileDir_Name = OpenDialog_Model -> FileName;
 
-   if (is_already_opened(FileDir_Name.c_str()))
-		return;
+//   if (is_already_opened(FileDir_Name.c_str()))
+//		return;
 
-   if (FileDir_Name!="") {
+	if (FileDir_Name!="") {
 
-	  std::ifstream ifs {FileDir_Name.c_str(), std::ios::in | std::ios::binary};
+		add_mru_file(FileDir_Name.c_str());
 
-	  add_mru_file(FileDir_Name.c_str());
+		open(FileDir_Name.c_str());
 
-	  cntrls_state_.load(ifs);
+		initialize_GUI();
+		initialize_forms_controls();
 
-	  SteelSectionForm -> load(ifs);
-	  ConcreteDefinitionForm -> load(ifs);
-	  RebarDefinitionForm -> load(ifs);
-	  StudDefinitionForm -> load(ifs);
-	  DefineSteelForm -> load(ifs);
+		store_forms_controls();
+		calculate_composite_beam();
+		after_calculation();
 
-	  ifs.close();
+		wcscpy(ModelFile, UNTITLED);
 
-	  update_forms_controls();
+		ModelName(FileDir_Name.c_str(), ModelFile);
 
-	  calculate_composite_beam();
+		Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
 
-	  after_calculation();
-
-	  wcscpy(ModelFile, UNTITLED);
-
-	  ModelName(FileDir_Name.c_str(), ModelFile);
-
-	  Caption = "Расчет комбинированной балки - " + AnsiString(ModelFile);
-
-	  is_proj_modified = false;
+		is_proj_modified = false;
 
    }
 
@@ -990,7 +979,7 @@ void __fastcall TCompositeBeamMainForm ::chck_bx_end_beamClick(TObject *Sender)
 void __fastcall TCompositeBeamMainForm ::cmb_bx_analysis_theoryChange(TObject *Sender)
 
 {
-    OnControlsChange(Sender);
+	OnControlsChange(Sender);
 }
 //---------------------------------------------------------------------------
 
@@ -1299,14 +1288,15 @@ void TCompositeBeamMainForm::store_forms_controls()
 		DefineSteelForm -> store_cntrls_state();
 		StudDefinitionForm -> store_cntrls_state();
 	} catch (int rc){
-		ShowMessage("rc = " + AnsiString{rc} + " from store_forms_controls()");
-		throw 2;
+		throw rc;
 	}
 
 }
 void TCompositeBeamMainForm::initialize_GUI()
 {
 	GUI const init = static_cast<GUI>(cntrls_state_.rd_grp_code_data_);
+
+	GUI gui_init = gui_;
 
 	switch (init){
 
@@ -1332,6 +1322,9 @@ void TCompositeBeamMainForm::initialize_GUI()
 
 void TCompositeBeamMainForm::update_GUI(GUI new_gui)
 {
+	if(gui_ == new_gui)//требуется для того, чтобы избежать смены GUI
+		return;        // после инитиализации полей, к примеру при событии
+                       //переключение радио кнопки с нормами
 	switch (new_gui){
 
 	case(GUI::SP266):
@@ -1521,9 +1514,7 @@ void TCompositeBeamMainForm::render_ratios_grid_SP35(TStringGrid* str_gr, int AC
 		str_gr -> Canvas -> FillRect(Rect);
 	}
 }
-
 //---------------------------------------------------------------------------
-
 void __fastcall TCompositeBeamMainForm::mru_file_path_click(TObject *Sender)
 {
 	TMenuItem* item_clicked  {dynamic_cast<TMenuItem*>(Sender)};
@@ -1531,17 +1522,20 @@ void __fastcall TCompositeBeamMainForm::mru_file_path_click(TObject *Sender)
 	int const index = mru0 -> MenuIndex - item_clicked -> MenuIndex;
 	std::wstring const file_path {mru_files_[index]};
 
-	open(file_path);
+	open(file_path); //данные файла записаны в cntrls_state
 
-	update_forms_controls();
-	update_GUI(static_cast<GUI>(cntrls_state_.rd_grp_code_data_));
+	initialize_GUI();
+	initialize_forms_controls();
 
+	store_forms_controls();
 	calculate_composite_beam();
-
 	after_calculation();
 }
 void TCompositeBeamMainForm::add_mru_file(std::wstring const & fp)
 {
+	if (fp == mru_files_.back())
+		return;
+
 	if (mru_files_.size() == num_mru_files_)
 		mru_files_.erase(mru_files_.begin());
 
@@ -1608,11 +1602,14 @@ void __fastcall TCompositeBeamMainForm::NFileClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-#ifdef DEBUG_ENABLED
+
 void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
 {
+	#ifdef DEBUG_ENABLED
 	FormLogger -> Show();
+	#endif
 }
-#endif
+
+
 //---------------------------------------------------------------------------
 
