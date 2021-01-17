@@ -94,11 +94,20 @@ void __fastcall TCompositeBeamMainForm ::BtnCalculateClick(TObject *Sender)
 {
 	try {
 		store_forms_controls();
+		calculate_composite_beam();
 
 	} catch (int rc) {
+		if(rc == 2)
+			Application -> MessageBox(
+				L"Условие применимости метода плоской плиты:\n"
+				L"Eb * Ib <= 0.2 Est * Is не выполняется.\n"
+				L"Необходимо изменить исходные данные!",
+				L"Предупреждение!",
+				MB_OK | MB_ICONWARNING);
+
 		return;
 	}
-	calculate_composite_beam();
+
 	after_calculation();
 }
 //---------------------------------------------------------------------------
@@ -332,7 +341,7 @@ void __fastcall TCompositeBeamMainForm ::NExitClick(TObject *Sender)
 
 void TCompositeBeamMainForm::generate_report_SP35()
 {
-	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.docx");
+	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP35.dotx");
 
 	comp_sects_output_SP35.print(report);
 
@@ -340,7 +349,7 @@ void TCompositeBeamMainForm::generate_report_SP35()
 }
 void TCompositeBeamMainForm::generate_report_SP266()
 {
-	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP266.docx");
+	TWord_Automation report = TWord_Automation("ReportCompositeBeamSP266.dotx");
 
 	comp_sects_output_list_SP266.print(report);
 	studs_SP266_output.print(report);
@@ -658,7 +667,6 @@ void __fastcall TCompositeBeamMainForm ::rd_grp_internal_forces_typeClick(TObjec
 }
 void TCompositeBeamMainForm::calculate_composite_beam()
 {
-
 	switch(cntrls_state_.rd_grp_code_data_)
 	{
 		case 0:
@@ -698,13 +706,12 @@ void TCompositeBeamMainForm::calculate_studs_SP266()
 }
 void TCompositeBeamMainForm ::calculate_composite_sections_SP35()
 {
-	CompBeamObjsCreatorSP35 creator {
-		this -> cntrls_state_,
-		ConcreteDefinitionForm -> cntrls_state(),
-		SteelSectionForm -> cntrls_state(),
-		DefineSteelForm -> cntrls_state(),
-		RebarDefinitionForm -> cntrls_state(),
-		StudDefinitionForm -> cntrls_state()};
+	CompBeamObjsCreatorSP35 creator{this -> cntrls_state_,
+		 ConcreteDefinitionForm -> cntrls_state(),
+		 SteelSectionForm -> cntrls_state(),
+		 DefineSteelForm -> cntrls_state(),
+		 RebarDefinitionForm -> cntrls_state(),
+		 StudDefinitionForm -> cntrls_state()};
 
 	CompSectsCalculatorSP35 calculator {creator};
 	comp_sects_output_SP35 = calculator.run();
@@ -1014,7 +1021,7 @@ void __fastcall TCompositeBeamMainForm::btn_add_impactsClick(TObject *Sender)
 
 void __fastcall TCompositeBeamMainForm::HelpClick(TObject *Sender)
 {
-	WideString path = ExtractFilePath(Application -> ExeName) + "Руководство Пользователя Комбинированная Балка v.1.0.0.pdf";
+	WideString path = ExtractFilePath(Application -> ExeName) + "Руководство Пользователя Комбинированная Балка v.2.1.pdf";
 
 	HelpForm -> CppWebBrowser1 -> Navigate((BSTR)path);
 
@@ -1279,7 +1286,6 @@ void TCompositeBeamMainForm::set_forms_controls()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::store_forms_controls()
 {
-	try{
 		store_controls();
 
 		SteelSectionForm -> store_cntrls_state();
@@ -1287,9 +1293,6 @@ void TCompositeBeamMainForm::store_forms_controls()
 		ConcreteDefinitionForm -> store_cntrls_state();
 		DefineSteelForm -> store_cntrls_state();
 		StudDefinitionForm -> store_cntrls_state();
-	} catch (int rc){
-		throw rc;
-	}
 
 }
 void TCompositeBeamMainForm::initialize_GUI()
@@ -1612,4 +1615,5 @@ void __fastcall TCompositeBeamMainForm::btn_loggerClick(TObject *Sender)
 
 
 //---------------------------------------------------------------------------
+
 

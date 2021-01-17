@@ -25,16 +25,16 @@ object AboutProgForm: TAboutProgForm
   object Label2: TLabel
     Left = 16
     Top = 91
-    Width = 109
+    Width = 117
     Height = 13
-    Caption = 'Ph: +7-980-742-92-77'
+    Caption = #1090'.'#1084'.: +7-980-742-92-77'
   end
   object Label3: TLabel
     Left = 16
     Top = 110
-    Width = 136
+    Width = 167
     Height = 13
-    Caption = 'maxim.volodin@outlook.com'
+    Caption = 'email: maxim.volodin@outlook.com'
   end
   object Label4: TLabel
     Left = 16

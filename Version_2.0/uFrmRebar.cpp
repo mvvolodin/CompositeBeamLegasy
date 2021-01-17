@@ -38,7 +38,11 @@ void TRebarDefinitionForm::update_edt_R_s_n(int cmb_bx_rebar_grade_index)
 //---------------------------------------------------------------------------
 void __fastcall TRebarDefinitionForm::bt_btn_OkClick(TObject *Sender)
 {
-	check_input();
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
 	store_cntrls_state();
 }
 void __fastcall TRebarDefinitionForm::bt_btn_cancelClick(TObject *Sender)
@@ -47,6 +51,12 @@ void __fastcall TRebarDefinitionForm::bt_btn_cancelClick(TObject *Sender)
 }
 void __fastcall TRebarDefinitionForm::btn_closeClick(TObject *Sender)
 {
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
+	store_cntrls_state();
 	Close();
 }
 void TRebarDefinitionForm::check_input()

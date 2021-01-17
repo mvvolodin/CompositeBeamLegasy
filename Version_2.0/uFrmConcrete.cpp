@@ -33,7 +33,11 @@ void __fastcall TConcreteDefinitionForm::cmb_bx_concrete_grade_listChange(TObjec
 //---------------------------------------------------------------------------
 void __fastcall TConcreteDefinitionForm::btn_OKClick(TObject *Sender)
 {
-	check_input();
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
 	store_cntrls_state();
 }
 //---------------------------------------------------------------------------
@@ -44,6 +48,12 @@ void __fastcall TConcreteDefinitionForm::btn_cancelClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TConcreteDefinitionForm::btn_closeClick(TObject *Sender)
 {
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
+	store_cntrls_state();
 	Close();
 }
 //---------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 #pragma hdrstop
 //---------------------------------------------------------------------------
 #include <vcl.h>
@@ -32,7 +32,12 @@ void __fastcall TStudDefinitionForm::cmb_bx_stud_part_numberChange(TObject *Send
 //---------------------------------------------------------------------------
 void __fastcall TStudDefinitionForm::btn_okClick(TObject *Sender)
 {
-	check_input();
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
+
 	store_cntrls_state();
 }
 //---------------------------------------------------------------------------
@@ -43,6 +48,12 @@ void __fastcall TStudDefinitionForm::btn_cancelClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TStudDefinitionForm::btn_closeClick(TObject *Sender)
 {
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
+	store_cntrls_state();
 	Close();
 }
 //---------------------------------------------------------------------------
@@ -127,24 +138,20 @@ void TStudDefinitionForm::load(istream & is)
 }
 void TStudDefinitionForm::set_GUI_SP266()
 {
-	int const cntrls_shift = 25;
-
-	lbl_middle_studs_dist -> Top += cntrls_shift;
-	edt_middle_studs_dist -> Top += cntrls_shift;
-	cmb_bx_middle_studs_rows_num -> Top += cntrls_shift;
-	lbl_middle_studs_rows_num -> Top += cntrls_shift;
+	lbl_middle_studs_dist -> Top = 111 * 1.25;
+	edt_middle_studs_dist -> Top = 107 * 1.25;
+	cmb_bx_middle_studs_rows_num -> Top = 134 * 1.25;
+	lbl_middle_studs_rows_num -> Top = 138 * 1.25;
 
 	chck_bx_more_than_one_stud_per_corrugation_edge -> Visible = true;
 	chck_bx_more_than_one_stud_per_corrugation_middle -> Visible = true;
 }
 void TStudDefinitionForm::set_GUI_SP35()
 {
-	int const cntrls_shift = 25;
-
-	lbl_middle_studs_dist -> Top -= cntrls_shift;
-	edt_middle_studs_dist -> Top -= cntrls_shift;
-	cmb_bx_middle_studs_rows_num -> Top -= cntrls_shift;
-	lbl_middle_studs_rows_num -> Top -= cntrls_shift;
+	lbl_middle_studs_dist -> Top = 86 * 1.25;
+	edt_middle_studs_dist -> Top = 82 * 1.25;
+	cmb_bx_middle_studs_rows_num -> Top = 109 * 1.25;
+	lbl_middle_studs_rows_num -> Top = 113 * 1.25;
 
 	chck_bx_more_than_one_stud_per_corrugation_edge -> Visible = false;
 	chck_bx_more_than_one_stud_per_corrugation_middle -> Visible = false;

@@ -37,7 +37,11 @@ void __fastcall TDefineSteelForm::cmb_bx_standardChange(TObject *Sender)
 
 void __fastcall TDefineSteelForm::btn_okClick(TObject *Sender)
 {
-	check_input();
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
 	store_cntrls_state();
 }
 void __fastcall TDefineSteelForm::btn_cancelClick(TObject *Sender)
@@ -46,6 +50,12 @@ void __fastcall TDefineSteelForm::btn_cancelClick(TObject *Sender)
 }
 void __fastcall TDefineSteelForm::btn_closeClick(TObject *Sender)
 {
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
+	store_cntrls_state();
 	Close();
 }
 void TDefineSteelForm::fill_cmb_bx_standard()

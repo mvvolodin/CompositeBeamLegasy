@@ -52,6 +52,7 @@ private:
 	CompSectGeomSP35 const com_sect_shr_;
 	CompSectGeomSP35 const com_sect_kr_;
 
+	bool is_slab_thin();
 	DesignCaseSP35 design_case(double sigma_b, double sigma_r);
 	CompSectOutputSP35 calculate(Node const & node);
 	double creep_stress(double const M, CreepStressIn const cr_str_in)const;

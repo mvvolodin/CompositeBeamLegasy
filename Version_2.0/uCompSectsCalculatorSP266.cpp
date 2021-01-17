@@ -95,8 +95,8 @@ CompSectOutputSP266 CompSectsCalculatorSP266::calculate(Node const & node)
 
 	double const f_1a = intr_frcs_calculator_.f_1a(x) / (E_st * I_st);
 	double const f_1b = intr_frcs_calculator_.f_1b(x) / (E_st * I_st);
-	double const f_2c = intr_frcs_calculator_.f_2c(x) / (E_b_tau * I_red);
-	double const f_2d = intr_frcs_calculator_.f_2d(x) / (E_b_tau * I_red);
+	double const f_2c = intr_frcs_calculator_.f_2c(x) / (alpha_b * E_b_tau * I_red);
+	double const f_2d = intr_frcs_calculator_.f_2d(x) / (alpha_b * E_b_tau * I_red);
 	double const f_2d_DL = intr_frcs_calculator_.f_2d_DL(x) / (E_b_tau * I_red);
 	double const f_total = f_1b + f_2c + f_2d_DL + fact_quasi_perm_load * (f_2d - f_2d_DL);
 

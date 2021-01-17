@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+п»ї//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #include <stdio.h>
@@ -20,7 +20,7 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TAboutProgForm *AboutProgForm;
-static AnsiString Month[12]={"января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"};
+static AnsiString Month[12]={"СЏРЅРІР°СЂСЏ","С„РµРІСЂР°Р»СЏ","РјР°СЂС‚Р°","Р°РїСЂРµР»СЏ","РјР°СЏ","РёСЋРЅСЏ","РёСЋР»СЏ","Р°РІРіСѓСЃС‚Р°","СЃРµРЅС‚СЏР±СЂСЏ","РѕРєС‚СЏР±СЂСЏ","РЅРѕСЏР±СЂСЏ","РґРµРєР°Р±СЂСЏ"};
 //---------------------------------------------------------------------------
 __fastcall TAboutProgForm::TAboutProgForm(TComponent* Owner)
 	: TForm(Owner)
@@ -30,27 +30,27 @@ __fastcall TAboutProgForm::TAboutProgForm(TComponent* Owner)
 void __fastcall TAboutProgForm::FormShow(TObject *Sender)
 {
 	 struct ftime ft;
-     FILE *file_;
+	 FILE *file_;
      char stroka[120];
 	 char min[4];
 
 	 if ((file_ = fopen("CompositeBeamApp.exe", "r")) != NULL)  {
-       // установить дату exe-файла
+       // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РґР°С‚Сѓ exe-С„Р°Р№Р»Р°
        getftime(fileno(file_), &ft);
        if (ft.ft_min <10)
          sprintf(min, "0%d",ft.ft_min);
        else
          sprintf(min, "%d",ft.ft_min);
-       sprintf(stroka, "%d %s %d г, %d:%s ",
+       sprintf(stroka, "%d %s %d Рі, %d:%s ",
 		  ft.ft_day, Month[ft.ft_month-1].c_str(),
           ft.ft_year+1980,
-          ft.ft_hour, min
+		  ft.ft_hour, min
        );
-     // напечатать дату
-	   Label_Prog->Caption = "Версия 2.0 от " + AnsiString(stroka);
+     // РЅР°РїРµС‡Р°С‚Р°С‚СЊ РґР°С‚Сѓ
+	   Label_Prog->Caption = "Р’РµСЂСЃРёСЏ 2.1 РѕС‚ " + AnsiString(stroka);
      }
      else {
-        //InfMessage("Невозможно установить дату исполняемого файла ");
+        //InfMessage("РќРµРІРѕР·РјРѕР¶РЅРѕ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РґР°С‚Сѓ РёСЃРїРѕР»РЅСЏРµРјРѕРіРѕ С„Р°Р№Р»Р° ");
         //return;
      }
 

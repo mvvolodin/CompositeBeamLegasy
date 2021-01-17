@@ -20,8 +20,22 @@ CompSectsCalculatorSP35::CompSectsCalculatorSP35(
 	com_sect_shr_(creator.comp_sect_geom(CompSectGeomSP35::ConcStateConsid::shrink)),
 	com_sect_kr_(creator.comp_sect_geom(CompSectGeomSP35::ConcStateConsid::creep)){}
 //---------------------------------------------------------------------------
+bool CompSectsCalculatorSP35::is_slab_thin()
+{
+	double const E_st = com_sect_.E_st();
+	double const I_s = com_sect_.I_s();
+
+	double const E_b = com_sect_.I_b();
+	double const I_b = com_sect_.E_b();
+
+	return E_b * I_b <= 0.2 * E_st * I_s;
+}
+//---------------------------------------------------------------------------
 CompSectsOutputSP35 CompSectsCalculatorSP35::run()
 {
+	if(!is_slab_thin())
+		throw 2;
+
 	GlobGeom const glob_geom {creator_.glob_geometry()};
 
 	std::vector<Node> const nodes_lst = glob_geom.nodes_lst();
@@ -48,6 +62,7 @@ CompSectsOutputSP35 CompSectsCalculatorSP35::run()
 CompSectOutputSP35 CompSectsCalculatorSP35::calculate(Node const & node)
 {
 	double const n_b = com_sect_.n_b();
+	double const n_b_shr = com_sect_shr_.n_b();
 	double const n_r = com_sect_.n_r();
 
 	double const Z_b_s = com_sect_.Z_b_s();
@@ -67,6 +82,7 @@ CompSectOutputSP35 CompSectsCalculatorSP35::calculate(Node const & node)
 
 	double const W_b_stb = com_sect_.W_b_stb();
 	double const I_stb = com_sect_.I_stb();
+	double const I_stb_shr = com_sect_.I_stb();
 
 	double const E_st = com_sect_.E_st();
 	double const E_b_shr = com_sect_.E_b_shr();
@@ -111,8 +127,8 @@ CompSectOutputSP35 CompSectsCalculatorSP35::calculate(Node const & node)
 
 	double const f_1a = intr_frcs_calculator_.f_1a(x) / (E_st * I_s);
 	double const f_1b = intr_frcs_calculator_.f_1b(x) / (E_st * I_s);
-	double const f_2c = intr_frcs_calculator_.f_2c(x) / (E_b_shr * I_stb);
-	double const f_2d = intr_frcs_calculator_.f_2d(x) / (E_b_shr * I_stb);
+	double const f_2c = intr_frcs_calculator_.f_2c(x) / (n_b_shr * E_b_shr * I_stb_shr);
+	double const f_2d = intr_frcs_calculator_.f_2d(x) / (n_b_shr * E_b_shr * I_stb_shr);
 	double const f_2d_DL = intr_frcs_calculator_.f_2d_DL(x) / (E_b_shr * I_stb);
 	double const f_total = f_1b + f_2c + f_2d_DL + fact_quasi_perm_load * (f_2d - f_2d_DL);
 

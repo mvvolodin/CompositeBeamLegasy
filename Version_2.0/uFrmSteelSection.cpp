@@ -265,7 +265,11 @@ void __fastcall TSteelSectionForm::rd_grp_rolled_sect_typeClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionForm::btk_okClick(TObject *Sender)
 {
-	check_input();
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
 	store_cntrls_state();
 }
 //---------------------------------------------------------------------------
@@ -280,6 +284,12 @@ void __fastcall TSteelSectionForm::btn_cancelClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TSteelSectionForm::btn_closeClick(TObject *Sender)
 {
+	try {
+		check_input();
+	} catch (int e){
+		return;
+	}
+	store_cntrls_state();
 	Close();
 }
 //---------------------------------------------------------------------------
