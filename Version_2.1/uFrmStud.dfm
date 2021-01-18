@@ -49,7 +49,7 @@ object StudDefinitionForm: TStudDefinitionForm
     end
     object lbl_middle_studs_dist: TLabel
       Left = 14
-      Top = 111
+      Top = 88
       Width = 166
       Height = 13
       Caption = #1064#1072#1075' '#1091#1087#1086#1088#1086#1074' '#1074' '#1089#1088#1077#1076#1085#1077#1081' '#1090#1088#1077#1090#1080', '#1084#1084
@@ -63,7 +63,7 @@ object StudDefinitionForm: TStudDefinitionForm
     end
     object lbl_middle_studs_rows_num: TLabel
       Left = 14
-      Top = 138
+      Top = 115
       Width = 229
       Height = 13
       Caption = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1091#1087#1086#1088#1086#1074' '#1074' '#1088#1103#1076#1072#1093' '#1074' '#1089#1088#1077#1076#1085#1077#1081' '#1090#1088#1077#1090#1080
@@ -77,14 +77,14 @@ object StudDefinitionForm: TStudDefinitionForm
     end
     object edt_middle_studs_dist: TEdit
       Left = 261
-      Top = 107
+      Top = 84
       Width = 48
       Height = 21
       TabOrder = 1
     end
     object cmb_bx_middle_studs_rows_num: TComboBox
       Left = 261
-      Top = 134
+      Top = 111
       Width = 48
       Height = 21
       Style = csDropDownList
@@ -110,7 +110,7 @@ object StudDefinitionForm: TStudDefinitionForm
     end
     object chck_bx_more_than_one_stud_per_corrugation_edge: TCheckBox
       Left = 14
-      Top = 84
+      Top = 161
       Width = 305
       Height = 17
       Caption = ' '#1041#1086#1083#1077#1077' '#1086#1076#1085#1086#1075#1086' '#1091#1087#1086#1088#1072' '#1074' '#1086#1076#1085#1086#1081' '#1075#1086#1092#1088#1077' '#1074' '#1082#1088#1072#1081#1085#1080#1093' '#1090#1088#1077#1090#1103#1093
@@ -118,7 +118,7 @@ object StudDefinitionForm: TStudDefinitionForm
     end
     object chck_bx_more_than_one_stud_per_corrugation_middle: TCheckBox
       Left = 14
-      Top = 161
+      Top = 138
       Width = 305
       Height = 17
       Caption = ' '#1041#1086#1083#1077#1077' '#1086#1076#1085#1086#1075#1086' '#1091#1087#1086#1088#1072' '#1074' '#1086#1076#1085#1086#1081' '#1075#1086#1092#1088#1077' '#1074' '#1089#1088#1077#1076#1085#1077#1081' '#1090#1088#1077#1090#1080

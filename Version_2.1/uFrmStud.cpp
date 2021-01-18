@@ -138,20 +138,20 @@ void TStudDefinitionForm::load(istream & is)
 }
 void TStudDefinitionForm::set_GUI_SP266()
 {
-	lbl_middle_studs_dist -> Top = 111 * 1.25;
-	edt_middle_studs_dist -> Top = 107 * 1.25;
-	cmb_bx_middle_studs_rows_num -> Top = 134 * 1.25;
-	lbl_middle_studs_rows_num -> Top = 138 * 1.25;
+//	lbl_middle_studs_dist -> Top = 111 * 1.25;
+//	edt_middle_studs_dist -> Top = 107 * 1.25;
+//	cmb_bx_middle_studs_rows_num -> Top = 134 * 1.25;
+//	lbl_middle_studs_rows_num -> Top = 138 * 1.25;
 
 	chck_bx_more_than_one_stud_per_corrugation_edge -> Visible = true;
 	chck_bx_more_than_one_stud_per_corrugation_middle -> Visible = true;
 }
 void TStudDefinitionForm::set_GUI_SP35()
 {
-	lbl_middle_studs_dist -> Top = 86 * 1.25;
-	edt_middle_studs_dist -> Top = 82 * 1.25;
-	cmb_bx_middle_studs_rows_num -> Top = 109 * 1.25;
-	lbl_middle_studs_rows_num -> Top = 113 * 1.25;
+//	lbl_middle_studs_dist -> Top = 86 * 1.25;
+//	edt_middle_studs_dist -> Top = 82 * 1.25;
+//	cmb_bx_middle_studs_rows_num -> Top = 109 * 1.25;
+//	lbl_middle_studs_rows_num -> Top = 113 * 1.25;
 
 	chck_bx_more_than_one_stud_per_corrugation_edge -> Visible = false;
 	chck_bx_more_than_one_stud_per_corrugation_middle -> Visible = false;
