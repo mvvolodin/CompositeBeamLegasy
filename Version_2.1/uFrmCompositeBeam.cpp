@@ -1379,13 +1379,6 @@ void TCompositeBeamMainForm::set_GUI_SP35()
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::set_GUI_SP266()
 {
-	cotr_ratios_grid_SP266();
-
-	rdgrp_slab_type -> ItemIndex = 0;
-	rdgrp_slab_type -> Buttons [1] -> Visible = true;
-
-	grp_bx_corrugated_slab -> Visible = true;
-
 	btn_add_impacts -> Visible = true;
 
 	edt_sheeting_continuity_coefficient -> Visible = true;
@@ -1393,6 +1386,11 @@ void TCompositeBeamMainForm::set_GUI_SP266()
 	edt_fact_quasi_perm_load -> Top = 62;
 	lbl_fact_quasi_perm_load -> Top = 62;
 
+	rdgrp_slab_type -> ItemIndex = 0;
+	rdgrp_slab_type -> Buttons [1] -> Visible = true;
+	grp_bx_corrugated_slab -> Visible = false;
+
+	cotr_ratios_grid_SP266();
 }
 //---------------------------------------------------------------------------
 void TCompositeBeamMainForm::messages_after_GUI_SP266_set()
