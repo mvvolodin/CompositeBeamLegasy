@@ -51,10 +51,11 @@ double GeneralConcreteSection::calc_b(const double h_f, const double a,
 	double t_sl = h_f;
 
 	if (l >= 4 * B)
-		b = B / 2;
+//		b = B / 2;
+		return B / 2;
 	else
-		b = a + 6 * t_sl;
-	return clamp(b, l/8, B/2 );
+//		b = a + 6 * t_sl;
+		return clamp(a + 6 * t_sl, l/8, B/2 );
 }
 //---------------------------------------------------------------------------
 //Определение расчётного свеса плиты в случае консоли
@@ -108,7 +109,8 @@ double GeneralConcreteSection::rebars_area()const
 {
 	return rebars_.A_u_r_per_unit() * des_width() +
 		rebars_.A_l_r_per_unit() * des_width();
-}
+}
+
 void GeneralConcreteSection::print_input(TWord_Automation & report)const
 {
 	using namespace units;

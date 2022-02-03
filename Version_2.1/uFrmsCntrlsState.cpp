@@ -129,9 +129,12 @@ void TSteelSectionFormCntrlsState::save_cntls_state(ostream & os)
 }
 void TSteelSectionFormCntrlsState::load_cntrls_state(istream & is)
 {
-	is >> edt_b_f2_ >> edt_t_f2_
-	   >> edt_b_f1_ >> edt_t_f1_
-	   >> edt_h_w_ >> edt_t_w_
+	is >> edt_b_f2_
+	   >> edt_t_f2_
+	   >> edt_b_f1_
+	   >> edt_t_f1_
+	   >> edt_h_w_
+	   >> edt_t_w_
 	   >> pg_cntrl_sect_type_
 	   >> cmb_bx_rolled_sect_num_
 	   >> rd_grp_rolled_sect_type_;

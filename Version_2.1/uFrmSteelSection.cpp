@@ -317,6 +317,8 @@ void TSteelSectionForm::update_cntrls_state()
 	edt_h_w -> Text = cntrls_state_.edt_h_w_;
 	edt_t_w -> Text = cntrls_state_.edt_t_w_;
 
+	rd_grp_rolled_sect_type -> ItemIndex = cntrls_state_.rd_grp_rolled_sect_type_;
+
 	fill_cmb_bx_rolled_sect_num(cntrls_state_.rd_grp_rolled_sect_type_);
 
 	cmb_bx_rolled_sect_num -> ItemIndex = cntrls_state_.cmb_bx_rolled_sect_num_;

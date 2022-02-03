@@ -20,7 +20,7 @@ object SteelSectionForm: TSteelSectionForm
     Top = 4
     Width = 512
     Height = 250
-    ActivePage = tb_sheet_welded_profile
+    ActivePage = TabSheet_Standart
     TabOrder = 0
     OnChange = pg_cntrl_sect_typeChange
     object TabSheet_Standart: TTabSheet
